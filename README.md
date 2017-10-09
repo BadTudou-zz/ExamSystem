@@ -3,9 +3,10 @@
 
 ## 安装
 ### 服务器要求
-. PHP >= 7.0.0
-. Composer >= 1.5.2
-. Laravel >= 5.5
+* PHP >= 7.0.0
+* NodeJs >= 8.6.0
+* Composer >= 1.5.2
+* Laravel >= 5.5
 
 ### 安装依赖
 #### 安装依赖的PHP包
