@@ -21,6 +21,9 @@ class UserController extends Controller
     {
         if (Auth::attempt(['email' => request('email'), 'password' => request('password')])) {
             $user = Auth::user();
+
+            // 删除之前的令牌
+            $user->tokens()->delete();
             $success['token'] =  $user->createToken('MyApp')->accessToken;
             return response()->json(['data' => $success], $this->successStatus);
         } else {
@@ -48,9 +51,9 @@ class UserController extends Controller
 
         $input = $request->all();
         $input['password'] = bcrypt($input['password']);
-        $user = User::create($input);
+        $user = new User($input);
+        $user->save();
         $success['token'] =  $user->createToken('MyApp')->accessToken;
-        $success['name'] =  $user->name;
 
         return response()->json(['data'=>$success], $this->successStatus);
     }
