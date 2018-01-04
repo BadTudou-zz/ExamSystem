@@ -19,5 +19,9 @@ Route::post('register', 'API\UserController@register');
 Route::prefix('v1')->middleware(['auth:api'])->group(function () {
 
     // 用户
-    Route::apiResource('users', 'UserController');
+    Route::apiResource('users', 'API\UserController');
+    // 角色
+    Route::apiResource('roles', 'API\RoleController');
+    // 权限
+    Route::apiResource('permissions', 'API\PermissionController');
 });

@@ -18,9 +18,19 @@
 #### 编译、打包前端资源
 `npm run environment`
 
+## 初始化
+#### 执行数据迁移
+`php artisan migrate`
+
+#### 执行数据填充
+```
+php artisan passport:install
+php artisan db:seed
+```
+
 ## 运行
 `php artisan serve`
 
 ## 版权
-Copyright (c) 2017-2017 www.cqnu.edu.cn
+Copyright (c) 2017-2018 www.cqnu.edu.cn
 All rights reserved.
