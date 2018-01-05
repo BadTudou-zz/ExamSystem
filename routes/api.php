@@ -24,6 +24,8 @@ Route::prefix('v1')->middleware(['auth:api'])->group(function () {
     Route::apiResource('roles', 'API\RoleController');
     // 权限
     Route::apiResource('permissions', 'API\PermissionController');
+    // 消息
+    Route::apiResource('messages', 'API\MessageController');
     // 给角色添加权限
     Route::post('roles/{id}/permissions', 'API\RoleController@attachPermissions');
     // 给角色撤销权限

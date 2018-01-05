@@ -9,7 +9,7 @@ use App\Http\Resources\PermissionCollection;
 use App\Http\Requests\IndexPermission;
 use App\Http\Requests\StorePermission;
 use App\Http\Requests\ShowPermission;
-use App\Http\Resources\Permission as PermissionResource;
+use App\Http\Resources\PermissionResource;
 use Illuminate\Support\Facades\Auth;
 use Validator;
 

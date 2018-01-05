@@ -17,7 +17,7 @@ use App\Http\Requests\AttachUsersToRole;
 use App\Http\Requests\DetachUsersToRole;
 use App\Http\Resources\PermissionCollection;
 use App\Http\Resources\UserCollection;
-use App\Http\Resources\Role as RoleResource;
+use App\Http\Resources\RoleResource;
 
 use Illuminate\Support\Facades\Auth;
 use Validator;

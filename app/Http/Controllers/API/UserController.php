@@ -7,7 +7,7 @@ use App\Http\Controllers\Controller;
 use App\User;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Resources\UserCollection;
-use App\Http\Resources\User as UserResource;
+use App\Http\Resources\UserResource;
 use App\Http\Requests\IndexUser;
 use App\Http\Requests\ShowUser;
 use App\Http\Requests\UpdateUser;
