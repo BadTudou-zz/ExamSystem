@@ -46,5 +46,11 @@ class PermissionsTableSeeder extends Seeder
         $indexRole->display_name = 'Show All Roles'; // optional
         $indexRole->description  = 'show all roles'; // optional
         $indexRole->save();
+
+        $updateRole = new Permission();
+        $updateRole->name         = 'role-update';
+        $updateRole->display_name = 'Update A Role'; // optional
+        $updateRole->description  = 'update a role'; // optional
+        $updateRole->save();
     }
 }

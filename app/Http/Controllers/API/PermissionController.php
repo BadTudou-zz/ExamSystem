@@ -16,7 +16,7 @@ class PermissionController extends Controller
 {
     public function index(IndexPermission $request)
     {
-        return new PermissionCollection(Permission::all());
+        return new PermissionCollection(Permission::paginate());
     }
 
     public function store(StorePermission $request)
@@ -29,4 +29,5 @@ class PermissionController extends Controller
     {
         return Permission::find($id);
     }
+
 }

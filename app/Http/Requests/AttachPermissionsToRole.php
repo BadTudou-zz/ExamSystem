@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 
-class ShowPermission extends FormRequest
+class AttachPermissionsToRole extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -14,7 +14,7 @@ class ShowPermission extends FormRequest
      */
     public function authorize()
     {
-        return Auth::user()->can('permission-show');
+        return Auth::user()->can('role-update');
     }
 
     /**
@@ -25,7 +25,7 @@ class ShowPermission extends FormRequest
     public function rules()
     {
         return [
-            //
+            'permissions' => 'required|array|exists:permissions,id'
         ];
     }
 }
