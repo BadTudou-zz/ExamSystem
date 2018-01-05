@@ -17,6 +17,8 @@ use App\Http\Requests\AttachUsersToRole;
 use App\Http\Requests\DetachUsersToRole;
 use App\Http\Resources\PermissionCollection;
 use App\Http\Resources\UserCollection;
+use App\Http\Resources\Role as RoleResource;
+
 use Illuminate\Support\Facades\Auth;
 use Validator;
 
@@ -36,7 +38,7 @@ class RoleController extends Controller
 
     public function show(ShowRole $request, $id)
     {
-        return Role::find($id);
+        return new RoleResource(Role::find($id));
     }
 
     // 给角色赋予权限

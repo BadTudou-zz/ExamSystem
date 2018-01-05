@@ -16,10 +16,7 @@ class InitSeeder extends Seeder
     {
         $userAdmin = User::find(1);
         $adminRole = Role::find(1);
-        foreach (Permission::all() as $permission) 
-        {
-            $adminRole->attachPermission($permission);
-        }
+        $adminRole->perms()->sync(Permission::all());
         $userAdmin->attachRole($adminRole);
     }
 }

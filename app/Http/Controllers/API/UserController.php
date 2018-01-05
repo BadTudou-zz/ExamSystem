@@ -6,11 +6,33 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\User;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Resources\UserCollection;
+use App\Http\Resources\User as UserResource;
+use App\Http\Requests\IndexUser;
+use App\Http\Requests\ShowUser;
+use App\Http\Requests\UpdateUser;
 use Validator;
 
 class UserController extends Controller
 {
     public $successStatus = 200;
+
+    public function index(IndexUser $request)
+    {
+        return new UserCollection(User::paginate());
+    }
+
+    public function show(ShowUser $request, $id)
+    {
+        return new UserResource(User::find($id));
+    }
+
+    public function update(UpdateUser $request, $id)
+    {
+        $user = User::find($id);
+        $user->update($request->except('password'));
+        return new UserResource($user);
+    }
 
     /**
      * login api
@@ -24,8 +46,9 @@ class UserController extends Controller
 
             // 删除之前的令牌
             $user->tokens()->delete();
-            $success['token'] =  $user->createToken('MyApp')->accessToken;
-            return response()->json(['data' => $success], $this->successStatus);
+            $data['token'] =  $user->createToken('MyApp')->accessToken;
+            $data['user'] = $user;
+            return response()->json(['data' => $data], $this->successStatus);
         } else {
             return response()->json(['error'=>'Unauthorised'], 401);
         }
@@ -53,9 +76,10 @@ class UserController extends Controller
         $input['password'] = bcrypt($input['password']);
         $user = new User($input);
         $user->save();
-        $success['token'] =  $user->createToken('MyApp')->accessToken;
+        $data['token'] =  $user->createToken('MyApp')->accessToken;
+        $data['user'] = $user;
 
-        return response()->json(['data'=>$success], $this->successStatus);
+        return response()->json(['data'=>$data], $this->successStatus);
     }
 
     /**
