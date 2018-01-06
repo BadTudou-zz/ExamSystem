@@ -18,6 +18,8 @@ Route::post('register', 'API\UserController@register');
 
 Route::prefix('v1')->middleware(['auth:api'])->group(function () {
 
+    Route::get('users/{id}/messages', 'API\MessageController@messages');
+    Route::get('users/{id}/notifications', 'API\NotificationController@notifications');
     // 用户
     Route::apiResource('users', 'API\UserController');
     // 角色
@@ -26,6 +28,7 @@ Route::prefix('v1')->middleware(['auth:api'])->group(function () {
     Route::apiResource('permissions', 'API\PermissionController');
     // 消息
     Route::apiResource('messages', 'API\MessageController');
+    Route::apiResource('notifications', 'API\NotificationController');
     // 给角色添加权限
     Route::post('roles/{id}/permissions', 'API\RoleController@attachPermissions');
     // 给角色撤销权限
