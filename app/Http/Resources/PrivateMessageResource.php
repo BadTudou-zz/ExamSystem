@@ -17,8 +17,8 @@ class PrivateMessageResource extends Resource
         return [
             'id' => $this->id,
             'from' => $this->notifiable_id,
-            'to' => $this->data['notifiable_id'],
-            'data' => $this->data['data'],
+            'to' => json_decode($this->data)->notifiable_id,
+            'data' => json_decode($this->data)->data,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];
