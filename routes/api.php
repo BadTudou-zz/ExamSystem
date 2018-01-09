@@ -4,6 +4,8 @@ use Illuminate\Http\Request;
 
 Route::post('login', 'API\UserController@login');
 Route::post('register', 'API\UserController@register');
+// 验证码
+Route::post('captchas', 'API\CaptchaController@store');
 
 Route::prefix('v1')->middleware(['auth:api'])->group(function () {
     // 用户

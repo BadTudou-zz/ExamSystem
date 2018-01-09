@@ -8,10 +8,14 @@ use App\User;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Resources\UserCollection;
 use App\Http\Resources\UserResource;
+use App\Http\Requests\LoginUser;
 use App\Http\Requests\IndexUser;
 use App\Http\Requests\ShowUser;
 use App\Http\Requests\UpdateUser;
 use Validator;
+use Session;
+use App\Captcha;
+use Carbon\Carbon;
 
 class UserController extends Controller
 {
@@ -39,9 +43,22 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function login()
-    {
-        if (Auth::attempt(['email' => request('email'), 'password' => request('password')])) {
+    public function login(Request $request)
+    {   
+        // 检测验证码
+        if (!($captcha = Captcha::where(
+            [
+                'purpose' => Captcha::PURPOSE_LOGIN,
+                'captcha' => $request->get('captcha')
+            ])
+            ->where('expires_at', '>=', Carbon::now())
+            ->first())
+        ){
+            return response()->json(['error'=>'Bad captcha！'], 400);
+        }
+
+        $captcha->delete();
+        if (Auth::attempt(['email' => $request->get('email'), 'password' => $request->get('password')])) {
             $user = Auth::user();
 
             // 删除之前的令牌
