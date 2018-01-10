@@ -13,9 +13,8 @@ use App\Http\Requests\IndexUser;
 use App\Http\Requests\ShowUser;
 use App\Http\Requests\UpdateUser;
 use Validator;
-use Session;
 use App\Captcha;
-use Carbon\Carbon;
+use App\Util\CaptchaUtil;
 
 class UserController extends Controller
 {
@@ -46,18 +45,10 @@ class UserController extends Controller
     public function login(Request $request)
     {   
         // 检测验证码
-        if (!($captcha = Captcha::where(
-            [
-                'purpose' => Captcha::PURPOSE_LOGIN,
-                'captcha' => $request->get('captcha')
-            ])
-            ->where('expires_at', '>=', Carbon::now())
-            ->first())
-        ){
+        if (!CaptchaUtil::check(0, Captcha::PURPOSE_LOGIN, $request->get('captcha')) ){
             return response()->json(['error'=>'Bad captcha！'], 400);
         }
 
-        $captcha->delete();
         if (Auth::attempt(['email' => $request->get('email'), 'password' => $request->get('password')])) {
             $user = Auth::user();
 
@@ -78,9 +69,15 @@ class UserController extends Controller
      */
     public function register(Request $request)
     {
+        // 检测验证码
+        if (!CaptchaUtil::check(0, Captcha::PURPOSE_REGISTER, $request->get('captcha')) ){
+            return response()->json(['error'=>'Bad captcha！'], 400);
+        }
+
         $validator = Validator::make($request->all(), [
             'name' => 'required',
             'email' => 'required|email',
+            'captcha' => 'required',
             'password' => 'required',
             'c_password' => 'required|same:password',
         ]);
