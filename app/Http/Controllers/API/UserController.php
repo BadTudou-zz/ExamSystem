@@ -12,6 +12,7 @@ use App\Http\Requests\LoginUser;
 use App\Http\Requests\IndexUser;
 use App\Http\Requests\ShowUser;
 use App\Http\Requests\UpdateUser;
+use App\Http\Requests\DestroyUser;
 use Validator;
 use App\Captcha;
 use App\Util\CaptchaUtil;
@@ -35,6 +36,11 @@ class UserController extends Controller
         $user = User::find($id);
         $user->update($request->except('password'));
         return new UserResource($user);
+    }
+
+    public function destroy(DestroyUser $request, $id)
+    {
+        User::find($id)->delete();
     }
 
     /**

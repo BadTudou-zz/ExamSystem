@@ -9,6 +9,7 @@ use App\Http\Resources\PermissionCollection;
 use App\Http\Requests\IndexPermission;
 use App\Http\Requests\StorePermission;
 use App\Http\Requests\ShowPermission;
+use App\Http\Requests\DestroyPermission;
 use App\Http\Resources\PermissionResource;
 use Illuminate\Support\Facades\Auth;
 use Validator;
@@ -29,6 +30,11 @@ class PermissionController extends Controller
     public function show(ShowPermission $request, $id)
     {
         return new PermissionResource(Permission::find($id));
+    }
+
+    public function destroy(DestroyPermission $request, $id)
+    {
+        Permission::find($id)->delete();
     }
 
 }

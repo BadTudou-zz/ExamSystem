@@ -25,6 +25,13 @@ class PermissionsTableSeeder extends Seeder
         $showPermission->description  = 'show a permission';
         $showPermission->save();
 
+        // 删除权限
+        $destroyPermission = new Permission();
+        $destroyPermission->name         = 'permission-destroy';
+        $destroyPermission->display_name = 'Destroy A Permission';
+        $destroyPermission->description  = 'Destroy a permission';
+        $destroyPermission->save();
+
         // 查看权限列表
         $indexPermission = new Permission();
         $indexPermission->name         = 'permission-index';
@@ -60,6 +67,13 @@ class PermissionsTableSeeder extends Seeder
         $updateRole->description  = 'update a role';
         $updateRole->save();
 
+        // 删除角色
+        $destroyRole = new Permission();
+        $destroyRole->name         = 'role-destroy';
+        $destroyRole->display_name = 'Destroy A Role';
+        $destroyRole->description  = 'Destroy a role';
+        $destroyRole->save();
+
         // 查看用户列表
         $showUser = new Permission();
         $showUser->name         = 'user-index';
@@ -73,6 +87,13 @@ class PermissionsTableSeeder extends Seeder
         $updateUser->display_name = 'Update A User';
         $updateUser->description  = 'Update A User';
         $updateUser->save();
+
+        // 删除用户
+        $destroyUser = new Permission();
+        $destroyUser->name         = 'user-destroy';
+        $destroyUser->display_name = 'Destroy A User';
+        $destroyUser->description  = 'Destroy A User';
+        $destroyUser->save();
 
         // 查看消息列表
         $indexMessage = new Permission();

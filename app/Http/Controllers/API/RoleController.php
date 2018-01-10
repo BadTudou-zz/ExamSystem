@@ -11,6 +11,7 @@ use App\Http\Resources\RoleCollection;
 use App\Http\Requests\IndexRole;
 use App\Http\Requests\StoreRole;
 use App\Http\Requests\ShowRole;
+use App\Http\Requests\DestroyRole;
 use App\Http\Requests\AttachPermissionsToRole;
 use App\Http\Requests\DetachPermissionsToRole;
 use App\Http\Requests\AttachUsersToRole;
@@ -39,6 +40,11 @@ class RoleController extends Controller
     public function show(ShowRole $request, $id)
     {
         return new RoleResource(Role::find($id));
+    }
+
+    public function destroy(DestroyRole $request, $id)
+    {
+        Role::find($id)->delete();
     }
 
     // 给角色赋予权限

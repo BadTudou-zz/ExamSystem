@@ -13,10 +13,10 @@
         "laravel/passport": "^4.0",
         "laravel/tinker": "~1.0",
         "nesbot/carbon": "^1.22",
-        "zizaco/entrust": "5.2.x-dev",
-        "nesbot/carbon": "~1.18"
+        "zizaco/entrust": "5.2.x-dev"
     },
     "require-dev": {
+        "barryvdh/laravel-debugbar": "^3.1",
         "filp/whoops": "~2.0",
         "fzaninotto/faker": "~1.4",
         "mockery/mockery": "0.9.*",
