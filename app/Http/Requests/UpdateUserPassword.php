@@ -4,19 +4,18 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Http\Request;
 
-class UpdateUser extends FormRequest
+class UpdateUserPassword extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      *
      * @return bool
      */
-    public function authorize(Request $request)
+    public function authorize()
     {
         $user = Auth::user();
-        return $user->can('user-update') || $user->id == $this->route('user');
+        return $user->id == $this->route('user');
     }
 
     /**
@@ -27,7 +26,8 @@ class UpdateUser extends FormRequest
     public function rules()
     {
         return [
-            'email' => 'unique:users,email,'.$this->get('email')
+            'password' => 'required',
+            'new_password' => 'required|different:password',
         ];
     }
 }

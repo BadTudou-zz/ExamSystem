@@ -13,9 +13,11 @@ use App\Http\Requests\IndexUser;
 use App\Http\Requests\ShowUser;
 use App\Http\Requests\UpdateUser;
 use App\Http\Requests\DestroyUser;
+use App\Http\Requests\UpdateUserPassword;
 use Validator;
 use App\Captcha;
 use App\Util\CaptchaUtil;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -36,6 +38,16 @@ class UserController extends Controller
         $user = User::find($id);
         $user->update($request->except('password'));
         return new UserResource($user);
+    }
+
+    public function updatePassword(UpdateUserPassword $request, $id)
+    {
+        $user = User::find($id);
+        if ( Hash::check($request->get('password'), $user->password) ) {
+            $user->update(['password' => Hash::make(trim($request->get('newPassword')))]) ;
+        } else {
+            return response()->json(['error'=>' password error'], 401);
+        }
     }
 
     public function destroy(DestroyUser $request, $id)

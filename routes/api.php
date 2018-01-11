@@ -14,6 +14,8 @@ Route::prefix('v1')->middleware(['auth:api'])->group(function () {
     Route::get('users/{id}/messages', 'API\MessageController@messages');
     // 用户通知
     Route::get('users/{id}/notifications', 'API\NotificationController@notifications');
+    // 更改用户密码
+    Route::patch('users/{user}/password', 'API\UserController@updatePassword');
 
     // 角色
     Route::apiResource('roles', 'API\RoleController');
