@@ -7,7 +7,16 @@
 * NodeJs >= 8.6.0
 * Composer >= 1.5.2
 * Laravel >= 5.5
+### 安装依赖 && 初始化 && 运行
+1. LINUX
 
+`sh init.sh`
+
+2. Windows
+
+`inti.bat`
+
+或者手动执行下面的**安装依赖**、**初始化**、**运行**。
 ### 安装依赖
 #### 安装依赖的PHP包
 `composer install`

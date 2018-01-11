@@ -1,3 +1,7 @@
+composer install
+npm install
+npm run dev
+
 touch database/database.sqlite
 php artisan migrate
 php artisan passport:install
