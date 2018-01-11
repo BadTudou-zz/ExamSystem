@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 
-class DetachPermissionsToRole extends FormRequest
+class UpdateRole extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,7 +25,7 @@ class DetachPermissionsToRole extends FormRequest
     public function rules()
     {
         return [
-            'permissions' => 'required|array|exists:permissions,id'
+            //
         ];
     }
 }

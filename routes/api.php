@@ -19,13 +19,17 @@ Route::prefix('v1')->middleware(['auth:api'])->group(function () {
 
     // 角色
     Route::apiResource('roles', 'API\RoleController');
-     // 给角色添加权限
+    // 给角色同步权限
+    Route::put('roles/{id}/permissions', 'API\RoleController@syncPermissions');
+    // 给角色添加权限
     Route::post('roles/{id}/permissions', 'API\RoleController@attachPermissions');
     // 给角色撤销权限
     Route::delete('roles/{id}/permissions', 'API\RoleController@detachPermissions');
+     // 给角色同步用户
+    Route::put('roles/{id}/users', 'API\RoleController@syncUsers');
     // 给角色添加用户
     Route::post('roles/{id}/users', 'API\RoleController@attachUsers');
-    // 从角色中移除用户
+    // 从角色移除用户
     Route::delete('roles/{id}/users', 'API\RoleController@detachUsers');
     // 获取角色的权限
     Route::get('roles/{id}/permissions', 'API\RoleController@permissions');
