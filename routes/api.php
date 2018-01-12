@@ -48,4 +48,12 @@ Route::prefix('v1')->middleware(['auth:api'])->group(function () {
     Route::apiResource('courses', 'API\CourseController');
     // 问题
     Route::apiResource('questions', 'API\QuestionController');
+    // 课程
+    Route::apiResource('courses', 'API\CourseController');
+    // 试卷
+    Route::apiResource('papers', 'API\PaperController');
+    // 讲课
+    Route::apiResource('lectures', 'API\LectureController');
+    // 组织
+    Route::apiResource('organizations', 'API\OrganizationController');
 });

@@ -123,7 +123,7 @@ class PermissionsTableSeeder extends Seeder
         $destroyMessage->description  = 'Destroy A Message';
         $destroyMessage->save();
 
-         // 查看通知列表
+        // 查看通知列表
         $indexNotification = new Permission();
         $indexNotification->name         = 'notification-index';
         $indexNotification->display_name = 'Show All Notification';
@@ -150,6 +150,69 @@ class PermissionsTableSeeder extends Seeder
         $destroyNotification->display_name = 'Destroy A Notification';
         $destroyNotification->description  = 'Destroy A Notification';
         $destroyNotification->save();
+
+        // 创建课程
+        $storeCourse = new Permission();
+        $storeCourse->name         = 'course-store';
+        $storeCourse->display_name = 'Create Course';
+        $storeCourse->description  = 'Create Course';
+        $storeCourse->save();
+
+        // 查看课程详情
+        $showCourse = new Permission();
+        $showCourse->name         = 'course-show';
+        $showCourse->display_name = 'Show A Course';
+        $showCourse->description  = 'Show A Course';
+        $showCourse->save();
+
+        // 删除课程
+        $destroyCourse = new Permission();
+        $destroyCourse->name         = 'course-destroy';
+        $destroyCourse->display_name = 'Destroy A Course';
+        $destroyCourse->description  = 'Destroy A Course';
+        $destroyCourse->save();
+
+        // 创建组织
+        $storeOrganization = new Permission();
+        $storeOrganization->name         = 'organization-store';
+        $storeOrganization->display_name = 'Create Organization';
+        $storeOrganization->description  = 'Create Organization';
+        $storeOrganization->save();
+
+        // 查看组织详情
+        $showOrganization = new Permission();
+        $showOrganization->name         = 'organization-show';
+        $showOrganization->display_name = 'Show A Organization';
+        $showOrganization->description  = 'Show A Organization';
+        $showOrganization->save();
+
+        // 删除组织
+        $destroyOrganization = new Permission();
+        $destroyOrganization->name         = 'organization-destroy';
+        $destroyOrganization->display_name = 'Destroy A Organization';
+        $destroyOrganization->description  = 'Destroy A Organization';
+        $destroyOrganization->save();
+
+        // 创建讲课
+        $storeLecture = new Permission();
+        $storeLecture->name         = 'lecture-store';
+        $storeLecture->display_name = 'Create Lecture';
+        $storeLecture->description  = 'Create Lecture';
+        $storeLecture->save();
+
+        // 查看讲课详情
+        $showLecture = new Permission();
+        $showLecture->name         = 'lecture-show';
+        $showLecture->display_name = 'Show A Lecture';
+        $showLecture->description  = 'Show A Lecture';
+        $showLecture->save();
+
+        // 删除讲课
+        $destroyLecture = new Permission();
+        $destroyLecture->name         = 'lecture-destroy';
+        $destroyLecture->display_name = 'Destroy A Lecture';
+        $destroyLecture->description  = 'Destroy A Lecture';
+        $destroyLecture->save();
 
     }
 }
