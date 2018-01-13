@@ -4,20 +4,22 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
 use App\Organization;
 
-class DestroyOrganization extends FormRequest
+class DeleteUsersFromOrganization extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      *
      * @return bool
      */
-    public function authorize()
+    public function authorize(Request $request)
     {
         $user = Auth::user();
-        $organization = Organization::find($this->route('organization'));
-        return $user->can('organization-destroy') || $user->id == $organization->creator_id;
+        $organization = Organization::find($this->route('id'));
+
+        return $user->id == $organization->creator_id || ($organization->users->contains($user->id) && $request->users == [$user->id]);
     }
 
     /**
@@ -28,7 +30,7 @@ class DestroyOrganization extends FormRequest
     public function rules()
     {
         return [
-            //
+            'users' => 'required|array|exists:organization_user,user_id'
         ];
     }
 }

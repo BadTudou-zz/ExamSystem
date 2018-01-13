@@ -16,7 +16,7 @@ class UpdateOrganization extends FormRequest
     public function authorize()
     {
         $user = Auth::user();
-        $organization = Organization::find($this->route('organization'));
+        $organization = Organization::find($this->route('id'));
         return $user->can('organization-update') || $user->id == $organization->creator_id;
     }
 
@@ -27,7 +27,7 @@ class UpdateOrganization extends FormRequest
      */
     public function rules()
     {
-        $organization = Organization::find($this->route('organization'));
+        $organization = Organization::find($this->route('id'));
 
         return [
             'name' => 'max:120',

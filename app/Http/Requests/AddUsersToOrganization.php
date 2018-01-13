@@ -6,7 +6,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 use App\Organization;
 
-class DestroyOrganization extends FormRequest
+class AddUsersToOrganization extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -16,8 +16,9 @@ class DestroyOrganization extends FormRequest
     public function authorize()
     {
         $user = Auth::user();
-        $organization = Organization::find($this->route('organization'));
-        return $user->can('organization-destroy') || $user->id == $organization->creator_id;
+        $organization = Organization::find($this->route('id'));
+
+        return $user->id == $organization->creator_id;
     }
 
     /**
@@ -28,7 +29,7 @@ class DestroyOrganization extends FormRequest
     public function rules()
     {
         return [
-            //
+            'users' => 'required|array|exists:users,id'
         ];
     }
 }

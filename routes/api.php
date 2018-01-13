@@ -58,4 +58,10 @@ Route::prefix('v1')->middleware(['auth:api'])->group(function () {
     Route::apiResource('organizations', 'API\OrganizationController');
     // 获取组织的用户
     Route::get('organizations/{id}/users', 'API\OrganizationController@users');
+    // 添加用户到组织
+    Route::post('organizations/{id}/users', 'API\OrganizationController@addUsers');
+    // 从组织删除用户
+    Route::delete('organizations/{id}/users', 'API\OrganizationController@deleteUsers');
+    // 同步组织用户
+    Route::put('organizations/{id}/users', 'API\OrganizationController@syncUsers');
 });

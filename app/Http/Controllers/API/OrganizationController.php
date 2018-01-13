@@ -12,11 +12,12 @@ use App\Http\Requests\ShowOrganization;
 use App\Http\Requests\StoreOrganization;
 use App\Http\Requests\UpdateOrganization;
 use App\Http\Requests\DestroyOrganization;
+use App\Http\Requests\AddUsersToOrganization;
+use App\Http\Requests\DeleteUsersFromOrganization;
 use Illuminate\Support\Facades\Auth;
 use Validator;
 use App\Organization;
-
-
+use App\User;
 
 class OrganizationController extends Controller
 {
@@ -58,6 +59,27 @@ class OrganizationController extends Controller
     public function users($id)
     {
         return new UserCollection(Organization::find($id)->users()->paginate());
+    }
+
+    public function AddUsers(AddUsersToOrganization $request, $id)
+    {
+        $organization = Organization::find($id);
+        $users = User::find($request->users);
+        $organization->users()->syncWithoutDetaching($users);
+    }
+
+    public function DeleteUsers(DeleteUsersFromOrganization $request, $id)
+    {
+        $organization = Organization::find($id);
+        $users = User::find($request->users);
+        $organization->users()->detach($users);
+    }
+
+    public function SyncUsers(UpdateOrganization $request, $id)
+    {
+        $organization = Organization::find($id);
+        $users = User::find($request->users);
+        $organization->users()->sync($users);
     }
 
 }
