@@ -6,6 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Organization extends Model
 {
+    protected $fillable = [
+        'name', 'creator_id', 'describe', 'max', 'current'
+    ];
+
     public function creator()
     {
         return $this->belongsTo('App\User', 'user_id');

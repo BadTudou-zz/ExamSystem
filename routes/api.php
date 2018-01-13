@@ -56,4 +56,6 @@ Route::prefix('v1')->middleware(['auth:api'])->group(function () {
     Route::apiResource('lectures', 'API\LectureController');
     // 组织
     Route::apiResource('organizations', 'API\OrganizationController');
+    // 获取组织的用户
+    Route::get('organizations/{id}/users', 'API\OrganizationController@users');
 });

@@ -172,6 +172,13 @@ class PermissionsTableSeeder extends Seeder
         $destroyCourse->description  = 'Destroy A Course';
         $destroyCourse->save();
 
+        // 全部组织
+        $indexOrganization = new Permission();
+        $indexOrganization->name         = 'organization-index';
+        $indexOrganization->display_name = 'All Organization';
+        $indexOrganization->description  = 'All Organization';
+        $indexOrganization->save();
+
         // 创建组织
         $storeOrganization = new Permission();
         $storeOrganization->name         = 'organization-store';
