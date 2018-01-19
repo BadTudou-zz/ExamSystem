@@ -8,6 +8,7 @@ use App\Http\Resources\CourseCollection;
 use App\Http\Resources\CourseResource;
 use App\Http\Requests\IndexCourse;
 use App\Http\Requests\ShowCourse;
+use App\Http\Requests\StoreCourse;
 use App\Http\Requests\UpdateCourse;
 use App\Http\Requests\DestroyCourse;
 use Illuminate\Support\Facades\Auth;
@@ -25,6 +26,19 @@ class CourseController extends Controller
     public function show(ShowCourse $request, $id)
     {
         return new CourseResource(Course::find($id));
+    }
+
+    public function store(StoreCourse $request)
+    {   
+        $request->request->add(
+            [
+                'creator_id' => Auth::user()->id,
+                'max' => $request->get('max', '0'),
+                'current' => 1
+            ]
+        );
+        $course = Course::create($request->all());
+        return $course;
     }
 
     public function update(UpdateCourse $request, $id)

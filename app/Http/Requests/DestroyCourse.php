@@ -4,8 +4,9 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
+use App\Course;
 
-class StoreCourse extends FormRequest
+class DestroyCourse extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -14,7 +15,9 @@ class StoreCourse extends FormRequest
      */
     public function authorize()
     {
-        return Auth::user()->can('course-store');
+        $user = Auth::user();
+        $course = Course::find($this->route('id'));
+        return $user->can('course-destroy') || $user->id == $course->creator_id;
     }
 
     /**
@@ -25,10 +28,7 @@ class StoreCourse extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|max:120',
-            'number' => 'required',
-            'display_name' => 'required|max:255',
-            'descripe' => 'required|max:255'
+            //
         ];
     }
 }

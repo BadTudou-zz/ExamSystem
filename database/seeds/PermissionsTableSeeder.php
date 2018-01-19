@@ -165,6 +165,13 @@ class PermissionsTableSeeder extends Seeder
         $showCourse->description  = 'Show A Course';
         $showCourse->save();
 
+        // 编辑课程
+        $updateCourse = new Permission();
+        $updateCourse->name         = 'course-update';
+        $updateCourse->display_name = 'Update A Course';
+        $updateCourse->description  = 'Update A Course';
+        $updateCourse->save();
+
         // 删除课程
         $destroyCourse = new Permission();
         $destroyCourse->name         = 'course-destroy';
