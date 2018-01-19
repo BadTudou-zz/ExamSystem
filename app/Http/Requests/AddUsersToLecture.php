@@ -4,8 +4,9 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
+use App\Lecture;
 
-class StoreLecture extends FormRequest
+class AddUsersToLecture extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -14,7 +15,9 @@ class StoreLecture extends FormRequest
      */
     public function authorize()
     {
-        return Auth::user()->can('lecture-store');
+        $user = Auth::user();
+        $lecture = Lecture::find($this->route('id'));
+        return $user->id == $lecture->user_id;
     }
 
     /**
@@ -25,12 +28,7 @@ class StoreLecture extends FormRequest
     public function rules()
     {
         return [
-            'course_id' =>'required|exists:courses,id',
-            'name' => 'required|max:120',
-            'describe' => 'required|max:120',
-            'allowable_organization_ids' => 'array|exists:organizations,id',
-            'allowable_user_ids' => 'array|exists:users,id',
-            'max' => 'required|max:255'
+            'users' => 'required|array|exists:users,id'
         ];
     }
 }

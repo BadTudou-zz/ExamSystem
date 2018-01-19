@@ -54,6 +54,12 @@ Route::prefix('v1')->middleware(['auth:api'])->group(function () {
     Route::apiResource('papers', 'API\PaperController');
     // 讲课
     Route::apiResource('lectures', 'API\LectureController');
+    // 获取讲课的用户
+    Route::get('lectures/{id}/users', 'API\LectureController@users');
+    // 添加用户到讲课(选课)
+    Route::post('lectures/{id}/users', 'API\LectureController@addUsers');
+    // 从授课删除用户(退课)
+    Route::delete('lectures/{id}/users', 'API\LectureController@deleteUsers');
     // 组织
     Route::apiResource('organizations', 'API\OrganizationController');
     // 获取组织的用户

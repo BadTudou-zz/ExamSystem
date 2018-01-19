@@ -11,10 +11,13 @@ use App\Http\Requests\ShowLecture;
 use App\Http\Requests\StoreLecture;
 use App\Http\Requests\UpdateLecture;
 use App\Http\Requests\DestroyLecture;
+use App\Http\Requests\AddUsersToLecture;
+use App\Http\Requests\DeleteUsersFromLecture;
+use App\Http\Resources\UserCollection;
 use Illuminate\Support\Facades\Auth;
 use Validator;
 use App\Lecture;
-
+use App\User;
 
 class LectureController extends Controller
 {
@@ -35,7 +38,7 @@ class LectureController extends Controller
                 'user_id' => Auth::user()->id,
                 'max' => $request->get('max', '0'),
                 'current' => 1,
-                'allowable_organization_ids' => implode(',', $request->get('allowable_organization_ids')),
+                'allowable_organization_ids' => implode(',', $request->get('allowable_organization_ids', [])),
                 'allowable_user_ids' => implode(',', $request->get('allowable_user_ids', []))
             ]
         );
@@ -49,7 +52,7 @@ class LectureController extends Controller
         $request->request->add(
             [
                 'max' => $request->get('max', '0'),
-                'allowable_organization_ids' => implode(',', $request->get('allowable_organization_ids')),
+                'allowable_organization_ids' => implode(',', $request->get('allowable_organization_ids', [])),
                 'allowable_user_ids' => implode(',', $request->get('allowable_user_ids', []))
             ]
         );
@@ -60,5 +63,23 @@ class LectureController extends Controller
     public function destroy(DestroyLecture $request, $id)
     {
         Lecture::find($id)->delete();
+    }
+
+     public function users($id)
+    {
+        return new UserCollection(Lecture::find($id)->users()->paginate());
+    }
+
+    public function addUsers(AddUsersToLecture $request, $id)
+    {
+        $lecture = Lecture::find($id);
+        $lecture->users()->syncWithoutDetaching($request->users);
+    }
+
+    public function deleteUsers(DeleteUsersFromLecture $request, $id)
+    {
+        $lecture = Lecture::find($id);
+        $users = User::find($request->users);
+        $lecture->users()->detach($users);
     }
 }

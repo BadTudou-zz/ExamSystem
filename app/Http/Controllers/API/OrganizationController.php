@@ -61,21 +61,21 @@ class OrganizationController extends Controller
         return new UserCollection(Organization::find($id)->users()->paginate());
     }
 
-    public function AddUsers(AddUsersToOrganization $request, $id)
+    public function addUsers(AddUsersToOrganization $request, $id)
     {
         $organization = Organization::find($id);
         $users = User::find($request->users);
         $organization->users()->syncWithoutDetaching($users);
     }
 
-    public function DeleteUsers(DeleteUsersFromOrganization $request, $id)
+    public function deleteUsers(DeleteUsersFromOrganization $request, $id)
     {
         $organization = Organization::find($id);
         $users = User::find($request->users);
         $organization->users()->detach($users);
     }
 
-    public function SyncUsers(UpdateOrganization $request, $id)
+    public function syncUsers(UpdateOrganization $request, $id)
     {
         $organization = Organization::find($id);
         $users = User::find($request->users);

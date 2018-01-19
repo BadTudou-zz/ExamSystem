@@ -15,7 +15,6 @@ use Illuminate\Support\Facades\Auth;
 use Validator;
 use App\Course;
 
-
 class CourseController extends Controller
 {
     public function index(IndexCourse $request)

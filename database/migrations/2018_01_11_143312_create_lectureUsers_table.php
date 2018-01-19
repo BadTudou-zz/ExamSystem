@@ -14,13 +14,13 @@ class CreateLectureUsersTable extends Migration
     public function up()
     {
         Schema::create('lecture_user', function (Blueprint $table) {
-            $table->increments('id');
-            $table->integer('user_id')->unsigned();
             $table->integer('lecture_id')->unsigned();
-            $table->foreign('user_id')->references('id')->on('users')
-                ->onUpdate('cascade')->onDelete('cascade');
+            $table->integer('user_id')->unsigned();
             $table->foreign('lecture_id')->references('id')->on('lectures')
                 ->onUpdate('cascade')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('users')
+                ->onUpdate('cascade')->onDelete('cascade');
+            
             $table->timestamps();
         });
     }
