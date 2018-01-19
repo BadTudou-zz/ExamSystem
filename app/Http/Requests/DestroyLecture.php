@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
+use App\Lecture;
 
 class DestroyLecture extends FormRequest
 {
@@ -14,7 +15,9 @@ class DestroyLecture extends FormRequest
      */
     public function authorize()
     {
-        return Auth::user()->can('lecture-destroy');
+        $user = Auth::user();
+        $lecture = Lecture::find($this->route('lecture'));
+        return $user->can('lecture-destroy') || $user->id == $lecture->user_id;
     }
 
     /**

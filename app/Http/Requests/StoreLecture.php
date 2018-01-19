@@ -25,7 +25,12 @@ class StoreLecture extends FormRequest
     public function rules()
     {
         return [
-            //
+            'course_id' =>'required|exists:courses,id',
+            'name' => 'required|max:120',
+            'describe' => 'required|max:120',
+            'allowable_organization_ids' => 'required|array|exists:organizations,id',
+            'allowable_user_ids' => 'array|exists:users,id',
+            'max' => 'required|max:255'
         ];
     }
 }
