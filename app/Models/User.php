@@ -32,12 +32,12 @@ class User extends Authenticatable
 
     public function organizations()
     {
-        return $this->belongsToMany('App\Organization','organization_user', 'organization_id', 'user_id');
+        return $this->belongsToMany('App\Organization','organization_user', 'user_id', 'organization_id');
     }
 
     public function lectures()
     {
-        return $this->belongsToMany('App\Lecture','lecture_user', 'lecture_id', 'user_id');
+        return $this->belongsToMany('App\Lecture', 'lecture_user', 'user_id', 'lecture_id');
     }
 
 }

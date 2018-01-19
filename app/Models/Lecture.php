@@ -17,6 +17,6 @@ class Lecture extends Model
 
     public function users()
     {
-        return $this->belongsToMany('App\User', 'lecture_user', 'user_id', 'lecture_id');
+        return $this->belongsToMany('App\User', 'lecture_user', 'lecture_id', 'user_id');
     }
 }

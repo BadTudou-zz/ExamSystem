@@ -8,6 +8,8 @@ use App\User;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Resources\UserCollection;
 use App\Http\Resources\UserResource;
+use App\Http\Resources\OrganizationCollection;
+use App\Http\Resources\LectureCollection;
 use App\Http\Requests\LoginUser;
 use App\Http\Requests\IndexUser;
 use App\Http\Requests\ShowUser;
@@ -53,6 +55,16 @@ class UserController extends Controller
     public function destroy(DestroyUser $request, $id)
     {
         User::find($id)->delete();
+    }
+
+    public function organizations(ShowUser $request, $id)
+    {
+        return new OrganizationCollection(User::find($id)->organizations()->paginate());
+    }
+
+    public function lectures(ShowUser $request, $id)
+    {
+        return new LectureCollection(User::find($id)->lectures()->paginate());
     }
 
     /**

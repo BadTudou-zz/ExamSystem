@@ -12,6 +12,10 @@ Route::prefix('v1')->middleware(['auth:api'])->group(function () {
     Route::apiResource('users', 'API\UserController');
     // 用户消息
     Route::get('users/{id}/messages', 'API\MessageController@messages');
+    // 用户组织
+    Route::get('users/{id}/organizations', 'API\UserController@organizations');
+    // 用户选课
+    Route::get('users/{id}/lectures', 'API\UserController@lectures');
     // 用户通知
     Route::get('users/{id}/notifications', 'API\NotificationController@notifications');
     // 更改用户密码
