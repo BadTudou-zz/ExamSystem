@@ -78,4 +78,6 @@ Route::prefix('v1')->middleware(['auth:api'])->group(function () {
     Route::delete('organizations/{id}/users', 'API\OrganizationController@deleteUsers');
     // 同步组织用户
     Route::put('organizations/{id}/users', 'API\OrganizationController@syncUsers');
+    // 申请
+    Route::apiResource('applications', 'API\ApplicationController');
 });
