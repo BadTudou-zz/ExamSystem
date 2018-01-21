@@ -14,6 +14,7 @@ use App\Http\Resources\RoleCollection;
 use App\Http\Resources\PermissionCollection;
 use App\Http\Requests\LoginUser;
 use App\Http\Requests\IndexUser;
+use App\Http\Requests\StoreUser;
 use App\Http\Requests\ShowUser;
 use App\Http\Requests\UpdateUser;
 use App\Http\Requests\DestroyUser;
@@ -115,23 +116,11 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function register(Request $request)
+    public function register(StoreUser $request)
     {
         // 检测验证码
         if (!CaptchaUtil::check(0, Captcha::PURPOSE_REGISTER, $request->get('captcha')) ){
             return response()->json(['error'=>'Bad captcha！'], 400);
-        }
-
-        $validator = Validator::make($request->all(), [
-            'name' => 'required',
-            'email' => 'required|email',
-            'captcha' => 'required',
-            'password' => 'required',
-            'c_password' => 'required|same:password',
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json(['error'=>$validator->errors()], 401);
         }
 
         $input = $request->all();
