@@ -20,6 +20,26 @@ class NotificationController extends Controller
         return new SystemNotificationCollection( Notification::where('type', SystemNotification::class)->paginate());
     }
 
+    public function show(Request $request, $id)
+    {
+        return new SystemNotificationResource(Notification::find($id));
+    }
+
+    public function store(Request $request)
+    {
+        Auth::user()->notify(new SystemNotification((object)['data' => $request->data]));
+    }
+
+    public function destroy(Request $request, $id)
+    {
+        $user = Auth::user();
+        $user->notifications()->where('type', SystemNotification::class)
+            ->where('notifiable_id', $user->id)
+            ->where('id', $id)
+            ->first()
+            ->delete();
+    }
+
     public function notifications(Request $request)
     {
         return SystemNotificationResource::collection( Auth::user()->notifications()->where('type', SystemNotification::class)->paginate());
