@@ -22,6 +22,9 @@ use Validator;
 use App\Captcha;
 use App\Util\CaptchaUtil;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Pagination\Paginator;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Collection;
 
 class UserController extends Controller
 {
@@ -76,9 +79,10 @@ class UserController extends Controller
 
     public function permissions(ShowUser $request, $id)
     {
-        return new PermissionCollection(User::find($id)->roles()->get()->map(function ($role){
+        $permissions = User::find($id)->roles()->get()->map(function ($role){
             return $role->perms()->get();
-        }));
+        })[0];
+        return new PermissionCollection($this->paginate($permissions));
     }
 
     /**
@@ -150,4 +154,12 @@ class UserController extends Controller
         $user = Auth::user();
         return response()->json(['success' => $user], $this->successStatus);
     }
+
+    public function paginate($items, $perPage = 15, $page = null, $options = [])
+    {
+        $page = $page ?: (Paginator::resolveCurrentPage() ?: 1);
+        $items = $items instanceof Collection ? $items : Collection::make($items);
+        return new LengthAwarePaginator($items->forPage($page, $perPage), $items->count(), $perPage, $page, $options);
+    }
+
 }
