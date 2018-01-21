@@ -18,6 +18,10 @@ Route::prefix('v1')->middleware(['auth:api'])->group(function () {
     Route::get('users/{id}/lectures', 'API\UserController@lectures');
     // 用户通知
     Route::get('users/{id}/notifications', 'API\NotificationController@notifications');
+    // 用户角色
+    Route::get('users/{id}/roles', 'API\UserController@roles');
+    // 用户权限
+    Route::get('users/{id}/permissions', 'API\UserController@permissions');
     // 更改用户密码
     Route::patch('users/{user}/password', 'API\UserController@updatePassword');
 

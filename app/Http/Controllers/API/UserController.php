@@ -10,6 +10,8 @@ use App\Http\Resources\UserCollection;
 use App\Http\Resources\UserResource;
 use App\Http\Resources\OrganizationCollection;
 use App\Http\Resources\LectureCollection;
+use App\Http\Resources\RoleCollection;
+use App\Http\Resources\PermissionCollection;
 use App\Http\Requests\LoginUser;
 use App\Http\Requests\IndexUser;
 use App\Http\Requests\ShowUser;
@@ -65,6 +67,18 @@ class UserController extends Controller
     public function lectures(ShowUser $request, $id)
     {
         return new LectureCollection(User::find($id)->lectures()->paginate());
+    }
+
+    public function roles(ShowUser $request, $id)
+    {
+        return new RoleCollection(User::find($id)->roles()->paginate());
+    }
+
+    public function permissions(ShowUser $request, $id)
+    {
+        return new PermissionCollection(User::find($id)->roles()->get()->map(function ($role){
+            return $role->perms()->get();
+        }));
     }
 
     /**
