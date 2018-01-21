@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use Gregwar\Captcha\CaptchaBuilder;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreCaptcha;
 use Validator;
 use Response;
 use App\Captcha;
@@ -14,7 +15,7 @@ use Carbon\Carbon;
 class CaptchaController extends Controller
 {
   
-    public function store(Request $request)
+    public function store(StoreCaptcha $request)
     {
         $builder = new CaptchaBuilder;
         $builder->build();
