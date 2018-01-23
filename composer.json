@@ -13,6 +13,7 @@
         "laravel/passport": "^4.0",
         "laravel/tinker": "~1.0",
         "nesbot/carbon": "^1.22",
+        "orchid/socket": "^1.6",
         "zizaco/entrust": "5.2.x-dev"
     },
     "require-dev": {
