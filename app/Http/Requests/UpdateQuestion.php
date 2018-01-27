@@ -14,7 +14,7 @@ class UpdateQuestion extends FormRequest
      */
     public function authorize()
     {
-        return Auth::user()->can('role-update');
+        return Auth::user()->can('question-update');
     }
 
     /**

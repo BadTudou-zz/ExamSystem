@@ -7,6 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 class Question extends Model
 {
     protected $fillable = [
-        'question_type', 'level_type', 'tag_id', 'title', 'body', 'answer', 'answer_comment'
+        'question_type', 'level_type', 'tags', 'title', 'body', 'answer', 'answer_comment'
     ];
 }
