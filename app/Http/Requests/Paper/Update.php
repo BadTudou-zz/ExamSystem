@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Paper;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
+use App\Paper;
 
-class StoreQuestion extends FormRequest
+class Update extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -14,7 +15,9 @@ class StoreQuestion extends FormRequest
      */
     public function authorize()
     {
-        return Auth::user()->can('question-store');
+        $user = Auth::user();
+        $paper = Paper::find($this->route('paper'));
+        return $user->can('paper-destroy') || $user->id == $paper->creator_id;
     }
 
     /**
@@ -25,12 +28,11 @@ class StoreQuestion extends FormRequest
     public function rules()
     {
         return [
-            'question_type' => 'required|in:SINGLE_CHOICE,MULTIPLE_CHOICE,TRUE_FALSE,FILL_IN,SHORT_ANSWER',
-            'level_type' => 'required|in:EASY,MIDDLE,HARD',
-            'title' => 'required',
-            'body'  => 'required',
-            'answer' => 'max:120',
-            'answer_comment' =>'max:250',
+            'title' => 'required|max:120',
+            'score' => 'required',
+            'min' => 'required',
+            'describe' => 'max:250',
+            'sections' => 'array|exists:paper_sections,id',
             'tags'     => 'array|exists:tags,id'
         ];
     }

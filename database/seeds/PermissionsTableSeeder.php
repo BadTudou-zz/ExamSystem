@@ -249,11 +249,53 @@ class PermissionsTableSeeder extends Seeder
         $showQuestion->description  = 'Show A Question';
         $showQuestion->save();
 
+        // 编辑问题
+        $updateQuestion = new Permission();
+        $updateQuestion->name         = 'question-update';
+        $updateQuestion->display_name = 'Update A Question';
+        $updateQuestion->description  = 'Update A Question';
+        $updateQuestion->save();
+
         // 删除问题
         $destroyQuestion = new Permission();
         $destroyQuestion->name         = 'question-destroy';
         $destroyQuestion->display_name = 'Destroy A Question';
         $destroyQuestion->description  = 'Destroy A Question';
+        $destroyQuestion->save();
+
+        // 全部试卷
+        $indexPaper = new Permission();
+        $indexPaper->name         = 'paper-index';
+        $indexPaper->display_name = 'All Question';
+        $indexPaper->description  = 'All Question';
+        $indexPaper->save();
+
+        // 创建试卷
+        $storePaper = new Permission();
+        $storePaper->name         = 'paper-store';
+        $storePaper->display_name = 'Create Paper';
+        $storePaper->description  = 'Create Paper';
+        $storePaper->save();
+
+        // 查看试卷
+        $showPaper = new Permission();
+        $showPaper->name         = 'paper-show';
+        $showPaper->display_name = 'Show A Paper';
+        $showPaper->description  = 'Show A Paper';
+        $showPaper->save();
+
+        // 编辑试卷
+        $updatePaper = new Permission();
+        $updatePaper->name         = 'paper-update';
+        $updatePaper->display_name = 'Update A Paper';
+        $updatePaper->description  = 'Update A Paper';
+        $updatePaper->save();
+
+        // 删除试卷
+        $destroyQuestion = new Permission();
+        $destroyQuestion->name         = 'paper-destroy';
+        $destroyQuestion->display_name = 'Destroy A Paper';
+        $destroyQuestion->description  = 'Destroy A Paper';
         $destroyQuestion->save();
 
 
