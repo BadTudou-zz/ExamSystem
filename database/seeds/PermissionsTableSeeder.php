@@ -228,5 +228,34 @@ class PermissionsTableSeeder extends Seeder
         $destroyLecture->description  = 'Destroy A Lecture';
         $destroyLecture->save();
 
+        // 全部问题
+        $indexquestion = new Permission();
+        $indexquestion->name         = 'question-index';
+        $indexquestion->display_name = 'All Question';
+        $indexquestion->description  = 'All Question';
+        $indexquestion->save();
+
+        // 创建问题
+        $storeQuestion = new Permission();
+        $storeQuestion->name         = 'question-store';
+        $storeQuestion->display_name = 'Create Question';
+        $storeQuestion->description  = 'Create Question';
+        $storeQuestion->save();
+
+        // 查看问题
+        $showQuestion = new Permission();
+        $showQuestion->name         = 'question-show';
+        $showQuestion->display_name = 'Show A Question';
+        $showQuestion->description  = 'Show A Question';
+        $showQuestion->save();
+
+        // 删除问题
+        $destroyQuestion = new Permission();
+        $destroyQuestion->name         = 'question-destroy';
+        $destroyQuestion->display_name = 'Destroy A Question';
+        $destroyQuestion->description  = 'Destroy A Question';
+        $destroyQuestion->save();
+
+
     }
 }
