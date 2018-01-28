@@ -144,6 +144,13 @@ class PermissionsTableSeeder extends Seeder
         $showNotification->description  = 'Show A Notification';
         $showNotification->save();
 
+        // 更新通知
+        $updateNotification = new Permission();
+        $updateNotification->name         = 'notification-update';
+        $updateNotification->display_name = 'Update A Notification';
+        $updateNotification->description  = 'Update A Notification';
+        $updateNotification->save();
+
         // 删除通知
         $destroyNotification = new Permission();
         $destroyNotification->name         = 'notification-destroy';

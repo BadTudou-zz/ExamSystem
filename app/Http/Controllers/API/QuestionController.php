@@ -7,11 +7,11 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Resources\QuestionResource;
 use App\Http\Resources\QuestionCollection;
-use App\Http\Requests\IndexQuestion;
-use App\Http\Requests\ShowQuestion;
-use App\Http\Requests\StoreQuestion;
-use App\Http\Requests\UpdateQuestion;
-use App\Http\Requests\DestroyQuestion;
+use App\Http\Requests\Question\Index as IndexQuestion;
+use App\Http\Requests\Question\Show as ShowQuestion;
+use App\Http\Requests\Question\Store as StoreQuestion;
+use App\Http\Requests\Question\Update as UpdateQuestion;
+use App\Http\Requests\Question\Destroy as DestroyQuestion;
 use Validator;
 use App\Question;
 

@@ -9,7 +9,10 @@ use App\Notification as Message;
 use App\Notifications\PrivateMessage;
 use App\Http\Resources\PrivateMessageResource;
 use App\Http\Resources\PrivateMessages;
-use App\Http\Requests\ShowMessage;
+use App\Http\Requests\Message\Index as IndexMessage;
+use App\Http\Requests\Message\Show as ShowMessage;
+use App\Http\Requests\Message\Store as StoreMessage;
+use App\Http\Requests\Message\Destroy as DestroyMessage;
 use App\Http\Resources\PrivateMessageCollection;
 use Illuminate\Support\Facades\Auth;
 use Validator;
@@ -17,12 +20,12 @@ use Validator;
 
 class MessageController extends Controller
 {
-    public function index(Request $request)
+    public function index(IndexMessage $request)
     {
         return new PrivateMessageCollection( Message::where('type', PrivateMessage::class)->paginate());
     }
 
-    public function store(Request $request)
+    public function store(StoreMessage $request)
     {
         Auth::user()->notify(new PrivateMessage((object)['id' => $request->to, 'data' => $request->data]));
     }
@@ -32,7 +35,7 @@ class MessageController extends Controller
         return new PrivateMessageResource(Message::find($id));
     }
 
-    public function destroy(Request $request, $id)
+    public function destroy(DestroyMessage $request, $id)
     {
         $user = Auth::user();
         $user->notifications()->where('type', PrivateMessage::class)
