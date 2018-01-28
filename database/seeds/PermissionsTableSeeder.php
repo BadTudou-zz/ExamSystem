@@ -298,6 +298,47 @@ class PermissionsTableSeeder extends Seeder
         $destroyQuestion->description  = 'Destroy A Paper';
         $destroyQuestion->save();
 
+        // 全部申请
+        $indexApplication = new Permission();
+        $indexApplication->name         = 'application-index';
+        $indexApplication->display_name = 'All Application';
+        $indexApplication->description  = 'All Application';
+        $indexApplication->save();
+
+        // 创建申请
+        $storeApplication = new Permission();
+        $storeApplication->name         = 'application-store';
+        $storeApplication->display_name = 'Create Application';
+        $storeApplication->description  = 'Create Application';
+        $storeApplication->save();
+
+        // 查看申请
+        $showApplication = new Permission();
+        $showApplication->name         = 'application-show';
+        $showApplication->display_name = 'Show A Application';
+        $showApplication->description  = 'Show A Application';
+        $showApplication->save();
+
+        // 同意申请
+        $acceptApplication = new Permission();
+        $acceptApplication->name         = 'application-accept';
+        $acceptApplication->display_name = 'Accept A Application';
+        $acceptApplication->description  = 'Accept A Application';
+        $acceptApplication->save();
+
+        // 拒绝申请
+        $rejectApplication = new Permission();
+        $rejectApplication->name         = 'application-reject';
+        $rejectApplication->display_name = 'Reject A Application';
+        $rejectApplication->description  = 'Reject A Application';
+        $rejectApplication->save();
+
+        // 删除申请
+        $destroyApplication = new Permission();
+        $destroyApplication->name         = 'application-destroy';
+        $destroyApplication->display_name = 'Destroy A Application';
+        $destroyApplication->description  = 'Destroy A Application';
+        $destroyApplication->save();
 
     }
 }

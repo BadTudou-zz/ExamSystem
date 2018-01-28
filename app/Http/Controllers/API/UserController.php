@@ -12,6 +12,10 @@ use App\Http\Resources\OrganizationCollection;
 use App\Http\Resources\LectureCollection;
 use App\Http\Resources\RoleCollection;
 use App\Http\Resources\PermissionCollection;
+use App\Http\Resources\ApplicationResource;
+use App\Http\Resources\ApplicationCollection;
+use App\Notification;
+use App\Notifications\ApplicationNotification;
 use App\Http\Requests\LoginUser;
 use App\Http\Requests\IndexUser;
 use App\Http\Requests\StoreUser;
@@ -85,6 +89,26 @@ class UserController extends Controller
         })[0];
         return new PermissionCollection($this->paginate($permissions));
     }
+
+    public function applications(ShowUser $request)
+    {
+        if ($request->get('reveived', false)){
+            $user = Auth::user();
+            $applications = Notification::where('type', ApplicationNotification::class)
+            ->where('notifiable_id', '!=', $user->id)
+            ->get()
+            ->filter(function ($application, $key) use($user){
+                    return json_decode($application->data)->notifiable_id == $user->id;
+            })
+            ->all();
+            return  ApplicationResource::collection($this->paginate($applications));
+        }
+        else {
+            return  new ApplicationCollection( Auth::user()->notifications()->where('type', ApplicationNotification::class)->paginate());
+        }
+        
+    }
+
 
     /**
      * login api
