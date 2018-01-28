@@ -16,6 +16,7 @@ use App\Http\Requests\Application\Destroy as DestroyApplication;
 use App\Http\Requests\Application\Accept as AcceptApplication;
 use App\Http\Requests\Application\Reject as RejectApplication;
 use App\Organization;
+use App\Lecture;
 use App\User;
 class ApplicationController extends Controller
 {
@@ -65,6 +66,10 @@ class ApplicationController extends Controller
             case 'Organization':
                 return $this->acceptOrganizationApplication($application);
                 break;
+
+            case 'Lecture':
+                return $this->acceptLectureApplication($application);
+                break;
             
             default:
                 # code...
@@ -87,6 +92,23 @@ class ApplicationController extends Controller
         // 将用户加入组织
         $users = User::findOrFail($application->notifiable_id);
         $organization->users()->syncWithoutDetaching($users);
+        $application->delete();
+    }
+
+    public function acceptLectureApplication($application)
+    {
+        $data = json_decode($application->data);
+
+        $user = Auth::user();
+        $lectrue = Lecture::findOrFail($data->resource_id);
+        // 检测当前用户的权限
+        if ($lectrue->user_id != $user->id) {
+            return response()->json(['error'=>'This action is unauthorized.'], 403);
+        }
+        
+        // 将用户加入组织
+        $users = User::findOrFail($application->notifiable_id);
+        $lectrue->users()->syncWithoutDetaching($users);
         $application->delete();
     }
 }

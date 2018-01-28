@@ -5,7 +5,7 @@ namespace App\Http\Controllers\API;
 use Gregwar\Captcha\CaptchaBuilder;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\StoreCaptcha;
+use App\Http\Requests\Captcha\Store as StoreCaptcha;
 use Validator;
 use Response;
 use App\Captcha;
