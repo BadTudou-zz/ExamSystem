@@ -1,5 +1,5 @@
 <template lang="html">
-  <div id="app" class="teacher-homepage">
+  <div id="app" class="login-wrapper">
     <!-- login -->
     <p class="title">用户登录</p>
     <div class="login-box">
@@ -17,7 +17,8 @@
       </div>
       <input type="" class="form-control" :placeholder="placeholderData">
       <input type="password" class="form-control" placeholder="密码">
-      <button type="button" class="button" name="button">登录</button>
+            <img class="verification-code" src="https://fp.yangcong345.com/o_1c48qhluh1qf0r6v1ip765c1s799.png" alt="">
+      <button @click="login()" type="button" class="button" name="button">登录</button>
       <div class="operate-box">
         <a>忘记密码</a><a @click="register()">注册</a>
       </div>
@@ -56,12 +57,48 @@ export default {
       }
     },
     register: function() {
+      console.log('注册')
       const that = this;
       that.$refs.register.switchModal();
+    },
+    login: function (username, password) {
+      const that = this;
+      console.log('登录')
+      axios({
+        method: 'post',
+        url: 'http://localhost:8000/api/login',
+        data: {
+          'email': 'admin@email.com',
+          'password': 'admin',
+          'type': 'mobile',
+          'captcha': 'ilhup',
+        }
+      }).then(res => {
+        console.log(res)
+      }).catch(err => {
+        console.log(err)
+      })
+    },
+    getVerificationCode: function () {
+      const that = this;
+      axios({
+        method: 'post',
+        url: 'http://localhost:8000/api/captchas',
+        data: {
+          'purpose': 'LOGIN'
+        }
+      }).then(res => {
+        console.log(res)
+      }).catch(err => {
+        console.log(err)
+      })
     }
   },
+  created() {
+    // this.login();
+    this.getVerificationCode();
+  },
   watch: {
-
   }
 }
 </script>
@@ -70,7 +107,7 @@ export default {
 body {
   margin: 0;
 }
-.teacher-homepage {
+.login-wrapper {
   background-color: #334056;
   width: 100%;
   height: 1000px;
@@ -125,6 +162,10 @@ body {
       margin-left: 20px;
       margin-top: 10px;
     }
+  }
+  .verification-code {
+    width: 130px;
+    margin: 0 auto;
   }
 }
 </style>
