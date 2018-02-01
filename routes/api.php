@@ -86,4 +86,6 @@ Route::prefix('v1')->middleware(['auth:api'])->group(function () {
     Route::post('applications/{application}/accept', 'API\ApplicationController@accept');
     // 拒绝申请
     Route::post('applications/{application}/reject', 'API\ApplicationController@reject');
+    // 标签
+    Route::apiResource('tags', 'API\TagController');
 });
