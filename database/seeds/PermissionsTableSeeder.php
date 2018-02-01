@@ -347,5 +347,33 @@ class PermissionsTableSeeder extends Seeder
         $destroyApplication->description  = 'Destroy A Application';
         $destroyApplication->save();
 
+        // 全部标签
+        $indexTag = new Permission();
+        $indexTag->name         = 'tag-index';
+        $indexTag->display_name = 'All Tag';
+        $indexTag->description  = 'All Tag';
+        $indexTag->save();
+
+        // 查看标签
+        $showTag = new Permission();
+        $showTag->name         = 'tag-show';
+        $showTag->display_name = 'Show A Tag';
+        $showTag->description  = 'Show A Tag';
+        $showTag->save();
+
+        // 编辑标签
+        $updateTag = new Permission();
+        $updateTag->name         = 'tag-update';
+        $updateTag->display_name = 'Update A Tag';
+        $updateTag->description  = 'Update A Tag';
+        $updateTag->save();
+
+        // 删除标签
+        $destroyTag = new Permission();
+        $destroyTag->name         = 'tag-destroy';
+        $destroyTag->display_name = 'Destroy A Tag';
+        $destroyTag->description  = 'Destroy A Tag';
+        $destroyTag->save();
+
     }
 }
