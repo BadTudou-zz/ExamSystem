@@ -15,10 +15,9 @@ class CreateTagsTable extends Migration
     {
         Schema::create('tags', function (Blueprint $table) {
             $table->increments('id');
-            $table->text('title')->unique();
+            $table->string('title', 60)->unique();
             $table->string('commentabl_type')->nullable();
-            $table->integer(
-            'creator_id');
+            $table->integer('creator_id')->unsigned();
             $table->foreign('creator_id')->references('id')->on('users')
                 ->onUpdate('cascade')->onDelete('cascade');
             $table->timestamps();
