@@ -11,13 +11,13 @@ Route::prefix('v1')->middleware(['auth:api'])->group(function () {
     // 用户
     Route::apiResource('users', 'API\UserController');
     // 用户消息
-    Route::get('users/{user}/messages', 'API\MessageController@messages');
+    Route::get('users/{user}/messages', 'API\UserController@messages');
     // 用户组织
     Route::get('users/{user}/organizations', 'API\UserController@organizations');
     // 用户选课
     Route::get('users/{user}/lectures', 'API\UserController@lectures');
     // 用户通知
-    Route::get('users/{user}/notifications', 'API\NotificationController@notifications');
+    Route::get('users/{user}/notifications', 'API\UserController@notifications');
     // 用户角色
     Route::get('users/{user}/roles', 'API\UserController@roles');
     // 用户权限

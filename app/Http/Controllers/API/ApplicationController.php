@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Notification;
+use App\Notifications\PrivateMessage;
+use App\Notifications\SystemNotification;
 use App\Notifications\ApplicationNotification;
 use App\Http\Resources\ApplicationCollection;
 use App\Http\Resources\ApplicationResource;
@@ -50,12 +52,13 @@ class ApplicationController extends Controller
         $user = Auth::user();
         $application = Notification::find($id);
         return $this->acceptApplication($application);
-        return new ApplicationResource($application);
     }
 
     public function reject(RejectApplication $request, $id)
     {
-        
+        $user = Auth::user();
+        $application = Notification::find($id);
+        return $this->rejectApplication($application);
     }
 
     protected function acceptApplication($application)
@@ -75,7 +78,25 @@ class ApplicationController extends Controller
                 # code...
                 break;
         }
-        return "from:{$application->notifiable_id}\n to:{$data->notifiable_id}\n {$data->resource_type}.{$data->resource_id}.{$data->action}.{$application->notifiable_id}";
+    }
+
+    protected function rejectApplication($application)
+    {
+        $data = json_decode($application->data);
+
+        switch ($data->resource_type) {
+            case 'Organization':
+                return $this->rejectOrganizationApplication($application);
+                break;
+
+            case 'Lecture':
+                return $this->acceptLectureApplication($application);
+                break;
+            
+            default:
+                # code...
+                break;
+        }
     }
 
     public function acceptOrganizationApplication($application)
@@ -92,6 +113,8 @@ class ApplicationController extends Controller
         // 将用户加入组织
         $users = User::findOrFail($application->notifiable_id);
         $organization->users()->syncWithoutDetaching($users);
+        // 发送通知
+        $user->notify(new SystemNotification((object)['to' => $application->notifiable_id, 'data' => "已成功加入组织 {$organization->name} "]));
         $application->delete();
     }
 
@@ -106,9 +129,27 @@ class ApplicationController extends Controller
             return response()->json(['error'=>'This action is unauthorized.'], 403);
         }
         
-        // 将用户加入组织
+        // 将用户加入课程
         $users = User::findOrFail($application->notifiable_id);
         $lectrue->users()->syncWithoutDetaching($users);
+        // 发送通知
+        $user->notify(new SystemNotification((object)['to' => $application->notifiable_id, 'data' => "已成功加入课程 {$lectrue->name} "]));
+        $application->delete();
+    }
+
+    public function rejectOrganizationApplication($application)
+    {
+        $data = json_decode($application->data);
+
+        $user = Auth::user();
+        $organization = Organization::findOrFail($data->resource_id);
+        // 检测当前用户的权限
+        if ($organization->creator_id != $user->id) {
+            return response()->json(['error'=>'This action is unauthorized.'], 403);
+        }
+        
+        // 发送通知
+        $user->notify(new SystemNotification((object)['to' => $application->notifiable_id, 'data' => "加入组织 {$organization->name} 被拒绝"]));
         $application->delete();
     }
 }

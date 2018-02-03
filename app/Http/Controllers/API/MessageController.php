@@ -45,14 +45,9 @@ class MessageController extends Controller
             ->delete();
     }
 
-    public function messages(Request $request)
+    public function read(DestroyMessage $request, $id)
     {
-        return new PrivateMessageCollection( Auth::user()->notifications()->where('type', PrivateMessage::class)->paginate());
-    }
-
-    public function read(Request $request, $id)
-    {
-
+        return new PrivateMessageResource(Message::find($id))->markAsRead();
     }
 
 
