@@ -29,7 +29,7 @@ class NotificationController extends Controller
 
     public function store(StoreNotification $request)
     {
-        Auth::user()->notify(new SystemNotification((object)['data' => $request->data]));
+        Auth::user()->notify(new SystemNotification((object)['to' => 0, 'data' => $request->data]));
     }
 
     public function destroy(DestroyNotification $request, $id)
@@ -42,8 +42,4 @@ class NotificationController extends Controller
             ->delete();
     }
 
-    public function notifications(Request $request)
-    {
-        return SystemNotificationResource::collection( Auth::user()->notifications()->where('type', SystemNotification::class)->paginate());
-    }
 }
