@@ -29,6 +29,9 @@ class PaperSectionController extends Controller
 	public function store(ShowPaperSection $request)
 	{
 		$paper = Paper::find($request->paper);
+		if ($request->has('questions')) {
+			$request['questions'] = implode(",", $request->questions);
+		}
 		$section = PaperSection::create($request->all());
 		$sections = explode(",", $paper->sections);
 		array_push($sections, $section->id);
@@ -54,6 +57,11 @@ class PaperSectionController extends Controller
 		$sections = explode(",", $paper->sections);
 		if ( in_array($request->section, $sections)) {
 			$section = PaperSection::findOrFail($request->section);
+
+			if ($request->has('questions')) {
+				$request['questions'] = implode(",", $request->questions);
+			}
+			
 			$section->update($request->all());
 			return new PaperSectionResource($section);
 		} else {

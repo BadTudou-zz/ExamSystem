@@ -30,6 +30,9 @@ class PaperController extends Controller
                 'creator_id' => Auth::user()->id
             ]
         );
+        if ($request->has('sections')) {
+                $request['sections'] = implode(",", $request->sections);
+        }
         $paper = Paper::create($request->all());
         return new PaperResource($paper);
     }
@@ -42,6 +45,9 @@ class PaperController extends Controller
     public function update(UpdatePaper $request, $id)
     {
         $paper = Paper::findOrFail($id);
+        if ($request->has('sections')) {
+                $request['sections'] = implode(",", $request->sections);
+        }
         $paper->update($request->all());
         return new PaperResource($paper);
     }
