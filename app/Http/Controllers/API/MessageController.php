@@ -45,9 +45,11 @@ class MessageController extends Controller
             ->delete();
     }
 
-    public function read(DestroyMessage $request, $id)
+    public function read(ShowMessage $request, $id)
     {
-        return new PrivateMessageResource(Message::find($id))->markAsRead();
+        $message = Message::find($id);
+        $message->markAsRead();
+        return new PrivateMessageResource($message);
     }
 
 
