@@ -14,7 +14,9 @@ class Show extends FormRequest
      */
     public function authorize()
     {
-        return true;
+        $user = Auth::user();
+        $paper = Paper::find($this->route('paper'));
+        return $user->can('paper-destroy') || $user->id == $paper->creator_id;
     }
 
     /**

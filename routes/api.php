@@ -62,6 +62,10 @@ Route::prefix('v1')->middleware(['auth:api'])->group(function () {
     Route::apiResource('courses', 'API\CourseController');
     // 试卷
     Route::apiResource('papers', 'API\PaperController');
+    // 试卷章节
+    Route::namespace('API\Papers')->group(function (){
+            Route::apiResource('papers/{paper}/sections', 'PaperSectionController');
+        });
     // 讲课
     Route::apiResource('lectures', 'API\LectureController');
     // 获取讲课的用户

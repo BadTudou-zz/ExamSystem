@@ -3,6 +3,8 @@
 namespace App\Http\Requests\PaperSection;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
+use App\Paper;
 
 class Show extends FormRequest
 {
@@ -13,7 +15,9 @@ class Show extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        $user = Auth::user();
+        $paper = Paper::find($this->route('paper'));
+        return $user->can('paper-destroy') || $user->id == $paper->creator_id;
     }
 
     /**
