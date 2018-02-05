@@ -375,5 +375,40 @@ class PermissionsTableSeeder extends Seeder
         $destroyTag->description  = 'Destroy A Tag';
         $destroyTag->save();
 
+        // 全部考试
+        $indexExam = new Permission();
+        $indexExam->name         = 'exam-index';
+        $indexExam->display_name = 'All Exam';
+        $indexExam->description  = 'All Exam';
+        $indexExam->save();
+
+        // 查看考试
+        $showExam = new Permission();
+        $showExam->name         = 'exam-show';
+        $showExam->display_name = 'Show A Exam';
+        $showExam->description  = 'Show A Exam';
+        $showExam->save();
+
+        // 添加考试
+        $storeExam = new Permission();
+        $storeExam->name         = 'exam-store';
+        $storeExam->display_name = 'Store A Exam';
+        $storeExam->description  = 'Store A Exam';
+        $storeExam->save();
+
+        // 编辑考试
+        $updateExam = new Permission();
+        $updateExam->name         = 'exam-update';
+        $updateExam->display_name = 'Update A Exam';
+        $updateExam->description  = 'Update A Exam';
+        $updateExam->save();
+
+        // 删除考试
+        $destroyExam = new Permission();
+        $destroyExam->name         = 'exam-destroy';
+        $destroyExam->display_name = 'Destroy A Exam';
+        $destroyExam->description  = 'Destroy A Exam';
+        $destroyExam->save();
+
     }
 }
