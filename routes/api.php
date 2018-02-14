@@ -68,6 +68,14 @@ Route::prefix('v1')->middleware(['auth:api'])->group(function () {
         });
     // 考试
     Route::apiResource('exams', 'API\ExamController');
+    // 考试的用户
+    Route::get('exams/{id}/users', 'API\ExamController@users');
+    // 提交考试
+    Route::post('exams/{id}/answers', 'API\ExamController@answer');
+    // 添加用户到考试
+    Route::post('exams/{id}/users', 'API\ExamController@addUsers');
+    // 从考试删除用户
+    Route::delete('exams/{id}/users', 'API\ExamController@deleteUsers');
     // 讲课
     Route::apiResource('lectures', 'API\LectureController');
     // 获取讲课的用户

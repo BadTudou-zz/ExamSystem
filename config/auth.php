@@ -99,5 +99,10 @@ return [
         ],
     ],
 
+    'token' => [
+        'expire_in' => env('TOKEN_EXPIRE_IN', 15),
+        'refresh_expire_in' => env('TOKEN_REFRESH_EXPIRE_IN', 15)
+    ],
+
 
 ];

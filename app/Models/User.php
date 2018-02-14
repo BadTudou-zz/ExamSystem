@@ -40,4 +40,9 @@ class User extends Authenticatable
         return $this->belongsToMany('App\Lecture', 'lecture_user', 'user_id', 'lecture_id');
     }
 
+    public function exams()
+    {
+        return $this->belongsToMany('App\Exam','exam_user', 'user_id', 'exam_id')->withPivot('answers');;
+    }
+
 }
