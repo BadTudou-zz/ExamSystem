@@ -11453,7 +11453,7 @@ var Component = __webpack_require__(4)(
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/yfling/Desktop/bishe/ExamSystem/resources/assets/js/components/Register.vue"
+Component.options.__file = "/Users/badtudou/Library/Mobile Documents/com~apple~CloudDocs/Code/docker/Nginx/www/ExamSystem/resources/assets/js/components/Register.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] Register.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -12639,6 +12639,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
 
 var Base64 = __webpack_require__(45).Base64;
 // import Base64 from 'js-base64';
@@ -12698,20 +12702,19 @@ var Base64 = __webpack_require__(45).Base64;
       var that = this;
       axios({
         method: 'post',
-        url: 'http://localhost:8000/api/captchas',
-        // responseType: 'arraybuffer',
-        // headers: {
-        //   'Content-type': 'image/jpeg',
-        // },
-        data: {
+        url: 'http://www.badtudou.com.dev/api/captchas',
+        responseType: 'arraybuffer',
+        headers: {
+          'Content-type': 'application/x-www-form-urlencoded',
+          'Accept': 'application/json'
+        },
+        params: {
           'purpose': 'LOGIN'
         }
       }).then(function (res) {
-        that.captchaFigure = res.data;
-        // let a = 'data:image/png;base64,' + btoa(
-        //   new Uint8Array(res.data)
-        //     .reduce((data, byte) => data + String.fromCharCode(byte), '')
-        // );
+        that.captchaFigure = 'data:image/png;base64,' + btoa(new Uint8Array(res.data).reduce(function (data, byte) {
+          return data + String.fromCharCode(byte);
+        }, ''));
         // debugger
       }).catch(function (err) {
         console.log(err);
@@ -34863,7 +34866,7 @@ var Component = __webpack_require__(4)(
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/yfling/Desktop/bishe/ExamSystem/resources/assets/js/components/Example.vue"
+Component.options.__file = "/Users/badtudou/Library/Mobile Documents/com~apple~CloudDocs/Code/docker/Nginx/www/ExamSystem/resources/assets/js/components/Example.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] Example.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -34901,7 +34904,7 @@ var Component = __webpack_require__(4)(
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/yfling/Desktop/bishe/ExamSystem/resources/assets/js/components/Login.vue"
+Component.options.__file = "/Users/badtudou/Library/Mobile Documents/com~apple~CloudDocs/Code/docker/Nginx/www/ExamSystem/resources/assets/js/components/Login.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] Login.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -34935,29 +34938,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "title"
   }, [_vm._v("用户登录")]), _vm._v(" "), _c('div', {
     staticClass: "login-box"
-  }, [_c('div', {
-    staticClass: "select-box"
-  }, [_c('span', [_vm._v("用户类型  ")]), _vm._v(" "), _c('div', [_c('div', {
-    staticClass: "select is-small"
-  }, [_c('select', {
-    on: {
-      "change": function($event) {
-        _vm.changeRole($event)
-      }
-    }
-  }, [_c('option', {
-    attrs: {
-      "value": "student"
-    }
-  }, [_vm._v("学生")]), _vm._v(" "), _c('option', {
-    attrs: {
-      "value": "teacher"
-    }
-  }, [_vm._v("老师")]), _vm._v(" "), _c('option', {
-    attrs: {
-      "value": "administrator"
-    }
-  }, [_vm._v("管理员")])])])])]), _vm._v(" "), _c('input', {
+  }, [_vm._m(0), _vm._v(" "), _c('input', {
     staticClass: "form-control",
     attrs: {
       "type": "",
@@ -34975,7 +34956,15 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "src": _vm.captchaFigure,
       "alt": ""
     }
-  }), _vm._v(" "), _c('button', {
+  }), _vm._v(" "), _c('div', {
+    staticClass: "operate-box"
+  }, [_c('a', {
+    on: {
+      "click": function($event) {
+        _vm.getVerificationCode()
+      }
+    }
+  }, [_vm._v("获取验证码")])]), _vm._v(" "), _c('button', {
     staticClass: "button",
     attrs: {
       "type": "button",
@@ -34997,7 +34986,11 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_vm._v("注册")])])]), _vm._v(" "), _c('register', {
     ref: "register"
   })], 1)
-},staticRenderFns: []}
+},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "select-box"
+  }, [_c('span', [_vm._v("用户登录  ")]), _vm._v(" "), _c('div')])
+}]}
 module.exports.render._withStripped = true
 if (false) {
   module.hot.accept()
