@@ -12631,14 +12631,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
 
 var Base64 = __webpack_require__(45).Base64;
 // import Base64 from 'js-base64';
@@ -12647,8 +12639,12 @@ var Base64 = __webpack_require__(45).Base64;
   data: function data() {
     return {
       currentRole: '',
-      placeholderData: '请输入你的学号',
-      captchaFigure: '' // 验证码图片
+      // placeholderData: '请输入你的账号/邮箱',
+      captchaFigure: null, // 验证码图片
+      account: null, // 账号
+      password: null, // 密码
+      captcha: null, // 验证码
+      isShowLogin: false // 是否显示登录组件
     };
   },
 
@@ -12679,19 +12675,29 @@ var Base64 = __webpack_require__(45).Base64;
     login: function login(username, password) {
       var that = this;
       console.log('登录');
+      debugger;
       axios({
         method: 'post',
         url: 'http://localhost:8000/api/login',
+        headers: {
+          'Content-type': 'application/json;charset=utf8'
+        },
         data: {
-          'email': 'admin@email.com',
-          'password': 'admin',
+          'email': that.account,
+          'password': that.password,
           'type': 'mobile',
-          'captcha': 'ilhup'
+          'captcha': that.captcha
         }
       }).then(function (res) {
-        console.log(res);
+        var token = res.data.data.token;
+        // if (token) {
+        //   sessionStorage.setItem('token', token);
+        //   that.$emit('input', that.isShowLogin);
+        // }
+        that.getVerificationCode();
       }).catch(function (err) {
         console.log(err);
+        that.getVerificationCode();
       });
     },
     getVerificationCode: function getVerificationCode() {
@@ -12699,19 +12705,18 @@ var Base64 = __webpack_require__(45).Base64;
       axios({
         method: 'post',
         url: 'http://localhost:8000/api/captchas',
-        // responseType: 'arraybuffer',
-        // headers: {
-        //   'Content-type': 'image/jpeg',
-        // },
-        data: {
+        responseType: 'arraybuffer',
+        headers: {
+          'Content-type': 'application/x-www-form-urlencoded',
+          'Accept': 'application/json'
+        },
+        params: {
           'purpose': 'LOGIN'
         }
       }).then(function (res) {
-        that.captchaFigure = res.data;
-        // let a = 'data:image/png;base64,' + btoa(
-        //   new Uint8Array(res.data)
-        //     .reduce((data, byte) => data + String.fromCharCode(byte), '')
-        // );
+        that.captchaFigure = 'data:image/png;base64,' + btoa(new Uint8Array(res.data).reduce(function (data, byte) {
+          return data + String.fromCharCode(byte);
+        }, ''));
         // debugger
       }).catch(function (err) {
         console.log(err);
@@ -17172,7 +17177,7 @@ module.exports = Array.isArray || function (arr) {
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(10)();
-exports.push([module.i, "\nbody[data-v-30c47f37] {\n  margin: 0;\n}\n.login-wrapper[data-v-30c47f37] {\n  background-color: #334056;\n  width: 100%;\n  height: 1000px;\n}\n.login-wrapper .title[data-v-30c47f37] {\n    text-align: center;\n    font-size: 34px;\n    color: #fff;\n}\n.login-box[data-v-30c47f37] {\n  width: 320px;\n  height: 300px;\n  position: absolute;\n  top: 50%;\n  left: 50%;\n  margin-top: -105px;\n  margin-left: -160px;\n  padding: 25px;\n  border-radius: 5px;\n  text-align: center;\n  background-color: #fff;\n}\n.login-box .select-box[data-v-30c47f37] {\n    width: 270px;\n    margin-bottom: 20px;\n    height: 27px;\n    line-height: 27px;\n}\n.login-box input[data-v-30c47f37] {\n    margin-bottom: 20px;\n}\n.login-box button[data-v-30c47f37] {\n    width: 100%;\n    height: 38px;\n    font-size: 16px;\n    background-color: #2CA2FC;\n    color: #fff;\n    border: none;\n    border-radius: 5px;\n}\n.login-box div[data-v-30c47f37] {\n    display: inline-block;\n}\n.login-box .operate-box[data-v-30c47f37] {\n    float: right;\n}\n.login-box .operate-box a[data-v-30c47f37] {\n      position: relative;\n      right: 10px;\n      font-size: 12px;\n      display: inline-block;\n      margin-left: 20px;\n      margin-top: 10px;\n}\n.login-box .verification-code[data-v-30c47f37] {\n    width: 130px;\n    margin: 0 auto;\n}\n", ""]);
+exports.push([module.i, "\nbody[data-v-30c47f37] {\n  margin: 0;\n}\n.login-wrapper[data-v-30c47f37] {\n  background-color: #334056;\n  width: 100%;\n  height: 1000px;\n}\n.login-wrapper .title[data-v-30c47f37] {\n    text-align: center;\n    font-size: 34px;\n    color: #fff;\n}\n.login-box[data-v-30c47f37] {\n  width: 320px;\n  height: 335px;\n  position: absolute;\n  top: 50%;\n  left: 50%;\n  margin-top: -105px;\n  margin-left: -160px;\n  padding: 25px;\n  border-radius: 5px;\n  text-align: center;\n  background-color: #fff;\n}\n.login-box .select-box[data-v-30c47f37] {\n    width: 270px;\n    margin-bottom: 20px;\n    height: 27px;\n    line-height: 27px;\n}\n.login-box input[data-v-30c47f37] {\n    margin-bottom: 20px;\n}\n.login-box button[data-v-30c47f37] {\n    width: 100%;\n    height: 38px;\n    font-size: 16px;\n    background-color: #2CA2FC;\n    color: #fff;\n    border: none;\n    border-radius: 5px;\n}\n.login-box div[data-v-30c47f37] {\n    display: inline-block;\n}\n.login-box .operate-box[data-v-30c47f37] {\n    float: right;\n}\n.login-box .operate-box a[data-v-30c47f37] {\n      position: relative;\n      right: 10px;\n      font-size: 12px;\n      display: inline-block;\n      margin-left: 20px;\n      margin-top: 10px;\n}\n.login-box .verification-code[data-v-30c47f37] {\n    width: 130px;\n    height: 30px;\n    margin: 0 auto;\n}\n.get-verification-code[data-v-30c47f37] {\n  display: inline-block;\n  font-size: 12px;\n}\n.code-box[data-v-30c47f37] {\n  margin-bottom: 15px;\n}\n", ""]);
 
 /***/ }),
 /* 43 */
@@ -34935,47 +34940,83 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "title"
   }, [_vm._v("用户登录")]), _vm._v(" "), _c('div', {
     staticClass: "login-box"
-  }, [_c('div', {
-    staticClass: "select-box"
-  }, [_c('span', [_vm._v("用户类型  ")]), _vm._v(" "), _c('div', [_c('div', {
-    staticClass: "select is-small"
-  }, [_c('select', {
+  }, [_c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.account),
+      expression: "account"
+    }],
+    staticClass: "input form-control",
+    attrs: {
+      "placeholder": "请输入你的账号/邮箱"
+    },
+    domProps: {
+      "value": (_vm.account)
+    },
     on: {
-      "change": function($event) {
-        _vm.changeRole($event)
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.account = $event.target.value
       }
     }
-  }, [_c('option', {
-    attrs: {
-      "value": "student"
-    }
-  }, [_vm._v("学生")]), _vm._v(" "), _c('option', {
-    attrs: {
-      "value": "teacher"
-    }
-  }, [_vm._v("老师")]), _vm._v(" "), _c('option', {
-    attrs: {
-      "value": "administrator"
-    }
-  }, [_vm._v("管理员")])])])])]), _vm._v(" "), _c('input', {
-    staticClass: "form-control",
-    attrs: {
-      "type": "",
-      "placeholder": _vm.placeholderData
-    }
   }), _vm._v(" "), _c('input', {
-    staticClass: "form-control",
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.password),
+      expression: "password"
+    }],
+    staticClass: "input form-control",
     attrs: {
       "type": "password",
       "placeholder": "密码"
+    },
+    domProps: {
+      "value": (_vm.password)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.password = $event.target.value
+      }
     }
-  }), _vm._v(" "), _c('img', {
+  }), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.captcha),
+      expression: "captcha"
+    }],
+    staticClass: "input form-control",
+    attrs: {
+      "placeholder": "请输入验证码"
+    },
+    domProps: {
+      "value": (_vm.captcha)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.captcha = $event.target.value
+      }
+    }
+  }), _vm._v(" "), _c('div', {
+    staticClass: "code-box"
+  }, [_c('img', {
     staticClass: "verification-code",
     attrs: {
       "src": _vm.captchaFigure,
       "alt": ""
     }
-  }), _vm._v(" "), _c('button', {
+  }), _vm._v(" "), _c('a', {
+    staticClass: "get-verification-code",
+    on: {
+      "click": function($event) {
+        _vm.getVerificationCode()
+      }
+    }
+  }, [_vm._v("获取验证码")])]), _vm._v(" "), _c('button', {
     staticClass: "button",
     attrs: {
       "type": "button",

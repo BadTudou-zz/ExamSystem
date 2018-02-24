@@ -3,24 +3,16 @@
     <!-- login -->
     <p class="title">用户登录</p>
     <div class="login-box">
-      <div class="select-box">
-        <span>用户类型&nbsp;&nbsp;</span>
-        <div>
-          <div class="select is-small">
-            <select v-on:change="changeRole($event)">
-              <option value="student">学生</option>
-              <option value="teacher">老师</option>
-              <option value="administrator">管理员</option>
-            </select>
-          </div>
-        </div>
-      </div>
-      <input type="" class="form-control" :placeholder="placeholderData">
-      <input type="password" class="form-control" placeholder="密码">
-      <!-- <img class="verification-code" src="https://fp.yangcong345.com/o_1c48qhluh1qf0r6v1ip765c1s799.png" alt=""> -->
-      <!-- <img class="verification-code" :src="'data:image/png;base64,' + captchaFigure" alt=""> -->
 
-      <img class="verification-code" :src="captchaFigure" alt="">
+      <input v-model="account" class="input form-control" placeholder="请输入你的账号/邮箱">
+      <input v-model="password" type="password" class="input form-control" placeholder="密码">
+      <input v-model="captcha" class="input form-control" placeholder="请输入验证码">
+
+      <div class="code-box">
+        <img class="verification-code" :src="captchaFigure" alt="">
+        <a @click="getVerificationCode()" class="get-verification-code">获取验证码</a>
+      </div>
+
       <button @click="login()" type="button" class="button" name="button">登录</button>
       <div class="operate-box">
         <a>忘记密码</a><a @click="register()">注册</a>
@@ -39,8 +31,12 @@ export default {
   data() {
     return {
       currentRole: '',
-      placeholderData: '请输入你的学号',
-      captchaFigure: '',  // 验证码图片
+      // placeholderData: '请输入你的账号/邮箱',
+      captchaFigure: null,  // 验证码图片
+      account: null,  // 账号
+      password: null,  // 密码
+      captcha: null,  // 验证码
+      isShowLogin: false,  // 是否显示登录组件
     };
   },
   components: {
@@ -70,19 +66,29 @@ export default {
     login: function (username, password) {
       const that = this;
       console.log('登录')
+      debugger
       axios({
         method: 'post',
         url: 'http://localhost:8000/api/login',
+        headers: {
+          'Content-type': 'application/json;charset=utf8',
+        },
         data: {
-          'email': 'admin@email.com',
-          'password': 'admin',
+          'email': that.account,
+          'password': that.password,
           'type': 'mobile',
-          'captcha': 'ilhup',
+          'captcha': that.captcha
         }
       }).then(res => {
-        console.log(res)
+        let token = res.data.data.token;
+        // if (token) {
+        //   sessionStorage.setItem('token', token);
+        //   that.$emit('input', that.isShowLogin);
+        // }
+        that.getVerificationCode();
       }).catch(err => {
-        console.log(err)
+        console.log(err);
+        that.getVerificationCode();
       })
     },
     getVerificationCode: function () {
@@ -90,19 +96,19 @@ export default {
       axios({
         method: 'post',
         url: 'http://localhost:8000/api/captchas',
-        // responseType: 'arraybuffer',
-        // headers: {
-        //   'Content-type': 'image/jpeg',
-        // },
-        data: {
+        responseType: 'arraybuffer',
+        headers: {
+          'Content-type': 'application/x-www-form-urlencoded',
+          'Accept': 'application/json'
+        },
+        params: {
           'purpose': 'LOGIN',
         }
       }).then(res => {
-        that.captchaFigure = res.data;
-        // let a = 'data:image/png;base64,' + btoa(
-        //   new Uint8Array(res.data)
-        //     .reduce((data, byte) => data + String.fromCharCode(byte), '')
-        // );
+        that.captchaFigure = 'data:image/png;base64,' + btoa(
+          new Uint8Array(res.data)
+            .reduce((data, byte) => data + String.fromCharCode(byte), '')
+        );
         // debugger
       }).catch(err => {
         console.log(err)
@@ -134,7 +140,7 @@ body {
 }
 .login-box {
   width: 320px;
-  height: 300px;
+  height: 335px;
   position: absolute;
   top: 50%;
   left: 50%;
@@ -180,7 +186,16 @@ body {
   }
   .verification-code {
     width: 130px;
+    height: 30px;
     margin: 0 auto;
   }
+}
+.get-verification-code {
+  display: inline-block;
+  font-size: 12px;
+  // margin-bottom: 10px;
+}
+.code-box {
+  margin-bottom: 15px;
 }
 </style>
