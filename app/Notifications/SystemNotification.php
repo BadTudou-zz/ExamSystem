@@ -57,6 +57,7 @@ class SystemNotification extends Notification
     public function toArray($notifiable)
     {
         return [
+            'notifiable_id' => $this->notification->to,
             'data' => $this->notification->data
         ];
     }

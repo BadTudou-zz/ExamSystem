@@ -12,15 +12,25 @@ use App\Http\Resources\OrganizationCollection;
 use App\Http\Resources\LectureCollection;
 use App\Http\Resources\RoleCollection;
 use App\Http\Resources\PermissionCollection;
-use App\Http\Requests\LoginUser;
-use App\Http\Requests\IndexUser;
-use App\Http\Requests\StoreUser;
-use App\Http\Requests\ShowUser;
-use App\Http\Requests\UpdateUser;
-use App\Http\Requests\DestroyUser;
-use App\Http\Requests\UpdateUserPassword;
+use App\Http\Resources\ApplicationResource;
+use App\Http\Resources\ApplicationCollection;
+use App\Http\Resources\PrivateMessageResource;
+use App\Http\Resources\PrivateMessageCollection;
+use App\Http\Resources\SystemNotificationResource;
+use App\Http\Resources\SystemNotificationCollection;
+use App\Notifications\PrivateMessage;
+use App\Notifications\ApplicationNotification;
+use App\Http\Requests\User\Login as LoginUser;
+use App\Http\Requests\User\Index as IndexUser;
+use App\Http\Requests\User\Store as StoreUser;
+use App\Http\Requests\User\Show as ShowUser;
+use App\Http\Requests\User\Update as UpdateUser;
+use App\Http\Requests\User\Destroy as DestroyUser;
+use App\Http\Requests\User\UpdatePassword as UpdateUserPassword;
 use Validator;
 use App\Captcha;
+use App\Notification;
+use App\Notifications\SystemNotification;
 use App\Util\CaptchaUtil;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Pagination\Paginator;
@@ -84,6 +94,61 @@ class UserController extends Controller
             return $role->perms()->get();
         })[0];
         return new PermissionCollection($this->paginate($permissions));
+    }
+
+    public function applications(ShowUser $request)
+    {
+        if ($request->get('reveived', false)){
+            $user = Auth::user();
+            $applications = Notification::where('type', ApplicationNotification::class)
+            ->where('notifiable_id', '!=', $user->id)
+            ->get()
+            ->filter(function ($application, $key) use($user){
+                    return json_decode($application->data)->notifiable_id == $user->id;
+            })
+            ->all();
+            return  ApplicationResource::collection($this->paginate($applications));
+        }
+        else {
+            return  new ApplicationCollection( Auth::user()->notifications()->where('type', ApplicationNotification::class)->paginate());
+        }
+        
+    }
+
+    public function messages(ShowUser $request)
+    {
+        if ($request->get('reveived', false)){
+            $user = Auth::user();
+            $messages = Notification::where('type', PrivateMessage::class)
+            ->where('notifiable_id', '!=', $user->id)
+            ->get()
+            ->filter(function ($message, $key) use($user){
+                    return json_decode($message->data)->notifiable_id == $user->id;
+            })
+            ->all();
+            return  PrivateMessageResource::collection($this->paginate($messages));
+        }
+        else {
+            return  new PrivateMessageCollection( Auth::user()->notifications()->where('type', PrivateMessage::class)->paginate());
+        }
+    }
+
+    public function notifications(ShowUser $request)
+    {
+        if ($request->get('reveived', false)){
+            $user = Auth::user();
+            $messages = Notification::where('type', SystemNotification::class)
+            ->where('notifiable_id', '!=', $user->id)
+            ->get()
+            ->filter(function ($message, $key) use($user){
+                    return json_decode($message->data)->notifiable_id == $user->id;
+            })
+            ->all();
+            return  SystemNotificationResource::collection($this->paginate($messages));
+        }
+        else {
+            return  new SystemNotificationCollection( Auth::user()->notifications()->where('type', SystemNotification::class)->paginate());
+        }
     }
 
     /**

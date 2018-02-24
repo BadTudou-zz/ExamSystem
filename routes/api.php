@@ -11,17 +11,19 @@ Route::prefix('v1')->middleware(['auth:api'])->group(function () {
     // 用户
     Route::apiResource('users', 'API\UserController');
     // 用户消息
-    Route::get('users/{id}/messages', 'API\MessageController@messages');
+    Route::get('users/{user}/messages', 'API\UserController@messages');
     // 用户组织
-    Route::get('users/{id}/organizations', 'API\UserController@organizations');
+    Route::get('users/{user}/organizations', 'API\UserController@organizations');
     // 用户选课
-    Route::get('users/{id}/lectures', 'API\UserController@lectures');
+    Route::get('users/{user}/lectures', 'API\UserController@lectures');
     // 用户通知
-    Route::get('users/{id}/notifications', 'API\NotificationController@notifications');
+    Route::get('users/{user}/notifications', 'API\UserController@notifications');
     // 用户角色
-    Route::get('users/{id}/roles', 'API\UserController@roles');
+    Route::get('users/{user}/roles', 'API\UserController@roles');
     // 用户权限
-    Route::get('users/{id}/permissions', 'API\UserController@permissions');
+    Route::get('users/{user}/permissions', 'API\UserController@permissions');
+    // 用户申请
+    Route::get('users/{user}/applications', 'API\UserController@applications');
     // 更改用户密码
     Route::patch('users/{user}/password', 'API\UserController@updatePassword');
 
@@ -60,6 +62,20 @@ Route::prefix('v1')->middleware(['auth:api'])->group(function () {
     Route::apiResource('courses', 'API\CourseController');
     // 试卷
     Route::apiResource('papers', 'API\PaperController');
+    // 试卷章节
+    Route::namespace('API\Papers')->group(function (){
+            Route::apiResource('papers/{paper}/sections', 'PaperSectionController');
+        });
+    // 考试
+    Route::apiResource('exams', 'API\ExamController');
+    // 考试的用户
+    Route::get('exams/{id}/users', 'API\ExamController@users');
+    // 提交考试
+    Route::post('exams/{id}/answers', 'API\ExamController@answer');
+    // 添加用户到考试
+    Route::post('exams/{id}/users', 'API\ExamController@addUsers');
+    // 从考试删除用户
+    Route::delete('exams/{id}/users', 'API\ExamController@deleteUsers');
     // 讲课
     Route::apiResource('lectures', 'API\LectureController');
     // 获取讲课的用户
@@ -80,4 +96,10 @@ Route::prefix('v1')->middleware(['auth:api'])->group(function () {
     Route::put('organizations/{id}/users', 'API\OrganizationController@syncUsers');
     // 申请
     Route::apiResource('applications', 'API\ApplicationController');
+    // 同意申请
+    Route::post('applications/{application}/accept', 'API\ApplicationController@accept');
+    // 拒绝申请
+    Route::post('applications/{application}/reject', 'API\ApplicationController@reject');
+    // 标签
+    Route::apiResource('tags', 'API\TagController');
 });
