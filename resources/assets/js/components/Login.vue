@@ -4,15 +4,15 @@
     <p class="title">用户登录</p>
     <div class="login-box">
       <div class="select-box">
-        <span>用户类型&nbsp;&nbsp;</span>
+        <span>用户登录&nbsp;&nbsp;</span>
         <div>
-          <div class="select is-small">
+          <!-- <div class="select is-small">
             <select v-on:change="changeRole($event)">
               <option value="student">学生</option>
               <option value="teacher">老师</option>
               <option value="administrator">管理员</option>
             </select>
-          </div>
+          </div> -->
         </div>
       </div>
       <input type="" class="form-control" :placeholder="placeholderData">
@@ -21,6 +21,10 @@
       <!-- <img class="verification-code" :src="'data:image/png;base64,' + captchaFigure" alt=""> -->
 
       <img class="verification-code" :src="captchaFigure" alt="">
+      <div class="operate-box">
+        <a @click="getVerificationCode()">获取验证码</a>
+      </div>
+      <!-- <button @click="getVerificationCode()" type="button" class="button" name="button">获取验证码</button> -->
       <button @click="login()" type="button" class="button" name="button">登录</button>
       <div class="operate-box">
         <a>忘记密码</a><a @click="register()">注册</a>
@@ -89,20 +93,20 @@ export default {
       const that = this;
       axios({
         method: 'post',
-        url: 'http://localhost:8000/api/captchas',
-        // responseType: 'arraybuffer',
-        // headers: {
-        //   'Content-type': 'image/jpeg',
-        // },
-        data: {
+        url: 'http://www.badtudou.com.dev/api/captchas',
+        responseType: 'arraybuffer',
+        headers: {
+          'Content-type': 'application/x-www-form-urlencoded',
+          'Accept': 'application/json'
+        },
+        params: {
           'purpose': 'LOGIN',
         }
       }).then(res => {
-        that.captchaFigure = res.data;
-        // let a = 'data:image/png;base64,' + btoa(
-        //   new Uint8Array(res.data)
-        //     .reduce((data, byte) => data + String.fromCharCode(byte), '')
-        // );
+        that.captchaFigure = 'data:image/png;base64,' + btoa(
+          new Uint8Array(res.data)
+            .reduce((data, byte) => data + String.fromCharCode(byte), '')
+        );
         // debugger
       }).catch(err => {
         console.log(err)
