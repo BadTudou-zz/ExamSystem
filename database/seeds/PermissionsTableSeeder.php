@@ -144,6 +144,13 @@ class PermissionsTableSeeder extends Seeder
         $showNotification->description  = 'Show A Notification';
         $showNotification->save();
 
+        // 更新通知
+        $updateNotification = new Permission();
+        $updateNotification->name         = 'notification-update';
+        $updateNotification->display_name = 'Update A Notification';
+        $updateNotification->description  = 'Update A Notification';
+        $updateNotification->save();
+
         // 删除通知
         $destroyNotification = new Permission();
         $destroyNotification->name         = 'notification-destroy';
@@ -227,6 +234,181 @@ class PermissionsTableSeeder extends Seeder
         $destroyLecture->display_name = 'Destroy A Lecture';
         $destroyLecture->description  = 'Destroy A Lecture';
         $destroyLecture->save();
+
+        // 全部问题
+        $indexquestion = new Permission();
+        $indexquestion->name         = 'question-index';
+        $indexquestion->display_name = 'All Question';
+        $indexquestion->description  = 'All Question';
+        $indexquestion->save();
+
+        // 创建问题
+        $storeQuestion = new Permission();
+        $storeQuestion->name         = 'question-store';
+        $storeQuestion->display_name = 'Create Question';
+        $storeQuestion->description  = 'Create Question';
+        $storeQuestion->save();
+
+        // 查看问题
+        $showQuestion = new Permission();
+        $showQuestion->name         = 'question-show';
+        $showQuestion->display_name = 'Show A Question';
+        $showQuestion->description  = 'Show A Question';
+        $showQuestion->save();
+
+        // 编辑问题
+        $updateQuestion = new Permission();
+        $updateQuestion->name         = 'question-update';
+        $updateQuestion->display_name = 'Update A Question';
+        $updateQuestion->description  = 'Update A Question';
+        $updateQuestion->save();
+
+        // 删除问题
+        $destroyQuestion = new Permission();
+        $destroyQuestion->name         = 'question-destroy';
+        $destroyQuestion->display_name = 'Destroy A Question';
+        $destroyQuestion->description  = 'Destroy A Question';
+        $destroyQuestion->save();
+
+        // 全部试卷
+        $indexPaper = new Permission();
+        $indexPaper->name         = 'paper-index';
+        $indexPaper->display_name = 'All Question';
+        $indexPaper->description  = 'All Question';
+        $indexPaper->save();
+
+        // 创建试卷
+        $storePaper = new Permission();
+        $storePaper->name         = 'paper-store';
+        $storePaper->display_name = 'Create Paper';
+        $storePaper->description  = 'Create Paper';
+        $storePaper->save();
+
+        // 查看试卷
+        $showPaper = new Permission();
+        $showPaper->name         = 'paper-show';
+        $showPaper->display_name = 'Show A Paper';
+        $showPaper->description  = 'Show A Paper';
+        $showPaper->save();
+
+        // 编辑试卷
+        $updatePaper = new Permission();
+        $updatePaper->name         = 'paper-update';
+        $updatePaper->display_name = 'Update A Paper';
+        $updatePaper->description  = 'Update A Paper';
+        $updatePaper->save();
+
+        // 删除试卷
+        $destroyQuestion = new Permission();
+        $destroyQuestion->name         = 'paper-destroy';
+        $destroyQuestion->display_name = 'Destroy A Paper';
+        $destroyQuestion->description  = 'Destroy A Paper';
+        $destroyQuestion->save();
+
+        // 全部申请
+        $indexApplication = new Permission();
+        $indexApplication->name         = 'application-index';
+        $indexApplication->display_name = 'All Application';
+        $indexApplication->description  = 'All Application';
+        $indexApplication->save();
+
+        // 创建申请
+        $storeApplication = new Permission();
+        $storeApplication->name         = 'application-store';
+        $storeApplication->display_name = 'Create Application';
+        $storeApplication->description  = 'Create Application';
+        $storeApplication->save();
+
+        // 查看申请
+        $showApplication = new Permission();
+        $showApplication->name         = 'application-show';
+        $showApplication->display_name = 'Show A Application';
+        $showApplication->description  = 'Show A Application';
+        $showApplication->save();
+
+        // 同意申请
+        $acceptApplication = new Permission();
+        $acceptApplication->name         = 'application-accept';
+        $acceptApplication->display_name = 'Accept A Application';
+        $acceptApplication->description  = 'Accept A Application';
+        $acceptApplication->save();
+
+        // 拒绝申请
+        $rejectApplication = new Permission();
+        $rejectApplication->name         = 'application-reject';
+        $rejectApplication->display_name = 'Reject A Application';
+        $rejectApplication->description  = 'Reject A Application';
+        $rejectApplication->save();
+
+        // 删除申请
+        $destroyApplication = new Permission();
+        $destroyApplication->name         = 'application-destroy';
+        $destroyApplication->display_name = 'Destroy A Application';
+        $destroyApplication->description  = 'Destroy A Application';
+        $destroyApplication->save();
+
+        // 全部标签
+        $indexTag = new Permission();
+        $indexTag->name         = 'tag-index';
+        $indexTag->display_name = 'All Tag';
+        $indexTag->description  = 'All Tag';
+        $indexTag->save();
+
+        // 查看标签
+        $showTag = new Permission();
+        $showTag->name         = 'tag-show';
+        $showTag->display_name = 'Show A Tag';
+        $showTag->description  = 'Show A Tag';
+        $showTag->save();
+
+        // 编辑标签
+        $updateTag = new Permission();
+        $updateTag->name         = 'tag-update';
+        $updateTag->display_name = 'Update A Tag';
+        $updateTag->description  = 'Update A Tag';
+        $updateTag->save();
+
+        // 删除标签
+        $destroyTag = new Permission();
+        $destroyTag->name         = 'tag-destroy';
+        $destroyTag->display_name = 'Destroy A Tag';
+        $destroyTag->description  = 'Destroy A Tag';
+        $destroyTag->save();
+
+        // 全部考试
+        $indexExam = new Permission();
+        $indexExam->name         = 'exam-index';
+        $indexExam->display_name = 'All Exam';
+        $indexExam->description  = 'All Exam';
+        $indexExam->save();
+
+        // 查看考试
+        $showExam = new Permission();
+        $showExam->name         = 'exam-show';
+        $showExam->display_name = 'Show A Exam';
+        $showExam->description  = 'Show A Exam';
+        $showExam->save();
+
+        // 添加考试
+        $storeExam = new Permission();
+        $storeExam->name         = 'exam-store';
+        $storeExam->display_name = 'Store A Exam';
+        $storeExam->description  = 'Store A Exam';
+        $storeExam->save();
+
+        // 编辑考试
+        $updateExam = new Permission();
+        $updateExam->name         = 'exam-update';
+        $updateExam->display_name = 'Update A Exam';
+        $updateExam->description  = 'Update A Exam';
+        $updateExam->save();
+
+        // 删除考试
+        $destroyExam = new Permission();
+        $destroyExam->name         = 'exam-destroy';
+        $destroyExam->display_name = 'Destroy A Exam';
+        $destroyExam->description  = 'Destroy A Exam';
+        $destroyExam->save();
 
     }
 }

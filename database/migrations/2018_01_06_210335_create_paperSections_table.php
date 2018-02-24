@@ -15,6 +15,12 @@ class CreatePaperSectionsTable extends Migration
     {
         Schema::create('paper_sections', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('name');
+            $table->string('describe');
+            $table->enum('question_type', ['SINGLE_CHOICE', 'MULTIPLE_CHOICE', ' TRUE_FALSE', 'FILL_IN', 'SHORT_ANSWER']);;
+            $table->integer('score')->comment('分值');
+            $table->integer('number')->comment('提数');
+            $table->string('questions')->comment('问题')->nullable();
             $table->timestamps();
         });
     }
