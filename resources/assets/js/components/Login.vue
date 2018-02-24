@@ -17,7 +17,10 @@
       </div>
       <input type="" class="form-control" :placeholder="placeholderData">
       <input type="password" class="form-control" placeholder="密码">
-            <img class="verification-code" src="https://fp.yangcong345.com/o_1c48qhluh1qf0r6v1ip765c1s799.png" alt="">
+      <!-- <img class="verification-code" src="https://fp.yangcong345.com/o_1c48qhluh1qf0r6v1ip765c1s799.png" alt=""> -->
+      <!-- <img class="verification-code" :src="'data:image/png;base64,' + captchaFigure" alt=""> -->
+
+      <img class="verification-code" :src="captchaFigure" alt="">
       <button @click="login()" type="button" class="button" name="button">登录</button>
       <div class="operate-box">
         <a>忘记密码</a><a @click="register()">注册</a>
@@ -29,12 +32,15 @@
 </template>
 
 <script>
+let Base64 = require('js-base64').Base64;
+// import Base64 from 'js-base64';
 import Register from './Register'
 export default {
   data() {
     return {
       currentRole: '',
       placeholderData: '请输入你的学号',
+      captchaFigure: '',  // 验证码图片
     };
   },
   components: {
@@ -84,11 +90,20 @@ export default {
       axios({
         method: 'post',
         url: 'http://localhost:8000/api/captchas',
+        // responseType: 'arraybuffer',
+        // headers: {
+        //   'Content-type': 'image/jpeg',
+        // },
         data: {
-          'purpose': 'LOGIN'
+          'purpose': 'LOGIN',
         }
       }).then(res => {
-        console.log(res)
+        that.captchaFigure = res.data;
+        // let a = 'data:image/png;base64,' + btoa(
+        //   new Uint8Array(res.data)
+        //     .reduce((data, byte) => data + String.fromCharCode(byte), '')
+        // );
+        // debugger
       }).catch(err => {
         console.log(err)
       })
