@@ -42,7 +42,7 @@ class User extends Authenticatable
 
     public function exams()
     {
-        return $this->belongsToMany('App\Exam','exam_user', 'user_id', 'exam_id')->withPivot('answers');;
+        return $this->belongsToMany('App\Exam','exam_user', 'user_id', 'exam_id')->withTimestamps()->withPivot(['answers', 'begin_at', 'finish_at'])->wherePivot('user_id', $this->id);
     }
 
 }

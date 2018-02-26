@@ -71,11 +71,19 @@ Route::prefix('v1')->middleware(['auth:api'])->group(function () {
     // 考试的用户
     Route::get('exams/{id}/users', 'API\ExamController@users');
     // 提交考试
-    Route::post('exams/{id}/answers', 'API\ExamController@answer');
+    Route::post('exams/{id}/answer', 'API\ExamController@answer');
     // 添加用户到考试
     Route::post('exams/{id}/users', 'API\ExamController@addUsers');
     // 从考试删除用户
     Route::delete('exams/{id}/users', 'API\ExamController@deleteUsers');
+    // 考试开始
+    Route::post('exams/{id}/start', 'API\ExamController@start');
+    // 考试结束
+    Route::post('exams/{id}/stop', 'API\ExamController@stop');
+    // 用户开始考试
+    Route::post('exams/{id}/begin', 'API\ExamController@begin');
+    // 用户结束考试
+    Route::post('exams/{id}/finish', 'API\ExamController@finish');
     // 讲课
     Route::apiResource('lectures', 'API\LectureController');
     // 获取讲课的用户
