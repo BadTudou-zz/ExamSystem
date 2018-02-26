@@ -10,7 +10,7 @@ class Exam extends Model
 
     public function users()
     {
-        return $this->belongsToMany('App\User', 'exam_user', 'user_id', 'exam_id')->withPivot('answers');
+        return $this->belongsToMany('App\User', 'exam_user', 'user_id', 'exam_id')->withTimestamps()->withPivot(['answers', 'begin_at', 'finish_at'])->wherePivot('exam_id', $this->id);
     }
 
 }

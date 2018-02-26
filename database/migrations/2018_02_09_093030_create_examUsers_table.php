@@ -21,6 +21,8 @@ class CreateExamUsersTable extends Migration
             $table->foreign('user_id')->references('id')->on('users')
                 ->onUpdate('cascade')->onDelete('cascade');
             $table->string('answers')->comment('答案')->nullable();
+            $table->datetime('begin_at')->nullable();
+            $table->datetime('finish_at')->nullable();
             $table->timestamps();
 
         });

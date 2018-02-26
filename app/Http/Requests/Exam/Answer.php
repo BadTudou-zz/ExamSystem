@@ -16,7 +16,7 @@ class Answer extends FormRequest
     public function authorize()
     {
         $user = Auth::user();
-        $exam = Exam::find($this->route('exam'));
+        $exam = Exam::find($this->route('id'));
         return $exam->users->contains($user->id);
 
     }
@@ -29,7 +29,7 @@ class Answer extends FormRequest
     public function rules()
     {
         return [
-            'questions' => 'array|exists:questions,id',
+            'answers' => 'json',
         ];
     }
 }
