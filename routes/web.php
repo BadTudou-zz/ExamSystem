@@ -14,5 +14,49 @@
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
-Route::get('/', 'WelcomeController@index')->name('welcome');
+//欢迎界面
+Route::get('/', function() {
+	return view('weclome');
+});
+//主页
+Route::get('home', function() {
+	return view('home');
+});
+//用户-个人中心
+Route::get('users/{id}', function ($id) {
+    return view('users.show');
+});
+//用户-更改密码
+Route::get('users/{id}/password', function ($id) {
+    return view('users.password');
+});
+
+//组织
+Route::get('organizations/{id}', function ($id) {
+    return view('organizations.show');
+});
+
+//课程
+Route::get('courses/{id}', function ($id) {
+    return view('courses.show');
+});
+
+//授课
+Route::get('lectures/{id}', function ($id) {
+    return view('courses.show');
+});
+
+//问题
+Route::get('questions/{id}', function ($id) {
+    return view('courses.show');
+});
+
+//角色
+Route::get('roles/{id}', function ($id) {
+    return view('courses.show');
+});
+
+//申请
+Route::get('applications/{id}', function ($id) {
+    return view('courses.show');
+});
