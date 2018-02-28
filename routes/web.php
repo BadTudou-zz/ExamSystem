@@ -43,20 +43,20 @@ Route::get('courses/{id}', function ($id) {
 
 //授课
 Route::get('lectures/{id}', function ($id) {
-    return view('courses.show');
+    return view('lectures.show');
 });
 
 //问题
 Route::get('questions/{id}', function ($id) {
-    return view('courses.show');
+    return view('questions.show');
 });
 
 //角色
 Route::get('roles/{id}', function ($id) {
-    return view('courses.show');
+    return view('roles.show');
 });
 
 //申请
 Route::get('applications/{id}', function ($id) {
-    return view('courses.show');
+    return view('applications.show');
 });
