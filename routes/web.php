@@ -16,7 +16,7 @@ Auth::routes();
 
 //欢迎界面
 Route::get('/', function() {
-	return view('weclome');
+	return view('welcome');
 });
 //主页
 Route::get('home', function() {
