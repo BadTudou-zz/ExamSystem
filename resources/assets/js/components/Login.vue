@@ -3,6 +3,7 @@
     <!-- login -->
     <p class="title">用户登录</p>
     <div class="login-box">
+
       <input v-model="account" class="input form-control" placeholder="请输入你的账号/邮箱">
       <input v-model="password" type="password" class="input form-control" placeholder="密码">
       <input v-model="captcha" class="input form-control" placeholder="请输入验证码">
@@ -65,10 +66,9 @@ export default {
     login: function (username, password) {
       const that = this;
       console.log('登录')
-      debugger
       axios({
         method: 'post',
-        url: 'http://localhost:8000/api/login',
+        url: `${this.GLOBAL.localDomain}/api/login`,
         headers: {
           'Content-type': 'application/json;charset=utf8',
         },
@@ -76,17 +76,22 @@ export default {
           'email': that.account,
           'password': that.password,
           'type': 'mobile',
-          'captcha': that.captcha
+          'captcha': that.captcha,
         }
       }).then(res => {
         let token = res.data.data.token;
-        // if (token) {
-        //   sessionStorage.setItem('token', token);
-        //   that.$emit('input', that.isShowLogin);
-        // }
-        that.getVerificationCode();
+        sessionStorage.setItem("token",`Bearer ${token}`);
+        that.$emit('input', false);
       }).catch(err => {
-        console.log(err);
+        let errorMsg = err.response.data.error;
+        if (errorMsg === 'Unauthorised') {
+          that.password = '';
+          alert('密码错误，请重新输入');
+        }
+        if (errorMsg === 'Bad captcha！') {
+          that.captcha = '';
+          alert('验证码错误，请重新输入');
+        }
         that.getVerificationCode();
       })
     },
@@ -94,7 +99,7 @@ export default {
       const that = this;
       axios({
         method: 'post',
-        url: 'http://www.badtudou.com/api/captchas',
+        url: `${this.GLOBAL.localDomain}/api/captchas`,
         responseType: 'arraybuffer',
         headers: {
           'Content-type': 'application/x-www-form-urlencoded',
@@ -108,7 +113,6 @@ export default {
           new Uint8Array(res.data)
             .reduce((data, byte) => data + String.fromCharCode(byte), '')
         );
-        // debugger
       }).catch(err => {
         console.log(err)
       })
