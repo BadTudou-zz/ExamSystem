@@ -3,7 +3,7 @@
     <nav class="navbar is-info">
       <div class="navbar-brand">
         <a class="navbar-item">
-          <img src="https://bulma.io/images/bulma-logo.png" alt="Bulma: a modern CSS framework based on Flexbox" width="112" height="28">
+          <!-- <img src="https://bulma.io/images/bulma-logo.png" alt="Bulma: a modern CSS framework based on Flexbox" width="112" height="28"> -->
         </a>
         <div class="navbar-burger burger" data-target="navbarExampleTransparentExample">
           <span></span>
@@ -23,8 +23,7 @@
               用户
             </a>
             <div class="navbar-dropdown is-boxed">
-              <router-link class="navbar-item" to="/role">查看角色</router-link>
-              <router-link class="navbar-item" to="/uuser">查看用户</router-link>
+              <router-link class="navbar-item" to="/view">查看</router-link>
             </div>
           </div>
 
@@ -33,9 +32,9 @@
               角色
             </a>
             <div class="navbar-dropdown is-boxed">
-              <router-link class="navbar-item" to="/role">角色操作</router-link>
-              <router-link class="navbar-item" to="/user">用户</router-link>
+              <router-link class="navbar-item" to="/role">角色</router-link>
               <router-link class="navbar-item" to="/permission">权限</router-link>
+              <router-link class="navbar-item" to="/user">用户</router-link>
             </div>
           </div>
 
@@ -72,6 +71,7 @@
             </a>
             <div class="navbar-dropdown is-boxed">
               <router-link class="navbar-item" to="/organization">组织</router-link>
+              <router-link class="navbar-item" to="/member">成员</router-link>
             </div>
           </div>
 

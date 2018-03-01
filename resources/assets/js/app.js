@@ -8,6 +8,10 @@
 require('./bootstrap');
 window.Vue = require('vue');
 
+// 引入全局变量
+import global_ from './components/Global'//引用文件
+Vue.prototype.GLOBAL = global_//挂载到Vue实例上面
+
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
