@@ -4,6 +4,7 @@ namespace App\Http\Requests\Paper;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
+use App\Paper;
 
 class Show extends FormRequest
 {

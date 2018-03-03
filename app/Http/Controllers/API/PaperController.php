@@ -12,7 +12,10 @@ use App\Http\Requests\Paper\Update as UpdatePaper;
 use App\Http\Requests\Paper\Destroy as DestroyPaper;
 use App\Http\Resources\PaperResource;
 use App\Http\Resources\PaperCollection;
+use App\Http\Resources\PaperSectionCollection;
+use App\Http\Resources\QuestionCollection;
 use App\Paper;
+use App\Util\OrmUtil;
 use Validator;
 
 
@@ -40,6 +43,21 @@ class PaperController extends Controller
     public function show(ShowPaper $request, $id)
     {
         return new PaperResource(Paper::findOrFail($id));
+    }
+
+    public function sections(ShowPaper $request, $id)
+    {
+        return new PaperSectionCollection(OrmUtil::paginate(Paper::findOrFail($id)->sections()));
+    }
+
+    public function questions(ShowPaper $request, $id)
+    {
+        return new QuestionCollection(OrmUtil::paginate(Paper::findOrFail($id)->questions()));
+    }
+
+    public function scores(ShowPaper $request, $id)
+    {
+        return response()->json(['data'=> json_decode(Paper::findOrFail($id)->scores()[0])]);
     }
 
     public function update(UpdatePaper $request, $id)

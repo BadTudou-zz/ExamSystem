@@ -32,10 +32,8 @@ use App\Captcha;
 use App\Notification;
 use App\Notifications\SystemNotification;
 use App\Util\CaptchaUtil;
+use App\Util\OrmUtil;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Pagination\Paginator;
-use Illuminate\Pagination\LengthAwarePaginator;
-use Illuminate\Support\Collection;
 
 class UserController extends Controller
 {
@@ -93,7 +91,7 @@ class UserController extends Controller
         $permissions = User::find($id)->roles()->get()->map(function ($role){
             return $role->perms()->get();
         })[0];
-        return new PermissionCollection($this->paginate($permissions));
+        return new PermissionCollection(OrmUtil::paginate($permissions));
     }
 
     public function applications(ShowUser $request)
@@ -107,7 +105,7 @@ class UserController extends Controller
                     return json_decode($application->data)->notifiable_id == $user->id;
             })
             ->all();
-            return  ApplicationResource::collection($this->paginate($applications));
+            return  ApplicationResource::collection(OrmUtil::paginate($applications));
         }
         else {
             return  new ApplicationCollection( Auth::user()->notifications()->where('type', ApplicationNotification::class)->paginate());
@@ -126,7 +124,7 @@ class UserController extends Controller
                     return json_decode($message->data)->notifiable_id == $user->id;
             })
             ->all();
-            return  PrivateMessageResource::collection($this->paginate($messages));
+            return  PrivateMessageResource::collection(OrmUtil::paginate($messages));
         }
         else {
             return  new PrivateMessageCollection( Auth::user()->notifications()->where('type', PrivateMessage::class)->paginate());
@@ -209,11 +207,5 @@ class UserController extends Controller
         return response()->json(['success' => $user], $this->successStatus);
     }
 
-    public function paginate($items, $perPage = 15, $page = null, $options = [])
-    {
-        $page = $page ?: (Paginator::resolveCurrentPage() ?: 1);
-        $items = $items instanceof Collection ? $items : Collection::make($items);
-        return new LengthAwarePaginator($items->forPage($page, $perPage), $items->count(), $perPage, $page, $options);
-    }
 
 }
