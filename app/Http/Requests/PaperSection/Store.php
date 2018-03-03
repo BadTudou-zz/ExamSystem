@@ -33,6 +33,7 @@ class Store extends FormRequest
             'number' => 'required',
             'describe' => 'max:250',
             'questions' => 'array|exists:questions,id',
+            'scores' => 'required|json',
             'question_type' => 'required|in:SINGLE_CHOICE,MULTIPLE_CHOICE,TRUE_FALSE,FILL_IN,SHORT_ANSWER',
         ];
     }

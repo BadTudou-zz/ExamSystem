@@ -10,6 +10,7 @@ use App\Http\Requests\Exam\Update as UpdateExam;
 use App\Http\Requests\Exam\Show as ShowExam;
 use App\Http\Requests\Exam\Destroy as DestroyExam;
 use App\Http\Requests\Exam\Answer as AnswerExam;
+use App\Http\Requests\Exam\Begin as BeginExam;
 use App\Http\Requests\Exam\AddUsers as AddUsersToExam;
 use App\Http\Requests\Exam\DeleteUsers as DeleteUsersFromExam;
 use App\Http\Resources\ExamCollection;
@@ -17,6 +18,7 @@ use App\Http\Resources\ExamResource;
 use App\Http\Resources\UserCollection;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
+use App\Jobs\CorrecExam;
 use App\Exam;
 use App\User;
 
@@ -107,10 +109,20 @@ class ExamController extends Controller
 
     }
 
-    public function begin(AnswerExam $request, $id)
+    //用户开始考试
+    public function begin(BeginExam $request, $id)
     {
         $user = Auth::user();
         $exam = $user->exams()->where('exam_id', $id)->first();
+
+        if (!$exam->begin_at || $exam->begin_at < Carbon::now()) {
+            return response()->json(['error'=>'考试还未开始，请耐心等待！'], 400);
+        }
+
+        if ($exam->finish_at) {
+            return response()->json(['error'=>'考试已经结束，不能参加！'], 400);
+        }
+
         if (!$exam->pivot->begin_at) {
             $exam->pivot->begin_at = Carbon::now();
             $exam->pivot->touch();
@@ -120,10 +132,20 @@ class ExamController extends Controller
         }
     }
 
-    public function finish(AnswerExam $request, $id)
+    //用户结束考试
+    public function finish(BeginExam $request, $id)
     {
         $user = Auth::user();
         $exam = $user->exams()->where('exam_id', $id)->first();
+
+        if (!$exam->begin_at || $exam->begin_at < Carbon::now()) {
+            return response()->json(['error'=>'考试还未开始，不能结束！'], 400);
+        }
+
+        if ($exam->finish_at) {
+            return response()->json(['error'=>'考试已经结束，不能重复结束！'], 400);
+        }
+
         if (!$exam->pivot->finish_at) {
             $exam->pivot->finish_at = Carbon::now();
             $exam->pivot->touch();
@@ -132,6 +154,22 @@ class ExamController extends Controller
             return response()->json(['error'=>'你已经完成考试，不能重复提交！'], 400);
         }
         
+    }
+
+    //自动批改本次考试的所有试卷
+    public function correct(UpdateExam $request, $id)
+    {
+        $exam = Exam::find($id);
+
+        if (!$exam->begin_at) {
+            return response()->json(['error'=>'考试未开始，不能批改！'], 400);
+        }
+
+        if (!$exam->finish_at) {
+            return response()->json(['error'=>'考试未结束，不能批改！'], 400);
+        }
+
+        CorrecExam::dispatch($exam);
     }
 
 }
