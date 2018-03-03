@@ -12,7 +12,6 @@ use App\Http\Requests\Paper\Update as UpdatePaper;
 use App\Http\Requests\Paper\Destroy as DestroyPaper;
 use App\Http\Resources\PaperResource;
 use App\Http\Resources\PaperCollection;
-use App\Http\Resources\PaperSectionCollection;
 use App\Http\Resources\QuestionCollection;
 use App\Paper;
 use App\Util\OrmUtil;
@@ -45,10 +44,6 @@ class PaperController extends Controller
         return new PaperResource(Paper::findOrFail($id));
     }
 
-    public function sections(ShowPaper $request, $id)
-    {
-        return new PaperSectionCollection(OrmUtil::paginate(Paper::findOrFail($id)->sections()));
-    }
 
     public function questions(ShowPaper $request, $id)
     {

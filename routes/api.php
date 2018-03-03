@@ -62,8 +62,6 @@ Route::prefix('v1')->middleware(['auth:api'])->group(function () {
     Route::apiResource('courses', 'API\CourseController');
     // 试卷
     Route::apiResource('papers', 'API\PaperController');
-    //试卷-章节
-    Route::get('papers/{id}/sections', 'API\PaperController@sections');
     //试卷-问题
     Route::get('papers/{id}/questions', 'API\PaperController@questions');
     // 试卷-分数
