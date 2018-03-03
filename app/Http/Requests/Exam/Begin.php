@@ -6,7 +6,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 use App\Exam;
 
-class Answer extends FormRequest
+class Begin extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -29,7 +29,6 @@ class Answer extends FormRequest
     public function rules()
     {
         return [
-            'answers' => 'required|json',
         ];
     }
 }

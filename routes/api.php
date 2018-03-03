@@ -80,6 +80,8 @@ Route::prefix('v1')->middleware(['auth:api'])->group(function () {
     Route::post('exams/{id}/start', 'API\ExamController@start');
     // 考试结束
     Route::post('exams/{id}/stop', 'API\ExamController@stop');
+    // 考试批改
+    Route::post('exams/{id}/correct', 'API\ExamController@correct');
     // 用户开始考试
     Route::post('exams/{id}/begin', 'API\ExamController@begin');
     // 用户结束考试
