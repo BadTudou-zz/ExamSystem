@@ -15,9 +15,14 @@
 Auth::routes();
 
 //欢迎界面
-Route::get('/', function() {
-	return view('welcome');
+// Route::get('/', function() {
+// 	return view('welcome');
+// });
+
+Route::get('/', function () {
+		return view('index');
 });
+
 //主页
 Route::get('home', function() {
 	return view('home');
