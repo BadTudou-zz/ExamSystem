@@ -5,7 +5,9 @@
 </template>
 
 <script>
-  const localDomain = 'http://localhost:8000';
+  // const localDomain = 'http://localhost:8000';
+  // const localDomain = 'http://www.badtudou.com.dev:8080';
+  const localDomain = 'http://www.badtudou.com';
 
   export default
   {

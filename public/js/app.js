@@ -14218,7 +14218,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 
-var localDomain = 'http://localhost:8000';
+// const localDomain = 'http://localhost:8000';
+// const localDomain = 'http://www.badtudou.com.dev:8080';
+var localDomain = 'http://www.badtudou.com';
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   localDomain: localDomain
@@ -23133,7 +23135,7 @@ exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(1)();
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 /***/ }),
 /* 109 */
