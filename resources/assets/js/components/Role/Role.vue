@@ -114,6 +114,20 @@ export default {
       }
     },
   },
+  computed: {
+    isShowCreateRole() {
+      return this.$store.state.permissionIdList.includes(5)
+    },
+    isShowSearchRole() {
+      return this.$store.state.permissionIdList.includes(6)
+    },
+    isShowUpdateRole() {
+      return this.$store.state.permissionIdList.includes(8)
+    },
+    isShowDeleteRole() {
+      return this.$store.state.permissionIdList.includes(9)
+    },
+  },
   created() {
     this.token = sessionStorage.getItem('token');
     this.getRole();

@@ -14219,7 +14219,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 
 // const localDomain = 'http://localhost:8000';
-// const localDomain = 'http://www.badtudou.com.dev:8080';
 var localDomain = 'http://www.badtudou.com';
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -15979,27 +15978,84 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
-    return {};
+    return {
+      token: null,
+      first: null, // 首页
+      last: null, // 尾页
+      next: null, // 下一页
+      prev: null, // 上一页
+      data: null,
+      totalPage: null,
+      currentPage: null
+    };
   },
 
-  components: {
-    Register: Register
+  components: {},
+  props: ['paginationData'],
+  methods: {
+    getData: function getData(urlPath) {
+      var that = this;
+      axios({
+        method: 'get',
+        url: urlPath,
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': that.token
+        }
+      }).then(function (res) {
+        that.data = res.data;
+        that.$emit('input', that.data);
+        // that.paginationData = res.data.links;
+      }).catch(function (err) {
+        console.log(err);
+      });
+    },
+    nextPage: function nextPage() {
+      var that = this;
+      var url = that.next;
+      that.getData(url);
+    },
+    prevPage: function prevPage() {
+      var that = this;
+      var url = that.prev;
+      if (!url) {
+        that.getData(that.first);
+      } else {
+        that.getData(url);
+      }
+    },
+    jumpePage: function jumpePage() {
+      var that = this;
+      // let url = that;
+      that.getData(url);
+    }
   },
-  methods: {},
-  created: function created() {},
+  created: function created() {
+    this.token = sessionStorage.getItem('token');
+  },
 
-  watch: {}
+  watch: {
+    paginationData: function paginationData(value, oldValue) {
+      var that = this;
+      that.first = value.first;
+      that.last = value.last;
+      that.next = value.next;
+      that.prev = value.prev;
+
+      var numberReg = /(page=)([^&]+)/;
+      that.totalPage = parseInt(that.last.match(numberReg)[2]);
+      if (that.next) {
+        that.currentPage = parseInt(that.next.match(numberReg)[2]) - 1;
+      } else if (that.prev) {
+        that.currentPage = parseInt(that.prev.match(numberReg)[2]) + 1;
+      } else {
+        that.currentPage = null;
+      }
+    }
+  }
 });
 
 /***/ }),
@@ -16105,6 +16161,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
 
 
 
@@ -16114,7 +16173,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       token: null,
       permissionData: null,
       isShowModal: false,
-      permissionId: null
+      permissionId: null,
+      paginationData: null,
+      data: null // from Pagination.vue
     };
   },
 
@@ -16151,16 +16212,19 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       }
     },
     getPermission: function getPermission() {
+      var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
+
       var that = this;
       axios({
         method: 'get',
-        url: this.GLOBAL.localDomain + '/api/v1/roles/1/permissions',
+        url: this.GLOBAL.localDomain + '/api/v1/roles/1/permissions?page=' + page,
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token
+          'Authorization': this.$store.state.token
         }
       }).then(function (res) {
         that.permissionData = res.data.data;
+        that.paginationData = res.data.links;
       }).catch(function (err) {
         console.log(err);
       });
@@ -16182,12 +16246,29 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       });
     }
   },
+  computed: {
+    isShowCreatePermission: function isShowCreatePermission() {
+      return this.$store.state.permissionIdList.includes(1);
+    },
+    isShowSearchPermission: function isShowSearchPermission() {
+      return this.$store.state.permissionIdList.includes(2);
+    },
+    isShowDeletePermission: function isShowDeletePermission() {
+      return this.$store.state.permissionIdList.includes(3);
+    }
+  },
   created: function created() {
     this.token = sessionStorage.getItem('token');
     this.getPermission();
   },
 
-  watch: {}
+  watch: {
+    data: function data(value, oldValue) {
+      var that = this;
+      that.permissionData = value.data;
+      that.paginationData = value.links;
+    }
+  }
 });
 
 /***/ }),
@@ -23204,7 +23285,7 @@ exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(1)();
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 /***/ }),
 /* 110 */
@@ -23519,7 +23600,7 @@ exports.push([module.i, "\ntable {\n  margin: 35px auto 0 auto;\n}\n.search-inpu
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(1)();
-exports.push([module.i, "", ""]);
+exports.push([module.i, "\n.search-key {\n  width: 60px;\n  margin: 0 5px 0 40px;\n}\n.wrapper {\n}\nspan {\n  display: inline-block;\n  height: 36px;\n  line-height: 36px;\n}\n", ""]);
 
 /***/ }),
 /* 155 */
@@ -42308,7 +42389,7 @@ var Component = __webpack_require__(0)(
   /* template */
   __webpack_require__(268),
   /* scopeId */
-  "data-v-dcb71588",
+  null,
   /* cssModules */
   null
 )
@@ -43512,8 +43593,21 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_vm._v("同步权限")])]), _vm._v(" "), _c('table', {
     staticClass: "table"
-  }, [_vm._m(0), _vm._v(" "), _c('tbody', _vm._l((_vm.permissionData), function(item) {
+  }, [_c('thead', [_c('tr', [_c('th', [_vm._v("ID")]), _vm._v(" "), _c('th', [_vm._v("权限名")]), _vm._v(" "), _c('th', [_vm._v("别名")]), _vm._v(" "), _c('th', [_vm._v("描述")]), _vm._v(" "), _c('th', [_vm._v("创建时间")]), _vm._v(" "), _c('th', [_vm._v("更新时间")]), _vm._v(" "), _c('th', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.isShowDeletePermission),
+      expression: "isShowDeletePermission"
+    }]
+  }, [_vm._v("操作")])])]), _vm._v(" "), _c('tbody', _vm._l((_vm.permissionData), function(item) {
     return _c('tr', [_c('td', [_vm._v(_vm._s(item.id))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.name))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.display_name))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.description))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.created_at))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.updated_at))]), _vm._v(" "), _c('td', [_c('button', {
+      directives: [{
+        name: "show",
+        rawName: "v-show",
+        value: (_vm.isShowDeletePermission),
+        expression: "isShowDeletePermission"
+      }],
       staticClass: "button",
       attrs: {
         "type": "button",
@@ -43525,12 +43619,21 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         }
       }
     }, [_vm._v("删除权限")])])])
-  }))]), _vm._v(" "), _c('pagination'), _vm._v(" "), _c('add-permission', {
+  }))]), _vm._v(" "), _c('pagination', {
+    attrs: {
+      "pagination-data": _vm.paginationData
+    },
+    model: {
+      value: (_vm.data),
+      callback: function($$v) {
+        _vm.data = $$v
+      },
+      expression: "data"
+    }
+  }), _vm._v(" "), _c('add-permission', {
     ref: "addPermission"
   })], 1)
-},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('thead', [_c('tr', [_c('th', [_vm._v("ID")]), _vm._v(" "), _c('th', [_vm._v("权限名")]), _vm._v(" "), _c('th', [_vm._v("别名")]), _vm._v(" "), _c('th', [_vm._v("描述")]), _vm._v(" "), _c('th', [_vm._v("创建时间")]), _vm._v(" "), _c('th', [_vm._v("更新时间")]), _vm._v(" "), _c('th', [_vm._v("操作")])])])
-}]}
+},staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {
   module.hot.accept()
@@ -49010,57 +49113,34 @@ if (false) {
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _vm._m(0)
-},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
-    staticClass: "login-wrapper",
+    staticClass: "wrapper"
+  }, [_c('button', {
+    staticClass: "button",
     attrs: {
-      "id": "app"
+      "disabled": _vm.currentPage === 1,
+      "type": "button",
+      "name": "button"
+    },
+    on: {
+      "click": function($event) {
+        _vm.prevPage()
+      }
     }
-  }, [_c('nav', {
-    staticClass: "pagination is-centered",
+  }, [_vm._v("上一页")]), _vm._v(" "), _c('button', {
+    staticClass: "button",
     attrs: {
-      "role": "navigation",
-      "aria-label": "pagination"
+      "disabled": _vm.currentPage === _vm.totalPage,
+      "type": "button",
+      "name": "button"
+    },
+    on: {
+      "click": function($event) {
+        _vm.nextPage()
+      }
     }
-  }, [_c('a', {
-    staticClass: "pagination-previous"
-  }, [_vm._v("Previous")]), _vm._v(" "), _c('a', {
-    staticClass: "pagination-next"
-  }, [_vm._v("Next page")]), _vm._v(" "), _c('ul', {
-    staticClass: "pagination-list"
-  }, [_c('li', [_c('a', {
-    staticClass: "pagination-link",
-    attrs: {
-      "aria-label": "Goto page 1"
-    }
-  }, [_vm._v("1")])]), _vm._v(" "), _c('li', [_c('span', {
-    staticClass: "pagination-ellipsis"
-  }, [_vm._v("…")])]), _vm._v(" "), _c('li', [_c('a', {
-    staticClass: "pagination-link",
-    attrs: {
-      "aria-label": "Goto page 45"
-    }
-  }, [_vm._v("45")])]), _vm._v(" "), _c('li', [_c('a', {
-    staticClass: "pagination-link is-current",
-    attrs: {
-      "aria-label": "Page 46",
-      "aria-current": "page"
-    }
-  }, [_vm._v("46")])]), _vm._v(" "), _c('li', [_c('a', {
-    staticClass: "pagination-link",
-    attrs: {
-      "aria-label": "Goto page 47"
-    }
-  }, [_vm._v("47")])]), _vm._v(" "), _c('li', [_c('span', {
-    staticClass: "pagination-ellipsis"
-  }, [_vm._v("…")])]), _vm._v(" "), _c('li', [_c('a', {
-    staticClass: "pagination-link",
-    attrs: {
-      "aria-label": "Goto page 86"
-    }
-  }, [_vm._v("86")])])])])])
-}]}
+  }, [_vm._v("下一页")]), _vm._v(" "), _c('span', [_vm._v(_vm._s(_vm.currentPage) + " / " + _vm._s(_vm.totalPage))])])
+},staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {
   module.hot.accept()
@@ -53376,13 +53456,13 @@ var content = __webpack_require__(154);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(2)("7a337646", content, false);
+var update = __webpack_require__(2)("0fda6587", content, false);
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
  if(!content.locals) {
-   module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-dcb71588&scoped=true!../../../../node_modules/sass-loader/lib/loader.js!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./Pagination.vue", function() {
-     var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-dcb71588&scoped=true!../../../../node_modules/sass-loader/lib/loader.js!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./Pagination.vue");
+   module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-dcb71588!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./Pagination.vue", function() {
+     var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-dcb71588!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./Pagination.vue");
      if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
      update(newContent);
    });

@@ -38,13 +38,6 @@ export default {
       const that = this;
       that.isShowModal = !that.isShowModal;
     },
-    deleteRole: function () {
-      const that = this;
-      let prompt = confirm("确认删除改通知吗？");
-      if (prompt) {
-
-      }
-    },
     addNotice: function () {
       const that = this;
       that.$refs.addNotice.switchModal();
@@ -64,6 +57,20 @@ export default {
         console.log(err)
       })
     }
+  },
+  computed: {
+    isShowCreateNotification() {
+      return this.$store.state.permissionIdList.includes(18)
+    },
+    isShowSearchNotification() {
+      return this.$store.state.permissionIdList.includes(19)
+    },
+    isShowUpdateNotification() {
+      return this.$store.state.permissionIdList.includes(20)
+    },
+    isShowDeleteNotification() {
+      return this.$store.state.permissionIdList.includes(21)
+    },
   },
   created() {
     this.token = sessionStorage.getItem('token');

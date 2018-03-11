@@ -138,7 +138,7 @@ export default {
           'Authorization': that.token
         }
       }).then(res => {
-         
+
         that.examinationPaperData = [];
         that.examinationPaperData.push(res.data.data);
       }).catch(err => {
@@ -154,6 +154,20 @@ export default {
       that.editData = that.examinationData[index];
       // that.$refs.addExaminationPaper.switchModal();
       that.$refs.editExaminationPaper.switchModal();
+    },
+  },
+  computed: {
+    isShowCreatePaper() {
+      return this.$store.state.permissionIdList.includes(39);
+    },
+    isShowSearchPaper() {
+      return this.$store.state.permissionIdList.includes(40);
+    },
+    isShowUpdatePaper() {
+      return this.$store.state.permissionIdList.includes(41);
+    },
+    isShowDeletePaper() {
+      return this.$store.state.permissionIdList.includes(42);
     },
   },
   created() {
