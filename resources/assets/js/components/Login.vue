@@ -65,7 +65,8 @@ export default {
     },
     login: function (username, password) {
       const that = this;
-      console.log('登录')
+      console.log('登录');
+      debugger
       axios({
         method: 'post',
         url: `${this.GLOBAL.localDomain}/api/login`,
@@ -81,8 +82,10 @@ export default {
       }).then(res => {
         let userData = res.data;
         let token = res.data.data.token;
+        debugger
         sessionStorage.setItem("token",`Bearer ${token}`);
         that.$store.commit('setToken', token);
+        debugger
         // that.$store.commit('setUserData', userData);
         that.$emit('input', false);
       }).catch(err => {

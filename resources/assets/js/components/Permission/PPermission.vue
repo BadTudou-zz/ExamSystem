@@ -54,6 +54,7 @@ export default {
       permissionId: null,
       paginationData: null,
       data: null,  // from Pagination.vue
+      token: null,
     }
   },
   components: {
@@ -95,7 +96,8 @@ export default {
         url: `${this.GLOBAL.localDomain}/api/v1/roles/1/permissions?page=${page}`,
         headers: {
           'Accept': 'application/json',
-          'Authorization': this.$store.state.token,
+          // 'Authorization': this.$store.state.token,
+          'Authorization': that.token,
         }
       }).then(res => {
         that.permissionData = res.data.data;
