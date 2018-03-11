@@ -57,6 +57,7 @@ let store = new Vuex.Store({
   mutations: {
     setToken: function (state, token) {
       state.token = token;
+      debugger
     },
     setUserData: function (state, userData) {
       state.userData = userData;
