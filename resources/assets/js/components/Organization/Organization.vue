@@ -135,6 +135,17 @@ export default {
       })
     }
   },
+  computed: {
+    isShowCreateOrganization() {
+      return this.$store.state.permissionIdList.includes(27)
+    },
+    isShowSearchOrganization() {
+      return this.$store.state.permissionIdList.includes(28)
+    },
+    isShowDeleteOrganization() {
+      return this.$store.state.permissionIdList.includes(29)
+    },
+  },
   created() {
     this.token = sessionStorage.getItem('token');
     this.getOrganization();

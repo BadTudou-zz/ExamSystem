@@ -107,29 +107,6 @@
             </div>
           </div>
         </div>
-
-        <!-- <div class="navbar-end">
-          <div class="navbar-item">
-            <div class="field is-grouped">
-              <p class="control">
-                <a class="bd-tw-button button">
-                  <span class="icon">
-                    <i class="far fa-address-card"></i>
-                  </span>
-                  <span><router-link to="/personal-information">管理员信息</router-link></span>
-                </a>
-              </p>
-              <p class="control">
-                <a class="bd-tw-button button">
-                  <span class="icon">
-                    <i class="far fa-envelope"></i>
-                  </span>
-                  <span><router-link to="/information-center">消息中心</router-link></span>
-                </a>
-              </p>
-            </div>
-          </div>
-        </div> -->
       </div>
     </nav>
 
@@ -140,6 +117,51 @@
 
 <script>
 export default {
+  data() {
+    return {
+
+    }
+  },
+  components: {
+  },
+  methods: {
+  },
+  computed: {
+    isShowPermission() {
+      return this.$store.state.permissionIdList.includes(4);
+    },
+    isShowRole() {
+      return this.$store.state.permissionIdList.includes(7);
+    },
+    isShowUser() {
+      return this.$store.state.permissionIdList.includes(10);
+    },
+    isShowMessage() {
+      return this.$store.state.permissionIdList.includes(13);
+    },
+    isShowNotification() {
+      return this.$store.state.permissionIdList.includes(17);
+    },
+    isShowOrganization() {
+      return this.$store.state.permissionIdList.includes(26);
+    },
+    isShowQuestion() {
+      return this.$store.state.permissionIdList.includes(33);
+    },
+    isShowPaper() {
+      return this.$store.state.permissionIdList.includes(38);
+    },
+    isShowApplication() {
+      return this.$store.state.permissionIdList.includes(43);
+    },
+    isShowTag() {
+      return this.$store.state.permissionIdList.includes(49);
+    },
+  },
+  created() {
+  },
+  watch: {
+  }
 }
 </script>
 

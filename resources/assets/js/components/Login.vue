@@ -37,9 +37,6 @@ export default {
       password: null,  // 密码
       captcha: null,  // 验证码
       isShowLogin: false,  // 是否显示登录组件
-      id: null, // 用户ID
-      permissionData: null,
-      token: null,
     };
   },
   components: {
@@ -82,10 +79,11 @@ export default {
           'captcha': that.captcha,
         }
       }).then(res => {
+        let userData = res.data;
         let token = res.data.data.token;
         sessionStorage.setItem("token",`Bearer ${token}`);
-        that.id = res.data.data.user.id;
-        that.getPermission();
+        that.$store.commit('setToken', token);
+        // that.$store.commit('setUserData', userData);
         that.$emit('input', false);
       }).catch(err => {
         let errorMsg = err.response.data.error;
@@ -121,28 +119,7 @@ export default {
       }).catch(err => {
         console.log(err)
       })
-    },
-    getPermission: function () {
-      const that = this;
-      that.token = sessionStorage.getItem('token');
-      axios({
-        method: 'get',
-        url: `${this.GLOBAL.localDomain}/api/v1/roles/${that.id}/permissions`,
-        headers: {
-          'Accept': 'application/json',
-          'Authorization': that.token
-        }
-      }).then(res => {
-        that.permissionData = res.data.data;
-        let permissionList = [];
-        for (let i = 0; i < that.permissionData.length; i++) {
-          permissionList.push(parseInt(that.permissionData[i]['id']));
-        }
-        console.log(permissionList);
-      }).catch(err => {
-        console.log(err)
-      })
-    },
+    }
   },
   created() {
     // this.login();

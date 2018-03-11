@@ -30,6 +30,8 @@ export default {
       const that = this;
       let token = sessionStorage.getItem("token");
       if (token) {
+        that.$store.commit('setToken', token);
+        // that.$store.commit('setUserData', userData);
         that.isShowLogin = false;
       }
       else {
@@ -39,7 +41,7 @@ export default {
   },
   created() {
     this.checkLoginState();
-    //  
+    //
   },
   watch: {
     'isShowLogin': function (value, oldValue) {

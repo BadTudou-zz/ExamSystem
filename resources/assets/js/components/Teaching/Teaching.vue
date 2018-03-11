@@ -99,7 +99,7 @@ export default {
         }
       }).then(res => {
         that.teachingData = res.data.data;
-         
+
       }).catch(err => {
         console.log(err)
       })
@@ -148,6 +148,17 @@ export default {
       const that = this;
       that.$refs.addTeaching.switchModal();
     }
+  },
+  computed: {
+    isShowCreateTeaching() {
+      return this.$store.state.permissionIdList.includes(30)
+    },
+    isShowSearchTeaching() {
+      return this.$store.state.permissionIdList.includes(31)
+    },
+    isShowDeleteTeaching() {
+      return this.$store.state.permissionIdList.includes(32)
+    },
   },
   created() {
     this.token = sessionStorage.getItem('token');
