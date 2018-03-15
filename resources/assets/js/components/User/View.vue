@@ -28,12 +28,12 @@
 
 <script>
 import UUser from './UUser'
-import Lecture from './Lecture'
-import Message from './Message'
-import Notice from './Notice'
-import Role from './Role'
-import Permission from './Permission'
-import ApplyFor from './ApplyFor'
+import Lecture from '../Teaching/Teaching'
+import Message from '../Message/MMessage'
+import Notice from '../Notice/NNotice'
+import Role from '../Role/Role'
+import Permission from '../Permission/PPermission'
+import ApplyFor from '../ApplyFor/ApplyFor'
 
 export default {
   data() {
