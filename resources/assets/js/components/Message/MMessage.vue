@@ -17,11 +17,18 @@
     </div>
 
     <add-message ref="addMessage"></add-message>
+
+    <pagination v-bind:pagination-data="paginationData"
+                v-model="data"
+    ></pagination>
+
   </div>
 </template>
 
 <script>
 import AddMessage from './AddMessage'
+import Pagination from './../Pagination.vue'
+
 export default {
   data() {
     return {
@@ -46,10 +53,15 @@ export default {
       // messageData: null,
       isShowModal: false,
       messageId: null,
+      token: null,
+      paginationData: null,
+      data: null,
     }
   },
   components: {
     AddMessage,
+    Pagination,
+
   },
   methods: {
     showModal: function () {
@@ -126,6 +138,11 @@ export default {
     // this.getMessage();
   },
   watch: {
+    data:function (value, oldValue) {
+      const that = this;
+      that.permissionData = value.data;
+      that.paginationData = value.links;
+    }
   }
 }
 </script>
