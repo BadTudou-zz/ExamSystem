@@ -17,21 +17,40 @@
     </div>
 
     <add-notice ref="addNotice"></add-notice>
+    <pagination v-bind:pagination-data="paginationData"
+            v-model="data"
+    ></pagination>
   </div>
 </template>
 
 <script>
 import AddNotice from './AddNotice'
+import Pagination from './../Pagination.vue'
 export default {
   data() {
     return {
       token: null,
-      noticeData: null,
+      // noticeData: null,
       isShowModal: false,
+      noticeData: [
+        {
+            "id": "bd35eef4-a1a9-4594-8a26-ff3225162006",
+            "type": "App\\Notifications\\SystemNotification",
+            "notifiable_id": "1",
+            "notifiable_type": "App\\User",
+            "data": "{\"data\":\"\\u8fd9\\u662f\\u901a\\u77e5\"}",
+            "read_at": null,
+            "created_at": "2018-01-21 12:34:56",
+            "updated_at": "2018-01-21 12:34:56"
+        }
+      ],
+      paginationData: null,
+      data: null,
     }
   },
   components: {
     AddNotice,
+    Pagination,
   },
   methods: {
     showModal: function () {
@@ -53,6 +72,7 @@ export default {
         }
       }).then(res => {
         that.noticeData = res.data.data;
+        that.paginationData = res.data.links;
       }).catch(err => {
         console.log(err)
       })
@@ -74,9 +94,14 @@ export default {
   },
   created() {
     this.token = sessionStorage.getItem('token');
-    this.getNotice();
+    // this.getNotice();
   },
   watch: {
+    data:function (value, oldValue) {
+      const that = this;
+      that.permissionData = value.data;
+      that.paginationData = value.links;
+    }
   }
 }
 </script>
