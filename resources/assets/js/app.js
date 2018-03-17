@@ -9,7 +9,7 @@
 import global_ from './components/Global'//引用文件
 import VueRouter from 'vue-router';
 import routes from './routes';    // 路由配置文件
-import Vuex from 'vuex'
+import Vuex from 'vuex';
 
 require('./bootstrap');
 window.Vue = require('vue');
@@ -62,7 +62,6 @@ let store = new Vuex.Store({
       state.userData = userData;
     },
     setPermissionIdList: function (state, permissionIdList) {
-      console.log('--')
       state.permissionIdList = permissionIdList;
     }
   },
