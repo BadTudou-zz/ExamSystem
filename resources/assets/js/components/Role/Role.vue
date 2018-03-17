@@ -31,12 +31,17 @@
       </tbody>
     </table>
 
+    <pagination v-bind:pagination-data="paginationData"
+                v-model="data"
+    ></pagination>
     <add-role ref="addRole" v-bind:is-show-modal="isShowModal"></add-role>
   </div>
 </template>
 
 <script>
 import AddRole from './AddRole'
+import Pagination from './../Pagination.vue'
+
 export default {
   data() {
     return {
@@ -44,10 +49,13 @@ export default {
       roleData: null,
       isShowModal: false,
       searchKey: null,
+      paginationData: null,
+      data: null,
     }
   },
   components: {
     AddRole,
+    Pagination,
   },
   methods: {
     switchModal: function () {
@@ -72,6 +80,7 @@ export default {
         }
       }).then(res => {
         that.roleData = res.data.data;
+        that.paginationData = res.data.links;
       }).catch(err => {
         console.log(err)
       })
@@ -133,6 +142,11 @@ export default {
     this.getRole();
   },
   watch: {
+    data:function (value, oldValue) {
+      const that = this;
+      that.permissionData = value.data;
+      that.paginationData = value.links;
+    }
   }
 }
 </script>

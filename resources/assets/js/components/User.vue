@@ -42,12 +42,15 @@
           <button  @click="showModal()" class="button">取消</button>
         </footer>
       </div>
-
     </div>
+
+    <pagination></pagination>
   </div>
 </template>
 
 <script>
+import Pagination from './Pagination.vue'
+
 export default {
   data() {
     return {
@@ -83,10 +86,12 @@ export default {
             }
         }
       ],
+      paginationData: null,
       isShowModal: false,
     }
   },
   components: {
+    Pagination,
   },
   methods: {
     showModal: function () {
