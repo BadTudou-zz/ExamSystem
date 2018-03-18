@@ -9,23 +9,23 @@
       <section class="modal-card-body">
         <div class="box-item">
           <label>章节名称</label>
-          <input v-model="chapterData.name" class="input" type="text" placeholder="请输入章节名">
+          <input v-model="examinationPaperData.name" class="input" type="text" placeholder="请输入章节名">
         </div>
         <div class="box-item">
           <label>章节成绩</label>
-          <input v-model="chapterData.score" class="input" type="text">
+          <input v-model="examinationPaperData.score" class="input" type="text">
         </div>
         <div class="box-item">
           <label>章节数</label>
-          <input v-model="chapterData.number" class="input" type="text">
+          <input v-model="examinationPaperData.number" class="input" type="text">
         </div>
         <div class="box-item">
           <label>章节描述</label>
-          <input v-model="chapterData.describe" class="input" type="text">
+          <input v-model="examinationPaperData.describe" class="input" type="text">
         </div>
         <div class="box-item">
           <label>问题类型</label>
-          <input v-model="chapterData.question_type" class="input" type="text">
+          <input v-model="examinationPaperData.question_type" class="input" type="text">
         </div>
       </section>
       <footer class="modal-card-foot">
