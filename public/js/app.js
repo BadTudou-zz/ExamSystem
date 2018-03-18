@@ -18660,8 +18660,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
 
 
 
@@ -18673,7 +18671,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       isShowModal: false,
       searchKey: null,
       isShowEditModal: false,
-      currentUserData: null // 当前选中的用户
+      currentUserData: null, // 当前选中的用户
+      editData: null
     };
   },
 
@@ -18737,6 +18736,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       }).catch(function (err) {
         console.log(err);
       });
+    },
+    editUser: function editUser() {
+      var that = this;
+      that.$refs.editUser.switchModal();
     },
     checkPermissions: function checkPermissions() {
       var that = this;
@@ -18920,16 +18923,34 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      isShowModal: null
+      isShowModal: null,
+      userData: {}
     };
   },
 
-  props: ['isShowEditModal', 'currentUserData'],
+  props: ['editData'],
   components: {},
   methods: {
     switchModal: function switchModal() {
       var that = this;
       that.isShowModal = !that.isShowModal;
+    },
+    // 全部用户
+    editUser: function editUser() {
+      var that = this;
+      // axios({
+      //   method: 'get',
+      //   url: `${this.GLOBAL.localDomain}/api/v1/users/${that.userId}`,
+      //   headers: {
+      //     'Accept': 'application/json',
+      //     'Authorization': that.token
+      //   }
+      // }).then(res => {
+      //   that.userData = res.data.data;
+      //
+      // }).catch(err => {
+      //   console.log(err)
+      // })
     }
   },
   watch: {
@@ -18937,7 +18958,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       var that = this;
       that.isShowModal = value;
     },
-    currentUserData: function currentUserData(value, oldValue) {}
+    userData: function userData(value, oldValue) {}
   }
 });
 
@@ -45296,7 +45317,7 @@ if (false) {
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return (_vm.currentUserData) ? _c('div', {
+  return (_vm.userData) ? _c('div', {
     staticClass: "modal",
     class: {
       'is-active': _vm.isShowModal
@@ -45325,188 +45346,22 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "label-box"
   }, [_c('label', {
     staticClass: "label"
-  }, [_vm._v("ID：")]), _vm._v(" "), _c('input', {
-    directives: [{
-      name: "model",
-      rawName: "v-model:id",
-      value: (_vm.currentUserData.id),
-      expression: "currentUserData.id",
-      arg: "id"
-    }],
-    staticClass: "input",
-    attrs: {
-      "disabled": ""
-    },
-    domProps: {
-      "value": (_vm.currentUserData.id)
-    },
-    on: {
-      "input": function($event) {
-        if ($event.target.composing) { return; }
-        _vm.$set(_vm.currentUserData, "id", $event.target.value)
-      }
-    }
-  })]), _vm._v(" "), _c('div', {
-    staticClass: "label-box"
-  }, [_c('label', {
-    staticClass: "label"
   }, [_vm._v("用户名：")]), _vm._v(" "), _c('input', {
     directives: [{
       name: "model",
       rawName: "v-model:name",
-      value: (_vm.currentUserData.name),
-      expression: "currentUserData.name",
+      value: (_vm.userData.name),
+      expression: "userData.name",
       arg: "name"
     }],
     staticClass: "input",
     domProps: {
-      "value": (_vm.currentUserData.name)
+      "value": (_vm.userData.name)
     },
     on: {
       "input": function($event) {
         if ($event.target.composing) { return; }
-        _vm.$set(_vm.currentUserData, "name", $event.target.value)
-      }
-    }
-  })]), _vm._v(" "), _c('div', {
-    staticClass: "label-box"
-  }, [_c('label', {
-    staticClass: "label"
-  }, [_vm._v("邮箱：")]), _vm._v(" "), _c('input', {
-    directives: [{
-      name: "model",
-      rawName: "v-model:email",
-      value: (_vm.currentUserData.email),
-      expression: "currentUserData.email",
-      arg: "email"
-    }],
-    staticClass: "input",
-    domProps: {
-      "value": (_vm.currentUserData.email)
-    },
-    on: {
-      "input": function($event) {
-        if ($event.target.composing) { return; }
-        _vm.$set(_vm.currentUserData, "email", $event.target.value)
-      }
-    }
-  })]), _vm._v(" "), _c('div', {
-    staticClass: "label-box"
-  }, [_c('label', {
-    staticClass: "label"
-  }, [_vm._v("电话：")]), _vm._v(" "), _c('input', {
-    directives: [{
-      name: "model",
-      rawName: "v-model:phone",
-      value: (_vm.currentUserData.phone),
-      expression: "currentUserData.phone",
-      arg: "phone"
-    }],
-    staticClass: "input",
-    domProps: {
-      "value": (_vm.currentUserData.phone)
-    },
-    on: {
-      "input": function($event) {
-        if ($event.target.composing) { return; }
-        _vm.$set(_vm.currentUserData, "phone", $event.target.value)
-      }
-    }
-  })]), _vm._v(" "), _c('div', {
-    staticClass: "label-box"
-  }, [_c('label', {
-    staticClass: "label"
-  }, [_vm._v("QQ：")]), _vm._v(" "), _c('input', {
-    directives: [{
-      name: "model",
-      rawName: "v-model:qq",
-      value: (_vm.currentUserData.qq),
-      expression: "currentUserData.qq",
-      arg: "qq"
-    }],
-    staticClass: "input",
-    domProps: {
-      "value": (_vm.currentUserData.qq)
-    },
-    on: {
-      "input": function($event) {
-        if ($event.target.composing) { return; }
-        _vm.$set(_vm.currentUserData, "qq", $event.target.value)
-      }
-    }
-  })]), _vm._v(" "), _c('div', {
-    staticClass: "label-box"
-  }, [_c('label', {
-    staticClass: "label"
-  }, [_vm._v("Number：")]), _vm._v(" "), _c('input', {
-    directives: [{
-      name: "model",
-      rawName: "v-model:number",
-      value: (_vm.currentUserData.number),
-      expression: "currentUserData.number",
-      arg: "number"
-    }],
-    staticClass: "input",
-    attrs: {
-      "disabled": ""
-    },
-    domProps: {
-      "value": (_vm.currentUserData.number)
-    },
-    on: {
-      "input": function($event) {
-        if ($event.target.composing) { return; }
-        _vm.$set(_vm.currentUserData, "number", $event.target.value)
-      }
-    }
-  })]), _vm._v(" "), _c('div', {
-    staticClass: "label-box"
-  }, [_c('label', {
-    staticClass: "label"
-  }, [_vm._v("创建时间：")]), _vm._v(" "), _c('input', {
-    directives: [{
-      name: "model",
-      rawName: "v-model:create",
-      value: (_vm.currentUserData.created_at),
-      expression: "currentUserData.created_at",
-      arg: "create"
-    }],
-    staticClass: "input",
-    attrs: {
-      "disabled": ""
-    },
-    domProps: {
-      "value": (_vm.currentUserData.created_at)
-    },
-    on: {
-      "input": function($event) {
-        if ($event.target.composing) { return; }
-        _vm.$set(_vm.currentUserData, "created_at", $event.target.value)
-      }
-    }
-  })]), _vm._v(" "), _c('div', {
-    staticClass: "label-box"
-  }, [_c('label', {
-    staticClass: "label"
-  }, [_vm._v("更新时间：")]), _vm._v(" "), _c('input', {
-    directives: [{
-      name: "model",
-      rawName: "v-model:updated",
-      value: (_vm.currentUserData.updated_at),
-      expression: "currentUserData.updated_at",
-      arg: "updated"
-    }],
-    staticClass: "input",
-    attrs: {
-      "disabled": ""
-    },
-    domProps: {
-      "value": (_vm.currentUserData.updated_at)
-    },
-    on: {
-      "input": function($event) {
-        if ($event.target.composing) { return; }
-        _vm.$set(_vm.currentUserData, "updated_at", $event.target.value)
+        _vm.$set(_vm.userData, "name", $event.target.value)
       }
     }
   })])]), _vm._v(" "), _c('footer', {
@@ -45723,14 +45578,14 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       },
       on: {
         "click": function($event) {
-          _vm.showEditModal(index)
+          _vm.editUser(index)
         }
       }
     }, [_vm._v("编辑用户")])])])
   }))]), _vm._v(" "), _c('edit-user', {
+    ref: "editUser",
     attrs: {
-      "is-show-edit-modal": _vm.isShowEditModal,
-      "current-user-data": _vm.currentUserData
+      "edit-data": _vm.editData
     }
   })], 1)
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;

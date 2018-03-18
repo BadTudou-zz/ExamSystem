@@ -1,7 +1,7 @@
 <!-- 编辑用户 -->
 <!-- ??有哪些数据允许编辑 -->
 <template lang="html">
-  <div class="modal" v-if="currentUserData"
+  <div class="modal" v-if="userData"
                      v-bind:class="{'is-active': isShowModal}"
                      >
   <div class="modal-background"></div>
@@ -11,38 +11,38 @@
       <button @click="switchModal()" class="delete" aria-label="close"></button>
     </header>
     <section class="modal-card-body">
-      <div class="label-box">
+      <!-- <div class="label-box">
         <label class="label">ID：</label>
-        <input class="input" v-model:id="currentUserData.id" disabled>
-      </div>
+        <input class="input" v-model:id="userData.id" disabled>
+      </div> -->
       <div class="label-box">
         <label class="label">用户名：</label>
-        <input class="input" v-model:name="currentUserData.name">
+        <input class="input" v-model:name="userData.name">
       </div>
-      <div class="label-box">
+      <!-- <div class="label-box">
         <label class="label">邮箱：</label>
-        <input class="input" v-model:email="currentUserData.email">
+        <input class="input" v-model:email="userData.email">
       </div>
       <div class="label-box">
         <label class="label">电话：</label>
-        <input class="input" v-model:phone="currentUserData.phone">
+        <input class="input" v-model:phone="userData.phone">
       </div>
       <div class="label-box">
         <label class="label">QQ：</label>
-        <input class="input" v-model:qq="currentUserData.qq">
+        <input class="input" v-model:qq="userData.qq">
       </div>
       <div class="label-box">
         <label class="label">Number：</label>
-        <input class="input" v-model:number="currentUserData.number" disabled>
+        <input class="input" v-model:number="userData.number" disabled>
       </div>
       <div class="label-box">
         <label class="label">创建时间：</label>
-        <input class="input" v-model:create="currentUserData.created_at" disabled>
+        <input class="input" v-model:create="userData.created_at" disabled>
       </div>
       <div class="label-box">
         <label class="label">更新时间：</label>
-        <input class="input" v-model:updated="currentUserData.updated_at" disabled>
-      </div>
+        <input class="input" v-model:updated="userData.updated_at" disabled>
+      </div> -->
     </section>
     <footer class="modal-card-foot">
       <button class="button is-success">保存</button>
@@ -57,11 +57,13 @@ export default {
   data() {
     return {
       isShowModal: null,
+      userData: {
+
+      }
     }
   },
   props: [
-    'isShowEditModal',
-    'currentUserData',  // 当前需要编辑的用户数据
+    'editData',
   ],
   components: {
 
@@ -70,14 +72,31 @@ export default {
     switchModal: function () {
       const that = this;
       that.isShowModal = !that.isShowModal;
-    }
+    },
+    // 全部用户
+    editUser: function () {
+      const that = this;
+      // axios({
+      //   method: 'get',
+      //   url: `${this.GLOBAL.localDomain}/api/v1/users/${that.userId}`,
+      //   headers: {
+      //     'Accept': 'application/json',
+      //     'Authorization': that.token
+      //   }
+      // }).then(res => {
+      //   that.userData = res.data.data;
+      //
+      // }).catch(err => {
+      //   console.log(err)
+      // })
+    },
   },
   watch: {
     isShowEditModal: function (value, oldValue) {
       const that = this;
       that.isShowModal = value;
     },
-    currentUserData: function (value, oldValue) {
+    userData: function (value, oldValue) {
     }
   }
 }
