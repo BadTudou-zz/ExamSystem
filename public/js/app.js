@@ -13178,6 +13178,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__AddApplyFor___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__AddApplyFor__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__EditApplyFor__ = __webpack_require__(158);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__EditApplyFor___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__EditApplyFor__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Pagination_vue__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Pagination_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__Pagination_vue__);
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 //
@@ -13224,12 +13226,19 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+
+
 
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
-    return _defineProperty({
+    var _ref;
+
+    return _ref = {
       applyForData: [{
         "id": "53e20281-90ee-4d1e-824e-ac45ac138446",
         "type": "App\\Notifications\\ApplicationNotification",
@@ -13245,12 +13254,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       searchKey: null,
       // applyForData: null,
       editData: null
-    }, 'searchKey', null);
+    }, _defineProperty(_ref, 'searchKey', null), _defineProperty(_ref, 'paginationData', null), _defineProperty(_ref, 'data', null), _ref;
   },
 
   components: {
     AddApplyFor: __WEBPACK_IMPORTED_MODULE_0__AddApplyFor___default.a,
-    EditApplyFor: __WEBPACK_IMPORTED_MODULE_1__EditApplyFor___default.a
+    EditApplyFor: __WEBPACK_IMPORTED_MODULE_1__EditApplyFor___default.a,
+    Pagination: __WEBPACK_IMPORTED_MODULE_2__Pagination_vue___default.a
   },
   methods: {
     showModal: function showModal() {
@@ -13306,6 +13316,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
         that.applyForData = [];
         that.applyForData.push(res.data.data);
+        that.paginationData = res.data.links;
       }).catch(function (err) {
         console.log(err);
       });
@@ -13376,10 +13387,16 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   },
   created: function created() {
     this.token = sessionStorage.getItem('token');
-    this.getApplyFor();
+    // this.getApplyFor();
   },
 
-  watch: {}
+  watch: {
+    data: function data(value, oldValue) {
+      var that = this;
+      that.permissionData = value.data;
+      that.paginationData = value.links;
+    }
+  }
 });
 
 /***/ }),
@@ -14848,6 +14865,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__AddLabel___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__AddLabel__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__EditLabel__ = __webpack_require__(172);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__EditLabel___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__EditLabel__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Pagination_vue__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Pagination_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__Pagination_vue__);
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 //
@@ -14918,12 +14937,19 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+
+
 
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
-    return _defineProperty({
+    var _ref;
+
+    return _ref = {
       labelData: [{
         "id": "53e20281-90ee-4d1e-824e-ac45ac138446",
         "type": "App\\Notifications\\LabelNotification",
@@ -14939,12 +14965,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       searchKey: null,
       // labelData: null,
       editData: null
-    }, 'searchKey', null);
+    }, _defineProperty(_ref, 'searchKey', null), _defineProperty(_ref, 'paginationData', null), _defineProperty(_ref, 'data', null), _ref;
   },
 
   components: {
     AddLabel: __WEBPACK_IMPORTED_MODULE_0__AddLabel___default.a,
-    EditLabel: __WEBPACK_IMPORTED_MODULE_1__EditLabel___default.a
+    EditLabel: __WEBPACK_IMPORTED_MODULE_1__EditLabel___default.a,
+    Pagination: __WEBPACK_IMPORTED_MODULE_2__Pagination_vue___default.a
   },
   methods: {
     showModal: function showModal() {
@@ -15000,6 +15027,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
         that.labelData = [];
         that.labelData.push(res.data.data);
+        that.paginationData = res.data.links;
       }).catch(function (err) {
         console.log(err);
       });
@@ -15067,7 +15095,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     // this.getLabel();
   },
 
-  watch: {}
+  watch: {
+    data: function data(value, oldValue) {
+      var that = this;
+      that.permissionData = value.data;
+      that.paginationData = value.links;
+    }
+  }
 });
 
 /***/ }),
@@ -45984,6 +46018,17 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "edit-data": _vm.editData
     }
+  }), _vm._v(" "), _c('pagination', {
+    attrs: {
+      "pagination-data": _vm.paginationData
+    },
+    model: {
+      value: (_vm.data),
+      callback: function($$v) {
+        _vm.data = $$v
+      },
+      expression: "data"
+    }
   })], 1)
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('thead', [_c('tr', [_c('th', [_vm._v("申请类型")]), _vm._v(" "), _c('th', [_vm._v("申请ID")]), _vm._v(" "), _c('th', [_vm._v("申请类型")]), _vm._v(" "), _c('th', [_vm._v("创建时间")]), _vm._v(" "), _c('th', [_vm._v("更新时间")]), _vm._v(" "), _c('th', [_vm._v("操作")])])])
@@ -46659,6 +46704,17 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     ref: "editLabel",
     attrs: {
       "edit-data": _vm.editData
+    }
+  }), _vm._v(" "), _c('pagination', {
+    attrs: {
+      "pagination-data": _vm.paginationData
+    },
+    model: {
+      value: (_vm.data),
+      callback: function($$v) {
+        _vm.data = $$v
+      },
+      expression: "data"
     }
   })], 1)
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -48433,7 +48489,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_c('router-link', {
     staticClass: "navbar-item",
     attrs: {
-      "to": "/examination-paper"
+      "to": "/examinationPaper"
     }
   }, [_vm._v("试卷")]), _vm._v(" "), _c('router-link', {
     staticClass: "navbar-item",
@@ -48454,7 +48510,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_c('router-link', {
     staticClass: "navbar-item",
     attrs: {
-      "to": "/apply-for"
+      "to": "/applyFor"
     }
   }, [_vm._v("申请")]), _vm._v(" "), _c('router-link', {
     staticClass: "navbar-item",

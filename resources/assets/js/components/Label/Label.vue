@@ -63,12 +63,17 @@
 
     <add-label ref="addLabel"></add-label>
     <edit-label ref="editLabel" v-bind:edit-data="editData"></edit-label>
+    <pagination v-bind:pagination-data="paginationData"
+            v-model="data"
+    ></pagination>
   </div>
 </template>
 
 <script>
 import AddLabel from './AddLabel'
 import EditLabel from './EditLabel'
+import Pagination from './../Pagination.vue'
+
 export default {
   data() {
     return {
@@ -90,11 +95,14 @@ export default {
       // labelData: null,
       editData: null,
       searchKey: null,
+      paginationData: null,
+      data: null,
     }
   },
   components: {
     AddLabel,
     EditLabel,
+    Pagination,
   },
   methods: {
     showModal: function () {
@@ -150,6 +158,7 @@ export default {
 
         that.labelData = [];
         that.labelData.push(res.data.data);
+        that.paginationData = res.data.links;
       }).catch(err => {
         console.log(err)
       })
@@ -217,6 +226,11 @@ export default {
     // this.getLabel();
   },
   watch: {
+    data:function (value, oldValue) {
+      const that = this;
+      that.permissionData = value.data;
+      that.paginationData = value.links;
+    }
   }
 }
 </script>

@@ -91,7 +91,7 @@
               试卷
             </a>
             <div class="navbar-dropdown is-boxed">
-              <router-link class="navbar-item" to="/examination-paper">试卷</router-link>
+              <router-link class="navbar-item" to="/examinationPaper">试卷</router-link>
               <router-link class="navbar-item" to="/chapter">章节</router-link>
               <router-link class="navbar-item" to="/test">考试</router-link>
             </div>
@@ -102,7 +102,7 @@
               其他
             </a>
             <div class="navbar-dropdown is-boxed">
-              <router-link class="navbar-item" to="/apply-for">申请</router-link>
+              <router-link class="navbar-item" to="/applyFor">申请</router-link>
               <router-link class="navbar-item" to="/label">标签</router-link>
             </div>
           </div>
