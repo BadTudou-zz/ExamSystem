@@ -44,13 +44,16 @@
 
     <add-chapter ref="addChapter"></add-chapter>
     <edit-chapter ref="editChapter"></edit-chapter>
-
+    <pagination v-bind:pagination-data="paginationData"
+                v-model="data"
+    ></pagination>
   </div>
 </template>
 
 <script>
 import AddChapter from './AddChapter'
 import EditChapter from './EditChapter'
+import Pagination from './../Pagination.vue'
 export default {
   data() {
     return {
@@ -71,11 +74,14 @@ export default {
       token: null,
       // chapterData: null
       searchKey: null,
+      paginationData: null,
+      data: null,
     }
   },
   components: {
     AddChapter,
     EditChapter,
+    Pagination,
   },
   methods: {
     showModal: function () {
@@ -96,6 +102,7 @@ export default {
           }
         }).then(res => {
           that.chapterData = res.data.data;
+          that.paginationData = res.data.links;
         }).catch(err => {
           console.log(err)
         })
@@ -128,7 +135,7 @@ export default {
           'Authorization': that.token
         }
       }).then(res => {
-         
+
         that.chapterData = [];
         that.chapterData.push(res.data.data);
       }).catch(err => {
@@ -151,7 +158,13 @@ export default {
     // this.getChapter();
   },
   watch: {
+    data:function (value, oldValue) {
+      const that = this;
+      that.permissionData = value.data;
+      that.paginationData = value.links;
+    }
   }
+
 }
 </script>
 

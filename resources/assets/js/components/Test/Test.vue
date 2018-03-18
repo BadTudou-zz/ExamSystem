@@ -48,12 +48,17 @@
 
     <add-test ref="addTest"></add-test>
     <edit-test ref="editTest" v-bind:edit-data="editData"></edit-test>
+    <pagination v-bind:pagination-data="paginationData"
+            v-model="data"
+    ></pagination>
+
   </div>
 </template>
 
 <script>
 import AddTest from './AddTest'
 import EditTest from './EditTest'
+import Pagination from './../Pagination.vue'
 
 export default {
   data() {
@@ -76,11 +81,14 @@ export default {
       // testData: null,
       editData: null,
       searchKey: null,
+      paginationData: null,
+      data: null,
     }
   },
   components: {
     AddTest,
     EditTest,
+    Pagination,
   },
   methods: {
     showModal: function () {
@@ -101,6 +109,7 @@ export default {
           }
         }).then(res => {
           that.testData = res.data.data;
+          that.paginationData = res.data.links;
         }).catch(err => {
           console.log(err)
         })
@@ -133,7 +142,7 @@ export default {
           'Authorization': that.token
         }
       }).then(res => {
-         
+
         that.testData = [];
         that.testData.push(res.data.data);
       }).catch(err => {
@@ -161,7 +170,7 @@ export default {
           'Authorization': that.token
         }
       }).then(res => {
-         
+
         that.testData = [];
         that.testData.push(res.data.data);
       }).catch(err => {
@@ -179,7 +188,7 @@ export default {
           'Authorization': that.token
         }
       }).then(res => {
-         
+
         that.testData = [];
         that.testData.push(res.data.data);
       }).catch(err => {
@@ -192,6 +201,11 @@ export default {
     this.getTest();
   },
   watch: {
+    data:function (value, oldValue) {
+      const that = this;
+      that.permissionData = value.data;
+      that.paginationData = value.links;
+    }
   }
 }
 </script>

@@ -13575,6 +13575,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__AddChapter___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__AddChapter__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__EditChapter__ = __webpack_require__(161);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__EditChapter___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__EditChapter__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Pagination_vue__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Pagination_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__Pagination_vue__);
 //
 //
 //
@@ -13625,6 +13627,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+
 
 
 
@@ -13645,13 +13650,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       isShowModal: false,
       token: null,
       // chapterData: null
-      searchKey: null
+      searchKey: null,
+      paginationData: null,
+      data: null
     };
   },
 
   components: {
     AddChapter: __WEBPACK_IMPORTED_MODULE_0__AddChapter___default.a,
-    EditChapter: __WEBPACK_IMPORTED_MODULE_1__EditChapter___default.a
+    EditChapter: __WEBPACK_IMPORTED_MODULE_1__EditChapter___default.a,
+    Pagination: __WEBPACK_IMPORTED_MODULE_2__Pagination_vue___default.a
   },
   methods: {
     showModal: function showModal() {
@@ -13672,6 +13680,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
           }
         }).then(function (res) {
           that.chapterData = res.data.data;
+          that.paginationData = res.data.links;
         }).catch(function (err) {
           console.log(err);
         });
@@ -13727,7 +13736,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     // this.getChapter();
   },
 
-  watch: {}
+  watch: {
+    data: function data(value, oldValue) {
+      var that = this;
+      that.permissionData = value.data;
+      that.paginationData = value.links;
+    }
+  }
+
 });
 
 /***/ }),
@@ -14353,7 +14369,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__AddExaminationPaper___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__AddExaminationPaper__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__EditExaminationPaper__ = __webpack_require__(166);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__EditExaminationPaper___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__EditExaminationPaper__);
-//
 //
 //
 //
@@ -18213,6 +18228,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__AddTest___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__AddTest__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__EditTest__ = __webpack_require__(191);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__EditTest___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__EditTest__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Pagination_vue__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Pagination_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__Pagination_vue__);
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 //
@@ -18268,13 +18285,20 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+
 
 
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
-    return _defineProperty({
+    var _ref;
+
+    return _ref = {
       testData: [{
         "id": "53e20281-90ee-4d1e-824e-ac45ac138446",
         "type": "App\\Notifications\\ApplicationNotification",
@@ -18290,12 +18314,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       searchKey: null,
       // testData: null,
       editData: null
-    }, 'searchKey', null);
+    }, _defineProperty(_ref, 'searchKey', null), _defineProperty(_ref, 'paginationData', null), _defineProperty(_ref, 'data', null), _ref;
   },
 
   components: {
     AddTest: __WEBPACK_IMPORTED_MODULE_0__AddTest___default.a,
-    EditTest: __WEBPACK_IMPORTED_MODULE_1__EditTest___default.a
+    EditTest: __WEBPACK_IMPORTED_MODULE_1__EditTest___default.a,
+    Pagination: __WEBPACK_IMPORTED_MODULE_2__Pagination_vue___default.a
   },
   methods: {
     showModal: function showModal() {
@@ -18316,6 +18341,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           }
         }).then(function (res) {
           that.testData = res.data.data;
+          that.paginationData = res.data.links;
         }).catch(function (err) {
           console.log(err);
         });
@@ -18407,7 +18433,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     this.getTest();
   },
 
-  watch: {}
+  watch: {
+    data: function data(value, oldValue) {
+      var that = this;
+      that.permissionData = value.data;
+      that.paginationData = value.links;
+    }
+  }
 });
 
 /***/ }),
@@ -44763,6 +44795,17 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "edit-data": _vm.editData
     }
+  }), _vm._v(" "), _c('pagination', {
+    attrs: {
+      "pagination-data": _vm.paginationData
+    },
+    model: {
+      value: (_vm.data),
+      callback: function($$v) {
+        _vm.data = $$v
+      },
+      expression: "data"
+    }
   })], 1)
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('thead', [_c('tr', [_c('th', [_vm._v("考试标题")]), _vm._v(" "), _c('th', [_vm._v("考试类型")]), _vm._v(" "), _c('th', [_vm._v("成绩总值")]), _vm._v(" "), _c('th', [_vm._v("最小")]), _vm._v(" "), _c('th', [_vm._v("描述")]), _vm._v(" "), _c('th', [_vm._v("创建时间")]), _vm._v(" "), _c('th', [_vm._v("更新时间")]), _vm._v(" "), _c('th', [_vm._v("操作")])])])
@@ -47547,6 +47590,17 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     ref: "addChapter"
   }), _vm._v(" "), _c('edit-chapter', {
     ref: "editChapter"
+  }), _vm._v(" "), _c('pagination', {
+    attrs: {
+      "pagination-data": _vm.paginationData
+    },
+    model: {
+      value: (_vm.data),
+      callback: function($$v) {
+        _vm.data = $$v
+      },
+      expression: "data"
+    }
   })], 1)
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('thead', [_c('tr', [_c('th', [_vm._v("ID")]), _vm._v(" "), _c('th', [_vm._v("章节名称")]), _vm._v(" "), _c('th', [_vm._v("描述")]), _vm._v(" "), _c('th', [_vm._v("问题类型")]), _vm._v(" "), _c('th', [_vm._v("成绩总值")]), _vm._v(" "), _c('th', [_vm._v("数量")]), _vm._v(" "), _c('th', [_vm._v("问题")]), _vm._v(" "), _c('th', [_vm._v("创建时间")]), _vm._v(" "), _c('th', [_vm._v("更新时间")]), _vm._v(" "), _c('th', [_vm._v("操作")])])])

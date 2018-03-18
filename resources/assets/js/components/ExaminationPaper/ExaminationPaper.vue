@@ -47,7 +47,6 @@
 
     <add-examination-paper ref="addExaminationPaper"></add-examination-paper>
     <edit-examination-paper ref="editExaminationPaper" v-bind:edit-data="editData"></edit-examination-paper>
-    </div>
   </div>
 </template>
 
