@@ -16292,6 +16292,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__AddOrganization___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__AddOrganization__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__EditOrganization__ = __webpack_require__(180);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__EditOrganization___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__EditOrganization__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Pagination_vue__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Pagination_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__Pagination_vue__);
 //
 //
 //
@@ -16342,6 +16344,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+
 
 
 
@@ -16363,13 +16369,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       isShowModal: false,
       // OrganizationData: null,
       organizationId: null,
-      editData: null // 当前编辑的组织数据
+      editData: null, // 当前编辑的组织数据
+      paginationData: null,
+      data: null
     };
   },
 
   components: {
     AddOrganization: __WEBPACK_IMPORTED_MODULE_0__AddOrganization___default.a,
-    EditOrganization: __WEBPACK_IMPORTED_MODULE_1__EditOrganization___default.a
+    EditOrganization: __WEBPACK_IMPORTED_MODULE_1__EditOrganization___default.a,
+    Pagination: __WEBPACK_IMPORTED_MODULE_2__Pagination_vue___default.a
   },
   methods: {
     addOrganization: function addOrganization() {
@@ -16391,6 +16400,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         }
       }).then(function (res) {
         that.permissionData = res.data.data;
+        that.paginationData = res.data.links;
       }).catch(function (err) {
         console.log(err);
       });
@@ -16443,7 +16453,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     this.getOrganization();
   },
 
-  watch: {}
+  watch: {
+    data: function data(value, oldValue) {
+      var that = this;
+      that.permissionData = value.data;
+      that.paginationData = value.links;
+    }
+  }
 });
 
 /***/ }),
@@ -45702,6 +45718,17 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     ref: "editOrganization",
     attrs: {
       "edit-data": _vm.editData
+    }
+  }), _vm._v(" "), _c('pagination', {
+    attrs: {
+      "pagination-data": _vm.paginationData
+    },
+    model: {
+      value: (_vm.data),
+      callback: function($$v) {
+        _vm.data = $$v
+      },
+      expression: "data"
     }
   })], 1)
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;

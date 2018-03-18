@@ -44,6 +44,9 @@
 
     <add-organization ref="addOrganization"></add-organization>
     <edit-organization ref="editOrganization"  :edit-data="editData"></edit-organization>
+    <pagination v-bind:pagination-data="paginationData"
+                v-model="data"
+    ></pagination>
 
   </div>
 </template>
@@ -51,6 +54,7 @@
 <script>
 import AddOrganization from './AddOrganization'
 import EditOrganization from './EditOrganization'
+import Pagination from './../Pagination.vue'
 
 export default {
   data() {
@@ -72,11 +76,14 @@ export default {
       // OrganizationData: null,
       organizationId: null,
       editData: null,  // 当前编辑的组织数据
+      paginationData: null,
+      data: null,
     }
   },
   components: {
     AddOrganization,
     EditOrganization,
+    Pagination,
   },
   methods: {
     addOrganization: function() {
@@ -98,6 +105,7 @@ export default {
         }
       }).then(res => {
         that.permissionData = res.data.data;
+        that.paginationData = res.data.links;
       }).catch(err => {
         console.log(err)
       })
@@ -151,6 +159,11 @@ export default {
     this.getOrganization();
   },
   watch: {
+    data:function (value, oldValue) {
+      const that = this;
+      that.permissionData = value.data;
+      that.paginationData = value.links;
+    }
   }
 }
 </script>
