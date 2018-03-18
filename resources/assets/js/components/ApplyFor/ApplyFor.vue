@@ -39,12 +39,17 @@
     </table>
     <add-apply-for ref="addApplyFor"></add-apply-for>
     <edit-apply-for ref="editApplyFor" v-bind:edit-data="editData"></edit-apply-for>
+    <pagination v-bind:pagination-data="paginationData"
+            v-model="data"
+    ></pagination>
   </div>
 </template>
 
 <script>
 import AddApplyFor from './AddApplyFor'
 import EditApplyFor from './EditApplyFor'
+import Pagination from './../Pagination.vue'
+
 export default {
   data() {
     return {
@@ -66,11 +71,14 @@ export default {
       // applyForData: null,
       editData: null,
       searchKey: null,
+      paginationData: null,
+      data: null,
     }
   },
   components: {
     AddApplyFor,
     EditApplyFor,
+    Pagination,
   },
   methods: {
     showModal: function () {
@@ -126,6 +134,7 @@ export default {
 
         that.applyForData = [];
         that.applyForData.push(res.data.data);
+        that.paginationData = res.data.links;
       }).catch(err => {
         console.log(err)
       })
@@ -196,9 +205,14 @@ export default {
   },
   created() {
     this.token = sessionStorage.getItem('token');
-    this.getApplyFor();
+    // this.getApplyFor();
   },
   watch: {
+    data:function (value, oldValue) {
+      const that = this;
+      that.permissionData = value.data;
+      that.paginationData = value.links;
+    }
   }
 }
 </script>
