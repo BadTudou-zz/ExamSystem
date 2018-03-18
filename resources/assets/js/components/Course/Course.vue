@@ -41,13 +41,17 @@
 
     <add-course ref="addCourse"></add-course>
     <edit-course ref="editCourse" v-bind:edit-data="editData"></edit-course>
-    </div>
+
+    <pagination v-bind:pagination-data="paginationData"
+            v-model="data"
+    ></pagination>
   </div>
 </template>
 
 <script>
 import AddCourse from './AddCourse'
 import EditCourse from './EditCourse'
+import Pagination from './../Pagination.vue'
 
 export default {
   data() {
@@ -67,11 +71,14 @@ export default {
       token: null,
       // courseData: null,
       editData: null,
+      paginationData: null,
+      data: null,
     }
   },
   components: {
     AddCourse,
     EditCourse,
+    Pagination,
   },
   methods: {
     showModal: function () {
@@ -115,6 +122,7 @@ export default {
         }
       }).then(res => {
         that.courseData = res.data.data;
+        that.paginationData = res.data.links;
         //
       }).catch(err => {
         console.log(err)
@@ -140,6 +148,11 @@ export default {
     // this.getCourse();
   },
   watch: {
+    data:function (value, oldValue) {
+      const that = this;
+      that.permissionData = value.data;
+      that.paginationData = value.links;
+    }
   }
 }
 </script>
