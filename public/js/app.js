@@ -14386,6 +14386,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__AddExaminationPaper___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__AddExaminationPaper__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__EditExaminationPaper__ = __webpack_require__(166);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__EditExaminationPaper___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__EditExaminationPaper__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Pagination_vue__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Pagination_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__Pagination_vue__);
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 //
 //
 //
@@ -14438,12 +14442,17 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+
+
 
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
-    return {
+    return _defineProperty({
       "data": [{
         "id": 1,
         "creator_id": "1",
@@ -14480,13 +14489,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       }],
       isShowModal: false,
       token: null,
-      editData: null
-    };
+      editData: null,
+      paginationData: null
+    }, 'data', null);
   },
 
   components: {
     AddExaminationPaper: __WEBPACK_IMPORTED_MODULE_0__AddExaminationPaper___default.a,
-    EditExaminationPaper: __WEBPACK_IMPORTED_MODULE_1__EditExaminationPaper___default.a
+    EditExaminationPaper: __WEBPACK_IMPORTED_MODULE_1__EditExaminationPaper___default.a,
+    Pagination: __WEBPACK_IMPORTED_MODULE_2__Pagination_vue___default.a
   },
   methods: {
     showModal: function showModal() {
@@ -14525,6 +14536,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
         that.examinationPaperData = [];
         that.examinationPaperData.push(res.data.data);
+        that.paginationData = res.data.links;
       }).catch(function (err) {
         console.log(err);
       });
@@ -14556,10 +14568,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   },
   created: function created() {
     this.token = sessionStorage.getItem('token');
-    this.getExaminationPaper();
+    // this.getExaminationPaper();
   },
 
-  watch: {}
+  watch: {
+    data: function data(value, oldValue) {
+      var that = this;
+      that.permissionData = value.data;
+      that.paginationData = value.links;
+    }
+  }
 });
 
 /***/ }),
@@ -46333,6 +46351,17 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "edit-data": _vm.editData
     }
+  }), _vm._v(" "), _c('pagination', {
+    attrs: {
+      "pagination-data": _vm.paginationData
+    },
+    model: {
+      value: (_vm.data),
+      callback: function($$v) {
+        _vm.data = $$v
+      },
+      expression: "data"
+    }
   })], 1)
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
@@ -48231,8 +48260,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     directives: [{
       name: "model",
       rawName: "v-model",
-      value: (_vm.chapterData.name),
-      expression: "chapterData.name"
+      value: (_vm.examinationPaperData.name),
+      expression: "examinationPaperData.name"
     }],
     staticClass: "input",
     attrs: {
@@ -48240,12 +48269,12 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "placeholder": "请输入章节名"
     },
     domProps: {
-      "value": (_vm.chapterData.name)
+      "value": (_vm.examinationPaperData.name)
     },
     on: {
       "input": function($event) {
         if ($event.target.composing) { return; }
-        _vm.$set(_vm.chapterData, "name", $event.target.value)
+        _vm.$set(_vm.examinationPaperData, "name", $event.target.value)
       }
     }
   })]), _vm._v(" "), _c('div', {
@@ -48254,20 +48283,20 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     directives: [{
       name: "model",
       rawName: "v-model",
-      value: (_vm.chapterData.score),
-      expression: "chapterData.score"
+      value: (_vm.examinationPaperData.score),
+      expression: "examinationPaperData.score"
     }],
     staticClass: "input",
     attrs: {
       "type": "text"
     },
     domProps: {
-      "value": (_vm.chapterData.score)
+      "value": (_vm.examinationPaperData.score)
     },
     on: {
       "input": function($event) {
         if ($event.target.composing) { return; }
-        _vm.$set(_vm.chapterData, "score", $event.target.value)
+        _vm.$set(_vm.examinationPaperData, "score", $event.target.value)
       }
     }
   })]), _vm._v(" "), _c('div', {
@@ -48276,20 +48305,20 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     directives: [{
       name: "model",
       rawName: "v-model",
-      value: (_vm.chapterData.number),
-      expression: "chapterData.number"
+      value: (_vm.examinationPaperData.number),
+      expression: "examinationPaperData.number"
     }],
     staticClass: "input",
     attrs: {
       "type": "text"
     },
     domProps: {
-      "value": (_vm.chapterData.number)
+      "value": (_vm.examinationPaperData.number)
     },
     on: {
       "input": function($event) {
         if ($event.target.composing) { return; }
-        _vm.$set(_vm.chapterData, "number", $event.target.value)
+        _vm.$set(_vm.examinationPaperData, "number", $event.target.value)
       }
     }
   })]), _vm._v(" "), _c('div', {
@@ -48298,20 +48327,20 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     directives: [{
       name: "model",
       rawName: "v-model",
-      value: (_vm.chapterData.describe),
-      expression: "chapterData.describe"
+      value: (_vm.examinationPaperData.describe),
+      expression: "examinationPaperData.describe"
     }],
     staticClass: "input",
     attrs: {
       "type": "text"
     },
     domProps: {
-      "value": (_vm.chapterData.describe)
+      "value": (_vm.examinationPaperData.describe)
     },
     on: {
       "input": function($event) {
         if ($event.target.composing) { return; }
-        _vm.$set(_vm.chapterData, "describe", $event.target.value)
+        _vm.$set(_vm.examinationPaperData, "describe", $event.target.value)
       }
     }
   })]), _vm._v(" "), _c('div', {
@@ -48320,20 +48349,20 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     directives: [{
       name: "model",
       rawName: "v-model",
-      value: (_vm.chapterData.question_type),
-      expression: "chapterData.question_type"
+      value: (_vm.examinationPaperData.question_type),
+      expression: "examinationPaperData.question_type"
     }],
     staticClass: "input",
     attrs: {
       "type": "text"
     },
     domProps: {
-      "value": (_vm.chapterData.question_type)
+      "value": (_vm.examinationPaperData.question_type)
     },
     on: {
       "input": function($event) {
         if ($event.target.composing) { return; }
-        _vm.$set(_vm.chapterData, "question_type", $event.target.value)
+        _vm.$set(_vm.examinationPaperData, "question_type", $event.target.value)
       }
     }
   })])]), _vm._v(" "), _c('footer', {

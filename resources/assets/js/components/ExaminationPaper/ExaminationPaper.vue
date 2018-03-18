@@ -47,12 +47,17 @@
 
     <add-examination-paper ref="addExaminationPaper"></add-examination-paper>
     <edit-examination-paper ref="editExaminationPaper" v-bind:edit-data="editData"></edit-examination-paper>
+    <pagination v-bind:pagination-data="paginationData"
+            v-model="data"
+    ></pagination>
   </div>
 </template>
 
 <script>
 import AddExaminationPaper from './AddExaminationPaper'
 import EditExaminationPaper from './EditExaminationPaper'
+import Pagination from './../Pagination.vue'
+
 export default {
   data() {
     return {
@@ -97,11 +102,14 @@ export default {
       isShowModal: false,
       token: null,
       editData: null,
+      paginationData: null,
+      data: null,
     }
   },
   components: {
     AddExaminationPaper,
     EditExaminationPaper,
+    Pagination,
   },
   methods: {
     showModal: function () {
@@ -140,6 +148,8 @@ export default {
 
         that.examinationPaperData = [];
         that.examinationPaperData.push(res.data.data);
+        that.paginationData = res.data.links;
+
       }).catch(err => {
         console.log(err)
       })
@@ -171,9 +181,14 @@ export default {
   },
   created() {
     this.token = sessionStorage.getItem('token');
-    this.getExaminationPaper();
+    // this.getExaminationPaper();
   },
   watch: {
+    data:function (value, oldValue) {
+      const that = this;
+      that.permissionData = value.data;
+      that.paginationData = value.links;
+    }
   }
 }
 </script>
