@@ -28,16 +28,14 @@
           <td>{{ item.updated_at }}</td>
           <td>
             <button @click="deleteUser(index)" class="button" type="button" name="button">删除用户</button>
-            <button @click="showEditModal(index)" class="button" type="button" name="button">编辑用户</button>
+            <button @click="editUser(index)" class="button" type="button" name="button">编辑用户</button>
             <!-- <button @click="showEditModal(index)" class="button" type="button" name="button">更改密码</button> -->
           </td>
         </tr>
       </tbody>
     </table>
 
-    <edit-user :is-show-edit-modal="isShowEditModal"
-               :current-user-data="currentUserData">
-    </edit-user>
+    <edit-user ref="editUser" v-bind:edit-data="editData"></edit-user>
   </div>
 </template>
 
@@ -53,6 +51,7 @@ export default {
       searchKey: null,
       isShowEditModal: false,
       currentUserData: null, // 当前选中的用户
+      editData: null,
     }
   },
   components: {
@@ -116,6 +115,10 @@ export default {
       }).catch(err => {
         console.log(err)
       })
+    },
+    editUser: function () {
+      const that = this;
+      that.$refs.editUser.switchModal();
     },
     checkPermissions: function () {
       const that = this;
