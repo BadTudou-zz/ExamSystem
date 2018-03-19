@@ -7,8 +7,10 @@
 </template>
 
 <script>
-import Login from './components/Login.vue'
-import HomePage from './components/HomePage.vue'
+import Login from './Login.vue'
+// import Login from './components/Login.vue'
+import HomePage from './HomePage.vue'
+// import HomePage from './components/HomePage.vue'
 export default {
   data() {
     return {
@@ -30,8 +32,6 @@ export default {
       const that = this;
       let token = sessionStorage.getItem("token");
       if (token) {
-        that.$store.commit('setToken', token);
-        // that.$store.commit('setUserData', userData);
         that.isShowLogin = false;
       }
       else {

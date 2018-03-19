@@ -110,6 +110,17 @@ export default {
       })
     }
   },
+  computed: {
+    isShowCreateMessage() {
+      return this.$store.state.permissionIdList.includes(14);
+    },
+    isShowSearchMessage() {
+      return this.$store.state.permissionIdList.includes(15);
+    },
+    isShowDeleteMessage() {
+      return this.$store.state.permissionIdList.includes(16);
+    },
+  },
   created() {
     this.token = sessionStorage.getItem('token');
     // this.getMessage();

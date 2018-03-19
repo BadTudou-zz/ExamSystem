@@ -120,7 +120,7 @@ export default {
           'Authorization': that.token
         }
       }).then(res => {
-         
+
         that.questiondData = [];
         that.questiondData.push(res.data.data);
       }).catch(err => {
@@ -151,6 +151,20 @@ export default {
         console.log(err)
       })
     }
+  },
+  computed: {
+    isShowCreateQuestion() {
+      return this.$store.state.permissionIdList.includes(34);
+    },
+    isShowSearchQuestion() {
+      return this.$store.state.permissionIdList.includes(35);
+    },
+    isShowUpdateQuestion() {
+      return this.$store.state.permissionIdList.includes(36);
+    },
+    isShowDeleteQuestion() {
+      return this.$store.state.permissionIdList.includes(37);
+    },
   },
   created() {
     this.token = sessionStorage.getItem('token');

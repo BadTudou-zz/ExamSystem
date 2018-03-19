@@ -7,14 +7,72 @@ import Navigation from './Navigation'
 export default {
   data() {
     return {
+      permissionIdList: [],
+      permissionData: null,
+      token: null,
+      url: `${this.GLOBAL.localDomain}/api/v1/roles/1/permissions`,
     };
   },
   components: {
     Navigation
   },
   methods: {
+    getPermission: function (url) {
+      const that = this;
+      let urlPath = url ? url : that.url
+      axios({
+        method: 'get',
+        url: urlPath,
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': that.token
+        }
+      }).then(res => {
+        that.permissionData = res.data;  // conclude links
+        that.url = res.data.links.next;
+        for (let i = 0; i < res.data.data.length; i++) {
+          that.permissionIdList.push(parseInt(res.data.data[i].id));
+        }
+          that.$store.commit('setPermissionIdList', that.permissionIdList);
+        if (that.url) {
+          that.getNextPermission(that.url);
+        }
+      }).catch(err => {
+        console.log(err);
+      })
+    },
+    getNextPermission: function (url) {
+      const that = this;
+      axios({
+        method: 'get',
+        url: url,
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': that.token
+        }
+      }).then(res => {
+        that.permissionData = res.data;  // conclude links
+        that.url = res.data.links.next;
+        for (let i = 0; i < res.data.data.length; i++) {
+          that.permissionIdList.push(parseInt(res.data.data[i].id));
+        }
+        that.$store.commit('setPermissionIdList', that.permissionIdList);
+        if (that.url) {
+          that.getPermission(that.url);
+        }
+      }).catch(err => {
+        console.log(err);
+      })
+      // console.log(that.permissionIdList)
+    },
   },
   created() {
+    this.token = sessionStorage.getItem('token')
+    this.getPermission();
+    // console.log(this.permissionIdList);
+    // console.log('-----------------');
+
+    console.log(this.$store.state.permissionIdList);
   },
   watch: {
   }

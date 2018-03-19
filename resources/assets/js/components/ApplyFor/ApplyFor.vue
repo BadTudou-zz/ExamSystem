@@ -123,7 +123,7 @@ export default {
           'Authorization': that.token
         }
       }).then(res => {
-         
+
         that.applyForData = [];
         that.applyForData.push(res.data.data);
       }).catch(err => {
@@ -151,7 +151,7 @@ export default {
           'Authorization': that.token
         }
       }).then(res => {
-         
+
         that.applyForData = [];
         that.applyForData.push(res.data.data);
       }).catch(err => {
@@ -169,13 +169,30 @@ export default {
           'Authorization': that.token
         }
       }).then(res => {
-         
+
         that.applyForData = [];
         that.applyForData.push(res.data.data);
       }).catch(err => {
         console.log(err)
       })
     }
+  },
+  computed: {
+    isShowCreateApplication() {
+      return this.$store.state.permissionIdList.includes(44);
+    },
+    isShowSearchApplication() {
+      return this.$store.state.permissionIdList.includes(45);
+    },
+    isShowAccpetApplication() {
+      return this.$store.state.permissionIdList.includes(46);
+    },
+    isShowRejectApplication() {
+      return this.$store.state.permissionIdList.includes(47);
+    },
+    isShowDeleteApplication() {
+      return this.$store.state.permissionIdList.includes(48);
+    },
   },
   created() {
     this.token = sessionStorage.getItem('token');

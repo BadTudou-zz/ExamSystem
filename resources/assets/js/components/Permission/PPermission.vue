@@ -18,7 +18,7 @@
           <th>描述</th>
           <th>创建时间</th>
           <th>更新时间</th>
-          <th>操作</th>
+          <th v-show="isShowDeletePermission">操作</th>
         </tr>
       </thead>
       <tbody>
@@ -29,11 +29,14 @@
           <td>{{ item.description }}</td>
           <td>{{ item.created_at }}</td>
           <td>{{ item.updated_at }}</td>
-          <td><button @click="deletePermission()" class="button" type="button" name="button">删除权限</button></td>
+          <td><button v-show="isShowDeletePermission" @click="deletePermission()" class="button" type="button" name="button">删除权限</button></td>
         </tr>
       </tbody>
     </table>
 
+    <pagination v-bind:pagination-data="paginationData"
+                v-model="data"
+    ></pagination>
     <add-permission ref="addPermission"></add-permission>
 
   </div>
@@ -41,6 +44,7 @@
 
 <script>
 import AddPermission from './AddPermission'
+import Pagination from './../Pagination.vue'
 export default {
   data() {
     return {
@@ -48,10 +52,14 @@ export default {
       permissionData: null,
       isShowModal: false,
       permissionId: null,
+      paginationData: null,
+      data: null,  // from Pagination.vue
+      token: null,
     }
   },
   components: {
     AddPermission,
+    Pagination,
   },
   methods: {
     showModal: function () {
@@ -81,17 +89,19 @@ export default {
         })
       }
     },
-    getPermission: function () {
+    getPermission: function (page = 1) {
       const that = this;
       axios({
         method: 'get',
-        url: `${this.GLOBAL.localDomain}/api/v1/roles/1/permissions`,
+        url: `${this.GLOBAL.localDomain}/api/v1/roles/1/permissions?page=${page}`,
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token
+          // 'Authorization': this.$store.state.token,
+          'Authorization': that.token,
         }
       }).then(res => {
         that.permissionData = res.data.data;
+        that.paginationData = res.data.links;
       }).catch(err => {
         console.log(err)
       })
@@ -111,13 +121,29 @@ export default {
       }).catch(err => {
         console.log(err)
       })
-    }
+    },
+  },
+  computed: {
+    isShowCreatePermission() {
+      return this.$store.state.permissionIdList.includes(1)
+    },
+    isShowSearchPermission() {
+      return this.$store.state.permissionIdList.includes(2)
+    },
+    isShowDeletePermission() {
+      return this.$store.state.permissionIdList.includes(3)
+    },
   },
   created() {
     this.token = sessionStorage.getItem('token');
     this.getPermission();
   },
   watch: {
+    data:function (value, oldValue) {
+      const that = this;
+      that.permissionData = value.data;
+      that.paginationData = value.links;
+    }
   }
 }
 </script>
