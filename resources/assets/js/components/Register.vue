@@ -1,4 +1,3 @@
-<!-- 教师注册组件 -->
 <template lang="html">
   <div class="">
     <!-- register -->
@@ -6,37 +5,37 @@
       <div class="modal-background is-actice"></div>
       <div class="modal-card">
         <header class="modal-card-head">
-          <p class="modal-card-title">教师账号注册</p>
+          <p class="modal-card-title">注册</p>
           <button class="delete" aria-label="close"  @click="switchModal()"></button>
         </header>
         <section class="modal-card-body">
           <div class="item-box">
-            <span>工号</span>
-            <input class="input" type="text" name="" value="">
-          </div>
-          <div class="item-box">
-            <span>密码</span>
-            <input class="input" type="text" name="" value="">
-          </div>
-          <div class="item-box">
-            <span>姓名</span>
-            <input class="input" type="text" name="" value="">
-          </div>
-          <div class="item-box">
-            <span>电话</span>
-            <input class="input" type="text" name="" value="">
+            <span>用户名</span>
+            <input v-model="name" class="input" type="text">
           </div>
           <div class="item-box">
             <span>邮箱</span>
-            <input class="input" type="text" name="" value="">
+            <input v-model="email" class="input" type="text">
           </div>
           <div class="item-box">
-            <span>QQ</span>
-            <input class="input" type="text" name="" value="">
+            <span>密码</span>
+            <input v-model="password" class="input" type="password">
+          </div>
+          <div class="item-box">
+            <span>确认密码</span>
+            <input v-model="c_password" class="input" type="password">
+          </div>
+          <div class="item-box">
+            <span>验证码</span>
+            <input v-model="captcha" class="input" type="text">
+          </div>
+          <div class="code-box">
+            <img class="verification-code" :src="captchaFigure" alt="">
+            <a @click="getVerificationCode()" class="get-verification-code">获取验证码</a>
           </div>
         </section>
         <footer class="modal-card-foot">
-          <button class="button is-success">确认创建</button>
+          <button @click="register()" class="button is-success">确认注册</button>
           <button class="button" @click="switchModal()">取消</button>
         </footer>
       </div>
@@ -49,6 +48,12 @@ export default {
   data() {
     return {
       isShowModal: false,
+      captchaFigure: null,
+      name: null,
+      email: null,
+      password: null,
+      c_password: null,
+      captcha: null,
     };
   },
   components: {
@@ -57,16 +62,71 @@ export default {
     switchModal: function () {
       const that = this;
       that.isShowModal = !that.isShowModal;
-    }
+    },
+    getVerificationCode: function () {
+      const that = this;
+      axios({
+        method: 'post',
+        url: `${this.GLOBAL.localDomain}/api/captchas`,
+        responseType: 'arraybuffer',
+        headers: {
+          'Content-type': 'application/x-www-form-urlencoded',
+          'Accept': 'application/json'
+        },
+        params: {
+          'purpose': 'REGISTER',
+        }
+      }).then(res => {
+        that.captchaFigure = 'data:image/png;base64,' + btoa(
+          new Uint8Array(res.data)
+            .reduce((data, byte) => data + String.fromCharCode(byte), '')
+        );
+      }).catch(err => {
+        console.log(err)
+      })
+    },
+    register: function (username, password) {
+      const that = this;
+      console.log('登录')
+      axios({
+        method: 'post',
+        url: `${this.GLOBAL.localDomain}/api/register`,
+        headers: {
+          'Content-type': 'application/json;charset=utf8',
+        },
+        data: {
+          name: that.name,
+          email: that.email,
+          password: that.password,
+          c_password: that.c_password,
+          captcha: that.captcha,
+        }
+      }).then(res => {
+        alert('注册成功');
+        that.name = '';
+        that.email = '';
+        that.password = '';
+        that.c_password = '';
+        that.captcha = '';
+      }).catch(err => {
+        alert('注册失败');
+        this.getVerificationCode();
+      })
+    },
   },
   watch: {
 
+  },
+  created() {
+    this.getVerificationCode();
   }
 }
 </script>
 
 <style lang="scss">
 .item-box {
+  width: 500px;
+  margin: 0 auto;
   margin-bottom: 20px;
   input {
     display: inline-block;
@@ -77,5 +137,9 @@ export default {
     width: 80px;
     margin-right: 20px;
   }
+}
+.code-box {
+  margin: 0 auto;
+  width: 300px;
 }
 </style>

@@ -115,11 +115,25 @@ export default {
         }
       }).then(res => {
         that.courseData = res.data.data;
-        //  
+        //
       }).catch(err => {
         console.log(err)
       })
     }
+  },
+  computed: {
+    isShowCreateCourse() {
+      return this.$store.state.permissionIdList.includes(22);
+    },
+    isShowSearchCourse() {
+      return this.$store.state.permissionIdList.includes(23);
+    },
+    isShowUpdateCourse() {
+      return this.$store.state.permissionIdList.includes(24);
+    },
+    isShowDeleteCourse() {
+      return this.$store.state.permissionIdList.includes(25);
+    },
   },
   created() {
     this.token = sessionStorage.getItem('token');

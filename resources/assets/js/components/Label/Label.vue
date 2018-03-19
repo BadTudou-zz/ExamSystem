@@ -75,7 +75,7 @@ export default {
       labelData: [
         {
             "id": "53e20281-90ee-4d1e-824e-ac45ac138446",
-            "type": "App\\Notifications\\ApplicationNotification",
+            "type": "App\\Notifications\\LabelNotification",
             "notifiable_id": "1",
             "notifiable_type": "App\\User",
             "data": "{\"notifiable_id\":\"1\",\"action\":\"create\",\"resource_id\":\"1\",\"resource_type\":\"Organization\",\"data\":\"\\u8fd9\\u662f\\u79c1\\u4fe1\"}",
@@ -147,7 +147,7 @@ export default {
           'Authorization': that.token
         }
       }).then(res => {
-         
+
         that.labelData = [];
         that.labelData.push(res.data.data);
       }).catch(err => {
@@ -175,7 +175,7 @@ export default {
           'Authorization': that.token
         }
       }).then(res => {
-         
+
         that.labelData = [];
         that.labelData.push(res.data.data);
       }).catch(err => {
@@ -193,13 +193,24 @@ export default {
           'Authorization': that.token
         }
       }).then(res => {
-         
+
         that.labelData = [];
         that.labelData.push(res.data.data);
       }).catch(err => {
         console.log(err)
       })
     }
+  },
+  computed: {
+    isShowSearchLabel() {
+      return this.$store.state.permissionIdList.includes(50);
+    },
+    isShowUpdateLabel() {
+      return this.$store.state.permissionIdList.includes(51);
+    },
+    isShowDeleteLabel() {
+      return this.$store.state.permissionIdList.includes(52);
+    },
   },
   created() {
     this.token = sessionStorage.getItem('token');

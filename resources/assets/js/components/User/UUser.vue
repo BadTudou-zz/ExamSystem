@@ -139,6 +139,14 @@ export default {
       //
     }
   },
+  computed: {
+    isShowUpdateUser() {
+      return this.$store.state.permissionIdList.includes(11)
+    },
+    isShowDeleteUser() {
+      return this.$store.state.permissionIdList.includes(12)
+    },
+  },
   created() {
     this.token = sessionStorage.getItem('token');
     this.getUser();
