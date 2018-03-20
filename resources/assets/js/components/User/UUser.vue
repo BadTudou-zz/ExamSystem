@@ -77,8 +77,7 @@ export default {
     deleteUser: function (index) {
       const that = this;
       let id = that.userData[index]['id'];
-      console.log(id)
-      let prompt = confirm("确认删除改用户吗？");
+      let prompt = confirm("确认删除该用户吗？");
       if (prompt) {
         axios({
           method: 'delete',

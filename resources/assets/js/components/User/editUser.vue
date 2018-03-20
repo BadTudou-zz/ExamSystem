@@ -1,12 +1,11 @@
 <!-- 编辑用户 -->
 <!-- ??有哪些数据允许编辑 -->
 <template lang="html">
-  <div class="modal" v-bind:class="{'is-active': isShowModal}"
-                     >
+  <div class="modal" v-bind:class="{'is-active': isShowModal}">
   <div class="modal-background"></div>
   <div class="modal-card">
     <header class="modal-card-head">
-      <p class="modal-card-title">Modal title</p>
+      <p class="modal-card-title">编辑用户</p>
       <button @click="switchModal()" class="delete" aria-label="close"></button>
     </header>
     <section class="modal-card-body">

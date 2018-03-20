@@ -1,5 +1,5 @@
 <template lang="html">
-  <div class="modal" :class="{'is-active' : isShowModal}">
+  <div class="modal" v-bind:class="{'is-active': isShowModal}">
     <div class="modal-background"></div>
     <div class="modal-card">
       <header class="modal-card-head">
@@ -22,7 +22,7 @@
         </div>
       </section>
       <footer class="modal-card-foot">
-        <button @click="createRole()" class="button is-success">确认</button>
+        <button @click="addRole()" class="button is-success">确认</button>
         <button  @click="switchModal()" class="button">取消</button>
       </footer>
     </div>
@@ -33,6 +33,7 @@
 export default {
   data() {
     return {
+      token: null,
       isShowModal: false,
       roleData: {
         name: null,
@@ -48,28 +49,39 @@ export default {
       const that = this;
       that.isShowModal = !that.isShowModal;
     },
-    createRole: function () {
+    addRole: function () {
       const that = this;
       axios({
         method: 'post',
         url: `${this.GLOBAL.localDomain}/api/v1/roles/`,
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token
+          'Authorization': that.token,
         },
-        body: {
+        params: {
           name: that.roleData.name,
           display_name: that.roleData.display_name,
-          description: that.roleData.description
+          description: that.roleData.description,
         }
       }).then(res => {
+        alert('添加成功');
+        that.$emit('getRole');   //第一个参数名为调用的方法名，第二个参数为需要传递的参数
+        that.switchModal();
+        that.roleData.name = '';
+        that.roleData.display_name = '';
+        that.userData.description = '';
       }).catch(err => {
+        alert('添加失败');
         console.log(err)
+        that.roleData.name = '';
+        that.roleData.display_name = '';
+        that.userData.description = '';
       })
 
     }
   },
   created() {
+    this.token = sessionStorage.getItem('token');
   },
   watch: {
   }
