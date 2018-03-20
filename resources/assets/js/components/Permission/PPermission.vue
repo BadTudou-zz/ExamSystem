@@ -6,8 +6,8 @@
         <input v-model="permissionId" class="input search-input" type="text" placeholder="请输入你要查看的权限">
         <button @click="searchPermission()" class="button" type="button" name="button">查找权限</button>
       </div>
-        <button @click="addPermission()" class="button add-role-button" type="button" name="button">添加权限</button>
-        <button class="button add-role-button" type="button" name="button">同步权限</button>
+        <button @click="addPermission()" class="button add-permission-button" type="button" name="button">添加权限</button>
+        <button class="button add-permission-button" type="button" name="button">同步权限</button>
     </div>
     <table class="table">
       <thead>
@@ -22,14 +22,14 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="item in permissionData">
+        <tr v-for="(item,index) in permissionData">
           <td>{{ item.id }}</td>
           <td>{{ item.name }}</td>
           <td>{{ item.display_name }}</td>
           <td>{{ item.description }}</td>
           <td>{{ item.created_at }}</td>
           <td>{{ item.updated_at }}</td>
-          <td><button v-show="isShowDeletePermission" @click="deletePermission()" class="button" type="button" name="button">删除权限</button></td>
+          <td><button v-show="isShowDeletePermission" @click="deletePermission(index)" class="button" type="button" name="button">删除权限</button></td>
         </tr>
       </tbody>
     </table>
@@ -37,7 +37,10 @@
     <pagination v-bind:pagination-data="paginationData"
                 v-model="data"
     ></pagination>
-    <add-permission ref="addPermission"></add-permission>
+
+    <add-permission ref="addPermission"
+                    v-on:getPermission="getPermission"
+    ></add-permission>
 
   </div>
 </template>
@@ -66,25 +69,27 @@ export default {
       const that = this;
       that.isShowModal = !that.isShowModal;
     },
-    addPermission: function() {
+    addPermission: function () {
       const that = this;
       that.$refs.addPermission.switchModal();
     },
-    // 删除权限 ??参数
-    deletePermission: function () {
+    deletePermission: function (index) {
       const that = this;
-      let prompt = confirm("确认删除改权限吗？");
+      let id = that.roleData[index]['id'];
+      let prompt = confirm("确认删除该权限吗？");
       if (prompt) {
         axios({
           method: 'delete',
-          url: `${this.GLOBAL.localDomain}/api/v1/roles/1/permissions`,
+          url: `${this.GLOBAL.localDomain}/api/v1/permissions/${id}`,
           headers: {
             'Accept': 'application/json',
             'Authorization': that.token
           }
         }).then(res => {
-          that.permissionData = res.data.data;
+          alert('删除成功！');
+          that.getRole();
         }).catch(err => {
+          alert('删除失败，请稍后再试')
           console.log(err)
         })
       }
@@ -162,7 +167,7 @@ table {
   display: inline-block;
   border-right: 1px solid #dedede;
 }
-.add-role-button {
+.add-permission-button {
   margin-left: 20px;
 }
 .box-item {

@@ -34,16 +34,10 @@
     <pagination v-bind:pagination-data="paginationData"
                 v-model="data"
     ></pagination>
-    <!-- <add-role ref="addRole" v-bind:is-show-modal="isShowModal"></add-role> -->
 
     <add-role ref="addRole"
               v-on:getRole="getRole"
     ></add-role>
-
-    <!-- <edit-user ref="editUser"
-               v-bind:edit-data="editData"
-               v-on:getUser="getUser"
-    ></edit-user> -->
 
   </div>
 </template>
@@ -76,7 +70,6 @@ export default {
     deleteRole: function (index) {
       const that = this;
       let id = that.roleData[index]['id'];
-      console.log(id)
       let prompt = confirm("确认删除该角色吗？");
       if (prompt) {
         axios({
