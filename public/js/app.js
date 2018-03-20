@@ -17421,6 +17421,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
+      token: null,
       isShowModal: false,
       roleData: {
         name: null,
@@ -17436,7 +17437,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       var that = this;
       that.isShowModal = !that.isShowModal;
     },
-    createRole: function createRole() {
+    addRole: function addRole() {
       var that = this;
       axios({
         method: 'post',
@@ -17445,17 +17446,30 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
           'Accept': 'application/json',
           'Authorization': that.token
         },
-        body: {
+        params: {
           name: that.roleData.name,
           display_name: that.roleData.display_name,
           description: that.roleData.description
         }
-      }).then(function (res) {}).catch(function (err) {
+      }).then(function (res) {
+        alert('添加成功');
+        that.$emit('getRole'); //第一个参数名为调用的方法名，第二个参数为需要传递的参数
+        that.switchModal();
+        that.roleData.name = '';
+        that.roleData.display_name = '';
+        that.userData.description = '';
+      }).catch(function (err) {
+        alert('添加失败');
         console.log(err);
+        that.roleData.name = '';
+        that.roleData.display_name = '';
+        that.userData.description = '';
       });
     }
   },
-  created: function created() {},
+  created: function created() {
+    this.token = sessionStorage.getItem('token');
+  },
 
   watch: {}
 });
@@ -17600,8 +17614,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__AddRole___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__AddRole__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Pagination_vue__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Pagination_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__Pagination_vue__);
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -17662,15 +17684,33 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     AddRole: __WEBPACK_IMPORTED_MODULE_0__AddRole___default.a,
     Pagination: __WEBPACK_IMPORTED_MODULE_1__Pagination_vue___default.a
   },
-  methods: _defineProperty({
+  methods: {
     switchModal: function switchModal() {
       var that = this;
       that.$refs.addRole.switchModal();
     },
-    deleteRole: function deleteRole() {
+    // 删除用户
+    deleteRole: function deleteRole(index) {
       var that = this;
-      var prompt = confirm("确认删除改角色吗？");
-      if (prompt) {}
+      var id = that.roleData[index]['id'];
+      console.log(id);
+      var prompt = confirm("确认删除该角色吗？");
+      if (prompt) {
+        axios({
+          method: 'delete',
+          url: this.GLOBAL.localDomain + '/api/v1/roles/' + id,
+          headers: {
+            'Accept': 'application/json',
+            'Authorization': that.token
+          }
+        }).then(function (res) {
+          alert('删除成功！');
+          that.getRole();
+        }).catch(function (err) {
+          alert('删除失败，请稍后再试');
+          console.log(err);
+        });
+      }
     },
     getRole: function getRole() {
       var that = this;
@@ -17688,9 +17728,17 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         console.log(err);
       });
     },
+    addRole: function addRole() {
+      var that = this;
+      that.$refs.addRole.switchModal();
+    },
     // 查找用户
     searchRole: function searchRole() {
       var that = this;
+      if (!that.searchKey) {
+        that.getRole();
+        return;
+      }
       axios({
         method: 'get',
         url: this.GLOBAL.localDomain + '/api/v1/roles/' + that.searchKey,
@@ -17705,25 +17753,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         console.log(err);
       });
     }
-  }, 'deleteRole', function deleteRole(index) {
-    var that = this;
-    var id = that.roleData[index]['id'];
-    var prompt = confirm("确认删除改用户吗？");
-    if (prompt) {
-      axios({
-        method: 'put',
-        url: this.GLOBAL.localDomain + '/api/v1/roles/' + id,
-        headers: {
-          'Accept': 'application/json',
-          'Authorization': that.token
-        }
-      }).then(function (res) {
-        that.roleData = res.data.data;
-      }).catch(function (err) {
-        console.log(err);
-      });
-    }
-  }),
+  },
   computed: {
     isShowCreateRole: function isShowCreateRole() {
       return this.$store.state.permissionIdList.includes(5);
@@ -18701,8 +18731,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     deleteUser: function deleteUser(index) {
       var that = this;
       var id = that.userData[index]['id'];
-      console.log(id);
-      var prompt = confirm("确认删除改用户吗？");
+      var prompt = confirm("确认删除该用户吗？");
       if (prompt) {
         axios({
           method: 'delete',
@@ -18982,7 +19011,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-//
 //
 //
 //
@@ -23670,7 +23698,7 @@ exports.push([module.i, "\nlabel {\n  display: inline-block;\n  width: 100px;\n}
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(1)();
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 /***/ }),
 /* 125 */
@@ -45509,7 +45537,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "modal-card-head"
   }, [_c('p', {
     staticClass: "modal-card-title"
-  }, [_vm._v("Modal title")]), _vm._v(" "), _c('button', {
+  }, [_vm._v("编辑用户")]), _vm._v(" "), _c('button', {
     staticClass: "delete",
     attrs: {
       "aria-label": "close"
@@ -45673,7 +45701,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "button is-success",
     on: {
       "click": function($event) {
-        _vm.createRole()
+        _vm.addRole()
       }
     }
   }, [_vm._v("确认")]), _vm._v(" "), _c('button', {
@@ -45734,13 +45762,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.searchUser()
       }
     }
-  }, [_vm._v("查找用户")])]), _vm._v(" "), _c('button', {
-    staticClass: "button add-user-button",
-    attrs: {
-      "type": "button",
-      "name": "button"
-    }
-  }, [_vm._v("添加用户")])]), _vm._v(" "), _c('table', {
+  }, [_vm._v("查找用户")])])]), _vm._v(" "), _c('table', {
     staticClass: "table"
   }, [_vm._m(0), _vm._v(" "), _c('tbody', _vm._l((_vm.userData), function(item, index) {
     return _c('tr', [_c('td', [_vm._v(_vm._s(item.id))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.name))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.display_name))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.created_at))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.updated_at))]), _vm._v(" "), _c('td', [_c('button', {
@@ -47412,6 +47434,11 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "type": "button",
       "name": "button"
+    },
+    on: {
+      "click": function($event) {
+        _vm.searchRole()
+      }
     }
   }, [_vm._v("查找角色")])]), _vm._v(" "), _c('button', {
     staticClass: "button add-role-button",
@@ -47421,7 +47448,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     },
     on: {
       "click": function($event) {
-        _vm.switchModal()
+        _vm.addRole()
       }
     }
   }, [_vm._v("添加角色")])]), _vm._v(" "), _c('table', {
@@ -47452,8 +47479,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }), _vm._v(" "), _c('add-role', {
     ref: "addRole",
-    attrs: {
-      "is-show-modal": _vm.isShowModal
+    on: {
+      "getRole": _vm.getRole
     }
   })], 1)
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
