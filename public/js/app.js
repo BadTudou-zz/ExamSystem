@@ -16238,6 +16238,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -16245,10 +16248,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       isShowModal: false,
       organizationData: {
         name: null, // 组织名称
+        describe: null, // 组织描述
         max: null // 最大值
       },
-      token: null,
-      permissionId: null
+      token: null
     };
   },
 
@@ -16257,11 +16260,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     switchModal: function switchModal() {
       var that = this;
       that.isShowModal = !that.isShowModal;
+      that.clearWords();
     },
-    // 添加组织
+    clearWords: function clearWords() {
+      var that = this;
+      that.organizationData.name = '';
+      that.organizationData.describe = '';
+      that.organizationData.max = '';
+    },
     addOrganization: function addOrganization() {
       var that = this;
-      that.organizationData.max = Number(that.organizationData.max);
       axios({
         method: 'post',
         url: this.GLOBAL.localDomain + '/api/v1/organizations',
@@ -16269,12 +16277,19 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
           'Accept': 'application/json',
           'Authorization': that.token
         },
-        body: {
+        params: {
           name: that.organizationData.name,
+          describe: that.organizationData.describe,
           max: that.organizationData.max
         }
-      }).then(function (res) {}).catch(function (err) {
+      }).then(function (res) {
+        alert('添加成功');
+        that.$emit('getOrganization'); //第一个参数名为调用的方法名，第二个参数为需要传递的参数
+        that.switchModal();
+      }).catch(function (err) {
+        alert('添加失败');
         console.log(err);
+        that.clearWords();
       });
     }
   },
@@ -16369,22 +16384,26 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     editOrganization: function editOrganization() {
       var that = this;
-      id = that.currentOrganizationData.id;
       axios({
         method: 'put',
-        url: this.GLOBAL.localDomain + '/api/v1/organizations/' + id,
+        url: this.GLOBAL.localDomain + '/api/v1/organizations/' + that.currentOrganizationData.id,
         headers: {
           'Accept': 'application/json',
           'Authorization': that.token
         },
-        body: {
-          // ?? 传入的是String or Number
-          name: that.organizationData.name,
-          description: that.organizationData.description,
-          max: that.organizationData.max
+        params: {
+          name: that.currentOrganizationData.name,
+          describe: that.currentOrganizationData.describe,
+          max: that.currentOrganizationData.max
         }
-      }).then(function (res) {}).catch(function (err) {
+      }).then(function (res) {
+        alert('编辑成功');
+        that.$emit('getOrganization'); //第一个参数名为调用的方法名，第二个参数为需要传递的参数
+        that.switchModal();
+      }).catch(function (err) {
+        alert('编辑失败');
         console.log(err);
+        that.clearWords();
       });
     }
   },
@@ -16395,7 +16414,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   watch: {
     editData: function editData(value, oldValue) {
       var that = this;
-      that.currentOrganizationData = value;
+      that.currentOrganizationData.id = value.id;
+      that.currentOrganizationData.name = value.name;
+      that.currentOrganizationData.describe = value.describe;
+      that.currentOrganizationData.max = value.max;
     }
   }
 });
@@ -16465,6 +16487,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -16474,19 +16503,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   data: function data() {
     return {
       token: null,
-      "OrganizationData": [{
-        "id": 2,
-        "name": "1班1111",
-        "creator_id": "1",
-        "": "职教师资1班",
-        "max": "234",
-        "current": "1",
-        "created_at": "2018-01-13 08:04:13",
-        "updated_at": "2018-01-13 08:08:55"
-      }],
+      organizationData: null,
       isShowModal: false,
-      // OrganizationData: null,
-      organizationId: null,
+      searchKey: null,
       editData: null, // 当前编辑的组织数据
       paginationData: null,
       data: null
@@ -16505,6 +16524,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     editOrganization: function editOrganization(index) {
       var that = this;
+      that.editData = that.organizationData[index];
       that.$refs.editOrganization.switchModal();
     },
     getOrganization: function getOrganization() {
@@ -16517,7 +16537,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
           'Authorization': that.token
         }
       }).then(function (res) {
-        that.permissionData = res.data.data;
+        that.organizationData = res.data.data;
         that.paginationData = res.data.links;
       }).catch(function (err) {
         console.log(err);
@@ -16527,32 +16547,38 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       var that = this;
       axios({
         method: 'get',
-        url: this.GLOBAL.localDomain + '/api/v1/organizations/' + that.organizationId,
+        url: this.GLOBAL.localDomain + '/api/v1/organizations/' + that.searchKey,
         headers: {
           'Accept': 'application/json',
           'Authorization': that.token
         }
       }).then(function (res) {
-        that.permissionData = [];
-        that.permissionData.push(res.data.data);
+        that.organizationData = [];
+        that.organizationData.push(res.data.data);
       }).catch(function (err) {
         console.log(err);
       });
     },
-    // 删除组织 ??删除需要的参数
     deleteOrganization: function deleteOrganization(index) {
       var that = this;
       var id = that.organizationData[index]['id'];
-      axios({
-        method: 'delete',
-        url: this.GLOBAL.localDomain + '/api/v1/organizations/' + id,
-        headers: {
-          'Accept': 'application/json',
-          'Authorization': that.token
-        }
-      }).then(function (res) {}).catch(function (err) {
-        console.log(err);
-      });
+      var prompt = confirm("确认删除该组织吗？");
+      if (prompt) {
+        axios({
+          method: 'delete',
+          url: this.GLOBAL.localDomain + '/api/v1/organizations/' + id,
+          headers: {
+            'Accept': 'application/json',
+            'Authorization': that.token
+          }
+        }).then(function (res) {
+          alert('删除成功');
+          that.getOrganization();
+        }).catch(function (err) {
+          alert('删除失败');
+          console.log(err);
+        });
+      }
     }
   },
   computed: {
@@ -16574,7 +16600,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   watch: {
     data: function data(value, oldValue) {
       var that = this;
-      that.permissionData = value.data;
+      that.organizationData = value.data;
       that.paginationData = value.links;
     }
   }
@@ -23685,7 +23711,7 @@ exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(1)();
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 /***/ }),
 /* 112 */
@@ -44250,6 +44276,28 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   })]), _vm._v(" "), _c('div', {
     staticClass: "box-item"
+  }, [_c('label', [_vm._v("组织描述")]), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.organizationData.describe),
+      expression: "organizationData.describe"
+    }],
+    staticClass: "input",
+    attrs: {
+      "type": "text"
+    },
+    domProps: {
+      "value": (_vm.organizationData.describe)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.$set(_vm.organizationData, "describe", $event.target.value)
+      }
+    }
+  })]), _vm._v(" "), _c('div', {
+    staticClass: "box-item"
   }, [_c('label', [_vm._v("最大值")]), _vm._v(" "), _c('input', {
     directives: [{
       name: "model",
@@ -45995,8 +46043,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     directives: [{
       name: "model",
       rawName: "v-model",
-      value: (_vm.organizationId),
-      expression: "organizationId"
+      value: (_vm.searchKey),
+      expression: "searchKey"
     }],
     staticClass: "input search-input",
     attrs: {
@@ -46004,12 +46052,12 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "placeholder": "请输入你要查看的组织"
     },
     domProps: {
-      "value": (_vm.organizationId)
+      "value": (_vm.searchKey)
     },
     on: {
       "input": function($event) {
         if ($event.target.composing) { return; }
-        _vm.organizationId = $event.target.value
+        _vm.searchKey = $event.target.value
       }
     }
   }), _vm._v(" "), _c('button', {
@@ -46042,8 +46090,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_vm._v("同步组织")])]), _vm._v(" "), _c('table', {
     staticClass: "table"
-  }, [_vm._m(0), _vm._v(" "), _c('tbody', _vm._l((_vm.OrganizationData), function(item) {
-    return _c('tr', [_c('td', [_vm._v(_vm._s(item.id))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.name))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.creator_id))]), _vm._v(" "), _c('td', [_vm._v(" " + _vm._s(item.description))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.max))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.current))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.created_at))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.updated_at))]), _vm._v(" "), _c('td', [_c('button', {
+  }, [_vm._m(0), _vm._v(" "), _c('tbody', _vm._l((_vm.organizationData), function(item, index) {
+    return _c('tr', [_c('td', [_vm._v(_vm._s(item.id))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.name))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.creator_id))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.description))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.max))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.current))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.created_at))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.updated_at))]), _vm._v(" "), _c('td', [_c('button', {
       staticClass: "button",
       attrs: {
         "type": "button",
@@ -46051,7 +46099,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       },
       on: {
         "click": function($event) {
-          _vm.deleteOrganization(_vm.index)
+          _vm.deleteOrganization(index)
         }
       }
     }, [_vm._v("删除组织")]), _vm._v(" "), _c('button', {
@@ -46062,7 +46110,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       },
       on: {
         "click": function($event) {
-          _vm.editOrganization(_vm.index)
+          _vm.editOrganization(index)
         }
       }
     }, [_vm._v("编辑组织")]), _vm._v(" "), _c('button', {
@@ -46073,11 +46121,17 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }, [_vm._v("查看成员")])])])
   }))]), _vm._v(" "), _c('add-organization', {
-    ref: "addOrganization"
+    ref: "addOrganization",
+    on: {
+      "getOrganization": _vm.getOrganization
+    }
   }), _vm._v(" "), _c('edit-organization', {
     ref: "editOrganization",
     attrs: {
       "edit-data": _vm.editData
+    },
+    on: {
+      "getOrganization": _vm.getOrganization
     }
   }), _vm._v(" "), _c('pagination', {
     attrs: {
@@ -49002,7 +49056,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "modal-card-head"
   }, [_c('p', {
     staticClass: "modal-card-title"
-  }, [_vm._v("Modal title")]), _vm._v(" "), _c('button', {
+  }, [_vm._v("编辑组织")]), _vm._v(" "), _c('button', {
     staticClass: "delete",
     attrs: {
       "aria-label": "close"
@@ -49018,38 +49072,12 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "label-box"
   }, [_c('label', {
     staticClass: "label"
-  }, [_vm._v("ID：")]), _vm._v(" "), _c('input', {
-    directives: [{
-      name: "model",
-      rawName: "v-model:id",
-      value: (_vm.currentOrganizationData.id),
-      expression: "currentOrganizationData.id",
-      arg: "id"
-    }],
-    staticClass: "input",
-    attrs: {
-      "disabled": ""
-    },
-    domProps: {
-      "value": (_vm.currentOrganizationData.id)
-    },
-    on: {
-      "input": function($event) {
-        if ($event.target.composing) { return; }
-        _vm.$set(_vm.currentOrganizationData, "id", $event.target.value)
-      }
-    }
-  })]), _vm._v(" "), _c('div', {
-    staticClass: "label-box"
-  }, [_c('label', {
-    staticClass: "label"
   }, [_vm._v("组织名：")]), _vm._v(" "), _c('input', {
     directives: [{
       name: "model",
-      rawName: "v-model:name",
+      rawName: "v-model",
       value: (_vm.currentOrganizationData.name),
-      expression: "currentOrganizationData.name",
-      arg: "name"
+      expression: "currentOrganizationData.name"
     }],
     staticClass: "input",
     domProps: {
@@ -49065,39 +49093,23 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "label-box"
   }, [_c('label', {
     staticClass: "label"
-  }, [_vm._v("创建者ID：")]), _vm._v(" "), _c('input', {
+  }, [_vm._v("描述：")]), _vm._v(" "), _c('input', {
     directives: [{
       name: "model",
-      rawName: "v-model:creator_id",
-      value: (_vm.currentOrganizationData.creator_id),
-      expression: "currentOrganizationData.creator_id",
-      arg: "creator_id"
+      rawName: "v-model",
+      value: (_vm.currentOrganizationData.description),
+      expression: "currentOrganizationData.description"
     }],
     staticClass: "input",
-    attrs: {
-      "disabled": ""
-    },
     domProps: {
-      "value": (_vm.currentOrganizationData.creator_id)
+      "value": (_vm.currentOrganizationData.description)
     },
     on: {
       "input": function($event) {
         if ($event.target.composing) { return; }
-        _vm.$set(_vm.currentOrganizationData, "creator_id", $event.target.value)
+        _vm.$set(_vm.currentOrganizationData, "description", $event.target.value)
       }
     }
-  })]), _vm._v(" "), _c('div', {
-    staticClass: "label-box"
-  }, [_c('label', {
-    staticClass: "label"
-  }, [_vm._v("描述：")]), _vm._v(" "), _c('input', {
-    directives: [{
-      name: "model:",
-      rawName: "v-model:",
-      value: (_vm.currentOrganizationData.description),
-      expression: "currentOrganizationData.description"
-    }],
-    staticClass: "input"
   })]), _vm._v(" "), _c('div', {
     staticClass: "label-box"
   }, [_c('label', {
@@ -49105,10 +49117,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_vm._v("最大值：")]), _vm._v(" "), _c('input', {
     directives: [{
       name: "model",
-      rawName: "v-model:max",
+      rawName: "v-model",
       value: (_vm.currentOrganizationData.max),
-      expression: "currentOrganizationData.max",
-      arg: "max"
+      expression: "currentOrganizationData.max"
     }],
     staticClass: "input",
     domProps: {
@@ -49120,86 +49131,16 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.$set(_vm.currentOrganizationData, "max", $event.target.value)
       }
     }
-  })]), _vm._v(" "), _c('div', {
-    staticClass: "label-box"
-  }, [_c('label', {
-    staticClass: "label"
-  }, [_vm._v("当前值：")]), _vm._v(" "), _c('input', {
-    directives: [{
-      name: "model",
-      rawName: "v-model:current",
-      value: (_vm.currentOrganizationData.current),
-      expression: "currentOrganizationData.current",
-      arg: "current"
-    }],
-    staticClass: "input",
-    attrs: {
-      "disabled": ""
-    },
-    domProps: {
-      "value": (_vm.currentOrganizationData.current)
-    },
-    on: {
-      "input": function($event) {
-        if ($event.target.composing) { return; }
-        _vm.$set(_vm.currentOrganizationData, "current", $event.target.value)
-      }
-    }
-  })]), _vm._v(" "), _c('div', {
-    staticClass: "label-box"
-  }, [_c('label', {
-    staticClass: "label"
-  }, [_vm._v("创建时间：")]), _vm._v(" "), _c('input', {
-    directives: [{
-      name: "model",
-      rawName: "v-model:created_at",
-      value: (_vm.currentOrganizationData.created_at),
-      expression: "currentOrganizationData.created_at",
-      arg: "created_at"
-    }],
-    staticClass: "input",
-    attrs: {
-      "disabled": ""
-    },
-    domProps: {
-      "value": (_vm.currentOrganizationData.created_at)
-    },
-    on: {
-      "input": function($event) {
-        if ($event.target.composing) { return; }
-        _vm.$set(_vm.currentOrganizationData, "created_at", $event.target.value)
-      }
-    }
-  })]), _vm._v(" "), _c('div', {
-    staticClass: "label-box"
-  }, [_c('label', {
-    staticClass: "label"
-  }, [_vm._v("更新时间：")]), _vm._v(" "), _c('input', {
-    directives: [{
-      name: "model",
-      rawName: "v-model:updated_at",
-      value: (_vm.currentOrganizationData.updated_at),
-      expression: "currentOrganizationData.updated_at",
-      arg: "updated_at"
-    }],
-    staticClass: "input",
-    attrs: {
-      "disabled": ""
-    },
-    domProps: {
-      "value": (_vm.currentOrganizationData.updated_at)
-    },
-    on: {
-      "input": function($event) {
-        if ($event.target.composing) { return; }
-        _vm.$set(_vm.currentOrganizationData, "updated_at", $event.target.value)
-      }
-    }
   })])]), _vm._v(" "), _c('footer', {
     staticClass: "modal-card-foot"
   }, [_c('button', {
-    staticClass: "button is-success"
-  }, [_vm._v("保存")]), _vm._v(" "), _c('button', {
+    staticClass: "button is-success",
+    on: {
+      "click": function($event) {
+        _vm.editOrganization()
+      }
+    }
+  }, [_vm._v("确认")]), _vm._v(" "), _c('button', {
     staticClass: "button",
     on: {
       "click": function($event) {

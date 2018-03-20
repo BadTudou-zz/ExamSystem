@@ -5,45 +5,45 @@
   <div class="modal-background"></div>
   <div class="modal-card">
     <header class="modal-card-head">
-      <p class="modal-card-title">Modal title</p>
+      <p class="modal-card-title">编辑组织</p>
       <button @click="switchModal()" class="delete" aria-label="close"></button>
     </header>
     <section class="modal-card-body">
-      <div class="label-box">
+      <!-- <div class="label-box">
         <label class="label">ID：</label>
         <input class="input" v-model:id="currentOrganizationData.id" disabled>
-      </div>
+      </div> -->
       <div class="label-box">
         <label class="label">组织名：</label>
-        <input class="input" v-model:name="currentOrganizationData.name">
+        <input class="input" v-model="currentOrganizationData.name">
       </div>
-      <div class="label-box">
+      <!-- <div class="label-box">
         <label class="label">创建者ID：</label>
         <input class="input" v-model:creator_id="currentOrganizationData.creator_id" disabled>
-      </div>
+      </div> -->
       <div class="label-box">
         <label class="label">描述：</label>
-        <input class="input" v-model:="currentOrganizationData.description">
+        <input class="input" v-model="currentOrganizationData.description">
       </div>
       <div class="label-box">
         <label class="label">最大值：</label>
-        <input class="input" v-model:max="currentOrganizationData.max">
+        <input class="input" v-model="currentOrganizationData.max">
       </div>
-      <div class="label-box">
+      <!-- <div class="label-box">
         <label class="label">当前值：</label>
         <input class="input" v-model:current="currentOrganizationData.current" disabled>
-      </div>
-      <div class="label-box">
+      </div> -->
+      <!-- <div class="label-box">
         <label class="label">创建时间：</label>
         <input class="input" v-model:created_at="currentOrganizationData.created_at" disabled>
       </div>
       <div class="label-box">
         <label class="label">更新时间：</label>
         <input class="input" v-model:updated_at="currentOrganizationData.updated_at" disabled>
-      </div>
+      </div> -->
     </section>
     <footer class="modal-card-foot">
-      <button class="button is-success">保存</button>
+      <button @click="editOrganization()" class="button is-success">确认</button>
       <button @click="switchModal()" class="button">取消</button>
     </footer>
   </div>
@@ -81,24 +81,26 @@ export default {
     },
     editOrganization: function () {
       const that = this;
-      id = that.currentOrganizationData.id;
       axios({
         method: 'put',
-        url: `${this.GLOBAL.localDomain}/api/v1/organizations/${id}`,
+        url: `${this.GLOBAL.localDomain}/api/v1/organizations/${that.currentOrganizationData.id}`,
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token
+          'Authorization': that.token,
         },
-        body: {
-          // ?? 传入的是String or Number
-          name: that.organizationData.name,
-          description: that.organizationData.description,
-          max: that.organizationData.max,
+        params: {
+          name: that.currentOrganizationData.name,
+          describe: that.currentOrganizationData.describe,
+          max: that.currentOrganizationData.max,
         }
       }).then(res => {
-         
+        alert('编辑成功');
+        that.$emit('getOrganization');   //第一个参数名为调用的方法名，第二个参数为需要传递的参数
+        that.switchModal();
       }).catch(err => {
-        console.log(err)
+        alert('编辑失败');
+        console.log(err);
+        that.clearWords();
       })
     }
   },
@@ -108,7 +110,10 @@ export default {
   watch: {
     editData: function (value, oldValue) {
       const that = this;
-      that.currentOrganizationData = value;
+      that.currentOrganizationData.id = value.id;
+      that.currentOrganizationData.name = value.name;
+      that.currentOrganizationData.describe = value.describe;
+      that.currentOrganizationData.max = value.max;
     }
   }
 }
