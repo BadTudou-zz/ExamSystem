@@ -8,15 +8,18 @@
       </div>
         <button @click="addNotice()" class="button add-role-button" type="button" name="button">添加通知</button>
     </div>
-    <div  v-for="item in noticeData" class="notice box">
+    <div  v-for="(item,index) in noticeData" class="notice box">
       <div class="notification">
-        <button class="delete"></button>
+        <button @click="deleteNotice(index)" class="delete"></button>
         {{ item.data}}
         <p>{{item.created_at}}</p>
       </div>
     </div>
 
-    <add-notice ref="addNotice"></add-notice>
+    <add-notice ref="addNotice"
+                 v-on:getNotice="getNotice"
+    ></add-notice>
+
     <pagination v-bind:pagination-data="paginationData"
             v-model="data"
     ></pagination>
@@ -30,20 +33,8 @@ export default {
   data() {
     return {
       token: null,
-      // noticeData: null,
+      noticeData: null,
       isShowModal: false,
-      noticeData: [
-        {
-            "id": "bd35eef4-a1a9-4594-8a26-ff3225162006",
-            "type": "App\\Notifications\\SystemNotification",
-            "notifiable_id": "1",
-            "notifiable_type": "App\\User",
-            "data": "{\"data\":\"\\u8fd9\\u662f\\u901a\\u77e5\"}",
-            "read_at": null,
-            "created_at": "2018-01-21 12:34:56",
-            "updated_at": "2018-01-21 12:34:56"
-        }
-      ],
       paginationData: null,
       data: null,
     }
@@ -76,7 +67,28 @@ export default {
       }).catch(err => {
         console.log(err)
       })
-    }
+    },
+    deleteNotice: function (index) {
+      const that = this;
+      let id = that.noticeData[index]['id'];
+      let prompt = confirm("确认删除该消息吗？");
+      if (prompt) {
+        axios({
+          method: 'delete',
+          url: `${this.GLOBAL.localDomain}/api/v1/notifications/${id}`,
+          headers: {
+            'Accept': 'application/json',
+            'Authorization': that.token
+          }
+        }).then(res => {
+          alert('删除成功');
+          that.getNotice();
+        }).catch(err => {
+          alert('删除失败');
+          console.log(err)
+        })
+      }
+    },
   },
   computed: {
     isShowCreateNotification() {
@@ -94,7 +106,7 @@ export default {
   },
   created() {
     this.token = sessionStorage.getItem('token');
-    // this.getNotice();
+    this.getNotice();
   },
   watch: {
     data:function (value, oldValue) {

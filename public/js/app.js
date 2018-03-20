@@ -16021,6 +16021,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
+      token: null,
       isShowModal: false,
       noticeData: {
         to: null,
@@ -16035,7 +16036,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       var that = this;
       that.isShowModal = !that.isShowModal;
     },
-    createNotice: function createNotice() {
+    clearWords: function clearWords() {
+      var that = this;
+      that.noticeData.to = '';
+      that.noticeData.data = '';
+    },
+    addNotice: function addNotice() {
       var that = this;
       axios({
         method: 'post',
@@ -16044,15 +16050,27 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
           'Accept': 'application/json',
           'Authorization': that.token
         },
-        body: {
+        params: {
           // to: that.noticeData.to,
           data: that.noticeData.data
         }
-      }).then(function (res) {}).catch(function (err) {
+      }).then(function (res) {
+        alert('发送成功');
+        that.$emit('getNotice'); //第一个参数名为调用的方法名，第二个参数为需要传递的参数
+        that.switchModal();
+        that.clearWords();
+      }).catch(function (err) {
+        alert('发送失败');
         console.log(err);
+        that.clearWords();
       });
     }
-  }
+  },
+  created: function created() {
+    this.token = sessionStorage.getItem('token');
+  },
+
+  watch: {}
 });
 
 /***/ }),
@@ -16090,6 +16108,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
 
 
 
@@ -16097,18 +16118,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   data: function data() {
     return {
       token: null,
-      // noticeData: null,
+      noticeData: null,
       isShowModal: false,
-      noticeData: [{
-        "id": "bd35eef4-a1a9-4594-8a26-ff3225162006",
-        "type": "App\\Notifications\\SystemNotification",
-        "notifiable_id": "1",
-        "notifiable_type": 'App\\User',
-        "data": '{"data":"\\u8fd9\\u662f\\u901a\\u77e5"}',
-        "read_at": null,
-        "created_at": "2018-01-21 12:34:56",
-        "updated_at": "2018-01-21 12:34:56"
-      }],
       paginationData: null,
       data: null
     };
@@ -16142,6 +16153,27 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       }).catch(function (err) {
         console.log(err);
       });
+    },
+    deleteNotice: function deleteNotice(index) {
+      var that = this;
+      var id = that.noticeData[index]['id'];
+      var prompt = confirm("确认删除该消息吗？");
+      if (prompt) {
+        axios({
+          method: 'delete',
+          url: this.GLOBAL.localDomain + '/api/v1/notifications/' + id,
+          headers: {
+            'Accept': 'application/json',
+            'Authorization': that.token
+          }
+        }).then(function (res) {
+          alert('删除成功');
+          that.getNotice();
+        }).catch(function (err) {
+          alert('删除失败');
+          console.log(err);
+        });
+      }
     }
   },
   computed: {
@@ -16160,7 +16192,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   },
   created: function created() {
     this.token = sessionStorage.getItem('token');
-    // this.getNotice();
+    this.getNotice();
   },
 
   watch: {
@@ -17224,7 +17256,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     deleteQuestion: function deleteQuestion(index) {
       var that = this;
       var id = that.questionData[index]['id'];
-      var prompt = confirm("确认删除改问题吗？");
+      var prompt = confirm("确认删除该问题吗？");
       if (prompt) {
         axios({
           method: 'delete',
@@ -17615,7 +17647,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     deleteRole: function deleteRole() {
       var that = this;
-      var prompt = confirm("确认删除改权限吗？");
+      var prompt = confirm("确认删除该权限吗？");
       if (prompt) {}
     },
     getPermission: function getPermission() {
@@ -18678,7 +18710,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     deleteRole: function deleteRole() {
       var that = this;
-      var prompt = confirm("确认删除改用户吗？");
+      var prompt = confirm("确认删除该用户吗？");
       if (prompt) {}
     }
   },
@@ -23779,7 +23811,7 @@ exports.push([module.i, "\ntable {\n  margin: 35px auto 0 auto;\n}\n.search-inpu
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(1)();
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 /***/ }),
 /* 130 */
@@ -46088,16 +46120,24 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.addNotice()
       }
     }
-  }, [_vm._v("添加通知")])]), _vm._v(" "), _vm._l((_vm.noticeData), function(item) {
+  }, [_vm._v("添加通知")])]), _vm._v(" "), _vm._l((_vm.noticeData), function(item, index) {
     return _c('div', {
       staticClass: "notice box"
     }, [_c('div', {
       staticClass: "notification"
     }, [_c('button', {
-      staticClass: "delete"
+      staticClass: "delete",
+      on: {
+        "click": function($event) {
+          _vm.deleteNotice(index)
+        }
+      }
     }), _vm._v("\n      " + _vm._s(item.data) + "\n      "), _c('p', [_vm._v(_vm._s(item.created_at))])])])
   }), _vm._v(" "), _c('add-notice', {
-    ref: "addNotice"
+    ref: "addNotice",
+    on: {
+      "getNotice": _vm.getNotice
+    }
   }), _vm._v(" "), _c('pagination', {
     attrs: {
       "pagination-data": _vm.paginationData
@@ -46299,7 +46339,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "button is-success",
     on: {
       "click": function($event) {
-        _vm.createNotice()
+        _vm.addNotice()
       }
     }
   }, [_vm._v("确认")]), _vm._v(" "), _c('button', {
@@ -46314,14 +46354,6 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   return _c('section', {
     staticClass: "modal-card-body"
   }, [_c('div', {
-    staticClass: "box-item"
-  }, [_c('label', [_vm._v("发送到")]), _vm._v(" "), _c('input', {
-    staticClass: "input",
-    attrs: {
-      "type": "text",
-      "placeholder": "需要发送的用户名"
-    }
-  })]), _vm._v(" "), _c('div', {
     staticClass: "box-item"
   }, [_c('label', [_vm._v("通知内容")]), _vm._v(" "), _c('textarea', {
     staticClass: "textarea",
