@@ -3,20 +3,22 @@
   <div class="box">
     <div>
       <div class="search-box">
-        <input class="input search-input" type="text" placeholder="请输入你要查看的消息">
+        <input v-model="searchKey" class="input search-input" type="text" placeholder="请输入你要查看的消息">
         <button @click="searchMessage()" class="button" type="button" name="button">查找消息</button>
       </div>
         <button @click="addMessage()" class="button add-role-button" type="button" name="button">添加消息</button>
     </div>
-    <div  v-for="item in messageData" class="message box">
+    <div  v-for="(item,index) in messageData" class="message box">
       <div class="notification">
-        <button @click="deleteMessage()" class="delete"></button>
+        <button @click="deleteMessage(index)" class="delete"></button>
         {{ item.data}}
         <p>{{item.created_at}}</p>
       </div>
     </div>
 
-    <add-message ref="addMessage"></add-message>
+    <add-message ref="addMessage"
+                 v-on:getMessage="getMessage"
+    ></add-message>
 
     <pagination v-bind:pagination-data="paginationData"
                 v-model="data"
@@ -32,56 +34,40 @@ import Pagination from './../Pagination.vue'
 export default {
   data() {
     return {
-      messageData: [
-        {
-            "id": "456c152f-e3cb-4c58-a3f2-6809ffb5c05d",
-            "from": "1",
-            "to": "1",
-            "data": "这是私信",
-            "created_at": {
-                "date": "2018-01-21 12:47:57.000000",
-                "timezone_type": 3,
-                "timezone": "UTC"
-            },
-            "updated_at": {
-                "date": "2018-01-21 12:47:57.000000",
-                "timezone_type": 3,
-                "timezone": "UTC"
-            }
-        }
-      ],
-      // messageData: null,
+      messageData: null,
       isShowModal: false,
-      messageId: null,
       token: null,
       paginationData: null,
       data: null,
+      searchKey: null,
     }
   },
   components: {
     AddMessage,
     Pagination,
-
   },
   methods: {
     showModal: function () {
       const that = this;
       that.isShowModal = !that.isShowModal;
     },
-    deleteMessage: function () {
+    deleteMessage: function (index) {
       const that = this;
-      let prompt = confirm("确认删除改消息吗？");
+      let id = that.messageData[index]['id'];
+      let prompt = confirm("确认删除该消息吗？");
       if (prompt) {
         axios({
           method: 'delete',
-          url: `${this.GLOBAL.localDomain}/api/v1/messages/${that.messageId}`,
+          url: `${this.GLOBAL.localDomain}/api/v1/messages/${id}`,
           headers: {
             'Accept': 'application/json',
             'Authorization': that.token
           }
         }).then(res => {
-          that.permissionData = res.data.data;
+          alert('删除成功');
+          that.getMessage();
         }).catch(err => {
+          alert('删除失败');
           console.log(err)
         })
       }
@@ -101,15 +87,21 @@ export default {
         }
       }).then(res => {
         that.messageData = res.data.data;
+        that.paginationData = res.data.links;
       }).catch(err => {
         console.log(err)
       })
     },
     searchMessage: function () {
       const that = this;
+      if (!that.searchKey) {
+        that.searchKey = '';
+        that.getMessage();
+        return;
+      }
       axios({
         method: 'get',
-        url: `${this.GLOBAL.localDomain}/api/v1/messages/${that.messageId}`,
+        url: `${this.GLOBAL.localDomain}/api/v1/messages/${that.searchKey}`,
         headers: {
           'Accept': 'application/json',
           'Authorization': that.token
@@ -135,14 +127,7 @@ export default {
   },
   created() {
     this.token = sessionStorage.getItem('token');
-    // this.getMessage();
-  },
-  watch: {
-    data:function (value, oldValue) {
-      const that = this;
-      that.permissionData = value.data;
-      that.paginationData = value.links;
-    }
+    this.getMessage();
   }
 }
 </script>

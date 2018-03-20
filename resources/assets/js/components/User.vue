@@ -100,7 +100,7 @@ export default {
     },
     deleteRole: function () {
       const that = this;
-      let prompt = confirm("确认删除改用户吗？");
+      let prompt = confirm("确认删除该用户吗？");
       if (prompt) {
 
       }

@@ -15614,12 +15614,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
+      token: null,
       isShowModal: false,
       messageData: {
         to: null,
@@ -15633,8 +15632,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     switchModal: function switchModal() {
       var that = this;
       that.isShowModal = !that.isShowModal;
+      that.clearWords();
     },
-    createMesaage: function createMesaage() {
+    clearWords: function clearWords() {
+      var that = this;
+      that.messageData.to = '';
+      that.messageData.data = '';
+    },
+    addMessage: function addMessage() {
       var that = this;
       axios({
         method: 'post',
@@ -15643,15 +15648,27 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
           'Accept': 'application/json',
           'Authorization': that.token
         },
-        body: {
+        params: {
           to: that.messageData.to,
           data: that.messageData.data
         }
-      }).then(function (res) {}).catch(function (err) {
+      }).then(function (res) {
+        alert('发送成功');
+        that.$emit('getMessage'); //第一个参数名为调用的方法名，第二个参数为需要传递的参数
+        that.switchModal();
+        that.clearWords();
+      }).catch(function (err) {
+        alert('发送失败');
         console.log(err);
+        that.clearWords();
       });
     }
-  }
+  },
+  created: function created() {
+    this.token = sessionStorage.getItem('token');
+  },
+
+  watch: {}
 });
 
 /***/ }),
@@ -15691,6 +15708,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 
 
@@ -15698,55 +15717,41 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      messageData: [{
-        "id": "456c152f-e3cb-4c58-a3f2-6809ffb5c05d",
-        "from": "1",
-        "to": "1",
-        "data": "这是私信",
-        "created_at": {
-          "date": "2018-01-21 12:47:57.000000",
-          "timezone_type": 3,
-          "timezone": "UTC"
-        },
-        "updated_at": {
-          "date": "2018-01-21 12:47:57.000000",
-          "timezone_type": 3,
-          "timezone": "UTC"
-        }
-      }],
-      // messageData: null,
+      messageData: null,
       isShowModal: false,
-      messageId: null,
       token: null,
       paginationData: null,
-      data: null
+      data: null,
+      searchKey: null
     };
   },
 
   components: {
     AddMessage: __WEBPACK_IMPORTED_MODULE_0__AddMessage___default.a,
     Pagination: __WEBPACK_IMPORTED_MODULE_1__Pagination_vue___default.a
-
   },
   methods: {
     showModal: function showModal() {
       var that = this;
       that.isShowModal = !that.isShowModal;
     },
-    deleteMessage: function deleteMessage() {
+    deleteMessage: function deleteMessage(index) {
       var that = this;
-      var prompt = confirm("确认删除改消息吗？");
+      var id = that.messageData[index]['id'];
+      var prompt = confirm("确认删除该消息吗？");
       if (prompt) {
         axios({
           method: 'delete',
-          url: this.GLOBAL.localDomain + '/api/v1/messages/' + that.messageId,
+          url: this.GLOBAL.localDomain + '/api/v1/messages/' + id,
           headers: {
             'Accept': 'application/json',
             'Authorization': that.token
           }
         }).then(function (res) {
-          that.permissionData = res.data.data;
+          alert('删除成功');
+          that.getMessage();
         }).catch(function (err) {
+          alert('删除失败');
           console.log(err);
         });
       }
@@ -15766,15 +15771,21 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         }
       }).then(function (res) {
         that.messageData = res.data.data;
+        that.paginationData = res.data.links;
       }).catch(function (err) {
         console.log(err);
       });
     },
     searchMessage: function searchMessage() {
       var that = this;
+      if (!that.searchKey) {
+        that.searchKey = '';
+        that.getMessage();
+        return;
+      }
       axios({
         method: 'get',
-        url: this.GLOBAL.localDomain + '/api/v1/messages/' + that.messageId,
+        url: this.GLOBAL.localDomain + '/api/v1/messages/' + that.searchKey,
         headers: {
           'Accept': 'application/json',
           'Authorization': that.token
@@ -15800,15 +15811,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   },
   created: function created() {
     this.token = sessionStorage.getItem('token');
-    // this.getMessage();
-  },
-
-  watch: {
-    data: function data(value, oldValue) {
-      var that = this;
-      that.permissionData = value.data;
-      that.paginationData = value.links;
-    }
+    this.getMessage();
   }
 });
 
@@ -16725,7 +16728,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         that.switchModal();
         that.clearWords();
       }).catch(function (err) {
-        alert('添加失败');
+        // alert('添加失败');
         console.log(err);
         that.clearWords();
       });
@@ -23888,7 +23891,7 @@ exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(1)();
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 /***/ }),
 /* 146 */
@@ -45377,10 +45380,25 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_c('div', [_c('div', {
     staticClass: "search-box"
   }, [_c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.searchKey),
+      expression: "searchKey"
+    }],
     staticClass: "input search-input",
     attrs: {
       "type": "text",
       "placeholder": "请输入你要查看的消息"
+    },
+    domProps: {
+      "value": (_vm.searchKey)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.searchKey = $event.target.value
+      }
     }
   }), _vm._v(" "), _c('button', {
     staticClass: "button",
@@ -45404,7 +45422,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.addMessage()
       }
     }
-  }, [_vm._v("添加消息")])]), _vm._v(" "), _vm._l((_vm.messageData), function(item) {
+  }, [_vm._v("添加消息")])]), _vm._v(" "), _vm._l((_vm.messageData), function(item, index) {
     return _c('div', {
       staticClass: "message box"
     }, [_c('div', {
@@ -45413,12 +45431,15 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       staticClass: "delete",
       on: {
         "click": function($event) {
-          _vm.deleteMessage()
+          _vm.deleteMessage(index)
         }
       }
     }), _vm._v("\n      " + _vm._s(item.data) + "\n      "), _c('p', [_vm._v(_vm._s(item.created_at))])])])
   }), _vm._v(" "), _c('add-message', {
-    ref: "addMessage"
+    ref: "addMessage",
+    on: {
+      "getMessage": _vm.getMessage
+    }
   }), _vm._v(" "), _c('pagination', {
     attrs: {
       "pagination-data": _vm.paginationData
@@ -48025,7 +48046,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "modal-card-head"
   }, [_c('p', {
     staticClass: "modal-card-title"
-  }, [_vm._v("添加消息")]), _vm._v(" "), _c('button', {
+  }, [_vm._v("发送消息")]), _vm._v(" "), _c('button', {
     staticClass: "delete",
     attrs: {
       "aria-label": "close"
@@ -48049,7 +48070,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "input",
     attrs: {
       "type": "text",
-      "placeholder": "需要发送的用户ID"
+      "placeholder": "需要发送消息的用户ID"
     },
     domProps: {
       "value": (_vm.messageData.to)
@@ -48088,10 +48109,10 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "button is-success",
     on: {
       "click": function($event) {
-        _vm.createMesaage()
+        _vm.addMessage()
       }
     }
-  }, [_vm._v("确认")]), _vm._v(" "), _c('button', {
+  }, [_vm._v("确认发送")]), _vm._v(" "), _c('button', {
     staticClass: "button",
     on: {
       "click": function($event) {

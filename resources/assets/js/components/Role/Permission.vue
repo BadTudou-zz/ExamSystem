@@ -80,7 +80,7 @@ export default {
     },
     deleteRole: function () {
       const that = this;
-      let prompt = confirm("确认删除改权限吗？");
+      let prompt = confirm("确认删除该权限吗？");
       if (prompt) {
 
       }
