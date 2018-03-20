@@ -3,7 +3,7 @@
   <div class="box">
     <div>
       <div class="search-box">
-        <input v-model="organizationId" class="input search-input" type="text" placeholder="请输入你要查看的组织">
+        <input v-model="searchKey" class="input search-input" type="text" placeholder="请输入你要查看的组织">
         <button @click="searchOrganization()" class="button" type="button" name="button">查找组织</button>
       </div>
         <button @click="addOrganization()" class="button add-role-button" type="button" name="button">添加组织</button>
@@ -24,11 +24,11 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="item in OrganizationData">
+        <tr v-for="(item,index) in organizationData">
           <td>{{ item.id }}</td>
           <td>{{ item.name }}</td>
           <td>{{ item.creator_id }}</td>
-          <td> {{ item.description }}</td>
+          <td>{{ item.description }}</td>
           <td>{{ item.max }}</td>
           <td>{{ item.current }}</td>
           <td>{{ item.created_at }}</td>
@@ -42,8 +42,15 @@
       </tbody>
     </table>
 
-    <add-organization ref="addOrganization"></add-organization>
-    <edit-organization ref="editOrganization"  :edit-data="editData"></edit-organization>
+    <add-organization ref="addOrganization"
+                      v-on:getOrganization="getOrganization"
+    ></add-organization>
+
+    <edit-organization ref="editOrganization"
+                       v-on:getOrganization="getOrganization"
+                       v-bind:edit-data="editData"
+    ></edit-organization>
+
     <pagination v-bind:pagination-data="paginationData"
                 v-model="data"
     ></pagination>
@@ -60,21 +67,9 @@ export default {
   data() {
     return {
       token: null,
-      "OrganizationData": [
-          {
-              "id": 2,
-              "name": "1班1111",
-              "creator_id": "1",
-              "": "职教师资1班",
-              "max": "234",
-              "current": "1",
-              "created_at": "2018-01-13 08:04:13",
-              "updated_at": "2018-01-13 08:08:55"
-          }
-      ],
+      organizationData: null,
       isShowModal: false,
-      // OrganizationData: null,
-      organizationId: null,
+      searchKey: null,
       editData: null,  // 当前编辑的组织数据
       paginationData: null,
       data: null,
@@ -92,6 +87,7 @@ export default {
     },
     editOrganization: function (index) {
       const that = this;
+      that.editData = that.organizationData[index];
       that.$refs.editOrganization.switchModal();
     },
     getOrganization: function () {
@@ -104,7 +100,7 @@ export default {
           'Authorization': that.token
         }
       }).then(res => {
-        that.permissionData = res.data.data;
+        that.organizationData = res.data.data;
         that.paginationData = res.data.links;
       }).catch(err => {
         console.log(err)
@@ -114,33 +110,38 @@ export default {
       const that = this;
       axios({
         method: 'get',
-        url: `${this.GLOBAL.localDomain}/api/v1/organizations/${that.organizationId}`,
+        url: `${this.GLOBAL.localDomain}/api/v1/organizations/${that.searchKey}`,
         headers: {
           'Accept': 'application/json',
           'Authorization': that.token
         }
       }).then(res => {
-        that.permissionData = [];
-        that.permissionData.push(res.data.data);
+        that.organizationData = [];
+        that.organizationData.push(res.data.data);
       }).catch(err => {
         console.log(err)
       })
     },
-    // 删除组织 ??删除需要的参数
     deleteOrganization: function (index) {
       const that = this;
       let id = that.organizationData[index]['id'];
-      axios({
-        method: 'delete',
-        url: `${this.GLOBAL.localDomain}/api/v1/organizations/${id}`,
-        headers: {
-          'Accept': 'application/json',
-          'Authorization': that.token
-        }
-      }).then(res => {
-      }).catch(err => {
-        console.log(err)
-      })
+      let prompt = confirm("确认删除该组织吗？");
+      if (prompt) {
+        axios({
+          method: 'delete',
+          url: `${this.GLOBAL.localDomain}/api/v1/organizations/${id}`,
+          headers: {
+            'Accept': 'application/json',
+            'Authorization': that.token
+          }
+        }).then(res => {
+          alert('删除成功');
+          that.getOrganization();
+        }).catch(err => {
+          alert('删除失败');
+          console.log(err)
+        })
+      }
     }
   },
   computed: {
@@ -161,7 +162,7 @@ export default {
   watch: {
     data:function (value, oldValue) {
       const that = this;
-      that.permissionData = value.data;
+      that.organizationData = value.data;
       that.paginationData = value.links;
     }
   }
