@@ -94,7 +94,7 @@ export default {
     deleteQuestion: function (index) {
       const that = this;
       let id = that.questionData[index]['id'];
-      let prompt = confirm("确认删除改问题吗？");
+      let prompt = confirm("确认删除该问题吗？");
       if (prompt) {
         axios({
           method: 'delete',
