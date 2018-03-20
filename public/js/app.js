@@ -16675,11 +16675,21 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      isShowModal: false
+      token: null,
+      isShowModal: false,
+      permissionData: {
+        name: null,
+        display_name: null,
+        description: null
+      }
     };
   },
 
@@ -16688,9 +16698,44 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     switchModal: function switchModal() {
       var that = this;
       that.isShowModal = !that.isShowModal;
+      that.clearWords();
+    },
+    clearWords: function clearWords() {
+      that.permissionData.name = '';
+      that.permissionData.display_name = '';
+      that.permissionData.description = '';
+    },
+    addPermission: function addPermission() {
+      var that = this;
+      axios({
+        method: 'post',
+        url: this.GLOBAL.localDomain + '/api/v1/permissions/',
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': that.token
+        },
+        params: {
+          name: that.permissionData.name,
+          display_name: that.permissionData.display_name,
+          description: that.permissionData.description
+        }
+      }).then(function (res) {
+        alert('添加成功');
+        that.$emit('getPermission'); //第一个参数名为调用的方法名，第二个参数为需要传递的参数
+        that.switchModal();
+        that.clearWords();
+      }).catch(function (err) {
+        alert('添加失败');
+        console.log(err);
+        that.clearWords();
+      });
     }
+  },
+  created: function created() {
+    this.token = sessionStorage.getItem('token');
+  },
 
-  }
+  watch: {}
 });
 
 /***/ }),
@@ -16705,6 +16750,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Pagination_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__Pagination_vue__);
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
+//
+//
+//
 //
 //
 //
@@ -16776,21 +16824,23 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       var that = this;
       that.$refs.addPermission.switchModal();
     },
-    // 删除权限 ??参数
-    deletePermission: function deletePermission() {
+    deletePermission: function deletePermission(index) {
       var that = this;
-      var prompt = confirm("确认删除改权限吗？");
+      var id = that.roleData[index]['id'];
+      var prompt = confirm("确认删除该权限吗？");
       if (prompt) {
         axios({
           method: 'delete',
-          url: this.GLOBAL.localDomain + '/api/v1/roles/1/permissions',
+          url: this.GLOBAL.localDomain + '/api/v1/permissions/' + id,
           headers: {
             'Accept': 'application/json',
             'Authorization': that.token
           }
         }).then(function (res) {
-          that.permissionData = res.data.data;
+          alert('删除成功！');
+          that.getRole();
         }).catch(function (err) {
+          alert('删除失败，请稍后再试');
           console.log(err);
         });
       }
@@ -17457,13 +17507,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         that.switchModal();
         that.roleData.name = '';
         that.roleData.display_name = '';
-        that.userData.description = '';
+        that.roleData.description = '';
       }).catch(function (err) {
         alert('添加失败');
         console.log(err);
         that.roleData.name = '';
         that.roleData.display_name = '';
-        that.userData.description = '';
+        that.roleData.description = '';
       });
     }
   },
@@ -17658,12 +17708,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
-//
-//
 
 
 
@@ -17693,7 +17737,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     deleteRole: function deleteRole(index) {
       var that = this;
       var id = that.roleData[index]['id'];
-      console.log(id);
       var prompt = confirm("确认删除该角色吗？");
       if (prompt) {
         axios({
@@ -23558,7 +23601,7 @@ exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(1)();
-exports.push([module.i, "\ntable {\n  margin: 35px auto 0 auto;\n}\n.search-input {\n  width: 200px;\n  display: inline-block;\n  margin-right: 10px;\n}\n.search-box {\n  padding-right: 20px;\n  display: inline-block;\n  border-right: 1px solid #dedede;\n}\n.add-role-button {\n  margin-left: 20px;\n}\n.box-item {\n  margin-bottom: 20px;\n}\n.box-item input {\n    display: inline-block;\n    width: 300px;\n}\n.box-item label {\n    display: inline-block;\n    width: 130px;\n}\n", ""]);
+exports.push([module.i, "\ntable {\n  margin: 35px auto 0 auto;\n}\n.search-input {\n  width: 200px;\n  display: inline-block;\n  margin-right: 10px;\n}\n.search-box {\n  padding-right: 20px;\n  display: inline-block;\n  border-right: 1px solid #dedede;\n}\n.add-permission-button {\n  margin-left: 20px;\n}\n.box-item {\n  margin-bottom: 20px;\n}\n.box-item input {\n    display: inline-block;\n    width: 300px;\n}\n.box-item label {\n    display: inline-block;\n    width: 130px;\n}\n", ""]);
 
 /***/ }),
 /* 105 */
@@ -23649,7 +23692,7 @@ exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(1)();
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 /***/ }),
 /* 118 */
@@ -43406,7 +43449,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }
   }, [_vm._v("查找权限")])]), _vm._v(" "), _c('button', {
-    staticClass: "button add-role-button",
+    staticClass: "button add-permission-button",
     attrs: {
       "type": "button",
       "name": "button"
@@ -43417,7 +43460,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }
   }, [_vm._v("添加权限")]), _vm._v(" "), _c('button', {
-    staticClass: "button add-role-button",
+    staticClass: "button add-permission-button",
     attrs: {
       "type": "button",
       "name": "button"
@@ -43431,7 +43474,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       value: (_vm.isShowDeletePermission),
       expression: "isShowDeletePermission"
     }]
-  }, [_vm._v("操作")])])]), _vm._v(" "), _c('tbody', _vm._l((_vm.permissionData), function(item) {
+  }, [_vm._v("操作")])])]), _vm._v(" "), _c('tbody', _vm._l((_vm.permissionData), function(item, index) {
     return _c('tr', [_c('td', [_vm._v(_vm._s(item.id))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.name))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.display_name))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.description))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.created_at))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.updated_at))]), _vm._v(" "), _c('td', [_c('button', {
       directives: [{
         name: "show",
@@ -43446,7 +43489,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       },
       on: {
         "click": function($event) {
-          _vm.deletePermission()
+          _vm.deletePermission(index)
         }
       }
     }, [_vm._v("删除权限")])])])
@@ -43462,7 +43505,10 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       expression: "data"
     }
   }), _vm._v(" "), _c('add-permission', {
-    ref: "addPermission"
+    ref: "addPermission",
+    on: {
+      "getPermission": _vm.getPermission
+    }
   })], 1)
 },staticRenderFns: []}
 module.exports.render._withStripped = true
@@ -44805,11 +44851,86 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.switchModal()
       }
     }
-  })]), _vm._v(" "), _vm._m(0), _vm._v(" "), _c('footer', {
+  })]), _vm._v(" "), _c('section', {
+    staticClass: "modal-card-body"
+  }, [_c('div', {
+    staticClass: "box-item"
+  }, [_c('label', [_vm._v("权限名称")]), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.permissionData.name),
+      expression: "permissionData.name"
+    }],
+    staticClass: "input",
+    attrs: {
+      "type": "text",
+      "placeholder": "请输入英文权限名"
+    },
+    domProps: {
+      "value": (_vm.permissionData.name)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.$set(_vm.permissionData, "name", $event.target.value)
+      }
+    }
+  })]), _vm._v(" "), _c('div', {
+    staticClass: "box-item"
+  }, [_c('label', [_vm._v("显示的权限名称")]), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.permissionData.display_name),
+      expression: "permissionData.display_name"
+    }],
+    staticClass: "input",
+    attrs: {
+      "type": "text",
+      "placeholder": "请输入中文权限名"
+    },
+    domProps: {
+      "value": (_vm.permissionData.display_name)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.$set(_vm.permissionData, "display_name", $event.target.value)
+      }
+    }
+  })]), _vm._v(" "), _c('div', {
+    staticClass: "box-item"
+  }, [_c('label', [_vm._v("描述")]), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.permissionData.description),
+      expression: "permissionData.description"
+    }],
+    staticClass: "input",
+    attrs: {
+      "type": "text"
+    },
+    domProps: {
+      "value": (_vm.permissionData.description)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.$set(_vm.permissionData, "description", $event.target.value)
+      }
+    }
+  })])]), _vm._v(" "), _c('footer', {
     staticClass: "modal-card-foot"
   }, [_c('button', {
-    staticClass: "button is-success"
-  }, [_vm._v("确认")]), _vm._v(" "), _c('button', {
+    staticClass: "button is-success",
+    on: {
+      "click": function($event) {
+        _vm.addPermission()
+      }
+    }
+  }, [_vm._v("确认添加")]), _vm._v(" "), _c('button', {
     staticClass: "button",
     on: {
       "click": function($event) {
@@ -44817,26 +44938,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }
   }, [_vm._v("取消")])])])])
-},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('section', {
-    staticClass: "modal-card-body"
-  }, [_c('div', {
-    staticClass: "box-item"
-  }, [_c('label', [_vm._v("权限名称")]), _vm._v(" "), _c('input', {
-    staticClass: "input",
-    attrs: {
-      "type": "text",
-      "placeholder": "请输入权限名"
-    }
-  })]), _vm._v(" "), _c('div', {
-    staticClass: "box-item"
-  }, [_c('label', [_vm._v("权限名称")]), _vm._v(" "), _c('input', {
-    staticClass: "input",
-    attrs: {
-      "type": "text"
-    }
-  })])])
-}]}
+},staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {
   module.hot.accept()

@@ -69,13 +69,13 @@ export default {
         that.switchModal();
         that.roleData.name = '';
         that.roleData.display_name = '';
-        that.userData.description = '';
+        that.roleData.description = '';
       }).catch(err => {
         alert('添加失败');
         console.log(err)
         that.roleData.name = '';
         that.roleData.display_name = '';
-        that.userData.description = '';
+        that.roleData.description = '';
       })
 
     }
