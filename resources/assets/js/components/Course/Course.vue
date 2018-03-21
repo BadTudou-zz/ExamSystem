@@ -2,12 +2,7 @@
 <template lang="html">
   <div class="box">
     <div>
-      <div class="search-box">
-        <input class="input search-input" type="text" placeholder="请输入你要查看的课程">
-        <button class="button" type="button" name="button">查找课程</button>
-      </div>
         <button @click="addCourse()" class="button add-role-button" type="button" name="button">添加课程</button>
-        <button class="button add-role-button" type="button" name="button">同步课程</button>
     </div>
     <table class="table">
       <thead>
@@ -23,27 +18,33 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="item in courseData">
+        <tr v-for="(item,index) in courseData">
           <td>{{ item.id }}</td>
           <td>{{ item.name }}</td>
           <td>{{ item.display_name }}</td>
           <td>{{ item.number }}</td>
-          <td> {{ item.description }}</td>
+          <td>{{ item.descripe }}</td>
           <td>{{ item.created_at }}</td>
           <td>{{ item.updated_at }}</td>
           <td>
             <button @click="deleteCourse(index)" class="button" type="button" name="button">删除课程</button>
-            <button @click="editCourse()" class="button" type="button" name="button">编辑课程</button>
+            <button @click="editCourse(index)" class="button" type="button" name="button">编辑课程</button>
           </td>
         </tr>
       </tbody>
     </table>
 
-    <add-course ref="addCourse"></add-course>
-    <edit-course ref="editCourse" v-bind:edit-data="editData"></edit-course>
+    <add-course ref="addCourse"
+                v-on:getCourse="getCourse"
+    ></add-course>
+
+    <edit-course ref="editCourse"
+                 v-on:getCourse="getCourse"
+                 v-bind:edit-data="editData"
+    ></edit-course>
 
     <pagination v-bind:pagination-data="paginationData"
-            v-model="data"
+                v-model="data"
     ></pagination>
   </div>
 </template>
@@ -56,20 +57,9 @@ import Pagination from './../Pagination.vue'
 export default {
   data() {
     return {
-      courseData: [
-        {
-            "id": 2,
-            "name": "english",
-            "number": "123",
-            "display_name": "英语",
-            "descripe": "这是英语课程",
-            "created_at": "2018-01-19 15:01:45",
-            "updated_at": "2018-01-19 15:01:45"
-        }
-      ],
       isShowModal: false,
       token: null,
-      // courseData: null,
+      courseData: null,
       editData: null,
       paginationData: null,
       data: null,
@@ -89,8 +79,9 @@ export default {
       const that = this;
       that.$refs.addCourse.switchModal();
     },
-    editCourse: function () {
+    editCourse: function (index) {
       const that = this;
+      that.editData = that.courseData[index];
       that.$refs.addCourse.switchModal();
     },
     deleteCourse: function (index) {
@@ -106,7 +97,10 @@ export default {
             'Authorization': that.token
           }
         }).then(res => {
+          alert('删除成功');
+          that.getCourse()
         }).catch(err => {
+          alert('删除失败')
           console.log(err)
         })
       }
@@ -145,7 +139,7 @@ export default {
   },
   created() {
     this.token = sessionStorage.getItem('token');
-    // this.getCourse();
+    this.getCourse();
   },
   watch: {
     data:function (value, oldValue) {
