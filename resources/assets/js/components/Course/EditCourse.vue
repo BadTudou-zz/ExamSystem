@@ -17,7 +17,7 @@
         </div>
         <div class="box-item">
           <label>显示描述</label>
-          <input v-model="courseData.description" class="input" type="text" placeholder="请输入课程名">
+          <input v-model="courseData.descripe" class="input" type="text" placeholder="请输入课程名">
         </div>
         <div class="box-item">
           <label>数量</label>
@@ -25,7 +25,7 @@
         </div>
       </section>
       <footer class="modal-card-foot">
-        <button @click="addCourse()" class="button is-success">确认</button>
+        <button @click="editCourse()" class="button is-success">确认</button>
         <button  @click="switchModal()" class="button">取消</button>
       </footer>
     </div>
@@ -38,47 +38,72 @@ export default {
     return {
       isShowModal: false,
       courseData: {
-        name: null,
-        display_name: null,
-        description: null,
-        number: null,
+        name: '',
+        display_name: '',
+        descripe: '',
+        number: '',
       },
+      courseData: null,
       token: null,
-      permissionId: null,
     }
   },
   components: {
   },
+  props: [
+    'editData',
+  ],
   methods: {
     switchModal: function () {
       const that = this;
       that.isShowModal = !that.isShowModal;
     },
-    // 添加成员
-    addCourse: function () {
+    clearWords: function () {
       const that = this;
-      that.courseData.max = Number(that.courseData.max);
+      that.courseData.name = '';
+      that.courseData.display_name = '';
+      that.courseData.descripe = '';
+      that.courseData.number = '';
+    },
+    editCourse: function (index) {
+      const that = this;
+      let id = that.editData[id];
       axios({
-        method: 'post',
-        url: `${this.GLOBAL.localDomain}/api/v1/courses`,
+        method: 'put',
+        url: `${this.GLOBAL.localDomain}/api/v1/courses${id}`,
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token
+          'Authorization': that.token,
         },
-        body: {
+        params: {
           name: that.courseData.name,
           display_name: that.courseData.display_name,
-          description: that.courseData.description,
+          descripe: that.courseData.descripe,  // ?? 拼写错误
           number: that.courseData.number
         }
       }).then(res => {
+        alert('编辑成功');
+        that.$emit('getCourse');   //第一个参数名为调用的方法名，第二个参数为需要传递的参数
+        that.clearWords();
+        that.switchModal();
       }).catch(err => {
-        console.log(err)
+        alert('编辑失败');
+        console.log(err);
+        that.clearWords();
       })
-    },
+    }
   },
   created() {
     this.token = sessionStorage.getItem('token');
+  },
+  watch: {
+    editData: function (value, oldValue) {
+      const that = this;
+      // that.courseData = value;
+      that.courseData.name = value.name;
+      that.courseData.display_name = value.display_name;
+      that.courseData.descripe = value.descripe;
+      that.courseData.number = value.number;
+    }
   }
 }
 </script>

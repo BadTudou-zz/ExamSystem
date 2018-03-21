@@ -9,15 +9,15 @@
       <section class="modal-card-body">
         <div class="box-item">
           <label>课程名称</label>
-          <input v-model="courseData.name" class="input" type="text" placeholder="请输入课程名">
+          <input v-model="courseData.name" class="input" type="text" placeholder="请输入英文名">
         </div>
         <div class="box-item">
           <label>显示名称</label>
-          <input v-model="courseData.display_name" class="input" type="text" placeholder="请输入课程名">
+          <input v-model="courseData.display_name" class="input" type="text" placeholder="请输入中文名">
         </div>
         <div class="box-item">
           <label>显示描述</label>
-          <input v-model="courseData.description" class="input" type="text" placeholder="请输入课程名">
+          <input v-model="courseData.descripe" class="input" type="text" placeholder="请输入课程名">
         </div>
         <div class="box-item">
           <label>数量</label>
@@ -40,11 +40,10 @@ export default {
       courseData: {
         name: null,
         display_name: null,
-        description: null,
+        descripe: null,
         number: null,
       },
       token: null,
-      permissionId: null,
     }
   },
   components: {
@@ -54,28 +53,38 @@ export default {
       const that = this;
       that.isShowModal = !that.isShowModal;
     },
-    // 添加成员
+    clearWords: function () {
+      const that = this;
+      that.courseData.name = '';
+      that.courseData.display_name = '';
+      that.courseData.descripe = '';
+      that.courseData.number = '';
+    },
     addCourse: function () {
       const that = this;
-      that.courseData.max = Number(that.courseData.max);
       axios({
         method: 'post',
         url: `${this.GLOBAL.localDomain}/api/v1/courses`,
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token
+          'Authorization': that.token,
         },
-        body: {
+        params: {
           name: that.courseData.name,
           display_name: that.courseData.display_name,
-          description: that.courseData.description,
+          descripe: that.courseData.descripe,
           number: that.courseData.number
         }
       }).then(res => {
+        alert('添加成功');
+        that.$emit('getCourse');   //第一个参数名为调用的方法名，第二个参数为需要传递的参数
+        that.switchModal();
       }).catch(err => {
-        console.log(err)
+        alert('添加失败');
+        console.log(err);
+        that.clearWords();
       })
-    },
+    }
   },
   created() {
     this.token = sessionStorage.getItem('token');

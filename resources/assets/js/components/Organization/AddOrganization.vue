@@ -48,7 +48,6 @@ export default {
     switchModal: function () {
       const that = this;
       that.isShowModal = !that.isShowModal;
-      that.clearWords();
     },
     clearWords: function () {
       const that = this;

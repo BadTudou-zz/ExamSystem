@@ -13939,11 +13939,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       courseData: {
         name: null,
         display_name: null,
-        description: null,
+        descripe: null,
         number: null
       },
-      token: null,
-      permissionId: null
+      token: null
     };
   },
 
@@ -13953,10 +13952,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       var that = this;
       that.isShowModal = !that.isShowModal;
     },
-    // 添加成员
+    clearWords: function clearWords() {
+      var that = this;
+      that.courseData.name = '';
+      that.courseData.display_name = '';
+      that.courseData.descripe = '';
+      that.courseData.number = '';
+    },
     addCourse: function addCourse() {
       var that = this;
-      that.courseData.max = Number(that.courseData.max);
       axios({
         method: 'post',
         url: this.GLOBAL.localDomain + '/api/v1/courses',
@@ -13964,14 +13968,20 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
           'Accept': 'application/json',
           'Authorization': that.token
         },
-        body: {
+        params: {
           name: that.courseData.name,
           display_name: that.courseData.display_name,
-          description: that.courseData.description,
+          descripe: that.courseData.descripe,
           number: that.courseData.number
         }
-      }).then(function (res) {}).catch(function (err) {
+      }).then(function (res) {
+        alert('添加成功');
+        that.$emit('getCourse'); //第一个参数名为调用的方法名，第二个参数为需要传递的参数
+        that.switchModal();
+      }).catch(function (err) {
+        alert('添加失败');
         console.log(err);
+        that.clearWords();
       });
     }
   },
@@ -14042,6 +14052,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 
 
@@ -14050,18 +14061,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      courseData: [{
-        "id": 2,
-        "name": "english",
-        "number": "123",
-        "display_name": "英语",
-        "descripe": "这是英语课程",
-        "created_at": "2018-01-19 15:01:45",
-        "updated_at": "2018-01-19 15:01:45"
-      }],
       isShowModal: false,
       token: null,
-      // courseData: null,
+      courseData: null,
       editData: null,
       paginationData: null,
       data: null
@@ -14082,8 +14084,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       var that = this;
       that.$refs.addCourse.switchModal();
     },
-    editCourse: function editCourse() {
+    editCourse: function editCourse(index) {
       var that = this;
+      that.editData = that.courseData[index];
       that.$refs.addCourse.switchModal();
     },
     deleteCourse: function deleteCourse(index) {
@@ -14098,7 +14101,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             'Accept': 'application/json',
             'Authorization': that.token
           }
-        }).then(function (res) {}).catch(function (err) {
+        }).then(function (res) {
+          alert('删除成功');
+          that.getCourse();
+        }).catch(function (err) {
+          alert('删除失败');
           console.log(err);
         });
       }
@@ -14137,7 +14144,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   },
   created: function created() {
     this.token = sessionStorage.getItem('token');
-    // this.getCourse();
+    this.getCourse();
   },
 
   watch: {
@@ -14155,6 +14162,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 //
 //
 //
@@ -14192,49 +14201,74 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
-    return {
+    var _ref;
+
+    return _ref = {
       isShowModal: false,
       courseData: {
-        name: null,
-        display_name: null,
-        description: null,
-        number: null
-      },
-      token: null,
-      permissionId: null
-    };
+        name: '',
+        display_name: '',
+        descripe: '',
+        number: ''
+      }
+    }, _defineProperty(_ref, 'courseData', null), _defineProperty(_ref, 'token', null), _ref;
   },
 
   components: {},
+  props: ['editData'],
   methods: {
     switchModal: function switchModal() {
       var that = this;
       that.isShowModal = !that.isShowModal;
     },
-    // 添加成员
-    addCourse: function addCourse() {
+    clearWords: function clearWords() {
       var that = this;
-      that.courseData.max = Number(that.courseData.max);
+      that.courseData.name = '';
+      that.courseData.display_name = '';
+      that.courseData.descripe = '';
+      that.courseData.number = '';
+    },
+    editCourse: function editCourse(index) {
+      var that = this;
+      var id = that.editData[id];
       axios({
-        method: 'post',
-        url: this.GLOBAL.localDomain + '/api/v1/courses',
+        method: 'put',
+        url: this.GLOBAL.localDomain + '/api/v1/courses' + id,
         headers: {
           'Accept': 'application/json',
           'Authorization': that.token
         },
-        body: {
+        params: {
           name: that.courseData.name,
           display_name: that.courseData.display_name,
-          description: that.courseData.description,
+          descripe: that.courseData.descripe, // ?? 拼写错误
           number: that.courseData.number
         }
-      }).then(function (res) {}).catch(function (err) {
+      }).then(function (res) {
+        alert('编辑成功');
+        that.$emit('getCourse'); //第一个参数名为调用的方法名，第二个参数为需要传递的参数
+        that.clearWords();
+        that.switchModal();
+      }).catch(function (err) {
+        alert('编辑失败');
         console.log(err);
+        that.clearWords();
       });
     }
   },
   created: function created() {
     this.token = sessionStorage.getItem('token');
+  },
+
+  watch: {
+    editData: function editData(value, oldValue) {
+      var that = this;
+      // that.courseData = value;
+      that.courseData.name = value.name;
+      that.courseData.display_name = value.display_name;
+      that.courseData.descripe = value.descripe;
+      that.courseData.number = value.number;
+    }
   }
 });
 
@@ -16343,7 +16377,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     switchModal: function switchModal() {
       var that = this;
       that.isShowModal = !that.isShowModal;
-      that.clearWords();
     },
     clearWords: function clearWords() {
       var that = this;
@@ -23816,7 +23849,7 @@ exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(1)();
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 /***/ }),
 /* 113 */
@@ -23991,7 +24024,7 @@ exports.push([module.i, "\ntable {\n  margin: 35px auto 0 auto;\n}\n.search-inpu
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(1)();
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 /***/ }),
 /* 138 */
@@ -24061,7 +24094,7 @@ exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(1)();
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 /***/ }),
 /* 148 */
@@ -44395,7 +44428,7 @@ if (false) {
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticClass: "box"
-  }, [_c('div', [_vm._m(0), _vm._v(" "), _c('button', {
+  }, [_c('div', [_c('button', {
     staticClass: "button add-role-button",
     attrs: {
       "type": "button",
@@ -44406,16 +44439,10 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.addCourse()
       }
     }
-  }, [_vm._v("添加课程")]), _vm._v(" "), _c('button', {
-    staticClass: "button add-role-button",
-    attrs: {
-      "type": "button",
-      "name": "button"
-    }
-  }, [_vm._v("同步课程")])]), _vm._v(" "), _c('table', {
+  }, [_vm._v("添加课程")])]), _vm._v(" "), _c('table', {
     staticClass: "table"
-  }, [_vm._m(1), _vm._v(" "), _c('tbody', _vm._l((_vm.courseData), function(item) {
-    return _c('tr', [_c('td', [_vm._v(_vm._s(item.id))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.name))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.display_name))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.number))]), _vm._v(" "), _c('td', [_vm._v(" " + _vm._s(item.description))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.created_at))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.updated_at))]), _vm._v(" "), _c('td', [_c('button', {
+  }, [_vm._m(0), _vm._v(" "), _c('tbody', _vm._l((_vm.courseData), function(item, index) {
+    return _c('tr', [_c('td', [_vm._v(_vm._s(item.id))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.name))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.display_name))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.number))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.descripe))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.created_at))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.updated_at))]), _vm._v(" "), _c('td', [_c('button', {
       staticClass: "button",
       attrs: {
         "type": "button",
@@ -44423,7 +44450,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       },
       on: {
         "click": function($event) {
-          _vm.deleteCourse(_vm.index)
+          _vm.deleteCourse(index)
         }
       }
     }, [_vm._v("删除课程")]), _vm._v(" "), _c('button', {
@@ -44434,16 +44461,22 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       },
       on: {
         "click": function($event) {
-          _vm.editCourse()
+          _vm.editCourse(index)
         }
       }
     }, [_vm._v("编辑课程")])])])
   }))]), _vm._v(" "), _c('add-course', {
-    ref: "addCourse"
+    ref: "addCourse",
+    on: {
+      "getCourse": _vm.getCourse
+    }
   }), _vm._v(" "), _c('edit-course', {
     ref: "editCourse",
     attrs: {
       "edit-data": _vm.editData
+    },
+    on: {
+      "getCourse": _vm.getCourse
     }
   }), _vm._v(" "), _c('pagination', {
     attrs: {
@@ -44458,22 +44491,6 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   })], 1)
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "search-box"
-  }, [_c('input', {
-    staticClass: "input search-input",
-    attrs: {
-      "type": "text",
-      "placeholder": "请输入你要查看的课程"
-    }
-  }), _vm._v(" "), _c('button', {
-    staticClass: "button",
-    attrs: {
-      "type": "button",
-      "name": "button"
-    }
-  }, [_vm._v("查找课程")])])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('thead', [_c('tr', [_c('th', [_vm._v("ID")]), _vm._v(" "), _c('th', [_vm._v("课程名")]), _vm._v(" "), _c('th', [_vm._v("课程别名")]), _vm._v(" "), _c('th', [_vm._v("课程数")]), _vm._v(" "), _c('th', [_vm._v("课程描述")]), _vm._v(" "), _c('th', [_vm._v("创建时间")]), _vm._v(" "), _c('th', [_vm._v("更新时间")]), _vm._v(" "), _c('th', [_vm._v("操作")])])])
 }]}
 module.exports.render._withStripped = true
@@ -47290,7 +47307,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "input",
     attrs: {
       "type": "text",
-      "placeholder": "请输入课程名"
+      "placeholder": "请输入英文名"
     },
     domProps: {
       "value": (_vm.courseData.name)
@@ -47313,7 +47330,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "input",
     attrs: {
       "type": "text",
-      "placeholder": "请输入课程名"
+      "placeholder": "请输入中文名"
     },
     domProps: {
       "value": (_vm.courseData.display_name)
@@ -47330,8 +47347,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     directives: [{
       name: "model",
       rawName: "v-model",
-      value: (_vm.courseData.description),
-      expression: "courseData.description"
+      value: (_vm.courseData.descripe),
+      expression: "courseData.descripe"
     }],
     staticClass: "input",
     attrs: {
@@ -47339,12 +47356,12 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "placeholder": "请输入课程名"
     },
     domProps: {
-      "value": (_vm.courseData.description)
+      "value": (_vm.courseData.descripe)
     },
     on: {
       "input": function($event) {
         if ($event.target.composing) { return; }
-        _vm.$set(_vm.courseData, "description", $event.target.value)
+        _vm.$set(_vm.courseData, "descripe", $event.target.value)
       }
     }
   })]), _vm._v(" "), _c('div', {
@@ -48373,8 +48390,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     directives: [{
       name: "model",
       rawName: "v-model",
-      value: (_vm.courseData.description),
-      expression: "courseData.description"
+      value: (_vm.courseData.descripe),
+      expression: "courseData.descripe"
     }],
     staticClass: "input",
     attrs: {
@@ -48382,12 +48399,12 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "placeholder": "请输入课程名"
     },
     domProps: {
-      "value": (_vm.courseData.description)
+      "value": (_vm.courseData.descripe)
     },
     on: {
       "input": function($event) {
         if ($event.target.composing) { return; }
-        _vm.$set(_vm.courseData, "description", $event.target.value)
+        _vm.$set(_vm.courseData, "descripe", $event.target.value)
       }
     }
   })]), _vm._v(" "), _c('div', {
@@ -48418,7 +48435,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "button is-success",
     on: {
       "click": function($event) {
-        _vm.addCourse()
+        _vm.editCourse()
       }
     }
   }, [_vm._v("确认")]), _vm._v(" "), _c('button', {
