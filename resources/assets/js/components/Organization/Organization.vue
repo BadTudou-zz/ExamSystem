@@ -20,7 +20,8 @@
           <th>当前容量</th>
           <th>创建时间</th>
           <th>更新时间</th>
-          <th>操作</th>
+          <th>组织操作</th>
+          <th>成员操作</th>
         </tr>
       </thead>
       <tbody>
@@ -36,7 +37,9 @@
           <td>
             <button @click="deleteOrganization(index)" class="button" type="button" name="button">删除组织</button>
             <button @click="editOrganization(index)"  class="button" type="button" name="button">编辑组织</button>
-            <button  class="button" type="button" name="button">查看成员</button>
+          </td>
+          <td>
+            <button @click="lookMember(index)"  class="button" type="button" name="button">查看成员</button>
           </td>
         </tr>
       </tbody>
@@ -51,6 +54,10 @@
                        v-bind:edit-data="editData"
     ></edit-organization>
 
+    <member ref="member"
+            v-bind:current-organization-data="currentOrganizationData"
+    ></member>
+
     <pagination v-bind:pagination-data="paginationData"
                 v-model="data"
     ></pagination>
@@ -61,7 +68,8 @@
 <script>
 import AddOrganization from './AddOrganization'
 import EditOrganization from './EditOrganization'
-import Pagination from './../Pagination.vue'
+import Pagination from './../Pagination'
+import Member from './../Member/Member'
 
 export default {
   data() {
@@ -73,12 +81,14 @@ export default {
       editData: null,  // 当前编辑的组织数据
       paginationData: null,
       data: null,
+      currentOrganizationData: null,
     }
   },
   components: {
     AddOrganization,
     EditOrganization,
     Pagination,
+    Member,
   },
   methods: {
     addOrganization: function() {
@@ -142,7 +152,17 @@ export default {
           console.log(err)
         })
       }
-    }
+    },
+    lookMember: function (index) {
+      const that = this;
+      that.currentOrganizationData = that.organizationData[index];
+      that.$refs.member.switchModal();
+    },
+    addMember: function (index) {
+      const that = this;
+      that.currentOrganizationData = that.organizationData[index];
+      that.$refs.addMember.switchModal();
+    },
   },
   computed: {
     isShowCreateOrganization() {

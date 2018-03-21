@@ -8,14 +8,8 @@
       </header>
       <section class="modal-card-body">
         <div class="box-item">
-          <!-- // ?? 添加成员参数 -->
           <label>users</label>
-          <input v-model="memberData.name" class="input" type="text" placeholder="请输入成员名">
-        </div>
-
-        <div class="box-item">
-          <label>users</label>
-          <input v-model="memberData.max" class="input" type="number">
+          <input v-model="memberData.users" class="input" type="number">
         </div>
       </section>
       <footer class="modal-card-foot">
@@ -34,12 +28,14 @@ export default {
       isShowModal: false,
       memberData: {
         users: null,
-        users: null,
       },
       token: null,
       permissionId: null,
     }
   },
+  props: [
+    'organizationId',
+  ],
   components: {
   },
   methods: {
@@ -47,27 +43,33 @@ export default {
       const that = this;
       that.isShowModal = !that.isShowModal;
     },
-    // 添加成员
+    clearWords: function () {
+      const that = this;
+      that.memberData.users = '';
+    },
     addMember: function () {
       const that = this;
-      that.memberData.max = Number(that.memberData.max);
+      let id = that.organizationId;
       axios({
         method: 'post',
-        url: `${this.GLOBAL.localDomain}/api/v1/organizations`,
+        url: `${this.GLOBAL.localDomain}/api/v1/organizations/${id}/users`,
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token
+          'Authorization': that.token,
         },
-        body: {
-        //   users: that.memberData.
-        //   users: that.memberData.
+        params: {
+          users: null,
         }
       }).then(res => {
-         
+        alert('添加成功');
+        that.$emit('getMember');   //第一个参数名为调用的方法名，第二个参数为需要传递的参数
+        that.switchModal();
       }).catch(err => {
-        console.log(err)
+        alert('添加失败');
+        console.log(err);
+        that.clearWords();
       })
-    },
+    }
   },
   created() {
     this.token = sessionStorage.getItem('token');
