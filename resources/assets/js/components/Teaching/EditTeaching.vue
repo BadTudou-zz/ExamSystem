@@ -26,18 +26,25 @@
 </template>
 
 <script>
-
 export default {
   data() {
     return {
+      currentTeachingData: {
+        name: null,
+        max: null,
+        allowable_organization_ids: null,
+        allowable_user_ids: null,
+        describe: null,
+      },
+      token: null,
       isShowModal: false,
-      teachingData: {
-        to: null,
-        data: null,
-      }
     }
   },
+  props: [
+    'editData',
+  ],
   components: {
+
   },
   methods: {
     switchModal: function () {
@@ -46,26 +53,49 @@ export default {
     },
     editTeaching: function () {
       const that = this;
-      let id = that.teachingData.id;
       axios({
         method: 'put',
-        url: `${this.GLOBAL.localDomain}/api/v1/lectures/${id}`,
+        url: `${this.GLOBAL.localDomain}/api/v1/teachings/${that.currentTeachingData.id}`,
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token
+          'Authorization': that.token,
         },
-        body: {
-          to: that.teachingData.to,
-          data: that.teachingData.data
+        params: {
+          name: that.teachingData.name,
+          max: that.teachingData.max,
+          allowable_organization_ids: that.teachingData.allowable_organization_ids,
+          allowable_user_ids: that.teachingData.allowable_user_ids,
+          describe: that.teachingData.describe
         }
       }).then(res => {
+        alert('编辑成功');
+        that.$emit('getTeaching');   //第一个参数名为调用的方法名，第二个参数为需要传递的参数
+        that.switchModal();
       }).catch(err => {
-        console.log(err)
+        alert('编辑失败');
+        console.log(err);
+        that.clearWords();
       })
+    }
+  },
+  creatad() {
+    this.token = sessionStorage.getItem('token');
+  },
+  watch: {
+    editData: function (value, oldValue) {
+      const that = this;
+      that.currentTeachingData.id = value.id;
+      that.currentTeachingData.name = value.name;
+      that.currentTeachingData.describe = value.describe;
+      that.currentTeachingData.max = value.max;
     }
   }
 }
 </script>
 
-<style>
+<style lang="css">
+label {
+  display: inline-block;
+  width: 100px;
+}
 </style>

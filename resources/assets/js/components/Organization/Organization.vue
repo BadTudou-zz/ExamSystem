@@ -39,7 +39,7 @@
             <button @click="editOrganization(index)"  class="button" type="button" name="button">编辑组织</button>
           </td>
           <td>
-            <button @click="lookMember(index)"  class="button" type="button" name="button">查看成员</button>
+            <button @click="showMember(index)"  class="button" type="button" name="button">查看成员</button>
           </td>
         </tr>
       </tbody>
@@ -153,7 +153,7 @@ export default {
         })
       }
     },
-    lookMember: function (index) {
+    showMember: function (index) {
       const that = this;
       that.currentOrganizationData = that.organizationData[index];
       that.$refs.member.switchModal();
