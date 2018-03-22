@@ -79,6 +79,11 @@ export default {
       const that = this;
       that.isShowModal = !that.isShowModal;
     },
+    clearWords: function () {
+      that.currentOrganizationData.name = '';
+      that.currentOrganizationData.description = '';
+      that.currentOrganizationData.max = '';
+    },
     editOrganization: function () {
       const that = this;
       axios({

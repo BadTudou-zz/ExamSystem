@@ -13,11 +13,11 @@
         </div>
         <div class="box-item">
           <label>章节成绩</label>
-          <input v-model="chapterData.score" class="input" type="text">
+          <input v-model="chapterData.score" class="input" type="number">
         </div>
         <div class="box-item">
           <label>章节数</label>
-          <input v-model="chapterData.number" class="input" type="text">
+          <input v-model="chapterData.number" class="input" type="number">
         </div>
         <div class="box-item">
           <label>章节描述</label>
@@ -29,8 +29,8 @@
         </div>
       </section>
       <footer class="modal-card-foot">
-        <button class="button is-success">确认</button>
-        <button  @click="switchModal()" class="button">取消</button>
+        <button @click="addChapter()" class="button is-success">确认</button>
+        <button @click="switchModal()" class="button">取消</button>
       </footer>
     </div>
 
@@ -59,6 +59,14 @@ export default {
       const that = this;
       that.isShowModal = !that.isShowModal;
     },
+    clearWords: function () {
+      const that = this;
+      that.chapterData.name = '';
+      that.chapterData.score = '';
+      that.chapterData.number = '';
+      that.chapterData.describe = '';
+      that.chapterData.question_type = '';
+    },
     addChapter: function () {
       const that = this;
       axios({
@@ -76,8 +84,13 @@ export default {
           question_type: that.chapterData.question_type
         }
       }).then(res => {
+        alert('添加成功');
+        that.$emit('getChapter');   //第一个参数名为调用的方法名，第二个参数为需要传递的参数
+        that.switchModal();
       }).catch(err => {
-        console.log(err)
+        alert('添加失败');
+        console.log(err);
+        that.clearWords();
       })
     },
   },

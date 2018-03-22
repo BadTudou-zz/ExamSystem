@@ -11,14 +11,13 @@
           <label>试卷标题</label>
           <input v-model="examinationPaperData.title" class="input" type="text">
         </div>
-
         <div class="box-item">
           <label>总分</label>
-          <input v-model="examinationPaperData.score" class="input" type="text">
+          <input v-model="examinationPaperData.score" class="input" type="number">
         </div>
         <div class="box-item">
           <label>最小值</label>
-          <input v-model="examinationPaperData.min" class="input" type="text">
+          <input v-model="examinationPaperData.min" class="input" type="number">
         </div>
         <div class="box-item">
           <label>描述</label>
@@ -26,8 +25,8 @@
         </div>
       </section>
       <footer class="modal-card-foot">
-        <button class="button is-success">确认</button>
-        <button  @click="switchModal()" class="button">取消</button>
+        <button @click="addExaminationPaper()" class="button is-success">确认</button>
+        <button @click="switchModal()" class="button">取消</button>
       </footer>
     </div>
   </div>
@@ -54,31 +53,42 @@ export default {
       const that = this;
       that.isShowModal = !that.isShowModal;
     },
-    addQuestion: function () {
+    clearWords: function () {
+      const that = this;
+      that.examinationPaperData.name = '';
+      that.examinationPaperData.describe = '';
+      that.examinationPaperData.max = '';
+    },
+    addExaminationPaper: function () {
       const that = this;
       axios({
         method: 'post',
-        url: `${this.GLOBAL.localDomain}/api/v1/questions/`,
+        url: `${this.GLOBAL.localDomain}/api/v1/papers/`,
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token
+          'Authorization': that.token,
         },
-        body: {
-          question_type: that.examinationPaperData.question_type,
-          level_type: that.examinationPaperData.level_type,
+        params: {
           title: that.examinationPaperData.title,
-          body: that.examinationPaperData.body,
-          answer: that.examinationPaperData.answer,
-          answer_comment: that.examinationPaperData.answer_comment
+          score: that.examinationPaperData.score,
+          min: that.examinationPaperData.min,
+          describe: that.examinationPaperData.describe
         }
       }).then(res => {
+        alert('添加成功');
+        that.$emit('getExaminationPaper');   //第一个参数名为调用的方法名，第二个参数为需要传递的参数
+        that.switchModal();
       }).catch(err => {
-        console.log(err)
+        alert('添加失败');
+        console.log(err);
+        that.clearWords();
       })
     }
+  },
+  created() {
+    this.token = sessionStorage.getItem('token');
   }
 }
 </script>
-
 <style>
 </style>
