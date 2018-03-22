@@ -16477,14 +16477,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   data: function data() {
     return {
       currentOrganizationData: {
-        id: null,
+        // id: null,
         name: null,
-        creator_id: null,
+        //         creator_id: null,
         description: null,
-        max: null,
-        current: null,
-        created_at: null,
-        updated_at: null
+        max: null
+        //         current: null,
+        //         created_at: null,
+        //         updated_at: null
       },
       token: null,
       isShowModal: false
@@ -17163,14 +17163,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
       isShowModal: false,
       questionData: {
-        question_type: 'SINGLE_CHOICE',
-        level_type: 'EASY',
+        question_type: null,
+        level_type: null,
         title: null,
         body: null,
         answer: null,
@@ -17186,6 +17188,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       var that = this;
       that.isShowModal = !that.isShowModal;
     },
+    clearWords: function clearWords() {
+      var that = this;
+      that.questionData.name = '';
+      that.questionData.describe = '';
+      that.questionData.max = '';
+    },
     addQuestion: function addQuestion() {
       var that = this;
       axios({
@@ -17195,7 +17203,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
           'Accept': 'application/json',
           'Authorization': that.token
         },
-        body: {
+        params: {
           question_type: that.questionData.question_type,
           level_type: that.questionData.level_type,
           title: that.questionData.title,
@@ -17203,10 +17211,19 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
           answer: that.questionData.answer,
           answer_comment: that.questionData.answer_comment
         }
-      }).then(function (res) {}).catch(function (err) {
+      }).then(function (res) {
+        alert('添加成功');
+        that.$emit('getQuestion'); //第一个参数名为调用的方法名，第二个参数为需要传递的参数
+        that.switchModal();
+      }).catch(function (err) {
+        alert('添加失败');
         console.log(err);
+        that.clearWords();
       });
     }
+  },
+  created: function created() {
+    this.token = sessionStorage.getItem('token');
   }
 });
 
@@ -17272,21 +17289,21 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      isShowModal: false,
-      questionData: {
-        question_type: 'SINGLE_CHOICE',
-        level_type: 'EASY',
+      currentQuestionData: {
+        question_type: null,
+        level_type: null,
         title: null,
         body: null,
         answer: null,
         answer_comment: null
       },
-      token: null
+      token: null,
+      isShowModal: false
     };
   },
 
-  components: {},
   props: ['editData'],
+  components: {},
   methods: {
     switchModal: function switchModal() {
       var that = this;
@@ -17296,23 +17313,44 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       var that = this;
       var id = that.editData.id;
       axios({
-        method: 'post',
+        method: 'put',
         url: this.GLOBAL.localDomain + '/api/v1/questions/' + id,
         headers: {
           'Accept': 'application/json',
           'Authorization': that.token
         },
-        body: {
-          question_type: that.questionData.question_type,
-          level_type: that.questionData.level_type,
-          title: that.questionData.title,
-          body: that.questionData.body,
-          answer: that.questionData.answer,
-          answer_comment: that.questionData.answer_comment
+        params: {
+          question_type: that.currentQuestionData.question_type,
+          level_type: that.currentQuestionData.level_type,
+          title: that.currentQuestionData.title,
+          body: that.currentQuestionData.body,
+          answer: that.currentQuestionData.answer,
+          answer_comment: that.currentQuestionData.answer_comment
         }
-      }).then(function (res) {}).catch(function (err) {
+      }).then(function (res) {
+        alert('编辑成功');
+        that.$emit('getQuestion'); //第一个参数名为调用的方法名，第二个参数为需要传递的参数
+        that.switchModal();
+      }).catch(function (err) {
+        alert('编辑失败');
         console.log(err);
+        that.clearWords();
       });
+    }
+  },
+  creatad: function creatad() {
+    this.token = sessionStorage.getItem('token');
+  },
+
+  watch: {
+    editData: function editData(value, oldValue) {
+      var that = this;
+      that.currentQuestionData.question_type = value.question_type;
+      that.currentQuestionData.level_type = value.level_type;
+      that.currentQuestionData.title = value.title;
+      that.currentQuestionData.body = value.body;
+      that.currentQuestionData.answer = value.answer;
+      that.currentQuestionData.answer_comment = value.answer_comment;
     }
   }
 });
@@ -17323,10 +17361,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__AddQuestion__ = __webpack_require__(189);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__AddQuestion___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__AddQuestion__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__EditQuestion__ = __webpack_require__(190);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__EditQuestion___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__EditQuestion__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Pagination__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Pagination___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__Pagination__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__AddQuestion__ = __webpack_require__(189);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__AddQuestion___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__AddQuestion__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__EditQuestion__ = __webpack_require__(190);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__EditQuestion___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__EditQuestion__);
 //
 //
 //
@@ -17359,6 +17399,20 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 
 
 
@@ -17366,51 +17420,20 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      "questionData": [{
-        "id": 2,
-        "question_type": "SINGLE_CHOICE",
-        "tag_id": "0",
-        "level_type": "EASY",
-        "title": "1+1等于多少23234？",
-        "body": "1.2 \n2. 3\n3. 4",
-        "answer": "1",
-        "answer_comment": "没有",
-        "created_at": "2018-01-27 04:54:50",
-        "updated_at": "2018-01-27 04:59:21"
-      }, {
-        "id": 3,
-        "question_type": "SINGLE_CHOICE",
-        "tag_id": "0",
-        "level_type": "EASY",
-        "title": "1+1等于多少23234？",
-        "body": "1.2 \n2. 3\n3. 4",
-        "answer": "1",
-        "answer_comment": "没有",
-        "created_at": "2018-01-27 04:58:32",
-        "updated_at": "2018-01-27 04:58:32"
-      }, {
-        "id": 4,
-        "question_type": "SINGLE_CHOICE",
-        "tag_id": "0",
-        "level_type": "EASY",
-        "title": "1+1等于多少？",
-        "body": "1.2 \n2. 3\n3. 4",
-        "answer": "1",
-        "answer_comment": "没有",
-        "created_at": "2018-01-27 05:06:28",
-        "updated_at": "2018-01-27 05:06:28"
-      }],
-
       isShowModal: false,
-      // questionData: null,
+      questionData: null,
       token: null,
-      editData: null
+      editData: null,
+      paginationData: null,
+      data: null,
+      searchKey: null
     };
   },
 
   components: {
-    AddQuestion: __WEBPACK_IMPORTED_MODULE_0__AddQuestion___default.a,
-    EditQuestion: __WEBPACK_IMPORTED_MODULE_1__EditQuestion___default.a
+    AddQuestion: __WEBPACK_IMPORTED_MODULE_1__AddQuestion___default.a,
+    EditQuestion: __WEBPACK_IMPORTED_MODULE_2__EditQuestion___default.a,
+    Pagination: __WEBPACK_IMPORTED_MODULE_0__Pagination___default.a
   },
   methods: {
     showModal: function showModal() {
@@ -17430,8 +17453,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             'Authorization': that.token
           }
         }).then(function (res) {
-          that.questionData = res.data.data;
+          alert('删除成功');
+          that.getQuestion();
         }).catch(function (err) {
+          alert('删除失败');
           console.log(err);
         });
       }
@@ -17446,9 +17471,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
           'Authorization': that.token
         }
       }).then(function (res) {
-
-        that.questiondData = [];
-        that.questiondData.push(res.data.data);
+        that.questionData = res.data.data;
+        that.paginationData = res.data.links;
       }).catch(function (err) {
         console.log(err);
       });
@@ -17457,15 +17481,22 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       var that = this;
       that.$refs.addQuestion.switchModal();
     },
-    editQuestion: function editQuestion() {
+    editQuestion: function editQuestion(index) {
       var that = this;
+      that.editData = that.questionData[index];
       that.$refs.editQuestion.switchModal();
     },
     searchQuestion: function searchQuestion() {
       var that = this;
+      var id = that.searchKey;
+      if (!id) {
+        alert('没有找到相关数据，已为你显示全部数据');
+        that.getQuestion();
+        return;
+      }
       axios({
         method: 'get',
-        url: this.GLOBAL.localDomain + '/api/v1/questions/' + that.questionId,
+        url: this.GLOBAL.localDomain + '/api/v1/questions/' + id,
         headers: {
           'Accept': 'application/json',
           'Authorization': that.token
@@ -17473,7 +17504,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       }).then(function (res) {
         that.questionData = [];
         that.questionData.push(res.data.data);
+        // that.questionData = res.data.data;
       }).catch(function (err) {
+        alert('查找出错');
+        that.getQuestion();
         console.log(err);
       });
     }
@@ -17494,10 +17528,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   },
   created: function created() {
     this.token = sessionStorage.getItem('token');
-    // this.getQuestion();
+    this.getQuestion();
   },
 
-  watch: {}
+  watch: {
+    data: function data(value, oldValue) {
+      var that = this;
+      that.questionData = value.data;
+      that.paginationData = value.links;
+    }
+  }
 });
 
 /***/ }),
@@ -24155,7 +24195,7 @@ exports.push([module.i, "\n.wrapper {\n  /* margin-left: 20px; */\n}\n.select {\
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(1)();
-exports.push([module.i, "\n.message {\n  margin: 35px auto 0 auto;\n}\n.search-input {\n  width: 200px;\n  display: inline-block;\n  margin-right: 10px;\n}\n.search-box {\n  padding-right: 20px;\n  display: inline-block;\n  border-right: 1px solid #dedede;\n}\n.add-role-button {\n  margin-left: 20px;\n}\n.box-item {\n  margin-bottom: 20px;\n}\n.box-item input {\n    display: inline-block;\n    width: 300px;\n}\n.box-item label {\n    display: inline-block;\n    width: 130px;\n}\n.message .notification {\n  margin: 0;\n}\n.notification .time {\n  margin-top: 25px;\n  text-align: right;\n  padding-bottom: 20px;\n  border-bottom: 1px solid #dedede;\n}\n.question {\n  text-align: left;\n  margin-bottom: 10px;\n}\n.answer {\n  margin-left: 50px;\n}\n.edit-question {\n  float: right;\n}\n", ""]);
+exports.push([module.i, "\n.message {\n  margin: 35px auto 0 auto;\n}\n.search-input {\n  width: 200px;\n  display: inline-block;\n  margin-right: 10px;\n}\n.search-box {\n  padding-right: 20px;\n  display: inline-block;\n  border-right: 1px solid #dedede;\n}\n.add-role-button {\n  margin-left: 20px;\n}\n.box-item {\n  margin-bottom: 20px;\n}\n.box-item input {\n    display: inline-block;\n    width: 300px;\n}\n.box-item label {\n    display: inline-block;\n    width: 130px;\n}\n.message .notification {\n  margin: 0;\n}\n.notification .time {\n  margin-top: 25px;\n  text-align: right;\n  padding-bottom: 20px;\n  border-bottom: 1px solid #dedede;\n}\n.question {\n  text-align: left;\n  margin-bottom: 10px;\n}\n.answer {\n  margin-left: 50px;\n}\n.edit-question {\n  float: right;\n}\n.operate-box {\n  height: 40px;\n  line-height: 40px;\n}\n.delete {\n  float: right;\n  margin-left: 20px;\n}\n", ""]);
 
 /***/ }),
 /* 110 */
@@ -24232,7 +24272,7 @@ exports.push([module.i, "\nbody[data-v-30c47f37] {\n  margin: 0;\n}\n.login-wrap
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(1)();
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 /***/ }),
 /* 121 */
@@ -24414,7 +24454,7 @@ exports.push([module.i, "\nnav {\n  margin-bottom: 30px;\n}\n", ""]);
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(1)();
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 /***/ }),
 /* 147 */
@@ -44239,10 +44279,25 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_c('div', [_c('div', {
     staticClass: "search-box"
   }, [_c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.searchKey),
+      expression: "searchKey"
+    }],
     staticClass: "input search-input",
     attrs: {
       "type": "text",
-      "placeholder": "请输入你要查看的问题"
+      "placeholder": "请输入你要查看的问题的id"
+    },
+    domProps: {
+      "value": (_vm.searchKey)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.searchKey = $event.target.value
+      }
     }
   }), _vm._v(" "), _c('button', {
     staticClass: "button",
@@ -44266,12 +44321,21 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.addQuestion()
       }
     }
-  }, [_vm._v("添加问题")])]), _vm._v(" "), _vm._l((_vm.questionData), function(item) {
+  }, [_vm._v("添加问题")])]), _vm._v(" "), _vm._l((_vm.questionData), function(item, index) {
     return _c('div', {
       staticClass: "message box"
     }, [_c('div', {
       staticClass: "notification"
+    }, [_c('div', {
+      staticClass: "operate-box"
     }, [_c('button', {
+      staticClass: "delete",
+      on: {
+        "click": function($event) {
+          _vm.deleteQuestion(index)
+        }
+      }
+    }), _vm._v(" "), _c('button', {
       staticClass: "button edit-question",
       attrs: {
         "type": "button",
@@ -44279,24 +44343,39 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       },
       on: {
         "click": function($event) {
-          _vm.editQuestion()
+          _vm.editQuestion(index)
         }
       }
-    }, [_vm._v("编辑问题")]), _vm._v(" "), _c('button', {
-      staticClass: "delete"
-    }), _vm._v(" "), _c('p', {
+    }, [_vm._v("编辑问题")])]), _vm._v(" "), _c('p', {
       staticClass: "question"
-    }, [_vm._v("问题题目：" + _vm._s(item.title) + "\n             问题类型：" + _vm._s(item.question_type) + "\n             难易程度：" + _vm._s(item.level_type) + "\n      ")]), _vm._v("\n      " + _vm._s(item.body) + "\n      "), _c('p', {
+    }, [_vm._v("        问题id：" + _vm._s(item.id) + "\n             问题题目：" + _vm._s(item.title) + "\n             问题类型：" + _vm._s(item.question_type) + "\n             难易程度：" + _vm._s(item.level_type) + "\n      ")]), _vm._v("\n      " + _vm._s(item.body) + "\n      "), _c('p', {
       staticClass: "time"
     }, [_vm._v(_vm._s(item.created_at))])]), _vm._v(" "), _c('div', {
       staticClass: "answer"
     }, [_c('p', [_vm._v("回复：" + _vm._s(item.answer_comment))])])])
   }), _vm._v(" "), _c('add-question', {
-    ref: "addQuestion"
+    ref: "addQuestion",
+    on: {
+      "getQuestion": _vm.getQuestion
+    }
   }), _vm._v(" "), _c('edit-question', {
     ref: "editQuestion",
     attrs: {
       "edit-data": _vm.editData
+    },
+    on: {
+      "getQuestion": _vm.getQuestion
+    }
+  }), _vm._v(" "), _c('pagination', {
+    attrs: {
+      "pagination-data": _vm.paginationData
+    },
+    model: {
+      value: (_vm.data),
+      callback: function($$v) {
+        _vm.data = $$v
+      },
+      expression: "data"
     }
   })], 2)
 },staticRenderFns: []}
@@ -45395,7 +45474,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "modal-card-head"
   }, [_c('p', {
     staticClass: "modal-card-title"
-  }, [_vm._v("添加问题")]), _vm._v(" "), _c('button', {
+  }, [_vm._v("编辑问题")]), _vm._v(" "), _c('button', {
     staticClass: "delete",
     attrs: {
       "aria-label": "close"
@@ -45415,8 +45494,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     directives: [{
       name: "model",
       rawName: "v-model",
-      value: (_vm.questionData.question_type),
-      expression: "questionData.question_type"
+      value: (_vm.currentQuestionData.question_type),
+      expression: "currentQuestionData.question_type"
     }],
     on: {
       "change": function($event) {
@@ -45426,7 +45505,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
           var val = "_value" in o ? o._value : o.value;
           return val
         });
-        _vm.$set(_vm.questionData, "question_type", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
+        _vm.$set(_vm.currentQuestionData, "question_type", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
       }
     }
   }, [_c('option', {
@@ -45441,8 +45520,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     directives: [{
       name: "model",
       rawName: "v-model",
-      value: (_vm.questionData.level_type),
-      expression: "questionData.level_type"
+      value: (_vm.currentQuestionData.level_type),
+      expression: "currentQuestionData.level_type"
     }],
     on: {
       "change": function($event) {
@@ -45452,7 +45531,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
           var val = "_value" in o ? o._value : o.value;
           return val
         });
-        _vm.$set(_vm.questionData, "level_type", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
+        _vm.$set(_vm.currentQuestionData, "level_type", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
       }
     }
   }, [_c('option', {
@@ -45469,20 +45548,20 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     directives: [{
       name: "model",
       rawName: "v-model",
-      value: (_vm.questionData.title),
-      expression: "questionData.title"
+      value: (_vm.currentQuestionData.title),
+      expression: "currentQuestionData.title"
     }],
     staticClass: "input",
     attrs: {
       "type": "text"
     },
     domProps: {
-      "value": (_vm.questionData.title)
+      "value": (_vm.currentQuestionData.title)
     },
     on: {
       "input": function($event) {
         if ($event.target.composing) { return; }
-        _vm.$set(_vm.questionData, "title", $event.target.value)
+        _vm.$set(_vm.currentQuestionData, "title", $event.target.value)
       }
     }
   })]), _vm._v(" "), _c('div', {
@@ -45491,20 +45570,20 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     directives: [{
       name: "model",
       rawName: "v-model",
-      value: (_vm.questionData.body),
-      expression: "questionData.body"
+      value: (_vm.currentQuestionData.body),
+      expression: "currentQuestionData.body"
     }],
     staticClass: "textarea",
     attrs: {
       "type": "text"
     },
     domProps: {
-      "value": (_vm.questionData.body)
+      "value": (_vm.currentQuestionData.body)
     },
     on: {
       "input": function($event) {
         if ($event.target.composing) { return; }
-        _vm.$set(_vm.questionData, "body", $event.target.value)
+        _vm.$set(_vm.currentQuestionData, "body", $event.target.value)
       }
     }
   })]), _vm._v(" "), _c('div', {
@@ -45513,20 +45592,20 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     directives: [{
       name: "model",
       rawName: "v-model",
-      value: (_vm.questionData.answer),
-      expression: "questionData.answer"
+      value: (_vm.currentQuestionData.answer),
+      expression: "currentQuestionData.answer"
     }],
     staticClass: "input",
     attrs: {
       "type": "number"
     },
     domProps: {
-      "value": (_vm.questionData.answer)
+      "value": (_vm.currentQuestionData.answer)
     },
     on: {
       "input": function($event) {
         if ($event.target.composing) { return; }
-        _vm.$set(_vm.questionData, "answer", $event.target.value)
+        _vm.$set(_vm.currentQuestionData, "answer", $event.target.value)
       }
     }
   })]), _vm._v(" "), _c('div', {
@@ -45535,26 +45614,31 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     directives: [{
       name: "model",
       rawName: "v-model",
-      value: (_vm.questionData.answer_comment),
-      expression: "questionData.answer_comment"
+      value: (_vm.currentQuestionData.answer_comment),
+      expression: "currentQuestionData.answer_comment"
     }],
     staticClass: "textarea",
     attrs: {
       "type": "text"
     },
     domProps: {
-      "value": (_vm.questionData.answer_comment)
+      "value": (_vm.currentQuestionData.answer_comment)
     },
     on: {
       "input": function($event) {
         if ($event.target.composing) { return; }
-        _vm.$set(_vm.questionData, "answer_comment", $event.target.value)
+        _vm.$set(_vm.currentQuestionData, "answer_comment", $event.target.value)
       }
     }
   })])]), _vm._v(" "), _c('footer', {
     staticClass: "modal-card-foot"
   }, [_c('button', {
-    staticClass: "button is-success"
+    staticClass: "button is-success",
+    on: {
+      "click": function($event) {
+        _vm.editQuestion()
+      }
+    }
   }, [_vm._v("确认")]), _vm._v(" "), _c('button', {
     staticClass: "button",
     on: {
@@ -48710,7 +48794,12 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   })])]), _vm._v(" "), _c('footer', {
     staticClass: "modal-card-foot"
   }, [_c('button', {
-    staticClass: "button is-success"
+    staticClass: "button is-success",
+    on: {
+      "click": function($event) {
+        _vm.addQuestion()
+      }
+    }
   }, [_vm._v("确认")]), _vm._v(" "), _c('button', {
     staticClass: "button",
     on: {
