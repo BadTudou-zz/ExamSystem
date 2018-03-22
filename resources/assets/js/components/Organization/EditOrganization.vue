@@ -55,14 +55,14 @@ export default {
   data() {
     return {
       currentOrganizationData: {
-        id: null,
+        // id: null,
         name: null,
-        creator_id: null,
+//         creator_id: null,
         description: null,
         max: null,
-        current: null,
-        created_at: null,
-        updated_at: null
+//         current: null,
+//         created_at: null,
+//         updated_at: null
       },
       token: null,
       isShowModal: false,
