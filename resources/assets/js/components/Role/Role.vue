@@ -17,6 +17,8 @@
           <th>创建时间</th>
           <th>更新时间</th>
           <th>操作</th>
+          <th>权限</th>
+          <th>用户</th>
         </tr>
       </thead>
       <tbody>
@@ -27,6 +29,8 @@
           <td>{{ item.created_at }}</td>
           <td>{{ item.updated_at }}</td>
           <td><button @click="deleteRole(index)" class="button" type="button" name="button">删除角色</button></td>
+          <td><button @click="showPermission(index)" class="button" type="button" name="button">查看权限</button></td>
+          <td><button @click="showUser(index)" class="button" type="button" name="button">查看用户</button></td>
         </tr>
       </tbody>
     </table>
@@ -39,12 +43,22 @@
               v-on:getRole="getRole"
     ></add-role>
 
+    <permission ref="permission"
+                v-bind:current-role-data="currentRoleData"
+    ></permission>
+
+    <user ref="user"
+          v-bind:current-role-data="currentRoleData"
+    ></user>
+
   </div>
 </template>
 
 <script>
-import AddRole from './AddRole'
 import Pagination from './../Pagination.vue'
+import AddRole from './AddRole'
+import Permission from './Permission'
+import User from './User'
 
 export default {
   data() {
@@ -55,11 +69,14 @@ export default {
       searchKey: null,
       paginationData: null,
       data: null,
+      currentRoleData: null,
     }
   },
   components: {
     AddRole,
     Pagination,
+    Permission,
+    User,
   },
   methods: {
     switchModal: function () {
@@ -129,6 +146,16 @@ export default {
         console.log(err)
       })
     },
+    showPermission: function (index) {
+      const that = this;
+      that.currentRoleData = that.roleData[index];
+      that.$refs.permission.switchModal();
+    },
+    showUser: function (index) {
+      const that = this;
+      that.currentRoleData = that.roleData[index];
+      that.$refs.user.switchModal();
+    },
   },
   computed: {
     isShowCreateRole() {
@@ -151,7 +178,7 @@ export default {
   watch: {
     data:function (value, oldValue) {
       const that = this;
-      that.permissionData = value.data;
+      that.roleData = value.data;
       that.paginationData = value.links;
     }
   }
