@@ -9,23 +9,23 @@
       <section class="modal-card-body">
         <div class="box-item">
           <label>to</label>
-          <input v-model="chapterData.to" class="input" type="text" placeholder="请输入申请名">
+          <input v-model="applyForData.to" class="input" type="text">
+        </div>
+        <!-- <div class="box-item">
+          <label>action</label>
+          <input v-model="applyForData.action" class="input" type="text">
+        </div> -->
+        <div class="box-item">
+          <label>资源ID</label>
+          <input v-model="applyForData.resource_id" class="input" type="text">
         </div>
         <div class="box-item">
-          <label>resource_id</label>
-          <input v-model="chapterData.resource_id" class="input" type="text">
+          <label>资源类型</label>
+          <input v-model="applyForData.resource_type" class="input" type="text">
         </div>
         <div class="box-item">
-          <label>resource_type</label>
-          <input v-model="chapterData.resource_type" class="input" type="text">
-        </div>
-        <div class="box-item">
-          <label>data</label>
-          <input v-model="chapterData.data" class="input" type="text">
-        </div>
-        <div class="box-item">
-          <label>问题类型</label>
-          <input v-model="chapterData.question_type" class="input" type="text">
+          <label>数据</label>
+          <input v-model="applyForData.data" class="input" type="text">
         </div>
       </section>
       <footer class="modal-card-foot">
@@ -42,12 +42,13 @@ export default {
   data() {
     return {
       isShowModal: false,
-      chapterData: {
-        name: null,
-        score: null,
-        number: null,
-        describe: null,
-        question_type: null
+      // ?? The data structure provided by the API documentation is problematic.
+      applyForData: {
+        to: '',  // ?? 语义
+        action: '',  // ??
+        resource_id: '',  // ??
+        resource_type: '',  // ??
+        data: '',  // ??
       },
       token: null,
     }
@@ -59,7 +60,15 @@ export default {
       const that = this;
       that.isShowModal = !that.isShowModal;
     },
-    addChapter: function () {
+    clearWords: function () {
+      const that = this;
+      that.applyForData.to = '';
+      that.applyForData.action = '';
+      that.applyForData.resource_id = '';
+      that.applyForData.resource_type = '';
+      that.applyForData.data = '';
+    },
+    addApplyFor: function () {
       const that = this;
       axios({
         method: 'post',
@@ -70,14 +79,19 @@ export default {
         },
         body: {
           to: that.applyForData.to,
-          action: 'create',
+          action: 'create',  // ?? 枚举值
           resource_id: that.applyForData.resource_id,
           resource_type: that.applyForData.type,
           data: that.applyForData.data
         }
       }).then(res => {
+        alert('添加成功');
+        that.$emit('getApplyFor');   //第一个参数名为调用的方法名，第二个参数为需要传递的参数
+        that.switchModal();
       }).catch(err => {
-        console.log(err)
+        alert('添加失败');
+        console.log(err);
+        that.clearWords();
       })
     },
   },

@@ -11,34 +11,42 @@
     <table class="table">
       <thead>
         <tr>
-          <!-- <th>ID</th> -->
-          <th>申请类型</th>
-          <th>申请ID</th>
-          <th>申请类型</th>
-          <!-- <th>内容</th> -->
-          <th>创建时间</th>
+          <th>from</th>
+          <th>to</th>
+          <th>action</th>
+          <th>resource_id</th>
+          <th>resource_type</th>
+          <th>data</th>
           <th>更新时间</th>
           <th>操作</th>
         </tr>
       </thead>
       <tbody>
-        <tr v-for="item in applyForData">
-          <td>{{ item.type }}</td>
-          <td>{{ item.notifiable_id }}</td>
-          <td>{{ item.notifiable_type }}</td>
-          <td>{{ item.created_at }}</td>
-          <td>{{ item.updated_at }}</td>
+        <tr v-for="(item,index) in applyForData">
+          <td>{{ item.from }}</td>
+          <td>{{ item.to }}</td>
+          <td>{{ item.action }}</td>
+          <td>{{ item.resource_id }}</td>
+          <td>{{ item.resource_type }}</td>
+          <td>{{ item.data }}</td>
+          <td>{{ item.updated_at.date }}</td>
           <td>
-            <button @click="deleteApplyFor()" class="button" type="button" name="button">删除</button>
-            <button @click="editApplyFor()" class="button" type="button" name="button">编辑</button>
-            <button @click="acceptApplyFor()" class="button" type="button" name="button">接受</button>
-            <button @click="rejectApplyFor()" class="button" type="button" name="button">拒绝</button>
+            <button @click="deleteApplyFor(index)" class="button" type="button" name="button">删除</button>
+            <button @click="editApplyFor(index)" class="button" type="button" name="button">编辑</button>
+            <button @click="acceptApplyFor(index)" class="button" type="button" name="button">接受</button>
+            <button @click="rejectApplyFor(index)" class="button" type="button" name="button">拒绝</button>
           </td>
         </tr>
       </tbody>
     </table>
-    <add-apply-for ref="addApplyFor"></add-apply-for>
-    <edit-apply-for ref="editApplyFor" v-bind:edit-data="editData"></edit-apply-for>
+
+    <add-apply-for ref="addApplyFor"
+                   v-on:getApplyFor="getApplyFor"></add-apply-for>
+
+    <edit-apply-for ref="editApplyFor"
+                    v-on:getApplyFor="getApplyFor"
+                    v-bind:edit-data="editData"></edit-apply-for>
+
     <pagination v-bind:pagination-data="paginationData"
             v-model="data"
     ></pagination>
@@ -53,22 +61,10 @@ import Pagination from './../Pagination.vue'
 export default {
   data() {
     return {
-      applyForData: [
-        {
-            "id": "53e20281-90ee-4d1e-824e-ac45ac138446",
-            "type": "App\\Notifications\\ApplicationNotification",
-            "notifiable_id": "1",
-            "notifiable_type": "App\\User",
-            "data": "{\"notifiable_id\":\"1\",\"action\":\"create\",\"resource_id\":\"1\",\"resource_type\":\"Organization\",\"data\":\"\\u8fd9\\u662f\\u79c1\\u4fe1\"}",
-            "read_at": null,
-            "created_at": "2018-01-21 14:04:22",
-            "updated_at": "2018-01-21 14:04:22"
-        }
-    ],
       isShowModal: false,
       token: null,
       searchKey: null,
-      // applyForData: null,
+      applyForData: null,
       editData: null,
       searchKey: null,
       paginationData: null,
@@ -98,9 +94,11 @@ export default {
             'Authorization': that.token
           }
         }).then(res => {
-          that.applyForData = res.data.data;
+          alert('删除成功');
+          that.getApplyFor();
         }).catch(err => {
-          console.log(err)
+          alert('删除失败');
+          console.log(err);
         })
       }
     },
@@ -115,9 +113,12 @@ export default {
           'Authorization': that.token
         }
       }).then(res => {
-        that.applyForData = [];
-        that.applyForData.push(res.data.data);
+        // that.applyForData = [];
+        // that.applyForData.push(res.data.data);
+        that.applyForData = res.data.data;
+        debugger
       }).catch(err => {
+        alert('没有找到从相关数据，已加载全部数据')
         console.log(err)
       })
     },
@@ -131,9 +132,11 @@ export default {
           'Authorization': that.token
         }
       }).then(res => {
+        // that.applyForData = [];
+        // that.applyForData.push(res.data.data);
 
-        that.applyForData = [];
-        that.applyForData.push(res.data.data);
+        that.applyForData = res.data.data;
+
         that.paginationData = res.data.links;
       }).catch(err => {
         console.log(err)
@@ -153,17 +156,18 @@ export default {
       const that = this;
       let id = that.applyForData[index].id;
       axios({
-        method: 'get',
+        method: 'post',
         url: `${this.GLOBAL.localDomain}/api/v1/applications/${id}/accept`,
         headers: {
           'Accept': 'application/json',
           'Authorization': that.token
         }
       }).then(res => {
-
-        that.applyForData = [];
-        that.applyForData.push(res.data.data);
+        // that.applyForData = [];
+        // that.applyForData.push(res.data.data);
+        alert('已接受')
       }).catch(err => {
+        alert('接受失败，请稍后再试')
         console.log(err)
       })
     },
@@ -171,18 +175,19 @@ export default {
       const that = this;
       let id = that.applyForData[index].id;
       axios({
-        method: 'get',
+        method: 'post',
         url: `${this.GLOBAL.localDomain}/api/v1/applications/${id}/reject`,
         headers: {
           'Accept': 'application/json',
           'Authorization': that.token
         }
       }).then(res => {
-
-        that.applyForData = [];
-        that.applyForData.push(res.data.data);
+        alert('已拒绝')
+        // that.applyForData = [];
+        // that.applyForData.push(res.data.data);
       }).catch(err => {
         console.log(err)
+        alert('拒绝失败，请稍后再试')
       })
     }
   },
@@ -205,7 +210,7 @@ export default {
   },
   created() {
     this.token = sessionStorage.getItem('token');
-    // this.getApplyFor();
+    this.getApplyFor();
   },
   watch: {
     data:function (value, oldValue) {
