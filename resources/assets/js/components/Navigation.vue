@@ -24,6 +24,7 @@
             </a>
             <div class="navbar-dropdown is-boxed">
               <router-link class="navbar-item" to="/view">查看</router-link>
+              <router-link class="navbar-item" to="/uuser">用户</router-link>
             </div>
           </div>
 

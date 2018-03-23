@@ -12156,21 +12156,21 @@ module.exports = Component.exports
 
 
 /* styles */
-__webpack_require__(315)
+__webpack_require__(291)
 
 var Component = __webpack_require__(0)(
   /* script */
-  __webpack_require__(104),
+  __webpack_require__(105),
   /* template */
-  __webpack_require__(253),
+  __webpack_require__(229),
   /* scopeId */
   null,
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/yfl/Desktop/bishe/ExamSystem/resources/assets/js/components/User/UUser.vue"
+Component.options.__file = "/Users/yfl/Desktop/bishe/ExamSystem/resources/assets/js/components/User/View.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] UUser.vue: functional components are not supported with templates, they should use render functions.")}
+if (Component.options.functional) {console.error("[vue-loader] View.vue: functional components are not supported with templates, they should use render functions.")}
 
 /* hot reload */
 if (false) {(function () {
@@ -12179,9 +12179,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-4770971e", Component.options)
+    hotAPI.createRecord("data-v-120eef57", Component.options)
   } else {
-    hotAPI.reload("data-v-4770971e", Component.options)
+    hotAPI.reload("data-v-120eef57", Component.options)
   }
 })()}
 
@@ -16536,6 +16536,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -20494,6 +20495,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__editUser___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__editUser__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__changePassword__ = __webpack_require__(224);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__changePassword___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__changePassword__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__View__ = __webpack_require__(26);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__View___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__View__);
 //
 //
 //
@@ -20544,6 +20547,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+
 
 
 
@@ -20563,7 +20571,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
   components: {
     editUser: __WEBPACK_IMPORTED_MODULE_0__editUser___default.a,
-    changePassword: __WEBPACK_IMPORTED_MODULE_1__changePassword___default.a
+    changePassword: __WEBPACK_IMPORTED_MODULE_1__changePassword___default.a,
+    VView: __WEBPACK_IMPORTED_MODULE_2__View___default.a
   },
   methods: {
     showModal: function showModal() {
@@ -20680,20 +20689,27 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__UUser__ = __webpack_require__(26);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__UUser___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__UUser__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Teaching_Teaching__ = __webpack_require__(25);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Teaching_Teaching___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__Teaching_Teaching__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Message_MMessage__ = __webpack_require__(18);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Message_MMessage___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__Message_MMessage__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Notice_NNotice__ = __webpack_require__(20);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Notice_NNotice___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__Notice_NNotice__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__Role_Role__ = __webpack_require__(24);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__Role_Role___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__Role_Role__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__Permission_PPermission__ = __webpack_require__(21);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__Permission_PPermission___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5__Permission_PPermission__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__ApplyFor_ApplyFor__ = __webpack_require__(15);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__ApplyFor_ApplyFor___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6__ApplyFor_ApplyFor__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Teaching_Teaching__ = __webpack_require__(25);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Teaching_Teaching___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__Teaching_Teaching__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Message_MMessage__ = __webpack_require__(18);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Message_MMessage___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__Message_MMessage__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Notice_NNotice__ = __webpack_require__(20);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Notice_NNotice___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__Notice_NNotice__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Role_Role__ = __webpack_require__(24);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Role_Role___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__Role_Role__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__Permission_PPermission__ = __webpack_require__(21);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__Permission_PPermission___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__Permission_PPermission__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__ApplyFor_ApplyFor__ = __webpack_require__(15);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__ApplyFor_ApplyFor___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5__ApplyFor_ApplyFor__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -20723,7 +20739,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 
-
+// import UUser from './UUser'
 
 
 
@@ -20734,23 +20750,44 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      currentTag: 'nothing'
+      currentTag: 'nothing',
+      isShowModal: false
     };
   },
 
   components: {
-    UUser: __WEBPACK_IMPORTED_MODULE_0__UUser___default.a,
-    Lecture: __WEBPACK_IMPORTED_MODULE_1__Teaching_Teaching___default.a,
-    Message: __WEBPACK_IMPORTED_MODULE_2__Message_MMessage___default.a,
-    Notice: __WEBPACK_IMPORTED_MODULE_3__Notice_NNotice___default.a,
-    Role: __WEBPACK_IMPORTED_MODULE_4__Role_Role___default.a,
-    Permission: __WEBPACK_IMPORTED_MODULE_5__Permission_PPermission___default.a,
-    ApplyFor: __WEBPACK_IMPORTED_MODULE_6__ApplyFor_ApplyFor___default.a
+    // UUser,
+    Lecture: __WEBPACK_IMPORTED_MODULE_0__Teaching_Teaching___default.a,
+    Message: __WEBPACK_IMPORTED_MODULE_1__Message_MMessage___default.a,
+    Notice: __WEBPACK_IMPORTED_MODULE_2__Notice_NNotice___default.a,
+    Role: __WEBPACK_IMPORTED_MODULE_3__Role_Role___default.a,
+    Permission: __WEBPACK_IMPORTED_MODULE_4__Permission_PPermission___default.a,
+    ApplyFor: __WEBPACK_IMPORTED_MODULE_5__ApplyFor_ApplyFor___default.a
   },
-  methods: {},
+  methods: {
+    switchModal: function switchModal() {
+      var that = this;
+      that.isShowModal = !that.isShowModal;
+    }
+  },
   created: function created() {},
 
-  watch: {}
+  watch: {
+    currentTag: function currentTag(value, oldValue) {
+      var that = this;
+      if (value === 'nothing') {
+        that.isShowModal = false;
+      } else {
+        that.isShowModal = true;
+      }
+    },
+    isShowModal: function isShowModal(value, oldValue) {
+      var that = this;
+      if (value === false) {
+        that.currentTag = 'nothing';
+      }
+    }
+  }
 });
 
 /***/ }),
@@ -21034,7 +21071,7 @@ if (token) {
 // { path: '', redirect: '/' },
 { path: '/login', component: __webpack_require__(8) },
 // // 用户
-{ path: '/UUser', component: __webpack_require__(26) }, { path: '/View', component: __webpack_require__(223) },
+{ path: '/UUser', component: __webpack_require__(223) }, { path: '/View', component: __webpack_require__(26) },
 // 角色
 { path: '/Role', component: __webpack_require__(24) },
 // ?? delete
@@ -45141,21 +45178,21 @@ module.exports = Component.exports
 
 
 /* styles */
-__webpack_require__(291)
+__webpack_require__(315)
 
 var Component = __webpack_require__(0)(
   /* script */
-  __webpack_require__(105),
+  __webpack_require__(104),
   /* template */
-  __webpack_require__(229),
+  __webpack_require__(253),
   /* scopeId */
   null,
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/yfl/Desktop/bishe/ExamSystem/resources/assets/js/components/User/View.vue"
+Component.options.__file = "/Users/yfl/Desktop/bishe/ExamSystem/resources/assets/js/components/User/UUser.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] View.vue: functional components are not supported with templates, they should use render functions.")}
+if (Component.options.functional) {console.error("[vue-loader] UUser.vue: functional components are not supported with templates, they should use render functions.")}
 
 /* hot reload */
 if (false) {(function () {
@@ -45164,9 +45201,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-120eef57", Component.options)
+    hotAPI.createRecord("data-v-4770971e", Component.options)
   } else {
-    hotAPI.reload("data-v-120eef57", Component.options)
+    hotAPI.reload("data-v-4770971e", Component.options)
   }
 })()}
 
@@ -45626,10 +45663,6 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_vm._v("请选择你要查看的选项")]), _vm._v(" "), _c('option', {
     attrs: {
-      "value": "user"
-    }
-  }, [_vm._v("查看用户")]), _vm._v(" "), _c('option', {
-    attrs: {
       "value": "role"
     }
   }, [_vm._v("查看角色")]), _vm._v(" "), _c('option', {
@@ -45652,14 +45685,18 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "value": "apply-for"
     }
-  }, [_vm._v("查看申请")])])]), _vm._v(" "), _c('div', {}, [_c('u-user', {
-    directives: [{
-      name: "show",
-      rawName: "v-show",
-      value: (_vm.currentTag === 'user'),
-      expression: "currentTag === 'user'"
-    }]
-  }), _vm._v(" "), _c('role', {
+  }, [_vm._v("查看申请")])])]), _vm._v(" "), _c('div', {
+    staticClass: "modal",
+    class: {
+      'is-active': _vm.isShowModal
+    }
+  }, [_c('div', {
+    staticClass: "modal-background"
+  }), _vm._v(" "), _c('div', {
+    staticClass: "modal-content member-content"
+  }, [_c('div', {
+    staticClass: "box member-box"
+  }, [_c('div', [_c('role', {
     directives: [{
       name: "show",
       rawName: "v-show",
@@ -45701,7 +45738,17 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       value: (_vm.currentTag === 'apply-for'),
       expression: "currentTag === 'apply-for'"
     }]
-  })], 1)])
+  })], 1)])]), _vm._v(" "), _c('button', {
+    staticClass: "modal-close is-large",
+    attrs: {
+      "aria-label": "close"
+    },
+    on: {
+      "click": function($event) {
+        _vm.switchModal()
+      }
+    }
+  })])])
 },staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {
@@ -48401,7 +48448,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
           _vm.changePassword(index)
         }
       }
-    }, [_vm._v("更改密码")])])])
+    }, [_vm._v("更改密码")])]), _vm._v(" "), _c('td', [_c('v-view')], 1)])
   }))]), _vm._v(" "), _c('edit-user', {
     ref: "editUser",
     attrs: {
@@ -48420,7 +48467,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   })], 1)
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('thead', [_c('tr', [_c('th', [_vm._v("ID")]), _vm._v(" "), _c('th', [_vm._v("用户名")]), _vm._v(" "), _c('th', [_vm._v("别名")]), _vm._v(" "), _c('th', [_vm._v("创建时间")]), _vm._v(" "), _c('th', [_vm._v("更新时间")]), _vm._v(" "), _c('th', [_vm._v("操作")])])])
+  return _c('thead', [_c('tr', [_c('th', [_vm._v("ID")]), _vm._v(" "), _c('th', [_vm._v("用户名")]), _vm._v(" "), _c('th', [_vm._v("别名")]), _vm._v(" "), _c('th', [_vm._v("创建时间")]), _vm._v(" "), _c('th', [_vm._v("更新时间")]), _vm._v(" "), _c('th', [_vm._v("操作")]), _vm._v(" "), _c('th', [_vm._v("查看")])])])
 }]}
 module.exports.render._withStripped = true
 if (false) {
@@ -51890,7 +51937,12 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "to": "/view"
     }
-  }, [_vm._v("查看")])], 1)]), _vm._v(" "), _c('div', {
+  }, [_vm._v("查看")]), _vm._v(" "), _c('router-link', {
+    staticClass: "navbar-item",
+    attrs: {
+      "to": "/uuser"
+    }
+  }, [_vm._v("用户")])], 1)]), _vm._v(" "), _c('div', {
     staticClass: "navbar-item has-dropdown is-hoverable"
   }, [_c('a', {
     staticClass: "navbar-link"

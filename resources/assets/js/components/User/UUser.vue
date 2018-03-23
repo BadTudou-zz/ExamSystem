@@ -17,6 +17,7 @@
           <th>创建时间</th>
           <th>更新时间</th>
           <th>操作</th>
+          <th>查看</th>
         </tr>
       </thead>
       <tbody>
@@ -30,6 +31,9 @@
             <button @click="deleteUser(index)" class="button" type="button" name="button">删除用户</button>
             <button @click="editUser(index)" class="button" type="button" name="button">编辑用户</button>
             <button @click="changePassword(index)" class="button" type="button" name="button">更改密码</button>
+          </td>
+          <td>
+            <v-view></v-view>
           </td>
         </tr>
       </tbody>
@@ -51,6 +55,7 @@
 <script>
 import editUser from './editUser'
 import changePassword from './changePassword'
+import VView from './View'
 
 export default {
   data() {
@@ -67,6 +72,7 @@ export default {
   components: {
     editUser,
     changePassword,
+    VView,
   },
   methods: {
     showModal: function () {
