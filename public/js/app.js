@@ -15257,11 +15257,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     return {
       isShowModal: false,
       labelData: {
-        title: null,
-        creator_id: null,
-        updated_at: null,
-        created_at: null,
-        id: null
+        title: ''
       },
       token: null
     };
@@ -15273,24 +15269,30 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       var that = this;
       that.isShowModal = !that.isShowModal;
     },
+    clearWords: function clearWords() {
+      var that = this;
+      that.labelData.title = '';
+    },
     addLabel: function addLabel() {
       var that = this;
       axios({
         method: 'post',
-        url: this.GLOBAL.localDomain + '/api/v1/tags/',
+        url: this.GLOBAL.localDomain + '/api/v1/applications/',
         headers: {
           'Accept': 'application/json',
           'Authorization': that.token
         },
         body: {
-          title: that.labelData.title,
-          creator_id: that.labelData.creator_id,
-          updated_at: that.labelData.updated_at,
-          created_at: that.labelData.created_at,
-          id: that.labelData.id
+          title: that.labelData.title
         }
-      }).then(function (res) {}).catch(function (err) {
+      }).then(function (res) {
+        alert('添加成功');
+        that.$emit('getLabel'); //第一个参数名为调用的方法名，第二个参数为需要传递的参数
+        that.switchModal();
+      }).catch(function (err) {
+        alert('添加失败');
         console.log(err);
+        that.clearWords();
       });
     }
   },
@@ -15305,8 +15307,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-//
-//
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 //
 //
 //
@@ -15332,17 +15334,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
-    return {
+    var _ref;
+
+    return _ref = {
       isShowModal: false,
       labelData: {
-        title: null,
-        creator_id: null,
-        updated_at: null,
-        created_at: null,
-        id: null
-      },
-      token: null
-    };
+        title: ''
+      }
+    }, _defineProperty(_ref, 'labelData', null), _defineProperty(_ref, 'token', null), _ref;
   },
 
   components: {},
@@ -15352,26 +15351,43 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       var that = this;
       that.isShowModal = !that.isShowModal;
     },
-    editApplyFor: function editApplyFor() {
+    clearWords: function clearWords() {
       var that = this;
+      that.labelData.title = '';
+    },
+    editLabel: function editLabel(index) {
+      var that = this;
+      var id = that.editData[id];
       axios({
-        method: 'post',
-        url: this.GLOBAL.localDomain + '/api/v1/questions/',
+        method: 'put',
+        url: this.GLOBAL.localDomain + '/api/v1/labels' + id,
         headers: {
           'Accept': 'application/json',
           'Authorization': that.token
         },
-        body: {
-          question_type: that.labelData.question_type,
-          level_type: that.labelData.level_type,
-          title: that.labelData.title,
-          body: that.labelData.body,
-          answer: that.labelData.answer,
-          answer_comment: that.labelData.answer_comment
+        params: {
+          'title': that.labelData.title
         }
-      }).then(function (res) {}).catch(function (err) {
+      }).then(function (res) {
+        alert('编辑成功');
+        that.$emit('getLabel'); //第一个参数名为调用的方法名，第二个参数为需要传递的参数
+        that.clearWords();
+        that.switchModal();
+      }).catch(function (err) {
+        alert('编辑失败');
         console.log(err);
+        that.clearWords();
       });
+    }
+  },
+  created: function created() {
+    this.token = sessionStorage.getItem('token');
+  },
+
+  watch: {
+    editData: function editData(value, oldValue) {
+      var that = this;
+      that.labelData.title = value.title;
     }
   }
 });
@@ -15461,6 +15477,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -15471,20 +15494,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     var _ref;
 
     return _ref = {
-      labelData: [{
-        "id": "53e20281-90ee-4d1e-824e-ac45ac138446",
-        "type": "App\\Notifications\\LabelNotification",
-        "notifiable_id": "1",
-        "notifiable_type": 'App\\User',
-        "data": '{"notifiable_id":"1","action":"create","resource_id":"1","resource_type":"Organization","data":"\\u8fd9\\u662f\\u79c1\\u4fe1"}',
-        "read_at": null,
-        "created_at": "2018-01-21 14:04:22",
-        "updated_at": "2018-01-21 14:04:22"
-      }],
       isShowModal: false,
       token: null,
       searchKey: null,
-      // labelData: null,
+      labelData: null,
       editData: null
     }, _defineProperty(_ref, 'searchKey', null), _defineProperty(_ref, 'paginationData', null), _defineProperty(_ref, 'data', null), _ref;
   },
@@ -15501,7 +15514,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     },
     deleteLabel: function deleteLabel(index) {
       var that = this;
-      // let id = that.labelData[index].id;
+      var id = that.labelData[index].id;
       var prompt = confirm("确认删除该标签吗？");
       if (prompt) {
         axios({
@@ -15512,8 +15525,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             'Authorization': that.token
           }
         }).then(function (res) {
-          that.labelData = res.data.data;
+          alert('删除成功');
+          that.getLabel();
         }).catch(function (err) {
+          alert('删除失败');
           console.log(err);
         });
       }
@@ -15532,6 +15547,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         that.labelData = [];
         that.labelData.push(res.data.data);
       }).catch(function (err) {
+        alert('暂无相关数据，已加载全部数据');
         console.log(err);
       });
     },
@@ -15545,7 +15561,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           'Authorization': that.token
         }
       }).then(function (res) {
-
         that.labelData = [];
         that.labelData.push(res.data.data);
         that.paginationData = res.data.links;
@@ -15560,7 +15575,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     editLabel: function editLabel(index) {
       var that = this;
       that.editData = that.labelData[index];
-      // that.$refs.addLabel.switchModal();
       that.$refs.editLabel.switchModal();
     },
     acceptLabel: function acceptLabel(index) {
@@ -15613,7 +15627,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   },
   created: function created() {
     this.token = sessionStorage.getItem('token');
-    // this.getLabel();
+    this.getLabel();
   },
 
   watch: {
@@ -24603,7 +24617,7 @@ module.exports = Array.isArray || function (arr) {
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(1)();
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 /***/ }),
 /* 109 */
@@ -24694,7 +24708,7 @@ exports.push([module.i, "\ntable {\n  margin: 35px auto 0 auto;\n}\n.search-inpu
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(1)();
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 /***/ }),
 /* 122 */
@@ -44309,38 +44323,13 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.switchModal()
       }
     }
-  })]), _vm._v(" "), _c('section', {
-    staticClass: "modal-card-body"
-  }, [_c('div', {
-    staticClass: "box-item"
-  }, [_c('label', [_vm._v("标签题目")]), _vm._v(" "), _c('input', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.labelData.title),
-      expression: "labelData.title"
-    }],
-    staticClass: "input",
-    attrs: {
-      "type": "text",
-      "placeholder": "请输入标签名"
-    },
-    domProps: {
-      "value": (_vm.labelData.title)
-    },
-    on: {
-      "input": function($event) {
-        if ($event.target.composing) { return; }
-        _vm.$set(_vm.labelData, "title", $event.target.value)
-      }
-    }
-  })])]), _vm._v(" "), _c('footer', {
+  })]), _vm._v(" "), _vm._m(0), _vm._v(" "), _c('footer', {
     staticClass: "modal-card-foot"
   }, [_c('button', {
     staticClass: "button is-success",
     on: {
       "click": function($event) {
-        _vm.addApplyFor()
+        _vm.editLabel()
       }
     }
   }, [_vm._v("确认")]), _vm._v(" "), _c('button', {
@@ -44351,7 +44340,18 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }
   }, [_vm._v("取消")])])])])
-},staticRenderFns: []}
+},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('section', {
+    staticClass: "modal-card-body"
+  }, [_c('div', {
+    staticClass: "box-item"
+  }, [_c('label', [_vm._v("标签标题")]), _vm._v(" "), _c('input', {
+    staticClass: "input",
+    attrs: {
+      "type": "text"
+    }
+  })])])
+}]}
 module.exports.render._withStripped = true
 if (false) {
   module.hot.accept()
@@ -45678,8 +45678,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }],
     staticClass: "input",
     attrs: {
-      "type": "text",
-      "placeholder": "请输入标签名"
+      "type": "text"
     },
     domProps: {
       "value": (_vm.labelData.title)
@@ -45696,7 +45695,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "button is-success",
     on: {
       "click": function($event) {
-        _vm.addApplyFor()
+        _vm.addLabel()
       }
     }
   }, [_vm._v("确认")]), _vm._v(" "), _c('button', {
@@ -48500,7 +48499,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_vm._v("添加标签")])]), _vm._v(" "), _c('table', {
     staticClass: "table"
-  }, [_vm._m(0), _vm._v(" "), _c('tbody', _vm._l((_vm.labelData), function(item) {
+  }, [_vm._m(0), _vm._v(" "), _c('tbody', _vm._l((_vm.labelData), function(item, index) {
     return _c('tr', [_c('td', [_vm._v(_vm._s(item.id))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.title))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.commentabl_type))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.creator_id))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.created_at))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.updated_at))]), _vm._v(" "), _c('td', [_c('button', {
       staticClass: "button",
       attrs: {
@@ -48509,7 +48508,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       },
       on: {
         "click": function($event) {
-          _vm.deleteLabel()
+          _vm.deleteLabel(index)
         }
       }
     }, [_vm._v("删除标签")]), _vm._v(" "), _c('button', {
@@ -48520,7 +48519,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       },
       on: {
         "click": function($event) {
-          _vm.editLabel()
+          _vm.editLabel(index)
         }
       }
     }, [_vm._v("编辑标签")])])])
@@ -48559,11 +48558,17 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }
   }, [_vm._v("取消")])])])]), _vm._v(" "), _c('add-label', {
-    ref: "addLabel"
+    ref: "addLabel",
+    on: {
+      "getLabel": _vm.getLabel
+    }
   }), _vm._v(" "), _c('edit-label', {
     ref: "editLabel",
     attrs: {
       "edit-data": _vm.editData
+    },
+    on: {
+      "getLabel": _vm.getLabel
     }
   }), _vm._v(" "), _c('pagination', {
     attrs: {

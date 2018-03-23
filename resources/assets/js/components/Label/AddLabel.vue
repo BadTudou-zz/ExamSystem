@@ -9,11 +9,11 @@
       <section class="modal-card-body">
         <div class="box-item">
           <label>标签题目</label>
-          <input v-model="labelData.title" class="input" type="text" placeholder="请输入标签名">
+          <input v-model="labelData.title" class="input" type="text">
         </div>
       </section>
       <footer class="modal-card-foot">
-        <button @click="addApplyFor()" class="button is-success">确认</button>
+        <button @click="addLabel()" class="button is-success">确认</button>
         <button  @click="switchModal()" class="button">取消</button>
       </footer>
     </div>
@@ -27,11 +27,7 @@ export default {
     return {
       isShowModal: false,
       labelData: {
-        title: null,
-        creator_id: null,
-        updated_at: null,
-        created_at: null,
-        id: null,
+        title: '',
       },
       token: null,
     }
@@ -43,25 +39,30 @@ export default {
       const that = this;
       that.isShowModal = !that.isShowModal;
     },
+    clearWords: function () {
+      const that = this;
+      that.labelData.title = '';
+    },
     addLabel: function () {
       const that = this;
       axios({
         method: 'post',
-        url: `${this.GLOBAL.localDomain}/api/v1/tags/`,
+        url: `${this.GLOBAL.localDomain}/api/v1/applications/`,
         headers: {
           'Accept': 'application/json',
           'Authorization': that.token
         },
         body: {
           title: that.labelData.title,
-          creator_id: that.labelData.creator_id,
-          updated_at: that.labelData.updated_at,
-          created_at: that.labelData.created_at,
-          id: that.labelData.id,
         }
       }).then(res => {
+        alert('添加成功');
+        that.$emit('getLabel');   //第一个参数名为调用的方法名，第二个参数为需要传递的参数
+        that.switchModal();
       }).catch(err => {
-        console.log(err)
+        alert('添加失败');
+        console.log(err);
+        that.clearWords();
       })
     },
   },
