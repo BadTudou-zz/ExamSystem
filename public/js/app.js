@@ -15570,6 +15570,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     },
     addLabel: function addLabel() {
       var that = this;
+      // Multiple addition invalid  ??
       that.$refs.addLabel.switchModal();
     },
     editLabel: function editLabel(index) {
@@ -19227,20 +19228,27 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
       isShowModal: false,
       testData: {
-        title: null,
-        number: null,
-        exam_type: null,
-        describe: null,
-        score: null,
-        min: null,
-        begin_at: null,
-        paper_id: null
+        title: '',
+        number: '',
+        exam_type: '',
+        describe: '',
+        score: '',
+        min: '',
+        begin_at: '',
+        paper_id: ''
       },
       token: null
     };
@@ -19252,24 +19260,44 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       var that = this;
       that.isShowModal = !that.isShowModal;
     },
+    clearWords: function clearWords() {
+      var that = this;
+      that.testData.title = '';
+      that.testData.number = '';
+      that.testData.exam_type = '';
+      that.testData.describe = '';
+      that.testData.score = '';
+      that.testData.min = '';
+      that.testData.begin_at = '';
+      that.testData.paper_id = '';
+    },
     addTest: function addTest() {
       var that = this;
       axios({
         method: 'post',
-        url: this.GLOBAL.localDomain + '/api/v1/applications/',
+        url: this.GLOBAL.localDomain + '/api/v1/exams/',
         headers: {
           'Accept': 'application/json',
           'Authorization': that.token
         },
-        body: {
-          to: that.applyForData.to,
-          action: 'create',
-          resource_id: that.applyForData.resource_id,
-          resource_type: that.applyForData.type,
-          data: that.applyForData.data
+        params: {
+          title: that.testData.title,
+          number: that.testData.number,
+          exam_type: that.testData.exam_type,
+          describe: that.testData.describe,
+          score: that.testData.score,
+          min: that.testData.min,
+          begin_at: that.testData.begin_at,
+          paper_id: that.testData.paper_id
         }
-      }).then(function (res) {}).catch(function (err) {
+      }).then(function (res) {
+        alert('添加成功');
+        that.$emit('getTest'); //第一个参数名为调用的方法名，第二个参数为需要传递的参数
+        that.switchModal();
+      }).catch(function (err) {
+        alert('添加失败');
         console.log(err);
+        that.clearWords();
       });
     }
   },
@@ -19327,16 +19355,27 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
       isShowModal: false,
       testData: {
-        title: null,
-        score: null,
-        min: null,
-        describe: null
+        title: '',
+        number: '',
+        exam_type: '',
+        describe: '',
+        score: '',
+        min: '',
+        begin_at: '',
+        paper_id: ''
       },
       token: null
     };
@@ -19349,26 +19388,64 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       var that = this;
       that.isShowModal = !that.isShowModal;
     },
-    editApplyFor: function editApplyFor() {
+    clearWords: function clearWords() {
       var that = this;
+      that.testData.title = '';
+      that.testData.number = '';
+      that.testData.exam_type = '';
+      that.testData.describe = '';
+      that.testData.score = '';
+      that.testData.min = '';
+      that.testData.begin_at = '';
+      that.testData.paper_id = '';
+    },
+    editTest: function editTest(index) {
+      var that = this;
+      var id = that.editData[id];
       axios({
-        method: 'post',
-        url: this.GLOBAL.localDomain + '/api/v1/questions/',
+        method: 'put',
+        url: this.GLOBAL.localDomain + '/api/v1/exams/' + id,
         headers: {
           'Accept': 'application/json',
           'Authorization': that.token
         },
-        body: {
-          question_type: that.testData.question_type,
-          level_type: that.testData.level_type,
+        params: {
           title: that.testData.title,
-          body: that.testData.body,
-          answer: that.testData.answer,
-          answer_comment: that.testData.answer_comment
+          number: that.testData.number,
+          exam_type: that.testData.exam_type,
+          describe: that.testData.describe,
+          score: that.testData.score,
+          min: that.testData.min,
+          begin_at: that.testData.begin_at,
+          paper_id: that.testData.paper_id
         }
-      }).then(function (res) {}).catch(function (err) {
+      }).then(function (res) {
+        alert('编辑成功');
+        that.$emit('getTest'); //第一个参数名为调用的方法名，第二个参数为需要传递的参数
+        that.clearWords();
+        that.switchModal();
+      }).catch(function (err) {
+        alert('编辑失败');
         console.log(err);
+        that.clearWords();
       });
+    }
+  },
+  created: function created() {
+    this.token = sessionStorage.getItem('token');
+  },
+
+  watch: {
+    editData: function editData(value, oldValue) {
+      var that = this;
+      that.testData.title = value.title;
+      that.testData.number = value.number;
+      that.testData.exam_type = value.exam_type;
+      that.testData.describe = value.describe;
+      that.testData.score = value.score;
+      that.testData.min = value.min;
+      that.testData.begin_at = value.begin_at;
+      that.testData.paper_id = value.paper_id;
     }
   }
 });
@@ -19444,6 +19521,14 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -19454,20 +19539,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     var _ref;
 
     return _ref = {
-      testData: [{
-        "id": "53e20281-90ee-4d1e-824e-ac45ac138446",
-        "type": "App\\Notifications\\ApplicationNotification",
-        "notifiable_id": "1",
-        "notifiable_type": 'App\\User',
-        "data": '{"notifiable_id":"1","action":"create","resource_id":"1","resource_type":"Organization","data":"\\u8fd9\\u662f\\u79c1\\u4fe1"}',
-        "read_at": null,
-        "created_at": "2018-01-21 14:04:22",
-        "updated_at": "2018-01-21 14:04:22"
-      }],
       isShowModal: false,
       token: null,
       searchKey: null,
-      // testData: null,
+      testData: null,
       editData: null
     }, _defineProperty(_ref, 'searchKey', null), _defineProperty(_ref, 'paginationData', null), _defineProperty(_ref, 'data', null), _ref;
   },
@@ -19484,7 +19559,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     },
     deleteTest: function deleteTest(index) {
       var that = this;
-      // let id = that.testData[index].id;
+      var id = that.testData[index].id;
       var prompt = confirm("确认删除该标签吗？");
       if (prompt) {
         axios({
@@ -19495,9 +19570,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             'Authorization': that.token
           }
         }).then(function (res) {
-          that.testData = res.data.data;
-          that.paginationData = res.data.links;
+          alert('删除成功');
+          that.getTest();
         }).catch(function (err) {
+          alert('删除失败');
           console.log(err);
         });
       }
@@ -19505,6 +19581,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     searchTest: function searchTest() {
       var that = this;
       var id = that.searchKey;
+      if (!id) {
+        that.getTest();
+        return;
+      }
       axios({
         method: 'get',
         url: this.GLOBAL.localDomain + '/api/v1/exams/' + id,
@@ -19516,6 +19596,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         that.testData = [];
         that.testData.push(res.data.data);
       }).catch(function (err) {
+        alert('查找失败，已加载全部数据');
         console.log(err);
       });
     },
@@ -19529,7 +19610,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           'Authorization': that.token
         }
       }).then(function (res) {
-
         that.testData = [];
         that.testData.push(res.data.data);
       }).catch(function (err) {
@@ -19543,24 +19623,22 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     editTest: function editTest(index) {
       var that = this;
       that.editData = that.testData[index];
-      // that.$refs.addTest.switchModal();
       that.$refs.editTest.switchModal();
     },
     startTest: function startTest(index) {
       var that = this;
       var id = that.testData[index].id;
       axios({
-        method: 'get',
+        method: 'post',
         url: this.GLOBAL.localDomain + '/api/v1/exams/' + id + '/start',
         headers: {
           'Accept': 'application/json',
           'Authorization': that.token
         }
       }).then(function (res) {
-
-        that.testData = [];
-        that.testData.push(res.data.data);
+        alert('已开始');
       }).catch(function (err) {
+        alert('开始失败，请稍后再试');
         console.log(err);
       });
     },
@@ -19568,17 +19646,33 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       var that = this;
       var id = that.testData[index].id;
       axios({
-        method: 'get',
+        method: 'post',
         url: this.GLOBAL.localDomain + '/api/v1/exams/' + id + '/stop',
         headers: {
           'Accept': 'application/json',
           'Authorization': that.token
         }
       }).then(function (res) {
-
-        that.testData = [];
-        that.testData.push(res.data.data);
+        alert('已结束');
       }).catch(function (err) {
+        alert('结束失败，请稍后再试');
+        console.log(err);
+      });
+    },
+    gradingPapers: function gradingPapers(index) {
+      var that = this;
+      var id = that.testData[index].id;
+      axios({
+        method: 'post',
+        url: this.GLOBAL.localDomain + '/api/v1/exams/' + id + '/correct',
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': that.token
+        }
+      }).then(function (res) {
+        alert('可以开始批改');
+      }).catch(function (err) {
+        alert('操作失败，请稍后再试');
         console.log(err);
       });
     }
@@ -24673,7 +24767,7 @@ exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(1)();
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 /***/ }),
 /* 117 */
@@ -24890,7 +24984,7 @@ exports.push([module.i, "\ntable {\n  margin: 35px auto 0 auto;\n}\n.search-inpu
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(1)();
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 /***/ }),
 /* 148 */
@@ -45168,7 +45262,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "modal-card-head"
   }, [_c('p', {
     staticClass: "modal-card-title"
-  }, [_vm._v("添加考试")]), _vm._v(" "), _c('button', {
+  }, [_vm._v("编辑考试")]), _vm._v(" "), _c('button', {
     staticClass: "delete",
     attrs: {
       "aria-label": "close"
@@ -45182,7 +45276,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "modal-card-body"
   }, [_c('div', {
     staticClass: "box-item"
-  }, [_c('label', [_vm._v("题目")]), _vm._v(" "), _c('input', {
+  }, [_c('label', [_vm._v("考试题目")]), _vm._v(" "), _c('input', {
     directives: [{
       name: "model",
       rawName: "v-model",
@@ -45192,7 +45286,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "input",
     attrs: {
       "type": "text",
-      "placeholder": "请输入考试名"
+      "placeholder": "请输入英文名"
     },
     domProps: {
       "value": (_vm.testData.title)
@@ -45205,7 +45299,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   })]), _vm._v(" "), _c('div', {
     staticClass: "box-item"
-  }, [_c('label', [_vm._v("数量")]), _vm._v(" "), _c('input', {
+  }, [_c('label', [_vm._v("数目")]), _vm._v(" "), _c('input', {
     directives: [{
       name: "model",
       rawName: "v-model",
@@ -45214,7 +45308,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }],
     staticClass: "input",
     attrs: {
-      "type": "text"
+      "type": "text",
+      "placeholder": "请输入中文名"
     },
     domProps: {
       "value": (_vm.testData.number)
@@ -45236,7 +45331,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }],
     staticClass: "input",
     attrs: {
-      "type": "text"
+      "type": "text",
+      "placeholder": "请输入考试名"
     },
     domProps: {
       "value": (_vm.testData.exam_type)
@@ -45293,7 +45389,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   })]), _vm._v(" "), _c('div', {
     staticClass: "box-item"
-  }, [_c('label', [_vm._v("最小")]), _vm._v(" "), _c('input', {
+  }, [_c('label', [_vm._v("最小值")]), _vm._v(" "), _c('input', {
     directives: [{
       name: "model",
       rawName: "v-model",
@@ -45313,13 +45409,57 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.$set(_vm.testData, "min", $event.target.value)
       }
     }
+  })]), _vm._v(" "), _c('div', {
+    staticClass: "box-item"
+  }, [_c('label', [_vm._v("开始时间")]), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.testData.begin_at),
+      expression: "testData.begin_at"
+    }],
+    staticClass: "input",
+    attrs: {
+      "type": "date"
+    },
+    domProps: {
+      "value": (_vm.testData.begin_at)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.$set(_vm.testData, "begin_at", $event.target.value)
+      }
+    }
+  })]), _vm._v(" "), _c('div', {
+    staticClass: "box-item"
+  }, [_c('label', [_vm._v("相关的试卷ID")]), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.testData.paper_id),
+      expression: "testData.paper_id"
+    }],
+    staticClass: "input",
+    attrs: {
+      "type": "text"
+    },
+    domProps: {
+      "value": (_vm.testData.paper_id)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.$set(_vm.testData, "paper_id", $event.target.value)
+      }
+    }
   })])]), _vm._v(" "), _c('footer', {
     staticClass: "modal-card-foot"
   }, [_c('button', {
     staticClass: "button is-success",
     on: {
       "click": function($event) {
-        _vm.addApplyFor()
+        _vm.editTest()
       }
     }
   }, [_vm._v("确认")]), _vm._v(" "), _c('button', {
@@ -46502,7 +46642,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_vm._v("添加考试")])]), _vm._v(" "), _c('table', {
     staticClass: "table"
-  }, [_vm._m(0), _vm._v(" "), _c('tbody', _vm._l((_vm.testData), function(item) {
+  }, [_vm._m(0), _vm._v(" "), _c('tbody', _vm._l((_vm.testData), function(item, index) {
     return _c('tr', [_c('td', [_vm._v(_vm._s(item.title))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.exam_type))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.score))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.min))]), _vm._v(" "), _c('td', [_vm._v(" " + _vm._s(item.description))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.created_at))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.updated_at))]), _vm._v(" "), _c('td', [_c('button', {
       staticClass: "button",
       attrs: {
@@ -46511,7 +46651,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       },
       on: {
         "click": function($event) {
-          _vm.deleteTest()
+          _vm.deleteTest(index)
         }
       }
     }, [_vm._v("删除")]), _vm._v(" "), _c('button', {
@@ -46522,7 +46662,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       },
       on: {
         "click": function($event) {
-          _vm.editTest()
+          _vm.editTest(index)
         }
       }
     }, [_vm._v("编辑")]), _vm._v(" "), _c('button', {
@@ -46533,7 +46673,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       },
       on: {
         "click": function($event) {
-          _vm.startTest()
+          _vm.startTest(index)
         }
       }
     }, [_vm._v("开始")]), _vm._v(" "), _c('button', {
@@ -46544,16 +46684,33 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       },
       on: {
         "click": function($event) {
-          _vm.stopTest()
+          _vm.stopTest(index)
         }
       }
-    }, [_vm._v("结束")])])])
+    }, [_vm._v("结束")]), _vm._v(" "), _c('button', {
+      staticClass: "button",
+      attrs: {
+        "type": "button",
+        "name": "button"
+      },
+      on: {
+        "click": function($event) {
+          _vm.gradingPapers(index)
+        }
+      }
+    }, [_vm._v("批改")])])])
   }))]), _vm._v(" "), _c('add-test', {
-    ref: "addTest"
+    ref: "addTest",
+    on: {
+      "getTest": _vm.getTest
+    }
   }), _vm._v(" "), _c('edit-test', {
     ref: "editTest",
     attrs: {
       "edit-data": _vm.editData
+    },
+    on: {
+      "getTest": _vm.getTest
     }
   }), _vm._v(" "), _c('pagination', {
     attrs: {
@@ -48927,7 +49084,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "modal-card-body"
   }, [_c('div', {
     staticClass: "box-item"
-  }, [_c('label', [_vm._v("题目")]), _vm._v(" "), _c('input', {
+  }, [_c('label', [_vm._v("考试题目")]), _vm._v(" "), _c('input', {
     directives: [{
       name: "model",
       rawName: "v-model",
@@ -48937,7 +49094,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "input",
     attrs: {
       "type": "text",
-      "placeholder": "请输入考试名"
+      "placeholder": "请输入英文名"
     },
     domProps: {
       "value": (_vm.testData.title)
@@ -48950,7 +49107,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   })]), _vm._v(" "), _c('div', {
     staticClass: "box-item"
-  }, [_c('label', [_vm._v("数量")]), _vm._v(" "), _c('input', {
+  }, [_c('label', [_vm._v("数目")]), _vm._v(" "), _c('input', {
     directives: [{
       name: "model",
       rawName: "v-model",
@@ -48959,7 +49116,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }],
     staticClass: "input",
     attrs: {
-      "type": "text"
+      "type": "text",
+      "placeholder": "请输入中文名"
     },
     domProps: {
       "value": (_vm.testData.number)
@@ -48981,7 +49139,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }],
     staticClass: "input",
     attrs: {
-      "type": "text"
+      "type": "text",
+      "placeholder": "请输入考试名"
     },
     domProps: {
       "value": (_vm.testData.exam_type)
@@ -49038,7 +49197,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   })]), _vm._v(" "), _c('div', {
     staticClass: "box-item"
-  }, [_c('label', [_vm._v("最小")]), _vm._v(" "), _c('input', {
+  }, [_c('label', [_vm._v("最小值")]), _vm._v(" "), _c('input', {
     directives: [{
       name: "model",
       rawName: "v-model",
@@ -49058,13 +49217,57 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.$set(_vm.testData, "min", $event.target.value)
       }
     }
+  })]), _vm._v(" "), _c('div', {
+    staticClass: "box-item"
+  }, [_c('label', [_vm._v("开始时间")]), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.testData.begin_at),
+      expression: "testData.begin_at"
+    }],
+    staticClass: "input",
+    attrs: {
+      "type": "date"
+    },
+    domProps: {
+      "value": (_vm.testData.begin_at)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.$set(_vm.testData, "begin_at", $event.target.value)
+      }
+    }
+  })]), _vm._v(" "), _c('div', {
+    staticClass: "box-item"
+  }, [_c('label', [_vm._v("相关的试卷ID")]), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.testData.paper_id),
+      expression: "testData.paper_id"
+    }],
+    staticClass: "input",
+    attrs: {
+      "type": "text"
+    },
+    domProps: {
+      "value": (_vm.testData.paper_id)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.$set(_vm.testData, "paper_id", $event.target.value)
+      }
+    }
   })])]), _vm._v(" "), _c('footer', {
     staticClass: "modal-card-foot"
   }, [_c('button', {
     staticClass: "button is-success",
     on: {
       "click": function($event) {
-        _vm.addApplyFor()
+        _vm.addTest()
       }
     }
   }, [_vm._v("确认")]), _vm._v(" "), _c('button', {
