@@ -6,6 +6,7 @@ export default[
     { path: '/View', component: require('./components/User/View.vue') },
     // 角色
     { path: '/Role', component: require('./components/Role/Role.vue') },
+    // ?? delete
     { path: '/Permission', component: require('./components/Role/Permission.vue') },
     // 权限
     { path: '/PPermission', component: require('./components/Permission/PPermission.vue') },
@@ -34,9 +35,6 @@ export default[
     // 考试
     { path: '/Test', component: require('./components/Test/Test.vue') },
 
-    // // { path: '/HelloWorld', component: require('./components/HelloWorld') },
-    // { path: '/PersonalInformation', component: require('./components/base/PersonalInformation.vue') },
-    // { path: '/InformationCenter', component: require('./components/InformationCenter.vue') },
     { path: '/User', component: require('./components/User.vue') },
 
 ];
