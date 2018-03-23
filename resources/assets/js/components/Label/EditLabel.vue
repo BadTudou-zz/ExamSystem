@@ -8,19 +8,17 @@
       </header>
       <section class="modal-card-body">
         <div class="box-item">
-          <label>标签题目</label>
-          <input v-model="labelData.title" class="input" type="text" placeholder="请输入标签名">
+          <label>标签标题</label>
+          <input class="input" type="text" >
         </div>
       </section>
       <footer class="modal-card-foot">
-        <button @click="addApplyFor()" class="button is-success">确认</button>
+        <button @click="editLabel()" class="button is-success">确认</button>
         <button  @click="switchModal()" class="button">取消</button>
       </footer>
     </div>
-
   </div>
 </template>
-
 
 <script>
 export default {
@@ -28,46 +26,58 @@ export default {
     return {
       isShowModal: false,
       labelData: {
-        title: null,
-        creator_id: null,
-        updated_at: null,
-        created_at: null,
-        id: null,
+        title: '',
       },
+      labelData: null,
       token: null,
     }
   },
   components: {
   },
   props: [
-    'editData'
+    'editData',
   ],
   methods: {
     switchModal: function () {
       const that = this;
       that.isShowModal = !that.isShowModal;
     },
-    editApplyFor: function () {
+    clearWords: function () {
       const that = this;
+      that.labelData.title = '';
+    },
+    editLabel: function (index) {
+      const that = this;
+      let id = that.editData[id];
       axios({
-        method: 'post',
-        url: `${this.GLOBAL.localDomain}/api/v1/questions/`,
+        method: 'put',
+        url: `${this.GLOBAL.localDomain}/api/v1/labels${id}`,
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token
+          'Authorization': that.token,
         },
-        body: {
-          question_type: that.labelData.question_type,
-          level_type: that.labelData.level_type,
-          title: that.labelData.title,
-          body: that.labelData.body,
-          answer: that.labelData.answer,
-          answer_comment: that.labelData.answer_comment
+        params: {
+          'title': that.labelData.title,
         }
       }).then(res => {
+        alert('编辑成功');
+        that.$emit('getLabel');   //第一个参数名为调用的方法名，第二个参数为需要传递的参数
+        that.clearWords();
+        that.switchModal();
       }).catch(err => {
-        console.log(err)
+        alert('编辑失败');
+        console.log(err);
+        that.clearWords();
       })
+    }
+  },
+  created() {
+    this.token = sessionStorage.getItem('token');
+  },
+  watch: {
+    editData: function (value, oldValue) {
+      const that = this;
+      that.labelData.title = value.title;
     }
   }
 }
