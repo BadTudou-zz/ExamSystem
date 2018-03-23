@@ -25,7 +25,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="item in testData">
+        <tr v-for="(item,index) in testData">
           <!-- <td>{{ item.id }}</td> -->
           <!-- <td>{{ item.creator_id }}</td> -->
           <td>{{ item.title }}</td>
@@ -37,17 +37,25 @@
           <td>{{ item.created_at }}</td>
           <td>{{ item.updated_at }}</td>
           <td>
-            <button @click="deleteTest()" class="button" type="button" name="button">删除</button>
-            <button @click="editTest()" class="button" type="button" name="button">编辑</button>
-            <button @click="startTest()" class="button" type="button" name="button">开始</button>
-            <button @click="stopTest()" class="button" type="button" name="button">结束</button>
+            <button @click="deleteTest(index)" class="button" type="button" name="button">删除</button>
+            <button @click="editTest(index)" class="button" type="button" name="button">编辑</button>
+            <button @click="startTest(index)" class="button" type="button" name="button">开始</button>
+            <button @click="stopTest(index)" class="button" type="button" name="button">结束</button>
+            <button @click="gradingPapers(index)" class="button" type="button" name="button">批改</button>
           </td>
         </tr>
       </tbody>
     </table>
 
-    <add-test ref="addTest"></add-test>
-    <edit-test ref="editTest" v-bind:edit-data="editData"></edit-test>
+    <add-test ref="addTest"
+              v-on:getTest="getTest"
+    ></add-test>
+
+    <edit-test ref="editTest"
+               v-on:getTest="getTest"
+               v-bind:edit-data="editData"
+    ></edit-test>
+
     <pagination v-bind:pagination-data="paginationData"
             v-model="data"
     ></pagination>
@@ -63,22 +71,10 @@ import Pagination from './../Pagination.vue'
 export default {
   data() {
     return {
-      testData: [
-        {
-          "id": "53e20281-90ee-4d1e-824e-ac45ac138446",
-          "type": "App\\Notifications\\ApplicationNotification",
-          "notifiable_id": "1",
-          "notifiable_type": "App\\User",
-          "data": "{\"notifiable_id\":\"1\",\"action\":\"create\",\"resource_id\":\"1\",\"resource_type\":\"Organization\",\"data\":\"\\u8fd9\\u662f\\u79c1\\u4fe1\"}",
-          "read_at": null,
-          "created_at": "2018-01-21 14:04:22",
-          "updated_at": "2018-01-21 14:04:22"
-        }
-      ],
       isShowModal: false,
       token: null,
       searchKey: null,
-      // testData: null,
+      testData: null,
       editData: null,
       searchKey: null,
       paginationData: null,
@@ -97,7 +93,7 @@ export default {
     },
     deleteTest: function (index) {
       const that = this;
-      // let id = that.testData[index].id;
+      let id = that.testData[index].id;
       let prompt = confirm("确认删除该标签吗？");
       if (prompt) {
         axios({
@@ -108,9 +104,10 @@ export default {
             'Authorization': that.token
           }
         }).then(res => {
-          that.testData = res.data.data;
-          that.paginationData = res.data.links;
+          alert('删除成功');
+          that.getTest();
         }).catch(err => {
+          alert('删除失败');
           console.log(err)
         })
       }
@@ -118,6 +115,10 @@ export default {
     searchTest: function () {
       const that = this;
       let id = that.searchKey;
+      if (!id) {
+        that.getTest();
+        return;
+      }
       axios({
         method: 'get',
         url: `${this.GLOBAL.localDomain}/api/v1/exams/${id}`,
@@ -129,6 +130,7 @@ export default {
         that.testData = [];
         that.testData.push(res.data.data);
       }).catch(err => {
+        alert('查找失败，已加载全部数据')
         console.log(err)
       })
     },
@@ -142,7 +144,6 @@ export default {
           'Authorization': that.token
         }
       }).then(res => {
-
         that.testData = [];
         that.testData.push(res.data.data);
       }).catch(err => {
@@ -156,24 +157,22 @@ export default {
     editTest: function (index) {
       const that = this;
       that.editData = that.testData[index];
-      // that.$refs.addTest.switchModal();
       that.$refs.editTest.switchModal();
     },
     startTest: function (index) {
       const that = this;
       let id = that.testData[index].id;
       axios({
-        method: 'get',
+        method: 'post',
         url: `${this.GLOBAL.localDomain}/api/v1/exams/${id}/start`,
         headers: {
           'Accept': 'application/json',
           'Authorization': that.token
         }
       }).then(res => {
-
-        that.testData = [];
-        that.testData.push(res.data.data);
+        alert('已开始');
       }).catch(err => {
+        alert('开始失败，请稍后再试')
         console.log(err)
       })
     },
@@ -181,17 +180,33 @@ export default {
       const that = this;
       let id = that.testData[index].id;
       axios({
-        method: 'get',
+        method: 'post',
         url: `${this.GLOBAL.localDomain}/api/v1/exams/${id}/stop`,
         headers: {
           'Accept': 'application/json',
           'Authorization': that.token
         }
       }).then(res => {
-
-        that.testData = [];
-        that.testData.push(res.data.data);
+        alert('已结束');
       }).catch(err => {
+        alert('结束失败，请稍后再试');
+        console.log(err)
+      })
+    },
+    gradingPapers: function (index) {
+      const that = this;
+      let id = that.testData[index].id;
+      axios({
+        method: 'post',
+        url: `${this.GLOBAL.localDomain}/api/v1/exams/${id}/correct`,
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': that.token
+        }
+      }).then(res => {
+        alert('可以开始批改');
+      }).catch(err => {
+        alert('操作失败，请稍后再试');
         console.log(err)
       })
     }
