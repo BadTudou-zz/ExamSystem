@@ -13201,12 +13201,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   data: function data() {
     return {
       isShowModal: false,
-      chapterData: {
-        name: null,
-        score: null,
-        number: null,
-        describe: null,
-        question_type: null
+      // ?? The data structure provided by the API documentation is problematic.
+      applyForData: {
+        to: '', // ?? 语义
+        action: '', // ??
+        resource_id: '', // ??
+        resource_type: '', // ??
+        data: '' // ??
       },
       token: null
     };
@@ -13218,7 +13219,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       var that = this;
       that.isShowModal = !that.isShowModal;
     },
-    addChapter: function addChapter() {
+    clearWords: function clearWords() {
+      var that = this;
+      that.applyForData.to = '';
+      that.applyForData.action = '';
+      that.applyForData.resource_id = '';
+      that.applyForData.resource_type = '';
+      that.applyForData.data = '';
+    },
+    addApplyFor: function addApplyFor() {
       var that = this;
       axios({
         method: 'post',
@@ -13229,13 +13238,19 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
         body: {
           to: that.applyForData.to,
-          action: 'create',
+          action: 'create', // ?? 枚举值
           resource_id: that.applyForData.resource_id,
           resource_type: that.applyForData.type,
           data: that.applyForData.data
         }
-      }).then(function (res) {}).catch(function (err) {
+      }).then(function (res) {
+        alert('添加成功');
+        that.$emit('getApplyFor'); //第一个参数名为调用的方法名，第二个参数为需要传递的参数
+        that.switchModal();
+      }).catch(function (err) {
+        alert('添加失败');
         console.log(err);
+        that.clearWords();
       });
     }
   },
@@ -13305,6 +13320,14 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -13315,20 +13338,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     var _ref;
 
     return _ref = {
-      applyForData: [{
-        "id": "53e20281-90ee-4d1e-824e-ac45ac138446",
-        "type": "App\\Notifications\\ApplicationNotification",
-        "notifiable_id": "1",
-        "notifiable_type": 'App\\User',
-        "data": '{"notifiable_id":"1","action":"create","resource_id":"1","resource_type":"Organization","data":"\\u8fd9\\u662f\\u79c1\\u4fe1"}',
-        "read_at": null,
-        "created_at": "2018-01-21 14:04:22",
-        "updated_at": "2018-01-21 14:04:22"
-      }],
       isShowModal: false,
       token: null,
       searchKey: null,
-      // applyForData: null,
+      applyForData: null,
       editData: null
     }, _defineProperty(_ref, 'searchKey', null), _defineProperty(_ref, 'paginationData', null), _defineProperty(_ref, 'data', null), _ref;
   },
@@ -13356,8 +13369,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             'Authorization': that.token
           }
         }).then(function (res) {
-          that.applyForData = res.data.data;
+          alert('删除成功');
+          that.getApplyFor();
         }).catch(function (err) {
+          alert('删除失败');
           console.log(err);
         });
       }
@@ -13373,9 +13388,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           'Authorization': that.token
         }
       }).then(function (res) {
-        that.applyForData = [];
-        that.applyForData.push(res.data.data);
+        // that.applyForData = [];
+        // that.applyForData.push(res.data.data);
+        that.applyForData = res.data.data;
+        debugger;
       }).catch(function (err) {
+        alert('没有找到从相关数据，已加载全部数据');
         console.log(err);
       });
     },
@@ -13389,9 +13407,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           'Authorization': that.token
         }
       }).then(function (res) {
+        // that.applyForData = [];
+        // that.applyForData.push(res.data.data);
 
-        that.applyForData = [];
-        that.applyForData.push(res.data.data);
+        that.applyForData = res.data.data;
+
         that.paginationData = res.data.links;
       }).catch(function (err) {
         console.log(err);
@@ -13411,17 +13431,18 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       var that = this;
       var id = that.applyForData[index].id;
       axios({
-        method: 'get',
+        method: 'post',
         url: this.GLOBAL.localDomain + '/api/v1/applications/' + id + '/accept',
         headers: {
           'Accept': 'application/json',
           'Authorization': that.token
         }
       }).then(function (res) {
-
-        that.applyForData = [];
-        that.applyForData.push(res.data.data);
+        // that.applyForData = [];
+        // that.applyForData.push(res.data.data);
+        alert('已接受');
       }).catch(function (err) {
+        alert('接受失败，请稍后再试');
         console.log(err);
       });
     },
@@ -13429,18 +13450,19 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       var that = this;
       var id = that.applyForData[index].id;
       axios({
-        method: 'get',
+        method: 'post',
         url: this.GLOBAL.localDomain + '/api/v1/applications/' + id + '/reject',
         headers: {
           'Accept': 'application/json',
           'Authorization': that.token
         }
       }).then(function (res) {
-
-        that.applyForData = [];
-        that.applyForData.push(res.data.data);
+        alert('已拒绝');
+        // that.applyForData = [];
+        // that.applyForData.push(res.data.data);
       }).catch(function (err) {
         console.log(err);
+        alert('拒绝失败，请稍后再试');
       });
     }
   },
@@ -13463,7 +13485,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   },
   created: function created() {
     this.token = sessionStorage.getItem('token');
-    // this.getApplyFor();
+    this.getApplyFor();
   },
 
   watch: {
@@ -24728,7 +24750,7 @@ exports.push([module.i, "\ntable {\n  margin: 35px auto 0 auto;\n}\n.search-inpu
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(1)();
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 /***/ }),
 /* 130 */
@@ -46646,109 +46668,86 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     directives: [{
       name: "model",
       rawName: "v-model",
-      value: (_vm.chapterData.to),
-      expression: "chapterData.to"
-    }],
-    staticClass: "input",
-    attrs: {
-      "type": "text",
-      "placeholder": "请输入申请名"
-    },
-    domProps: {
-      "value": (_vm.chapterData.to)
-    },
-    on: {
-      "input": function($event) {
-        if ($event.target.composing) { return; }
-        _vm.$set(_vm.chapterData, "to", $event.target.value)
-      }
-    }
-  })]), _vm._v(" "), _c('div', {
-    staticClass: "box-item"
-  }, [_c('label', [_vm._v("resource_id")]), _vm._v(" "), _c('input', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.chapterData.resource_id),
-      expression: "chapterData.resource_id"
+      value: (_vm.applyForData.to),
+      expression: "applyForData.to"
     }],
     staticClass: "input",
     attrs: {
       "type": "text"
     },
     domProps: {
-      "value": (_vm.chapterData.resource_id)
+      "value": (_vm.applyForData.to)
     },
     on: {
       "input": function($event) {
         if ($event.target.composing) { return; }
-        _vm.$set(_vm.chapterData, "resource_id", $event.target.value)
+        _vm.$set(_vm.applyForData, "to", $event.target.value)
       }
     }
   })]), _vm._v(" "), _c('div', {
     staticClass: "box-item"
-  }, [_c('label', [_vm._v("resource_type")]), _vm._v(" "), _c('input', {
+  }, [_c('label', [_vm._v("资源ID")]), _vm._v(" "), _c('input', {
     directives: [{
       name: "model",
       rawName: "v-model",
-      value: (_vm.chapterData.resource_type),
-      expression: "chapterData.resource_type"
+      value: (_vm.applyForData.resource_id),
+      expression: "applyForData.resource_id"
     }],
     staticClass: "input",
     attrs: {
       "type": "text"
     },
     domProps: {
-      "value": (_vm.chapterData.resource_type)
+      "value": (_vm.applyForData.resource_id)
     },
     on: {
       "input": function($event) {
         if ($event.target.composing) { return; }
-        _vm.$set(_vm.chapterData, "resource_type", $event.target.value)
+        _vm.$set(_vm.applyForData, "resource_id", $event.target.value)
       }
     }
   })]), _vm._v(" "), _c('div', {
     staticClass: "box-item"
-  }, [_c('label', [_vm._v("data")]), _vm._v(" "), _c('input', {
+  }, [_c('label', [_vm._v("资源类型")]), _vm._v(" "), _c('input', {
     directives: [{
       name: "model",
       rawName: "v-model",
-      value: (_vm.chapterData.data),
-      expression: "chapterData.data"
+      value: (_vm.applyForData.resource_type),
+      expression: "applyForData.resource_type"
     }],
     staticClass: "input",
     attrs: {
       "type": "text"
     },
     domProps: {
-      "value": (_vm.chapterData.data)
+      "value": (_vm.applyForData.resource_type)
     },
     on: {
       "input": function($event) {
         if ($event.target.composing) { return; }
-        _vm.$set(_vm.chapterData, "data", $event.target.value)
+        _vm.$set(_vm.applyForData, "resource_type", $event.target.value)
       }
     }
   })]), _vm._v(" "), _c('div', {
     staticClass: "box-item"
-  }, [_c('label', [_vm._v("问题类型")]), _vm._v(" "), _c('input', {
+  }, [_c('label', [_vm._v("数据")]), _vm._v(" "), _c('input', {
     directives: [{
       name: "model",
       rawName: "v-model",
-      value: (_vm.chapterData.question_type),
-      expression: "chapterData.question_type"
+      value: (_vm.applyForData.data),
+      expression: "applyForData.data"
     }],
     staticClass: "input",
     attrs: {
       "type": "text"
     },
     domProps: {
-      "value": (_vm.chapterData.question_type)
+      "value": (_vm.applyForData.data)
     },
     on: {
       "input": function($event) {
         if ($event.target.composing) { return; }
-        _vm.$set(_vm.chapterData, "question_type", $event.target.value)
+        _vm.$set(_vm.applyForData, "data", $event.target.value)
       }
     }
   })])]), _vm._v(" "), _c('footer', {
@@ -47620,8 +47619,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_vm._v("添加申请")])]), _vm._v(" "), _c('table', {
     staticClass: "table"
-  }, [_vm._m(0), _vm._v(" "), _c('tbody', _vm._l((_vm.applyForData), function(item) {
-    return _c('tr', [_c('td', [_vm._v(_vm._s(item.type))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.notifiable_id))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.notifiable_type))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.created_at))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.updated_at))]), _vm._v(" "), _c('td', [_c('button', {
+  }, [_vm._m(0), _vm._v(" "), _c('tbody', _vm._l((_vm.applyForData), function(item, index) {
+    return _c('tr', [_c('td', [_vm._v(_vm._s(item.from))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.to))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.action))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.resource_id))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.resource_type))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.data))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.updated_at.date))]), _vm._v(" "), _c('td', [_c('button', {
       staticClass: "button",
       attrs: {
         "type": "button",
@@ -47629,7 +47628,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       },
       on: {
         "click": function($event) {
-          _vm.deleteApplyFor()
+          _vm.deleteApplyFor(index)
         }
       }
     }, [_vm._v("删除")]), _vm._v(" "), _c('button', {
@@ -47640,7 +47639,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       },
       on: {
         "click": function($event) {
-          _vm.editApplyFor()
+          _vm.editApplyFor(index)
         }
       }
     }, [_vm._v("编辑")]), _vm._v(" "), _c('button', {
@@ -47651,7 +47650,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       },
       on: {
         "click": function($event) {
-          _vm.acceptApplyFor()
+          _vm.acceptApplyFor(index)
         }
       }
     }, [_vm._v("接受")]), _vm._v(" "), _c('button', {
@@ -47662,16 +47661,22 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       },
       on: {
         "click": function($event) {
-          _vm.rejectApplyFor()
+          _vm.rejectApplyFor(index)
         }
       }
     }, [_vm._v("拒绝")])])])
   }))]), _vm._v(" "), _c('add-apply-for', {
-    ref: "addApplyFor"
+    ref: "addApplyFor",
+    on: {
+      "getApplyFor": _vm.getApplyFor
+    }
   }), _vm._v(" "), _c('edit-apply-for', {
     ref: "editApplyFor",
     attrs: {
       "edit-data": _vm.editData
+    },
+    on: {
+      "getApplyFor": _vm.getApplyFor
     }
   }), _vm._v(" "), _c('pagination', {
     attrs: {
@@ -47686,7 +47691,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   })], 1)
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('thead', [_c('tr', [_c('th', [_vm._v("申请类型")]), _vm._v(" "), _c('th', [_vm._v("申请ID")]), _vm._v(" "), _c('th', [_vm._v("申请类型")]), _vm._v(" "), _c('th', [_vm._v("创建时间")]), _vm._v(" "), _c('th', [_vm._v("更新时间")]), _vm._v(" "), _c('th', [_vm._v("操作")])])])
+  return _c('thead', [_c('tr', [_c('th', [_vm._v("from")]), _vm._v(" "), _c('th', [_vm._v("to")]), _vm._v(" "), _c('th', [_vm._v("action")]), _vm._v(" "), _c('th', [_vm._v("resource_id")]), _vm._v(" "), _c('th', [_vm._v("resource_type")]), _vm._v(" "), _c('th', [_vm._v("data")]), _vm._v(" "), _c('th', [_vm._v("更新时间")]), _vm._v(" "), _c('th', [_vm._v("操作")])])])
 }]}
 module.exports.render._withStripped = true
 if (false) {
