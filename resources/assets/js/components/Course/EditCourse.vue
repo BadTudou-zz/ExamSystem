@@ -43,7 +43,6 @@ export default {
         descripe: '',
         number: '',
       },
-      courseData: null,
       token: null,
     }
   },
