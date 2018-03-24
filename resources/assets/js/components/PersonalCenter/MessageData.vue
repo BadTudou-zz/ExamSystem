@@ -1,7 +1,7 @@
 <!-- 查看用户 -->
 <template lang="html">
-  <div class="box">
-    <div class="">
+  <div>
+    <div>
       <h3 class="title">个人信息</h3>
       <div class="label-box">
         <label class="label">用户ID：</label>
@@ -35,7 +35,7 @@
 </template>
 
 <script>
-import ChangePassword from './User/ChangePassword'
+import ChangePassword from '../User/ChangePassword'
 
 export default {
   data() {
@@ -98,10 +98,6 @@ export default {
 </script>
 
 <style lang="css">
-.box {
-  margin: 30px;
-  padding: 30px 50px;
-}
 label {
   display: inline-block;
   width: 100px;
@@ -113,10 +109,6 @@ label {
   margin-bottom: 10px;
   height: 36px;
   line-height: 36px;
-}
-.personal-information {
-  width: 400px;
-  margin: 0 auto;
 }
 .title {
   color: #363636;
