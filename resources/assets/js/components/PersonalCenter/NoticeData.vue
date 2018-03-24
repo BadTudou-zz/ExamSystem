@@ -11,7 +11,7 @@
     </div>
 
     <pagination v-bind:pagination-data="paginationData"
-            v-model="data"
+                v-model="data"
     ></pagination>
   </div>
 </template>
@@ -26,6 +26,7 @@ export default {
       isShowModal: false,
       paginationData: null,
       data: null,
+      userId: null,
     }
   },
   components: {
@@ -57,6 +58,7 @@ export default {
   computed: {
   },
   created() {
+    this.userId = sessionStorage.getItem('userId');
     this.token = sessionStorage.getItem('token');
     this.getNotice();
   },

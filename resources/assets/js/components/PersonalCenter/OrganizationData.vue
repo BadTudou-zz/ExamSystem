@@ -49,6 +49,8 @@ export default {
       paginationData: null,
       data: null,
       currentOrganizationData: null,
+      userId: null,
+      
     }
   },
   components: {
@@ -76,6 +78,7 @@ export default {
 
   },
   created() {
+    this.userId = sessionStorage.getItem('userId');
     this.token = sessionStorage.getItem('token');
     this.getOrganization();
   },
