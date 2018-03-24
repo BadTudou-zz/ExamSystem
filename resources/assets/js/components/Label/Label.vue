@@ -21,7 +21,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="item in labelData">
+        <tr v-for="(item,index) in labelData">
           <td>{{ item.id }}</td>
           <td>{{ item.title }}</td>
           <td>{{ item.commentabl_type }}</td>
@@ -29,8 +29,8 @@
           <td>{{ item.created_at }}</td>
           <td>{{ item.updated_at }}</td>
           <td>
-            <button @click="deleteLabel()" class="button" type="button" name="button">删除标签</button>
-            <button @click="editLabel()" class="button" type="button" name="button">编辑标签</button>
+            <button @click="deleteLabel(index)" class="button" type="button" name="button">删除标签</button>
+            <button @click="editLabel(index)" class="button" type="button" name="button">编辑标签</button>
           </td>
         </tr>
       </tbody>
@@ -61,40 +61,43 @@
       </div>
     </div>
 
-    <add-label ref="addLabel"></add-label>
-    <edit-label ref="editLabel" v-bind:edit-data="editData"></edit-label>
+    <add-label ref="addLabel"
+                   v-on:getLabel="getLabel"></add-label>
+
+    <edit-label ref="editLabel"
+                v-on:getLabel="getLabel"
+                v-bind:edit-data="editData"
+    ></edit-label>
+
+
+    <pagination v-bind:pagination-data="paginationData"
+            v-model="data"
+    ></pagination>
   </div>
 </template>
 
 <script>
 import AddLabel from './AddLabel'
 import EditLabel from './EditLabel'
+import Pagination from './../Pagination.vue'
+
 export default {
   data() {
     return {
-      labelData: [
-        {
-            "id": "53e20281-90ee-4d1e-824e-ac45ac138446",
-            "type": "App\\Notifications\\LabelNotification",
-            "notifiable_id": "1",
-            "notifiable_type": "App\\User",
-            "data": "{\"notifiable_id\":\"1\",\"action\":\"create\",\"resource_id\":\"1\",\"resource_type\":\"Organization\",\"data\":\"\\u8fd9\\u662f\\u79c1\\u4fe1\"}",
-            "read_at": null,
-            "created_at": "2018-01-21 14:04:22",
-            "updated_at": "2018-01-21 14:04:22"
-        }
-      ],
       isShowModal: false,
       token: null,
       searchKey: null,
-      // labelData: null,
+      labelData: null,
       editData: null,
       searchKey: null,
+      paginationData: null,
+      data: null,
     }
   },
   components: {
     AddLabel,
     EditLabel,
+    Pagination,
   },
   methods: {
     showModal: function () {
@@ -103,7 +106,7 @@ export default {
     },
     deleteLabel: function (index) {
       const that = this;
-      // let id = that.labelData[index].id;
+      let id = that.labelData[index].id;
       let prompt = confirm("确认删除该标签吗？");
       if (prompt) {
         axios({
@@ -114,9 +117,11 @@ export default {
             'Authorization': that.token
           }
         }).then(res => {
-          that.labelData = res.data.data;
+          alert('删除成功');
+          that.getLabel();
         }).catch(err => {
-          console.log(err)
+          alert('删除失败');
+          console.log(err);
         })
       }
     },
@@ -134,6 +139,7 @@ export default {
         that.labelData = [];
         that.labelData.push(res.data.data);
       }).catch(err => {
+        alert('暂无相关数据，已加载全部数据');
         console.log(err)
       })
     },
@@ -147,21 +153,21 @@ export default {
           'Authorization': that.token
         }
       }).then(res => {
-
         that.labelData = [];
         that.labelData.push(res.data.data);
+        that.paginationData = res.data.links;
       }).catch(err => {
         console.log(err)
       })
     },
     addLabel: function () {
       const that = this;
+      // Multiple addition invalid  ??
       that.$refs.addLabel.switchModal();
     },
     editLabel: function (index) {
       const that = this;
       that.editData = that.labelData[index];
-      // that.$refs.addLabel.switchModal();
       that.$refs.editLabel.switchModal();
     },
     acceptLabel: function (index) {
@@ -214,9 +220,14 @@ export default {
   },
   created() {
     this.token = sessionStorage.getItem('token');
-    // this.getLabel();
+    this.getLabel();
   },
   watch: {
+    data:function (value, oldValue) {
+      const that = this;
+      that.permissionData = value.data;
+      that.paginationData = value.links;
+    }
   }
 }
 </script>

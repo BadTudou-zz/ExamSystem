@@ -3,17 +3,17 @@
     <div class="modal-background"></div>
     <div class="modal-card">
       <header class="modal-card-head">
-        <p class="modal-card-title">添加成员</p>
+        <p class="modal-card-title">同步成员</p>
         <button @click="switchModal()" class="delete" aria-label="close"></button>
       </header>
       <section class="modal-card-body">
         <div class="box-item">
           <label>users</label>
-          <input v-model="memberData.users" class="input" type="number">
+          <input v-model="userString" class="input" type="text" placeholder="请用英文逗号将多个用户id分开">
         </div>
       </section>
       <footer class="modal-card-foot">
-        <button @click="addMember()" class="button is-success">确认</button>
+        <button @click="synchronousUser()" class="button is-success">确认</button>
         <button  @click="switchModal()" class="button">取消</button>
       </footer>
     </div>
@@ -26,15 +26,12 @@ export default {
   data() {
     return {
       isShowModal: false,
-      memberData: {
-        users: null,
-      },
+      userString: null,
       token: null,
-      permissionId: null,
     }
   },
   props: [
-    'organizationId',
+    'roleId',
   ],
   components: {
   },
@@ -45,31 +42,51 @@ export default {
     },
     clearWords: function () {
       const that = this;
-      that.memberData.users = '';
+      that.userString = '';
     },
-    addMember: function () {
+    synchronousUser: function () {
       const that = this;
-      let id = that.organizationId;
+      let id = that.roleId;
+      let params = that.computedParams(that.userString, 'users');
       axios({
         method: 'post',
-        url: `${this.GLOBAL.localDomain}/api/v1/organizations/${id}/users`,
+        url: `${this.GLOBAL.localDomain}/api/v1/roles/${id}/users?${params}`,
         headers: {
           'Accept': 'application/json',
           'Authorization': that.token,
         },
-        params: {
-          users: null,
-        }
+        // params: {
+        //
+        // }
       }).then(res => {
-        alert('添加成功');
-        that.$emit('getMember');   //第一个参数名为调用的方法名，第二个参数为需要传递的参数
+        alert('同步成功');
+        that.$emit('getUser');   //第一个参数名为调用的方法名，第二个参数为需要传递的参数
         that.switchModal();
       }).catch(err => {
-        alert('添加失败');
+        alert('同步失败');
         console.log(err);
         that.clearWords();
       })
-    }
+    },
+    /**
+     * computedParams
+     * @param  {String} str   需要转换的字符串
+     * @param  {String} param param拼接参数
+     * @return {String}       拼接完成的params
+     */
+    computedParams: function (str, param) {
+      let arr = str.split(',');
+      let string = '';
+      for (let i = 0; i < arr.length; i++) {
+        if (i != 0) {
+          string += '&' + param + '=' + arr[i];
+        }
+        else {
+          string += param + '=' + arr[i];
+        }
+      }
+      return string;
+    },
   },
   created() {
     this.token = sessionStorage.getItem('token');

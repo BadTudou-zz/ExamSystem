@@ -6,7 +6,7 @@
         <input v-model="searchKey" class="input search-input" type="text" placeholder="请输入你要查看的用户的ID">
         <button @click="searchUser()" class="button" type="button" name="button">查找用户</button>
       </div>
-        <button class="button add-user-button" type="button" name="button">添加用户</button>
+        <!-- <button class="button add-user-button" type="button" name="button">添加用户</button> -->
     </div>
     <table class="table">
       <thead>
@@ -17,6 +17,7 @@
           <th>创建时间</th>
           <th>更新时间</th>
           <th>操作</th>
+          <th>查看</th>
         </tr>
       </thead>
       <tbody>
@@ -28,21 +29,33 @@
           <td>{{ item.updated_at }}</td>
           <td>
             <button @click="deleteUser(index)" class="button" type="button" name="button">删除用户</button>
-            <button @click="showEditModal(index)" class="button" type="button" name="button">编辑用户</button>
-            <!-- <button @click="showEditModal(index)" class="button" type="button" name="button">更改密码</button> -->
+            <button @click="editUser(index)" class="button" type="button" name="button">编辑用户</button>
+            <button @click="changePassword(index)" class="button" type="button" name="button">更改密码</button>
+          </td>
+          <td>
+            <v-view></v-view>
           </td>
         </tr>
       </tbody>
     </table>
 
-    <edit-user :is-show-edit-modal="isShowEditModal"
-               :current-user-data="currentUserData">
-    </edit-user>
+
+    <edit-user ref="editUser"
+               v-bind:edit-data="editData"
+               v-on:getUser="getUser"
+    ></edit-user>
+
+    <change-password ref="changePassword"
+                     v-bind:edit-data="editData"
+                     v-on:getUser="getUser"
+    ></change-password>
   </div>
 </template>
 
 <script>
-import editUser from './editUser.vue'
+import editUser from './editUser'
+import changePassword from './changePassword'
+import VView from './View'
 
 export default {
   data() {
@@ -53,10 +66,13 @@ export default {
       searchKey: null,
       isShowEditModal: false,
       currentUserData: null, // 当前选中的用户
+      editData: null,
     }
   },
   components: {
     editUser,
+    changePassword,
+    VView,
   },
   methods: {
     showModal: function () {
@@ -67,18 +83,20 @@ export default {
     deleteUser: function (index) {
       const that = this;
       let id = that.userData[index]['id'];
-      let prompt = confirm("确认删除改用户吗？");
+      let prompt = confirm("确认删除该用户吗？");
       if (prompt) {
         axios({
-          method: 'put',
-          url: `http://api/v1/users/${id}`,
+          method: 'delete',
+          url: `${this.GLOBAL.localDomain}/api/v1/users/${id}`,
           headers: {
             'Accept': 'application/json',
             'Authorization': that.token
           }
         }).then(res => {
-          that.userData = res.data.data;
+          alert('删除成功！');
+          that.getUser();
         }).catch(err => {
+          alert('删除失败，请稍后再试')
           console.log(err)
         })
       }
@@ -116,6 +134,16 @@ export default {
       }).catch(err => {
         console.log(err)
       })
+    },
+    editUser: function (index) {
+      const that = this;
+      that.editData = that.userData[index];
+      that.$refs.editUser.switchModal();
+    },
+    changePassword: function (index) {
+      const that = this;
+      that.editData = that.userData[index];
+      that.$refs.changePassword.switchModal();
     },
     checkPermissions: function () {
       const that = this;

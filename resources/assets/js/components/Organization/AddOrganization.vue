@@ -11,7 +11,10 @@
           <label>组织名称</label>
           <input v-model="organizationData.name" class="input" type="text" placeholder="请输入组织名">
         </div>
-
+        <div class="box-item">
+          <label>组织描述</label>
+          <input v-model="organizationData.describe" class="input" type="text">
+        </div>
         <div class="box-item">
           <label>最大值</label>
           <input v-model="organizationData.max" class="input" type="number">
@@ -33,10 +36,10 @@ export default {
       isShowModal: false,
       organizationData: {
         name: null,  // 组织名称
+        describe: null, // 组织描述
         max: null  // 最大值
       },
       token: null,
-      permissionId: null,
     }
   },
   components: {
@@ -46,27 +49,36 @@ export default {
       const that = this;
       that.isShowModal = !that.isShowModal;
     },
-    // 添加组织
+    clearWords: function () {
+      const that = this;
+      that.organizationData.name = '';
+      that.organizationData.describe = '';
+      that.organizationData.max = '';
+    },
     addOrganization: function () {
       const that = this;
-      that.organizationData.max = Number(that.organizationData.max);
       axios({
         method: 'post',
         url: `${this.GLOBAL.localDomain}/api/v1/organizations`,
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token
+          'Authorization': that.token,
         },
-        body: {
+        params: {
           name: that.organizationData.name,
-          max: that.organizationData.max
+          describe: that.organizationData.describe,
+          max: that.organizationData.max,
         }
       }).then(res => {
-         
+        alert('添加成功');
+        that.$emit('getOrganization');   //第一个参数名为调用的方法名，第二个参数为需要传递的参数
+        that.switchModal();
       }).catch(err => {
-        console.log(err)
+        alert('添加失败');
+        console.log(err);
+        that.clearWords();
       })
-    },
+    }
   },
   created() {
     this.token = sessionStorage.getItem('token');

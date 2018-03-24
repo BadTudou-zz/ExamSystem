@@ -7,10 +7,10 @@
         <button @click="switchModal()" class="delete" aria-label="close"></button>
       </header>
       <section class="modal-card-body">
-        <div class="box-item">
+        <!-- <div class="box-item">
           <label>发送到</label>
           <input class="input" type="text" placeholder="需要发送的用户名">
-        </div>
+        </div> -->
 
         <div class="box-item">
           <label>通知内容</label>
@@ -18,7 +18,7 @@
         </div>
       </section>
       <footer class="modal-card-foot">
-        <button @click="createNotice()" class="button is-success">确认</button>
+        <button @click="addNotice()" class="button is-success">确认</button>
         <button  @click="switchModal()" class="button">取消</button>
       </footer>
     </div>
@@ -30,6 +30,7 @@
 export default {
   data() {
     return {
+      token: null,
       isShowModal: false,
       noticeData: {
         to: null,
@@ -44,26 +45,40 @@ export default {
       const that = this;
       that.isShowModal = !that.isShowModal;
     },
-    createNotice: function () {
+    clearWords: function () {
+      const that = this;
+      that.noticeData.to = '';
+      that.noticeData.data = '';
+    },
+    addNotice: function () {
       const that = this;
       axios({
         method: 'post',
         url: `${this.GLOBAL.localDomain}/api/v1/notifications/`,
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token
+          'Authorization': that.token,
         },
-        body: {
+        params: {
           // to: that.noticeData.to,
           data: that.noticeData.data
         }
       }).then(res => {
-         
+        alert('发送成功');
+        that.$emit('getNotice');   //第一个参数名为调用的方法名，第二个参数为需要传递的参数
+        that.switchModal();
+        that.clearWords();
       }).catch(err => {
-        console.log(err)
+        alert('发送失败');
+        console.log(err);
+        that.clearWords();
       })
-
     }
+  },
+  created() {
+    this.token = sessionStorage.getItem('token');
+  },
+  watch: {
   }
 }
 </script>

@@ -8,30 +8,40 @@
       </div>
         <button @click="addNotice()" class="button add-role-button" type="button" name="button">添加通知</button>
     </div>
-    <div  v-for="item in noticeData" class="notice box">
+    <div  v-for="(item,index) in noticeData" class="notice box">
       <div class="notification">
-        <button class="delete"></button>
+        <button @click="deleteNotice(index)" class="delete"></button>
         {{ item.data}}
         <p>{{item.created_at}}</p>
       </div>
     </div>
 
-    <add-notice ref="addNotice"></add-notice>
+    <add-notice ref="addNotice"
+                 v-on:getNotice="getNotice"
+    ></add-notice>
+
+    <pagination v-bind:pagination-data="paginationData"
+            v-model="data"
+    ></pagination>
   </div>
 </template>
 
 <script>
 import AddNotice from './AddNotice'
+import Pagination from './../Pagination.vue'
 export default {
   data() {
     return {
       token: null,
       noticeData: null,
       isShowModal: false,
+      paginationData: null,
+      data: null,
     }
   },
   components: {
     AddNotice,
+    Pagination,
   },
   methods: {
     showModal: function () {
@@ -53,10 +63,32 @@ export default {
         }
       }).then(res => {
         that.noticeData = res.data.data;
+        that.paginationData = res.data.links;
       }).catch(err => {
         console.log(err)
       })
-    }
+    },
+    deleteNotice: function (index) {
+      const that = this;
+      let id = that.noticeData[index]['id'];
+      let prompt = confirm("确认删除该消息吗？");
+      if (prompt) {
+        axios({
+          method: 'delete',
+          url: `${this.GLOBAL.localDomain}/api/v1/notifications/${id}`,
+          headers: {
+            'Accept': 'application/json',
+            'Authorization': that.token
+          }
+        }).then(res => {
+          alert('删除成功');
+          that.getNotice();
+        }).catch(err => {
+          alert('删除失败');
+          console.log(err)
+        })
+      }
+    },
   },
   computed: {
     isShowCreateNotification() {
@@ -77,6 +109,11 @@ export default {
     this.getNotice();
   },
   watch: {
+    data:function (value, oldValue) {
+      const that = this;
+      that.permissionData = value.data;
+      that.paginationData = value.links;
+    }
   }
 }
 </script>
