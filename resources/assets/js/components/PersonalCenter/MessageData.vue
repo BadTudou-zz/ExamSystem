@@ -30,6 +30,7 @@ export default {
       paginationData: null,
       data: null,
       searchKey: null,
+      userId: null,
     }
   },
   components: {
@@ -61,6 +62,8 @@ export default {
   },
   created() {
     this.token = sessionStorage.getItem('token');
+    this.userId = sessionStorage.getItem('userId');
+
     this.getMessage();
   }
 }

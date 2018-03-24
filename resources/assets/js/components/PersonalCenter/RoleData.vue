@@ -42,6 +42,8 @@ export default {
       paginationData: null,
       data: null,
       currentRoleData: null,
+      userId: null,
+      
     }
   },
   components: {
@@ -72,6 +74,7 @@ export default {
   computed: {
   },
   created() {
+    this.userId = sessionStorage.getItem('userId');
     this.token = sessionStorage.getItem('token');
     this.getRole();
   },

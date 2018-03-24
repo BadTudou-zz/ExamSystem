@@ -45,6 +45,8 @@ export default {
       paginationData: null,
       data: null,  // from Pagination.vue
       token: null,
+      userId: null,
+      
     }
   },
   components: {
@@ -76,6 +78,7 @@ export default {
   computed: {
   },
   created() {
+    this.userId = sessionStorage.getItem('userId');
     this.token = sessionStorage.getItem('token');
     this.getPermission();
   },

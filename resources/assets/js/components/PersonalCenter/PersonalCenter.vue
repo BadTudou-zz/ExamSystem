@@ -7,7 +7,6 @@
     <div class="data-box">
 
       <user-data v-show="navigationTag === 'userData'"></user-data>
-
       <message-data v-show="navigationTag === 'messageData'"></message-data>
       <notice-data v-show="navigationTag === 'noticeData'"></notice-data>
       <lecture-data v-show="navigationTag === 'lectureData'"></lecture-data>
