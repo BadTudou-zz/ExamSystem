@@ -5,9 +5,17 @@
     <navigation v-model="navigationTag"></navigation>
 
     <div class="data-box">
+
       <user-data v-show="navigationTag === 'userData'"></user-data>
+
       <message-data v-show="navigationTag === 'messageData'"></message-data>
       <notice-data v-show="navigationTag === 'noticeData'"></notice-data>
+      <lecture-data v-show="navigationTag === 'lectureData'"></lecture-data>
+      <organization-data v-show="navigationTag === 'organizationData'"></organization-data>
+      <role-data v-show="navigationTag === 'roleData'"></role-data>
+      <permission-data v-show="navigationTag === 'permissionData'"></permission-data>
+      <apply-for-data v-show="navigationTag === 'applyForData'"></apply-for-data>
+
     </div>
 
   </div>
@@ -16,8 +24,15 @@
 <script>
 import Navigation from './Navigation'
 import UserData from './UserData'
+
 import MessageData from './MessageData'
 import NoticeData from './NoticeData'
+import LectureData from './LectureData'
+import OrganizationData from './OrganizationData'
+import RoleData from './RoleData'
+import PermissionData from './PermissionData'
+import ApplyForData from './ApplyForData'
+
 
 export default {
   data() {
@@ -34,7 +49,7 @@ export default {
       },
       isShowEditModal: false,
       editData: null,
-      navigationTag: '',
+      navigationTag: 'userData',
     }
   },
   components: {
@@ -42,6 +57,11 @@ export default {
     UserData,
     MessageData,
     NoticeData,
+    LectureData,
+    OrganizationData,
+    RoleData,
+    PermissionData,
+    ApplyForData,
   },
   methods: {
     // 全部用户

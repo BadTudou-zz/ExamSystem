@@ -99,6 +99,7 @@ export default {
   margin: 0 5px 0 40px;
 }
 .wrapper {
+  margin-top: 50px;
 }
 span {
   display: inline-block;
