@@ -116,7 +116,6 @@ export default {
         // that.applyForData = [];
         // that.applyForData.push(res.data.data);
         that.applyForData = res.data.data;
-        debugger
       }).catch(err => {
         alert('没有找到从相关数据，已加载全部数据')
         console.log(err)

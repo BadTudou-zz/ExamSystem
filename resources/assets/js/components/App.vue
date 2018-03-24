@@ -1,20 +1,18 @@
 <template lang="html">
   <div class="">
-    <!-- <a @click="setToken()" class="button">session token</a> -->
     <login v-if="isShowLogin" v-model="loginStatus"></login>
     <home-page v-else></home-page>
   </div>
 </template>
 
 <script>
-import Login from './Login.vue'
-// import Login from './components/Login.vue'
-import HomePage from './HomePage.vue'
-// import HomePage from './components/HomePage.vue'
+import Login from './Login'
+import HomePage from './HomePage'
+
 export default {
   data() {
     return {
-      isShowLogin: false,
+      isShowLogin: true,
       loginStatus: null,
     };
   },
@@ -23,15 +21,10 @@ export default {
     HomePage,
   },
   methods: {
-    setToken: function () {
-      const that = this;
-      // sessionStorage.setItem('token', that.token);
-      // sessionStorage.getItem('token');
-    },
     checkLoginState: function () {
       const that = this;
       let token = sessionStorage.getItem("token");
-      if (token) {
+      if (token && that.permissions !== 0) {
         that.isShowLogin = false;
       }
       else {
@@ -47,10 +40,10 @@ export default {
     'isShowLogin': function (value, oldValue) {
       const that = this;
     },
-    loginStatus: function (value, oldValue) {
+    'loginStatus': function (value, oldValue) {
       const that = this;
       that.isShowLogin = value;
-    }
+    },
   }
 }
 </script>

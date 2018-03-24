@@ -20,13 +20,12 @@ export default {
     getPermission: function (url) {
       const that = this;
       let urlPath = url ? url : that.url
-      let token = that.token;
       axios({
         method: 'get',
         url: urlPath,
         headers: {
           'Accept': 'application/json',
-          'Authorization': token
+          'Authorization': that.token
         }
       }).then(res => {
         that.permissionData = res.data;  // conclude links
@@ -34,7 +33,7 @@ export default {
         for (let i = 0; i < res.data.data.length; i++) {
           that.permissionIdList.push(parseInt(res.data.data[i].id));
         }
-          that.$store.commit('setPermissionIdList', that.permissionIdList);
+          // that.$store.commit('setPermissionIdList', that.permissionIdList);
         if (that.url) {
           that.getNextPermission(that.url);
         }
@@ -57,23 +56,20 @@ export default {
         for (let i = 0; i < res.data.data.length; i++) {
           that.permissionIdList.push(parseInt(res.data.data[i].id));
         }
-        that.$store.commit('setPermissionIdList', that.permissionIdList);
         if (that.url) {
           that.getPermission(that.url);
+        }
+        else {
+          that.$store.commit('setPermissionIdList', that.permissionIdList);
         }
       }).catch(err => {
         console.log(err);
       })
-      // console.log(that.permissionIdList)
     },
   },
   created() {
     this.token = sessionStorage.getItem('token')
     this.getPermission();
-    // console.log(this.permissionIdList);
-    // console.log('-----------------');
-
-    console.log(this.$store.state.permissionIdList);
   },
   watch: {
   }
