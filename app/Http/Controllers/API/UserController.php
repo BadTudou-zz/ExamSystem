@@ -13,6 +13,7 @@ use App\Http\Resources\LectureCollection;
 use App\Http\Resources\RoleCollection;
 use App\Http\Resources\PermissionCollection;
 use App\Http\Resources\ApplicationResource;
+use App\Http\Resources\ExamResource;
 use App\Http\Resources\ApplicationCollection;
 use App\Http\Resources\PrivateMessageResource;
 use App\Http\Resources\PrivateMessageCollection;
@@ -147,6 +148,13 @@ class UserController extends Controller
         else {
             return  new SystemNotificationCollection( Auth::user()->notifications()->where('type', SystemNotification::class)->paginate());
         }
+    }
+
+    public function exams(ShowUser $request)
+    {
+        $user = Auth::user();
+        $exams = $user->exams();
+        return ExamResource::collection($exams);
     }
 
     /**

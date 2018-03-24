@@ -24,6 +24,8 @@ Route::prefix('v1')->middleware(['auth:api'])->group(function () {
     Route::get('users/{user}/permissions', 'API\UserController@permissions');
     // 用户申请
     Route::get('users/{user}/applications', 'API\UserController@applications');
+    // 用户考试
+    Route::get('users/{user}/exams', 'API\UserController@exams');
     // 更改用户密码
     Route::patch('users/{user}/password', 'API\UserController@updatePassword');
 
