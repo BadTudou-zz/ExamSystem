@@ -48,6 +48,11 @@ export default {
       const that = this;
       that.isShowModal = !that.isShowModal;
     },
+    clearWords:function () {
+      const that = this;
+      that.password = '';
+      that.oldPassword = '';
+    },
     changePassword: function () {
       const that = this;
       let id = that.editData.id;
@@ -66,12 +71,10 @@ export default {
         alert('修改成功！')
         that.$emit('getUser');   //第一个参数名为调用的方法名，第二个参数为需要传递的参数
         that.switchModal();
-        that.password = '';
-        that.oldPassword = '';
+        that.clearWords();
       }).catch(err => {
         alert('修改失败，请稍后再试')
-        that.password = '';
-        that.oldPassword = '';
+        that.clearWords();
       })
     }
   },

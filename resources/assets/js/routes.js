@@ -36,5 +36,7 @@ export default[
     { path: '/Test', component: require('./components/Test/Test.vue') },
 
     { path: '/User', component: require('./components/User.vue') },
+    // 个人中心
+    { path: '/PersonalCenter', component: require('./components/PersonalCenter.vue') },
 
 ];

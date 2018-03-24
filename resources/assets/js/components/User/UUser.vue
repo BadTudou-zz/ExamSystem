@@ -54,7 +54,7 @@
 
 <script>
 import editUser from './editUser'
-import changePassword from './changePassword'
+import ChangePassword from './ChangePassword'
 import VView from './View'
 
 export default {
@@ -62,7 +62,6 @@ export default {
     return {
       token: '',
       userData: null,
-      isShowModal: false,
       searchKey: null,
       isShowEditModal: false,
       currentUserData: null, // 当前选中的用户
@@ -71,14 +70,10 @@ export default {
   },
   components: {
     editUser,
-    changePassword,
+    ChangePassword,
     VView,
   },
   methods: {
-    showModal: function () {
-      const that = this;
-      that.isShowModal = !that.isShowModal;
-    },
     // 删除用户
     deleteUser: function (index) {
       const that = this;
