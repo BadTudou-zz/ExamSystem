@@ -1,6 +1,8 @@
 <!-- 查看角色 -->
 <template lang="html">
   <div class="box">
+    <h3 class="title">角色</h3>
+
     <table class="table">
       <thead>
         <tr>
@@ -43,7 +45,7 @@ export default {
       data: null,
       currentRoleData: null,
       userId: null,
-      
+
     }
   },
   components: {
@@ -58,7 +60,7 @@ export default {
       const that = this;
       axios({
         method: 'get',
-        url: `${this.GLOBAL.localDomain}/api/v1/roles/`,
+        url: `${this.GLOBAL.localDomain}/api/v1/users/${that.userId}/roles/`,
         headers: {
           'Accept': 'application/json',
           'Authorization': that.token
@@ -115,5 +117,11 @@ table {
     display: inline-block;
     width: 130px;
   }
+}
+.title {
+  color: #363636;
+  font-size: 1.5rem;
+  font-weight: 600;
+  line-height: 1.125;
 }
 </style>
