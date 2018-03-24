@@ -2,11 +2,12 @@
 <template lang="html">
   <div class="box">
 
-    <navigation></navigation>
+    <navigation v-model="navigationTag"></navigation>
 
     <div class="data-box">
-      <user-data></user-data>
-
+      <user-data v-show="navigationTag === 'userData'"></user-data>
+      <message-data v-show="navigationTag === 'messageData'"></message-data>
+      <notice-data v-show="navigationTag === 'noticeData'"></notice-data>
     </div>
 
   </div>
@@ -15,6 +16,8 @@
 <script>
 import Navigation from './Navigation'
 import UserData from './UserData'
+import MessageData from './MessageData'
+import NoticeData from './NoticeData'
 
 export default {
   data() {
@@ -31,12 +34,14 @@ export default {
       },
       isShowEditModal: false,
       editData: null,
+      navigationTag: '',
     }
   },
   components: {
-    ChangePassword,
     Navigation,
     UserData,
+    MessageData,
+    NoticeData,
   },
   methods: {
     // 全部用户

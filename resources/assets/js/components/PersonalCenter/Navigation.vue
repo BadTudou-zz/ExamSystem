@@ -15,9 +15,9 @@
           </a>
         </li>
 
-        <li  v-bind:class="{'is-active': currentTag === 'notificationData'}">
+        <li  v-bind:class="{'is-active': currentTag === 'noticeData'}">
           <a>
-            <span @click="currentTag = 'notificationData'">通知</span>
+            <span @click="currentTag = 'noticeData'">通知</span>
           </a>
         </li>
 
@@ -82,6 +82,10 @@ export default {
     this.token = sessionStorage.getItem('token');
   },
   watch: {
+    currentTag: function (value, oldValue) {
+      const that = this;
+      that.$emit('input', that.currentTag);
+    }
   }
 }
 </script>
