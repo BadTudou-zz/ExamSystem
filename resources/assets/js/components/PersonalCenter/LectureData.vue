@@ -1,42 +1,18 @@
 <!-- 查看选课 -->
 <template lang="html">
-  <div>
-    <div>
-      <h3 class="title">选课</h3>
-      <div class="label-box">
-        <label class="label">ID：</label>
-        <span>{{ currentLectureData.id }}</span>
-      </div>
-      <div class="label-box">
-        <label class="label">类型：</label>
-        <span>{{ currentLectureData.type }}</span>
-      </div>
-      <div class="label-box">
-        <label class="label">选课ID：</label>
-        <span>{{ currentLectureData.notifiable_id }}</span>
-      </div>
-      <div class="label-box">
-        <label class="label">选课类型：</label>
-        <span>{{ currentLectureData.notifiable_type }}</span>
-      </div>
-      <div class="label-box">
-        <label class="label">选课内容</label>
-        <span>{{ currentLectureData.data }}</span>
-      </div>
-      <div class="label-box">
-        <!-- ?? means -->
-        <label class="label">read_at：</label>
-        <span>{{ currentLectureData.read_at }}</span>
-      </div>
-      <div class="label-box">
-        <label class="label">创建时间：</label>
-        <span>{{ currentLectureData.created_at }}</span>
-      </div>
-      <div class="label-box">
-        <label class="label">更新时间：</label>
-        <span>{{ currentLectureData.updated_at }}</span>
+  <div class="box">
+    <h3 class="title">消息</h3>
+
+    <div  v-for="(item,index) in messageData" class="message box">
+      <div class="notification">
+        {{ item.data}}
+        <p>{{item.created_at}}</p>
       </div>
     </div>
+
+    <pagination v-bind:pagination-data="paginationData"
+                v-model="data"
+    ></pagination>
 
   </div>
 </template>

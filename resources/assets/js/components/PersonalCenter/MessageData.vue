@@ -5,7 +5,6 @@
 
     <div  v-for="(item,index) in messageData" class="message box">
       <div class="notification">
-        <!-- <button @click="deleteMessage(index)" class="delete"></button> -->
         {{ item.data}}
         <p>{{item.created_at}}</p>
       </div>
@@ -45,7 +44,7 @@ export default {
       const that = this;
       axios({
         method: 'get',
-        url: `${this.GLOBAL.localDomain}/api/v1/messages/`,
+        url: `${this.GLOBAL.localDomain}/api/v1/users/${that.userId}/messages/`,
         headers: {
           'Accept': 'application/json',
           'Authorization': that.token
@@ -100,5 +99,11 @@ export default {
 .notification p{
   margin-top: 25px;
   text-align: right;
+}
+.title {
+  color: #363636;
+  font-size: 1.5rem;
+  font-weight: 600;
+  line-height: 1.125;
 }
 </style>

@@ -42,7 +42,7 @@ export default {
       const that = this;
       axios({
         method: 'get',
-        url: `${this.GLOBAL.localDomain}/api/v1/notifications/`,
+        url: `${this.GLOBAL.localDomain}/api/v1/users/${that.userId}/notifications/`,
         headers: {
           'Accept': 'application/json',
           'Authorization': that.token
@@ -103,5 +103,11 @@ export default {
 .notification p{
   margin-top: 25px;
   text-align: right;
+}
+.title {
+  color: #363636;
+  font-size: 1.5rem;
+  font-weight: 600;
+  line-height: 1.125;
 }
 </style>
