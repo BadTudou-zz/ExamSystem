@@ -86,7 +86,7 @@ export default {
         that.currentPage = parseInt(that.prev.match(numberReg)[2]) + 1;
       }
       else {
-        that.currentPage = null;
+        that.currentPage = 1;
       }
     }
   }

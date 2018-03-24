@@ -3,21 +3,21 @@
     <div class="modal-background"></div>
     <div class="modal-card">
       <header class="modal-card-head">
-        <p class="modal-card-title">添加考试</p>
+        <p class="modal-card-title">编辑考试</p>
         <button @click="switchModal()" class="delete" aria-label="close"></button>
       </header>
       <section class="modal-card-body">
         <div class="box-item">
-          <label>题目</label>
-          <input v-model="testData.title" class="input" type="text" placeholder="请输入考试名">
+          <label>考试题目</label>
+          <input v-model="testData.title" class="input" type="text" placeholder="请输入英文名">
         </div>
         <div class="box-item">
-          <label>数量</label>
-          <input v-model="testData.number" class="input" type="text">
+          <label>数目</label>
+          <input v-model="testData.number" class="input" type="text" placeholder="请输入中文名">
         </div>
         <div class="box-item">
           <label>类型</label>
-          <input v-model="testData.exam_type" class="input" type="text">
+          <input v-model="testData.exam_type" class="input" type="text" placeholder="请输入考试名">
         </div>
         <div class="box-item">
           <label>描述</label>
@@ -28,16 +28,23 @@
           <input v-model="testData.score" class="input" type="text">
         </div>
         <div class="box-item">
-          <label>最小</label>
+          <label>最小值</label>
           <input v-model="testData.min" class="input" type="text">
+        </div>
+        <div class="box-item">
+          <label>开始时间</label>
+          <input v-model="testData.begin_at" class="input" type="date">
+        </div>
+        <div class="box-item">
+          <label>相关的试卷ID</label>
+          <input v-model="testData.paper_id" class="input" type="text">
         </div>
       </section>
       <footer class="modal-card-foot">
-        <button @click="addApplyFor()" class="button is-success">确认</button>
+        <button @click="editTest()" class="button is-success">确认</button>
         <button  @click="switchModal()" class="button">取消</button>
       </footer>
     </div>
-
   </div>
 </template>
 
@@ -47,10 +54,14 @@ export default {
     return {
       isShowModal: false,
       testData: {
-        title: null,
-        score: null,
-        min: null,
-        describe: null
+        title: '',
+        number: '',
+        exam_type: '',
+        describe: '',
+        score: '',
+        min: '',
+        begin_at: '',
+        paper_id: ''
       },
       token: null,
     }
@@ -58,34 +69,70 @@ export default {
   components: {
   },
   props: [
-    'editData'
+    'editData',
   ],
   methods: {
     switchModal: function () {
       const that = this;
       that.isShowModal = !that.isShowModal;
     },
-    editApplyFor: function () {
+    clearWords: function () {
       const that = this;
+      that.testData.title =  '';
+      that.testData.number =  '';
+      that.testData.exam_type =  '';
+      that.testData.describe =  '';
+      that.testData.score =  '';
+      that.testData.min =  '';
+      that.testData.begin_at =  '';
+      that.testData.paper_id =  '';
+    },
+    editTest: function (index) {
+      const that = this;
+      let id = that.editData[id];
       axios({
-        method: 'post',
-        url: `${this.GLOBAL.localDomain}/api/v1/questions/`,
+        method: 'put',
+        url: `${this.GLOBAL.localDomain}/api/v1/exams/${id}`,
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token
+          'Authorization': that.token,
         },
-        body: {
-          question_type: that.testData.question_type,
-          level_type: that.testData.level_type,
+        params: {
           title: that.testData.title,
-          body: that.testData.body,
-          answer: that.testData.answer,
-          answer_comment: that.testData.answer_comment
+          number: that.testData.number,
+          exam_type: that.testData.exam_type,
+          describe: that.testData.describe,
+          score: that.testData.score,
+          min: that.testData.min,
+          begin_at: that.testData.begin_at,
+          paper_id: that.testData.paper_id
         }
       }).then(res => {
+        alert('编辑成功');
+        that.$emit('getTest');   //第一个参数名为调用的方法名，第二个参数为需要传递的参数
+        that.clearWords();
+        that.switchModal();
       }).catch(err => {
-        console.log(err)
+        alert('编辑失败');
+        console.log(err);
+        that.clearWords();
       })
+    }
+  },
+  created() {
+    this.token = sessionStorage.getItem('token');
+  },
+  watch: {
+    editData: function (value, oldValue) {
+      const that = this;
+      that.testData.title = value.title;
+      that.testData.number = value.number;
+      that.testData.exam_type = value.exam_type;
+      that.testData.describe = value.describe;
+      that.testData.score = value.score;
+      that.testData.min = value.min;
+      that.testData.begin_at = value.begin_at;
+      that.testData.paper_id = value.paper_id;
     }
   }
 }

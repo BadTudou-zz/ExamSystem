@@ -8,18 +8,8 @@
       </header>
       <section class="modal-card-body">
         <div class="box-item">
-          <label>权限名称</label>
-          <input v-model="permissionData.name" class="input" type="text" placeholder="请输入英文权限名">
-        </div>
-
-        <div class="box-item">
-          <label>显示的权限名称</label>
-          <input v-model="permissionData.display_name" class="input" type="text" placeholder="请输入中文权限名">
-        </div>
-
-        <div class="box-item">
-          <label>描述</label>
-          <input v-model="permissionData.description" class="input" type="text">
+          <label>permissions</label>
+          <input v-model="permissionString" class="input" type="text" placeholder="请用英文逗号将多个权限id分开">
         </div>
       </section>
       <footer class="modal-card-foot">
@@ -36,15 +26,14 @@ export default {
     return {
       token: null,
       isShowModal: false,
-      permissionData: {
-        name: null,
-        display_name: null,
-        description: null,
-      }
+      permissionString: null,
     }
   },
   components: {
   },
+  props:[
+    'roleId'
+  ],
   methods: {
     switchModal: function () {
       const that = this;
@@ -52,31 +41,48 @@ export default {
       that.clearWords();
     },
     clearWords: function () {
-      that.permissionData.name = '';
-      that.permissionData.display_name = '';
-      that.permissionData.description = '';
+      const that = this;
+      that.permissionString = '';
+    },
+    /**
+     * computedParams
+     * @param  {String} str   需要转换的字符串
+     * @param  {String} param param拼接参数
+     * @return {String}       拼接完成的params
+     */
+    computedParams: function (str, param) {
+      let arr = str.split(',');
+      let string = '';
+      for (let i = 0; i < arr.length; i++) {
+        if (i != 0) {
+          string += '&' + param + '=' + arr[i];
+        }
+        else {
+          string += param + '=' + arr[i];
+        }
+      }
+      return string;
     },
     addPermission: function () {
       const that = this;
+      let id = that.roleId;
+      let params = that.computedParams(that.permissionString, 'permissions');
       axios({
         method: 'post',
-        url: `${this.GLOBAL.localDomain}/api/v1/permissions/`,
+        url: `${this.GLOBAL.localDomain}/api/v1/roles/${id}/permissions?${params}`,
         headers: {
           'Accept': 'application/json',
           'Authorization': that.token,
         },
-        params: {
-          name: that.permissionData.name,
-          display_name: that.permissionData.display_name,
-          description: that.permissionData.description,
-        }
+        // params: {
+        // }
       }).then(res => {
         alert('添加成功');
         that.$emit('getPermission');   //第一个参数名为调用的方法名，第二个参数为需要传递的参数
         that.switchModal();
         that.clearWords();
       }).catch(err => {
-        // alert('添加失败');
+        alert('添加失败');
         console.log(err);
         that.clearWords();
       })

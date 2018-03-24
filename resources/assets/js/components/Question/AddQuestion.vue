@@ -11,12 +11,14 @@
           <label>问题类型</label>
           <div class="select">
             <select v-model="questionData.question_type">
+              <!-- ?? 枚举值有哪些 -->
               <option value="SINGLE_CHOICE">单选</option>
             </select>
           </div>
         </div>
         <div class="box-item">
           <label>问题难度</label>
+          <!-- ?? 枚举值有哪些 -->
           <div class="select">
             <select v-model="questionData.level_type">
               <option value="EASY">简单</option>
@@ -43,7 +45,7 @@
         </div>
       </section>
      <footer class="modal-card-foot">
-        <button class="button is-success">确认</button>
+        <button @click="addQuestion()" class="button is-success">确认</button>
         <button @click="switchModal()" class="button">取消</button>
       </footer>
     </div>
@@ -56,8 +58,8 @@ export default {
     return {
       isShowModal: false,
       questionData: {
-        question_type: 'SINGLE_CHOICE',
-        level_type: 'EASY',
+        question_type: null,
+        level_type: null,
         title: null,
         body: null,
         answer: null,
@@ -73,6 +75,12 @@ export default {
       const that = this;
       that.isShowModal = !that.isShowModal;
     },
+    clearWords: function () {
+      const that = this;
+      that.questionData.name = '';
+      that.questionData.describe = '';
+      that.questionData.max = '';
+    },
     addQuestion: function () {
       const that = this;
       axios({
@@ -80,24 +88,33 @@ export default {
         url: `${this.GLOBAL.localDomain}/api/v1/questions/`,
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token
+          'Authorization': that.token,
         },
-        body: {
+        params: {
           question_type: that.questionData.question_type,
           level_type: that.questionData.level_type,
           title: that.questionData.title,
           body: that.questionData.body,
           answer: that.questionData.answer,
-          answer_comment: that.questionData.answer_comment
+          answer_comment: that.questionData.answer_comment,
         }
       }).then(res => {
+        alert('添加成功');
+        that.$emit('getQuestion');   //第一个参数名为调用的方法名，第二个参数为需要传递的参数
+        that.switchModal();
       }).catch(err => {
-        console.log(err)
+        alert('添加失败');
+        console.log(err);
+        that.clearWords();
       })
     }
+  },
+  created() {
+    this.token = sessionStorage.getItem('token');
   }
 }
 </script>
+
 
 <style>
 </style>

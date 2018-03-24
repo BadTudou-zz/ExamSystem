@@ -20,12 +20,13 @@ export default {
     getPermission: function (url) {
       const that = this;
       let urlPath = url ? url : that.url
+      let token = that.token;
       axios({
         method: 'get',
         url: urlPath,
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token
+          'Authorization': token
         }
       }).then(res => {
         that.permissionData = res.data;  // conclude links

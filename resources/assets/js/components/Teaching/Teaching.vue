@@ -23,7 +23,8 @@
           <th>当前容量</th>
           <th>创建时间</th>
           <th>更新时间</th>
-          <th>操作</th>
+          <th>授课操作</th>
+          <th>用户操作</th>
         </tr>
       </thead>
     <tbody>
@@ -32,9 +33,9 @@
           <td>{{ item.name }}</td>
           <td>{{ item.user_id }}</td>
           <td>{{ item.course_id }}</td>
-          <td>{{ item.allowable_organization_ids }}</td>
+          <td>{{ item.allowable_teaching_ids }}</td>
           <td>{{ item.allowable_user_ids }}</td>
-          <td> {{ item.description }}</td>
+          <td>{{ item.description }}</td>
           <td>{{ item.max }}</td>
           <td>{{ item.current }}</td>
           <td>{{ item.created_at }}</td>
@@ -43,45 +44,71 @@
             <button @click="deleteTeaching(index)" class="button is-small" type="button" name="button">删除授课</button>
             <button @click="editTeaching(index)" class="button is-small" type="button" name="button">编辑授课</button>
           </td>
+          <td>
+            <button @click="showUser(index)" class="button is-small" type="button" name="button">查看用户</button>
+          </td>
         </tr>
       </tbody>
     </table>
 
-    <add-teaching ref="addTeaching"></add-teaching>
-    <edit-teaching ref='editTeaching'></edit-teaching>
+    <add-teaching ref="addTeaching"
+                  v-on:getTeaching="getTeaching"
+    ></add-teaching>
+
+    <edit-teaching ref="editTeaching"
+                       v-on:getTeaching="getTeaching"
+                       v-bind:edit-data="editData"
+    ></edit-teaching>
+
+    <user ref="user"
+          v-bind:current-teaching-data="currentTeachingData"
+    ></user>
+
+    <pagination v-bind:pagination-data="paginationData"
+                v-model="data"
+    ></pagination>
   </div>
 </template>
 
 <script>
 import AddTeaching from './AddTeaching'
 import EditTeaching from './EditTeaching'
+import Pagination from './../Pagination'
+import User from './User'
+
 export default {
   data() {
     return {
-      teachingData: [
-        {
-            "id": 2,
-            "name": "1班的英语",
-            "user_id": "1",
-            "course_id": "3",
-            "allowable_organization_ids": "1",
-            "allowable_user_ids": "",
-            "": "这是描述",
-            "max": "20",
-            "current": "1",
-            "created_at": "2018-01-19 16:14:27",
-            "updated_at": "2018-01-19 16:14:27"
-        }
-      ],
+      token: null,
       isShowModal: false,
       // teachingData: null,
       searchKey: null,
       editData: null,
+      paginationData: null,
+      data: null,
+      currentTeachingData: null,
+      teachingData: [
+        {
+          "id": 2,
+          "name": "1班的英语",
+          "user_id": "1",
+          "course_id": "3",
+          "allowable_organization_ids": "1",
+          "allowable_user_ids": "",
+          "describe": "这是描述",
+          "max": "20",
+          "current": "1",
+          "created_at": "2018-01-19 16:14:27",
+          "updated_at": "2018-01-19 16:14:27"
+        }
+      ],
     }
   },
   components: {
     AddTeaching,
     EditTeaching,
+    Pagination,
+    User,
   },
   methods: {
     showModal: function () {
@@ -99,7 +126,7 @@ export default {
         }
       }).then(res => {
         that.teachingData = res.data.data;
-
+        that.paginationData = res.data.links;
       }).catch(err => {
         console.log(err)
       })
@@ -114,8 +141,8 @@ export default {
           'Authorization': that.token
         }
       }).then(res => {
-        that.roleData = [];
-        that.roleData.push(res.data.data);
+        that.teachingData = [];
+        that.teachingData.push(res.data.data);
       }).catch(err => {
         console.log(err)
       })
@@ -147,7 +174,12 @@ export default {
     addTeaching: function () {
       const that = this;
       that.$refs.addTeaching.switchModal();
-    }
+    },
+    showUser: function (index) {
+      const that = this;
+      that.currentTeachingData = that.teachingData[index];
+      that.$refs.user.switchModal();
+    },
   },
   computed: {
     isShowCreateTeaching() {
@@ -165,6 +197,11 @@ export default {
     // this.getTeaching();
   },
   watch: {
+    data:function (value, oldValue) {
+      const that = this;
+      that.teachingData = value.data;
+      that.paginationData = value.links;
+    }
   }
 }
 </script>

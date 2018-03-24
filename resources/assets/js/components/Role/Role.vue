@@ -4,9 +4,9 @@
     <div>
       <div class="search-box">
         <input v-model="searchKey" class="input search-input" type="text" placeholder="请输入你要查找的角色ID">
-        <button class="button" type="button" name="button">查找角色</button>
+        <button @click="searchRole()" class="button" type="button" name="button">查找角色</button>
       </div>
-        <button @click="switchModal()" class="button add-role-button" type="button" name="button">添加角色</button>
+        <button @click="addRole()" class="button add-role-button" type="button" name="button">添加角色</button>
     </div>
     <table class="table">
       <thead>
@@ -17,6 +17,8 @@
           <th>创建时间</th>
           <th>更新时间</th>
           <th>操作</th>
+          <th>权限</th>
+          <th>用户</th>
         </tr>
       </thead>
       <tbody>
@@ -27,16 +29,37 @@
           <td>{{ item.created_at }}</td>
           <td>{{ item.updated_at }}</td>
           <td><button @click="deleteRole(index)" class="button" type="button" name="button">删除角色</button></td>
+          <td><button @click="showPermission(index)" class="button" type="button" name="button">查看权限</button></td>
+          <td><button @click="showUser(index)" class="button" type="button" name="button">查看用户</button></td>
         </tr>
       </tbody>
     </table>
 
-    <add-role ref="addRole" v-bind:is-show-modal="isShowModal"></add-role>
+    <pagination v-bind:pagination-data="paginationData"
+                v-model="data"
+    ></pagination>
+
+    <add-role ref="addRole"
+              v-on:getRole="getRole"
+    ></add-role>
+
+    <permission ref="permission"
+                v-bind:current-role-data="currentRoleData"
+    ></permission>
+
+    <user ref="user"
+          v-bind:current-role-data="currentRoleData"
+    ></user>
+
   </div>
 </template>
 
 <script>
+import Pagination from './../Pagination.vue'
 import AddRole from './AddRole'
+import Permission from './Permission'
+import User from './User'
+
 export default {
   data() {
     return {
@@ -44,21 +67,42 @@ export default {
       roleData: null,
       isShowModal: false,
       searchKey: null,
+      paginationData: null,
+      data: null,
+      currentRoleData: null,
     }
   },
   components: {
     AddRole,
+    Pagination,
+    Permission,
+    User,
   },
   methods: {
     switchModal: function () {
       const that = this;
       that.$refs.addRole.switchModal();
     },
-    deleteRole: function () {
+    // 删除用户
+    deleteRole: function (index) {
       const that = this;
-      let prompt = confirm("确认删除改角色吗？");
+      let id = that.roleData[index]['id'];
+      let prompt = confirm("确认删除该角色吗？");
       if (prompt) {
-
+        axios({
+          method: 'delete',
+          url: `${this.GLOBAL.localDomain}/api/v1/roles/${id}`,
+          headers: {
+            'Accept': 'application/json',
+            'Authorization': that.token
+          }
+        }).then(res => {
+          alert('删除成功！');
+          that.getRole();
+        }).catch(err => {
+          alert('删除失败，请稍后再试')
+          console.log(err)
+        })
       }
     },
     getRole: function () {
@@ -72,13 +116,22 @@ export default {
         }
       }).then(res => {
         that.roleData = res.data.data;
+        that.paginationData = res.data.links;
       }).catch(err => {
         console.log(err)
       })
     },
+    addRole: function () {
+      const that = this;
+      that.$refs.addRole.switchModal();
+    },
     // 查找用户
     searchRole: function () {
       const that = this;
+      if (!that.searchKey) {
+        that.getRole();
+        return;
+      }
       axios({
         method: 'get',
         url: `${this.GLOBAL.localDomain}/api/v1/roles/${that.searchKey}`,
@@ -93,25 +146,15 @@ export default {
         console.log(err)
       })
     },
-    // 删除用户
-    deleteRole: function (index) {
+    showPermission: function (index) {
       const that = this;
-      let id = that.roleData[index]['id'];
-      let prompt = confirm("确认删除改用户吗？");
-      if (prompt) {
-        axios({
-          method: 'put',
-          url: `${this.GLOBAL.localDomain}/api/v1/roles/${id}`,
-          headers: {
-            'Accept': 'application/json',
-            'Authorization': that.token
-          }
-        }).then(res => {
-          that.roleData = res.data.data;
-        }).catch(err => {
-          console.log(err)
-        })
-      }
+      that.currentRoleData = that.roleData[index];
+      that.$refs.permission.switchModal();
+    },
+    showUser: function (index) {
+      const that = this;
+      that.currentRoleData = that.roleData[index];
+      that.$refs.user.switchModal();
     },
   },
   computed: {
@@ -133,6 +176,11 @@ export default {
     this.getRole();
   },
   watch: {
+    data:function (value, oldValue) {
+      const that = this;
+      that.roleData = value.data;
+      that.paginationData = value.links;
+    }
   }
 }
 </script>

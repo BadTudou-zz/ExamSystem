@@ -1,49 +1,26 @@
 <!-- 编辑用户 -->
 <!-- ??有哪些数据允许编辑 -->
 <template lang="html">
-  <div class="modal" v-bind:class="{'is-active': isShowModal}">
+  <div class="modal" v-bind:class="{'is-active': isShowModal}"
+                     >
   <div class="modal-background"></div>
   <div class="modal-card">
     <header class="modal-card-head">
-      <p class="modal-card-title">编辑用户</p>
+      <p class="modal-card-title">修改密码</p>
       <button @click="switchModal()" class="delete" aria-label="close"></button>
     </header>
     <section class="modal-card-body">
-      <!-- <div class="label-box">
-        <label class="label">ID：</label>
-        <input class="input" v-model:id="userData.id" disabled>
-      </div> -->
       <div class="label-box">
-        <label class="label">用户名：</label>
-        <input class="input" v-model:name="userData.name">
-      </div>
-      <!-- <div class="label-box">
-        <label class="label">邮箱：</label>
-        <input class="input" v-model:email="userData.email">
+        <label class="label">旧密码：</label>
+        <input class="input" type="password" v-model="password">
       </div>
       <div class="label-box">
-        <label class="label">电话：</label>
-        <input class="input" v-model:phone="userData.phone">
+        <label class="label">新密码：</label>
+        <input class="input" type="password" v-model="new_password">
       </div>
-      <div class="label-box">
-        <label class="label">QQ：</label>
-        <input class="input" v-model:qq="userData.qq">
-      </div>
-      <div class="label-box">
-        <label class="label">Number：</label>
-        <input class="input" v-model:number="userData.number" disabled>
-      </div>
-      <div class="label-box">
-        <label class="label">创建时间：</label>
-        <input class="input" v-model:create="userData.created_at" disabled>
-      </div>
-      <div class="label-box">
-        <label class="label">更新时间：</label>
-        <input class="input" v-model:updated="userData.updated_at" disabled>
-      </div> -->
     </section>
     <footer class="modal-card-foot">
-      <button @click="editUser()" class="button is-success">确认</button>
+      <button @click="changePassword()" class="button is-success">确认</button>
       <button @click="switchModal()" class="button">取消</button>
     </footer>
   </div>
@@ -55,11 +32,9 @@ export default {
   data() {
     return {
       isShowModal: null,
-      userData: {
-        name: null,
-        password: null,
-      },
       token: '',
+      password: null,
+      new_password: null,
     }
   },
   props: [
@@ -73,31 +48,32 @@ export default {
       const that = this;
       that.isShowModal = !that.isShowModal;
     },
-    // 编辑
-    editUser: function () {
+    changePassword: function () {
       const that = this;
       let id = that.editData.id;
       axios({
-        method: 'put',
-        url: `${this.GLOBAL.localDomain}/api/v1/users/${id}`,
+        method: 'patch',
+        url: `${this.GLOBAL.localDomain}/api/v1/users/${id}/password/`,
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token
+          'Authorization': that.token,
         },
         data: {
-          name: that.userData.name,
-          // password: that.userData.password
+          password: that.password,
+          new_password: that.new_password,
         }
       }).then(res => {
         alert('修改成功！')
         that.$emit('getUser');   //第一个参数名为调用的方法名，第二个参数为需要传递的参数
         that.switchModal();
-        that.userData.name = '';
+        that.password = '';
+        that.oldPassword = '';
       }).catch(err => {
         alert('修改失败，请稍后再试')
-        console.log(err)
+        that.password = '';
+        that.oldPassword = '';
       })
-    },
+    }
   },
   created() {
     this.token = sessionStorage.getItem('token');

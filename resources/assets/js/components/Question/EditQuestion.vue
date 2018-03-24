@@ -3,14 +3,14 @@
     <div class="modal-background"></div>
     <div class="modal-card">
       <header class="modal-card-head">
-        <p class="modal-card-title">添加问题</p>
+        <p class="modal-card-title">编辑问题</p>
         <button @click="switchModal()" class="delete" aria-label="close"></button>
       </header>
       <section class="modal-card-body">
         <div class="box-item">
           <label>问题类型</label>
           <div class="select">
-            <select v-model="questionData.question_type">
+            <select v-model="currentQuestionData.question_type">
               <option value="SINGLE_CHOICE">单选</option>
             </select>
           </div>
@@ -18,7 +18,7 @@
         <div class="box-item">
           <label>问题难度</label>
           <div class="select">
-            <select v-model="questionData.level_type">
+            <select v-model="currentQuestionData.level_type">
               <option value="EASY">简单</option>
               <option value="HARD">困难</option>
             </select>
@@ -26,24 +26,24 @@
         </div>
         <div class="box-item">
           <label>问题标题</label>
-          <input v-model="questionData.title" class="input" type="text">
+          <input v-model="currentQuestionData.title" class="input" type="text">
         </div>
 
         <div class="box-item">
           <label>问题内容</label>
-          <textarea v-model="questionData.body" class="textarea" type="text"></textarea>
+          <textarea v-model="currentQuestionData.body" class="textarea" type="text"></textarea>
         </div>
         <div class="box-item">
           <label>答案个数</label>
-          <input v-model="questionData.answer" class="input" type="number">
+          <input v-model="currentQuestionData.answer" class="input" type="number">
         </div>
         <div class="box-item">
           <label>答案内容</label>
-          <textarea v-model="questionData.answer_comment" class="textarea" type="text"></textarea>
+          <textarea v-model="currentQuestionData.answer_comment" class="textarea" type="text"></textarea>
         </div>
       </section>
      <footer class="modal-card-foot">
-        <button class="button is-success">确认</button>
+        <button @click="editQuestion()" class="button is-success">确认</button>
         <button @click="switchModal()" class="button">取消</button>
       </footer>
     </div>
@@ -54,23 +54,24 @@
 export default {
   data() {
     return {
-      isShowModal: false,
-      questionData: {
-        question_type: 'SINGLE_CHOICE',
-        level_type: 'EASY',
+      currentQuestionData: {
+        question_type: null,
+        level_type: null,
         title: null,
         body: null,
         answer: null,
         answer_comment: null,
       },
       token: null,
+      isShowModal: false,
     }
-  },
-  components: {
   },
   props: [
     'editData',
   ],
+  components: {
+
+  },
   methods: {
     switchModal: function () {
       const that = this;
@@ -80,24 +81,43 @@ export default {
       const that = this;
       let id = that.editData.id;
       axios({
-        method: 'post',
+        method: 'put',
         url: `${this.GLOBAL.localDomain}/api/v1/questions/${id}`,
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token
+          'Authorization': that.token,
         },
-        body: {
-          question_type: that.questionData.question_type,
-          level_type: that.questionData.level_type,
-          title: that.questionData.title,
-          body: that.questionData.body,
-          answer: that.questionData.answer,
-          answer_comment: that.questionData.answer_comment
+        params: {
+          question_type: that.currentQuestionData.question_type,
+          level_type: that.currentQuestionData.level_type,
+          title: that.currentQuestionData.title,
+          body: that.currentQuestionData.body,
+          answer: that.currentQuestionData.answer,
+          answer_comment: that.currentQuestionData.answer_comment
         }
       }).then(res => {
+        alert('编辑成功');
+        that.$emit('getQuestion');   //第一个参数名为调用的方法名，第二个参数为需要传递的参数
+        that.switchModal();
       }).catch(err => {
-        console.log(err)
+        alert('编辑失败');
+        console.log(err);
+        that.clearWords();
       })
+    }
+  },
+  creatad() {
+    this.token = sessionStorage.getItem('token');
+  },
+  watch: {
+    editData: function (value, oldValue) {
+      const that = this;
+      that.currentQuestionData.question_type = value.question_type;
+      that.currentQuestionData.level_type = value.level_type;
+      that.currentQuestionData.title = value.title;
+      that.currentQuestionData.body = value.body;
+      that.currentQuestionData.answer = value.answer;
+      that.currentQuestionData.answer_comment = value.answer_comment;
     }
   }
 }

@@ -3,11 +3,10 @@
   <div class="box">
     <div>
       <div class="search-box">
-        <input class="input search-input" type="text" placeholder="请输入你要查看的试卷">
-        <button class="button" type="button" name="button">查找试卷</button>
+        <input v-model="searchKey" class="input search-input" type="text" placeholder="请输入你要查看的试卷">
+        <button @click="searchExaminationPaper()" class="button" type="button" name="button">查找试卷</button>
       </div>
         <button @click="addExaminationPaper()" class="button add-role-button" type="button" name="button">添加试卷</button>
-        <button class="button add-role-button" type="button" name="button">同步试卷</button>
     </div>
     <table class="table">
       <thead>
@@ -22,11 +21,12 @@
           <th>Tags</th>
           <th>创建时间</th>
           <th>更新时间</th>
-          <th>操作</th>
+          <th>试卷操作</th>
+          <th>章节操作</th>
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(item,index) in data">
+        <tr v-for="(item,index) in examinationPaperData">
           <td>{{ item.id }}</td>
           <td>{{ item.creator_id }}</td>
           <td>{{ item.title }}</td>
@@ -40,69 +40,73 @@
           <td>
             <button @click="deleteExaminationPaper(index)" class="button" type="button" name="button">删除试卷</button>
             <button @click="editExaminationPaper(index)" class="button" type="button" name="button">编辑试卷</button>
+            <button @click="showAllQuestion(index)" class="button" type="button" name="button">全部问题</button>
+            <button @click="showAllScore(index)" class="button" type="button" name="button">全部分数</button>
+          </td>
+          <td>
+            <button @click="showChapter(index)" class="button" type="button" name="button">查看章节</button>
           </td>
         </tr>
       </tbody>
     </table>
 
-    <add-examination-paper ref="addExaminationPaper"></add-examination-paper>
-    <edit-examination-paper ref="editExaminationPaper" v-bind:edit-data="editData"></edit-examination-paper>
-    </div>
+    <add-examination-paper ref="addExaminationPaper"
+                           v-on:getExaminationPaper="getExaminationPaper"
+    ></add-examination-paper>
+
+    <edit-examination-paper ref="editExaminationPaper"
+                            v-on:getExaminationPaper="getExaminationPaper"
+                            v-bind:edit-data="editData"
+    ></edit-examination-paper>
+
+    <chapter ref="chapter"
+             v-bind:current-examination-paper-data="currentExaminationPaperData"
+    ></chapter>
+
+    <question ref="question"
+              v-bind:current-examination-paper-data="currentExaminationPaperData"
+    ></question>
+
+    <score ref="score"
+           v-bind:current-examination-paper-data="currentExaminationPaperData"
+    ></score>
+
+    <pagination v-bind:pagination-data="paginationData"
+            v-model="data"
+    ></pagination>
+
   </div>
 </template>
 
 <script>
+import Pagination from './../Pagination.vue'
 import AddExaminationPaper from './AddExaminationPaper'
 import EditExaminationPaper from './EditExaminationPaper'
+import Chapter from './../Chapter/Chapter'
+import Question from './Question'
+import Score from './Score'
+
 export default {
   data() {
     return {
-      "data": [
-        {
-            "id": 1,
-            "creator_id": "1",
-            "title": "英语等级考试1",
-            "score": "100",
-            "min": "120",
-            "": "英语考试",
-            "sections": null,
-            "tags": null,
-            "created_at": "2018-01-27 14:22:19",
-            "updated_at": "2018-01-27 14:23:17"
-        },
-        {
-            "id": 2,
-            "creator_id": "1",
-            "title": "英语等级考试",
-            "score": "100",
-            "min": "120",
-            "": "英语考试",
-            "sections": null,
-            "tags": null,
-            "created_at": "2018-01-27 14:39:14",
-            "updated_at": "2018-01-27 14:39:14"
-        },
-        {
-            "id": 3,
-            "creator_id": "1",
-            "title": "英语等级考试",
-            "score": "100",
-            "min": "120",
-            "": "英语考试",
-            "sections": null,
-            "tags": null,
-            "created_at": "2018-01-27 14:40:12",
-            "updated_at": "2018-01-27 14:40:12"
-        }
-      ],
+      searchKey: null,
+      examinationPaperData: null,
       isShowModal: false,
       token: null,
       editData: null,
+      paginationData: null,
+      data: null,
+      editData: null,
+      currentExaminationPaperData: null,
     }
   },
   components: {
+    Pagination,
     AddExaminationPaper,
     EditExaminationPaper,
+    Chapter,
+    Question,
+    Score,
   },
   methods: {
     showModal: function () {
@@ -122,9 +126,11 @@ export default {
             'Authorization': that.token
           }
         }).then(res => {
-          // that.examinationPaperData = res.data.data;
+          alert('删除成功');
+          that.getExaminationPaper();
         }).catch(err => {
-          console.log(err)
+          alert('删除失败');
+          console.log(err);
         })
       }
     },
@@ -138,11 +144,38 @@ export default {
           'Authorization': that.token
         }
       }).then(res => {
-
-        that.examinationPaperData = [];
-        that.examinationPaperData.push(res.data.data);
+        that.examinationPaperData = res.data.data;
+        // that.examinationPaperData = [];
+        // that.examinationPaperData.push(res.data.data);
+        that.paginationData = res.data.links;
       }).catch(err => {
         console.log(err)
+      })
+    },
+    searchExaminationPaper: function () {
+      const that = this;
+      let id = that.searchKey;
+      if (!id) {
+        alert('没有找到相关数据，已为你显示全部数据');
+        that.getExaminationPaper();
+        return;
+      }
+      axios({
+        method: 'get',
+        url: `${this.GLOBAL.localDomain}/api/v1/papers/${id}`,
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': that.token
+        }
+      }).then(res => {
+        that.examinationPaperData = [];
+        that.examinationPaperData.push(res.data.data);
+        that.searchKey = '';
+      }).catch(err => {
+        alert('查找出错，已加载全部数据');
+        that.searchKey = '';
+        that.getExaminationPaper();
+        console.log(err);
       })
     },
     addExaminationPaper: function () {
@@ -151,10 +184,24 @@ export default {
     },
     editExaminationPaper: function (index) {
       const that = this;
-      that.editData = that.examinationData[index];
-      // that.$refs.addExaminationPaper.switchModal();
+      that.editData = that.examinationPaperData[index];
       that.$refs.editExaminationPaper.switchModal();
     },
+    showChapter: function (index) {
+      const that = this;
+      that.currentExaminationPaperData = that.examinationPaperData[index];
+      that.$refs.chapter.switchModal();
+    },
+    showAllQuestion: function (index) {
+      const that = this;
+      that.currentExaminationPaperData = that.examinationPaperData[index];
+      that.$refs.question.switchModal();
+    },
+    showAllScore: function (index) {
+      const that = this;
+      that.currentExaminationPaperData = that.examinationPaperData[index];
+      that.$refs.score.switchModal();
+    }
   },
   computed: {
     isShowCreatePaper() {
@@ -175,6 +222,11 @@ export default {
     this.getExaminationPaper();
   },
   watch: {
+    data:function (value, oldValue) {
+      const that = this;
+      that.examinationPaperData = value.data;
+      that.paginationData = value.links;
+    }
   }
 }
 </script>
