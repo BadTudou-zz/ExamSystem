@@ -166,7 +166,7 @@ class UserController extends Controller
     {   
         // 检测验证码
         if (!CaptchaUtil::check(0, Captcha::PURPOSE_LOGIN, $request->get('captcha')) ){
-            return response()->json(['error'=>'Bad captcha！'], 400);
+            return response()->json(['message'=>'验证码有误！'], 422);
         }
 
         if (Auth::attempt(['email' => $request->get('email'), 'password' => $request->get('password')])) {
@@ -191,7 +191,7 @@ class UserController extends Controller
     {
         // 检测验证码
         if (!CaptchaUtil::check(0, Captcha::PURPOSE_REGISTER, $request->get('captcha')) ){
-            return response()->json(['error'=>'Bad captcha！'], 400);
+            return response()->json(['message'=>'验证码有误！'], 422);
         }
 
         $input = $request->all();
