@@ -1,15 +1,26 @@
-<!-- 查看消息 -->
+<!-- 查看角色 -->
 <template lang="html">
   <div class="box">
-    <h3 class="title">消息</h3>
-
-    <div  v-for="(item,index) in messageData" class="message box">
-      <div class="notification">
-        <!-- <button @click="deleteMessage(index)" class="delete"></button> -->
-        {{ item.data}}
-        <p>{{item.created_at}}</p>
-      </div>
-    </div>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>用户名</th>
+          <th>别名</th>
+          <th>创建时间</th>
+          <th>更新时间</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="(item,index) in roleData">
+          <td>{{ item.id }}</td>
+          <td>{{ item.name }}</td>
+          <td>{{ item.display_name }}</td>
+          <td>{{ item.created_at }}</td>
+          <td>{{ item.updated_at }}</td>
+        </tr>
+      </tbody>
+    </table>
 
     <pagination v-bind:pagination-data="paginationData"
                 v-model="data"
@@ -24,33 +35,34 @@ import Pagination from './../Pagination.vue'
 export default {
   data() {
     return {
-      messageData: null,
+      token: '',
+      roleData: null,
       isShowModal: false,
-      token: null,
+      searchKey: null,
       paginationData: null,
       data: null,
-      searchKey: null,
+      currentRoleData: null,
     }
   },
   components: {
     Pagination,
   },
   methods: {
-    showModal: function () {
+    switchModal: function () {
       const that = this;
-      that.isShowModal = !that.isShowModal;
+      that.$refs.addRole.switchModal();
     },
-    getMessage: function () {
+    getRole: function () {
       const that = this;
       axios({
         method: 'get',
-        url: `${this.GLOBAL.localDomain}/api/v1/messages/`,
+        url: `${this.GLOBAL.localDomain}/api/v1/roles/`,
         headers: {
           'Accept': 'application/json',
           'Authorization': that.token
         }
       }).then(res => {
-        that.messageData = res.data.data;
+        that.roleData = res.data.data;
         that.paginationData = res.data.links;
       }).catch(err => {
         console.log(err)
@@ -61,13 +73,20 @@ export default {
   },
   created() {
     this.token = sessionStorage.getItem('token');
-    this.getMessage();
+    this.getRole();
+  },
+  watch: {
+    data:function (value, oldValue) {
+      const that = this;
+      that.roleData = value.data;
+      that.paginationData = value.links;
+    }
   }
 }
 </script>
 
 <style lang="scss">
-.message {
+table {
   margin: 35px auto 0 auto;
 }
 .search-input {
@@ -93,9 +112,5 @@ export default {
     display: inline-block;
     width: 130px;
   }
-}
-.notification p{
-  margin-top: 25px;
-  text-align: right;
 }
 </style>

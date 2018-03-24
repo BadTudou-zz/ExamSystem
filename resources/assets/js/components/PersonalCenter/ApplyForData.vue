@@ -1,20 +1,34 @@
-<!-- 查看消息 -->
+<!-- 查看申请 -->
 <template lang="html">
   <div class="box">
-    <h3 class="title">消息</h3>
-
-    <div  v-for="(item,index) in messageData" class="message box">
-      <div class="notification">
-        <!-- <button @click="deleteMessage(index)" class="delete"></button> -->
-        {{ item.data}}
-        <p>{{item.created_at}}</p>
-      </div>
-    </div>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>from</th>
+          <th>to</th>
+          <th>action</th>
+          <th>resource_id</th>
+          <th>resource_type</th>
+          <th>data</th>
+          <th>更新时间</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="(item,index) in applyForData">
+          <td>{{ item.from }}</td>
+          <td>{{ item.to }}</td>
+          <td>{{ item.action }}</td>
+          <td>{{ item.resource_id }}</td>
+          <td>{{ item.resource_type }}</td>
+          <td>{{ item.data }}</td>
+          <td>{{ item.updated_at.date }}</td>
+        </tr>
+      </tbody>
+    </table>
 
     <pagination v-bind:pagination-data="paginationData"
                 v-model="data"
     ></pagination>
-
   </div>
 </template>
 
@@ -24,12 +38,14 @@ import Pagination from './../Pagination.vue'
 export default {
   data() {
     return {
-      messageData: null,
       isShowModal: false,
       token: null,
+      searchKey: null,
+      applyForData: null,
+      editData: null,
+      searchKey: null,
       paginationData: null,
       data: null,
-      searchKey: null,
     }
   },
   components: {
@@ -40,17 +56,21 @@ export default {
       const that = this;
       that.isShowModal = !that.isShowModal;
     },
-    getMessage: function () {
+    getApplyFor: function () {
       const that = this;
       axios({
         method: 'get',
-        url: `${this.GLOBAL.localDomain}/api/v1/messages/`,
+        url: `${this.GLOBAL.localDomain}/api/v1/applications/`,
         headers: {
           'Accept': 'application/json',
           'Authorization': that.token
         }
       }).then(res => {
-        that.messageData = res.data.data;
+        // that.applyForData = [];
+        // that.applyForData.push(res.data.data);
+
+        that.applyForData = res.data.data;
+
         that.paginationData = res.data.links;
       }).catch(err => {
         console.log(err)
@@ -61,13 +81,20 @@ export default {
   },
   created() {
     this.token = sessionStorage.getItem('token');
-    this.getMessage();
+    this.getApplyFor();
+  },
+  watch: {
+    data:function (value, oldValue) {
+      const that = this;
+      that.permissionData = value.data;
+      that.paginationData = value.links;
+    }
   }
 }
 </script>
 
 <style lang="scss">
-.message {
+table {
   margin: 35px auto 0 auto;
 }
 .search-input {
@@ -93,9 +120,5 @@ export default {
     display: inline-block;
     width: 130px;
   }
-}
-.notification p{
-  margin-top: 25px;
-  text-align: right;
 }
 </style>

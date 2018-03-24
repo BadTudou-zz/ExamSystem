@@ -1,18 +1,35 @@
-<!-- 查看通知 -->
+<!-- 查看权限 -->
 <template lang="html">
   <div class="box">
-    <h3 class="title">通知</h3>
-
-    <div  v-for="(item,index) in noticeData" class="notice box">
-      <div class="notification">
-        {{ item.data}}
-        <p>{{item.created_at}}</p>
-      </div>
-    </div>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>权限名</th>
+          <th>别名</th>
+          <th>描述</th>
+          <th>创建时间</th>
+          <th>更新时间</th>
+          <th v-show="isShowDeletePermission">操作</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="(item,index) in permissionData">
+          <td>{{ item.id }}</td>
+          <td>{{ item.name }}</td>
+          <td>{{ item.display_name }}</td>
+          <td>{{ item.description }}</td>
+          <td>{{ item.created_at }}</td>
+          <td>{{ item.updated_at }}</td>
+          <td><button v-show="isShowDeletePermission" @click="deletePermission(index)" class="button" type="button" name="button">删除权限</button></td>
+        </tr>
+      </tbody>
+    </table>
 
     <pagination v-bind:pagination-data="paginationData"
-            v-model="data"
+                v-model="data"
     ></pagination>
+
   </div>
 </template>
 
@@ -22,14 +39,15 @@ export default {
   data() {
     return {
       token: null,
-      noticeData: null,
+      permissionData: null,
       isShowModal: false,
+      permissionId: null,
       paginationData: null,
-      data: null,
+      data: null,  // from Pagination.vue
+      token: null,
     }
   },
   components: {
-    // AddNotice,
     Pagination,
   },
   methods: {
@@ -37,17 +55,18 @@ export default {
       const that = this;
       that.isShowModal = !that.isShowModal;
     },
-    getNotice: function () {
+    getPermission: function (page = 1) {
       const that = this;
       axios({
         method: 'get',
-        url: `${this.GLOBAL.localDomain}/api/v1/notifications/`,
+        url: `${this.GLOBAL.localDomain}/api/v1/roles/1/permissions?page=${page}`,
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token
+          // 'Authorization': this.$store.state.token,
+          'Authorization': that.token,
         }
       }).then(res => {
-        that.noticeData = res.data.data;
+        that.permissionData = res.data.data;
         that.paginationData = res.data.links;
       }).catch(err => {
         console.log(err)
@@ -58,7 +77,7 @@ export default {
   },
   created() {
     this.token = sessionStorage.getItem('token');
-    this.getNotice();
+    this.getPermission();
   },
   watch: {
     data:function (value, oldValue) {
@@ -71,7 +90,7 @@ export default {
 </script>
 
 <style lang="scss">
-.notice {
+table {
   margin: 35px auto 0 auto;
 }
 .search-input {
@@ -84,7 +103,7 @@ export default {
   display: inline-block;
   border-right: 1px solid #dedede;
 }
-.add-role-button {
+.add-permission-button {
   margin-left: 20px;
 }
 .box-item {
@@ -97,9 +116,5 @@ export default {
     display: inline-block;
     width: 130px;
   }
-}
-.notification p{
-  margin-top: 25px;
-  text-align: right;
 }
 </style>

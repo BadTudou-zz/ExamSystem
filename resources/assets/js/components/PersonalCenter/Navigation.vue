@@ -21,9 +21,9 @@
           </a>
         </li>
 
-        <li v-bind:class="{'is-active': currentTag === 'teachingData'}">
+        <li v-bind:class="{'is-active': currentTag === 'lectureData'}">
           <a>
-            <span @click="currentTag = 'teachingData'">选课</span>
+            <span @click="currentTag = 'lectureData'">选课</span>
           </a>
         </li>
 
@@ -53,7 +53,7 @@
 
         <li v-bind:class="{'is-active': currentTag === 'TestData'}">
           <a>
-            <span @click="currentTag = 'TestData'">考试</span>
+            <span @click="currentTag = 'testData'">考试</span>
           </a>
         </li>
 
