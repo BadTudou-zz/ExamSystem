@@ -87,7 +87,6 @@ export default {
     },
     register: function (username, password) {
       const that = this;
-      console.log('登录')
       axios({
         method: 'post',
         url: `${this.GLOBAL.localDomain}/api/register`,

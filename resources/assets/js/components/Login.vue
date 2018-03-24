@@ -59,13 +59,11 @@ export default {
       }
     },
     register: function() {
-      console.log('注册')
       const that = this;
       that.$refs.register.switchModal();
     },
     login: function (username, password) {
       const that = this;
-      console.log('登录');
       axios({
         method: 'post',
         url: `${this.GLOBAL.localDomain}/api/login`,
@@ -79,9 +77,10 @@ export default {
           'captcha': that.captcha,
         }
       }).then(res => {
-        let userData = res.data;
+        let userId = res.data.data.user.id;
         let token = res.data.data.token;
         sessionStorage.setItem("token",`Bearer ${token}`);
+        sessionStorage.setItem('userId', userId);
         that.$store.commit('setToken', token);
         // that.$store.commit('setUserData', userData);
         that.$emit('input', false);

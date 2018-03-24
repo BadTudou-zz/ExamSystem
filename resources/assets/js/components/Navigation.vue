@@ -23,7 +23,7 @@
               用户
             </a>
             <div class="navbar-dropdown is-boxed">
-              <router-link class="navbar-item" to="/view">查看</router-link>
+              <!-- <router-link class="navbar-item" to="/view">查看</router-link> -->
               <router-link class="navbar-item" to="/uuser">用户</router-link>
             </div>
           </div>
@@ -108,6 +108,30 @@
             </div>
           </div>
         </div>
+
+        <div class="navbar-end">
+          <div class="navbar-item">
+            <div class="field is-grouped">
+              <p class="control">
+                <a class="bd-tw-button button" >
+                  <span class="icon">
+                    <i class="fas fa-user-circle"></i>
+                  </span>
+                  <router-link to="/personalCenter">个人中心</router-link>
+                </a>
+              </p>
+              <!-- <p class="control">
+                <a class="bd-tw-button button">
+                  <span class="icon">
+                    <i class="fas fa-download"></i>
+                  </span>
+                  <span>Download</span>
+                </a>
+              </p> -->
+            </div>
+          </div>
+        </div>
+
       </div>
     </nav>
 
