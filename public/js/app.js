@@ -13185,7 +13185,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   data: function data() {
     return {
       isShowLogin: true,
-      loginStatus: null
+      loginStatus: null,
+      token: sessionStorage.getItem('token'),
+      logOut: null
     };
   },
 
@@ -13197,7 +13199,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     checkLoginState: function checkLoginState() {
       var that = this;
       var token = sessionStorage.getItem("token");
-      if (token && that.permissions !== 0) {
+      if (token) {
         that.isShowLogin = false;
       } else {
         that.isShowLogin = true;
@@ -13216,6 +13218,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     'loginStatus': function loginStatus(value, oldValue) {
       var that = this;
       that.isShowLogin = value;
+    },
+    logOut: function logOut(value, oldValue) {
+      var that = this;
+      if (value === 'logOut') {
+        that.checkLoginState();
+      }
     }
   }
 });
@@ -15217,7 +15225,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       permissionIdList: [],
       permissionData: null,
       token: null,
-      url: this.GLOBAL.localDomain + '/api/v1/roles/1/permissions'
+      url: this.GLOBAL.localDomain + '/api/v1/roles/1/permissions',
+      logOut: null
     };
   },
 
@@ -15279,7 +15288,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     this.getPermission();
   },
 
-  watch: {}
+  watch: {
+    logOut: function logOut(value, oldValue) {
+      var that = this;
+      that.$emit('input', 'logOut');
+    }
+  }
 });
 
 /***/ }),
@@ -16592,7 +16606,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   },
 
   components: {},
-  methods: {},
+  methods: {
+    logOut: function logOut() {
+      var that = this;
+      console.log('退出登录');
+      that.$emit('input', 'logOut');
+      sessionStorage.removeItem("token");
+    }
+  },
   computed: {
     isShowPermission: function isShowPermission() {
       return this.$store.state.permissionIdList.includes(4);
@@ -21646,7 +21667,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         that.switchModal();
         that.clearWords();
       }).catch(function (err) {
-        debugger;
         alert('修改失败，请稍后再试');
         that.clearWords();
       });
@@ -26897,7 +26917,7 @@ exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(1)();
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 /***/ }),
 /* 182 */
@@ -52518,7 +52538,15 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       },
       expression: "loginStatus"
     }
-  }) : _c('home-page')], 1)
+  }) : _c('home-page', {
+    model: {
+      value: (_vm.logOut),
+      callback: function($$v) {
+        _vm.logOut = $$v
+      },
+      expression: "logOut"
+    }
+  })], 1)
 },staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {
@@ -52954,7 +52982,15 @@ if (false) {
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('navigation')
+  return _c('navigation', {
+    model: {
+      value: (_vm.logOut),
+      callback: function($$v) {
+        _vm.logOut = $$v
+      },
+      expression: "logOut"
+    }
+  })
 },staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {
@@ -54054,7 +54090,17 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "to": "/personalCenter"
     }
-  }, [_vm._v("个人中心")])], 1)])])])])])]), _vm._v(" "), _c('router-view')], 1)
+  }, [_vm._v("个人中心")])], 1)]), _vm._v(" "), _c('p', {
+    staticClass: "control"
+  }, [_c('a', {
+    staticClass: "bd-tw-button button"
+  }, [_vm._m(2), _vm._v(" "), _c('span', {
+    on: {
+      "click": function($event) {
+        _vm.logOut()
+      }
+    }
+  }, [_vm._v("退出登录")])])])])])])])]), _vm._v(" "), _c('router-view')], 1)
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticClass: "navbar-brand"
@@ -54071,6 +54117,12 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "icon"
   }, [_c('i', {
     staticClass: "fas fa-user-circle"
+  })])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('span', {
+    staticClass: "icon"
+  }, [_c('i', {
+    staticClass: "fas fa-sign-out-alt"
   })])
 }]}
 module.exports.render._withStripped = true

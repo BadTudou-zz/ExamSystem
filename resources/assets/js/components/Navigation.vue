@@ -120,14 +120,14 @@
                   <router-link to="/personalCenter">个人中心</router-link>
                 </a>
               </p>
-              <!-- <p class="control">
+              <p class="control">
                 <a class="bd-tw-button button">
                   <span class="icon">
-                    <i class="fas fa-download"></i>
+                    <i class="fas fa-sign-out-alt"></i>
                   </span>
-                  <span>Download</span>
+                  <span @click="logOut()">退出登录</span>
                 </a>
-              </p> -->
+              </p>
             </div>
           </div>
         </div>
@@ -150,6 +150,12 @@ export default {
   components: {
   },
   methods: {
+    logOut: function () {
+      const that = this;
+      console.log('退出登录');
+      that.$emit('input', 'logOut');
+      sessionStorage.removeItem("token");
+    }
   },
   computed: {
     isShowPermission() {

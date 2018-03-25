@@ -1,5 +1,5 @@
 <template lang="html">
-    <navigation></navigation>
+    <navigation v-model="logOut"></navigation>
 </template>
 
 <script>
@@ -11,6 +11,7 @@ export default {
       permissionData: null,
       token: null,
       url: `${this.GLOBAL.localDomain}/api/v1/roles/1/permissions`,
+      logOut: null,
     };
   },
   components: {
@@ -72,6 +73,10 @@ export default {
     this.getPermission();
   },
   watch: {
+    logOut: function (value, oldValue) {
+      const that = this;
+      that.$emit('input', 'logOut');
+    }
   }
 }
 </script>

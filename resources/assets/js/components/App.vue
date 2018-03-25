@@ -1,7 +1,7 @@
 <template lang="html">
   <div class="">
     <login v-if="isShowLogin" v-model="loginStatus"></login>
-    <home-page v-else></home-page>
+    <home-page v-else v-model="logOut"></home-page>
   </div>
 </template>
 
@@ -14,6 +14,8 @@ export default {
     return {
       isShowLogin: true,
       loginStatus: null,
+      token: sessionStorage.getItem('token'),
+      logOut: null,
     };
   },
   components: {
@@ -24,7 +26,7 @@ export default {
     checkLoginState: function () {
       const that = this;
       let token = sessionStorage.getItem("token");
-      if (token && that.permissions !== 0) {
+      if (token) {
         that.isShowLogin = false;
       }
       else {
@@ -34,7 +36,6 @@ export default {
   },
   created() {
     this.checkLoginState();
-    //
   },
   watch: {
     'isShowLogin': function (value, oldValue) {
@@ -44,6 +45,12 @@ export default {
       const that = this;
       that.isShowLogin = value;
     },
+    logOut: function (value, oldValue) {
+      const that = this;
+      if (value === 'logOut') {
+        that.checkLoginState();
+      }
+    }
   }
 }
 </script>
