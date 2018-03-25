@@ -17361,7 +17361,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       that.last = value.last;
       that.next = value.next;
       that.prev = value.prev;
-
       var numberReg = /(page=)([^&]+)/;
       that.totalPage = parseInt(that.last.match(numberReg)[2]);
       if (that.next) {
@@ -17684,6 +17683,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
 
 
 
@@ -17697,7 +17697,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       searchKey: null,
       applyForData: null,
       editData: null
-    }, _defineProperty(_ref, 'searchKey', null), _defineProperty(_ref, 'paginationData', null), _defineProperty(_ref, 'data', null), _ref;
+    }, _defineProperty(_ref, 'searchKey', null), _defineProperty(_ref, 'paginationData', null), _defineProperty(_ref, 'data', null), _defineProperty(_ref, 'userId', null), _ref;
   },
 
   components: {
@@ -17722,7 +17722,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         // that.applyForData.push(res.data.data);
 
         that.applyForData = res.data.data;
-
         that.paginationData = res.data.links;
       }).catch(function (err) {
         console.log(err);
@@ -17731,6 +17730,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   },
   computed: {},
   created: function created() {
+    this.userId = sessionStorage.getItem('userId');
     this.token = sessionStorage.getItem('token');
     this.getApplyFor();
   },
@@ -17738,7 +17738,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   watch: {
     data: function data(value, oldValue) {
       var that = this;
-      that.permissionData = value.data;
+      that.applyForData = value.data;
       that.paginationData = value.links;
     }
   }
@@ -17750,6 +17750,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Pagination_vue__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Pagination_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__Pagination_vue__);
 //
 //
 //
@@ -17793,6 +17795,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+
+
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -17800,39 +17804,30 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       token: '',
       userId: null,
       lectureData: null,
-      //
-      //       "id": 1,
-      //             "name": "1班的英语",
-      //             "user_id": "1",
-      //             "course_id": "1",
-      //             "allowable_organization_ids": "",
-      //             "allowable_user_ids": "",
-      //             "describe": "这是描述",
-      //             "max": "20",
-      //             "current": "1",
-      //             "created_at": "2018-01-19 18:44:54",
-      //             "updated_at": "2018-01-19 18:44:54",
-      //             "pivot": {
-      //                 "user_id": "1",
-      //                 "lecture_id": "1"
-      //             }
-
-      currentLectureData: {
-        id: '',
-        name: '',
-        notifiable_id: '',
-        notifiable_type: '',
-        data: '',
-        read_at: '',
-        created_at: '',
-        updated_at: ''
-      },
+      //       currentLectureData: {
+      //         id: '',
+      //         name: '',
+      //         user_id: '',
+      //         course_id: '',
+      //         allowable_organization_ids: '',
+      //         allowable_user_ids: '',
+      //         describe: '',
+      //         max: '',
+      //         current: '',
+      //         created_at: '',
+      //         updated_at: '',
+      //       },
+      currentLectureData: null,
       isShowEditModal: false,
-      editData: null
+      editData: null,
+      paginationData: null,
+      data: null
     };
   },
 
-  components: {},
+  components: {
+    Pagination: __WEBPACK_IMPORTED_MODULE_0__Pagination_vue___default.a
+  },
   methods: {
     // 全部选课
     getLecture: function getLecture() {
@@ -17846,15 +17841,19 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         }
       }).then(function (res) {
         that.lectureData = res.data.data;
+        that.paginationData = res.data.links;
 
-        that.currentLectureData.id = res.data.data.id;
-        that.currentLectureData.type = res.data.data.type;
-        that.currentLectureData.notifiable_id = res.data.data.notifiable_id;
-        that.currentLectureData.notifiable_type = res.data.data.notifiable_type;
-        that.currentLectureData.data = res.data.data.data;
-        that.currentLectureData.read_at = res.data.data.read_at;
-        that.currentLectureData.created_at = res.data.data.created_at;
-        that.currentLectureData.updated_at = res.data.data.updated_at;
+        that.currentLectureData.id = that.res.data.data.id;
+        that.currentLectureData.name = that.res.data.data.name;
+        that.currentLectureData.user_id = that.res.data.data.user_id;
+        that.currentLectureData.course_id = that.res.data.data.course_id;
+        that.currentLectureData.allowable_organization_ids = that.res.data.data.allowable_organization_ids;
+        that.currentLectureData.allowable_user_ids = that.res.data.data.allowable_user_ids;
+        that.currentLectureData.describe = that.res.data.data.describe;
+        that.currentLectureData.max = that.res.data.data.max;
+        that.currentLectureData.current = that.res.data.data.current;
+        that.currentLectureData.created_at = that.res.data.data.created_at;
+        that.currentLectureData.updated_at = that.res.data.data.updated_at;
       }).catch(function (err) {
         console.log(err);
       });
@@ -17867,7 +17866,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     this.getLecture();
   },
 
-  watch: {}
+  watch: {
+    data: function data(value, oldValue) {
+      var that = this;
+      that.lectureData = value.data;
+      that.paginationData = value.links;
+    }
+  }
 });
 
 /***/ }),
@@ -17878,7 +17883,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Pagination_vue__ = __webpack_require__(3);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Pagination_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__Pagination_vue__);
-//
 //
 //
 //
@@ -17909,7 +17913,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       token: null,
       paginationData: null,
       data: null,
-      searchKey: null
+      searchKey: null,
+      userId: null
     };
   },
 
@@ -17925,7 +17930,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       var that = this;
       axios({
         method: 'get',
-        url: this.GLOBAL.localDomain + '/api/v1/messages/',
+        url: this.GLOBAL.localDomain + '/api/v1/users/' + that.userId + '/messages/',
         headers: {
           'Accept': 'application/json',
           'Authorization': that.token
@@ -17941,7 +17946,17 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   computed: {},
   created: function created() {
     this.token = sessionStorage.getItem('token');
+    this.userId = sessionStorage.getItem('userId');
+
     this.getMessage();
+  },
+
+  watch: {
+    data: function data(value, oldValue) {
+      var that = this;
+      that.messageData = value.data;
+      that.paginationData = value.links;
+    }
   }
 });
 
@@ -18076,7 +18091,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       noticeData: null,
       isShowModal: false,
       paginationData: null,
-      data: null
+      data: null,
+      userId: null
     };
   },
 
@@ -18093,7 +18109,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       var that = this;
       axios({
         method: 'get',
-        url: this.GLOBAL.localDomain + '/api/v1/notifications/',
+        url: this.GLOBAL.localDomain + '/api/v1/users/' + that.userId + '/notifications/',
         headers: {
           'Accept': 'application/json',
           'Authorization': that.token
@@ -18108,6 +18124,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   },
   computed: {},
   created: function created() {
+    this.userId = sessionStorage.getItem('userId');
     this.token = sessionStorage.getItem('token');
     this.getNotice();
   },
@@ -18115,7 +18132,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   watch: {
     data: function data(value, oldValue) {
       var that = this;
-      that.permissionData = value.data;
+      that.noticeData = value.data;
       that.paginationData = value.links;
     }
   }
@@ -18166,6 +18183,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 
 
@@ -18179,7 +18198,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       editData: null, // 当前编辑的组织数据
       paginationData: null,
       data: null,
-      currentOrganizationData: null
+      currentOrganizationData: null,
+      userId: null
+
     };
   },
 
@@ -18191,7 +18212,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       var that = this;
       axios({
         method: 'get',
-        url: this.GLOBAL.localDomain + '/api/v1/organizations',
+        url: this.GLOBAL.localDomain + '/api/v1/users/' + that.userId + '/organizations/',
         headers: {
           'Accept': 'application/json',
           'Authorization': that.token
@@ -18206,6 +18227,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   },
   computed: {},
   created: function created() {
+    this.userId = sessionStorage.getItem('userId');
     this.token = sessionStorage.getItem('token');
     this.getOrganization();
   },
@@ -18268,13 +18290,15 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
-    return _defineProperty({
+    var _ref;
+
+    return _ref = {
       token: null,
       permissionData: null,
       isShowModal: false,
       permissionId: null,
       paginationData: null,
-      data: null }, 'token', null);
+      data: null }, _defineProperty(_ref, 'token', null), _defineProperty(_ref, 'userId', null), _ref;
   },
 
   components: {
@@ -18291,10 +18315,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       var that = this;
       axios({
         method: 'get',
-        url: this.GLOBAL.localDomain + '/api/v1/roles/1/permissions?page=' + page,
+        url: this.GLOBAL.localDomain + '/api/v1/users/' + that.userId + '/permissions/',
         headers: {
           'Accept': 'application/json',
-          // 'Authorization': this.$store.state.token,
           'Authorization': that.token
         }
       }).then(function (res) {
@@ -18307,6 +18330,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   },
   computed: {},
   created: function created() {
+    this.userId = sessionStorage.getItem('userId');
     this.token = sessionStorage.getItem('token');
     this.getPermission();
   },
@@ -18344,8 +18368,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__PermissionData___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7__PermissionData__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__ApplyForData__ = __webpack_require__(227);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__ApplyForData___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_8__ApplyForData__);
-//
-//
 //
 //
 //
@@ -18487,6 +18509,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 
 
@@ -18499,7 +18523,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       searchKey: null,
       paginationData: null,
       data: null,
-      currentRoleData: null
+      currentRoleData: null,
+      userId: null
+
     };
   },
 
@@ -18515,7 +18541,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       var that = this;
       axios({
         method: 'get',
-        url: this.GLOBAL.localDomain + '/api/v1/roles/',
+        url: this.GLOBAL.localDomain + '/api/v1/users/' + that.userId + '/roles/',
         headers: {
           'Accept': 'application/json',
           'Authorization': that.token
@@ -18530,6 +18556,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   },
   computed: {},
   created: function created() {
+    this.userId = sessionStorage.getItem('userId');
     this.token = sessionStorage.getItem('token');
     this.getRole();
   },
@@ -21619,6 +21646,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         that.switchModal();
         that.clearWords();
       }).catch(function (err) {
+        debugger;
         alert('修改失败，请稍后再试');
         that.clearWords();
       });
@@ -26722,7 +26750,7 @@ exports.push([module.i, "\n.notice {\n  margin: 35px auto 0 auto;\n}\n.search-in
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(1)();
-exports.push([module.i, "\n.notice {\n  margin: 35px auto 0 auto;\n}\n.search-input {\n  width: 200px;\n  display: inline-block;\n  margin-right: 10px;\n}\n.search-box {\n  padding-right: 20px;\n  display: inline-block;\n  border-right: 1px solid #dedede;\n}\n.add-role-button {\n  margin-left: 20px;\n}\n.box-item {\n  margin-bottom: 20px;\n}\n.box-item input {\n    display: inline-block;\n    width: 300px;\n}\n.box-item label {\n    display: inline-block;\n    width: 130px;\n}\n.notification p {\n  margin-top: 25px;\n  text-align: right;\n}\n", ""]);
+exports.push([module.i, "\n.notice {\n  margin: 35px auto 0 auto;\n}\n.search-input {\n  width: 200px;\n  display: inline-block;\n  margin-right: 10px;\n}\n.search-box {\n  padding-right: 20px;\n  display: inline-block;\n  border-right: 1px solid #dedede;\n}\n.add-role-button {\n  margin-left: 20px;\n}\n.box-item {\n  margin-bottom: 20px;\n}\n.box-item input {\n    display: inline-block;\n    width: 300px;\n}\n.box-item label {\n    display: inline-block;\n    width: 130px;\n}\n.notification p {\n  margin-top: 25px;\n  text-align: right;\n}\n.title {\n  color: #363636;\n  font-size: 1.5rem;\n  font-weight: 600;\n  line-height: 1.125;\n}\n", ""]);
 
 /***/ }),
 /* 161 */
@@ -26743,7 +26771,7 @@ exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(1)();
-exports.push([module.i, "\ntable {\n  margin: 35px auto 0 auto;\n}\n.search-input {\n  width: 200px;\n  display: inline-block;\n  margin-right: 10px;\n}\n.search-box {\n  padding-right: 20px;\n  display: inline-block;\n  border-right: 1px solid #dedede;\n}\n.add-role-button {\n  margin-left: 20px;\n}\n.box-item {\n  margin-bottom: 20px;\n}\n.box-item input {\n    display: inline-block;\n    width: 300px;\n}\n.box-item label {\n    display: inline-block;\n    width: 130px;\n}\n", ""]);
+exports.push([module.i, "\ntable {\n  margin: 35px auto 0 auto;\n}\n.search-input {\n  width: 200px;\n  display: inline-block;\n  margin-right: 10px;\n}\n.search-box {\n  padding-right: 20px;\n  display: inline-block;\n  border-right: 1px solid #dedede;\n}\n.add-role-button {\n  margin-left: 20px;\n}\n.box-item {\n  margin-bottom: 20px;\n}\n.box-item input {\n    display: inline-block;\n    width: 300px;\n}\n.box-item label {\n    display: inline-block;\n    width: 130px;\n}\n.title {\n  color: #363636;\n  font-size: 1.5rem;\n  font-weight: 600;\n  line-height: 1.125;\n}\n", ""]);
 
 /***/ }),
 /* 164 */
@@ -26792,7 +26820,7 @@ exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(1)();
-exports.push([module.i, "\n.message {\n  margin: 35px auto 0 auto;\n}\n.search-input {\n  width: 200px;\n  display: inline-block;\n  margin-right: 10px;\n}\n.search-box {\n  padding-right: 20px;\n  display: inline-block;\n  border-right: 1px solid #dedede;\n}\n.add-role-button {\n  margin-left: 20px;\n}\n.box-item {\n  margin-bottom: 20px;\n}\n.box-item input {\n    display: inline-block;\n    width: 300px;\n}\n.box-item label {\n    display: inline-block;\n    width: 130px;\n}\n.notification p {\n  margin-top: 25px;\n  text-align: right;\n}\n", ""]);
+exports.push([module.i, "\n.message {\n  margin: 35px auto 0 auto;\n}\n.search-input {\n  width: 200px;\n  display: inline-block;\n  margin-right: 10px;\n}\n.search-box {\n  padding-right: 20px;\n  display: inline-block;\n  border-right: 1px solid #dedede;\n}\n.add-role-button {\n  margin-left: 20px;\n}\n.box-item {\n  margin-bottom: 20px;\n}\n.box-item input {\n    display: inline-block;\n    width: 300px;\n}\n.box-item label {\n    display: inline-block;\n    width: 130px;\n}\n.notification p {\n  margin-top: 25px;\n  text-align: right;\n}\n.title {\n  color: #363636;\n  font-size: 1.5rem;\n  font-weight: 600;\n  line-height: 1.125;\n}\n", ""]);
 
 /***/ }),
 /* 171 */
@@ -26806,7 +26834,7 @@ exports.push([module.i, "\ntable {\n  margin: 35px auto 0 auto;\n}\n.search-inpu
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(1)();
-exports.push([module.i, "\ntable {\n  margin: 35px auto 0 auto;\n}\n.search-input {\n  width: 200px;\n  display: inline-block;\n  margin-right: 10px;\n}\n.search-box {\n  padding-right: 20px;\n  display: inline-block;\n  border-right: 1px solid #dedede;\n}\n.add-role-button {\n  margin-left: 20px;\n}\n.box-item {\n  margin-bottom: 20px;\n}\n.box-item input {\n    display: inline-block;\n    width: 300px;\n}\n.box-item label {\n    display: inline-block;\n    width: 130px;\n}\n", ""]);
+exports.push([module.i, "\ntable {\n  margin: 35px auto 0 auto;\n}\n.search-input {\n  width: 200px;\n  display: inline-block;\n  margin-right: 10px;\n}\n.search-box {\n  padding-right: 20px;\n  display: inline-block;\n  border-right: 1px solid #dedede;\n}\n.add-role-button {\n  margin-left: 20px;\n}\n.box-item {\n  margin-bottom: 20px;\n}\n.box-item input {\n    display: inline-block;\n    width: 300px;\n}\n.box-item label {\n    display: inline-block;\n    width: 130px;\n}\n.title {\n  color: #363636;\n  font-size: 1.5rem;\n  font-weight: 600;\n  line-height: 1.125;\n}\n", ""]);
 
 /***/ }),
 /* 173 */
@@ -26918,7 +26946,7 @@ exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(1)();
-exports.push([module.i, "\ntable {\n  margin: 35px auto 0 auto;\n}\n.search-input {\n  width: 200px;\n  display: inline-block;\n  margin-right: 10px;\n}\n.search-box {\n  padding-right: 20px;\n  display: inline-block;\n  border-right: 1px solid #dedede;\n}\n.add-role-button {\n  margin-left: 20px;\n}\n.box-item {\n  margin-bottom: 20px;\n}\n.box-item input {\n    display: inline-block;\n    width: 300px;\n}\n.box-item label {\n    display: inline-block;\n    width: 130px;\n}\n", ""]);
+exports.push([module.i, "\ntable {\n  margin: 35px auto 0 auto;\n}\n.search-input {\n  width: 200px;\n  display: inline-block;\n  margin-right: 10px;\n}\n.search-box {\n  padding-right: 20px;\n  display: inline-block;\n  border-right: 1px solid #dedede;\n}\n.add-role-button {\n  margin-left: 20px;\n}\n.box-item {\n  margin-bottom: 20px;\n}\n.box-item input {\n    display: inline-block;\n    width: 300px;\n}\n.box-item label {\n    display: inline-block;\n    width: 130px;\n}\n.title {\n  color: #363636;\n  font-size: 1.5rem;\n  font-weight: 600;\n  line-height: 1.125;\n}\n", ""]);
 
 /***/ }),
 /* 189 */
@@ -26939,7 +26967,7 @@ exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(1)();
-exports.push([module.i, "\ntable {\n  margin: 35px auto 0 auto;\n}\n.search-input {\n  width: 200px;\n  display: inline-block;\n  margin-right: 10px;\n}\n.search-box {\n  padding-right: 20px;\n  display: inline-block;\n  border-right: 1px solid #dedede;\n}\n.add-permission-button {\n  margin-left: 20px;\n}\n.box-item {\n  margin-bottom: 20px;\n}\n.box-item input {\n    display: inline-block;\n    width: 300px;\n}\n.box-item label {\n    display: inline-block;\n    width: 130px;\n}\n", ""]);
+exports.push([module.i, "\ntable {\n  margin: 35px auto 0 auto;\n}\n.search-input {\n  width: 200px;\n  display: inline-block;\n  margin-right: 10px;\n}\n.search-box {\n  padding-right: 20px;\n  display: inline-block;\n  border-right: 1px solid #dedede;\n}\n.add-permission-button {\n  margin-left: 20px;\n}\n.box-item {\n  margin-bottom: 20px;\n}\n.box-item input {\n    display: inline-block;\n    width: 300px;\n}\n.box-item label {\n    display: inline-block;\n    width: 130px;\n}\n.title {\n  color: #363636;\n  font-size: 1.5rem;\n  font-weight: 600;\n  line-height: 1.125;\n}\n", ""]);
 
 /***/ }),
 /* 192 */
@@ -47614,17 +47642,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.currentTag = 'applyForData'
       }
     }
-  }, [_vm._v("申请")])])]), _vm._v(" "), _c('li', {
-    class: {
-      'is-active': _vm.currentTag === 'TestData'
-    }
-  }, [_c('a', [_c('span', {
-    on: {
-      "click": function($event) {
-        _vm.currentTag = 'testData'
-      }
-    }
-  }, [_vm._v("考试")])])])])])])
+  }, [_vm._v("申请")])])])])])])
 },staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {
@@ -50823,7 +50841,9 @@ if (false) {
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticClass: "box"
-  }, [_c('table', {
+  }, [_c('h3', {
+    staticClass: "title"
+  }, [_vm._v("申请")]), _vm._v(" "), _c('table', {
     staticClass: "table"
   }, [_vm._m(0), _vm._v(" "), _c('tbody', _vm._l((_vm.applyForData), function(item, index) {
     return _c('tr', [_c('td', [_vm._v(_vm._s(item.from))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.to))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.action))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.resource_id))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.resource_type))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.data))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.updated_at.date))])])
@@ -51919,7 +51939,9 @@ if (false) {
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticClass: "box"
-  }, [_c('table', {
+  }, [_c('h3', {
+    staticClass: "title"
+  }, [_vm._v("角色")]), _vm._v(" "), _c('table', {
     staticClass: "table"
   }, [_vm._m(0), _vm._v(" "), _c('tbody', _vm._l((_vm.roleData), function(item, index) {
     return _c('tr', [_c('td', [_vm._v(_vm._s(item.id))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.name))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.display_name))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.created_at))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.updated_at))])])
@@ -53048,42 +53070,29 @@ if (false) {
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', [_c('div', [_c('h3', {
+  return _c('div', {
+    staticClass: "box"
+  }, [_c('h3', {
     staticClass: "title"
-  }, [_vm._v("选课")]), _vm._v(" "), _c('div', {
-    staticClass: "label-box"
-  }, [_c('label', {
-    staticClass: "label"
-  }, [_vm._v("ID：")]), _vm._v(" "), _c('span', [_vm._v(_vm._s(_vm.currentLectureData.id))])]), _vm._v(" "), _c('div', {
-    staticClass: "label-box"
-  }, [_c('label', {
-    staticClass: "label"
-  }, [_vm._v("类型：")]), _vm._v(" "), _c('span', [_vm._v(_vm._s(_vm.currentLectureData.type))])]), _vm._v(" "), _c('div', {
-    staticClass: "label-box"
-  }, [_c('label', {
-    staticClass: "label"
-  }, [_vm._v("选课ID：")]), _vm._v(" "), _c('span', [_vm._v(_vm._s(_vm.currentLectureData.notifiable_id))])]), _vm._v(" "), _c('div', {
-    staticClass: "label-box"
-  }, [_c('label', {
-    staticClass: "label"
-  }, [_vm._v("选课类型：")]), _vm._v(" "), _c('span', [_vm._v(_vm._s(_vm.currentLectureData.notifiable_type))])]), _vm._v(" "), _c('div', {
-    staticClass: "label-box"
-  }, [_c('label', {
-    staticClass: "label"
-  }, [_vm._v("选课内容")]), _vm._v(" "), _c('span', [_vm._v(_vm._s(_vm.currentLectureData.data))])]), _vm._v(" "), _c('div', {
-    staticClass: "label-box"
-  }, [_c('label', {
-    staticClass: "label"
-  }, [_vm._v("read_at：")]), _vm._v(" "), _c('span', [_vm._v(_vm._s(_vm.currentLectureData.read_at))])]), _vm._v(" "), _c('div', {
-    staticClass: "label-box"
-  }, [_c('label', {
-    staticClass: "label"
-  }, [_vm._v("创建时间：")]), _vm._v(" "), _c('span', [_vm._v(_vm._s(_vm.currentLectureData.created_at))])]), _vm._v(" "), _c('div', {
-    staticClass: "label-box"
-  }, [_c('label', {
-    staticClass: "label"
-  }, [_vm._v("更新时间：")]), _vm._v(" "), _c('span', [_vm._v(_vm._s(_vm.currentLectureData.updated_at))])])])])
-},staticRenderFns: []}
+  }, [_vm._v("选课")]), _vm._v(" "), _c('table', {
+    staticClass: "table"
+  }, [_vm._m(0), _vm._v(" "), _c('tbody', _vm._l((_vm.currentLectureData), function(item, index) {
+    return _c('tr', [_c('td', [_vm._v(_vm._s(item.id))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.name))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.user_id))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.course_id))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.allowable_organization_ids))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.allowable_user_ids))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.describe))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.max))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.current))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.created_at))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.updated_at))])])
+  }))]), _vm._v(" "), _c('pagination', {
+    attrs: {
+      "pagination-data": _vm.paginationData
+    },
+    model: {
+      value: (_vm.data),
+      callback: function($$v) {
+        _vm.data = $$v
+      },
+      expression: "data"
+    }
+  })], 1)
+},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('thead', [_c('tr', [_c('th', [_vm._v("id")]), _vm._v(" "), _c('th', [_vm._v("名称")]), _vm._v(" "), _c('th', [_vm._v("用户ID")]), _vm._v(" "), _c('th', [_vm._v("课程ID")]), _vm._v(" "), _c('th', [_vm._v("允许的组织ID")]), _vm._v(" "), _c('th', [_vm._v("允许的用户ID")]), _vm._v(" "), _c('th', [_vm._v("描述")]), _vm._v(" "), _c('th', [_vm._v("最大值容量")]), _vm._v(" "), _c('th', [_vm._v("当前容量")]), _vm._v(" "), _c('th', [_vm._v("创建时间")]), _vm._v(" "), _c('th', [_vm._v("更新时间")])])])
+}]}
 module.exports.render._withStripped = true
 if (false) {
   module.hot.accept()
@@ -53571,7 +53580,9 @@ if (false) {
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticClass: "box"
-  }, [_c('table', {
+  }, [_c('h3', {
+    staticClass: "title"
+  }, [_vm._v("组织")]), _vm._v(" "), _c('table', {
     staticClass: "table"
   }, [_vm._m(0), _vm._v(" "), _c('tbody', _vm._l((_vm.organizationData), function(item, index) {
     return _c('tr', [_c('td', [_vm._v(_vm._s(item.id))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.name))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.creator_id))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.description))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.max))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.current))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.created_at))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.updated_at))])])
@@ -53850,34 +53861,12 @@ if (false) {
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticClass: "box"
-  }, [_c('table', {
+  }, [_c('h3', {
+    staticClass: "title"
+  }, [_vm._v("权限")]), _vm._v(" "), _c('table', {
     staticClass: "table"
-  }, [_c('thead', [_c('tr', [_c('th', [_vm._v("ID")]), _vm._v(" "), _c('th', [_vm._v("权限名")]), _vm._v(" "), _c('th', [_vm._v("别名")]), _vm._v(" "), _c('th', [_vm._v("描述")]), _vm._v(" "), _c('th', [_vm._v("创建时间")]), _vm._v(" "), _c('th', [_vm._v("更新时间")]), _vm._v(" "), _c('th', {
-    directives: [{
-      name: "show",
-      rawName: "v-show",
-      value: (_vm.isShowDeletePermission),
-      expression: "isShowDeletePermission"
-    }]
-  }, [_vm._v("操作")])])]), _vm._v(" "), _c('tbody', _vm._l((_vm.permissionData), function(item, index) {
-    return _c('tr', [_c('td', [_vm._v(_vm._s(item.id))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.name))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.display_name))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.description))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.created_at))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.updated_at))]), _vm._v(" "), _c('td', [_c('button', {
-      directives: [{
-        name: "show",
-        rawName: "v-show",
-        value: (_vm.isShowDeletePermission),
-        expression: "isShowDeletePermission"
-      }],
-      staticClass: "button",
-      attrs: {
-        "type": "button",
-        "name": "button"
-      },
-      on: {
-        "click": function($event) {
-          _vm.deletePermission(index)
-        }
-      }
-    }, [_vm._v("删除权限")])])])
+  }, [_vm._m(0), _vm._v(" "), _c('tbody', _vm._l((_vm.permissionData), function(item, index) {
+    return _c('tr', [_c('td', [_vm._v(_vm._s(item.id))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.name))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.display_name))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.description))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.created_at))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.updated_at))])])
   }))]), _vm._v(" "), _c('pagination', {
     attrs: {
       "pagination-data": _vm.paginationData
@@ -53890,7 +53879,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       expression: "data"
     }
   })], 1)
-},staticRenderFns: []}
+},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('thead', [_c('tr', [_c('th', [_vm._v("ID")]), _vm._v(" "), _c('th', [_vm._v("权限名")]), _vm._v(" "), _c('th', [_vm._v("别名")]), _vm._v(" "), _c('th', [_vm._v("描述")]), _vm._v(" "), _c('th', [_vm._v("创建时间")]), _vm._v(" "), _c('th', [_vm._v("更新时间")])])])
+}]}
 module.exports.render._withStripped = true
 if (false) {
   module.hot.accept()
