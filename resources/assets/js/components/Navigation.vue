@@ -14,9 +14,9 @@
 
       <div id="navbarExampleTransparentExample" class="navbar-menu">
         <div class="navbar-start">
-          <a class="navbar-item" >
-            主页
-          </a>
+          <!-- <a class="navbar-item" > -->
+            <router-link class="navbar-item" to="/home">主页</router-link>
+          <!-- </a> -->
 
           <div class="navbar-item has-dropdown is-hoverable">
             <a class="navbar-link">
