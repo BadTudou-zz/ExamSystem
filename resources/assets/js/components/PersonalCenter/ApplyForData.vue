@@ -72,7 +72,6 @@ export default {
         // that.applyForData.push(res.data.data);
 
         that.applyForData = res.data.data;
-
         that.paginationData = res.data.links;
       }).catch(err => {
         console.log(err)
@@ -89,7 +88,7 @@ export default {
   watch: {
     data:function (value, oldValue) {
       const that = this;
-      that.permissionData = value.data;
+      that.applyForData = value.data;
       that.paginationData = value.links;
     }
   }

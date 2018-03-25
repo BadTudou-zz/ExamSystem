@@ -12,7 +12,6 @@
           <th>描述</th>
           <th>创建时间</th>
           <th>更新时间</th>
-          <th v-show="isShowDeletePermission">操作</th>
         </tr>
       </thead>
       <tbody>
@@ -23,7 +22,6 @@
           <td>{{ item.description }}</td>
           <td>{{ item.created_at }}</td>
           <td>{{ item.updated_at }}</td>
-          <td><button v-show="isShowDeletePermission" @click="deletePermission(index)" class="button" type="button" name="button">删除权限</button></td>
         </tr>
       </tbody>
     </table>
@@ -48,7 +46,6 @@ export default {
       data: null,  // from Pagination.vue
       token: null,
       userId: null,
-
     }
   },
   components: {

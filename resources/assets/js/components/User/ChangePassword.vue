@@ -73,7 +73,7 @@ export default {
         that.switchModal();
         that.clearWords();
       }).catch(err => {
-        alert('修改失败，请稍后再试')
+      alert('修改失败，请稍后再试');
         that.clearWords();
       })
     }

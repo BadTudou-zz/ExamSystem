@@ -77,7 +77,6 @@ export default {
       that.last = value.last;
       that.next = value.next;
       that.prev = value.prev;
-
       let numberReg = /(page=)([^&]+)/;
       that.totalPage = parseInt(that.last.match(numberReg)[2]);
       if (that.next) {
