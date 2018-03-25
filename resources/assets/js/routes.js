@@ -38,5 +38,7 @@ export default[
     { path: '/User', component: require('./components/User.vue') },
     // 个人中心
     { path: '/PersonalCenter', component: require('./components/PersonalCenter/PersonalCenter.vue') },
+    // 主页
+    { path: '/Home', component: require('./components/Home.vue') },
 
 ];
