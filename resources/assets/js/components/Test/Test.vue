@@ -127,6 +127,7 @@ export default {
           'Authorization': that.token
         }
       }).then(res => {
+        // that.testData = res.data.data
         that.testData = [];
         that.testData.push(res.data.data);
       }).catch(err => {
@@ -144,8 +145,14 @@ export default {
           'Authorization': that.token
         }
       }).then(res => {
-        that.testData = [];
-        that.testData.push(res.data.data);
+        if (res.data.data.length !== 0) {
+          that.testData = res.data.data;
+        }
+        else {
+          that.testData = [];
+        }
+        // that.testData = [];
+        // that.testData.push(res.data.data);
       }).catch(err => {
         console.log(err)
       })

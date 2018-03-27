@@ -49,18 +49,7 @@ export default {
     return {
       token: null,
       isShowModal: false,
-      questionData: {
-        id: '',
-        question_type: '',
-        tags: '',
-        level_type: '',
-        title: '',
-        body: '',
-        answer: '',
-        answer_comment: '',
-  //       created_at: null,
-  //       updated_at: null,
-      },
+      questionData: null,
       paginationData: null,
       data: null,
       examinationPaperId: null,
@@ -88,7 +77,9 @@ export default {
           'Authorization': that.token
         }
       }).then(res => {
-        that.questionData = res.data.data;
+        if (res.data.data.length !== 0) {
+          that.questionData  = res.data.data;
+        }
         that.paginationData = res.data.links;
       }).catch(err => {
         console.log(err)

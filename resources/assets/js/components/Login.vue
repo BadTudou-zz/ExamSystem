@@ -85,15 +85,17 @@ export default {
         // that.$store.commit('setUserData', userData);
         that.$emit('input', false);
       }).catch(err => {
-        let errorMsg = err.response.data.error;
-        if (errorMsg === 'Unauthorised') {
-          that.password = '';
-          alert('密码错误，请重新输入');
-        }
-        if (errorMsg === 'Bad captcha！') {
-          that.captcha = '';
-          alert('验证码错误，请重新输入');
-        }
+        let errorMsg = err.response.data.message;
+        alert(errorMsg);
+        that.captcha = '';
+        // if (errorMsg === 'Unauthorised') {
+        //   that.password = '';
+        //   alert('密码错误，请重新输入');
+        // }
+        // if (errorMsg === 'Bad captcha！') {
+        //   that.captcha = '';
+        //   alert('验证码错误，请重新输入');
+        // }
         that.getVerificationCode();
       })
     },
