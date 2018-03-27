@@ -10,7 +10,6 @@
             <button @click="searchChapter()" class="button" type="button" name="button">查找章节</button>
           </div>
             <button @click="addChapter()" class="button add-role-button" type="button" name="button">添加章节</button>
-            <button @click="synchronizeChapter()" class="button add-role-button" type="button" name="button">同步章节</button>
         </div>
         <table class="table">
           <thead>

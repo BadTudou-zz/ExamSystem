@@ -13843,7 +13843,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
 
 
 
@@ -14984,18 +14983,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     return {
       token: null,
       isShowModal: false,
-      questionData: {
-        id: '',
-        question_type: '',
-        tags: '',
-        level_type: '',
-        title: '',
-        body: '',
-        answer: '',
-        answer_comment: ''
-        //       created_at: null,
-        //       updated_at: null,
-      },
+      questionData: null,
       paginationData: null,
       data: null,
       examinationPaperId: null
@@ -15022,7 +15010,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
           'Authorization': that.token
         }
       }).then(function (res) {
-        that.questionData = res.data.data;
+        if (res.data.data.length !== 0) {
+          that.questionData = res.data.data;
+        }
         that.paginationData = res.data.links;
       }).catch(function (err) {
         console.log(err);
@@ -15836,15 +15826,17 @@ var Base64 = __webpack_require__(198).Base64;
         // that.$store.commit('setUserData', userData);
         that.$emit('input', false);
       }).catch(function (err) {
-        var errorMsg = err.response.data.error;
-        if (errorMsg === 'Unauthorised') {
-          that.password = '';
-          alert('密码错误，请重新输入');
-        }
-        if (errorMsg === 'Bad captcha！') {
-          that.captcha = '';
-          alert('验证码错误，请重新输入');
-        }
+        var errorMsg = err.response.data.message;
+        alert(errorMsg);
+        that.captcha = '';
+        // if (errorMsg === 'Unauthorised') {
+        //   that.password = '';
+        //   alert('密码错误，请重新输入');
+        // }
+        // if (errorMsg === 'Bad captcha！') {
+        //   that.captcha = '';
+        //   alert('验证码错误，请重新输入');
+        // }
         that.getVerificationCode();
       });
     },
@@ -21102,7 +21094,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         that.$emit('getTest'); //第一个参数名为调用的方法名，第二个参数为需要传递的参数
         that.switchModal();
       }).catch(function (err) {
-        alert('添加失败');
+        var errMsg = err.response.data.message;
+        if (errMsg) {
+          alert(errMsg);
+        } else {
+          alert('添加失败');
+        }
         console.log(err);
         that.clearWords();
       });
@@ -21400,6 +21397,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           'Authorization': that.token
         }
       }).then(function (res) {
+        // that.testData = res.data.data
         that.testData = [];
         that.testData.push(res.data.data);
       }).catch(function (err) {
@@ -21417,8 +21415,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           'Authorization': that.token
         }
       }).then(function (res) {
-        that.testData = [];
-        that.testData.push(res.data.data);
+        if (res.data.data.length !== 0) {
+          that.testData = res.data.data;
+        } else {
+          that.testData = [];
+        }
+        // that.testData = [];
+        // that.testData.push(res.data.data);
       }).catch(function (err) {
         console.log(err);
       });
@@ -26889,7 +26892,7 @@ exports.push([module.i, "\ntable {\n  margin: 35px auto 0 auto;\n}\n.search-inpu
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(1)();
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 /***/ }),
 /* 175 */
@@ -51186,7 +51189,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "table"
   }, [_vm._m(0), _vm._v(" "), _c('tbody', _vm._l((_vm.examinationPaperData), function(item, index) {
     return _c('tr', [_c('td', [_vm._v(_vm._s(item.id))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.creator_id))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.title))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.score))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.min))]), _vm._v(" "), _c('td', [_vm._v(" " + _vm._s(item.description))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.sections))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.tags))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.created_at))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.updated_at))]), _vm._v(" "), _c('td', [_c('button', {
-      staticClass: "button",
+      staticClass: "button is-small",
       attrs: {
         "type": "button",
         "name": "button"
@@ -51197,7 +51200,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         }
       }
     }, [_vm._v("删除试卷")]), _vm._v(" "), _c('button', {
-      staticClass: "button",
+      staticClass: "button is-small",
       attrs: {
         "type": "button",
         "name": "button"
@@ -51208,7 +51211,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         }
       }
     }, [_vm._v("编辑试卷")]), _vm._v(" "), _c('button', {
-      staticClass: "button",
+      staticClass: "button is-small",
       attrs: {
         "type": "button",
         "name": "button"
@@ -51219,7 +51222,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         }
       }
     }, [_vm._v("全部问题")]), _vm._v(" "), _c('button', {
-      staticClass: "button",
+      staticClass: "button is-small",
       attrs: {
         "type": "button",
         "name": "button"
@@ -51230,7 +51233,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         }
       }
     }, [_vm._v("全部分数")])]), _vm._v(" "), _c('td', [_c('button', {
-      staticClass: "button",
+      staticClass: "button is-small",
       attrs: {
         "type": "button",
         "name": "button"
@@ -52905,18 +52908,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.addChapter()
       }
     }
-  }, [_vm._v("添加章节")]), _vm._v(" "), _c('button', {
-    staticClass: "button add-role-button",
-    attrs: {
-      "type": "button",
-      "name": "button"
-    },
-    on: {
-      "click": function($event) {
-        _vm.synchronizeChapter()
-      }
-    }
-  }, [_vm._v("同步章节")])]), _vm._v(" "), _c('table', {
+  }, [_vm._v("添加章节")])]), _vm._v(" "), _c('table', {
     staticClass: "table"
   }, [_vm._m(0), _vm._v(" "), _c('tbody', _vm._l((_vm.chapterData), function(item, index) {
     return _c('tr', [_c('td', [_vm._v(_vm._s(item.id))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.name))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.describe))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.question_type))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.score))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.number))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.questions))]), _vm._v(" "), _c('td', [_c('button', {
@@ -54130,12 +54122,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "to": "/teaching"
     }
-  }, [_vm._v("授课")]), _vm._v(" "), _c('router-link', {
-    staticClass: "navbar-item",
-    attrs: {
-      "to": "/question"
-    }
-  }, [_vm._v("问题")])], 1)]), _vm._v(" "), _c('div', {
+  }, [_vm._v("授课")])], 1)]), _vm._v(" "), _c('div', {
     staticClass: "navbar-item has-dropdown is-hoverable"
   }, [_c('a', {
     staticClass: "navbar-link"
@@ -54151,7 +54138,12 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "to": "/test"
     }
-  }, [_vm._v("考试")])], 1)]), _vm._v(" "), _c('div', {
+  }, [_vm._v("考试")]), _vm._v(" "), _c('router-link', {
+    staticClass: "navbar-item",
+    attrs: {
+      "to": "/question"
+    }
+  }, [_vm._v("问题")])], 1)]), _vm._v(" "), _c('div', {
     staticClass: "navbar-item has-dropdown is-hoverable"
   }, [_c('a', {
     staticClass: "navbar-link"
