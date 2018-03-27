@@ -22,18 +22,18 @@ class PaperSectionController extends Controller
 	public function index(IndexPaperSection $request)
 	{
 		$paper = Paper::find($request->paper);
-		$sections = explode(",", $paper->sections);
+		$sections = $paper->sections ? explode(",", $paper->sections) : [];
 		return new PaperSectionCollection(PaperSection::whereIn('id', $sections)->paginate());
 	}
 
 	public function store(ShowPaperSection $request)
 	{
-		$paper = Paper::find($request->paper);
+		$paper = Paper::findOrFail($request->paper);
 		if ($request->has('questions')) {
 			$request['questions'] = implode(",", $request->questions);
 		}
 		$section = PaperSection::create($request->all());
-		$sections = explode(",", $paper->sections);
+		$sections = $paper->sections ? explode(",", $paper->sections) : [];
 		array_push($sections, $section->id);
 		$paper->update(['sections' => implode(",", $sections)]);
         return new PaperSectionResource($section);
@@ -42,7 +42,7 @@ class PaperSectionController extends Controller
 	public function show(ShowPaperSection $request)
 	{
 		$paper = Paper::findOrFail($request->paper);
-		$sections = explode(",", $paper->sections);
+		$sections = $paper->sections ? explode(",", $paper->sections) : [];
 		if ( in_array($request->section, $sections)) {
 			$section = PaperSection::findOrFail($request->section);
 			return new PaperSectionResource($section);
@@ -54,7 +54,7 @@ class PaperSectionController extends Controller
 	public function update(UpdatePaperSection $request)
 	{
 		$paper = Paper::findOrFail($request->paper);
-		$sections = explode(",", $paper->sections);
+		$sections = $paper->sections ? explode(",", $paper->sections) : [];
 		if ( in_array($request->section, $sections)) {
 			$section = PaperSection::findOrFail($request->section);
 
@@ -72,7 +72,7 @@ class PaperSectionController extends Controller
 	public function destroy(DestroyPaperSection $request)
 	{
 		$paper = Paper::findOrFail($request->paper);
-		$sections = explode(",", $paper->sections);
+		$sections = $paper->sections ? explode(",", $paper->sections) : [];
 		if ($key = array_search($request->section, $sections)) {
 			PaperSection::findOrFail($request->section)->delete();
 			unset($sections[$key]);
