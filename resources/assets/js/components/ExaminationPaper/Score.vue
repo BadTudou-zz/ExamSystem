@@ -35,18 +35,7 @@ export default {
     return {
       token: null,
       isShowModal: false,
-      scoreData: {
-  //       id: '',
-  //       score_type: '',
-  //       tags: '',
-  //       level_type: '',
-  //       title: '',
-  //       body: '',
-  //       answer: '',
-  //       answer_comment: '',
-  //       created_at: null,
-  //       updated_at: null,
-      },
+      scoreData: null,
       paginationData: null,
       data: null,
       examinationPaperId: null,
@@ -93,7 +82,7 @@ export default {
     currentExaminationPaperData: function (value, oldValue) {
       const that = this;
       that.examinationPaperId = value.id;
-      that.getScore();
+      // that.getScore();
     }
   }
 }

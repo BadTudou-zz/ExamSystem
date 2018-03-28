@@ -54,6 +54,9 @@ export default {
   },
   components: {
   },
+  props: [
+    'examinationPaperId',
+  ],
   methods: {
     switchModal: function () {
       const that = this;
@@ -69,12 +72,14 @@ export default {
     },
     addChapter: function () {
       const that = this;
+      let id = that.examinationPaperId;
       axios({
         method: 'post',
-        url: `${this.GLOBAL.localDomain}/api/v1/papers/1/sections/`,
+        url: `${this.GLOBAL.localDomain}/api/v1/papers/${id}/sections/`,
         headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
           'Accept': 'application/json',
-          'Authorization': that.token
+          'Authorization': that.token,
         },
         body: {
           name: that.chapterData.name,
