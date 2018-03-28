@@ -52,6 +52,7 @@
         ></edit-chapter>
 
         <add-chapter ref="addChapter"
+                     v-bind:examination-paper-id="examinationPaperId"
                      v-on:getChapter="getChapter"
         ></add-chapter>
       </div>
@@ -138,11 +139,13 @@ export default {
     deleteChapter: function (index) {
       const that = this;
       let id = that.chapterData[index]['id'];
+      let paperId = that.examinationPaperId;
       let prompt = confirm("确认删除该章节吗？");
+
       if (prompt) {
         axios({
           method: 'delete',
-          url: `${this.GLOBAL.localDomain}/api/v1/papers/${id}`,
+          url: `${this.GLOBAL.localDomain}/api/v1/papers/${paperId}/sections/${id}`,
           headers: {
             'Accept': 'application/json',
             'Authorization': that.token
@@ -155,6 +158,7 @@ export default {
           console.log(err)
         })
       }
+
     }
   },
   created() {

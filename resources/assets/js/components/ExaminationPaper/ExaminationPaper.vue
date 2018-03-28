@@ -17,7 +17,7 @@
           <th>总分数</th>
           <th>最小</th>
           <th>描述</th>
-          <th>章节</th>
+          <th>章节id</th>
           <th>Tags</th>
           <th>创建时间</th>
           <th>更新时间</th>
@@ -35,8 +35,8 @@
           <td> {{ item.description }}</td>
           <td>{{ item.sections }}</td>
           <td>{{ item.tags }}</td>
-          <td>{{ item.created_at }}</td>
-          <td>{{ item.updated_at }}</td>
+          <td>{{ toTime(item.created_at) }}</td>
+          <td>{{ toTime(item.updated_at) }}</td>
           <td>
             <button @click="deleteExaminationPaper(index)" class="button is-small" type="button" name="button">删除试卷</button>
             <button @click="editExaminationPaper(index)" class="button is-small" type="button" name="button">编辑试卷</button>
@@ -79,6 +79,7 @@
 </template>
 
 <script>
+import moment from 'moment'
 import Pagination from './../Pagination.vue'
 import AddExaminationPaper from './AddExaminationPaper'
 import EditExaminationPaper from './EditExaminationPaper'
@@ -109,6 +110,9 @@ export default {
     Score,
   },
   methods: {
+    toTime: function (time) {
+      return  time.moment().format('L');
+    },
     showModal: function () {
       const that = this;
       that.isShowModal = !that.isShowModal;
