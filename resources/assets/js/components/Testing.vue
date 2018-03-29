@@ -1,13 +1,13 @@
-<!-- 单选 -->
+<!-- 查看考试 -->
 <template lang="html">
   <div class="box">
 
-    <div class="message box">
-      单选
-      <!-- <div class="notification">
-        <p class="question">        问题id：{{ item.id }}
-          &nbsp;&nbsp;&nbsp;&nbsp; 问题题目：{{ item.title }}
-          &nbsp;&nbsp;&nbsp;&nbsp; 问题类型：{{ item.question_type }}
+    <div  v-for="(item,index) in questionData" class="message box">
+
+      <div class="notification">
+        <p class="question">        考试id：{{ item.id }}
+          &nbsp;&nbsp;&nbsp;&nbsp; 考试题目：{{ item.title }}
+          &nbsp;&nbsp;&nbsp;&nbsp; 考试类型：{{ item.question_type }}
           &nbsp;&nbsp;&nbsp;&nbsp; 难易程度：{{ item.level_type }}
         </p>
         {{ item.body }}
@@ -15,13 +15,13 @@
       </div>
       <div class="answer">
         <p>回复：{{ item.answer_comment }}</p>
-      </div> -->
+      </div>
     </div>
-
   </div>
 </template>
 
 <script>
+
 
 export default {
   data() {
@@ -32,21 +32,30 @@ export default {
   },
   components: {
   },
-  props: [
-    'item'
-  ],
   methods: {
+    getQuestion: function () {
+      const that = this;
+      axios({
+        method: 'get',
+        url: `${this.GLOBAL.localDomain}/api/v1/questions`,
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': that.token
+        }
+      }).then(res => {
+        that.questionData = res.data.data;
+      }).catch(err => {
+        console.log(err)
+      })
+    },
   },
   computed: {
   },
   created() {
     this.token = sessionStorage.getItem('token');
+    this.getQuestion();
   },
   watch: {
-    item: function (value, oldValue) {
-      const that = this;
-      debugger
-    }
   }
 }
 </script>
@@ -73,4 +82,5 @@ export default {
 .answer {
   margin-left: 50px;
 }
+
 </style>

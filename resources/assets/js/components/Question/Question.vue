@@ -3,13 +3,14 @@
   <div class="box">
     <div>
       <div class="search-box">
-        <input v-model="searchKey" class="input search-input" type="text" placeholder="请输入你要查看的问题的id">
+        <input v-model="searchKey" class="input search-input" type="text" placeholder="请输入问题ID">
         <button @click="searchQuestion()" class="button" type="button" name="button">查找问题</button>
       </div>
         <button @click="addQuestion()" class="button add-role-button" type="button" name="button">添加问题</button>
     </div>
 
     <div  v-for="(item,index) in questionData" class="message box">
+
       <div class="notification">
         <div class="operate-box">
           <button @click="deleteQuestion(index)" class="delete"></button>
@@ -26,6 +27,11 @@
       <div class="answer">
         <p>回复：{{ item.answer_comment }}</p>
       </div>
+
+      <!-- 单选 -->
+      <!-- <single-choice v-bind:item="item"></single-choice> -->
+      <!-- <single-choice v-for="(item,index) in questionData" v-bind:item="item"></single-choice> -->
+
     </div>
 
     <add-question ref="addQuestion"
@@ -47,6 +53,7 @@
 import Pagination from './../Pagination'
 import AddQuestion from './AddQuestion'
 import EditQuestion from './EditQuestion'
+import SingleChoice from './SingleChoice'
 
 export default {
   data() {
@@ -64,6 +71,7 @@ export default {
     AddQuestion,
     EditQuestion,
     Pagination,
+    SingleChoice,
   },
   methods: {
     showModal: function () {
