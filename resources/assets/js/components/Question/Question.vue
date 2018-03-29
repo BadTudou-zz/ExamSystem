@@ -25,7 +25,7 @@
         <p class="time">{{item.created_at}}</p>
       </div>
       <div class="answer">
-        <p>回复：{{ item.answer_comment }}</p>
+        <p>备注：{{ item.answer_comment }}</p>
       </div>
 
       <!-- 单选 -->
@@ -178,7 +178,7 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .message {
   margin: 35px auto 0 auto;
 }
@@ -221,9 +221,6 @@ export default {
   text-align: left;
   margin-bottom: 10px;
 }
-.answer {
-  margin-left: 50px;
-}
 .edit-question {
   float: right;
 }
@@ -234,5 +231,8 @@ export default {
 .delete {
   float: right;
   margin-left: 20px;
+}
+.answer {
+  margin-left: 24px;
 }
 </style>

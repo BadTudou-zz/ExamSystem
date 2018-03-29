@@ -56,6 +56,10 @@
                v-bind:edit-data="editData"
     ></edit-test>
 
+    <testing ref="tesing"
+             v-bind:paper-id="paperId"
+    ></testing>
+
     <pagination v-bind:pagination-data="paginationData"
             v-model="data"
     ></pagination>
@@ -64,9 +68,10 @@
 </template>
 
 <script>
+import Pagination from './../Pagination.vue'
 import AddTest from './AddTest'
 import EditTest from './EditTest'
-import Pagination from './../Pagination.vue'
+import Testing from './Testing'
 
 export default {
   data() {
@@ -79,12 +84,14 @@ export default {
       searchKey: null,
       paginationData: null,
       data: null,
+      paperId: null,
     }
   },
   components: {
     AddTest,
     EditTest,
     Pagination,
+    Testing,
   },
   methods: {
     showModal: function () {
@@ -169,19 +176,26 @@ export default {
     startTest: function (index) {
       const that = this;
       let id = that.testData[index].id;
-      axios({
-        method: 'post',
-        url: `${this.GLOBAL.localDomain}/api/v1/exams/${id}/start`,
-        headers: {
-          'Accept': 'application/json',
-          'Authorization': that.token
-        }
-      }).then(res => {
-        alert('已开始');
-      }).catch(err => {
-        alert('开始失败，请稍后再试')
-        console.log(err)
-      })
+      that.paperId = that.testData[index].paper_id;
+      // axios({
+      //   method: 'post',
+      //   url: `${this.GLOBAL.localDomain}/api/v1/exams/${id}/start`,
+      //   headers: {
+      //     'Accept': 'application/json',
+      //     'Authorization': that.token
+      //   }
+      // }).then(res => {
+      //   alert('已开始');
+      // }).catch(err => {
+      //   let errMsg = err.response.data.error;
+      //   if (errMsg) {
+      //     alert(errMsg);
+      //   }
+      //   else {
+      //     alert('开始失败，请稍后再试');
+      //   }
+      //   console.log(err)
+      // })
 
       // ?? user-start test not work!
       // let userId = sessionStorage.getItem('userId');
@@ -213,7 +227,13 @@ export default {
       }).then(res => {
         alert('已结束');
       }).catch(err => {
-        alert('结束失败，请稍后再试');
+        let errMsg = err.response.data.error;
+        if (errMsg) {
+          alert(errMsg);
+        }
+        else {
+          alert('结束失败，请稍后再试');
+        }
         console.log(err)
       })
     },
