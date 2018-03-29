@@ -182,6 +182,23 @@ export default {
         alert('开始失败，请稍后再试')
         console.log(err)
       })
+
+      // ?? user-start test not work!
+      // let userId = sessionStorage.getItem('userId');
+      // debugger
+      // axios({
+      //   method: 'post',
+      //   url: `${this.GLOBAL.localDomain}/api/v1/exams/${userId}/begin`,
+      //   headers: {
+      //     'Accept': 'application/json',
+      //     'Authorization': that.token
+      //   }
+      // }).then(res => {
+      //   alert('已开始');
+      // }).catch(err => {
+      //   alert('开始失败，请稍后再试')
+      //   console.log(err)
+      // })
     },
     stopTest: function (index) {
       const that = this;

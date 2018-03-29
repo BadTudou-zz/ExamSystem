@@ -111,7 +111,7 @@ export default {
   },
   methods: {
     toTime: function (time) {
-      return  time.moment().format('L');
+      return moment(time).format('YYYY-MM-DD');
     },
     showModal: function () {
       const that = this;

@@ -15,6 +15,7 @@
             </select>
           </div>
         </div>
+
         <div class="box-item">
           <label>问题难度</label>
           <div class="select">
@@ -24,6 +25,7 @@
             </select>
           </div>
         </div>
+
         <div class="box-item">
           <label>问题标题</label>
           <input v-model="currentQuestionData.title" class="input" type="text">
@@ -33,14 +35,17 @@
           <label>问题内容</label>
           <textarea v-model="currentQuestionData.body" class="textarea" type="text"></textarea>
         </div>
+
         <div class="box-item">
-          <label>答案个数</label>
-          <input v-model="currentQuestionData.answer" class="input" type="number">
+          <label>答案</label>
+          <textarea v-model="currentQuestionData.answer" class="textarea" type="number"></textarea>
         </div>
+
         <div class="box-item">
-          <label>答案内容</label>
+          <label>答案备注</label>
           <textarea v-model="currentQuestionData.answer_comment" class="textarea" type="text"></textarea>
         </div>
+
       </section>
      <footer class="modal-card-foot">
         <button @click="editQuestion()" class="button is-success">确认</button>
