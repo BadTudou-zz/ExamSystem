@@ -45,7 +45,7 @@ export default {
   watch: {
     item: function (value, oldValue) {
       const that = this;
-      debugger
+      // debugger
     }
   }
 }

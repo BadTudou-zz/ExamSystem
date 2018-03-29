@@ -124,7 +124,7 @@ export default {
       let id = that.searchKey;
       axios({
         method: 'get',
-        url: `${this.GLOBAL.localDomain}/api/v1/examinationPapers/${id}`,
+        url: `${this.GLOBAL.localDomain}/api/v1/papers/1/sections/${id}`,
         headers: {
           'Accept': 'application/json',
           'Authorization': that.token

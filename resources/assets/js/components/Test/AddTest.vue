@@ -9,12 +9,12 @@
       <section class="modal-card-body">
         <div class="box-item">
           <label>考试题目</label>
-          <input v-model="testData.title" class="input" type="text" placeholder="请输入英文名">
+          <input v-model="testData.title" class="input" type="text">
         </div>
         <div class="box-item">
           <label>数目</label>
           <!-- ?? -->
-          <input v-model="testData.number" class="input" type="text" placeholder="请输入中文名">
+          <input v-model="testData.number" class="input" type="text">
         </div>
         <div class="box-item">
           <label>类型</label>
