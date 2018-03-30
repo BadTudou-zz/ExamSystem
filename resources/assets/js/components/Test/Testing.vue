@@ -2,8 +2,10 @@
 <template lang="html">
   <div class="box">
 
-    <div  v-for="(item,index) in questionData" class="message box">
+    <button class="button" type="button" name="button">退出考试</button>
+    <button class="button is-primary" type="button" name="button">完成考试</button>
 
+    <div  v-for="(item,index) in questionData" class="message box">
       <div class="notification">
         <p class="question">        考试id：{{ item.id }}
           &nbsp;&nbsp;&nbsp;&nbsp; 考试题目：{{ item.title }}
@@ -17,6 +19,11 @@
         <p>回复：{{ item.answer_comment }}</p>
       </div>
     </div>
+
+    <div v-show="isWaiting">
+      <img src="" alt="">
+    </div>
+
   </div>
 </template>
 
@@ -26,10 +33,11 @@
 export default {
   data() {
     return {
-       questionData: null,
+       questionData: [],
        token: null,
        chapterIds: [],
        questionIds: [],
+       temporaryQuestionIds: [],
     }
   },
   components: {
@@ -38,21 +46,6 @@ export default {
     'paperId'
   ],
   methods: {
-    getQuestion: function () {
-      const that = this;
-      axios({
-        method: 'get',
-        url: `${this.GLOBAL.localDomain}/api/v1/questions`,
-        headers: {
-          'Accept': 'application/json',
-          'Authorization': that.token
-        }
-      }).then(res => {
-        that.questionData = res.data.data;
-      }).catch(err => {
-        console.log(err)
-      })
-    },
     searchExaminationPaper: function (paperId) {
       const that = this;
       let id = paperId;
@@ -72,52 +65,62 @@ export default {
         alert('无相关试卷');
       })
     },
+    clearQuestionIds: function () {
+      const that = this;
+      that.questionIds = [];
+    },
     searchChapter: function (chapterId) {
       const that = this;
       let paperId = that.paperId;
-      let id = chapterId;
       axios({
         method: 'get',
-        url: `${this.GLOBAL.localDomain}/api/v1/papers/${paperId}/sections/${id}`,
+        url: `${this.GLOBAL.localDomain}/api/v1/papers/${paperId}/sections/${chapterId}`,
         headers: {
           'Accept': 'application/json',
           'Authorization': that.token
         }
       }).then(res => {
-        debugger
         let questionIds = res.data.data.questions;
         let questionIdsArray = questionIds.split(',')
-        that.questionIds.concat(questionIdsArray);
+        that.questionIds = that.questionIds.concat(questionIdsArray);
+
+        for (let i = 0; i < questionIds.length; i++) {
+          let questionId = questionIds[i];
+          that.searchQuestion(questionId);
+        }
+
       }).catch(err => {
         console.log(err)
       })
     },
-    searchQuestion: function () {
+    searchQuestion: function (questionId) {
       const that = this;
-      let id = that.searchKey;
+
       axios({
         method: 'get',
-        url: `${this.GLOBAL.localDomain}/api/v1/questions/${id}`,
+        url: `${this.GLOBAL.localDomain}/api/v1/questions/${questionId}`,
         headers: {
           'Accept': 'application/json',
           'Authorization': that.token
         }
       }).then(res => {
-        that.questionData = [];
-        that.questionData.push(res.data.data)
-        // that.questionData = res.data.data;
+        let currentQuestionId = res.data.data.id;
+        that.questionData.push(res.data.data);
       }).catch(err => {
-        alert('查找出错');
-        that.getQuestion();
+        // alert('查找出错');
         console.log(err);
       })
+    },
+    // 数组去重
+    uniqArray: function (arr) {
+      let uniq = [...new Set(arr)];
+      return uniq;
     }
   },
   computed: {
   },
   created() {
     this.token = sessionStorage.getItem('token');
-    this.getQuestion();
   },
   watch: {
     paperId: function (value, oldValue) {
@@ -130,8 +133,18 @@ export default {
         let chapterId = value[i];
         that.searchChapter(chapterId);
       }
-      console.log(that.questionIds)
-    }
+    },
+    // questionIds: function (value, oldValue) {
+    //   const that = this;
+    //   for (let i = 0; i < value.length; i++) {
+    //     let questionId = value[i];
+    //     that.searchQuestion(questionId);
+    //   }
+    // },
+    // questionData: function (value, oldValue) {
+    //   const that = this;
+    //   console.log('questionData数据变更');
+    // }
 
   }
 }

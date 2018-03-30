@@ -1,68 +1,71 @@
 <!-- 查看考试 -->
 <template lang="html">
   <div class="box">
-    <div>
-      <div class="search-box">
-        <input v-model="searchKey" class="input search-input" type="text" placeholder="请输入你要查看的考试">
-        <button @click="searchTest()" class="button" type="button" name="button">查找考试</button>
+
+    <div v-show="!isTesting">
+      <div>
+        <div class="search-box">
+          <input v-model="searchKey" class="input search-input" type="text" placeholder="请输入你要查看的考试">
+          <button @click="searchTest()" class="button" type="button" name="button">查找考试</button>
+        </div>
+          <button @click="addTest()" class="button add-role-button" type="button" name="button">添加考试</button>
       </div>
-        <button @click="addTest()" class="button add-role-button" type="button" name="button">添加考试</button>
+      <table class="table">
+        <thead>
+          <tr>
+            <!-- <th>ID</th> -->
+            <!-- <th>创建者ID</th> -->
+            <th>考试标题</th>
+            <!-- <th>试卷ID</th> -->
+            <th>考试类型</th>
+            <th>成绩总值</th>
+            <th>最小</th>
+            <th>描述</th>
+            <th>创建时间</th>
+            <th>更新时间</th>
+            <th>操作</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="(item,index) in testData">
+            <!-- <td>{{ item.id }}</td> -->
+            <!-- <td>{{ item.creator_id }}</td> -->
+            <td>{{ item.title }}</td>
+            <!-- <td>{{ item.paper_id }}</td> -->
+            <td>{{ item.exam_type }}</td>
+            <td>{{ item.score }}</td>
+            <td>{{ item.min }}</td>
+            <td> {{ item.description }}</td>
+            <td>{{ item.created_at }}</td>
+            <td>{{ item.updated_at }}</td>
+            <td>
+              <button @click="deleteTest(index)" class="button" type="button" name="button">删除</button>
+              <button @click="editTest(index)" class="button" type="button" name="button">编辑</button>
+              <button @click="startTest(index)" class="button" type="button" name="button">开始</button>
+              <button @click="stopTest(index)" class="button" type="button" name="button">结束</button>
+              <button @click="gradingPapers(index)" class="button" type="button" name="button">批改</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <add-test ref="addTest"
+                v-on:getTest="getTest"
+      ></add-test>
+
+      <edit-test ref="editTest"
+                 v-on:getTest="getTest"
+                 v-bind:edit-data="editData"
+      ></edit-test>
+
+      <pagination v-bind:pagination-data="paginationData"
+              v-model="data"
+      ></pagination>
     </div>
-    <table class="table">
-      <thead>
-        <tr>
-          <!-- <th>ID</th> -->
-          <!-- <th>创建者ID</th> -->
-          <th>考试标题</th>
-          <!-- <th>试卷ID</th> -->
-          <th>考试类型</th>
-          <th>成绩总值</th>
-          <th>最小</th>
-          <th>描述</th>
-          <th>创建时间</th>
-          <th>更新时间</th>
-          <th>操作</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="(item,index) in testData">
-          <!-- <td>{{ item.id }}</td> -->
-          <!-- <td>{{ item.creator_id }}</td> -->
-          <td>{{ item.title }}</td>
-          <!-- <td>{{ item.paper_id }}</td> -->
-          <td>{{ item.exam_type }}</td>
-          <td>{{ item.score }}</td>
-          <td>{{ item.min }}</td>
-          <td> {{ item.description }}</td>
-          <td>{{ item.created_at }}</td>
-          <td>{{ item.updated_at }}</td>
-          <td>
-            <button @click="deleteTest(index)" class="button" type="button" name="button">删除</button>
-            <button @click="editTest(index)" class="button" type="button" name="button">编辑</button>
-            <button @click="startTest(index)" class="button" type="button" name="button">开始</button>
-            <button @click="stopTest(index)" class="button" type="button" name="button">结束</button>
-            <button @click="gradingPapers(index)" class="button" type="button" name="button">批改</button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
 
-    <add-test ref="addTest"
-              v-on:getTest="getTest"
-    ></add-test>
-
-    <edit-test ref="editTest"
-               v-on:getTest="getTest"
-               v-bind:edit-data="editData"
-    ></edit-test>
-
-    <testing ref="tesing"
+    <testing v-show="isTesting" ref="testing"
              v-bind:paper-id="paperId"
     ></testing>
-
-    <pagination v-bind:pagination-data="paginationData"
-            v-model="data"
-    ></pagination>
 
   </div>
 </template>
@@ -85,6 +88,7 @@ export default {
       paginationData: null,
       data: null,
       paperId: null,
+      isTesting: false,  // 是否已经开始考试
     }
   },
   components: {
@@ -175,8 +179,11 @@ export default {
     },
     startTest: function (index) {
       const that = this;
+      that.$refs.testing.clearQuestionIds();
       let id = that.testData[index].id;
       that.paperId = that.testData[index].paper_id;
+
+      that.isTesting = true;
       // axios({
       //   method: 'post',
       //   url: `${this.GLOBAL.localDomain}/api/v1/exams/${id}/start`,
