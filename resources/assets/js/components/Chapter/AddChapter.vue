@@ -27,6 +27,10 @@
           <label>问题类型</label>
           <input v-model="chapterData.question_type" class="input" type="text">
         </div>
+        <div class="box-item">
+          <label>涉及到的问题</label>
+          <input v-model="questionsString" class="input" type="text" placeholder="请用英文逗号将多个问题id分开">
+        </div>
       </section>
       <footer class="modal-card-foot">
         <button @click="addChapter()" class="button is-success">确认</button>
@@ -47,9 +51,11 @@ export default {
         score: null,
         number: null,
         describe: null,
-        question_type: null
+        question_type: null,
       },
       token: null,
+      questions: '',  // involving questions
+      questionsString: '',
     }
   },
   components: {
@@ -73,15 +79,16 @@ export default {
     addChapter: function () {
       const that = this;
       let id = that.examinationPaperId;
+      let questionsParams = that.computedParams(that.questionsString, 'questions');
       axios({
         method: 'post',
-        url: `${this.GLOBAL.localDomain}/api/v1/papers/${id}/sections/`,
+        url: `${this.GLOBAL.localDomain}/api/v1/papers/${id}/sections/?${questionsParams}`,
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
           'Accept': 'application/json',
           'Authorization': that.token,
         },
-        body: {
+        params: {
           name: that.chapterData.name,
           score: that.chapterData.score,
           number: that.chapterData.number,
@@ -98,6 +105,25 @@ export default {
         that.clearWords();
       })
     },
+    /**
+     * computedParams
+     * @param  {String} str   需要转换的字符串
+     * @param  {String} param param拼接参数
+     * @return {String}       拼接完成的params
+     */
+    computedParams: function (str, param) {
+      let arr = str.split(',');
+      let string = '';
+      for (let i = 0; i < arr.length; i++) {
+        if (i != 0) {
+          string += '&' + param + '[' + i + ']' + '=' + arr[i];
+        }
+        else {
+          string += param + '[' + i + ']' + '=' + arr[i];
+        }
+      }
+      return string;
+    }
   },
   created() {
     this.token = sessionStorage.getItem('token');

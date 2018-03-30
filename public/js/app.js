@@ -29921,6 +29921,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -29933,7 +29937,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         describe: null,
         question_type: null
       },
-      token: null
+      token: null,
+      questions: '', // involving questions
+      questionsString: ''
     };
   },
 
@@ -29955,15 +29961,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     addChapter: function addChapter() {
       var that = this;
       var id = that.examinationPaperId;
+      var questionsParams = that.computedParams(that.questionsString, 'questions');
       axios({
         method: 'post',
-        url: this.GLOBAL.localDomain + '/api/v1/papers/' + id + '/sections/',
+        url: this.GLOBAL.localDomain + '/api/v1/papers/' + id + '/sections/?' + questionsParams,
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
           'Accept': 'application/json',
           'Authorization': that.token
         },
-        body: {
+        params: {
           name: that.chapterData.name,
           score: that.chapterData.score,
           number: that.chapterData.number,
@@ -29979,6 +29986,24 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         console.log(err);
         that.clearWords();
       });
+    },
+    /**
+     * computedParams
+     * @param  {String} str   需要转换的字符串
+     * @param  {String} param param拼接参数
+     * @return {String}       拼接完成的params
+     */
+    computedParams: function computedParams(str, param) {
+      var arr = str.split(',');
+      var string = '';
+      for (var i = 0; i < arr.length; i++) {
+        if (i != 0) {
+          string += '&' + param + '[' + i + ']' + '=' + arr[i];
+        } else {
+          string += param + '[' + i + ']' + '=' + arr[i];
+        }
+      }
+      return string;
     }
   },
   created: function created() {
@@ -30221,6 +30246,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -30231,9 +30260,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         score: null,
         number: null,
         describe: null,
-        chapter_type: null
+        question_type: null
       },
-      token: null
+      token: null,
+      questionsString: ''
     };
   },
 
@@ -30250,25 +30280,26 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       that.currentChapterData.score = '';
       that.currentChapterData.number = '';
       that.currentChapterData.describe = '';
-      that.currentChapterData.chapter_type = '';
+      that.currentChapterData.question_type = '';
     },
     editChapter: function editChapter() {
       var that = this;
       var examinationPaperId = that.examinationPaperId;
       var chapterId = that.editData.id;
+      var questionsParams = that.computedParams(that.questionsString, 'questions');
       axios({
         method: 'put',
-        url: this.GLOBAL.localDomain + '/api/v1/papers/' + examinationPaperId + '/sections/' + chapterId,
+        url: this.GLOBAL.localDomain + '/api/v1/papers/' + examinationPaperId + '/sections/' + chapterId + '?' + questionsParams,
         headers: {
           'Accept': 'application/json',
           'Authorization': that.token
         },
-        body: {
+        params: {
           name: that.currentChapterData.name,
           score: that.currentChapterData.score,
           number: that.currentChapterData.number,
           describe: that.currentChapterData.describe,
-          chapter_type: that.currentChapterData.chapter_type
+          question_type: that.currentChapterData.question_type
         }
       }).then(function (res) {
         alert('编辑成功');
@@ -30280,6 +30311,24 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         that.clearWords();
         alert('编辑失败');
       });
+    },
+    /**
+     * computedParams
+     * @param  {String} str   需要转换的字符串
+     * @param  {String} param param拼接参数
+     * @return {String}       拼接完成的params
+     */
+    computedParams: function computedParams(str, param) {
+      var arr = str.split(',');
+      var string = '';
+      for (var i = 0; i < arr.length; i++) {
+        if (i != 0) {
+          string += '&' + param + '[' + i + ']' + '=' + arr[i];
+        } else {
+          string += param + '[' + i + ']' + '=' + arr[i];
+        }
+      }
+      return string;
     }
   },
   creatad: function creatad() {
@@ -30293,7 +30342,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       that.currentChapterData.score = value.score;
       that.currentChapterData.number = value.number;
       that.currentChapterData.describe = value.describe;
-      that.currentChapterData.chapter_type = value.chapter_type;
+      that.currentChapterData.question_type = value.question_type;
     }
   }
 });
@@ -37641,6 +37690,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
 
 
 
@@ -37657,7 +37709,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       searchKey: null,
       testData: null,
       editData: null
-    }, _defineProperty(_ref, 'searchKey', null), _defineProperty(_ref, 'paginationData', null), _defineProperty(_ref, 'data', null), _defineProperty(_ref, 'paperId', null), _ref;
+    }, _defineProperty(_ref, 'searchKey', null), _defineProperty(_ref, 'paginationData', null), _defineProperty(_ref, 'data', null), _defineProperty(_ref, 'paperId', null), _defineProperty(_ref, 'isTesting', false), _ref;
   },
 
   components: {
@@ -37747,8 +37799,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     },
     startTest: function startTest(index) {
       var that = this;
+      that.$refs.testing.clearQuestionIds();
       var id = that.testData[index].id;
       that.paperId = that.testData[index].paper_id;
+
+      that.isTesting = true;
       // axios({
       //   method: 'post',
       //   url: `${this.GLOBAL.localDomain}/api/v1/exams/${id}/start`,
@@ -37846,6 +37901,15 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -37873,31 +37937,17 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      questionData: null,
+      questionData: [],
       token: null,
       chapterIds: [],
-      questionIds: []
+      questionIds: [],
+      temporaryQuestionIds: []
     };
   },
 
   components: {},
   props: ['paperId'],
   methods: {
-    getQuestion: function getQuestion() {
-      var that = this;
-      axios({
-        method: 'get',
-        url: this.GLOBAL.localDomain + '/api/v1/questions',
-        headers: {
-          'Accept': 'application/json',
-          'Authorization': that.token
-        }
-      }).then(function (res) {
-        that.questionData = res.data.data;
-      }).catch(function (err) {
-        console.log(err);
-      });
-    },
     searchExaminationPaper: function searchExaminationPaper(paperId) {
       var that = this;
       var id = paperId;
@@ -37917,51 +37967,60 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         alert('无相关试卷');
       });
     },
+    clearQuestionIds: function clearQuestionIds() {
+      var that = this;
+      that.questionIds = [];
+    },
     searchChapter: function searchChapter(chapterId) {
       var that = this;
       var paperId = that.paperId;
-      var id = chapterId;
       axios({
         method: 'get',
-        url: this.GLOBAL.localDomain + '/api/v1/papers/' + paperId + '/sections/' + id,
+        url: this.GLOBAL.localDomain + '/api/v1/papers/' + paperId + '/sections/' + chapterId,
         headers: {
           'Accept': 'application/json',
           'Authorization': that.token
         }
       }).then(function (res) {
-        debugger;
         var questionIds = res.data.data.questions;
         var questionIdsArray = questionIds.split(',');
-        that.questionIds.concat(questionIdsArray);
+        that.questionIds = that.questionIds.concat(questionIdsArray);
+
+        for (var i = 0; i < questionIds.length; i++) {
+          var questionId = questionIds[i];
+          that.searchQuestion(questionId);
+        }
       }).catch(function (err) {
         console.log(err);
       });
     },
-    searchQuestion: function searchQuestion() {
+    searchQuestion: function searchQuestion(questionId) {
       var that = this;
-      var id = that.searchKey;
+
       axios({
         method: 'get',
-        url: this.GLOBAL.localDomain + '/api/v1/questions/' + id,
+        url: this.GLOBAL.localDomain + '/api/v1/questions/' + questionId,
         headers: {
           'Accept': 'application/json',
           'Authorization': that.token
         }
       }).then(function (res) {
-        that.questionData = [];
+        var currentQuestionId = res.data.data.id;
         that.questionData.push(res.data.data);
-        // that.questionData = res.data.data;
       }).catch(function (err) {
-        alert('查找出错');
-        that.getQuestion();
+        // alert('查找出错');
         console.log(err);
       });
+    },
+    // 数组去重
+    uniqArray: function uniqArray(arr) {
+      var uniq = [].concat(_toConsumableArray(new Set(arr)));
+      return uniq;
     }
   },
   computed: {},
   created: function created() {
     this.token = sessionStorage.getItem('token');
-    this.getQuestion();
   },
 
   watch: {
@@ -37975,8 +38034,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         var chapterId = value[i];
         that.searchChapter(chapterId);
       }
-      console.log(that.questionIds);
     }
+    // questionIds: function (value, oldValue) {
+    //   const that = this;
+    //   for (let i = 0; i < value.length; i++) {
+    //     let questionId = value[i];
+    //     that.searchQuestion(questionId);
+    //   }
+    // },
+    // questionData: function (value, oldValue) {
+    //   const that = this;
+    //   console.log('questionData数据变更');
+    // }
 
   }
 });
@@ -43323,7 +43392,7 @@ exports.push([module.i, "\ntable {\n  margin: 35px auto 0 auto;\n}\n.search-inpu
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(2)();
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 /***/ }),
 /* 294 */
@@ -43491,7 +43560,7 @@ exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(2)();
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 /***/ }),
 /* 318 */
@@ -64985,7 +65054,19 @@ if (false) {
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticClass: "box"
-  }, _vm._l((_vm.questionData), function(item, index) {
+  }, [_c('button', {
+    staticClass: "button",
+    attrs: {
+      "type": "button",
+      "name": "button"
+    }
+  }, [_vm._v("退出考试")]), _vm._v(" "), _c('button', {
+    staticClass: "button is-primary",
+    attrs: {
+      "type": "button",
+      "name": "button"
+    }
+  }, [_vm._v("完成考试")]), _vm._v(" "), _vm._l((_vm.questionData), function(item, index) {
     return _c('div', {
       staticClass: "message box"
     }, [_c('div', {
@@ -64995,7 +65076,19 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }, [_vm._v("        考试id：" + _vm._s(item.id) + "\n             考试题目：" + _vm._s(item.title) + "\n             考试类型：" + _vm._s(item.question_type) + "\n             难易程度：" + _vm._s(item.level_type) + "\n      ")]), _vm._v("\n      " + _vm._s(item.body) + "\n      "), _c('p', {
       staticClass: "time"
     }, [_vm._v(_vm._s(item.created_at))])]), _vm._v(" "), _c('div', [_c('p', [_vm._v("回复：" + _vm._s(item.answer_comment))])])])
-  }))
+  }), _vm._v(" "), _c('div', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.isWaiting),
+      expression: "isWaiting"
+    }]
+  }, [_c('img', {
+    attrs: {
+      "src": "",
+      "alt": ""
+    }
+  })])], 2)
 },staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {
@@ -66189,6 +66282,13 @@ if (false) {
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticClass: "box"
+  }, [_c('div', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: (!_vm.isTesting),
+      expression: "!isTesting"
+    }]
   }, [_c('div', [_c('div', {
     staticClass: "search-box"
   }, [_c('input', {
@@ -66306,11 +66406,6 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     on: {
       "getTest": _vm.getTest
     }
-  }), _vm._v(" "), _c('testing', {
-    ref: "tesing",
-    attrs: {
-      "paper-id": _vm.paperId
-    }
   }), _vm._v(" "), _c('pagination', {
     attrs: {
       "pagination-data": _vm.paginationData
@@ -66321,6 +66416,17 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.data = $$v
       },
       expression: "data"
+    }
+  })], 1), _vm._v(" "), _c('testing', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.isTesting),
+      expression: "isTesting"
+    }],
+    ref: "testing",
+    attrs: {
+      "paper-id": _vm.paperId
     }
   })], 1)
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -67980,20 +68086,43 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     directives: [{
       name: "model",
       rawName: "v-model",
-      value: (_vm.currentChapterData.chapter_type),
-      expression: "currentChapterData.chapter_type"
+      value: (_vm.currentChapterData.question_type),
+      expression: "currentChapterData.question_type"
     }],
     staticClass: "input",
     attrs: {
       "type": "text"
     },
     domProps: {
-      "value": (_vm.currentChapterData.chapter_type)
+      "value": (_vm.currentChapterData.question_type)
     },
     on: {
       "input": function($event) {
         if ($event.target.composing) { return; }
-        _vm.$set(_vm.currentChapterData, "chapter_type", $event.target.value)
+        _vm.$set(_vm.currentChapterData, "question_type", $event.target.value)
+      }
+    }
+  })]), _vm._v(" "), _c('div', {
+    staticClass: "box-item"
+  }, [_c('label', [_vm._v("涉及到的问题")]), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.questionsString),
+      expression: "questionsString"
+    }],
+    staticClass: "input",
+    attrs: {
+      "type": "text",
+      "placeholder": "请用英文逗号将多个问题id分开"
+    },
+    domProps: {
+      "value": (_vm.questionsString)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.questionsString = $event.target.value
       }
     }
   })])]), _vm._v(" "), _c('footer', {
@@ -70570,6 +70699,29 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "input": function($event) {
         if ($event.target.composing) { return; }
         _vm.$set(_vm.chapterData, "question_type", $event.target.value)
+      }
+    }
+  })]), _vm._v(" "), _c('div', {
+    staticClass: "box-item"
+  }, [_c('label', [_vm._v("涉及到的问题")]), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.questionsString),
+      expression: "questionsString"
+    }],
+    staticClass: "input",
+    attrs: {
+      "type": "text",
+      "placeholder": "请用英文逗号将多个问题id分开"
+    },
+    domProps: {
+      "value": (_vm.questionsString)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.questionsString = $event.target.value
       }
     }
   })])]), _vm._v(" "), _c('footer', {
