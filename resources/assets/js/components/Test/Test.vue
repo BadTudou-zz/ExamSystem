@@ -42,7 +42,7 @@
               <button @click="deleteTest(index)" class="button" type="button" name="button">删除</button>
               <button @click="editTest(index)" class="button" type="button" name="button">编辑</button>
               <button @click="startTest(index)" class="button" type="button" name="button">开始</button>
-              <button @click="stopTest(index)" class="button" type="button" name="button">结束</button>
+              <!-- <button @click="stopTest(index)" class="button" type="button" name="button">结束</button> -->
               <button @click="gradingPapers(index)" class="button" type="button" name="button">批改</button>
             </td>
           </tr>
@@ -59,12 +59,14 @@
       ></edit-test>
 
       <pagination v-bind:pagination-data="paginationData"
-              v-model="data"
+                  v-model="data"
       ></pagination>
     </div>
 
-    <testing v-show="isTesting" ref="testing"
+    <testing ref="testing"
+             v-show="isTesting"
              v-bind:paper-id="paperId"
+             v-bind:exam-id="examId"
     ></testing>
 
   </div>
@@ -88,6 +90,7 @@ export default {
       paginationData: null,
       data: null,
       paperId: null,
+      examId: null,
       isTesting: false,  // 是否已经开始考试
     }
   },
@@ -182,7 +185,7 @@ export default {
       that.$refs.testing.clearQuestionIds();
       let id = that.testData[index].id;
       that.paperId = that.testData[index].paper_id;
-
+      that.examId = id;
       that.isTesting = true;
       // axios({
       //   method: 'post',
