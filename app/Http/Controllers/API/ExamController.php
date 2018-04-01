@@ -179,4 +179,20 @@ class ExamController extends Controller
         CorrecExam::dispatch($exam);
     }
 
+    //查看分数
+    public function score(BeginExam $request, $id)
+    {
+        $user = Auth::user();
+        $exam = $user->exams()->where('exam_id', $id)->first();
+
+        if (!$exam->begin_at) {
+            return response()->json(['error'=>'考试未开始，不能查看！'], 400);
+        }
+
+        if (!$exam->finish_at) {
+            return response()->json(['error'=>'考试未结束，不能查看！'], 400);
+        }
+       return response($exam->pivot);
+    }
+
 }
