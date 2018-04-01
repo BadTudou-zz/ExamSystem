@@ -1,6 +1,6 @@
 <!-- 查看考试(进行) -->
 <template lang="html">
-  <div class="box">
+  <div>
 
     <div v-if="isLoading">
       <img class="loading" src="../../../img/loading.gif" alt="">
@@ -8,27 +8,22 @@
 
     <div v-else>
       <button @click="stopTest()" class="button is-info finish-test" type="button" name="button">结束考试</button>
-      <div  v-for="(item,index) in questionData" class="message box">
-        <div class="notification">
-          <p class="question">        考试id：{{ item.id }}
-            &nbsp;&nbsp;&nbsp;&nbsp; 考试题目：{{ item.title }}
-            &nbsp;&nbsp;&nbsp;&nbsp; 考试类型：{{ item.question_type }}
-            &nbsp;&nbsp;&nbsp;&nbsp; 难易程度：{{ item.level_type }}
-          </p>
-          问题：{{ item.body }}
-          <p class="time">{{item.created_at}}</p>
-        </div>
-        <div>
-          <p>回复：{{ item.answer_comment }}</p>
-        </div>
-      </div>
+
+      <!-- <single-choice ref="singleChoice"
+                     v-bind:question-data="questionData"
+      ></single-choice> -->
+
+      <single-choice ref="singleChoice"
+                     v-bind:current-question-data="currentQuestionData"
+      ></single-choice>
+
     </div>
 
   </div>
 </template>
 
 <script>
-
+import SingleChoice from '../Question/SingleChoice'
 
 export default {
   data() {
@@ -39,9 +34,11 @@ export default {
        questionIds: [],
        temporaryQuestionIds: [],
        isLoading: true,
+       currentQuestionData: null,
     }
   },
   components: {
+    SingleChoice,
   },
   props: [
     'paperId',
@@ -90,16 +87,14 @@ export default {
         for (let i = 0; i < questionIdsArray.length; i++) {
           // if (questionIds[i] === ',') return;
           let questionId = questionIdsArray[i];
-          that.searchQuestion(questionId);
+          that.searchQuestion(questionId, questionIdsArray.length, i);
         }
-
-        that.isLoading = false;
 
       }).catch(err => {
         console.log(err)
       })
     },
-    searchQuestion: function (questionId) {
+    searchQuestion: function (questionId, totalLength, currentLength) {
       const that = this;
 
       axios({
@@ -112,6 +107,13 @@ export default {
       }).then(res => {
         let currentQuestionId = res.data.data.id;
         that.questionData.push(res.data.data);
+
+        if (totalLength === currentLength + 1) {
+          that.isLoading = false;
+          that.currentQuestionData = that.questionData;
+          // debugger
+        }
+
       }).catch(err => {
         // alert('查找出错');
         console.log(err);
@@ -124,7 +126,6 @@ export default {
     },
     quitTest: function () {
       const that = this;
-
     },
     stopTest: function () {
       const that = this;
@@ -188,10 +189,12 @@ export default {
 <style lang="scss">
 .message {
   margin: 35px auto 0 auto;
+  background-color: #fff;
 }
 .message {
   .notification {
     margin: 0;
+    background-color: #fff;
   }
 }
 .notification .time{

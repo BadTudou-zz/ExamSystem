@@ -9,30 +9,10 @@
         <button @click="addQuestion()" class="button add-role-button" type="button" name="button">添加问题</button>
     </div>
 
-    <div  v-for="(item,index) in questionData" class="message box">
+    <single-choice ref="singleChoice"
+                   v-bind:current-question-data="questionData"
+    ></single-choice>
 
-      <div class="notification">
-        <div class="operate-box">
-          <button @click="deleteQuestion(index)" class="delete"></button>
-          <button @click="editQuestion(index)" class="button edit-question" type="button" name="button">编辑问题</button>
-        </div>
-        <p class="question">        问题id：{{ item.id }}
-          &nbsp;&nbsp;&nbsp;&nbsp; 问题题目：{{ item.title }}
-          &nbsp;&nbsp;&nbsp;&nbsp; 问题类型：{{ item.question_type }}
-          &nbsp;&nbsp;&nbsp;&nbsp; 难易程度：{{ item.level_type }}
-        </p>
-        {{ item.body }}
-        <p class="time">{{item.created_at}}</p>
-      </div>
-      <div class="answer">
-        <p>备注：{{ item.answer_comment }}</p>
-      </div>
-
-      <!-- 单选 -->
-      <!-- <single-choice v-bind:item="item"></single-choice> -->
-      <!-- <single-choice v-for="(item,index) in questionData" v-bind:item="item"></single-choice> -->
-
-    </div>
 
     <add-question ref="addQuestion"
                   v-on:getQuestion="getQuestion"

@@ -1,21 +1,42 @@
 <!-- 单选 -->
 <template lang="html">
-  <div class="box">
+  <div>
 
-    <div class="message box">
-      单选
-      <!-- <div class="notification">
-        <p class="question">        问题id：{{ item.id }}
-          &nbsp;&nbsp;&nbsp;&nbsp; 问题题目：{{ item.title }}
-          &nbsp;&nbsp;&nbsp;&nbsp; 问题类型：{{ item.question_type }}
-          &nbsp;&nbsp;&nbsp;&nbsp; 难易程度：{{ item.level_type }}
-        </p>
-        {{ item.body }}
-        <p class="time">{{item.created_at}}</p>
+    <div class="message">
+      <div  v-for="(item,index) in singleChoiceData" class="message box">
+        <div class="notification">
+          <p class="detail">        考试id：{{ item.id }}
+            &nbsp;&nbsp;&nbsp;&nbsp; 考试类型： 单选
+            &nbsp;&nbsp;&nbsp;&nbsp; 难易程度：{{ item.level_type }}
+          </p>
+          <div class="question">问题：{{ item.title }}</div>
+          <div class="options">选项：{{ item.body }}</div>
+          <p class="time">{{item.created_at}}</p>
+        </div>
+        <!-- <div>
+          <p>备注：{{ item.answer_comment }}</p>
+        </div> -->
+
+        <div class="answer">
+          答案：
+          <!-- <input class="input" type="text" name="" value=""> -->
+          <div class="control">
+            <label class="radio">
+              <input value="A" type="radio">A
+            </label>
+            <label class="radio">
+              <input value="B" type="radio">B
+            </label>
+            <label class="radio">
+              <input value="C" type="radio">C
+            </label>
+            <label class="radio">
+              <input value="D" type="radio">D
+            </label>
+          </div>
+        </div>
       </div>
-      <div class="answer">
-        <p>回复：{{ item.answer_comment }}</p>
-      </div> -->
+
     </div>
 
   </div>
@@ -26,16 +47,47 @@
 export default {
   data() {
     return {
-       questionData: null,
        token: null,
+       singleChoiceData: [],
     }
   },
   components: {
   },
   props: [
-    'item'
+    'item',
+    // 'questionData',
+    'currentQuestionData',
   ],
   methods: {
+    filter: function (data) {
+      const that = this;
+      that.singleChoiceData = [];
+      for (let i = 0; i < data.length; i++) {
+        if (data[i].question_type === 'SINGLE_CHOICE') {
+          that.singleChoiceData.push(data[i]);
+          // console.log(data[i])
+        }
+      }
+    },
+    computedRadio: function (value) {
+      const that = this;
+      // if (value.indexOf("\n") > 0 ) {
+      //   let a = '\n'
+      //   return a;
+      // }
+      // else {
+      //   return 0;
+      // }
+
+      if (value.indexOf("↵") > 0 ) {
+        let a = '↵';
+        return a;
+      }
+      else {
+        return 0;
+      }
+
+    }
   },
   computed: {
   },
@@ -43,10 +95,15 @@ export default {
     this.token = sessionStorage.getItem('token');
   },
   watch: {
-    item: function (value, oldValue) {
+    // questionData: function (value, oldValue) {
+    //   const that = this;
+    //   that.filter(value);
+    // },
+    currentQuestionData: function (value, oldValue) {
       const that = this;
       // debugger
-    }
+      that.filter(value);
+    },
   }
 }
 </script>
@@ -66,11 +123,17 @@ export default {
   padding-bottom: 20px;
   border-bottom: 1px solid #dedede;
 }
-.question {
+.detail {
   text-align: left;
   margin-bottom: 10px;
 }
 .answer {
-  margin-left: 50px;
+  margin-top: 20px;
+}
+.answer input {
+  width: 35px;
+}
+.options {
+  margin-top: 30px;
 }
 </style>
