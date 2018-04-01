@@ -5,12 +5,17 @@
     <div class="message">
       <div  v-for="(item,index) in singleChoiceData" class="message box">
         <div class="notification">
-          <p class="detail">        考试id：{{ item.id }}
-            &nbsp;&nbsp;&nbsp;&nbsp; 考试类型： 单选
-            &nbsp;&nbsp;&nbsp;&nbsp; 难易程度：{{ item.level_type }}
+          <div class="operate-box">
+            <button @click="deleteQuestion(index)" class="delete"></button>
+            <button @click="editQuestion(index)" class="button edit-question" type="button" name="button">编辑问题</button>
+          </div>
+          <p class="detail">        id：{{ item.id }}
+            &nbsp;&nbsp;&nbsp;&nbsp; 类型： 单选
+            &nbsp;&nbsp;&nbsp;&nbsp; 难度：{{ item.level_type }}
+            &nbsp;&nbsp;&nbsp;&nbsp; title：{{ item.title }}
           </p>
-          <div class="question">问题：{{ item.title }}</div>
-          <div class="options">选项：{{ item.body }}</div>
+          <div class="question">问题：{{ item.body }}</div>
+          <div class="options">选项：{{ item.answer }}</div>
           <p class="time">{{item.created_at}}</p>
         </div>
         <!-- <div>
@@ -71,22 +76,30 @@ export default {
     },
     computedRadio: function (value) {
       const that = this;
-      // if (value.indexOf("\n") > 0 ) {
-      //   let a = '\n'
+      if (value.indexOf("\n") > 0 ) {
+        let a = '\n'
+        return "有";
+      }
+      else {
+        return '无';
+      }
+
+      // if (value.indexOf("↵") > 0 ) {
+      //   let a = '↵';
       //   return a;
       // }
       // else {
       //   return 0;
       // }
 
-      if (value.indexOf("↵") > 0 ) {
-        let a = '↵';
-        return a;
-      }
-      else {
-        return 0;
-      }
-
+    },
+    deleteQuestion: function (index) {
+      const that = this;
+      that.$emit('deleteQuestion', index);  //第一个参数名为调用的方法名，第二个参数为需要传递的参数
+    },
+    editQuestion: function (index) {
+      const that = this;
+      that.$emit('editQuestion', index);  //第一个参数名为调用的方法名，第二个参数为需要传递的参数
     }
   },
   computed: {
@@ -135,5 +148,16 @@ export default {
 }
 .options {
   margin-top: 30px;
+}
+.edit-question {
+  float: right;
+}
+.operate-box {
+  height: 40px;
+  line-height: 40px;
+}
+.delete {
+  float: right;
+  margin-left: 20px;
 }
 </style>

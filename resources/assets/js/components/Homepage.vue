@@ -1,5 +1,9 @@
 <template lang="html">
-    <navigation v-model="logOut"></navigation>
+    <div class="">
+      <img class="banner" src="./../../img/banner.jpg" alt="">
+      <navigation v-model="logOut"></navigation>
+    </div>
+    <!-- <navigation v-model="logOut"></navigation> -->
 </template>
 
 <script>
@@ -82,4 +86,9 @@ export default {
 </script>
 
 <style lang="css">
+.banner {
+  width: 100%;
+  height: 200px;
+  margin-bottom: -6px;
+}
 </style>
