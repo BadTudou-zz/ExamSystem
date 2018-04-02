@@ -91,9 +91,8 @@
               试卷
             </a>
             <div class="navbar-dropdown is-boxed">
-              <router-link class="navbar-item" to="/examinationPaper">试卷</router-link>
-              <!-- <router-link class="navbar-item" to="/chapter">章节</router-link> -->
               <router-link class="navbar-item" to="/test">考试</router-link>
+              <router-link class="navbar-item" to="/examinationPaper">试卷</router-link>
               <router-link class="navbar-item" to="/question">问题</router-link>
             </div>
           </div>

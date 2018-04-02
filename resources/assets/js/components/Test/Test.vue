@@ -258,7 +258,7 @@ export default {
           'Authorization': that.token
         }
       }).then(res => {
-        alert('可以开始批改');
+        alert('批改完成');
       }).catch(err => {
         alert('操作失败，请稍后再试');
         console.log(err)

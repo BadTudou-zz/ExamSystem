@@ -12,10 +12,10 @@
           <p class="detail">        id：{{ item.id }}
             &nbsp;&nbsp;&nbsp;&nbsp; 类型： 单选
             &nbsp;&nbsp;&nbsp;&nbsp; 难度：{{ item.level_type }}
-            &nbsp;&nbsp;&nbsp;&nbsp; title：{{ item.title }}
           </p>
-          <div class="question">问题：{{ item.body }}</div>
-          <div class="options">选项：{{ item.answer }}</div>
+          <div class="question">问题描述{{ item.title }}</div>
+          <div class="question">选项：{{ getOptionsString(item.body) }}</div>
+          <div class="options">正确答案：{{ item.answer }}</div>
           <p class="time">{{item.created_at}}</p>
         </div>
         <!-- <div>
@@ -23,21 +23,14 @@
         </div> -->
 
         <div class="answer">
-          答案：
-          <!-- <input class="input" type="text" name="" value=""> -->
-          <div class="control">
-            <label class="radio">
-              <input value="A" type="radio">A
-            </label>
-            <label class="radio">
-              <input value="B" type="radio">B
-            </label>
-            <label class="radio">
-              <input value="C" type="radio">C
-            </label>
-            <label class="radio">
-              <input value="D" type="radio">D
-            </label>
+          作答：
+          <div class="select">
+            <select v-model="answers[index]" @change="selectChange(index)">
+              <option value='A'>A</option>
+              <option value="B">B</option>
+              <option value="C">C</option>
+              <option value="D">D</option>
+            </select>
           </div>
         </div>
       </div>
@@ -54,6 +47,8 @@ export default {
     return {
        token: null,
        singleChoiceData: [],
+       answers: [],
+       answersJson: {},
     }
   },
   components: {
@@ -64,34 +59,44 @@ export default {
     'currentQuestionData',
   ],
   methods: {
+    getOptionsString: function (value) {
+      const that = this;
+      let arr = value.split(' ');
+      // debugger
+      let alphabet = ['A','B','C','D','E','F','G','H','I'];
+      let str = '';
+      for (let i = 0; i < arr.length; i++) {
+        str += alphabet[i] + '.' + arr[i] + '   ';
+      }
+      return str;
+    },
+    // 筛选单选问题
     filter: function (data) {
       const that = this;
       that.singleChoiceData = [];
       for (let i = 0; i < data.length; i++) {
         if (data[i].question_type === 'SINGLE_CHOICE') {
           that.singleChoiceData.push(data[i]);
-          // console.log(data[i])
         }
       }
+    },
+    selectChange: function (index) {
+      const that = this;
+      let id = `"${that.currentQuestionData[index]['id']}"`;
+      let answer = that.answers[index];
+      that.answersJson[id] = answer;
+      that.$emit('input', that.answersJson);  //第一个参数名为调用的方法名，第二个参数为需要传递的参数
+
+      // console.log(that.answersJson)
     },
     computedRadio: function (value) {
       const that = this;
       if (value.indexOf("\n") > 0 ) {
-        let a = '\n'
         return "有";
       }
       else {
         return '无';
       }
-
-      // if (value.indexOf("↵") > 0 ) {
-      //   let a = '↵';
-      //   return a;
-      // }
-      // else {
-      //   return 0;
-      // }
-
     },
     deleteQuestion: function (index) {
       const that = this;
@@ -114,14 +119,13 @@ export default {
     // },
     currentQuestionData: function (value, oldValue) {
       const that = this;
-      // debugger
       that.filter(value);
     },
   }
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .message {
   margin: 35px auto 0 auto;
 }

@@ -63,24 +63,23 @@ export default {
     deleteQuestion: function (index) {
       const that = this;
       let id = that.questionData[index]['id'];
-      // debugger
-      // let prompt = confirm("确认删除该问题吗？");
-      // if (prompt) {
-      //   axios({
-      //     method: 'delete',
-      //     url: `${this.GLOBAL.localDomain}/api/v1/questions/${id}`,
-      //     headers: {
-      //       'Accept': 'application/json',
-      //       'Authorization': that.token
-      //     }
-      //   }).then(res => {
-      //     alert('删除成功');
-      //     that.getQuestion();
-      //   }).catch(err => {
-      //     alert('删除失败');
-      //     console.log(err)
-      //   })
-      // }
+      let prompt = confirm("确认删除该问题吗？");
+      if (prompt) {
+        axios({
+          method: 'delete',
+          url: `${this.GLOBAL.localDomain}/api/v1/questions/${id}`,
+          headers: {
+            'Accept': 'application/json',
+            'Authorization': that.token
+          }
+        }).then(res => {
+          alert('删除成功');
+          that.getQuestion();
+        }).catch(err => {
+          alert('删除失败');
+          console.log(err)
+        })
+      }
     },
     getQuestion: function () {
       const that = this;

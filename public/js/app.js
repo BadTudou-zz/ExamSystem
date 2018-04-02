@@ -28198,7 +28198,7 @@ var Component = __webpack_require__(1)(
   /* template */
   __webpack_require__(408),
   /* scopeId */
-  null,
+  "data-v-2bc3df00",
   /* cssModules */
   null
 )
@@ -29920,6 +29920,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
 //
 //
 //
@@ -32922,7 +32926,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -35088,6 +35091,28 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -35101,7 +35126,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         answer: null,
         answer_comment: null
       },
-      token: null
+      token: null,
+      options: []
     };
   },
 
@@ -35117,11 +35143,27 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       that.questionData.level_type = 'EASY';
       that.questionData.title = '';
       that.questionData.body = '';
-      that.questionData.nswer = '';
-      that.questionData.nswer_comment = '';
+      that.questionData.answer = '';
+      that.questionData.answer_comment = '';
+
+      that.options = [];
+    },
+    getAnswerOptions: function getAnswerOptions() {
+      var that = this;
+      var answer_body = '';
+      for (var i = 0; i < that.options.length; i++) {
+        if (i !== that.options.length - 1) {
+          answer_body += that.options[i] + ' ';
+        } else {
+          answer_body += that.options[i];
+        }
+      }
+      return answer_body;
     },
     addQuestion: function addQuestion() {
       var that = this;
+
+      var body = that.getAnswerOptions();
 
       axios({
         method: 'post',
@@ -35134,7 +35176,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
           question_type: that.questionData.question_type,
           level_type: that.questionData.level_type,
           title: that.questionData.title,
-          body: that.questionData.body,
+          body: body,
           answer: that.questionData.answer,
           answer_comment: that.questionData.answer_comment
         }
@@ -35152,6 +35194,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   },
   created: function created() {
     this.token = sessionStorage.getItem('token');
+  },
+
+  watch: {
+    options: function options(value, oldValue) {
+      var that = this;
+      // console.log(value)
+    }
   }
 });
 
@@ -35368,24 +35417,23 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     deleteQuestion: function deleteQuestion(index) {
       var that = this;
       var id = that.questionData[index]['id'];
-      // debugger
-      // let prompt = confirm("确认删除该问题吗？");
-      // if (prompt) {
-      //   axios({
-      //     method: 'delete',
-      //     url: `${this.GLOBAL.localDomain}/api/v1/questions/${id}`,
-      //     headers: {
-      //       'Accept': 'application/json',
-      //       'Authorization': that.token
-      //     }
-      //   }).then(res => {
-      //     alert('删除成功');
-      //     that.getQuestion();
-      //   }).catch(err => {
-      //     alert('删除失败');
-      //     console.log(err)
-      //   })
-      // }
+      var prompt = confirm("确认删除该问题吗？");
+      if (prompt) {
+        axios({
+          method: 'delete',
+          url: this.GLOBAL.localDomain + '/api/v1/questions/' + id,
+          headers: {
+            'Accept': 'application/json',
+            'Authorization': that.token
+          }
+        }).then(function (res) {
+          alert('删除成功');
+          that.getQuestion();
+        }).catch(function (err) {
+          alert('删除失败');
+          console.log(err);
+        });
+      }
     },
     getQuestion: function getQuestion() {
       var that = this;
@@ -35514,20 +35562,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
       token: null,
-      singleChoiceData: []
+      singleChoiceData: [],
+      answers: [],
+      answersJson: {}
     };
   },
 
@@ -35536,32 +35579,43 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   // 'questionData',
   'currentQuestionData'],
   methods: {
+    getOptionsString: function getOptionsString(value) {
+      var that = this;
+      var arr = value.split(' ');
+      // debugger
+      var alphabet = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I'];
+      var str = '';
+      for (var i = 0; i < arr.length; i++) {
+        str += alphabet[i] + '.' + arr[i] + '   ';
+      }
+      return str;
+    },
+    // 筛选单选问题
     filter: function filter(data) {
       var that = this;
       that.singleChoiceData = [];
       for (var i = 0; i < data.length; i++) {
         if (data[i].question_type === 'SINGLE_CHOICE') {
           that.singleChoiceData.push(data[i]);
-          // console.log(data[i])
         }
       }
+    },
+    selectChange: function selectChange(index) {
+      var that = this;
+      var id = '"' + that.currentQuestionData[index]['id'] + '"';
+      var answer = that.answers[index];
+      that.answersJson[id] = answer;
+      that.$emit('input', that.answersJson); //第一个参数名为调用的方法名，第二个参数为需要传递的参数
+
+      // console.log(that.answersJson)
     },
     computedRadio: function computedRadio(value) {
       var that = this;
       if (value.indexOf("\n") > 0) {
-        var a = '\n';
         return "有";
       } else {
         return '无';
       }
-
-      // if (value.indexOf("↵") > 0 ) {
-      //   let a = '↵';
-      //   return a;
-      // }
-      // else {
-      //   return 0;
-      // }
     },
     deleteQuestion: function deleteQuestion(index) {
       var that = this;
@@ -35584,7 +35638,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     // },
     currentQuestionData: function currentQuestionData(value, oldValue) {
       var that = this;
-      // debugger
       that.filter(value);
     }
   }
@@ -37970,7 +38023,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           'Authorization': that.token
         }
       }).then(function (res) {
-        alert('可以开始批改');
+        alert('批改完成');
       }).catch(function (err) {
         alert('操作失败，请稍后再试');
         console.log(err);
@@ -38025,6 +38078,8 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 //
 //
 //
+//
+//
 
 
 
@@ -38037,7 +38092,8 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
       questionIds: [],
       temporaryQuestionIds: [],
       isLoading: true,
-      currentQuestionData: null
+      currentQuestionData: null,
+      singleChoiceAnwser: null
     };
   },
 
@@ -38111,7 +38167,6 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
         if (totalLength === currentLength + 1) {
           that.isLoading = false;
           that.currentQuestionData = that.questionData;
-          // debugger
         }
       }).catch(function (err) {
         // alert('查找出错');
@@ -38126,10 +38181,49 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
     quitTest: function quitTest() {
       var that = this;
     },
+    mergeAnswerJson: function mergeAnswerJson() {
+      var that = this;
+      var o1 = { a: 1 };
+      var o2 = { b: 2 };
+      var o3 = { c: 3, e: 4 };
+
+      var obj = Object.assign(o1, o2, o3);
+      console.log(obj); // { a: 1, b: 2, c: 3 }
+      console.log(o1); // { a: 1, b: 2, c: 3 }, 注意目标对象自身也会改变。
+    },
+    submitAnswer: function submitAnswer() {
+      var that = this;
+      var id = that.examId;
+      var answers = '';
+      axios({
+        method: 'post',
+        url: this.GLOBAL.localDomain + '/api/v1/exams/' + id + '/answer/',
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': that.token
+        },
+        data: {
+          'answers': answers
+        }
+      }).then(function (res) {
+        alert('已结束');
+      }).catch(function (err) {
+        var errMsg = err.response.data.error;
+        if (errMsg) {
+          alert(errMsg);
+        } else {
+          alert('结束失败，请稍后再试');
+        }
+        console.log(err);
+      });
+    },
     stopTest: function stopTest() {
       var that = this;
       var id = that.examId;
-      alert('已结束');
+
+      console.log(that.singleChoiceAnwser);
+
+      // alert('已结束');
       // axios({
       //   method: 'post',
       //   url: `${this.GLOBAL.localDomain}/api/v1/exams/${id}/stop`,
@@ -38175,11 +38269,11 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
       //   let questionId = value[i];
       //   that.searchQuestion(questionId);
       // }
+    },
+    singleChoiceAnwser: function singleChoiceAnwser(value, oldValue) {
+      var that = this;
+      console.log(value);
     }
-    // questionData: function (value, oldValue) {
-    //   const that = this;
-    //   console.log('questionData数据变更');
-    // },
 
   }
 });
@@ -43351,7 +43445,7 @@ exports.push([module.i, "\ntable {\n  margin: 35px auto 0 auto;\n}\n.search-inpu
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(2)();
-exports.push([module.i, "\n.message {\n  margin: 35px auto 0 auto;\n}\n.message .notification {\n  margin: 0;\n}\n.notification .time {\n  margin-top: 25px;\n  text-align: right;\n  padding-bottom: 20px;\n  border-bottom: 1px solid #dedede;\n}\n.detail {\n  text-align: left;\n  margin-bottom: 10px;\n}\n.answer {\n  margin-top: 20px;\n}\n.answer input {\n  width: 35px;\n}\n.options {\n  margin-top: 30px;\n}\n.edit-question {\n  float: right;\n}\n.operate-box {\n  height: 40px;\n  line-height: 40px;\n}\n.delete {\n  float: right;\n  margin-left: 20px;\n}\n", ""]);
+exports.push([module.i, "\n.message[data-v-2bc3df00] {\n  margin: 35px auto 0 auto;\n}\n.message .notification[data-v-2bc3df00] {\n  margin: 0;\n}\n.notification .time[data-v-2bc3df00] {\n  margin-top: 25px;\n  text-align: right;\n  padding-bottom: 20px;\n  border-bottom: 1px solid #dedede;\n}\n.detail[data-v-2bc3df00] {\n  text-align: left;\n  margin-bottom: 10px;\n}\n.answer[data-v-2bc3df00] {\n  margin-top: 20px;\n}\n.answer input[data-v-2bc3df00] {\n  width: 35px;\n}\n.options[data-v-2bc3df00] {\n  margin-top: 30px;\n}\n.edit-question[data-v-2bc3df00] {\n  float: right;\n}\n.operate-box[data-v-2bc3df00] {\n  height: 40px;\n  line-height: 40px;\n}\n.delete[data-v-2bc3df00] {\n  float: right;\n  margin-left: 20px;\n}\n", ""]);
 
 /***/ }),
 /* 270 */
@@ -43624,7 +43718,7 @@ exports.push([module.i, "\nnav {\n  margin-bottom: 30px;\n}\n", ""]);
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(2)();
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n.options-box[data-v-7ceb7600] {\n  margin: 20px 0 15px 0;\n}\n.options-box label[data-v-7ceb7600] {\n  display: inline-block;\n  width: 30px;\n}\n.options-box input[data-v-7ceb7600] {\n  width: 500px;\n}\n", ""]);
 
 /***/ }),
 /* 309 */
@@ -43694,7 +43788,7 @@ exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(2)();
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 /***/ }),
 /* 319 */
@@ -63145,7 +63239,7 @@ var Component = __webpack_require__(1)(
   /* template */
   __webpack_require__(447),
   /* scopeId */
-  null,
+  "data-v-7ceb7600",
   /* cssModules */
   null
 )
@@ -63183,7 +63277,7 @@ var Component = __webpack_require__(1)(
   /* template */
   __webpack_require__(412),
   /* scopeId */
-  null,
+  "data-v-33726f87",
   /* cssModules */
   null
 )
@@ -65158,6 +65252,13 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     ref: "singleChoice",
     attrs: {
       "current-question-data": _vm.currentQuestionData
+    },
+    model: {
+      value: (_vm.singleChoiceAnwser),
+      callback: function($$v) {
+        _vm.singleChoiceAnwser = $$v
+      },
+      expression: "singleChoiceAnwser"
     }
   })], 1)])
 },staticRenderFns: []}
@@ -65486,49 +65587,57 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }, [_vm._v("编辑问题")])]), _vm._v(" "), _c('p', {
       staticClass: "detail"
-    }, [_vm._v("        id：" + _vm._s(item.id) + "\n               类型： 单选\n               难度：" + _vm._s(item.level_type) + "\n               title：" + _vm._s(item.title) + "\n        ")]), _vm._v(" "), _c('div', {
+    }, [_vm._v("        id：" + _vm._s(item.id) + "\n               类型： 单选\n               难度：" + _vm._s(item.level_type) + "\n        ")]), _vm._v(" "), _c('div', {
       staticClass: "question"
-    }, [_vm._v("问题：" + _vm._s(item.body))]), _vm._v(" "), _c('div', {
+    }, [_vm._v("问题描述" + _vm._s(item.title))]), _vm._v(" "), _c('div', {
+      staticClass: "question"
+    }, [_vm._v("选项：" + _vm._s(_vm.getOptionsString(item.body)))]), _vm._v(" "), _c('div', {
       staticClass: "options"
-    }, [_vm._v("选项：" + _vm._s(item.answer))]), _vm._v(" "), _c('p', {
+    }, [_vm._v("正确答案：" + _vm._s(item.answer))]), _vm._v(" "), _c('p', {
       staticClass: "time"
-    }, [_vm._v(_vm._s(item.created_at))])]), _vm._v(" "), _vm._m(0, true)])
+    }, [_vm._v(_vm._s(item.created_at))])]), _vm._v(" "), _c('div', {
+      staticClass: "answer"
+    }, [_vm._v("\n        作答：\n        "), _c('div', {
+      staticClass: "select"
+    }, [_c('select', {
+      directives: [{
+        name: "model",
+        rawName: "v-model",
+        value: (_vm.answers[index]),
+        expression: "answers[index]"
+      }],
+      on: {
+        "change": [function($event) {
+          var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+            return o.selected
+          }).map(function(o) {
+            var val = "_value" in o ? o._value : o.value;
+            return val
+          });
+          _vm.$set(_vm.answers, index, $event.target.multiple ? $$selectedVal : $$selectedVal[0])
+        }, function($event) {
+          _vm.selectChange(index)
+        }]
+      }
+    }, [_c('option', {
+      attrs: {
+        "value": "A"
+      }
+    }, [_vm._v("A")]), _vm._v(" "), _c('option', {
+      attrs: {
+        "value": "B"
+      }
+    }, [_vm._v("B")]), _vm._v(" "), _c('option', {
+      attrs: {
+        "value": "C"
+      }
+    }, [_vm._v("C")]), _vm._v(" "), _c('option', {
+      attrs: {
+        "value": "D"
+      }
+    }, [_vm._v("D")])])])])])
   }))])
-},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "answer"
-  }, [_vm._v("\n        答案：\n        "), _vm._v(" "), _c('div', {
-    staticClass: "control"
-  }, [_c('label', {
-    staticClass: "radio"
-  }, [_c('input', {
-    attrs: {
-      "value": "A",
-      "type": "radio"
-    }
-  }), _vm._v("A\n          ")]), _vm._v(" "), _c('label', {
-    staticClass: "radio"
-  }, [_c('input', {
-    attrs: {
-      "value": "B",
-      "type": "radio"
-    }
-  }), _vm._v("B\n          ")]), _vm._v(" "), _c('label', {
-    staticClass: "radio"
-  }, [_c('input', {
-    attrs: {
-      "value": "C",
-      "type": "radio"
-    }
-  }), _vm._v("C\n          ")]), _vm._v(" "), _c('label', {
-    staticClass: "radio"
-  }, [_c('input', {
-    attrs: {
-      "value": "D",
-      "type": "radio"
-    }
-  }), _vm._v("D\n          ")])])])
-}]}
+},staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {
   module.hot.accept()
@@ -69880,7 +69989,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_vm._v("困难")])])])]), _vm._v(" "), _c('div', {
     staticClass: "box-item"
-  }, [_c('label', [_vm._v("问题标题")]), _vm._v(" "), _c('input', {
+  }, [_c('label', [_vm._v("问题")]), _vm._v(" "), _c('input', {
     directives: [{
       name: "model",
       rawName: "v-model",
@@ -69902,49 +70011,133 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   })]), _vm._v(" "), _c('div', {
     staticClass: "box-item"
-  }, [_c('label', [_vm._v("问题内容")]), _vm._v(" "), _c('textarea', {
+  }, [_c('label', [_vm._v("所给选项")]), _vm._v(" "), _c('div', {
+    staticClass: "options-box"
+  }, [_c('label', [_vm._v("A.")]), _vm._v(" "), _c('input', {
     directives: [{
       name: "model",
       rawName: "v-model",
-      value: (_vm.questionData.body),
-      expression: "questionData.body"
+      value: (_vm.options[0]),
+      expression: "options[0]"
     }],
-    staticClass: "textarea",
+    staticClass: "input",
     attrs: {
       "type": "text"
     },
     domProps: {
-      "value": (_vm.questionData.body)
+      "value": (_vm.options[0])
     },
     on: {
       "input": function($event) {
         if ($event.target.composing) { return; }
-        _vm.$set(_vm.questionData, "body", $event.target.value)
+        _vm.$set(_vm.options, 0, $event.target.value)
       }
     }
   })]), _vm._v(" "), _c('div', {
+    staticClass: "options-box"
+  }, [_c('label', [_vm._v("B.")]), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.options[1]),
+      expression: "options[1]"
+    }],
+    staticClass: "input",
+    attrs: {
+      "type": "text"
+    },
+    domProps: {
+      "value": (_vm.options[1])
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.$set(_vm.options, 1, $event.target.value)
+      }
+    }
+  })]), _vm._v(" "), _c('div', {
+    staticClass: "options-box"
+  }, [_c('label', [_vm._v("C.")]), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.options[2]),
+      expression: "options[2]"
+    }],
+    staticClass: "input",
+    attrs: {
+      "type": "text"
+    },
+    domProps: {
+      "value": (_vm.options[2])
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.$set(_vm.options, 2, $event.target.value)
+      }
+    }
+  })]), _vm._v(" "), _c('div', {
+    staticClass: "options-box"
+  }, [_c('label', [_vm._v("D.")]), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.options[3]),
+      expression: "options[3]"
+    }],
+    staticClass: "input",
+    attrs: {
+      "type": "text"
+    },
+    domProps: {
+      "value": (_vm.options[3])
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.$set(_vm.options, 3, $event.target.value)
+      }
+    }
+  })])]), _vm._v(" "), _c('div', {
     staticClass: "box-item"
-  }, [_c('label', [_vm._v("答案")]), _vm._v(" "), _c('textarea', {
+  }, [_c('label', [_vm._v("正确答案")]), _vm._v(" "), _c('div', {
+    staticClass: "select"
+  }, [_c('select', {
     directives: [{
       name: "model",
       rawName: "v-model",
       value: (_vm.questionData.answer),
       expression: "questionData.answer"
     }],
-    staticClass: "textarea",
-    attrs: {
-      "type": "number"
-    },
-    domProps: {
-      "value": (_vm.questionData.answer)
-    },
     on: {
-      "input": function($event) {
-        if ($event.target.composing) { return; }
-        _vm.$set(_vm.questionData, "answer", $event.target.value)
+      "change": function($event) {
+        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+          return o.selected
+        }).map(function(o) {
+          var val = "_value" in o ? o._value : o.value;
+          return val
+        });
+        _vm.$set(_vm.questionData, "answer", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
       }
     }
-  })]), _vm._v(" "), _c('div', {
+  }, [_c('option', {
+    attrs: {
+      "value": "A"
+    }
+  }, [_vm._v("A")]), _vm._v(" "), _c('option', {
+    attrs: {
+      "value": "B"
+    }
+  }, [_vm._v("B")]), _vm._v(" "), _c('option', {
+    attrs: {
+      "value": "C"
+    }
+  }, [_vm._v("C")]), _vm._v(" "), _c('option', {
+    attrs: {
+      "value": "D"
+    }
+  }, [_vm._v("D")])])])]), _vm._v(" "), _c('div', {
     staticClass: "box-item"
   }, [_c('label', [_vm._v("答案备注")]), _vm._v(" "), _c('textarea', {
     directives: [{
@@ -70812,27 +71005,31 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   })]), _vm._v(" "), _c('div', {
     staticClass: "box-item"
-  }, [_c('label', [_vm._v("问题类型")]), _vm._v(" "), _c('input', {
+  }, [_c('label', [_vm._v("问题类型")]), _vm._v(" "), _c('div', {
+    staticClass: "select"
+  }, [_c('select', {
     directives: [{
       name: "model",
       rawName: "v-model",
       value: (_vm.chapterData.question_type),
       expression: "chapterData.question_type"
     }],
-    staticClass: "input",
-    attrs: {
-      "type": "text"
-    },
-    domProps: {
-      "value": (_vm.chapterData.question_type)
-    },
     on: {
-      "input": function($event) {
-        if ($event.target.composing) { return; }
-        _vm.$set(_vm.chapterData, "question_type", $event.target.value)
+      "change": function($event) {
+        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+          return o.selected
+        }).map(function(o) {
+          var val = "_value" in o ? o._value : o.value;
+          return val
+        });
+        _vm.$set(_vm.chapterData, "question_type", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
       }
     }
-  })]), _vm._v(" "), _c('div', {
+  }, [_c('option', {
+    attrs: {
+      "value": "SINGLE_CHOICE"
+    }
+  }, [_vm._v("单选")])])])]), _vm._v(" "), _c('div', {
     staticClass: "box-item"
   }, [_c('label', [_vm._v("涉及到的问题")]), _vm._v(" "), _c('input', {
     directives: [{
@@ -71323,14 +71520,14 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_c('router-link', {
     staticClass: "navbar-item",
     attrs: {
-      "to": "/examinationPaper"
-    }
-  }, [_vm._v("试卷")]), _vm._v(" "), _c('router-link', {
-    staticClass: "navbar-item",
-    attrs: {
       "to": "/test"
     }
   }, [_vm._v("考试")]), _vm._v(" "), _c('router-link', {
+    staticClass: "navbar-item",
+    attrs: {
+      "to": "/examinationPaper"
+    }
+  }, [_vm._v("试卷")]), _vm._v(" "), _c('router-link', {
     staticClass: "navbar-item",
     attrs: {
       "to": "/question"
@@ -74655,13 +74852,13 @@ var content = __webpack_require__(269);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(3)("1b2f748d", content, false);
+var update = __webpack_require__(3)("11ce4750", content, false);
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
  if(!content.locals) {
-   module.hot.accept("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-2bc3df00!../../../../../node_modules/sass-loader/lib/loader.js!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./SingleChoice.vue", function() {
-     var newContent = require("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-2bc3df00!../../../../../node_modules/sass-loader/lib/loader.js!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./SingleChoice.vue");
+   module.hot.accept("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-2bc3df00&scoped=true!../../../../../node_modules/sass-loader/lib/loader.js!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./SingleChoice.vue", function() {
+     var newContent = require("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-2bc3df00&scoped=true!../../../../../node_modules/sass-loader/lib/loader.js!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./SingleChoice.vue");
      if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
      update(newContent);
    });
@@ -74759,13 +74956,13 @@ var content = __webpack_require__(273);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(3)("6b789804", content, false);
+var update = __webpack_require__(3)("7540bbe2", content, false);
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
  if(!content.locals) {
-   module.hot.accept("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-33726f87!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./EditQuestion.vue", function() {
-     var newContent = require("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-33726f87!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./EditQuestion.vue");
+   module.hot.accept("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-33726f87&scoped=true!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./EditQuestion.vue", function() {
+     var newContent = require("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-33726f87&scoped=true!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./EditQuestion.vue");
      if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
      update(newContent);
    });
@@ -75669,13 +75866,13 @@ var content = __webpack_require__(308);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(3)("ce87ecd2", content, false);
+var update = __webpack_require__(3)("044f55a8", content, false);
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
  if(!content.locals) {
-   module.hot.accept("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-7ceb7600!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./AddQuestion.vue", function() {
-     var newContent = require("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-7ceb7600!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./AddQuestion.vue");
+   module.hot.accept("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-7ceb7600&scoped=true!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./AddQuestion.vue", function() {
+     var newContent = require("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-7ceb7600&scoped=true!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./AddQuestion.vue");
      if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
      update(newContent);
    });

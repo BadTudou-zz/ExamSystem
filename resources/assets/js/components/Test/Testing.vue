@@ -15,6 +15,8 @@
 
       <single-choice ref="singleChoice"
                      v-bind:current-question-data="currentQuestionData"
+                     v-model="singleChoiceAnwser"
+
       ></single-choice>
 
     </div>
@@ -35,6 +37,7 @@ export default {
        temporaryQuestionIds: [],
        isLoading: true,
        currentQuestionData: null,
+       singleChoiceAnwser: null,
     }
   },
   components: {
@@ -111,7 +114,6 @@ export default {
         if (totalLength === currentLength + 1) {
           that.isLoading = false;
           that.currentQuestionData = that.questionData;
-          // debugger
         }
 
       }).catch(err => {
@@ -127,10 +129,50 @@ export default {
     quitTest: function () {
       const that = this;
     },
+    mergeAnswerJson: function () {
+      const that = this;
+      var o1 = { a: 1 };
+      var o2 = { b: 2 };
+      var o3 = { c: 3, e: 4 };
+
+      var obj = Object.assign(o1, o2, o3);
+      console.log(obj); // { a: 1, b: 2, c: 3 }
+      console.log(o1);  // { a: 1, b: 2, c: 3 }, 注意目标对象自身也会改变。
+    },
+    submitAnswer: function () {
+      const that = this;
+      let id = that.examId;
+      let answers = '';
+      axios({
+        method: 'post',
+        url: `${this.GLOBAL.localDomain}/api/v1/exams/${id}/answer/`,
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': that.token
+        },
+        data: {
+          'answers': answers
+        }
+      }).then(res => {
+        alert('已结束');
+      }).catch(err => {
+        let errMsg = err.response.data.error;
+        if (errMsg) {
+          alert(errMsg);
+        }
+        else {
+          alert('结束失败，请稍后再试');
+        }
+        console.log(err)
+      })
+    },
     stopTest: function () {
       const that = this;
       let id = that.examId;
-      alert('已结束');
+
+      console.log(that.singleChoiceAnwser)
+
+      // alert('已结束');
       // axios({
       //   method: 'post',
       //   url: `${this.GLOBAL.localDomain}/api/v1/exams/${id}/stop`,
@@ -177,10 +219,10 @@ export default {
       //   that.searchQuestion(questionId);
       // }
     },
-    // questionData: function (value, oldValue) {
-    //   const that = this;
-    //   console.log('questionData数据变更');
-    // },
+    singleChoiceAnwser: function (value, oldValue) {
+      const that = this;
+      console.log(value)
+    }
 
   }
 }
