@@ -80,6 +80,13 @@ class ExamController extends Controller
     {
         $user = Auth::user();
         $exam = $user->exams()->where('exam_id', $id)->first();
+        if (!$exam->begin_at || !$exam->start_at || $exam->begin_at < Carbon::now()) {
+            return response()->json(['error'=>'考试还未开始，请耐心等待！'], 400);
+        }
+
+        if ($exam->finish_at) {
+            return response()->json(['error'=>'考试已经结束，不能提交答案！'], 400);
+        }
         $answersSaved = json_decode($exam->pivot->answers);
         $answersNew = json_decode($request->answers);
         $answers = array_merge((array)$answersSaved, (array)$answersNew);
@@ -170,6 +177,22 @@ class ExamController extends Controller
         }
 
         CorrecExam::dispatch($exam);
+    }
+
+    //查看分数
+    public function score(BeginExam $request, $id)
+    {
+        $user = Auth::user();
+        $exam = $user->exams()->where('exam_id', $id)->first();
+
+        if (!$exam->begin_at) {
+            return response()->json(['error'=>'考试未开始，不能查看！'], 400);
+        }
+
+        if (!$exam->finish_at) {
+            return response()->json(['error'=>'考试未结束，不能查看！'], 400);
+        }
+       return response($exam->pivot);
     }
 
 }

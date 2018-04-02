@@ -10,7 +10,7 @@ class Exam extends Model
 
     public function users()
     {
-        return $this->belongsToMany('App\User', 'exam_user', 'user_id', 'exam_id')->withTimestamps()->withPivot(['user_id', 'answers', 'score', 'begin_at', 'finish_at', 'correct_at'])->wherePivot('exam_id', $this->id);
+        return $this->belongsToMany('App\User', 'exam_user', 'exam_id', 'user_id')->withTimestamps()->withPivot(['user_id', 'answers', 'score', 'begin_at', 'finish_at', 'correct_at'])->wherePivot('exam_id', $this->id);
     }
 
     public function paper()
