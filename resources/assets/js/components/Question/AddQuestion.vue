@@ -31,18 +31,40 @@
         </div>
 
         <div class="box-item">
-          <label>问题标题</label>
+          <label>问题</label>
           <input v-model="questionData.title" class="input" type="text">
         </div>
 
         <div class="box-item">
-          <label>问题内容</label>
-          <textarea v-model="questionData.body" class="textarea" type="text"></textarea>
+          <label>所给选项</label>
+          <div class="options-box">
+            <label>A.</label>
+            <input v-model="options[0]" class="input" type="text">
+          </div>
+          <div class="options-box">
+            <label>B.</label>
+            <input v-model="options[1]" class="input" type="text">
+          </div>
+          <div class="options-box">
+            <label>C.</label>
+            <input v-model="options[2]" class="input" type="text">
+          </div>
+          <div class="options-box">
+            <label>D.</label>
+            <input v-model="options[3]" class="input" type="text">
+          </div>
         </div>
 
         <div class="box-item">
-          <label>答案</label>
-          <textarea v-model="questionData.answer" class="textarea" type="number"></textarea>
+          <label>正确答案</label>
+          <div class="select">
+            <select v-model="questionData.answer">
+              <option value='A'>A</option>
+              <option value="B">B</option>
+              <option value="C">C</option>
+              <option value="D">D</option>
+            </select>
+          </div>
         </div>
 
         <div class="box-item">
@@ -73,6 +95,7 @@ export default {
         answer_comment: null,
       },
       token: null,
+      options: [],
     }
   },
   components: {
@@ -88,11 +111,28 @@ export default {
       that.questionData.level_type = 'EASY';
       that.questionData.title = '';
       that.questionData.body = '';
-      that.questionData.nswer = '';
-      that.questionData.nswer_comment = '';
+      that.questionData.answer = '';
+      that.questionData.answer_comment = '';
+
+      that.options = [];
+    },
+    getAnswerOptions: function () {
+      const that = this;
+      let answer_body = '';
+      for (let i = 0; i < that.options.length; i++) {
+        if (i !== that.options.length - 1) {
+          answer_body += that.options[i] + ' '
+        }
+        else {
+          answer_body += that.options[i];
+        }
+      }
+      return answer_body;
     },
     addQuestion: function () {
       const that = this;
+
+      let body = that.getAnswerOptions();
 
       axios({
         method: 'post',
@@ -105,7 +145,7 @@ export default {
           question_type: that.questionData.question_type,
           level_type: that.questionData.level_type,
           title: that.questionData.title,
-          body: that.questionData.body,
+          body: body,
           answer: that.questionData.answer,
           answer_comment: that.questionData.answer_comment,
         }
@@ -123,10 +163,26 @@ export default {
   },
   created() {
     this.token = sessionStorage.getItem('token');
+  },
+  watch: {
+    options: function (value, oldValue) {
+      const that = this;
+      // console.log(value)
+    }
   }
 }
 </script>
 
 
-<style>
+<style scoped>
+.options-box {
+  margin: 20px 0 15px 0;
+}
+.options-box label {
+  display: inline-block;
+  width: 30px;
+}
+.options-box input {
+  width: 500px;
+}
 </style>

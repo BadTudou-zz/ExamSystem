@@ -25,7 +25,11 @@
         </div>
         <div class="box-item">
           <label>问题类型</label>
-          <input v-model="chapterData.question_type" class="input" type="text">
+          <div class="select">
+            <select v-model="chapterData.question_type">
+              <option value='SINGLE_CHOICE'>单选</option>
+            </select>
+          </div>
         </div>
         <div class="box-item">
           <label>涉及到的问题</label>

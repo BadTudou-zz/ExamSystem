@@ -170,7 +170,7 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .message {
   margin: 35px auto 0 auto;
 }
