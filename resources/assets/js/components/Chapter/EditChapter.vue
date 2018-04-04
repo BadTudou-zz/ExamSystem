@@ -92,7 +92,7 @@ export default {
           score: that.currentChapterData.score,
           number: that.currentChapterData.number,
           describe: that.currentChapterData.describe,
-          question_type: that.currentChapterData.question_type
+          question_type: that.currentChapterData.question_type,
         }
       }).then(res => {
         alert('编辑成功');

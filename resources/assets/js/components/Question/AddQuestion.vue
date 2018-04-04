@@ -13,9 +13,9 @@
             <select v-model="questionData.question_type">
               <option value="SINGLE_CHOICE">单选</option>
               <option value="MULTIPLE_CHOICE">多选</option>
-              <option value="TRUE_FALSE">判断</option>
-              <option value="FILL_IN">填空</option>
-              <option value="SHORT_ANSWER">简答</option>
+              <option disabled value="TRUE_FALSE">判断</option>
+              <option disabled value="FILL_IN">填空</option>
+              <option disabled value="SHORT_ANSWER">简答</option>
             </select>
           </div>
         </div>
@@ -35,6 +35,7 @@
           <input v-model="questionData.title" class="input" type="text">
         </div>
 
+        <!-- 单选、多选 -->
         <div class="box-item">
           <label>所给选项</label>
           <div class="options-box">
@@ -55,15 +56,22 @@
           </div>
         </div>
 
+
+
+        <!-- 正确答案 -->
         <div class="box-item">
           <label>正确答案</label>
-          <div class="select">
+          <div v-show="questionData.question_type ==='SINGLE_CHOICE'" class="select">
             <select v-model="questionData.answer">
               <option value='A'>A</option>
               <option value="B">B</option>
               <option value="C">C</option>
               <option value="D">D</option>
             </select>
+          </div>
+
+          <div v-show="questionData.question_type ==='MULTIPLE_CHOICE'">
+            <input v-model="questionData.answer" class="input" type="text" placeholder="请用英文逗号将多个答案隔开">
           </div>
         </div>
 
@@ -133,7 +141,7 @@ export default {
       const that = this;
 
       let body = that.getAnswerOptions();
-
+      // ?? 备注必填
       axios({
         method: 'post',
         url: `${this.GLOBAL.localDomain}/api/v1/questions/`,
@@ -165,10 +173,6 @@ export default {
     this.token = sessionStorage.getItem('token');
   },
   watch: {
-    options: function (value, oldValue) {
-      const that = this;
-      // console.log(value)
-    }
   }
 }
 </script>

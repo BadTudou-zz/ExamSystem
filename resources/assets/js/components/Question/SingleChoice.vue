@@ -1,8 +1,9 @@
 <!-- 单选 -->
 <template lang="html">
   <div>
-
-    <div class="message">
+    稍等1
+    <div v-show="showSingleChoice" class="message">
+      稍等2
       <div  v-for="(item,index) in singleChoiceData" class="message box">
         <div class="notification">
           <div class="operate-box">
@@ -49,6 +50,7 @@ export default {
        singleChoiceData: [],
        answers: [],
        answersJson: {},
+       showSingleChoice: false,
     }
   },
   components: {
@@ -62,7 +64,6 @@ export default {
     getOptionsString: function (value) {
       const that = this;
       let arr = value.split(' ');
-      // debugger
       let alphabet = ['A','B','C','D','E','F','G','H','I'];
       let str = '';
       for (let i = 0; i < arr.length; i++) {
@@ -79,6 +80,9 @@ export default {
           that.singleChoiceData.push(data[i]);
         }
       }
+      that.showSingleChoice = true;
+      console.log('filter函数')
+      console.log(that.singleChoiceData)
     },
     selectChange: function (index) {
       const that = this;
@@ -100,11 +104,14 @@ export default {
     },
     deleteQuestion: function (index) {
       const that = this;
-      that.$emit('deleteQuestion', index);  //第一个参数名为调用的方法名，第二个参数为需要传递的参数
+      let questionId = that.singleChoiceData[index]['id'];
+
+      that.$emit('deleteQuestion', null,questionId);  //第一个参数名为调用的方法名，第二个参数为需要传递的参数
     },
     editQuestion: function (index) {
       const that = this;
-      that.$emit('editQuestion', index);  //第一个参数名为调用的方法名，第二个参数为需要传递的参数
+      let editData = that.singleChoiceData[index];
+      that.$emit('editQuestion', null, editData);  //第一个参数名为调用的方法名，第二个参数为需要传递的参数
     }
   },
   computed: {
@@ -119,6 +126,8 @@ export default {
     // },
     currentQuestionData: function (value, oldValue) {
       const that = this;
+      console.log('SingleChoice收到数据')
+      console.log(value)
       that.filter(value);
     },
   }
