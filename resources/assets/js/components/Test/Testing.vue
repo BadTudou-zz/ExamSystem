@@ -38,6 +38,7 @@ export default {
        isLoading: true,
        currentQuestionData: null,
        singleChoiceAnwser: null,
+       questionIdsArray: [],
     }
   },
   components: {
@@ -71,10 +72,11 @@ export default {
       const that = this;
       that.questionIds = [];
     },
+    // 通过章节ID数组找到所有章节下面的问题
     searchChapter: function (chapterId) {
       const that = this;
       let paperId = that.paperId;
-      let questionIdsArray = [];
+      // let questionIdsArray = [];
       axios({
         method: 'get',
         url: `${this.GLOBAL.localDomain}/api/v1/papers/${paperId}/sections/${chapterId}`,
@@ -84,13 +86,12 @@ export default {
         }
       }).then(res => {
 
-        let questionIds = res.data.data.questions;
-        questionIdsArray = questionIds.split(',')
+        that.questionIds = res.data.data.questions;
+        that.questionIdsArray = that.questionIds.split(',')
 
-        for (let i = 0; i < questionIdsArray.length; i++) {
-          // if (questionIds[i] === ',') return;
-          let questionId = questionIdsArray[i];
-          that.searchQuestion(questionId, questionIdsArray.length, i);
+        for (let i = 0; i < that.questionIdsArray.length; i++) {
+          let questionId = that.questionIdsArray[i];
+          that.searchQuestion(questionId, that.questionIdsArray.length, i);
         }
 
       }).catch(err => {
@@ -193,6 +194,14 @@ export default {
       //   console.log(err)
       // })
     },
+    fn: function (value) {
+      const that = this;
+      for (let i = 0; i < value.length; i++) {
+        let chapterId = value[i];
+        that.searchChapter(chapterId);
+
+      }
+    },
   },
   computed: {
   },
@@ -210,20 +219,10 @@ export default {
         let chapterId = value[i];
         that.searchChapter(chapterId);
       }
-    },
-    questionIds: function (value, oldValue) {
-      const that = this;
-      // console.log(value)
-      // for (let i = 0; i < value.length; i++) {
-      //   let questionId = value[i];
-      //   that.searchQuestion(questionId);
-      // }
-    },
-    singleChoiceAnwser: function (value, oldValue) {
-      const that = this;
-      console.log(value)
-    }
 
+      // axios.all([fn()])
+      // .then(axios.spread());
+    },
   }
 }
 </script>

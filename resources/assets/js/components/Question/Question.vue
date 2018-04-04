@@ -9,12 +9,19 @@
         <button @click="addQuestion()" class="button add-role-button" type="button" name="button">添加问题</button>
     </div>
 
+    <!-- 单选 -->
     <single-choice ref="singleChoice"
                    v-bind:current-question-data="questionData"
                    v-on:deleteQuestion="deleteQuestion"
                    v-on:editQuestion="editQuestion"
     ></single-choice>
 
+    <!-- 多选 -->
+    <multiple-choice ref="multipleChoice"
+                     v-bind:current-question-data="questionData"
+                     v-on:deleteQuestion="deleteQuestion"
+                     v-on:editQuestion="editQuestion"
+    ></multiple-choice>
 
     <add-question ref="addQuestion"
                   v-on:getQuestion="getQuestion"
@@ -36,6 +43,7 @@ import Pagination from './../Pagination'
 import AddQuestion from './AddQuestion'
 import EditQuestion from './EditQuestion'
 import SingleChoice from './SingleChoice'
+import MultipleChoice from './MultipleChoice'
 
 export default {
   data() {
@@ -54,15 +62,22 @@ export default {
     EditQuestion,
     Pagination,
     SingleChoice,
+    MultipleChoice,
   },
   methods: {
     showModal: function () {
       const that = this;
       that.isShowModal = !that.isShowModal;
     },
-    deleteQuestion: function (index) {
+    deleteQuestion: function (index, questionId) {
       const that = this;
-      let id = that.questionData[index]['id'];
+      let id;
+      if (questionId) {
+        id = questionId;
+      }
+      else {
+        id = that.questionData[index]['id'];
+      }
       let prompt = confirm("确认删除该问题吗？");
       if (prompt) {
         axios({
@@ -101,10 +116,15 @@ export default {
       const that = this;
       that.$refs.addQuestion.switchModal();
     },
-    editQuestion: function (index) {
+    editQuestion: function (index, editData) {
       const that = this;
-      that.editData = that.questionData[index];
-      that.$refs.editQuestion.switchModal();
+      if (editData) {
+        that.editData = editData;
+      }
+      else {
+        that.editData = that.questionData[index];
+      }
+      // that.$refs.editQuestion.switchModal();
     },
     searchQuestion: function () {
       const that = this;

@@ -1,170 +1,136 @@
 <!-- 多选 -->
 <template lang="html">
-  <div class="box">
-    <div>
-      <div class="search-box">
-        <input v-model="searchKey" class="input search-input" type="text" placeholder="请输入你要查看的问题的id">
-        <button @click="searchQuestion()" class="button" type="button" name="button">查找问题</button>
-      </div>
-        <button @click="addQuestion()" class="button add-role-button" type="button" name="button">添加问题</button>
-    </div>
+  <div>
 
-    <div  v-for="(item,index) in questionData" class="message box">
-      <div class="notification">
-        <div class="operate-box">
-          <button @click="deleteQuestion(index)" class="delete"></button>
-          <button @click="editQuestion(index)" class="button edit-question" type="button" name="button">编辑问题</button>
+    <div class="message">
+      <div  v-for="(item,index) in multipleChoiceData" class="message box">
+        <div class="notification">
+          <div class="operate-box">
+            <button @click="deleteQuestion(index)" class="delete"></button>
+            <button @click="editQuestion(index)" class="button edit-question" type="button" name="button">编辑问题</button>
+          </div>
+          <p class="detail">        id：{{ item.id }}
+            &nbsp;&nbsp;&nbsp;&nbsp; 类型： 多选
+            &nbsp;&nbsp;&nbsp;&nbsp; 难度：{{ item.level_type }}
+          </p>
+          <div class="question">问题描述{{ item.title }}</div>
+          <div class="question">选项：{{ getOptionsString(item.body) }}</div>
+          <div class="options">正确答案：{{ item.answer }}</div>
+          <p class="time">{{item.created_at}}</p>
         </div>
-        <p class="question">        问题id：{{ item.id }}
-          &nbsp;&nbsp;&nbsp;&nbsp; 问题题目：{{ item.title }}
-          &nbsp;&nbsp;&nbsp;&nbsp; 问题类型：{{ item.question_type }}
-          &nbsp;&nbsp;&nbsp;&nbsp; 难易程度：{{ item.level_type }}
-        </p>
-        {{ item.body }}
-        <p class="time">{{item.created_at}}</p>
+        <!-- <div>
+          <p>备注：{{ item.answer_comment }}</p>
+        </div> -->
+
+        <div class="answer">
+          作答：
+          <!-- <div class="select">
+            <select v-model="answers[index]" @change="selectChange(index)">
+              <option value='A'>A</option>
+              <option value="B">B</option>
+              <option value="C">C</option>
+              <option value="D">D</option>
+            </select>
+          </div> -->
+          <label class="checkbox multiple-choice">
+            <input v-model="answers[index]"  type="checkbox">A
+            <input v-model="answers[index]"  type="checkbox">B
+            <input v-model="answers[index]"  type="checkbox">C
+            <input v-model="answers[index]"  type="checkbox">D
+          </label>
+        </div>
       </div>
-      <div class="answer">
-        <p>回复：{{ item.answer_comment }}</p>
-      </div>
+
     </div>
 
-    <add-question ref="addQuestion"
-                  v-on:getQuestion="getQuestion"
-    ></add-question>
-
-    <edit-question ref="editQuestion"
-                   v-on:getQuestion="getQuestion"
-                   v-bind:edit-data="editData"
-    ></edit-question>
-
-    <pagination v-bind:pagination-data="paginationData"
-                v-model="data"
-    ></pagination>
   </div>
 </template>
 
 <script>
-import Pagination from './../Pagination'
-import AddQuestion from './AddQuestion'
-import EditQuestion from './EditQuestion'
 
 export default {
   data() {
     return {
-       isShowModal: false,
-       questionData: null,
        token: null,
-       editData: null,
-       paginationData: null,
-       data: null,
-       searchKey: null,
+       multipleChoiceData: [],
+       answers: [],
+       answersJson: {},
     }
   },
   components: {
-    AddQuestion,
-    EditQuestion,
-    Pagination,
   },
+  props: [
+    'item',
+    // 'questionData',
+    'currentQuestionData',
+  ],
   methods: {
-    showModal: function () {
+    getOptionsString: function (value) {
       const that = this;
-      that.isShowModal = !that.isShowModal;
+      let arr = value.split(' ');
+      let alphabet = ['A','B','C','D','E','F','G','H','I'];
+      let str = '';
+      for (let i = 0; i < arr.length; i++) {
+        str += alphabet[i] + '.' + arr[i] + '   ';
+      }
+      return str;
+    },
+    // 筛选单选问题
+    filter: function (data) {
+      const that = this;
+      that.multipleChoiceData = [];
+      for (let i = 0; i < data.length; i++) {
+        if (data[i].question_type === 'MULTIPLE_CHOICE') {
+          that.multipleChoiceData.push(data[i]);
+        }
+      }
+    },
+    selectChange: function (index) {
+      const that = this;
+      let id = `"${that.currentQuestionData[index]['id']}"`;
+      let answer = that.answers[index];
+      that.answersJson[id] = answer;
+      that.$emit('input', that.answersJson);  //第一个参数名为调用的方法名，第二个参数为需要传递的参数
+
+      // console.log(that.answersJson)
+    },
+    computedRadio: function (value) {
+      const that = this;
+      if (value.indexOf("\n") > 0 ) {
+        return "有";
+      }
+      else {
+        return '无';
+      }
     },
     deleteQuestion: function (index) {
       const that = this;
-      let id = that.questionData[index]['id'];
-      let prompt = confirm("确认删除该问题吗？");
-      if (prompt) {
-        axios({
-          method: 'delete',
-          url: `${this.GLOBAL.localDomain}/api/v1/questions/${id}`,
-          headers: {
-            'Accept': 'application/json',
-            'Authorization': that.token
-          }
-        }).then(res => {
-          alert('删除成功');
-          that.getQuestion();
-        }).catch(err => {
-          alert('删除失败');
-          console.log(err)
-        })
-      }
-    },
-    getQuestion: function () {
-      const that = this;
-      axios({
-        method: 'get',
-        url: `${this.GLOBAL.localDomain}/api/v1/questions`,
-        headers: {
-          'Accept': 'application/json',
-          'Authorization': that.token
-        }
-      }).then(res => {
-        that.questionData = res.data.data;
-        that.paginationData = res.data.links;
-      }).catch(err => {
-        console.log(err)
-      })
-    },
-    addQuestion: function () {
-      const that = this;
-      that.$refs.addQuestion.switchModal();
+      console.log('删除多选');
+      let questionId = that.multipleChoiceData[index]['id'];
+      that.$emit('deleteQuestion', null, questionId);  //第一个参数名为调用的方法名，第二个参数为需要传递的参数
     },
     editQuestion: function (index) {
       const that = this;
-      that.editData = that.questionData[index];
-      that.$refs.editQuestion.switchModal();
-    },
-    searchQuestion: function () {
-      const that = this;
-      let id = that.searchKey;
-      if (!id) {
-        alert('没有找到相关数据，已为你显示全部数据');
-        that.getQuestion();
-        return;
-      }
-      axios({
-        method: 'get',
-        url: `${this.GLOBAL.localDomain}/api/v1/questions/${id}`,
-        headers: {
-          'Accept': 'application/json',
-          'Authorization': that.token
-        }
-      }).then(res => {
-        that.questionData = [];
-        that.questionData.push(res.data.data)
-        // that.questionData = res.data.data;
-      }).catch(err => {
-        alert('查找出错');
-        that.getQuestion();
-        console.log(err);
-      })
+      let editData = that.multipleChoiceData[index];
+      that.$emit('editQuestion', null, editData);  //第一个参数名为调用的方法名，第二个参数为需要传递的参数
     }
   },
   computed: {
-    isShowCreateQuestion() {
-      return this.$store.state.permissionIdList.includes(34);
-    },
-    isShowSearchQuestion() {
-      return this.$store.state.permissionIdList.includes(35);
-    },
-    isShowUpdateQuestion() {
-      return this.$store.state.permissionIdList.includes(36);
-    },
-    isShowDeleteQuestion() {
-      return this.$store.state.permissionIdList.includes(37);
-    },
   },
   created() {
     this.token = sessionStorage.getItem('token');
-    this.getQuestion();
   },
   watch: {
-    data:function (value, oldValue) {
+    // questionData: function (value, oldValue) {
+    //   const that = this;
+    //   that.filter(value);
+    // },
+    currentQuestionData: function (value, oldValue) {
       const that = this;
-      that.questionData = value.data;
-      that.paginationData = value.links;
+      that.filter(value);
+    },
+    answers: function (value, oldValue) {
+      const that = this;
     }
   }
 }
@@ -173,30 +139,6 @@ export default {
 <style lang="scss" scoped>
 .message {
   margin: 35px auto 0 auto;
-}
-.search-input {
-  width: 250px;
-  display: inline-block;
-  margin-right: 10px;
-}
-.search-box {
-  padding-right: 20px;
-  display: inline-block;
-  border-right: 1px solid #dedede;
-}
-.add-role-button {
-  margin-left: 20px;
-}
-.box-item {
-  margin-bottom: 20px;
-  input  {
-    display: inline-block;
-    width: 300px;
-  }
-  label {
-    display: inline-block;
-    width: 130px;
-  }
 }
 .message {
   .notification {
@@ -209,12 +151,18 @@ export default {
   padding-bottom: 20px;
   border-bottom: 1px solid #dedede;
 }
-.question {
+.detail {
   text-align: left;
   margin-bottom: 10px;
 }
 .answer {
-  margin-left: 50px;
+  margin-top: 20px;
+}
+.answer input {
+  width: 35px;
+}
+.options {
+  margin-top: 30px;
 }
 .edit-question {
   float: right;
@@ -226,5 +174,8 @@ export default {
 .delete {
   float: right;
   margin-left: 20px;
+}
+.multiple-choice {
+  width: 200px;
 }
 </style>

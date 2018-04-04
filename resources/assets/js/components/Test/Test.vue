@@ -42,7 +42,6 @@
               <button @click="deleteTest(index)" class="button" type="button" name="button">删除</button>
               <button @click="editTest(index)" class="button" type="button" name="button">编辑</button>
               <button @click="startTest(index)" class="button" type="button" name="button">开始</button>
-              <!-- <button @click="stopTest(index)" class="button" type="button" name="button">结束</button> -->
               <button @click="gradingPapers(index)" class="button" type="button" name="button">批改</button>
             </td>
           </tr>
@@ -206,46 +205,6 @@ export default {
       //   }
       //   console.log(err)
       // })
-
-      // ?? user-start test not work!
-      // let userId = sessionStorage.getItem('userId');
-      // debugger
-      // axios({
-      //   method: 'post',
-      //   url: `${this.GLOBAL.localDomain}/api/v1/exams/${userId}/begin`,
-      //   headers: {
-      //     'Accept': 'application/json',
-      //     'Authorization': that.token
-      //   }
-      // }).then(res => {
-      //   alert('已开始');
-      // }).catch(err => {
-      //   alert('开始失败，请稍后再试')
-      //   console.log(err)
-      // })
-    },
-    stopTest: function (index) {
-      const that = this;
-      let id = that.testData[index].id;
-      axios({
-        method: 'post',
-        url: `${this.GLOBAL.localDomain}/api/v1/exams/${id}/stop`,
-        headers: {
-          'Accept': 'application/json',
-          'Authorization': that.token
-        }
-      }).then(res => {
-        alert('已结束');
-      }).catch(err => {
-        let errMsg = err.response.data.error;
-        if (errMsg) {
-          alert(errMsg);
-        }
-        else {
-          alert('结束失败，请稍后再试');
-        }
-        console.log(err)
-      })
     },
     gradingPapers: function (index) {
       const that = this;

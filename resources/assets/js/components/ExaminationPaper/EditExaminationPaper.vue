@@ -3,7 +3,7 @@
     <div class="modal-background"></div>
     <div class="modal-card">
       <header class="modal-card-head">
-        <p class="modal-card-title">编辑章节</p>
+        <p class="modal-card-title">编辑试卷</p>
         <button @click="switchModal()" class="delete" aria-label="close"></button>
       </header>
       <section class="modal-card-body">
