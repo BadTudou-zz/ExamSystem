@@ -3,6 +3,7 @@
   <div>
 
     <div class="message">
+
       <div  v-for="(item,index) in multipleChoiceData" class="message box">
         <div class="notification">
           <div class="operate-box">
@@ -14,7 +15,7 @@
             &nbsp;&nbsp;&nbsp;&nbsp; 难度：{{ item.level_type }}
           </p>
           <div class="question">问题描述{{ item.title }}</div>
-          <div class="question">选项：{{ getOptionsString(item.body) }}</div>
+          <div class="question">选项：{{ item.body }}</div>
           <div class="options">正确答案：{{ item.answer }}</div>
           <p class="time">{{item.created_at}}</p>
         </div>

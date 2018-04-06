@@ -35332,6 +35332,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -35431,6 +35432,48 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__SingleChoice___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__SingleChoice__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__MultipleChoice__ = __webpack_require__(376);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__MultipleChoice___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__MultipleChoice__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -35733,7 +35776,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   watch: {
     data: function data(value, oldValue) {
       var that = this;
-      debugger;
       that.singleChoiceData = that.uniqData(value);
 
       if (value.length !== 0) {
@@ -38098,6 +38140,52 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -38111,9 +38199,9 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
       questionIds: [],
       temporaryQuestionIds: [], // 临时存储
       currentQuestionData: [],
-      temporaryQuestionData: [], // 临时存储
-      singleChoiceData: [],
-      multipleChoiceData: []
+      temporaryQuestionData: [] // 临时存储
+      // singleChoiceData: [],
+      // multipleChoiceData: [],
     };
   },
 
@@ -38195,7 +38283,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
         if (currentLength + 1 === totalLength) {
           console.log('currentLength: ' + currentLength);
           console.log('totalLength: ' + totalLength);
-          that.questionData = that.temporaryQuestionData;
+          that.questionData = that.uniqData(that.temporaryQuestionData);
         }
       }).catch(function (err) {
         // alert('查找出错');
@@ -38310,25 +38398,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
         }
         uniqData.push(value[i]);
       }
-      // debugger
       return uniqData;
-    },
-    // 问题分类
-    questionClassification: function questionClassification(allQuestionData) {
-      var that = this;
-      // let data = that.uniqData(allQuestionData);
-      var data = allQuestionData;
-      for (var i = 0; i < data.length; i++) {
-
-        switch (data[i]['question_type']) {
-          case 'SINGLE_CHOICE':
-            that.singleChoiceData.push(data[i]);
-            break;
-          case 'MULTIPLE_CHOICE':
-            that.multipleChoiceData.push(data[i]);
-            break;
-        }
-      }
     }
   },
   computed: {},
@@ -38354,11 +38424,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
     },
     questionData: function questionData(value, oldValue) {
       var that = this;
-
-      that.questionClassification(value);
-      // if (that.singleChoiceData.length !== 0) {
       that.isLoading = false;
-      // }
     }
   }
 });
@@ -43453,7 +43519,7 @@ exports.push([module.i, "\ntable {\n  margin: 35px auto 0 auto;\n}\n.search-inpu
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(2)();
-exports.push([module.i, "\n.message[data-v-16a7b3dd] {\n  margin: 35px auto 0 auto;\n}\n.search-input[data-v-16a7b3dd] {\n  width: 250px;\n  display: inline-block;\n  margin-right: 10px;\n}\n.search-box[data-v-16a7b3dd] {\n  padding-right: 20px;\n  display: inline-block;\n  border-right: 1px solid #dedede;\n}\n.add-role-button[data-v-16a7b3dd] {\n  margin-left: 20px;\n}\n.box-item[data-v-16a7b3dd] {\n  margin-bottom: 20px;\n}\n.box-item input[data-v-16a7b3dd] {\n    display: inline-block;\n    width: 300px;\n}\n.box-item label[data-v-16a7b3dd] {\n    display: inline-block;\n    width: 130px;\n}\n.message .notification[data-v-16a7b3dd] {\n  margin: 0;\n}\n.notification .time[data-v-16a7b3dd] {\n  margin-top: 25px;\n  text-align: right;\n  padding-bottom: 20px;\n  border-bottom: 1px solid #dedede;\n}\n.question[data-v-16a7b3dd] {\n  text-align: left;\n  margin-bottom: 10px;\n}\n.edit-question[data-v-16a7b3dd] {\n  float: right;\n}\n.operate-box[data-v-16a7b3dd] {\n  height: 40px;\n  line-height: 40px;\n}\n.delete[data-v-16a7b3dd] {\n  float: right;\n  margin-left: 20px;\n}\n.answer[data-v-16a7b3dd] {\n  margin-left: 24px;\n}\n", ""]);
+exports.push([module.i, "\n.message[data-v-16a7b3dd] {\n  margin: 35px auto 0 auto;\n}\n.search-input[data-v-16a7b3dd] {\n  width: 250px;\n  display: inline-block;\n  margin-right: 10px;\n}\n.search-box[data-v-16a7b3dd] {\n  padding-right: 20px;\n  display: inline-block;\n  border-right: 1px solid #dedede;\n}\n.add-role-button[data-v-16a7b3dd] {\n  margin-left: 20px;\n}\n.box-item[data-v-16a7b3dd] {\n  margin-bottom: 20px;\n}\n.box-item input[data-v-16a7b3dd] {\n    display: inline-block;\n    width: 300px;\n}\n.box-item label[data-v-16a7b3dd] {\n    display: inline-block;\n    width: 130px;\n}\n.message .notification[data-v-16a7b3dd] {\n  margin: 0;\n}\n.notification .time[data-v-16a7b3dd] {\n  margin-top: 25px;\n  text-align: right;\n  padding-bottom: 20px;\n  border-bottom: 1px solid #dedede;\n}\n.question[data-v-16a7b3dd] {\n  text-align: left;\n  margin-bottom: 10px;\n}\n.edit-question[data-v-16a7b3dd] {\n  float: right;\n}\n.operate-box[data-v-16a7b3dd] {\n  height: 40px;\n  line-height: 40px;\n}\n.delete[data-v-16a7b3dd] {\n  float: right;\n  margin-left: 20px;\n}\n.answer[data-v-16a7b3dd] {\n  margin-left: 24px;\n}\n.multiple-choice[data-v-16a7b3dd] {\n  width: 200px;\n}\n", ""]);
 
 /***/ }),
 /* 261 */
@@ -43495,7 +43561,7 @@ exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(2)();
-exports.push([module.i, "\n.message {\n  margin: 35px auto 0 auto;\n  background-color: #fff;\n}\n.message .notification {\n  margin: 0;\n  background-color: #fff;\n}\n.notification .time {\n  margin-top: 25px;\n  text-align: right;\n  padding-bottom: 20px;\n  border-bottom: 1px solid #dedede;\n}\n.question {\n  text-align: left;\n  margin-bottom: 10px;\n}\n.loading {\n  width: 50px;\n  height: 50px;\n  margin: 0 auto;\n  display: block;\n}\n.finish-test {\n  margin-left: 20px;\n}\n", ""]);
+exports.push([module.i, "\n.message {\n  margin: 35px auto 0 auto;\n  background-color: #fff;\n}\n.message .notification {\n  margin: 0;\n  background-color: #fff;\n}\n.notification .time {\n  margin-top: 25px;\n  text-align: right;\n  padding-bottom: 20px;\n  border-bottom: 1px solid #dedede;\n}\n.question {\n  text-align: left;\n  margin-bottom: 10px;\n}\n.loading {\n  width: 50px;\n  height: 50px;\n  margin: 0 auto;\n  display: block;\n}\n.finish-test {\n  margin-left: 20px;\n}\n.multiple-choice {\n  width: 200px;\n}\n", ""]);
 
 /***/ }),
 /* 267 */
@@ -64737,24 +64803,82 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.addQuestion()
       }
     }
-  }, [_vm._v("添加问题")])]), _vm._v(" "), _c('single-choice', {
-    ref: "singleChoice",
-    attrs: {
-      "current-question-data": _vm.questionData
-    },
-    on: {
-      "deleteQuestion": _vm.deleteQuestion,
-      "editQuestion": _vm.editQuestion
-    }
-  }), _vm._v(" "), _c('multiple-choice', {
-    ref: "multipleChoice",
-    attrs: {
-      "current-question-data": _vm.questionData
-    },
-    on: {
-      "deleteQuestion": _vm.deleteQuestion,
-      "editQuestion": _vm.editQuestion
-    }
+  }, [_vm._v("添加问题")])]), _vm._v(" "), _vm._l((_vm.questionData), function(item, index) {
+    return _c('div', [_c('div', {
+      staticClass: "message"
+    }, [_c('div', {
+      directives: [{
+        name: "show",
+        rawName: "v-show",
+        value: (item.question_type === 'SINGLE_CHOICE'),
+        expression: "item.question_type === 'SINGLE_CHOICE'"
+      }],
+      staticClass: "message box"
+    }, [_c('div', {
+      staticClass: "notification"
+    }, [_c('div', {
+      staticClass: "operate-box"
+    }, [_c('button', {
+      staticClass: "delete",
+      on: {
+        "click": function($event) {
+          _vm.deleteQuestion(index)
+        }
+      }
+    }), _vm._v(" "), _c('button', {
+      staticClass: "button edit-question",
+      attrs: {
+        "type": "button",
+        "name": "button"
+      },
+      on: {
+        "click": function($event) {
+          _vm.editQuestion(index)
+        }
+      }
+    }, [_vm._v("编辑问题")])]), _vm._v(" "), _c('p', {
+      staticClass: "detail"
+    }, [_vm._v("        id：" + _vm._s(item.id) + "\n                 类型： 单选\n                 难度：" + _vm._s(item.level_type) + "\n          ")]), _vm._v(" "), _c('div', {
+      staticClass: "question"
+    }, [_vm._v("问题描述" + _vm._s(item.title))]), _vm._v(" "), _c('div', {
+      staticClass: "question"
+    }, [_vm._v("选项：" + _vm._s(item.body))])]), _vm._v(" "), _vm._m(0, true)]), _vm._v(" "), _c('div', {
+      directives: [{
+        name: "show",
+        rawName: "v-show",
+        value: (item.question_type === 'MULTIPLE_CHOICE'),
+        expression: "item.question_type === 'MULTIPLE_CHOICE'"
+      }],
+      staticClass: "message box"
+    }, [_c('div', {
+      staticClass: "notification"
+    }, [_c('div', {
+      staticClass: "operate-box"
+    }, [_c('button', {
+      staticClass: "delete",
+      on: {
+        "click": function($event) {
+          _vm.deleteQuestion(index)
+        }
+      }
+    }), _vm._v(" "), _c('button', {
+      staticClass: "button edit-question",
+      attrs: {
+        "type": "button",
+        "name": "button"
+      },
+      on: {
+        "click": function($event) {
+          _vm.editQuestion(index)
+        }
+      }
+    }, [_vm._v("编辑问题")])]), _vm._v(" "), _c('p', {
+      staticClass: "detail"
+    }, [_vm._v("        id：" + _vm._s(item.id) + "\n                 类型： 多选\n                 难度：" + _vm._s(item.level_type) + "\n          ")]), _vm._v(" "), _c('div', {
+      staticClass: "question"
+    }, [_vm._v("问题描述" + _vm._s(item.title))]), _vm._v(" "), _c('div', {
+      staticClass: "question"
+    }, [_vm._v("选项：" + _vm._s(item.body))])]), _vm._v(" "), _vm._m(1, true)])])])
   }), _vm._v(" "), _c('add-question', {
     ref: "addQuestion",
     on: {
@@ -64779,8 +64903,52 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       },
       expression: "data"
     }
-  })], 1)
-},staticRenderFns: []}
+  })], 2)
+},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "answer"
+  }, [_vm._v("\n          作答：\n          "), _c('div', {
+    staticClass: "select"
+  }, [_c('select', [_c('option', {
+    attrs: {
+      "value": "A"
+    }
+  }, [_vm._v("A")]), _vm._v(" "), _c('option', {
+    attrs: {
+      "value": "B"
+    }
+  }, [_vm._v("B")]), _vm._v(" "), _c('option', {
+    attrs: {
+      "value": "C"
+    }
+  }, [_vm._v("C")]), _vm._v(" "), _c('option', {
+    attrs: {
+      "value": "D"
+    }
+  }, [_vm._v("D")])])])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "answer"
+  }, [_vm._v("\n          作答：\n          "), _c('label', {
+    staticClass: "checkbox multiple-choice"
+  }, [_c('input', {
+    attrs: {
+      "type": "checkbox"
+    }
+  }), _vm._v("A\n            "), _c('input', {
+    attrs: {
+      "type": "checkbox"
+    }
+  }), _vm._v("B\n            "), _c('input', {
+    attrs: {
+      "type": "checkbox"
+    }
+  }), _vm._v("C\n            "), _c('input', {
+    attrs: {
+      "type": "checkbox"
+    }
+  }), _vm._v("D\n          ")])])
+}]}
 module.exports.render._withStripped = true
 if (false) {
   module.hot.accept()
@@ -65380,20 +65548,96 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.stopTest()
       }
     }
-  }, [_vm._v("结束考试")]), _vm._v(" "), _c('single-choice', {
-    ref: "singleChoice",
+  }, [_vm._v("结束考试")]), _vm._v(" "), _vm._l((_vm.questionData), function(item, index) {
+    return _c('div', [_c('div', {
+      staticClass: "message"
+    }, [_c('div', {
+      directives: [{
+        name: "show",
+        rawName: "v-show",
+        value: (item.question_type === 'SINGLE_CHOICE'),
+        expression: "item.question_type === 'SINGLE_CHOICE'"
+      }],
+      staticClass: "message box"
+    }, [_c('div', {
+      staticClass: "notification"
+    }, [_c('p', {
+      staticClass: "detail"
+    }, [_vm._v("        id：" + _vm._s(item.id) + "\n                   类型： 单选\n                   难度：" + _vm._s(item.level_type) + "\n            ")]), _vm._v(" "), _c('div', {
+      staticClass: "question"
+    }, [_vm._v("问题描述" + _vm._s(item.title))]), _vm._v(" "), _c('div', {
+      staticClass: "question"
+    }, [_vm._v("选项：" + _vm._s(item.body))]), _vm._v(" "), _c('div', {
+      staticClass: "options"
+    }, [_vm._v("正确答案：" + _vm._s(item.answer))]), _vm._v(" "), _c('p', {
+      staticClass: "time"
+    }, [_vm._v(_vm._s(item.created_at))])]), _vm._v(" "), _vm._m(0, true)]), _vm._v(" "), _c('div', {
+      directives: [{
+        name: "show",
+        rawName: "v-show",
+        value: (item.question_type === 'MULTIPLE_CHOICE'),
+        expression: "item.question_type === 'MULTIPLE_CHOICE'"
+      }],
+      staticClass: "message box"
+    }, [_c('div', {
+      staticClass: "notification"
+    }, [_c('p', {
+      staticClass: "detail"
+    }, [_vm._v("        id：" + _vm._s(item.id) + "\n                   类型： 多选\n                   难度：" + _vm._s(item.level_type) + "\n            ")]), _vm._v(" "), _c('div', {
+      staticClass: "question"
+    }, [_vm._v("问题描述" + _vm._s(item.title))]), _vm._v(" "), _c('div', {
+      staticClass: "question"
+    }, [_vm._v("选项：" + _vm._s(item.body))]), _vm._v(" "), _c('div', {
+      staticClass: "options"
+    }, [_vm._v("正确答案：" + _vm._s(item.answer))]), _vm._v(" "), _c('p', {
+      staticClass: "time"
+    }, [_vm._v(_vm._s(item.created_at))])]), _vm._v(" "), _vm._m(1, true)])])])
+  })], 2)])
+},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "answer"
+  }, [_vm._v("\n            作答：\n            "), _c('div', {
+    staticClass: "select"
+  }, [_c('select', [_c('option', {
     attrs: {
-      "data": _vm.singleChoiceData
-    },
-    model: {
-      value: (_vm.singleChoiceAnwser),
-      callback: function($$v) {
-        _vm.singleChoiceAnwser = $$v
-      },
-      expression: "singleChoiceAnwser"
+      "value": "A"
     }
-  })], 1)])
-},staticRenderFns: []}
+  }, [_vm._v("A")]), _vm._v(" "), _c('option', {
+    attrs: {
+      "value": "B"
+    }
+  }, [_vm._v("B")]), _vm._v(" "), _c('option', {
+    attrs: {
+      "value": "C"
+    }
+  }, [_vm._v("C")]), _vm._v(" "), _c('option', {
+    attrs: {
+      "value": "D"
+    }
+  }, [_vm._v("D")])])])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "answer"
+  }, [_vm._v("\n            作答：\n            "), _c('label', {
+    staticClass: "checkbox multiple-choice"
+  }, [_c('input', {
+    attrs: {
+      "type": "checkbox"
+    }
+  }), _vm._v("A\n              "), _c('input', {
+    attrs: {
+      "type": "checkbox"
+    }
+  }), _vm._v("B\n              "), _c('input', {
+    attrs: {
+      "type": "checkbox"
+    }
+  }), _vm._v("C\n              "), _c('input', {
+    attrs: {
+      "type": "checkbox"
+    }
+  }), _vm._v("D\n            ")])])
+}]}
 module.exports.render._withStripped = true
 if (false) {
   module.hot.accept()
@@ -68272,7 +68516,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       staticClass: "question"
     }, [_vm._v("问题描述" + _vm._s(item.title))]), _vm._v(" "), _c('div', {
       staticClass: "question"
-    }, [_vm._v("选项：" + _vm._s(_vm.getOptionsString(item.body)))]), _vm._v(" "), _c('div', {
+    }, [_vm._v("选项：" + _vm._s(item.body))]), _vm._v(" "), _c('div', {
       staticClass: "options"
     }, [_vm._v("正确答案：" + _vm._s(item.answer))]), _vm._v(" "), _c('p', {
       staticClass: "time"

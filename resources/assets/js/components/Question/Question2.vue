@@ -9,61 +9,19 @@
         <button @click="addQuestion()" class="button add-role-button" type="button" name="button">添加问题</button>
     </div>
 
-    <div v-for="(item,index) in questionData">
-      <!-- 单选 -->
-      <div class="message">
-        <div v-show="item.question_type === 'SINGLE_CHOICE'" class="message box">
-          <div class="notification">
-            <div class="operate-box">
-              <button @click="deleteQuestion(index)" class="delete"></button>
-              <button @click="editQuestion(index)" class="button edit-question" type="button" name="button">编辑问题</button>
-            </div>
-            <p class="detail">        id：{{ item.id }}
-              &nbsp;&nbsp;&nbsp;&nbsp; 类型： 单选
-              &nbsp;&nbsp;&nbsp;&nbsp; 难度：{{ item.level_type }}
-            </p>
-            <div class="question">问题描述{{ item.title }}</div>
-            <div class="question">选项：{{ item.body }}</div>
-          </div>
-          <div class="answer">
-            作答：
-            <div class="select">
-              <select>
-                <option value='A'>A</option>
-                <option value="B">B</option>
-                <option value="C">C</option>
-                <option value="D">D</option>
-              </select>
-            </div>
-          </div>
-        </div>
+    <!-- 单选 -->
+    <single-choice ref="singleChoice"
+                   v-bind:current-question-data="questionData"
+                   v-on:deleteQuestion="deleteQuestion"
+                   v-on:editQuestion="editQuestion"
+    ></single-choice>
 
-        <!-- 多选 -->
-        <div v-show="item.question_type === 'MULTIPLE_CHOICE'" class="message box">
-          <div class="notification">
-            <div class="operate-box">
-              <button @click="deleteQuestion(index)" class="delete"></button>
-              <button @click="editQuestion(index)" class="button edit-question" type="button" name="button">编辑问题</button>
-            </div>
-            <p class="detail">        id：{{ item.id }}
-              &nbsp;&nbsp;&nbsp;&nbsp; 类型： 多选
-              &nbsp;&nbsp;&nbsp;&nbsp; 难度：{{ item.level_type }}
-            </p>
-            <div class="question">问题描述{{ item.title }}</div>
-            <div class="question">选项：{{ item.body }}</div>
-          </div>
-          <div class="answer">
-            作答：
-            <label class="checkbox multiple-choice">
-              <input type="checkbox">A
-              <input type="checkbox">B
-              <input type="checkbox">C
-              <input type="checkbox">D
-            </label>
-          </div>
-        </div>
-      </div>
-    </div>
+    <!-- 多选 -->
+    <multiple-choice ref="multipleChoice"
+                     v-bind:current-question-data="questionData"
+                     v-on:deleteQuestion="deleteQuestion"
+                     v-on:editQuestion="editQuestion"
+    ></multiple-choice>
 
     <add-question ref="addQuestion"
                   v-on:getQuestion="getQuestion"
@@ -277,8 +235,5 @@ export default {
 }
 .answer {
   margin-left: 24px;
-}
-.multiple-choice {
-  width: 200px;
 }
 </style>
