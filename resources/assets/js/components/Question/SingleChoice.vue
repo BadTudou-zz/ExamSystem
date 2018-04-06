@@ -1,9 +1,7 @@
 <!-- 单选 -->
 <template lang="html">
   <div>
-    稍等1
     <div v-show="showSingleChoice" class="message">
-      稍等2
       <div  v-for="(item,index) in singleChoiceData" class="message box">
         <div class="notification">
           <div class="operate-box">
@@ -19,9 +17,6 @@
           <div class="options">正确答案：{{ item.answer }}</div>
           <p class="time">{{item.created_at}}</p>
         </div>
-        <!-- <div>
-          <p>备注：{{ item.answer_comment }}</p>
-        </div> -->
 
         <div class="answer">
           作答：
@@ -56,9 +51,7 @@ export default {
   components: {
   },
   props: [
-    'item',
-    // 'questionData',
-    'currentQuestionData',
+    'data'
   ],
   methods: {
     getOptionsString: function (value) {
@@ -71,22 +64,10 @@ export default {
       }
       return str;
     },
-    // 筛选单选问题
-    filter: function (data) {
-      const that = this;
-      that.singleChoiceData = [];
-      for (let i = 0; i < data.length; i++) {
-        if (data[i].question_type === 'SINGLE_CHOICE') {
-          that.singleChoiceData.push(data[i]);
-        }
-      }
-      that.showSingleChoice = true;
-      console.log('filter函数')
-      console.log(that.singleChoiceData)
-    },
+    // answer json
     selectChange: function (index) {
       const that = this;
-      let id = `"${that.currentQuestionData[index]['id']}"`;
+      let id = `"${that.data[index]['id']}"`;
       let answer = that.answers[index];
       that.answersJson[id] = answer;
       that.$emit('input', that.answersJson);  //第一个参数名为调用的方法名，第二个参数为需要传递的参数
@@ -112,7 +93,24 @@ export default {
       const that = this;
       let editData = that.singleChoiceData[index];
       that.$emit('editQuestion', null, editData);  //第一个参数名为调用的方法名，第二个参数为需要传递的参数
-    }
+    },
+    // 去重
+    uniqData: function(value) {
+      const that = this;
+      let len = value.length;
+      let uniqData = [];
+
+      for (let i = 0; i < value.length; i++) {
+
+        for (let j = 0; j < uniqData.length; j++) {
+          if (uniqData[j]['id'] === value[i]['id']) {
+            break;
+          }
+        }
+        uniqData.push(value[i]);
+      }
+      return uniqData;
+    },
   },
   computed: {
   },
@@ -120,16 +118,18 @@ export default {
     this.token = sessionStorage.getItem('token');
   },
   watch: {
-    // questionData: function (value, oldValue) {
-    //   const that = this;
-    //   that.filter(value);
-    // },
-    currentQuestionData: function (value, oldValue) {
+    data: function (value, oldValue) {
       const that = this;
-      console.log('SingleChoice收到数据')
-      console.log(value)
-      that.filter(value);
-    },
+      debugger
+      that.singleChoiceData = that.uniqData(value);
+
+      if (value.length !== 0) {
+        that.showSingleChoice = true;
+      }
+      else {
+        console.log('暂无数据')
+      }
+    }
   }
 }
 </script>

@@ -9,15 +9,12 @@
     <div v-else>
       <button @click="stopTest()" class="button is-info finish-test" type="button" name="button">结束考试</button>
 
-      <!-- <single-choice ref="singleChoice"
-                     v-bind:question-data="questionData"
-      ></single-choice> -->
 
       <single-choice ref="singleChoice"
-                     v-bind:current-question-data="currentQuestionData"
+                     v-bind:data="singleChoiceData"
                      v-model="singleChoiceAnwser"
-
       ></single-choice>
+
 
     </div>
 
@@ -33,12 +30,14 @@ export default {
        questionData: [],
        token: null,
        chapterIds: [],
-       questionIds: [],
-       temporaryQuestionIds: [],
        isLoading: true,
-       currentQuestionData: null,
        singleChoiceAnwser: null,
-       questionIdsArray: [],
+       questionIds: [],
+       temporaryQuestionIds: [],  // 临时存储
+       currentQuestionData: [],
+       temporaryQuestionData: [],  // 临时存储
+       singleChoiceData: [],
+       multipleChoiceData: [],
     }
   },
   components: {
@@ -73,10 +72,11 @@ export default {
       that.questionIds = [];
     },
     // 通过章节ID数组找到所有章节下面的问题
-    searchChapter: function (chapterId) {
+    getQuestionIds: function (chapterId, totalLength, currentLength) {
       const that = this;
       let paperId = that.paperId;
-      // let questionIdsArray = [];
+      // console.log('getQuestionIds执行中')
+
       axios({
         method: 'get',
         url: `${this.GLOBAL.localDomain}/api/v1/papers/${paperId}/sections/${chapterId}`,
@@ -86,20 +86,25 @@ export default {
         }
       }).then(res => {
 
-        that.questionIds = res.data.data.questions;
-        that.questionIdsArray = that.questionIds.split(',')
+        let currentQuestionIds = res.data.data.questions;
+        let currentQuestionIdsArray = currentQuestionIds.split(',');
+        console.log('currentQuestionIds:')
+        console.log(currentQuestionIds)
+        that.temporaryQuestionIds.push(currentQuestionIdsArray);
 
-        for (let i = 0; i < that.questionIdsArray.length; i++) {
-          let questionId = that.questionIdsArray[i];
-          that.searchQuestion(questionId, that.questionIdsArray.length, i);
+        // 用debugger的时候数据完全遍历到
+        if (currentLength + 1 === totalLength) {
+          console.log('currentLength: ' + currentLength)
+          console.log('totalLength: ' + totalLength)
+          that.questionIds = that.temporaryQuestionIds;
         }
-
       }).catch(err => {
         console.log(err)
       })
     },
-    searchQuestion: function (questionId, totalLength, currentLength) {
+    getQuestionData: function (questionId, totalLength, currentLength) {
       const that = this;
+      // console.log('getQuestionData执行中')
 
       axios({
         method: 'get',
@@ -109,14 +114,15 @@ export default {
           'Authorization': that.token
         }
       }).then(res => {
-        let currentQuestionId = res.data.data.id;
-        that.questionData.push(res.data.data);
+        let currentQuestionData = res.data.data;
+        that.temporaryQuestionData.push(currentQuestionData);
 
-        if (totalLength === currentLength + 1) {
-          that.isLoading = false;
-          that.currentQuestionData = that.questionData;
+        // 用debugger的时候数据完全遍历到
+        if (currentLength + 1 === totalLength) {
+          console.log('currentLength: ' + currentLength)
+          console.log('totalLength: ' + totalLength)
+          that.questionData = that.temporaryQuestionData;
         }
-
       }).catch(err => {
         // alert('查找出错');
         console.log(err);
@@ -171,7 +177,7 @@ export default {
       const that = this;
       let id = that.examId;
 
-      console.log(that.singleChoiceAnwser)
+      // console.log(that.singleChoiceAnwser)
 
       // alert('已结束');
       // axios({
@@ -194,14 +200,63 @@ export default {
       //   console.log(err)
       // })
     },
-    fn: function (value) {
+    asyncGetQuestionIds: async function (value) {
       const that = this;
-      for (let i = 0; i < value.length; i++) {
-        let chapterId = value[i];
-        that.searchChapter(chapterId);
+      let len = value.length;
+      // console.log('执行asyncGetQuestionIds')
 
+      for (let i = 0; i < len; i++) {
+        let chapterId = value[i];
+        // 获取所有问题的ID
+        await that.getQuestionIds(chapterId, len, i);
       }
     },
+    // 获取所有的问题的数据
+    asyncGetQuestionData: async function (value) {
+      const that = this;
+      let len = value.length
+      // console.log('执行asyncGetQuestionData')
+
+      for (let i = 0; i < len; i++) {
+        let questionId = value[i];
+        await that.getQuestionData(questionId, len, i);
+      }
+    },
+    // 去重
+    uniqData: function(value) {
+      const that = this;
+      let len = value.length;
+      let uniqData = [];
+
+      for (let i = 0; i < value.length; i++) {
+
+        for (let j = 0; j < uniqData.length; j++) {
+          if (uniqData[j]['id'] === value[i]['id']) {
+            break;
+          }
+        }
+        uniqData.push(value[i]);
+      }
+      // debugger
+      return uniqData;
+    },
+    // 问题分类
+    questionClassification: function (allQuestionData) {
+      const that = this;
+      // let data = that.uniqData(allQuestionData);
+      let data = allQuestionData;
+      for (let i = 0; i < data.length; i++) {
+
+        switch (data[i]['question_type'] ) {
+          case 'SINGLE_CHOICE':
+            that.singleChoiceData.push(data[i]);
+            break;
+          case 'MULTIPLE_CHOICE':
+            that.multipleChoiceData.push(data[i]);
+            break;
+        }
+      }
+    }
   },
   computed: {
   },
@@ -215,14 +270,25 @@ export default {
     },
     chapterIds: function (value, oldValue) {
       const that = this;
-      for (let i = 0; i < value.length; i++) {
-        let chapterId = value[i];
-        that.searchChapter(chapterId);
-      }
-
-      // axios.all([fn()])
-      // .then(axios.spread());
+      that.asyncGetQuestionIds(value);
     },
+    // if get all questionIds
+    questionIds: function (value, oldValue) {
+      const that = this;
+      if (value.length !== 0) {
+        console.log('questionIds:-----')
+        console.log(value)
+      }
+      that.asyncGetQuestionData(value);
+    },
+    questionData: function (value, oldValue) {
+      const that = this;
+
+      that.questionClassification(value);
+      // if (that.singleChoiceData.length !== 0) {
+        that.isLoading = false;
+      // }
+    }
   }
 }
 </script>
