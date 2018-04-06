@@ -26,7 +26,6 @@
 export default {
   data() {
     return {
-      token: null,
       isShowModal: false,
       userData: {
         users: null
@@ -52,7 +51,7 @@ export default {
         url: `${this.GLOBAL.localDomain}/api/v1/lectures`,
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token
+          'Authorization': this.GLOBAL.token,
         },
         params: {
           users: that.userData.users
@@ -69,7 +68,7 @@ export default {
     }
   },
   created() {
-    this.token = sessionStorage.getItem('token');
+
   }
 }
 </script>

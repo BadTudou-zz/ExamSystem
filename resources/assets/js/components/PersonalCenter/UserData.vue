@@ -40,8 +40,6 @@ import ChangePassword from '../User/ChangePassword'
 export default {
   data() {
     return {
-      token: '',
-      userId: null,
       userData: null,
       currentUserData: {
         id: '',
@@ -63,10 +61,10 @@ export default {
       const that = this;
       axios({
         method: 'get',
-        url: `${this.GLOBAL.localDomain}/api/v1/users/${that.userId}`,
+        url: `${this.GLOBAL.localDomain}/api/v1/users/${this.GLOBAL.userId}`,
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token
+          'Authorization': this.GLOBAL.token,
         }
       }).then(res => {
         that.userData = res.data.data;
@@ -88,8 +86,6 @@ export default {
   computed: {
   },
   created() {
-    this.token = sessionStorage.getItem('token');
-    this.userId = sessionStorage.getItem('userId');
     this.getUser();
   },
   watch: {

@@ -43,7 +43,6 @@ export default {
         min: null,
         describe: null
       },
-      token: null,
     }
   },
   components: {
@@ -66,7 +65,7 @@ export default {
         url: `${this.GLOBAL.localDomain}/api/v1/papers/`,
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token,
+          'Authorization': this.GLOBAL.token,
         },
         params: {
           title: that.examinationPaperData.title,
@@ -86,7 +85,7 @@ export default {
     }
   },
   created() {
-    this.token = sessionStorage.getItem('token');
+
   }
 }
 </script>

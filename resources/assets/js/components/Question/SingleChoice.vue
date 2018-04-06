@@ -41,7 +41,6 @@
 export default {
   data() {
     return {
-       token: null,
        singleChoiceData: [],
        answers: [],
        answersJson: {},
@@ -115,7 +114,7 @@ export default {
   computed: {
   },
   created() {
-    this.token = sessionStorage.getItem('token');
+
   },
   watch: {
     data: function (value, oldValue) {

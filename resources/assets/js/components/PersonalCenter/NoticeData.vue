@@ -21,12 +21,10 @@ import Pagination from './../Pagination.vue'
 export default {
   data() {
     return {
-      token: null,
       noticeData: null,
       isShowModal: false,
       paginationData: null,
       data: null,
-      userId: null,
     }
   },
   components: {
@@ -42,10 +40,10 @@ export default {
       const that = this;
       axios({
         method: 'get',
-        url: `${this.GLOBAL.localDomain}/api/v1/users/${that.userId}/notifications/`,
+        url: `${this.GLOBAL.localDomain}/api/v1/users/${this.GLOBAL.userId}/notifications/`,
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token
+          'Authorization': this.GLOBAL.token,
         }
       }).then(res => {
         that.noticeData = res.data.data;
@@ -58,8 +56,6 @@ export default {
   computed: {
   },
   created() {
-    this.userId = sessionStorage.getItem('userId');
-    this.token = sessionStorage.getItem('token');
     this.getNotice();
   },
   watch: {

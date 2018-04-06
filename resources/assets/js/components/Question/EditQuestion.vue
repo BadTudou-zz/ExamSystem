@@ -101,7 +101,6 @@ export default {
         answer: null,
         answer_comment: null,
       },
-      token: null,
       isShowModal: false,
       options: [],
     }
@@ -151,7 +150,7 @@ export default {
         url: `${this.GLOBAL.localDomain}/api/v1/questions/${id}`,
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token,
+          'Authorization': this.GLOBAL.token,
         },
         params: {
           question_type: that.currentQuestionData.question_type,
@@ -174,7 +173,7 @@ export default {
     }
   },
   creatad() {
-    this.token = sessionStorage.getItem('token');
+
   },
   watch: {
     editData: function (value, oldValue) {

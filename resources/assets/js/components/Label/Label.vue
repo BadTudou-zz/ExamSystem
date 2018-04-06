@@ -85,7 +85,6 @@ export default {
   data() {
     return {
       isShowModal: false,
-      token: null,
       searchKey: null,
       labelData: null,
       editData: null,
@@ -114,7 +113,7 @@ export default {
           url: `${this.GLOBAL.localDomain}/api/v1/tags/${id}`,
           headers: {
             'Accept': 'application/json',
-            'Authorization': that.token
+            'Authorization': this.GLOBAL.token,
           }
         }).then(res => {
           alert('删除成功');
@@ -133,7 +132,7 @@ export default {
         url: `${this.GLOBAL.localDomain}/api/v1/tags/${id}`,
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token
+          'Authorization': this.GLOBAL.token,
         }
       }).then(res => {
         that.labelData = [];
@@ -150,7 +149,7 @@ export default {
         url: `${this.GLOBAL.localDomain}/api/v1/tags`,
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token
+          'Authorization': this.GLOBAL.token,
         }
       }).then(res => {
         that.labelData = [];
@@ -178,7 +177,7 @@ export default {
         url: `${this.GLOBAL.localDomain}/api/v1/applications/${id}/accept`,
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token
+          'Authorization': this.GLOBAL.token,
         }
       }).then(res => {
 
@@ -196,7 +195,7 @@ export default {
         url: `${this.GLOBAL.localDomain}/api/v1/applications/${id}/reject`,
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token
+          'Authorization': this.GLOBAL.token,
         }
       }).then(res => {
 
@@ -219,7 +218,7 @@ export default {
     },
   },
   created() {
-    this.token = sessionStorage.getItem('token');
+
     this.getLabel();
   },
   watch: {

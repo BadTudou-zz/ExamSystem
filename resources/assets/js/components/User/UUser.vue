@@ -60,7 +60,6 @@ import VView from './View'
 export default {
   data() {
     return {
-      token: '',
       userData: null,
       searchKey: null,
       isShowEditModal: false,
@@ -85,7 +84,7 @@ export default {
           url: `${this.GLOBAL.localDomain}/api/v1/users/${id}`,
           headers: {
             'Accept': 'application/json',
-            'Authorization': that.token
+            'Authorization': this.GLOBAL.token,
           }
         }).then(res => {
           alert('删除成功！');
@@ -104,7 +103,7 @@ export default {
         url: `${this.GLOBAL.localDomain}/api/v1/users/`,
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token
+          'Authorization': this.GLOBAL.token,
         }
       }).then(res => {
         that.userData = res.data.data;
@@ -121,7 +120,7 @@ export default {
         url: `${this.GLOBAL.localDomain}/api/v1/users/${that.searchKey}`,
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token
+          'Authorization': this.GLOBAL.token,
         }
       }).then(res => {
         that.userData = [];
@@ -147,7 +146,7 @@ export default {
         url: `${this.GLOBAL.localDomain}/api/v1/users/1/users/`,
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token
+          'Authorization': this.GLOBAL.token,
         }
       }).then(res => {
         console.log(res)
@@ -171,7 +170,7 @@ export default {
     },
   },
   created() {
-    this.token = sessionStorage.getItem('token');
+
     this.getUser();
     // this.checkPermissions();
   },

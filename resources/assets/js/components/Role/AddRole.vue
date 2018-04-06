@@ -33,7 +33,6 @@
 export default {
   data() {
     return {
-      token: null,
       isShowModal: false,
       roleData: {
         name: null,
@@ -56,7 +55,7 @@ export default {
         url: `${this.GLOBAL.localDomain}/api/v1/roles/`,
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token,
+          'Authorization': this.GLOBAL.token,
         },
         params: {
           name: that.roleData.name,
@@ -81,7 +80,7 @@ export default {
     }
   },
   created() {
-    this.token = sessionStorage.getItem('token');
+
   },
   watch: {
   }

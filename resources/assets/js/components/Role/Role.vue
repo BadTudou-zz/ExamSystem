@@ -63,7 +63,6 @@ import User from './User'
 export default {
   data() {
     return {
-      token: '',
       roleData: null,
       isShowModal: false,
       searchKey: null,
@@ -94,7 +93,7 @@ export default {
           url: `${this.GLOBAL.localDomain}/api/v1/roles/${id}`,
           headers: {
             'Accept': 'application/json',
-            'Authorization': that.token
+            'Authorization': this.GLOBAL.token,
           }
         }).then(res => {
           alert('删除成功！');
@@ -112,7 +111,7 @@ export default {
         url: `${this.GLOBAL.localDomain}/api/v1/roles/`,
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token
+          'Authorization': this.GLOBAL.token,
         }
       }).then(res => {
         that.roleData = res.data.data;
@@ -137,7 +136,7 @@ export default {
         url: `${this.GLOBAL.localDomain}/api/v1/roles/${that.searchKey}`,
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token
+          'Authorization': this.GLOBAL.token,
         }
       }).then(res => {
         that.roleData = [];
@@ -172,7 +171,7 @@ export default {
     },
   },
   created() {
-    this.token = sessionStorage.getItem('token');
+
     this.getRole();
   },
   watch: {

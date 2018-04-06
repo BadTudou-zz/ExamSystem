@@ -38,14 +38,11 @@ import Pagination from './../Pagination.vue'
 export default {
   data() {
     return {
-      token: null,
       permissionData: null,
       isShowModal: false,
       permissionId: null,
       paginationData: null,
       data: null,  // from Pagination.vue
-      token: null,
-      userId: null,
     }
   },
   components: {
@@ -60,10 +57,10 @@ export default {
       const that = this;
       axios({
         method: 'get',
-        url: `${this.GLOBAL.localDomain}/api/v1/users/${that.userId}/permissions/`,
+        url: `${this.GLOBAL.localDomain}/api/v1/users/${this.GLOBAL.userId}/permissions/`,
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token,
+          'Authorization': this.GLOBAL.token,
         }
       }).then(res => {
         that.permissionData = res.data.data;
@@ -76,8 +73,6 @@ export default {
   computed: {
   },
   created() {
-    this.userId = sessionStorage.getItem('userId');
-    this.token = sessionStorage.getItem('token');
     this.getPermission();
   },
   watch: {

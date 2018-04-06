@@ -51,13 +51,11 @@ import Pagination from './../Pagination.vue'
 export default {
   data() {
     return {
-      token: null,
       permissionData: null,
       isShowModal: false,
       permissionId: null,
       paginationData: null,
       data: null,  // from Pagination.vue
-      token: null,
     }
   },
   components: {
@@ -83,7 +81,7 @@ export default {
           url: `${this.GLOBAL.localDomain}/api/v1/permissions/${id}`,
           headers: {
             'Accept': 'application/json',
-            'Authorization': that.token
+            'Authorization': this.GLOBAL.token
           }
         }).then(res => {
           alert('删除成功！');
@@ -101,8 +99,7 @@ export default {
         url: `${this.GLOBAL.localDomain}/api/v1/roles/1/permissions?page=${page}`,
         headers: {
           'Accept': 'application/json',
-          // 'Authorization': this.$store.state.token,
-          'Authorization': that.token,
+          'Authorization': this.GLOBAL.token,
         }
       }).then(res => {
         that.permissionData = res.data.data;
@@ -118,7 +115,7 @@ export default {
         url: `${this.GLOBAL.localDomain}/api/v1/permissions/${that.permissionId}`,
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token
+          'Authorization': this.GLOBAL.token
         }
       }).then(res => {
         that.permissionData = [];
@@ -140,7 +137,6 @@ export default {
     },
   },
   created() {
-    this.token = sessionStorage.getItem('token');
     this.getPermission();
   },
   watch: {

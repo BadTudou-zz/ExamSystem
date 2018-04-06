@@ -51,7 +51,6 @@
 export default {
   data() {
     return {
-       token: null,
        multipleChoiceData: [],
        answers: [],
        answersJson: {},
@@ -118,7 +117,7 @@ export default {
   computed: {
   },
   created() {
-    this.token = sessionStorage.getItem('token');
+
   },
   watch: {
     // questionData: function (value, oldValue) {

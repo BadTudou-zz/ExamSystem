@@ -43,7 +43,6 @@ export default {
         descripe: null,
         number: null,
       },
-      token: null,
     }
   },
   components: {
@@ -67,7 +66,7 @@ export default {
         url: `${this.GLOBAL.localDomain}/api/v1/courses`,
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token,
+          'Authorization': this.GLOBAL.token,
         },
         params: {
           name: that.courseData.name,
@@ -87,7 +86,7 @@ export default {
     }
   },
   created() {
-    this.token = sessionStorage.getItem('token');
+
   }
 }
 </script>

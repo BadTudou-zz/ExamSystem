@@ -29438,7 +29438,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     return {
       isShowLogin: true,
       loginStatus: null,
-      token: sessionStorage.getItem('token'),
       logOut: null
     };
   },
@@ -29536,8 +29535,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         resource_id: '', // ??
         resource_type: '', // ??
         data: '' // ??
-      },
-      token: null
+      }
     };
   },
 
@@ -29562,7 +29560,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         url: this.GLOBAL.localDomain + '/api/v1/applications/',
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token
+          'Authorization': this.GLOBAL.token
         },
         body: {
           to: that.applyForData.to,
@@ -29582,9 +29580,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       });
     }
   },
-  created: function created() {
-    this.token = sessionStorage.getItem('token');
-  }
+  created: function created() {}
 });
 
 /***/ }),
@@ -29667,7 +29663,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
     return _ref = {
       isShowModal: false,
-      token: null,
       searchKey: null,
       applyForData: null,
       editData: null
@@ -29694,7 +29689,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           url: this.GLOBAL.localDomain + '/api/v1/applications/' + id,
           headers: {
             'Accept': 'application/json',
-            'Authorization': that.token
+            'Authorization': this.GLOBAL.token
           }
         }).then(function (res) {
           alert('删除成功');
@@ -29713,7 +29708,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         url: this.GLOBAL.localDomain + '/api/v1/applications/' + id,
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token
+          'Authorization': this.GLOBAL.token
         }
       }).then(function (res) {
         // that.applyForData = [];
@@ -29731,7 +29726,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         url: this.GLOBAL.localDomain + '/api/v1/applications/',
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token
+          'Authorization': this.GLOBAL.token
         }
       }).then(function (res) {
         // that.applyForData = [];
@@ -29762,7 +29757,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         url: this.GLOBAL.localDomain + '/api/v1/applications/' + id + '/accept',
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token
+          'Authorization': this.GLOBAL.token
         }
       }).then(function (res) {
         // that.applyForData = [];
@@ -29781,7 +29776,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         url: this.GLOBAL.localDomain + '/api/v1/applications/' + id + '/reject',
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token
+          'Authorization': this.GLOBAL.token
         }
       }).then(function (res) {
         alert('已拒绝');
@@ -29811,7 +29806,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     }
   },
   created: function created() {
-    this.token = sessionStorage.getItem('token');
     this.getApplyFor();
   },
 
@@ -29878,8 +29872,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         score: null,
         min: null,
         describe: null
-      },
-      token: null
+      }
     };
   },
 
@@ -29897,7 +29890,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         url: this.GLOBAL.localDomain + '/api/v1/questions/',
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token
+          'Authorization': this.GLOBAL.token
         },
         body: {
           question_type: that.chapterData.question_type,
@@ -29983,7 +29976,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         describe: null,
         question_type: null
       },
-      token: null,
       questions: '', // involving questions
       questionsString: ''
     };
@@ -30014,7 +30006,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
           'Accept': 'application/json',
-          'Authorization': that.token
+          'Authorization': this.GLOBAL.token
         },
         params: {
           name: that.chapterData.name,
@@ -30053,9 +30045,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       return string;
     }
   },
-  created: function created() {
-    this.token = sessionStorage.getItem('token');
-  }
+  created: function created() {}
 });
 
 /***/ }),
@@ -30141,7 +30131,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      token: null,
       isShowModal: false,
       chapterData: null,
       searchKey: null,
@@ -30180,7 +30169,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         url: this.GLOBAL.localDomain + '/api/v1/papers/' + id + '/sections/',
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token
+          'Authorization': this.GLOBAL.token
         }
       }).then(function (res) {
         // ??数据格式有误n
@@ -30198,7 +30187,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         url: this.GLOBAL.localDomain + '/api/v1/papers/1/sections/' + id,
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token
+          'Authorization': this.GLOBAL.token
         }
       }).then(function (res) {
         that.chapterData = [];
@@ -30219,7 +30208,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
           url: this.GLOBAL.localDomain + '/api/v1/papers/' + paperId + '/sections/' + chapterId,
           headers: {
             'Accept': 'application/json',
-            'Authorization': that.token
+            'Authorization': this.GLOBAL.token
           }
         }).then(function (res) {
           alert('删除成功');
@@ -30231,9 +30220,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       }
     }
   },
-  created: function created() {
-    this.token = sessionStorage.getItem('token');
-  },
+  created: function created() {},
 
   watch: {
     data: function data(value, oldValue) {
@@ -30309,7 +30296,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         describe: null,
         question_type: null
       },
-      token: null,
       questionsString: ''
     };
   },
@@ -30339,7 +30325,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         url: this.GLOBAL.localDomain + '/api/v1/papers/' + examinationPaperId + '/sections/' + chapterId + '?' + questionsParams,
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token
+          'Authorization': this.GLOBAL.token
         },
         params: {
           name: that.currentChapterData.name,
@@ -30378,9 +30364,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       return string;
     }
   },
-  creatad: function creatad() {
-    this.token = sessionStorage.getItem('token');
-  },
+  creatad: function creatad() {},
 
   watch: {
     editData: function editData(value, oldValue) {
@@ -30444,8 +30428,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         display_name: null,
         descripe: null,
         number: null
-      },
-      token: null
+      }
     };
   },
 
@@ -30469,7 +30452,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         url: this.GLOBAL.localDomain + '/api/v1/courses',
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token
+          'Authorization': this.GLOBAL.token
         },
         params: {
           name: that.courseData.name,
@@ -30488,9 +30471,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       });
     }
   },
-  created: function created() {
-    this.token = sessionStorage.getItem('token');
-  }
+  created: function created() {}
 });
 
 /***/ }),
@@ -30565,7 +30546,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   data: function data() {
     return {
       isShowModal: false,
-      token: null,
       courseData: null,
       editData: null,
       paginationData: null,
@@ -30602,7 +30582,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
           url: this.GLOBAL.localDomain + '/api/v1/courses/' + id,
           headers: {
             'Accept': 'application/json',
-            'Authorization': that.token
+            'Authorization': this.GLOBAL.token
           }
         }).then(function (res) {
           alert('删除成功');
@@ -30620,7 +30600,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         url: this.GLOBAL.localDomain + '/api/v1/courses',
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token
+          'Authorization': this.GLOBAL.token
         }
       }).then(function (res) {
         that.courseData = res.data.data;
@@ -30646,7 +30626,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     }
   },
   created: function created() {
-    this.token = sessionStorage.getItem('token');
     this.getCourse();
   },
 
@@ -30709,8 +30688,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         display_name: '',
         descripe: '',
         number: ''
-      },
-      token: null
+      }
     };
   },
 
@@ -30736,7 +30714,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         url: this.GLOBAL.localDomain + '/api/v1/courses' + id,
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token
+          'Authorization': this.GLOBAL.token
         },
         params: {
           name: that.courseData.name,
@@ -30756,9 +30734,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       });
     }
   },
-  created: function created() {
-    this.token = sessionStorage.getItem('token');
-  },
+  created: function created() {},
 
   watch: {
     editData: function editData(value, oldValue) {
@@ -30822,8 +30798,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         score: null,
         min: null,
         describe: null
-      },
-      token: null
+      }
     };
   },
 
@@ -30846,7 +30821,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         url: this.GLOBAL.localDomain + '/api/v1/papers/',
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token
+          'Authorization': this.GLOBAL.token
         },
         params: {
           title: that.examinationPaperData.title,
@@ -30865,9 +30840,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       });
     }
   },
-  created: function created() {
-    this.token = sessionStorage.getItem('token');
-  }
+  created: function created() {}
 });
 
 /***/ }),
@@ -30925,7 +30898,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         min: null,
         describe: null
       },
-      token: null,
       isShowModal: false
     };
   },
@@ -30952,7 +30924,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         url: this.GLOBAL.localDomain + '/api/v1/papers/' + id,
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token
+          'Authorization': this.GLOBAL.token
         },
         params: {
           title: that.currentExaminationPaperData.title,
@@ -30971,9 +30943,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       });
     }
   },
-  creatad: function creatad() {
-    this.token = sessionStorage.getItem('token');
-  },
+  creatad: function creatad() {},
 
   watch: {
     editData: function editData(value, oldValue) {
@@ -31105,7 +31075,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       searchKey: null,
       examinationPaperData: null,
       isShowModal: false,
-      token: null,
       editData: null,
       paginationData: null,
       data: null
@@ -31138,7 +31107,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           url: this.GLOBAL.localDomain + '/api/v1/papers/' + id,
           headers: {
             'Accept': 'application/json',
-            'Authorization': that.token
+            'Authorization': this.GLOBAL.token
           }
         }).then(function (res) {
           alert('删除成功');
@@ -31156,7 +31125,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         url: this.GLOBAL.localDomain + '/api/v1/papers',
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token
+          'Authorization': this.GLOBAL.token
         }
       }).then(function (res) {
         that.examinationPaperData = res.data.data;
@@ -31180,7 +31149,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         url: this.GLOBAL.localDomain + '/api/v1/papers/' + id,
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token
+          'Authorization': this.GLOBAL.token
         }
       }).then(function (res) {
         that.examinationPaperData = [];
@@ -31233,7 +31202,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     }
   },
   created: function created() {
-    this.token = sessionStorage.getItem('token');
+
     this.getExaminationPaper();
   },
 
@@ -31303,7 +31272,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      token: null,
       isShowModal: false,
       questionData: null,
       paginationData: null,
@@ -31329,7 +31297,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         url: this.GLOBAL.localDomain + '/api/v1/papers/' + id + '/questions',
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token
+          'Authorization': this.GLOBAL.token
         }
       }).then(function (res) {
         if (res.data.data.length !== 0) {
@@ -31341,9 +31309,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       });
     }
   },
-  created: function created() {
-    this.token = sessionStorage.getItem('token');
-  },
+  created: function created() {},
 
   watch: {
     data: function data(value, oldValue) {
@@ -31402,7 +31368,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      token: null,
       isShowModal: false,
       scoreData: null,
       paginationData: null,
@@ -31428,7 +31393,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         url: this.GLOBAL.localDomain + '/api/v1/papers/' + id + '/scores',
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token
+          'Authorization': this.GLOBAL.token
         }
       }).then(function (res) {
         that.scoreData = res.data.data;
@@ -31438,9 +31403,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       });
     }
   },
-  created: function created() {
-    this.token = sessionStorage.getItem('token');
-  },
+  created: function created() {},
 
   watch: {
     data: function data(value, oldValue) {
@@ -31500,9 +31463,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 // const localDomain = 'http://localhost:8000';
 var localDomain = 'http://www.badtudou.com';
+var token = sessionStorage.getItem('token');
+var userId = sessionStorage.getItem('userId');
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  localDomain: localDomain
+  localDomain: localDomain,
+  token: token,
+  userId: userId
 });
 
 /***/ }),
@@ -31555,7 +31522,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     return {
       permissionIdList: [],
       permissionData: null,
-      token: null,
       url: this.GLOBAL.localDomain + '/api/v1/roles/1/permissions',
       logOut: null
     };
@@ -31573,7 +31539,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         url: urlPath,
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token
+          'Authorization': this.GLOBAL.token
         }
       }).then(function (res) {
         that.permissionData = res.data; // conclude links
@@ -31596,7 +31562,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         url: url,
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token
+          'Authorization': this.GLOBAL.token
         }
       }).then(function (res) {
         that.permissionData = res.data; // conclude links
@@ -31615,7 +31581,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     }
   },
   created: function created() {
-    this.token = sessionStorage.getItem('token');
     this.getPermission();
   },
 
@@ -31663,8 +31628,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       isShowModal: false,
       labelData: {
         title: ''
-      },
-      token: null
+      }
     };
   },
 
@@ -31685,7 +31649,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         url: this.GLOBAL.localDomain + '/api/v1/applications/',
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token
+          'Authorization': this.GLOBAL.token
         },
         body: {
           title: that.labelData.title
@@ -31701,9 +31665,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       });
     }
   },
-  created: function created() {
-    this.token = sessionStorage.getItem('token');
-  }
+  created: function created() {}
 });
 
 /***/ }),
@@ -31739,14 +31701,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
-    var _ref;
-
-    return _ref = {
+    return _defineProperty({
       isShowModal: false,
       labelData: {
         title: ''
       }
-    }, _defineProperty(_ref, 'labelData', null), _defineProperty(_ref, 'token', null), _ref;
+    }, 'labelData', null);
   },
 
   components: {},
@@ -31768,7 +31728,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         url: this.GLOBAL.localDomain + '/api/v1/labels' + id,
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token
+          'Authorization': this.GLOBAL.token
         },
         params: {
           'title': that.labelData.title
@@ -31785,9 +31745,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       });
     }
   },
-  created: function created() {
-    this.token = sessionStorage.getItem('token');
-  },
+  created: function created() {},
 
   watch: {
     editData: function editData(value, oldValue) {
@@ -31900,7 +31858,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
     return _ref = {
       isShowModal: false,
-      token: null,
       searchKey: null,
       labelData: null,
       editData: null
@@ -31927,7 +31884,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           url: this.GLOBAL.localDomain + '/api/v1/tags/' + id,
           headers: {
             'Accept': 'application/json',
-            'Authorization': that.token
+            'Authorization': this.GLOBAL.token
           }
         }).then(function (res) {
           alert('删除成功');
@@ -31946,7 +31903,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         url: this.GLOBAL.localDomain + '/api/v1/tags/' + id,
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token
+          'Authorization': this.GLOBAL.token
         }
       }).then(function (res) {
         that.labelData = [];
@@ -31963,7 +31920,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         url: this.GLOBAL.localDomain + '/api/v1/tags',
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token
+          'Authorization': this.GLOBAL.token
         }
       }).then(function (res) {
         that.labelData = [];
@@ -31991,7 +31948,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         url: this.GLOBAL.localDomain + '/api/v1/applications/' + id + '/accept',
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token
+          'Authorization': this.GLOBAL.token
         }
       }).then(function (res) {
 
@@ -32009,7 +31966,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         url: this.GLOBAL.localDomain + '/api/v1/applications/' + id + '/reject',
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token
+          'Authorization': this.GLOBAL.token
         }
       }).then(function (res) {
 
@@ -32032,7 +31989,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     }
   },
   created: function created() {
-    this.token = sessionStorage.getItem('token');
+
     this.getLabel();
   },
 
@@ -32138,7 +32095,6 @@ var Base64 = __webpack_require__(331).Base64;
         sessionStorage.setItem("token", 'Bearer ' + token);
         sessionStorage.setItem('userId', userId);
         that.$store.commit('setToken', token);
-        // that.$store.commit('setUserData', userData);
         that.$emit('input', false);
       }).catch(function (err) {
         var errorMsg = err.response.data.message;
@@ -32222,7 +32178,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       memberData: {
         users: null
       },
-      token: null,
       permissionId: null
     };
   },
@@ -32246,7 +32201,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         url: this.GLOBAL.localDomain + '/api/v1/organizations/' + id + '/users',
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token
+          'Authorization': this.GLOBAL.token
         },
         params: {
           users: null
@@ -32262,9 +32217,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       });
     }
   },
-  created: function created() {
-    this.token = sessionStorage.getItem('token');
-  }
+  created: function created() {}
 });
 
 /***/ }),
@@ -32353,7 +32306,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      token: null,
       isShowModal: false,
       memberData: null,
       searchKey: null,
@@ -32404,7 +32356,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         url: this.GLOBAL.localDomain + '/api/v1/organizations/' + id + '/users',
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token
+          'Authorization': this.GLOBAL.token
         }
       }).then(function (res) {
         that.memberData = res.data.data;
@@ -32420,7 +32372,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         url: this.GLOBAL.localDomain + '/api/v1/organizations/' + that.searchKey,
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token
+          'Authorization': this.GLOBAL.token
         }
       }).then(function (res) {
         that.memberData = [];
@@ -32439,7 +32391,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
           url: this.GLOBAL.localDomain + '/api/v1/organizations/' + id + '/users',
           headers: {
             'Accept': 'application/json',
-            'Authorization': that.token
+            'Authorization': this.GLOBAL.token
           }
         }).then(function (res) {
           alert('删除成功！');
@@ -32450,9 +32402,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       }
     }
   },
-  created: function created() {
-    this.token = sessionStorage.getItem('token');
-  },
+  created: function created() {},
 
   watch: {
     data: function data(value, oldValue) {
@@ -32505,7 +32455,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       memberData: {
         users: null
       },
-      token: null,
       permissionId: null
     };
   },
@@ -32529,7 +32478,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         url: this.GLOBAL.localDomain + '/api/v1/organizations/' + id + '/users',
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token
+          'Authorization': this.GLOBAL.token
         },
         params: {
           users: null
@@ -32545,9 +32494,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       });
     }
   },
-  created: function created() {
-    this.token = sessionStorage.getItem('token');
-  }
+  created: function created() {}
 });
 
 /***/ }),
@@ -32587,7 +32534,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      token: null,
       isShowModal: false,
       messageData: {
         to: null,
@@ -32615,7 +32561,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         url: this.GLOBAL.localDomain + '/api/v1/messages/',
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token
+          'Authorization': this.GLOBAL.token
         },
         params: {
           to: that.messageData.to,
@@ -32633,9 +32579,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       });
     }
   },
-  created: function created() {
-    this.token = sessionStorage.getItem('token');
-  },
+  created: function created() {},
 
   watch: {}
 });
@@ -32688,7 +32632,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     return {
       messageData: null,
       isShowModal: false,
-      token: null,
       paginationData: null,
       data: null,
       searchKey: null
@@ -32714,7 +32657,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
           url: this.GLOBAL.localDomain + '/api/v1/messages/' + id,
           headers: {
             'Accept': 'application/json',
-            'Authorization': that.token
+            'Authorization': this.GLOBAL.token
           }
         }).then(function (res) {
           alert('删除成功');
@@ -32736,7 +32679,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         url: this.GLOBAL.localDomain + '/api/v1/messages/',
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token
+          'Authorization': this.GLOBAL.token
         }
       }).then(function (res) {
         that.messageData = res.data.data;
@@ -32757,7 +32700,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         url: this.GLOBAL.localDomain + '/api/v1/messages/' + that.searchKey,
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token
+          'Authorization': this.GLOBAL.token
         }
       }).then(function (res) {
         that.messageData = [];
@@ -32779,7 +32722,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     }
   },
   created: function created() {
-    this.token = sessionStorage.getItem('token');
+
     this.getMessage();
   }
 });
@@ -33021,7 +32964,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      token: null,
       isShowModal: false,
       noticeData: {
         to: null,
@@ -33048,7 +32990,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         url: this.GLOBAL.localDomain + '/api/v1/notifications/',
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token
+          'Authorization': this.GLOBAL.token
         },
         params: {
           // to: that.noticeData.to,
@@ -33066,9 +33008,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       });
     }
   },
-  created: function created() {
-    this.token = sessionStorage.getItem('token');
-  },
+  created: function created() {},
 
   watch: {}
 });
@@ -33117,7 +33057,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      token: null,
       noticeData: null,
       isShowModal: false,
       paginationData: null,
@@ -33145,7 +33084,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         url: this.GLOBAL.localDomain + '/api/v1/notifications/',
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token
+          'Authorization': this.GLOBAL.token
         }
       }).then(function (res) {
         that.noticeData = res.data.data;
@@ -33164,7 +33103,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
           url: this.GLOBAL.localDomain + '/api/v1/notifications/' + id,
           headers: {
             'Accept': 'application/json',
-            'Authorization': that.token
+            'Authorization': this.GLOBAL.token
           }
         }).then(function (res) {
           alert('删除成功');
@@ -33191,7 +33130,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     }
   },
   created: function created() {
-    this.token = sessionStorage.getItem('token');
+
     this.getNotice();
   },
 
@@ -33250,8 +33189,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         name: null, // 组织名称
         describe: null, // 组织描述
         max: null // 最大值
-      },
-      token: null
+      }
     };
   },
 
@@ -33274,7 +33212,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         url: this.GLOBAL.localDomain + '/api/v1/organizations',
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token
+          'Authorization': this.GLOBAL.token
         },
         params: {
           name: that.organizationData.name,
@@ -33292,9 +33230,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       });
     }
   },
-  created: function created() {
-    this.token = sessionStorage.getItem('token');
-  }
+  created: function created() {}
 });
 
 /***/ }),
@@ -33369,7 +33305,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         //         created_at: null,
         //         updated_at: null
       },
-      token: null,
       isShowModal: false
     };
   },
@@ -33393,7 +33328,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         url: this.GLOBAL.localDomain + '/api/v1/organizations/' + that.currentOrganizationData.id,
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token
+          'Authorization': this.GLOBAL.token
         },
         params: {
           name: that.currentOrganizationData.name,
@@ -33411,9 +33346,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       });
     }
   },
-  creatad: function creatad() {
-    this.token = sessionStorage.getItem('token');
-  },
+  creatad: function creatad() {},
 
   watch: {
     editData: function editData(value, oldValue) {
@@ -33516,7 +33449,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      token: null,
       organizationData: null,
       isShowModal: false,
       searchKey: null,
@@ -33550,7 +33482,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         url: this.GLOBAL.localDomain + '/api/v1/organizations',
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token
+          'Authorization': this.GLOBAL.token
         }
       }).then(function (res) {
         that.organizationData = res.data.data;
@@ -33566,7 +33498,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         url: this.GLOBAL.localDomain + '/api/v1/organizations/' + that.searchKey,
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token
+          'Authorization': this.GLOBAL.token
         }
       }).then(function (res) {
         that.organizationData = [];
@@ -33585,7 +33517,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
           url: this.GLOBAL.localDomain + '/api/v1/organizations/' + id,
           headers: {
             'Accept': 'application/json',
-            'Authorization': that.token
+            'Authorization': this.GLOBAL.token
           }
         }).then(function (res) {
           alert('删除成功');
@@ -33619,7 +33551,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     }
   },
   created: function created() {
-    this.token = sessionStorage.getItem('token');
+
     this.getOrganization();
   },
 
@@ -33652,7 +33584,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      token: null,
       first: null, // 首页
       last: null, // 尾页
       next: null, // 下一页
@@ -33673,7 +33604,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         url: urlPath,
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token
+          'Authorization': this.GLOBAL.token
         }
       }).then(function (res) {
         that.data = res.data;
@@ -33703,9 +33634,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       that.getData(url);
     }
   },
-  created: function created() {
-    this.token = sessionStorage.getItem('token');
-  },
+  created: function created() {},
 
   watch: {
     paginationData: function paginationData(value, oldValue) {
@@ -33769,7 +33698,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      token: null,
       isShowModal: false,
       permissionData: {
         name: null,
@@ -33798,7 +33726,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         url: this.GLOBAL.localDomain + '/api/v1/permissions/',
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token
+          'Authorization': this.GLOBAL.token
         },
         params: {
           name: that.permissionData.name,
@@ -33817,9 +33745,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       });
     }
   },
-  created: function created() {
-    this.token = sessionStorage.getItem('token');
-  },
+  created: function created() {},
 
   watch: {}
 });
@@ -33834,8 +33760,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__AddPermission___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__AddPermission__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Pagination_vue__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Pagination_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__Pagination_vue__);
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 //
 //
 //
@@ -33888,13 +33812,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
-    return _defineProperty({
-      token: null,
+    return {
       permissionData: null,
       isShowModal: false,
       permissionId: null,
       paginationData: null,
-      data: null }, 'token', null);
+      data: null // from Pagination.vue
+    };
   },
 
   components: {
@@ -33920,7 +33844,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           url: this.GLOBAL.localDomain + '/api/v1/permissions/' + id,
           headers: {
             'Accept': 'application/json',
-            'Authorization': that.token
+            'Authorization': this.GLOBAL.token
           }
         }).then(function (res) {
           alert('删除成功！');
@@ -33940,8 +33864,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         url: this.GLOBAL.localDomain + '/api/v1/roles/1/permissions?page=' + page,
         headers: {
           'Accept': 'application/json',
-          // 'Authorization': this.$store.state.token,
-          'Authorization': that.token
+          'Authorization': this.GLOBAL.token
         }
       }).then(function (res) {
         that.permissionData = res.data.data;
@@ -33957,7 +33880,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         url: this.GLOBAL.localDomain + '/api/v1/permissions/' + that.permissionId,
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token
+          'Authorization': this.GLOBAL.token
         }
       }).then(function (res) {
         that.permissionData = [];
@@ -33979,7 +33902,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     }
   },
   created: function created() {
-    this.token = sessionStorage.getItem('token');
     this.getPermission();
   },
 
@@ -34046,11 +33968,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
     return _ref = {
       isShowModal: false,
-      token: null,
       searchKey: null,
       applyForData: null,
       editData: null
-    }, _defineProperty(_ref, 'searchKey', null), _defineProperty(_ref, 'paginationData', null), _defineProperty(_ref, 'data', null), _defineProperty(_ref, 'userId', null), _ref;
+    }, _defineProperty(_ref, 'searchKey', null), _defineProperty(_ref, 'paginationData', null), _defineProperty(_ref, 'data', null), _ref;
   },
 
   components: {
@@ -34068,7 +33989,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         url: this.GLOBAL.localDomain + '/api/v1/applications/',
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token
+          'Authorization': this.GLOBAL.token
         }
       }).then(function (res) {
         // that.applyForData = [];
@@ -34083,8 +34004,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   },
   computed: {},
   created: function created() {
-    this.userId = sessionStorage.getItem('userId');
-    this.token = sessionStorage.getItem('token');
     this.getApplyFor();
   },
 
@@ -34154,8 +34073,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      token: '',
-      userId: null,
       lectureData: null,
       //       currentLectureData: {
       //         id: '',
@@ -34187,10 +34104,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       var that = this;
       axios({
         method: 'get',
-        url: this.GLOBAL.localDomain + '/api/v1/users/' + that.userId + '/lectures/',
+        url: this.GLOBAL.localDomain + '/api/v1/users/' + this.GLOBAL.userId + '/lectures/',
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token
+          'Authorization': this.GLOBAL.token
         }
       }).then(function (res) {
         that.lectureData = res.data.data;
@@ -34214,8 +34131,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   },
   computed: {},
   created: function created() {
-    this.token = sessionStorage.getItem('token');
-    this.userId = sessionStorage.getItem('userId');
     this.getLecture();
   },
 
@@ -34263,11 +34178,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     return {
       messageData: null,
       isShowModal: false,
-      token: null,
       paginationData: null,
       data: null,
-      searchKey: null,
-      userId: null
+      searchKey: null
     };
   },
 
@@ -34283,10 +34196,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       var that = this;
       axios({
         method: 'get',
-        url: this.GLOBAL.localDomain + '/api/v1/users/' + that.userId + '/messages/',
+        url: this.GLOBAL.localDomain + '/api/v1/users/' + this.GLOBAL.userId + '/messages/',
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token
+          'Authorization': this.GLOBAL.token
         }
       }).then(function (res) {
         that.messageData = res.data.data;
@@ -34298,9 +34211,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   },
   computed: {},
   created: function created() {
-    this.token = sessionStorage.getItem('token');
-    this.userId = sessionStorage.getItem('userId');
-
     this.getMessage();
   },
 
@@ -34389,7 +34299,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      token: null,
       currentTag: 'userData'
     };
   },
@@ -34397,9 +34306,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   components: {},
   methods: {},
   computed: {},
-  created: function created() {
-    this.token = sessionStorage.getItem('token');
-  },
+  created: function created() {},
 
   watch: {
     currentTag: function currentTag(value, oldValue) {
@@ -34440,12 +34347,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      token: null,
       noticeData: null,
       isShowModal: false,
       paginationData: null,
-      data: null,
-      userId: null
+      data: null
     };
   },
 
@@ -34462,10 +34367,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       var that = this;
       axios({
         method: 'get',
-        url: this.GLOBAL.localDomain + '/api/v1/users/' + that.userId + '/notifications/',
+        url: this.GLOBAL.localDomain + '/api/v1/users/' + this.GLOBAL.userId + '/notifications/',
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token
+          'Authorization': this.GLOBAL.token
         }
       }).then(function (res) {
         that.noticeData = res.data.data;
@@ -34477,8 +34382,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   },
   computed: {},
   created: function created() {
-    this.userId = sessionStorage.getItem('userId');
-    this.token = sessionStorage.getItem('token');
     this.getNotice();
   },
 
@@ -34544,16 +34447,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      token: null,
       organizationData: null,
       isShowModal: false,
       searchKey: null,
       editData: null, // 当前编辑的组织数据
       paginationData: null,
       data: null,
-      currentOrganizationData: null,
-      userId: null
-
+      currentOrganizationData: null
     };
   },
 
@@ -34565,10 +34465,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       var that = this;
       axios({
         method: 'get',
-        url: this.GLOBAL.localDomain + '/api/v1/users/' + that.userId + '/organizations/',
+        url: this.GLOBAL.localDomain + '/api/v1/users/' + this.GLOBAL.userId + '/organizations/',
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token
+          'Authorization': this.GLOBAL.token
         }
       }).then(function (res) {
         that.organizationData = res.data.data;
@@ -34580,8 +34480,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   },
   computed: {},
   created: function created() {
-    this.userId = sessionStorage.getItem('userId');
-    this.token = sessionStorage.getItem('token');
     this.getOrganization();
   },
 
@@ -34602,8 +34500,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Pagination_vue__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Pagination_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__Pagination_vue__);
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 //
 //
 //
@@ -34643,15 +34539,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
-    var _ref;
-
-    return _ref = {
-      token: null,
+    return {
       permissionData: null,
       isShowModal: false,
       permissionId: null,
       paginationData: null,
-      data: null }, _defineProperty(_ref, 'token', null), _defineProperty(_ref, 'userId', null), _ref;
+      data: null // from Pagination.vue
+    };
   },
 
   components: {
@@ -34668,10 +34562,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       var that = this;
       axios({
         method: 'get',
-        url: this.GLOBAL.localDomain + '/api/v1/users/' + that.userId + '/permissions/',
+        url: this.GLOBAL.localDomain + '/api/v1/users/' + this.GLOBAL.userId + '/permissions/',
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token
+          'Authorization': this.GLOBAL.token
         }
       }).then(function (res) {
         that.permissionData = res.data.data;
@@ -34683,8 +34577,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   },
   computed: {},
   created: function created() {
-    this.userId = sessionStorage.getItem('userId');
-    this.token = sessionStorage.getItem('token');
     this.getPermission();
   },
 
@@ -34754,12 +34646,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 
-
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      token: '',
-      userId: null,
       userData: null,
       currentUserData: {
         id: '',
@@ -34791,10 +34680,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       var that = this;
       axios({
         method: 'get',
-        url: this.GLOBAL.localDomain + '/api/v1/users/' + that.userId,
+        url: this.GLOBAL.localDomain + '/api/v1/users/' + this.GLOBAL.userId,
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token
+          'Authorization': this.GLOBAL.token
         }
       }).then(function (res) {
         that.userData = res.data.data;
@@ -34815,8 +34704,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   },
   computed: {},
   created: function created() {
-    this.token = sessionStorage.getItem('token');
-    this.userId = sessionStorage.getItem('userId');
     this.getUser();
   },
 
@@ -34870,15 +34757,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      token: '',
       roleData: null,
       isShowModal: false,
       searchKey: null,
       paginationData: null,
       data: null,
-      currentRoleData: null,
-      userId: null
-
+      currentRoleData: null
     };
   },
 
@@ -34894,10 +34778,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       var that = this;
       axios({
         method: 'get',
-        url: this.GLOBAL.localDomain + '/api/v1/users/' + that.userId + '/roles/',
+        url: this.GLOBAL.localDomain + '/api/v1/users/' + this.GLOBAL.userId + '/roles/',
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token
+          'Authorization': this.GLOBAL.token
         }
       }).then(function (res) {
         that.roleData = res.data.data;
@@ -34909,8 +34793,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   },
   computed: {},
   created: function created() {
-    this.userId = sessionStorage.getItem('userId');
-    this.token = sessionStorage.getItem('token');
     this.getRole();
   },
 
@@ -34973,8 +34855,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      token: '',
-      userId: null,
       userData: null,
       currentUserData: {
         id: '',
@@ -34997,10 +34877,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       var that = this;
       axios({
         method: 'get',
-        url: this.GLOBAL.localDomain + '/api/v1/users/' + that.userId,
+        url: this.GLOBAL.localDomain + '/api/v1/users/' + this.GLOBAL.userId,
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token
+          'Authorization': this.GLOBAL.token
         }
       }).then(function (res) {
         that.userData = res.data.data;
@@ -35021,8 +34901,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   },
   computed: {},
   created: function created() {
-    this.token = sessionStorage.getItem('token');
-    this.userId = sessionStorage.getItem('userId');
     this.getUser();
   },
 
@@ -35139,7 +35017,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         answer: null,
         answer_comment: null
       },
-      token: null,
       options: []
     };
   },
@@ -35183,7 +35060,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         url: this.GLOBAL.localDomain + '/api/v1/questions/',
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token
+          'Authorization': this.GLOBAL.token
         },
         params: {
           question_type: that.questionData.question_type,
@@ -35205,9 +35082,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       });
     }
   },
-  created: function created() {
-    this.token = sessionStorage.getItem('token');
-  },
+  created: function created() {},
 
   watch: {}
 });
@@ -35321,7 +35196,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         answer: null,
         answer_comment: null
       },
-      token: null,
       isShowModal: false,
       options: []
     };
@@ -35367,7 +35241,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         url: this.GLOBAL.localDomain + '/api/v1/questions/' + id,
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token
+          'Authorization': this.GLOBAL.token
         },
         params: {
           question_type: that.currentQuestionData.question_type,
@@ -35389,9 +35263,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       });
     }
   },
-  creatad: function creatad() {
-    this.token = sessionStorage.getItem('token');
-  },
+  creatad: function creatad() {},
 
   watch: {
     editData: function editData(value, oldValue) {
@@ -35465,7 +35337,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      token: null,
       multipleChoiceData: [],
       answers: [],
       answersJson: {}
@@ -35527,9 +35398,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     }
   },
   computed: {},
-  created: function created() {
-    this.token = sessionStorage.getItem('token');
-  },
+  created: function created() {},
 
   watch: {
     // questionData: function (value, oldValue) {
@@ -35614,7 +35483,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     return {
       isShowModal: false,
       questionData: null,
-      token: null,
       editData: null,
       paginationData: null,
       data: null,
@@ -35649,7 +35517,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
           url: this.GLOBAL.localDomain + '/api/v1/questions/' + id,
           headers: {
             'Accept': 'application/json',
-            'Authorization': that.token
+            'Authorization': this.GLOBAL.token
           }
         }).then(function (res) {
           alert('删除成功');
@@ -35667,7 +35535,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         url: this.GLOBAL.localDomain + '/api/v1/questions',
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token
+          'Authorization': this.GLOBAL.token
         }
       }).then(function (res) {
         that.questionData = res.data.data;
@@ -35702,7 +35570,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         url: this.GLOBAL.localDomain + '/api/v1/questions/' + id,
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token
+          'Authorization': this.GLOBAL.token
         }
       }).then(function (res) {
         that.questionData = [];
@@ -35730,7 +35598,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     }
   },
   created: function created() {
-    this.token = sessionStorage.getItem('token');
+
     this.getQuestion();
   },
 
@@ -35792,7 +35660,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      token: null,
       singleChoiceData: [],
       answers: [],
       answersJson: {},
@@ -35861,9 +35728,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     }
   },
   computed: {},
-  created: function created() {
-    this.token = sessionStorage.getItem('token');
-  },
+  created: function created() {},
 
   watch: {
     data: function data(value, oldValue) {
@@ -36040,7 +35905,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      token: null,
       isShowModal: false,
       permissionString: null
     };
@@ -36085,7 +35949,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         url: this.GLOBAL.localDomain + '/api/v1/roles/' + id + '/permissions?' + params,
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token
+          'Authorization': this.GLOBAL.token
         }
         // params: {
         // }
@@ -36101,9 +35965,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       });
     }
   },
-  created: function created() {
-    this.token = sessionStorage.getItem('token');
-  },
+  created: function created() {},
 
   watch: {}
 });
@@ -36149,7 +36011,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      token: null,
       isShowModal: false,
       roleData: {
         name: null,
@@ -36172,7 +36033,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         url: this.GLOBAL.localDomain + '/api/v1/roles/',
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token
+          'Authorization': this.GLOBAL.token
         },
         params: {
           name: that.roleData.name,
@@ -36195,9 +36056,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       });
     }
   },
-  created: function created() {
-    this.token = sessionStorage.getItem('token');
-  },
+  created: function created() {},
 
   watch: {}
 });
@@ -36234,7 +36093,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      token: null,
       isShowModal: false,
       userString: null
     };
@@ -36279,7 +36137,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         url: this.GLOBAL.localDomain + '/api/v1/roles/' + id + '/users?' + params,
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token
+          'Authorization': this.GLOBAL.token
         }
         // params: {
         // }
@@ -36295,9 +36153,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       });
     }
   },
-  created: function created() {
-    this.token = sessionStorage.getItem('token');
-  },
+  created: function created() {},
 
   watch: {}
 });
@@ -36379,7 +36235,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      token: null,
       isShowModal: false,
       permissionData: {
         id: '',
@@ -36418,7 +36273,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         url: this.GLOBAL.localDomain + '/api/v1/roles/' + id + '/permissions',
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token
+          'Authorization': this.GLOBAL.token
         }
       }).then(function (res) {
         that.permissionData = res.data.data;
@@ -36437,7 +36292,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
           url: this.GLOBAL.localDomain + '/api/v1/roles/' + id + '/permissions',
           headers: {
             'Accept': 'application/json',
-            'Authorization': that.token
+            'Authorization': this.GLOBAL.token
           }
         }).then(function (res) {
           alert('删除成功！');
@@ -36457,9 +36312,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       that.$refs.synchronizePermission.switchModal();
     }
   },
-  created: function created() {
-    this.token = sessionStorage.getItem('token');
-  },
+  created: function created() {},
 
   watch: {
     data: function data(value, oldValue) {
@@ -36554,7 +36407,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      token: '',
       roleData: null,
       isShowModal: false,
       searchKey: null,
@@ -36586,7 +36438,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
           url: this.GLOBAL.localDomain + '/api/v1/roles/' + id,
           headers: {
             'Accept': 'application/json',
-            'Authorization': that.token
+            'Authorization': this.GLOBAL.token
           }
         }).then(function (res) {
           alert('删除成功！');
@@ -36604,7 +36456,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         url: this.GLOBAL.localDomain + '/api/v1/roles/',
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token
+          'Authorization': this.GLOBAL.token
         }
       }).then(function (res) {
         that.roleData = res.data.data;
@@ -36629,7 +36481,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         url: this.GLOBAL.localDomain + '/api/v1/roles/' + that.searchKey,
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token
+          'Authorization': this.GLOBAL.token
         }
       }).then(function (res) {
         that.roleData = [];
@@ -36664,7 +36516,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     }
   },
   created: function created() {
-    this.token = sessionStorage.getItem('token');
+
     this.getRole();
   },
 
@@ -36711,8 +36563,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   data: function data() {
     return {
       isShowModal: false,
-      permissionString: null,
-      token: null
+      permissionString: null
     };
   },
 
@@ -36736,7 +36587,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         url: this.GLOBAL.localDomain + '/api/v1/roles/' + id + '/permissions?' + params,
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token
+          'Authorization': this.GLOBAL.token
         }
         // params: {
         //
@@ -36770,9 +36621,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       return string;
     }
   },
-  created: function created() {
-    this.token = sessionStorage.getItem('token');
-  }
+  created: function created() {}
 });
 
 /***/ }),
@@ -36809,8 +36658,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   data: function data() {
     return {
       isShowModal: false,
-      userString: null,
-      token: null
+      userString: null
     };
   },
 
@@ -36834,7 +36682,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         url: this.GLOBAL.localDomain + '/api/v1/roles/' + id + '/users?' + params,
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token
+          'Authorization': this.GLOBAL.token
         }
         // params: {
         //
@@ -36868,9 +36716,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       return string;
     }
   },
-  created: function created() {
-    this.token = sessionStorage.getItem('token');
-  }
+  created: function created() {}
 });
 
 /***/ }),
@@ -36945,7 +36791,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      token: null,
       isShowModal: false,
       userData: {
         id: '',
@@ -36987,7 +36832,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         url: this.GLOBAL.localDomain + '/api/v1/roles/' + id + '/users',
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token
+          'Authorization': this.GLOBAL.token
         }
       }).then(function (res) {
         that.userData = res.data.data;
@@ -37006,7 +36851,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
           url: this.GLOBAL.localDomain + '/api/v1/roles/' + id + '/users',
           headers: {
             'Accept': 'application/json',
-            'Authorization': that.token
+            'Authorization': this.GLOBAL.token
           }
         }).then(function (res) {
           alert('删除成功！');
@@ -37026,9 +36871,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       that.$refs.synchronizeUser.switchModal();
     }
   },
-  created: function created() {
-    this.token = sessionStorage.getItem('token');
-  },
+  created: function created() {},
 
   watch: {
     data: function data(value, oldValue) {
@@ -37093,7 +36936,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      token: null,
       isShowModal: false,
       teachingData: {
         name: null,
@@ -37127,7 +36969,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         url: this.GLOBAL.localDomain + '/api/v1/lectures',
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token
+          'Authorization': this.GLOBAL.token
         },
         // 优化：检测id是否合法，ids是否是数组
         params: {
@@ -37148,9 +36990,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       });
     }
   },
-  created: function created() {
-    this.token = sessionStorage.getItem('token');
-  }
+  created: function created() {}
 });
 
 /***/ }),
@@ -37187,7 +37027,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      token: null,
       isShowModal: false,
       userData: {
         users: null
@@ -37213,7 +37052,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         url: this.GLOBAL.localDomain + '/api/v1/lectures',
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token
+          'Authorization': this.GLOBAL.token
         },
         params: {
           users: that.userData.users
@@ -37229,9 +37068,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       });
     }
   },
-  created: function created() {
-    this.token = sessionStorage.getItem('token');
-  }
+  created: function created() {}
 });
 
 /***/ }),
@@ -37278,7 +37115,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         allowable_user_ids: null,
         describe: null
       },
-      token: null,
       isShowModal: false
     };
   },
@@ -37297,7 +37133,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         url: this.GLOBAL.localDomain + '/api/v1/teachings/' + that.currentTeachingData.id,
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token
+          'Authorization': this.GLOBAL.token
         },
         params: {
           name: that.teachingData.name,
@@ -37317,9 +37153,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       });
     }
   },
-  creatad: function creatad() {
-    this.token = sessionStorage.getItem('token');
-  },
+  creatad: function creatad() {},
 
   watch: {
     editData: function editData(value, oldValue) {
@@ -37427,7 +37261,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      token: null,
       isShowModal: false,
       // teachingData: null,
       searchKey: null,
@@ -37469,7 +37302,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         url: this.GLOBAL.localDomain + '/api/v1/lectures',
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token
+          'Authorization': this.GLOBAL.token
         }
       }).then(function (res) {
         that.teachingData = res.data.data;
@@ -37485,7 +37318,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         url: this.GLOBAL.localDomain + '/api/v1/lectures/' + that.searchKey,
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token
+          'Authorization': this.GLOBAL.token
         }
       }).then(function (res) {
         that.teachingData = [];
@@ -37504,7 +37337,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
           url: this.GLOBAL.localDomain + '/api/v1/lectures/' + id,
           headers: {
             'Accept': 'application/json',
-            'Authorization': that.token
+            'Authorization': this.GLOBAL.token
           }
         }).then(function (res) {
           that.teachingData = res.data.data;
@@ -37540,7 +37373,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     }
   },
   created: function created() {
-    this.token = sessionStorage.getItem('token');
+
     // this.getTeaching();
   },
 
@@ -37616,7 +37449,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      token: null,
       isShowModal: false,
       userData: null,
       searchKey: null,
@@ -37660,7 +37492,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         url: this.GLOBAL.localDomain + '/api/v1/lectures/' + id + '/users',
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token
+          'Authorization': this.GLOBAL.token
         }
       }).then(function (res) {
         that.userData = res.data.data;
@@ -37679,7 +37511,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
           url: this.GLOBAL.localDomain + '/api/v1/lectures/' + id + '/users',
           headers: {
             'Accept': 'application/json',
-            'Authorization': that.token
+            'Authorization': this.GLOBAL.token
           }
         }).then(function (res) {
           alert('删除成功！');
@@ -37690,9 +37522,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       }
     }
   },
-  created: function created() {
-    this.token = sessionStorage.getItem('token');
-  },
+  created: function created() {},
 
   watch: {
     data: function data(value, oldValue) {
@@ -37783,8 +37613,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         min: '',
         begin_at: '',
         paper_id: ''
-      },
-      token: null
+      }
+
     };
   },
 
@@ -37812,7 +37642,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         url: this.GLOBAL.localDomain + '/api/v1/exams/',
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token
+          'Authorization': this.GLOBAL.token
         },
         params: {
           title: that.testData.title,
@@ -37840,9 +37670,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       });
     }
   },
-  created: function created() {
-    this.token = sessionStorage.getItem('token');
-  }
+  created: function created() {}
 });
 
 /***/ }),
@@ -37915,8 +37743,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         min: '',
         begin_at: '',
         paper_id: ''
-      },
-      token: null
+      }
     };
   },
 
@@ -37946,7 +37773,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         url: this.GLOBAL.localDomain + '/api/v1/exams/' + id,
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token
+          'Authorization': this.GLOBAL.token
         },
         params: {
           title: that.testData.title,
@@ -37970,9 +37797,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       });
     }
   },
-  created: function created() {
-    this.token = sessionStorage.getItem('token');
-  },
+  created: function created() {},
 
   watch: {
     editData: function editData(value, oldValue) {
@@ -38090,7 +37915,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
     return _ref = {
       isShowModal: false,
-      token: null,
       searchKey: null,
       testData: null,
       editData: null
@@ -38118,7 +37942,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           url: this.GLOBAL.localDomain + '/api/v1/exams/' + id,
           headers: {
             'Accept': 'application/json',
-            'Authorization': that.token
+            'Authorization': this.GLOBAL.token
           }
         }).then(function (res) {
           alert('删除成功');
@@ -38141,7 +37965,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         url: this.GLOBAL.localDomain + '/api/v1/exams/' + id,
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token
+          'Authorization': this.GLOBAL.token
         }
       }).then(function (res) {
         // that.testData = res.data.data
@@ -38159,7 +37983,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         url: this.GLOBAL.localDomain + '/api/v1/exams/',
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token
+          'Authorization': this.GLOBAL.token
         }
       }).then(function (res) {
         if (res.data.data.length !== 0) {
@@ -38194,7 +38018,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       //   url: `${this.GLOBAL.localDomain}/api/v1/exams/${id}/start`,
       //   headers: {
       //     'Accept': 'application/json',
-      //     'Authorization': that.token
+      //     'Authorization': this.GLOBAL.token,
       //   }
       // }).then(res => {
       //   alert('已开始');
@@ -38217,7 +38041,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         url: this.GLOBAL.localDomain + '/api/v1/exams/' + id + '/correct',
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token
+          'Authorization': this.GLOBAL.token
         }
       }).then(function (res) {
         alert('批改完成');
@@ -38228,7 +38052,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     }
   },
   created: function created() {
-    this.token = sessionStorage.getItem('token');
+
     this.getTest();
   },
 
@@ -38281,7 +38105,6 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
   data: function data() {
     return {
       questionData: [],
-      token: null,
       chapterIds: [],
       isLoading: true,
       singleChoiceAnwser: null,
@@ -38307,7 +38130,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
         url: this.GLOBAL.localDomain + '/api/v1/papers/' + id,
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token
+          'Authorization': this.GLOBAL.token
         }
       }).then(function (res) {
         var chapterIds = res.data.data.sections;
@@ -38333,7 +38156,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
         url: this.GLOBAL.localDomain + '/api/v1/papers/' + paperId + '/sections/' + chapterId,
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token
+          'Authorization': this.GLOBAL.token
         }
       }).then(function (res) {
 
@@ -38362,7 +38185,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
         url: this.GLOBAL.localDomain + '/api/v1/questions/' + questionId,
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token
+          'Authorization': this.GLOBAL.token
         }
       }).then(function (res) {
         var currentQuestionData = res.data.data;
@@ -38406,7 +38229,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
         url: this.GLOBAL.localDomain + '/api/v1/exams/' + id + '/answer/',
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token
+          'Authorization': this.GLOBAL.token
         },
         data: {
           'answers': answers
@@ -38435,7 +38258,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
       //   url: `${this.GLOBAL.localDomain}/api/v1/exams/${id}/stop`,
       //   headers: {
       //     'Accept': 'application/json',
-      //     'Authorization': that.token
+      //     'Authorization': this.GLOBAL.token,
       //   }
       // }).then(res => {
       //   alert('已结束');
@@ -38506,13 +38329,10 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
             break;
         }
       }
-      debugger;
     }
   },
   computed: {},
-  created: function created() {
-    this.token = sessionStorage.getItem('token');
-  },
+  created: function created() {},
 
   watch: {
     paperId: function paperId(value, oldValue) {
@@ -38700,7 +38520,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   data: function data() {
     return {
       isShowModal: null,
-      token: '',
       password: null,
       new_password: null
     };
@@ -38726,7 +38545,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         url: this.GLOBAL.localDomain + '/api/v1/users/' + id + '/password/',
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token
+          'Authorization': this.GLOBAL.token
         },
         data: {
           password: that.password,
@@ -38743,9 +38562,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       });
     }
   },
-  created: function created() {
-    this.token = sessionStorage.getItem('token');
-  },
+  created: function created() {},
 
   watch: {
     isShowEditModal: function isShowEditModal(value, oldValue) {
@@ -38832,7 +38649,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      token: '',
       userData: null,
       searchKey: null,
       isShowEditModal: false,
@@ -38858,7 +38674,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
           url: this.GLOBAL.localDomain + '/api/v1/users/' + id,
           headers: {
             'Accept': 'application/json',
-            'Authorization': that.token
+            'Authorization': this.GLOBAL.token
           }
         }).then(function (res) {
           alert('删除成功！');
@@ -38877,7 +38693,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         url: this.GLOBAL.localDomain + '/api/v1/users/',
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token
+          'Authorization': this.GLOBAL.token
         }
       }).then(function (res) {
         that.userData = res.data.data;
@@ -38893,7 +38709,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         url: this.GLOBAL.localDomain + '/api/v1/users/' + that.searchKey,
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token
+          'Authorization': this.GLOBAL.token
         }
       }).then(function (res) {
         that.userData = [];
@@ -38919,7 +38735,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         url: this.GLOBAL.localDomain + '/api/v1/users/1/users/',
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token
+          'Authorization': this.GLOBAL.token
         }
       }).then(function (res) {
         console.log(res);
@@ -38943,7 +38759,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     }
   },
   created: function created() {
-    this.token = sessionStorage.getItem('token');
+
     this.getUser();
     // this.checkPermissions();
   },
@@ -39124,8 +38940,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       userData: {
         name: null,
         password: null
-      },
-      token: ''
+      }
     };
   },
 
@@ -39145,7 +38960,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         url: this.GLOBAL.localDomain + '/api/v1/users/' + id,
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token
+          'Authorization': this.GLOBAL.token
         },
         data: {
           name: that.userData.name
@@ -39162,9 +38977,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       });
     }
   },
-  created: function created() {
-    this.token = sessionStorage.getItem('token');
-  },
+  created: function created() {},
 
   watch: {
     isShowEditModal: function isShowEditModal(value, oldValue) {
@@ -43598,14 +43411,14 @@ module.exports = Array.isArray || function (arr) {
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(2)();
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 /***/ }),
 /* 255 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(2)();
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 /***/ }),
 /* 256 */
@@ -43647,35 +43460,35 @@ exports.push([module.i, "\n.message[data-v-16a7b3dd] {\n  margin: 35px auto 0 au
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(2)();
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 /***/ }),
 /* 262 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(2)();
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 /***/ }),
 /* 263 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(2)();
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 /***/ }),
 /* 264 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(2)();
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 /***/ }),
 /* 265 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(2)();
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 /***/ }),
 /* 266 */
@@ -43696,7 +43509,7 @@ exports.push([module.i, "\ntable {\n  margin: 35px auto 0 auto;\n}\n.search-inpu
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(2)();
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 /***/ }),
 /* 269 */
@@ -43717,14 +43530,14 @@ exports.push([module.i, "\n.message[data-v-2bc3df00] {\n  margin: 35px auto 0 au
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(2)();
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 /***/ }),
 /* 272 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(2)();
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 /***/ }),
 /* 273 */
@@ -43745,7 +43558,7 @@ exports.push([module.i, "\n.options-box[data-v-33726f87] {\n  margin: 20px 0 15p
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(2)();
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 /***/ }),
 /* 276 */
@@ -43787,7 +43600,7 @@ exports.push([module.i, "\ntable {\n  margin: 35px auto 0 auto;\n}\n.search-inpu
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(2)();
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 /***/ }),
 /* 282 */
@@ -43815,14 +43628,14 @@ exports.push([module.i, "\nlabel {\n  display: inline-block;\n  width: 100px;\n}
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(2)();
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 /***/ }),
 /* 286 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(2)();
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 /***/ }),
 /* 287 */
@@ -43843,7 +43656,7 @@ exports.push([module.i, "\ntable {\n  margin: 35px auto 0 auto;\n}\n.search-inpu
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(2)();
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 /***/ }),
 /* 290 */
@@ -43878,7 +43691,7 @@ exports.push([module.i, "\ntable {\n  margin: 35px auto 0 auto;\n}\n.search-inpu
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(2)();
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 /***/ }),
 /* 295 */
@@ -43892,7 +43705,7 @@ exports.push([module.i, "\ntable {\n  margin: 35px auto 0 auto;\n}\n.search-inpu
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(2)();
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 /***/ }),
 /* 297 */
@@ -43927,7 +43740,7 @@ exports.push([module.i, "\ntable {\n  margin: 35px auto 0 auto;\n}\n.search-inpu
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(2)();
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 /***/ }),
 /* 302 */
@@ -44011,7 +43824,7 @@ exports.push([module.i, "\ntable {\n  margin: 35px auto 0 auto;\n}\n.search-inpu
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(2)();
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 /***/ }),
 /* 314 */
@@ -44025,7 +43838,7 @@ exports.push([module.i, "\n.banner {\n  width: 100%;\n  height: 200px;\n  margin
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(2)();
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 /***/ }),
 /* 316 */
@@ -44039,28 +43852,28 @@ exports.push([module.i, "\nlabel {\n  display: inline-block;\n  width: 100px;\n}
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(2)();
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 /***/ }),
 /* 318 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(2)();
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 /***/ }),
 /* 319 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(2)();
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 /***/ }),
 /* 320 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(2)();
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 /***/ }),
 /* 321 */
@@ -44074,14 +43887,14 @@ exports.push([module.i, "\ntable {\n  margin: 35px auto 0 auto;\n}\n.search-inpu
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(2)();
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 /***/ }),
 /* 323 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(2)();
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 /***/ }),
 /* 324 */

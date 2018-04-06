@@ -52,7 +52,6 @@ export default {
         describe: null,
         question_type: null
       },
-      token: null,
       questionsString: '',
     }
   },
@@ -85,7 +84,7 @@ export default {
         url: `${this.GLOBAL.localDomain}/api/v1/papers/${examinationPaperId}/sections/${chapterId}?${questionsParams}`,
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token
+          'Authorization': this.GLOBAL.token,
         },
         params: {
           name: that.currentChapterData.name,
@@ -126,7 +125,7 @@ export default {
     }
   },
   creatad() {
-    this.token = sessionStorage.getItem('token');
+
   },
   watch: {
     editData: function (value, oldValue) {
