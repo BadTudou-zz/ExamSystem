@@ -138,14 +138,14 @@ export default {
     },
     deleteChapter: function (index) {
       const that = this;
-      let id = that.chapterData[index]['id'];
+      let chapterId = that.chapterData[index]['id'];
       let paperId = that.examinationPaperId;
       let prompt = confirm("确认删除该章节吗？");
 
       if (prompt) {
         axios({
           method: 'delete',
-          url: `${this.GLOBAL.localDomain}/api/v1/papers/${paperId}/sections/${id}`,
+          url: `${this.GLOBAL.localDomain}/api/v1/papers/${paperId}/sections/${chapterId}`,
           headers: {
             'Accept': 'application/json',
             'Authorization': that.token

@@ -30025,6 +30025,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         }
       }).then(function (res) {
         alert('添加成功');
+        that.clearWords();
         that.$emit('getChapter'); //第一个参数名为调用的方法名，第二个参数为需要传递的参数
         that.switchModal();
       }).catch(function (err) {
@@ -30208,14 +30209,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     deleteChapter: function deleteChapter(index) {
       var that = this;
-      var id = that.chapterData[index]['id'];
+      var chapterId = that.chapterData[index]['id'];
       var paperId = that.examinationPaperId;
       var prompt = confirm("确认删除该章节吗？");
 
       if (prompt) {
         axios({
           method: 'delete',
-          url: this.GLOBAL.localDomain + '/api/v1/papers/' + paperId + '/sections/' + id,
+          url: this.GLOBAL.localDomain + '/api/v1/papers/' + paperId + '/sections/' + chapterId,
           headers: {
             'Accept': 'application/json',
             'Authorization': that.token
@@ -35786,11 +35787,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
-//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -35805,9 +35801,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   },
 
   components: {},
-  props: ['item',
-  // 'questionData',
-  'currentQuestionData'],
+  props: ['data'],
   methods: {
     getOptionsString: function getOptionsString(value) {
       var that = this;
@@ -35819,22 +35813,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       }
       return str;
     },
-    // 筛选单选问题
-    filter: function filter(data) {
-      var that = this;
-      that.singleChoiceData = [];
-      for (var i = 0; i < data.length; i++) {
-        if (data[i].question_type === 'SINGLE_CHOICE') {
-          that.singleChoiceData.push(data[i]);
-        }
-      }
-      that.showSingleChoice = true;
-      console.log('filter函数');
-      console.log(that.singleChoiceData);
-    },
+    // answer json
     selectChange: function selectChange(index) {
       var that = this;
-      var id = '"' + that.currentQuestionData[index]['id'] + '"';
+      var id = '"' + that.data[index]['id'] + '"';
       var answer = that.answers[index];
       that.answersJson[id] = answer;
       that.$emit('input', that.answersJson); //第一个参数名为调用的方法名，第二个参数为需要传递的参数
@@ -35859,6 +35841,23 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       var that = this;
       var editData = that.singleChoiceData[index];
       that.$emit('editQuestion', null, editData); //第一个参数名为调用的方法名，第二个参数为需要传递的参数
+    },
+    // 去重
+    uniqData: function uniqData(value) {
+      var that = this;
+      var len = value.length;
+      var uniqData = [];
+
+      for (var i = 0; i < value.length; i++) {
+
+        for (var j = 0; j < uniqData.length; j++) {
+          if (uniqData[j]['id'] === value[i]['id']) {
+            break;
+          }
+        }
+        uniqData.push(value[i]);
+      }
+      return uniqData;
     }
   },
   computed: {},
@@ -35867,15 +35866,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   },
 
   watch: {
-    // questionData: function (value, oldValue) {
-    //   const that = this;
-    //   that.filter(value);
-    // },
-    currentQuestionData: function currentQuestionData(value, oldValue) {
+    data: function data(value, oldValue) {
       var that = this;
-      console.log('SingleChoice收到数据');
-      console.log(value);
-      that.filter(value);
+      debugger;
+      that.singleChoiceData = that.uniqData(value);
+
+      if (value.length !== 0) {
+        that.showSingleChoice = true;
+      } else {
+        console.log('暂无数据');
+      }
     }
   }
 });
@@ -38274,9 +38274,6 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 //
 //
 //
-//
-//
-//
 
 
 
@@ -38286,12 +38283,14 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
       questionData: [],
       token: null,
       chapterIds: [],
-      questionIds: [],
-      temporaryQuestionIds: [],
       isLoading: true,
-      currentQuestionData: null,
       singleChoiceAnwser: null,
-      questionIdsArray: []
+      questionIds: [],
+      temporaryQuestionIds: [], // 临时存储
+      currentQuestionData: [],
+      temporaryQuestionData: [], // 临时存储
+      singleChoiceData: [],
+      multipleChoiceData: []
     };
   },
 
@@ -38324,10 +38323,11 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
       that.questionIds = [];
     },
     // 通过章节ID数组找到所有章节下面的问题
-    searchChapter: function searchChapter(chapterId) {
+    getQuestionIds: function getQuestionIds(chapterId, totalLength, currentLength) {
       var that = this;
       var paperId = that.paperId;
-      // let questionIdsArray = [];
+      // console.log('getQuestionIds执行中')
+
       axios({
         method: 'get',
         url: this.GLOBAL.localDomain + '/api/v1/papers/' + paperId + '/sections/' + chapterId,
@@ -38337,19 +38337,25 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
         }
       }).then(function (res) {
 
-        that.questionIds = res.data.data.questions;
-        that.questionIdsArray = that.questionIds.split(',');
+        var currentQuestionIds = res.data.data.questions;
+        var currentQuestionIdsArray = currentQuestionIds.split(',');
+        console.log('currentQuestionIds:');
+        console.log(currentQuestionIds);
+        that.temporaryQuestionIds.push(currentQuestionIdsArray);
 
-        for (var i = 0; i < that.questionIdsArray.length; i++) {
-          var questionId = that.questionIdsArray[i];
-          that.searchQuestion(questionId, that.questionIdsArray.length, i);
+        // 用debugger的时候数据完全遍历到
+        if (currentLength + 1 === totalLength) {
+          console.log('currentLength: ' + currentLength);
+          console.log('totalLength: ' + totalLength);
+          that.questionIds = that.temporaryQuestionIds;
         }
       }).catch(function (err) {
         console.log(err);
       });
     },
-    searchQuestion: function searchQuestion(questionId, totalLength, currentLength) {
+    getQuestionData: function getQuestionData(questionId, totalLength, currentLength) {
       var that = this;
+      // console.log('getQuestionData执行中')
 
       axios({
         method: 'get',
@@ -38359,12 +38365,14 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
           'Authorization': that.token
         }
       }).then(function (res) {
-        var currentQuestionId = res.data.data.id;
-        that.questionData.push(res.data.data);
+        var currentQuestionData = res.data.data;
+        that.temporaryQuestionData.push(currentQuestionData);
 
-        if (totalLength === currentLength + 1) {
-          that.isLoading = false;
-          that.currentQuestionData = that.questionData;
+        // 用debugger的时候数据完全遍历到
+        if (currentLength + 1 === totalLength) {
+          console.log('currentLength: ' + currentLength);
+          console.log('totalLength: ' + totalLength);
+          that.questionData = that.temporaryQuestionData;
         }
       }).catch(function (err) {
         // alert('查找出错');
@@ -38419,7 +38427,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
       var that = this;
       var id = that.examId;
 
-      console.log(that.singleChoiceAnwser);
+      // console.log(that.singleChoiceAnwser)
 
       // alert('已结束');
       // axios({
@@ -38442,12 +38450,63 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
       //   console.log(err)
       // })
     },
-    fn: function fn(value) {
+    asyncGetQuestionIds: async function asyncGetQuestionIds(value) {
       var that = this;
-      for (var i = 0; i < value.length; i++) {
+      var len = value.length;
+      // console.log('执行asyncGetQuestionIds')
+
+      for (var i = 0; i < len; i++) {
         var chapterId = value[i];
-        that.searchChapter(chapterId);
+        // 获取所有问题的ID
+        await that.getQuestionIds(chapterId, len, i);
       }
+    },
+    // 获取所有的问题的数据
+    asyncGetQuestionData: async function asyncGetQuestionData(value) {
+      var that = this;
+      var len = value.length;
+      // console.log('执行asyncGetQuestionData')
+
+      for (var i = 0; i < len; i++) {
+        var questionId = value[i];
+        await that.getQuestionData(questionId, len, i);
+      }
+    },
+    // 去重
+    uniqData: function uniqData(value) {
+      var that = this;
+      var len = value.length;
+      var uniqData = [];
+
+      for (var i = 0; i < value.length; i++) {
+
+        for (var j = 0; j < uniqData.length; j++) {
+          if (uniqData[j]['id'] === value[i]['id']) {
+            break;
+          }
+        }
+        uniqData.push(value[i]);
+      }
+      // debugger
+      return uniqData;
+    },
+    // 问题分类
+    questionClassification: function questionClassification(allQuestionData) {
+      var that = this;
+      // let data = that.uniqData(allQuestionData);
+      var data = allQuestionData;
+      for (var i = 0; i < data.length; i++) {
+
+        switch (data[i]['question_type']) {
+          case 'SINGLE_CHOICE':
+            that.singleChoiceData.push(data[i]);
+            break;
+          case 'MULTIPLE_CHOICE':
+            that.multipleChoiceData.push(data[i]);
+            break;
+        }
+      }
+      debugger;
     }
   },
   computed: {},
@@ -38462,13 +38521,24 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
     },
     chapterIds: function chapterIds(value, oldValue) {
       var that = this;
-      for (var i = 0; i < value.length; i++) {
-        var chapterId = value[i];
-        that.searchChapter(chapterId);
+      that.asyncGetQuestionIds(value);
+    },
+    // if get all questionIds
+    questionIds: function questionIds(value, oldValue) {
+      var that = this;
+      if (value.length !== 0) {
+        console.log('questionIds:-----');
+        console.log(value);
       }
+      that.asyncGetQuestionData(value);
+    },
+    questionData: function questionData(value, oldValue) {
+      var that = this;
 
-      // axios.all([fn()])
-      // .then(axios.spread());
+      that.questionClassification(value);
+      // if (that.singleChoiceData.length !== 0) {
+      that.isLoading = false;
+      // }
     }
   }
 });
@@ -43990,7 +44060,7 @@ exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(2)();
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 /***/ }),
 /* 321 */
@@ -65500,7 +65570,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_vm._v("结束考试")]), _vm._v(" "), _c('single-choice', {
     ref: "singleChoice",
     attrs: {
-      "current-question-data": _vm.currentQuestionData
+      "data": _vm.singleChoiceData
     },
     model: {
       value: (_vm.singleChoiceAnwser),
@@ -65807,7 +65877,7 @@ if (false) {
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', [_vm._v("\n  稍等1\n  "), _c('div', {
+  return _c('div', [_c('div', {
     directives: [{
       name: "show",
       rawName: "v-show",
@@ -65815,7 +65885,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       expression: "showSingleChoice"
     }],
     staticClass: "message"
-  }, [_vm._v("\n    稍等2\n    "), _vm._l((_vm.singleChoiceData), function(item, index) {
+  }, _vm._l((_vm.singleChoiceData), function(item, index) {
     return _c('div', {
       staticClass: "message box"
     }, [_c('div', {
@@ -65891,7 +65961,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         "value": "D"
       }
     }, [_vm._v("D")])])])])])
-  })], 2)])
+  }))])
 },staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {
