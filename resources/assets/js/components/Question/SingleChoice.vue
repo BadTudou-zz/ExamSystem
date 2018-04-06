@@ -1,6 +1,7 @@
 <!-- 单选 -->
 <template lang="html">
   <div>
+
     <div v-show="showSingleChoice" class="message">
       <div  v-for="(item,index) in singleChoiceData" class="message box">
         <div class="notification">
@@ -30,7 +31,6 @@
           </div>
         </div>
       </div>
-
     </div>
 
   </div>
@@ -119,7 +119,6 @@ export default {
   watch: {
     data: function (value, oldValue) {
       const that = this;
-      debugger
       that.singleChoiceData = that.uniqData(value);
 
       if (value.length !== 0) {

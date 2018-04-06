@@ -10,57 +10,11 @@
       <button @click="stopTest()" class="button is-info finish-test" type="button" name="button">结束考试</button>
 
 
-      <div v-for="(item,index) in questionData">
-        <!-- 单选 -->
-        <div class="message">
-          <div v-show="item.question_type === 'SINGLE_CHOICE'" class="message box">
-            <div class="notification">
-              <p class="detail">        id：{{ item.id }}
-                &nbsp;&nbsp;&nbsp;&nbsp; 类型： 单选
-                &nbsp;&nbsp;&nbsp;&nbsp; 难度：{{ item.level_type }}
-              </p>
-              <div class="question">问题描述{{ item.title }}</div>
-              <div class="question">选项：{{ item.body }}</div>
-              <div class="options">正确答案：{{ item.answer }}</div>
-              <p class="time">{{item.created_at}}</p>
-            </div>
-            <div class="answer">
-              作答：
-              <div class="select">
-                <select>
-                  <option value='A'>A</option>
-                  <option value="B">B</option>
-                  <option value="C">C</option>
-                  <option value="D">D</option>
-                </select>
-              </div>
-            </div>
-          </div>
+      <single-choice ref="singleChoice"
+                     v-bind:data="singleChoiceData"
+                     v-model="singleChoiceAnwser"
+      ></single-choice>
 
-          <!-- 多选 -->
-          <div v-show="item.question_type === 'MULTIPLE_CHOICE'" class="message box">
-            <div class="notification">
-              <p class="detail">        id：{{ item.id }}
-                &nbsp;&nbsp;&nbsp;&nbsp; 类型： 多选
-                &nbsp;&nbsp;&nbsp;&nbsp; 难度：{{ item.level_type }}
-              </p>
-              <div class="question">问题描述{{ item.title }}</div>
-              <div class="question">选项：{{ item.body }}</div>
-              <div class="options">正确答案：{{ item.answer }}</div>
-              <p class="time">{{item.created_at}}</p>
-            </div>
-            <div class="answer">
-              作答：
-              <label class="checkbox multiple-choice">
-                <input type="checkbox">A
-                <input type="checkbox">B
-                <input type="checkbox">C
-                <input type="checkbox">D
-              </label>
-            </div>
-          </div>
-        </div>
-      </div>
 
     </div>
 
@@ -81,8 +35,8 @@ export default {
        temporaryQuestionIds: [],  // 临时存储
        currentQuestionData: [],
        temporaryQuestionData: [],  // 临时存储
-       // singleChoiceData: [],
-       // multipleChoiceData: [],
+       singleChoiceData: [],
+       multipleChoiceData: [],
     }
   },
   components: {
@@ -166,7 +120,7 @@ export default {
         if (currentLength + 1 === totalLength) {
           console.log('currentLength: ' + currentLength)
           console.log('totalLength: ' + totalLength)
-          that.questionData = that.uniqData(that.temporaryQuestionData);
+          that.questionData = that.temporaryQuestionData;
         }
       }).catch(err => {
         // alert('查找出错');
@@ -284,6 +238,23 @@ export default {
       }
       return uniqData;
     },
+    // 问题分类
+    questionClassification: function (allQuestionData) {
+      const that = this;
+      // let data = that.uniqData(allQuestionData);
+      let data = allQuestionData;
+      for (let i = 0; i < data.length; i++) {
+
+        switch (data[i]['question_type'] ) {
+          case 'SINGLE_CHOICE':
+            that.singleChoiceData.push(data[i]);
+            break;
+          case 'MULTIPLE_CHOICE':
+            that.multipleChoiceData.push(data[i]);
+            break;
+        }
+      }
+    }
   },
   computed: {
   },
@@ -310,7 +281,11 @@ export default {
     },
     questionData: function (value, oldValue) {
       const that = this;
-      that.isLoading = false;
+
+      that.questionClassification(value);
+      // if (that.singleChoiceData.length !== 0) {
+        that.isLoading = false;
+      // }
     }
   }
 }
@@ -345,8 +320,5 @@ export default {
 }
 .finish-test {
   margin-left: 20px;
-}
-.multiple-choice {
-  width: 200px;
 }
 </style>
