@@ -28,7 +28,6 @@ export default {
   data() {
     return {
        questionData: [],
-       token: null,
        chapterIds: [],
        isLoading: true,
        singleChoiceAnwser: null,
@@ -56,7 +55,7 @@ export default {
         url: `${this.GLOBAL.localDomain}/api/v1/papers/${id}`,
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token
+          'Authorization': this.GLOBAL.token,
         }
       }).then(res => {
         let chapterIds = res.data.data.sections;
@@ -82,7 +81,7 @@ export default {
         url: `${this.GLOBAL.localDomain}/api/v1/papers/${paperId}/sections/${chapterId}`,
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token
+          'Authorization': this.GLOBAL.token,
         }
       }).then(res => {
 
@@ -111,7 +110,7 @@ export default {
         url: `${this.GLOBAL.localDomain}/api/v1/questions/${questionId}`,
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token
+          'Authorization': this.GLOBAL.token,
         }
       }).then(res => {
         let currentQuestionData = res.data.data;
@@ -155,7 +154,7 @@ export default {
         url: `${this.GLOBAL.localDomain}/api/v1/exams/${id}/answer/`,
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token
+          'Authorization': this.GLOBAL.token,
         },
         data: {
           'answers': answers
@@ -185,7 +184,7 @@ export default {
       //   url: `${this.GLOBAL.localDomain}/api/v1/exams/${id}/stop`,
       //   headers: {
       //     'Accept': 'application/json',
-      //     'Authorization': that.token
+      //     'Authorization': this.GLOBAL.token,
       //   }
       // }).then(res => {
       //   alert('已结束');
@@ -261,7 +260,7 @@ export default {
   computed: {
   },
   created() {
-    this.token = sessionStorage.getItem('token');
+
   },
   watch: {
     paperId: function (value, oldValue) {

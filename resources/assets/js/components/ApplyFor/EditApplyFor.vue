@@ -47,7 +47,6 @@ export default {
         min: null,
         describe: null
       },
-      token: null,
     }
   },
   components: {
@@ -67,7 +66,7 @@ export default {
         url: `${this.GLOBAL.localDomain}/api/v1/questions/`,
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token
+          'Authorization': this.GLOBAL.token,
         },
         body: {
           question_type: that.chapterData.question_type,

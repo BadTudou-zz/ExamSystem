@@ -32,7 +32,6 @@ import Pagination from './../Pagination.vue'
 export default {
   data() {
     return {
-      token: null,
       noticeData: null,
       isShowModal: false,
       paginationData: null,
@@ -59,7 +58,7 @@ export default {
         url: `${this.GLOBAL.localDomain}/api/v1/notifications/`,
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token
+          'Authorization': this.GLOBAL.token,
         }
       }).then(res => {
         that.noticeData = res.data.data;
@@ -78,7 +77,7 @@ export default {
           url: `${this.GLOBAL.localDomain}/api/v1/notifications/${id}`,
           headers: {
             'Accept': 'application/json',
-            'Authorization': that.token
+            'Authorization': this.GLOBAL.token,
           }
         }).then(res => {
           alert('删除成功');
@@ -105,7 +104,7 @@ export default {
     },
   },
   created() {
-    this.token = sessionStorage.getItem('token');
+
     this.getNotice();
   },
   watch: {

@@ -62,7 +62,6 @@ export default {
   data() {
     return {
       isShowModal: false,
-      token: null,
       searchKey: null,
       applyForData: null,
       editData: null,
@@ -91,7 +90,7 @@ export default {
           url: `${this.GLOBAL.localDomain}/api/v1/applications/${id}`,
           headers: {
             'Accept': 'application/json',
-            'Authorization': that.token
+            'Authorization': this.GLOBAL.token,
           }
         }).then(res => {
           alert('删除成功');
@@ -110,7 +109,7 @@ export default {
         url: `${this.GLOBAL.localDomain}/api/v1/applications/${id}`,
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token
+          'Authorization': this.GLOBAL.token,
         }
       }).then(res => {
         // that.applyForData = [];
@@ -128,7 +127,7 @@ export default {
         url: `${this.GLOBAL.localDomain}/api/v1/applications/`,
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token
+          'Authorization': this.GLOBAL.token,
         }
       }).then(res => {
         // that.applyForData = [];
@@ -159,7 +158,7 @@ export default {
         url: `${this.GLOBAL.localDomain}/api/v1/applications/${id}/accept`,
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token
+          'Authorization': this.GLOBAL.token,
         }
       }).then(res => {
         // that.applyForData = [];
@@ -178,7 +177,7 @@ export default {
         url: `${this.GLOBAL.localDomain}/api/v1/applications/${id}/reject`,
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token
+          'Authorization': this.GLOBAL.token,
         }
       }).then(res => {
         alert('已拒绝')
@@ -208,7 +207,6 @@ export default {
     },
   },
   created() {
-    this.token = sessionStorage.getItem('token');
     this.getApplyFor();
   },
   watch: {

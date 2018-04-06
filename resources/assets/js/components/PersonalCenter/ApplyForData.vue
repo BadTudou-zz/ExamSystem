@@ -40,14 +40,12 @@ export default {
   data() {
     return {
       isShowModal: false,
-      token: null,
       searchKey: null,
       applyForData: null,
       editData: null,
       searchKey: null,
       paginationData: null,
       data: null,
-      userId: null,
     }
   },
   components: {
@@ -65,7 +63,7 @@ export default {
         url: `${this.GLOBAL.localDomain}/api/v1/applications/`,
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token
+          'Authorization': this.GLOBAL.token,
         }
       }).then(res => {
         // that.applyForData = [];
@@ -81,8 +79,6 @@ export default {
   computed: {
   },
   created() {
-    this.userId = sessionStorage.getItem('userId');
-    this.token = sessionStorage.getItem('token');
     this.getApplyFor();
   },
   watch: {

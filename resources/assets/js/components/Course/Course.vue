@@ -58,7 +58,6 @@ export default {
   data() {
     return {
       isShowModal: false,
-      token: null,
       courseData: null,
       editData: null,
       paginationData: null,
@@ -94,7 +93,7 @@ export default {
           url: `${this.GLOBAL.localDomain}/api/v1/courses/${id}`,
           headers: {
             'Accept': 'application/json',
-            'Authorization': that.token
+            'Authorization': this.GLOBAL.token,
           }
         }).then(res => {
           alert('删除成功');
@@ -112,7 +111,7 @@ export default {
         url: `${this.GLOBAL.localDomain}/api/v1/courses`,
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token
+          'Authorization': this.GLOBAL.token,
         }
       }).then(res => {
         that.courseData = res.data.data;
@@ -138,7 +137,6 @@ export default {
     },
   },
   created() {
-    this.token = sessionStorage.getItem('token');
     this.getCourse();
   },
   watch: {

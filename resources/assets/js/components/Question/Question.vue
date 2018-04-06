@@ -50,7 +50,6 @@ export default {
     return {
        isShowModal: false,
        questionData: null,
-       token: null,
        editData: null,
        paginationData: null,
        data: null,
@@ -85,7 +84,7 @@ export default {
           url: `${this.GLOBAL.localDomain}/api/v1/questions/${id}`,
           headers: {
             'Accept': 'application/json',
-            'Authorization': that.token
+            'Authorization': this.GLOBAL.token,
           }
         }).then(res => {
           alert('删除成功');
@@ -103,7 +102,7 @@ export default {
         url: `${this.GLOBAL.localDomain}/api/v1/questions`,
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token
+          'Authorization': this.GLOBAL.token,
         }
       }).then(res => {
         that.questionData = res.data.data;
@@ -139,7 +138,7 @@ export default {
         url: `${this.GLOBAL.localDomain}/api/v1/questions/${id}`,
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token
+          'Authorization': this.GLOBAL.token,
         }
       }).then(res => {
         that.questionData = [];
@@ -167,7 +166,7 @@ export default {
     },
   },
   created() {
-    this.token = sessionStorage.getItem('token');
+
     this.getQuestion();
   },
   watch: {

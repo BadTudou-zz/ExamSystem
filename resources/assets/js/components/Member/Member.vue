@@ -72,7 +72,6 @@ import AddMember from './AddMember'
 export default {
   data() {
     return {
-      token: null,
       isShowModal: false,
       memberData: null,
       searchKey: null,
@@ -124,7 +123,7 @@ export default {
         url: `${this.GLOBAL.localDomain}/api/v1/organizations/${id}/users`,
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token
+          'Authorization': this.GLOBAL.token,
         }
       }).then(res => {
         that.memberData = res.data.data;
@@ -140,7 +139,7 @@ export default {
         url: `${this.GLOBAL.localDomain}/api/v1/organizations/${that.searchKey}`,
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token
+          'Authorization': this.GLOBAL.token,
         }
       }).then(res => {
         that.memberData = [];
@@ -159,7 +158,7 @@ export default {
           url: `${this.GLOBAL.localDomain}/api/v1/organizations/${id}/users`,
           headers: {
             'Accept': 'application/json',
-            'Authorization': that.token
+            'Authorization': this.GLOBAL.token,
           }
         }).then(res => {
           alert('删除成功！')
@@ -171,7 +170,7 @@ export default {
     }
   },
   created() {
-    this.token = sessionStorage.getItem('token');
+
   },
   watch: {
     data:function (value, oldValue) {

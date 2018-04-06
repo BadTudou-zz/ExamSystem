@@ -47,7 +47,6 @@ export default {
         min: null,
         describe: null
       },
-      token: null,
       isShowModal: false,
     }
   },
@@ -77,7 +76,7 @@ export default {
         url: `${this.GLOBAL.localDomain}/api/v1/papers/${id}`,
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token,
+          'Authorization': this.GLOBAL.token,
         },
         params: {
           title: that.currentExaminationPaperData.title,
@@ -97,7 +96,7 @@ export default {
     }
   },
   creatad() {
-    this.token = sessionStorage.getItem('token');
+
   },
   watch: {
     editData: function (value, oldValue) {

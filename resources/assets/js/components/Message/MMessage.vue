@@ -36,7 +36,6 @@ export default {
     return {
       messageData: null,
       isShowModal: false,
-      token: null,
       paginationData: null,
       data: null,
       searchKey: null,
@@ -61,7 +60,7 @@ export default {
           url: `${this.GLOBAL.localDomain}/api/v1/messages/${id}`,
           headers: {
             'Accept': 'application/json',
-            'Authorization': that.token
+            'Authorization': this.GLOBAL.token,
           }
         }).then(res => {
           alert('删除成功');
@@ -83,7 +82,7 @@ export default {
         url: `${this.GLOBAL.localDomain}/api/v1/messages/`,
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token
+          'Authorization': this.GLOBAL.token,
         }
       }).then(res => {
         that.messageData = res.data.data;
@@ -104,7 +103,7 @@ export default {
         url: `${this.GLOBAL.localDomain}/api/v1/messages/${that.searchKey}`,
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token
+          'Authorization': this.GLOBAL.token,
         }
       }).then(res => {
         that.messageData = [];
@@ -126,7 +125,7 @@ export default {
     },
   },
   created() {
-    this.token = sessionStorage.getItem('token');
+
     this.getMessage();
   }
 }

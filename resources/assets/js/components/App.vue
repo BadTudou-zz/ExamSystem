@@ -14,7 +14,6 @@ export default {
     return {
       isShowLogin: true,
       loginStatus: null,
-      token: sessionStorage.getItem('token'),
       logOut: null,
     };
   },

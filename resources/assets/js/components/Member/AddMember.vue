@@ -29,7 +29,6 @@ export default {
       memberData: {
         users: null,
       },
-      token: null,
       permissionId: null,
     }
   },
@@ -55,7 +54,7 @@ export default {
         url: `${this.GLOBAL.localDomain}/api/v1/organizations/${id}/users`,
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token,
+          'Authorization': this.GLOBAL.token,
         },
         params: {
           users: null,
@@ -72,7 +71,7 @@ export default {
     }
   },
   created() {
-    this.token = sessionStorage.getItem('token');
+
   }
 }
 </script>

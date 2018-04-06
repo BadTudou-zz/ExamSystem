@@ -29,7 +29,6 @@
 export default {
   data() {
     return {
-      token: null,
       isShowModal: false,
       messageData: {
         to: null,
@@ -57,7 +56,7 @@ export default {
         url: `${this.GLOBAL.localDomain}/api/v1/messages/`,
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token,
+          'Authorization': this.GLOBAL.token,
         },
         params: {
           to: that.messageData.to,
@@ -76,7 +75,7 @@ export default {
     }
   },
   created() {
-    this.token = sessionStorage.getItem('token');
+
   },
   watch: {
   }

@@ -27,7 +27,6 @@ export default {
     return {
       isShowModal: false,
       userString: null,
-      token: null,
     }
   },
   props: [
@@ -53,7 +52,7 @@ export default {
         url: `${this.GLOBAL.localDomain}/api/v1/roles/${id}/users?${params}`,
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token,
+          'Authorization': this.GLOBAL.token,
         },
         // params: {
         //
@@ -89,7 +88,7 @@ export default {
     },
   },
   created() {
-    this.token = sessionStorage.getItem('token');
+
   }
 }
 </script>

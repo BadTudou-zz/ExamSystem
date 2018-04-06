@@ -33,7 +33,6 @@ import Pagination from './../Pagination'
 export default {
   data() {
     return {
-      token: null,
       isShowModal: false,
       scoreData: null,
       paginationData: null,
@@ -60,7 +59,7 @@ export default {
         url: `${this.GLOBAL.localDomain}/api/v1/papers/${id}/scores`,
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token
+          'Authorization': this.GLOBAL.token,
         }
       }).then(res => {
         that.scoreData = res.data.data;
@@ -71,7 +70,7 @@ export default {
     },
   },
   created() {
-    this.token = sessionStorage.getItem('token');
+
   },
   watch: {
     data:function (value, oldValue) {

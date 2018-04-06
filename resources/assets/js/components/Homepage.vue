@@ -13,7 +13,6 @@ export default {
     return {
       permissionIdList: [],
       permissionData: null,
-      token: null,
       url: `${this.GLOBAL.localDomain}/api/v1/roles/1/permissions`,
       logOut: null,
     };
@@ -30,7 +29,7 @@ export default {
         url: urlPath,
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token
+          'Authorization': this.GLOBAL.token,
         }
       }).then(res => {
         that.permissionData = res.data;  // conclude links
@@ -53,7 +52,7 @@ export default {
         url: url,
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token
+          'Authorization': this.GLOBAL.token,
         }
       }).then(res => {
         that.permissionData = res.data;  // conclude links
@@ -73,7 +72,6 @@ export default {
     },
   },
   created() {
-    this.token = sessionStorage.getItem('token')
     this.getPermission();
   },
   watch: {

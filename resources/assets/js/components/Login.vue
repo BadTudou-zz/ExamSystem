@@ -82,7 +82,6 @@ export default {
         sessionStorage.setItem("token",`Bearer ${token}`);
         sessionStorage.setItem('userId', userId);
         that.$store.commit('setToken', token);
-        // that.$store.commit('setUserData', userData);
         that.$emit('input', false);
       }).catch(err => {
         let errorMsg = err.response.data.message;

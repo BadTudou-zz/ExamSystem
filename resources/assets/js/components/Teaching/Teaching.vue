@@ -79,7 +79,6 @@ import User from './User'
 export default {
   data() {
     return {
-      token: null,
       isShowModal: false,
       // teachingData: null,
       searchKey: null,
@@ -122,7 +121,7 @@ export default {
         url: `${this.GLOBAL.localDomain}/api/v1/lectures`,
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token
+          'Authorization': this.GLOBAL.token,
         }
       }).then(res => {
         that.teachingData = res.data.data;
@@ -138,7 +137,7 @@ export default {
         url: `${this.GLOBAL.localDomain}/api/v1/lectures/${that.searchKey}`,
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token
+          'Authorization': this.GLOBAL.token,
         }
       }).then(res => {
         that.teachingData = [];
@@ -157,7 +156,7 @@ export default {
           url: `${this.GLOBAL.localDomain}/api/v1/lectures/${id}`,
           headers: {
             'Accept': 'application/json',
-            'Authorization': that.token
+            'Authorization': this.GLOBAL.token,
           }
         }).then(res => {
           that.teachingData = res.data.data;
@@ -193,7 +192,7 @@ export default {
     },
   },
   created() {
-    this.token = sessionStorage.getItem('token');
+
     // this.getTeaching();
   },
   watch: {

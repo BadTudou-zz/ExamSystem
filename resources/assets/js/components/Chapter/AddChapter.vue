@@ -61,7 +61,6 @@ export default {
         describe: null,
         question_type: null,
       },
-      token: null,
       questions: '',  // involving questions
       questionsString: '',
     }
@@ -94,7 +93,7 @@ export default {
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
           'Accept': 'application/json',
-          'Authorization': that.token,
+          'Authorization': this.GLOBAL.token,
         },
         params: {
           name: that.chapterData.name,
@@ -135,7 +134,6 @@ export default {
     }
   },
   created() {
-    this.token = sessionStorage.getItem('token');
   }
 }
 </script>

@@ -102,7 +102,6 @@ export default {
         answer: null,
         answer_comment: null,
       },
-      token: null,
       options: [],
     }
   },
@@ -147,7 +146,7 @@ export default {
         url: `${this.GLOBAL.localDomain}/api/v1/questions/`,
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token,
+          'Authorization': this.GLOBAL.token,
         },
         params: {
           question_type: that.questionData.question_type,
@@ -170,7 +169,7 @@ export default {
     }
   },
   created() {
-    this.token = sessionStorage.getItem('token');
+
   },
   watch: {
   }

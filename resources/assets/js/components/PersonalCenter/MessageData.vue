@@ -25,11 +25,9 @@ export default {
     return {
       messageData: null,
       isShowModal: false,
-      token: null,
       paginationData: null,
       data: null,
       searchKey: null,
-      userId: null,
     }
   },
   components: {
@@ -44,10 +42,10 @@ export default {
       const that = this;
       axios({
         method: 'get',
-        url: `${this.GLOBAL.localDomain}/api/v1/users/${that.userId}/messages/`,
+        url: `${this.GLOBAL.localDomain}/api/v1/users/${this.GLOBAL.userId}/messages/`,
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token
+          'Authorization': this.GLOBAL.token,
         }
       }).then(res => {
         that.messageData = res.data.data;
@@ -60,9 +58,6 @@ export default {
   computed: {
   },
   created() {
-    this.token = sessionStorage.getItem('token');
-    this.userId = sessionStorage.getItem('userId');
-
     this.getMessage();
   },
   watch: {

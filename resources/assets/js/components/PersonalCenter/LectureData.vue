@@ -47,8 +47,6 @@ import Pagination from './../Pagination.vue'
 export default {
   data() {
     return {
-      token: '',
-      userId: null,
       lectureData: null,
 //       currentLectureData: {
 //         id: '',
@@ -79,10 +77,10 @@ export default {
       const that = this;
       axios({
         method: 'get',
-        url: `${this.GLOBAL.localDomain}/api/v1/users/${that.userId}/lectures/`,
+        url: `${this.GLOBAL.localDomain}/api/v1/users/${this.GLOBAL.userId}/lectures/`,
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token
+          'Authorization': this.GLOBAL.token,
         }
       }).then(res => {
         that.lectureData = res.data.data;
@@ -107,8 +105,6 @@ export default {
   computed: {
   },
   created() {
-    this.token = sessionStorage.getItem('token');
-    this.userId = sessionStorage.getItem('userId');
     this.getLecture();
   },
   watch: {

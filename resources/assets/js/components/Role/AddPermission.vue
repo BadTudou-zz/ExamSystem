@@ -24,7 +24,6 @@
 export default {
   data() {
     return {
-      token: null,
       isShowModal: false,
       permissionString: null,
     }
@@ -72,7 +71,7 @@ export default {
         url: `${this.GLOBAL.localDomain}/api/v1/roles/${id}/permissions?${params}`,
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token,
+          'Authorization': this.GLOBAL.token,
         },
         // params: {
         // }
@@ -89,7 +88,7 @@ export default {
     }
   },
   created() {
-    this.token = sessionStorage.getItem('token');
+
   },
   watch: {
   }

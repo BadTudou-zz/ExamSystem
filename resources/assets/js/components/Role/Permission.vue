@@ -63,7 +63,6 @@ import SynchronizePermission from './SynchronizePermission'
 export default {
   data() {
     return {
-      token: null,
       isShowModal: false,
       permissionData: {
         id: '',
@@ -103,7 +102,7 @@ export default {
         url: `${this.GLOBAL.localDomain}/api/v1/roles/${id}/permissions`,
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token
+          'Authorization': this.GLOBAL.token,
         }
       }).then(res => {
         that.permissionData = res.data.data;
@@ -122,7 +121,7 @@ export default {
           url: `${this.GLOBAL.localDomain}/api/v1/roles/${id}/permissions`,
           headers: {
             'Accept': 'application/json',
-            'Authorization': that.token
+            'Authorization': this.GLOBAL.token,
           }
         }).then(res => {
           alert('删除成功！');
@@ -143,7 +142,7 @@ export default {
     },
   },
   created() {
-    this.token = sessionStorage.getItem('token');
+
   },
   watch: {
     data:function (value, oldValue) {
