@@ -31387,10 +31387,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     getScore: function getScore() {
       var that = this;
-      var id = that.examinationPaperId;
+      var paperId = that.examinationPaperId;
+      if (!paperId) return;
       axios({
         method: 'get',
-        url: this.GLOBAL.localDomain + '/api/v1/papers/' + id + '/scores',
+        url: this.GLOBAL.localDomain + '/api/v1/papers/' + paperId + '/scores',
         headers: {
           'Accept': 'application/json',
           'Authorization': this.GLOBAL.token
@@ -31414,7 +31415,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     currentExaminationPaperData: function currentExaminationPaperData(value, oldValue) {
       var that = this;
       that.examinationPaperId = value.id;
-      // that.getScore();
+      that.getScore();
     }
   }
 });
@@ -35494,26 +35495,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 
@@ -35624,6 +35605,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         that.getQuestion();
         console.log(err);
       });
+    },
+    getOptionsString: function getOptionsString(value) {
+      var that = this;
+      var arr = value.split(' ');
+      var alphabet = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I'];
+      var str = '';
+      for (var i = 0; i < arr.length; i++) {
+        str += alphabet[i] + '.' + arr[i] + '   ';
+      }
+      return str;
     }
   },
   computed: {
@@ -38054,7 +38045,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       var id = that.testData[index].id;
       that.paperId = that.testData[index].paper_id;
       that.examId = id;
+
       that.isTesting = true;
+
       // axios({
       //   method: 'post',
       //   url: `${this.GLOBAL.localDomain}/api/v1/exams/${id}/start`,
@@ -38064,6 +38057,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       //   }
       // }).then(res => {
       //   alert('已开始');
+      //   that.isTesting = true;
       // }).catch(err => {
       //   let errMsg = err.response.data.error;
       //   if (errMsg) {
@@ -38195,13 +38189,13 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
       questionData: [],
       chapterIds: [],
       isLoading: true,
-      singleChoiceAnwser: null,
+      singleChoiceAnswer: null,
       questionIds: [],
       temporaryQuestionIds: [], // 临时存储
       currentQuestionData: [],
-      temporaryQuestionData: [] // 临时存储
-      // singleChoiceData: [],
-      // multipleChoiceData: [],
+      temporaryQuestionData: [], // 临时存储
+      answer: [],
+      time: 25
     };
   },
 
@@ -38210,7 +38204,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
   },
   props: ['paperId', 'examId'],
   methods: {
-    searchExaminationPaper: function searchExaminationPaper(paperId) {
+    getChapterIds: function getChapterIds(paperId) {
       var that = this;
       var id = paperId;
       axios({
@@ -38233,11 +38227,9 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
       var that = this;
       that.questionIds = [];
     },
-    // 通过章节ID数组找到所有章节下面的问题
     getQuestionIds: function getQuestionIds(chapterId, totalLength, currentLength) {
       var that = this;
       var paperId = that.paperId;
-      // console.log('getQuestionIds执行中')
 
       axios({
         method: 'get',
@@ -38251,23 +38243,16 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
         var currentQuestionIds = res.data.data.questions;
         var currentQuestionIdsArray = currentQuestionIds.split(',');
         console.log('currentQuestionIds:');
-        console.log(currentQuestionIds);
-        that.temporaryQuestionIds.push(currentQuestionIdsArray);
+        console.log(currentQuestionIdsArray);
 
-        // 用debugger的时候数据完全遍历到
-        if (currentLength + 1 === totalLength) {
-          console.log('currentLength: ' + currentLength);
-          console.log('totalLength: ' + totalLength);
-          that.questionIds = that.temporaryQuestionIds;
-        }
+        var array = that.temporaryQuestionIds.concat(currentQuestionIdsArray);
+        that.temporaryQuestionIds = array;
       }).catch(function (err) {
         console.log(err);
       });
     },
     getQuestionData: function getQuestionData(questionId, totalLength, currentLength) {
       var that = this;
-      // console.log('getQuestionData执行中')
-
       axios({
         method: 'get',
         url: this.GLOBAL.localDomain + '/api/v1/questions/' + questionId,
@@ -38280,11 +38265,11 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
         that.temporaryQuestionData.push(currentQuestionData);
 
         // 用debugger的时候数据完全遍历到
-        if (currentLength + 1 === totalLength) {
-          console.log('currentLength: ' + currentLength);
-          console.log('totalLength: ' + totalLength);
-          that.questionData = that.uniqData(that.temporaryQuestionData);
-        }
+        // if (currentLength + 1 === totalLength) {
+        //   console.log('currentLength: ' + currentLength)
+        //   console.log('totalLength: ' + totalLength)
+        //   that.questionData = that.uniqData(that.temporaryQuestionData);
+        // }
       }).catch(function (err) {
         // alert('查找出错');
         console.log(err);
@@ -38298,20 +38283,10 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
     quitTest: function quitTest() {
       var that = this;
     },
-    mergeAnswerJson: function mergeAnswerJson() {
-      var that = this;
-      var o1 = { a: 1 };
-      var o2 = { b: 2 };
-      var o3 = { c: 3, e: 4 };
-
-      var obj = Object.assign(o1, o2, o3);
-      console.log(obj); // { a: 1, b: 2, c: 3 }
-      console.log(o1); // { a: 1, b: 2, c: 3 }, 注意目标对象自身也会改变。
-    },
     submitAnswer: function submitAnswer() {
       var that = this;
       var id = that.examId;
-      var answers = '';
+      var answers = that.computedAnswerJson();
       axios({
         method: 'post',
         url: this.GLOBAL.localDomain + '/api/v1/exams/' + id + '/answer/',
@@ -38321,6 +38296,33 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
         },
         data: {
           'answers': answers
+        }
+      }).then(function (res) {
+        console.log('答案提交成功');
+      }).catch(function (err) {
+        var errMsg = err.response.data.error;
+        if (errMsg) {
+          console.log(errMsg);
+        } else {
+          console.log('答案提交失败');
+        }
+        console.log(err);
+      });
+    },
+    // 完成 or 结束考试
+    stopTest: function stopTest() {
+      var that = this;
+      var id = that.examId;
+      console.log(that.computedAnswerJson());
+      // 提交答案
+      that.submitAnswer();
+
+      axios({
+        method: 'post',
+        url: this.GLOBAL.localDomain + '/api/v1/exams/' + id + '/stop',
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': this.GLOBAL.token
         }
       }).then(function (res) {
         alert('已结束');
@@ -38334,55 +38336,28 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
         console.log(err);
       });
     },
-    stopTest: function stopTest() {
-      var that = this;
-      var id = that.examId;
-
-      // console.log(that.singleChoiceAnwser)
-
-      // alert('已结束');
-      // axios({
-      //   method: 'post',
-      //   url: `${this.GLOBAL.localDomain}/api/v1/exams/${id}/stop`,
-      //   headers: {
-      //     'Accept': 'application/json',
-      //     'Authorization': this.GLOBAL.token,
-      //   }
-      // }).then(res => {
-      //   alert('已结束');
-      // }).catch(err => {
-      //   let errMsg = err.response.data.error;
-      //   if (errMsg) {
-      //     alert(errMsg);
-      //   }
-      //   else {
-      //     alert('结束失败，请稍后再试');
-      //   }
-      //   console.log(err)
-      // })
-    },
-    asyncGetQuestionIds: async function asyncGetQuestionIds(value) {
-      var that = this;
-      var len = value.length;
-      // console.log('执行asyncGetQuestionIds')
-
-      for (var i = 0; i < len; i++) {
-        var chapterId = value[i];
-        // 获取所有问题的ID
-        await that.getQuestionIds(chapterId, len, i);
-      }
-    },
-    // 获取所有的问题的数据
-    asyncGetQuestionData: async function asyncGetQuestionData(value) {
-      var that = this;
-      var len = value.length;
-      // console.log('执行asyncGetQuestionData')
-
-      for (var i = 0; i < len; i++) {
-        var questionId = value[i];
-        await that.getQuestionData(questionId, len, i);
-      }
-    },
+    // asyncGetQuestionIds: async function (value) {
+    //   const that = this;
+    //   let len = value.length;
+    //   // console.log('执行asyncGetQuestionIds')
+    //
+    //   for (let i = 0; i < len; i++) {
+    //     let chapterId = value[i];
+    //     // 获取所有问题的ID
+    //     await that.getQuestionIds(chapterId, len, i);
+    //   }
+    // },
+    // // 获取所有的问题的数据
+    // asyncGetQuestionData: async function (value) {
+    //   const that = this;
+    //   let len = value.length
+    //   // console.log('执行asyncGetQuestionData')
+    //
+    //   for (let i = 0; i < len; i++) {
+    //     let questionId = value[i];
+    //     await that.getQuestionData(questionId, len, i);
+    //   }
+    // },
     // 去重
     uniqData: function uniqData(value) {
       var that = this;
@@ -38399,6 +38374,53 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
         uniqData.push(value[i]);
       }
       return uniqData;
+    },
+    getOptionsString: function getOptionsString(value) {
+      var that = this;
+      var arr = value.split(' ');
+      var alphabet = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I'];
+      var str = '';
+      for (var i = 0; i < arr.length; i++) {
+        str += alphabet[i] + '.' + arr[i] + '   ';
+      }
+      return str;
+    },
+    // ?? 多选的答案格式
+    computedAnswerJson: function computedAnswerJson() {
+      var that = this;
+      var answer = {};
+      if (that.answer.length !== that.questionData.length) {
+        alert('请检查是否全部作答');
+        return;
+      }
+
+      for (var i = 0; i < that.questionData.length; i++) {
+        var id = that.questionData[i]['id'];
+        var ans = that.answer[i];
+        answer[id] = ans;
+      }
+      return answer;
+    },
+    waitTime: function waitTime() {
+      var that = this;
+      // 10s等待
+      setInterval(function () {
+        that.time--;
+      }, 1000);
+    },
+    sortArray: function sortArray(propertyName) {
+      return function (object1, object2) {
+        var value1 = parseInt(object1.id);
+        var value2 = parseInt(object2.id);
+
+        if (value1 < value2) {
+          return -1;
+        } else if (value1 > value2) {
+          return 1;
+        } else {
+          return 0;
+        }
+      };
     }
   },
   computed: {},
@@ -38407,20 +38429,39 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
   watch: {
     paperId: function paperId(value, oldValue) {
       var that = this;
-      that.searchExaminationPaper(value);
+      that.getChapterIds(value);
     },
-    chapterIds: function chapterIds(value, oldValue) {
+    chapterIds: async function chapterIds(value, oldValue) {
       var that = this;
-      that.asyncGetQuestionIds(value);
+      for (var i = 0; i < value.length; i++) {
+        var response = await that.getQuestionIds(value[i]);
+      }
+      that.waitTime();
+      // 10s等待
+      setTimeout(function () {
+        console.log('加载id中....');
+        console.log(that.temporaryQuestionIds);
+        that.questionIds = that.temporaryQuestionIds;
+      }, 10000);
     },
     // if get all questionIds
-    questionIds: function questionIds(value, oldValue) {
+    questionIds: async function questionIds(value, oldValue) {
       var that = this;
-      if (value.length !== 0) {
-        console.log('questionIds:-----');
-        console.log(value);
+      if (!value) return;
+
+      for (var i = 0; i < value.length; i++) {
+        var questionId = value[i];
+        that.getQuestionData(questionId);
       }
-      that.asyncGetQuestionData(value);
+
+      // 10s等待
+      setTimeout(function () {
+        console.log('加载题目中....');
+        // console.log(that.temporaryQuestionIds);
+        that.temporaryQuestionData = that.temporaryQuestionData.sort(that.sortArray());
+        that.questionData = that.temporaryQuestionData;
+        console.log(that.questionData);
+      }, 15000);
     },
     questionData: function questionData(value, oldValue) {
       var that = this;
@@ -43561,7 +43602,7 @@ exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(2)();
-exports.push([module.i, "\n.message {\n  margin: 35px auto 0 auto;\n  background-color: #fff;\n}\n.message .notification {\n  margin: 0;\n  background-color: #fff;\n}\n.notification .time {\n  margin-top: 25px;\n  text-align: right;\n  padding-bottom: 20px;\n  border-bottom: 1px solid #dedede;\n}\n.question {\n  text-align: left;\n  margin-bottom: 10px;\n}\n.loading {\n  width: 50px;\n  height: 50px;\n  margin: 0 auto;\n  display: block;\n}\n.finish-test {\n  margin-left: 20px;\n}\n.multiple-choice {\n  width: 200px;\n}\n", ""]);
+exports.push([module.i, "\n.message {\n  margin: 35px auto 0 auto;\n  background-color: #fff;\n}\n.message .notification {\n  margin: 0;\n  background-color: #fff;\n}\n.notification .time {\n  margin-top: 25px;\n  text-align: right;\n  padding-bottom: 20px;\n  border-bottom: 1px solid #dedede;\n}\n.question {\n  text-align: left;\n  margin-bottom: 10px;\n}\n.loading {\n  width: 50px;\n  height: 50px;\n  margin: 0 auto;\n  display: block;\n}\n.finish-test {\n  margin-left: 20px;\n}\n.multiple-choice {\n  width: 200px;\n}\n.answer-input {\n  display: inline-block;\n  width: 300px;\n}\n.wait-time {\n  text-align: center;\n  margin-bottom: 20px;\n}\n", ""]);
 
 /***/ }),
 /* 267 */
@@ -64840,9 +64881,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       staticClass: "detail"
     }, [_vm._v("        id：" + _vm._s(item.id) + "\n                 类型： 单选\n                 难度：" + _vm._s(item.level_type) + "\n          ")]), _vm._v(" "), _c('div', {
       staticClass: "question"
-    }, [_vm._v("问题描述" + _vm._s(item.title))]), _vm._v(" "), _c('div', {
+    }, [_vm._v("题目：" + _vm._s(item.title))]), _vm._v(" "), _c('div', {
       staticClass: "question"
-    }, [_vm._v("选项：" + _vm._s(item.body))])]), _vm._v(" "), _vm._m(0, true)]), _vm._v(" "), _c('div', {
+    }, [_vm._v("选项：" + _vm._s(_vm.getOptionsString(item.body)))])])]), _vm._v(" "), _c('div', {
       directives: [{
         name: "show",
         rawName: "v-show",
@@ -64876,9 +64917,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       staticClass: "detail"
     }, [_vm._v("        id：" + _vm._s(item.id) + "\n                 类型： 多选\n                 难度：" + _vm._s(item.level_type) + "\n          ")]), _vm._v(" "), _c('div', {
       staticClass: "question"
-    }, [_vm._v("问题描述" + _vm._s(item.title))]), _vm._v(" "), _c('div', {
+    }, [_vm._v("题目：" + _vm._s(item.title))]), _vm._v(" "), _c('div', {
       staticClass: "question"
-    }, [_vm._v("选项：" + _vm._s(item.body))])]), _vm._v(" "), _vm._m(1, true)])])])
+    }, [_vm._v("选项：" + _vm._s(_vm.getOptionsString(item.body)))])])])])])
   }), _vm._v(" "), _c('add-question', {
     ref: "addQuestion",
     on: {
@@ -64904,51 +64945,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       expression: "data"
     }
   })], 2)
-},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "answer"
-  }, [_vm._v("\n          作答：\n          "), _c('div', {
-    staticClass: "select"
-  }, [_c('select', [_c('option', {
-    attrs: {
-      "value": "A"
-    }
-  }, [_vm._v("A")]), _vm._v(" "), _c('option', {
-    attrs: {
-      "value": "B"
-    }
-  }, [_vm._v("B")]), _vm._v(" "), _c('option', {
-    attrs: {
-      "value": "C"
-    }
-  }, [_vm._v("C")]), _vm._v(" "), _c('option', {
-    attrs: {
-      "value": "D"
-    }
-  }, [_vm._v("D")])])])])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "answer"
-  }, [_vm._v("\n          作答：\n          "), _c('label', {
-    staticClass: "checkbox multiple-choice"
-  }, [_c('input', {
-    attrs: {
-      "type": "checkbox"
-    }
-  }), _vm._v("A\n            "), _c('input', {
-    attrs: {
-      "type": "checkbox"
-    }
-  }), _vm._v("B\n            "), _c('input', {
-    attrs: {
-      "type": "checkbox"
-    }
-  }), _vm._v("C\n            "), _c('input', {
-    attrs: {
-      "type": "checkbox"
-    }
-  }), _vm._v("D\n          ")])])
-}]}
+},staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {
   module.hot.accept()
@@ -65531,7 +65528,9 @@ if (false) {
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', [(_vm.isLoading) ? _c('div', [_c('img', {
+  return _c('div', [(_vm.isLoading) ? _c('div', [_c('p', {
+    staticClass: "wait-time"
+  }, [_vm._v("题目加载中，请稍等" + _vm._s(_vm.time) + "秒")]), _vm._v(" "), _c('img', {
     staticClass: "loading",
     attrs: {
       "src": __webpack_require__(329),
@@ -65548,7 +65547,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.stopTest()
       }
     }
-  }, [_vm._v("结束考试")]), _vm._v(" "), _vm._l((_vm.questionData), function(item, index) {
+  }, [_vm._v("完成考试")]), _vm._v(" "), _vm._l((_vm.questionData), function(item, index) {
     return _c('div', [_c('div', {
       staticClass: "message"
     }, [_c('div', {
@@ -65563,15 +65562,53 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       staticClass: "notification"
     }, [_c('p', {
       staticClass: "detail"
-    }, [_vm._v("        id：" + _vm._s(item.id) + "\n                   类型： 单选\n                   难度：" + _vm._s(item.level_type) + "\n            ")]), _vm._v(" "), _c('div', {
+    }, [_vm._v("        id：" + _vm._s(item.id) + "\n                   类型： 单选\n            ")]), _vm._v(" "), _c('div', {
       staticClass: "question"
-    }, [_vm._v("问题描述" + _vm._s(item.title))]), _vm._v(" "), _c('div', {
+    }, [_vm._v("题目：" + _vm._s(item.title))]), _vm._v(" "), _c('div', {
       staticClass: "question"
-    }, [_vm._v("选项：" + _vm._s(item.body))]), _vm._v(" "), _c('div', {
+    }, [_vm._v("选项：" + _vm._s(_vm.getOptionsString(item.body)))]), _vm._v(" "), _c('div', {
       staticClass: "options"
     }, [_vm._v("正确答案：" + _vm._s(item.answer))]), _vm._v(" "), _c('p', {
       staticClass: "time"
-    }, [_vm._v(_vm._s(item.created_at))])]), _vm._v(" "), _vm._m(0, true)]), _vm._v(" "), _c('div', {
+    }, [_vm._v(_vm._s(item.created_at))])]), _vm._v(" "), _c('div', {
+      staticClass: "answer"
+    }, [_vm._v("\n            作答：\n            "), _c('div', {
+      staticClass: "select"
+    }, [_c('select', {
+      directives: [{
+        name: "model",
+        rawName: "v-model",
+        value: (_vm.answer[index]),
+        expression: "answer[index]"
+      }],
+      on: {
+        "change": function($event) {
+          var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+            return o.selected
+          }).map(function(o) {
+            var val = "_value" in o ? o._value : o.value;
+            return val
+          });
+          _vm.$set(_vm.answer, index, $event.target.multiple ? $$selectedVal : $$selectedVal[0])
+        }
+      }
+    }, [_c('option', {
+      attrs: {
+        "value": "A"
+      }
+    }, [_vm._v("A")]), _vm._v(" "), _c('option', {
+      attrs: {
+        "value": "B"
+      }
+    }, [_vm._v("B")]), _vm._v(" "), _c('option', {
+      attrs: {
+        "value": "C"
+      }
+    }, [_vm._v("C")]), _vm._v(" "), _c('option', {
+      attrs: {
+        "value": "D"
+      }
+    }, [_vm._v("D")])])])])]), _vm._v(" "), _c('div', {
       directives: [{
         name: "show",
         rawName: "v-show",
@@ -65583,61 +65620,39 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       staticClass: "notification"
     }, [_c('p', {
       staticClass: "detail"
-    }, [_vm._v("        id：" + _vm._s(item.id) + "\n                   类型： 多选\n                   难度：" + _vm._s(item.level_type) + "\n            ")]), _vm._v(" "), _c('div', {
+    }, [_vm._v("        id：" + _vm._s(item.id) + "\n                   类型： 多选\n            ")]), _vm._v(" "), _c('div', {
       staticClass: "question"
-    }, [_vm._v("问题描述" + _vm._s(item.title))]), _vm._v(" "), _c('div', {
+    }, [_vm._v("题目：" + _vm._s(item.title))]), _vm._v(" "), _c('div', {
       staticClass: "question"
-    }, [_vm._v("选项：" + _vm._s(item.body))]), _vm._v(" "), _c('div', {
+    }, [_vm._v("选项：" + _vm._s(_vm.getOptionsString(item.body)))]), _vm._v(" "), _c('div', {
       staticClass: "options"
     }, [_vm._v("正确答案：" + _vm._s(item.answer))]), _vm._v(" "), _c('p', {
       staticClass: "time"
-    }, [_vm._v(_vm._s(item.created_at))])]), _vm._v(" "), _vm._m(1, true)])])])
+    }, [_vm._v(_vm._s(item.created_at))])]), _vm._v(" "), _c('div', {
+      staticClass: "answer"
+    }, [_vm._v("\n            作答：\n            "), _c('input', {
+      directives: [{
+        name: "model",
+        rawName: "v-model",
+        value: (_vm.answer[index]),
+        expression: "answer[index]"
+      }],
+      staticClass: "input answer-input",
+      attrs: {
+        "type": "text"
+      },
+      domProps: {
+        "value": (_vm.answer[index])
+      },
+      on: {
+        "input": function($event) {
+          if ($event.target.composing) { return; }
+          _vm.$set(_vm.answer, index, $event.target.value)
+        }
+      }
+    })])])])])
   })], 2)])
-},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "answer"
-  }, [_vm._v("\n            作答：\n            "), _c('div', {
-    staticClass: "select"
-  }, [_c('select', [_c('option', {
-    attrs: {
-      "value": "A"
-    }
-  }, [_vm._v("A")]), _vm._v(" "), _c('option', {
-    attrs: {
-      "value": "B"
-    }
-  }, [_vm._v("B")]), _vm._v(" "), _c('option', {
-    attrs: {
-      "value": "C"
-    }
-  }, [_vm._v("C")]), _vm._v(" "), _c('option', {
-    attrs: {
-      "value": "D"
-    }
-  }, [_vm._v("D")])])])])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "answer"
-  }, [_vm._v("\n            作答：\n            "), _c('label', {
-    staticClass: "checkbox multiple-choice"
-  }, [_c('input', {
-    attrs: {
-      "type": "checkbox"
-    }
-  }), _vm._v("A\n              "), _c('input', {
-    attrs: {
-      "type": "checkbox"
-    }
-  }), _vm._v("B\n              "), _c('input', {
-    attrs: {
-      "type": "checkbox"
-    }
-  }), _vm._v("C\n              "), _c('input', {
-    attrs: {
-      "type": "checkbox"
-    }
-  }), _vm._v("D\n            ")])])
-}]}
+},staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {
   module.hot.accept()
@@ -67134,7 +67149,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
           _vm.startTest(index)
         }
       }
-    }, [_vm._v("开始")]), _vm._v(" "), _c('button', {
+    }, [_vm._v("开始考试")]), _vm._v(" "), _c('button', {
       staticClass: "button",
       attrs: {
         "type": "button",

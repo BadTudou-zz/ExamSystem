@@ -3,11 +3,12 @@
   <div>
 
     <div v-if="isLoading">
+      <p class="wait-time">题目加载中，请稍等{{time}}秒</p>
       <img class="loading" src="../../../img/loading.gif" alt="">
     </div>
 
     <div v-else>
-      <button @click="stopTest()" class="button is-info finish-test" type="button" name="button">结束考试</button>
+      <button @click="stopTest()" class="button is-info finish-test" type="button" name="button">完成考试</button>
 
 
       <div v-for="(item,index) in questionData">
@@ -17,17 +18,16 @@
             <div class="notification">
               <p class="detail">        id：{{ item.id }}
                 &nbsp;&nbsp;&nbsp;&nbsp; 类型： 单选
-                &nbsp;&nbsp;&nbsp;&nbsp; 难度：{{ item.level_type }}
               </p>
-              <div class="question">问题描述{{ item.title }}</div>
-              <div class="question">选项：{{ item.body }}</div>
+              <div class="question">题目：{{ item.title }}</div>
+              <div class="question">选项：{{ getOptionsString(item.body) }}</div>
               <div class="options">正确答案：{{ item.answer }}</div>
               <p class="time">{{item.created_at}}</p>
             </div>
             <div class="answer">
               作答：
               <div class="select">
-                <select>
+                <select v-model="answer[index]">
                   <option value='A'>A</option>
                   <option value="B">B</option>
                   <option value="C">C</option>
@@ -42,21 +42,21 @@
             <div class="notification">
               <p class="detail">        id：{{ item.id }}
                 &nbsp;&nbsp;&nbsp;&nbsp; 类型： 多选
-                &nbsp;&nbsp;&nbsp;&nbsp; 难度：{{ item.level_type }}
               </p>
-              <div class="question">问题描述{{ item.title }}</div>
-              <div class="question">选项：{{ item.body }}</div>
+              <div class="question">题目：{{ item.title }}</div>
+              <div class="question">选项：{{ getOptionsString(item.body) }}</div>
               <div class="options">正确答案：{{ item.answer }}</div>
               <p class="time">{{item.created_at}}</p>
             </div>
             <div class="answer">
               作答：
-              <label class="checkbox multiple-choice">
-                <input type="checkbox">A
-                <input type="checkbox">B
-                <input type="checkbox">C
-                <input type="checkbox">D
-              </label>
+              <input v-model="answer[index]" class="input answer-input" type="text">
+              <!-- <label class="checkbox multiple-choice">
+                <input v-model="answer[index]" value="A" type="checkbox">A
+                <input v-model="answer[index]" value="B" type="checkbox">B
+                <input v-model="answer[index]" value="C" type="checkbox">C
+                <input v-model="answer[index]" value="D" type="checkbox">D
+              </label> -->
             </div>
           </div>
         </div>
@@ -76,13 +76,13 @@ export default {
        questionData: [],
        chapterIds: [],
        isLoading: true,
-       singleChoiceAnwser: null,
+       singleChoiceAnswer: null,
        questionIds: [],
        temporaryQuestionIds: [],  // 临时存储
        currentQuestionData: [],
-       temporaryQuestionData: [],  // 临时存储
-       // singleChoiceData: [],
-       // multipleChoiceData: [],
+       temporaryQuestionData: [], // 临时存储
+       answer: [],
+       time: 25,
     }
   },
   components: {
@@ -93,7 +93,7 @@ export default {
     'examId',
   ],
   methods: {
-    searchExaminationPaper: function (paperId) {
+    getChapterIds: function (paperId) {
       const that = this;
       let id = paperId;
       axios({
@@ -116,11 +116,9 @@ export default {
       const that = this;
       that.questionIds = [];
     },
-    // 通过章节ID数组找到所有章节下面的问题
     getQuestionIds: function (chapterId, totalLength, currentLength) {
       const that = this;
       let paperId = that.paperId;
-      // console.log('getQuestionIds执行中')
 
       axios({
         method: 'get',
@@ -134,23 +132,16 @@ export default {
         let currentQuestionIds = res.data.data.questions;
         let currentQuestionIdsArray = currentQuestionIds.split(',');
         console.log('currentQuestionIds:')
-        console.log(currentQuestionIds)
-        that.temporaryQuestionIds.push(currentQuestionIdsArray);
+        console.log(currentQuestionIdsArray)
 
-        // 用debugger的时候数据完全遍历到
-        if (currentLength + 1 === totalLength) {
-          console.log('currentLength: ' + currentLength)
-          console.log('totalLength: ' + totalLength)
-          that.questionIds = that.temporaryQuestionIds;
-        }
+        let array = that.temporaryQuestionIds.concat(currentQuestionIdsArray);
+        that.temporaryQuestionIds = array;
       }).catch(err => {
         console.log(err)
       })
     },
     getQuestionData: function (questionId, totalLength, currentLength) {
       const that = this;
-      // console.log('getQuestionData执行中')
-
       axios({
         method: 'get',
         url: `${this.GLOBAL.localDomain}/api/v1/questions/${questionId}`,
@@ -163,11 +154,11 @@ export default {
         that.temporaryQuestionData.push(currentQuestionData);
 
         // 用debugger的时候数据完全遍历到
-        if (currentLength + 1 === totalLength) {
-          console.log('currentLength: ' + currentLength)
-          console.log('totalLength: ' + totalLength)
-          that.questionData = that.uniqData(that.temporaryQuestionData);
-        }
+        // if (currentLength + 1 === totalLength) {
+        //   console.log('currentLength: ' + currentLength)
+        //   console.log('totalLength: ' + totalLength)
+        //   that.questionData = that.uniqData(that.temporaryQuestionData);
+        // }
       }).catch(err => {
         // alert('查找出错');
         console.log(err);
@@ -181,20 +172,10 @@ export default {
     quitTest: function () {
       const that = this;
     },
-    mergeAnswerJson: function () {
-      const that = this;
-      var o1 = { a: 1 };
-      var o2 = { b: 2 };
-      var o3 = { c: 3, e: 4 };
-
-      var obj = Object.assign(o1, o2, o3);
-      console.log(obj); // { a: 1, b: 2, c: 3 }
-      console.log(o1);  // { a: 1, b: 2, c: 3 }, 注意目标对象自身也会改变。
-    },
     submitAnswer: function () {
       const that = this;
       let id = that.examId;
-      let answers = '';
+      let answers = that.computedAnswerJson();
       axios({
         method: 'post',
         url: `${this.GLOBAL.localDomain}/api/v1/exams/${id}/answer/`,
@@ -204,6 +185,34 @@ export default {
         },
         data: {
           'answers': answers
+        }
+      }).then(res => {
+        console.log('答案提交成功');
+      }).catch(err => {
+        let errMsg = err.response.data.error;
+        if (errMsg) {
+          console.log(errMsg);
+        }
+        else {
+          console.log('答案提交失败');
+        }
+        console.log(err)
+      })
+    },
+    // 完成 or 结束考试
+    stopTest: function () {
+      const that = this;
+      let id = that.examId;
+      console.log(that.computedAnswerJson());
+      // 提交答案
+      that.submitAnswer();
+
+      axios({
+        method: 'post',
+        url: `${this.GLOBAL.localDomain}/api/v1/exams/${id}/stop`,
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': this.GLOBAL.token,
         }
       }).then(res => {
         alert('已结束');
@@ -218,55 +227,28 @@ export default {
         console.log(err)
       })
     },
-    stopTest: function () {
-      const that = this;
-      let id = that.examId;
-
-      // console.log(that.singleChoiceAnwser)
-
-      // alert('已结束');
-      // axios({
-      //   method: 'post',
-      //   url: `${this.GLOBAL.localDomain}/api/v1/exams/${id}/stop`,
-      //   headers: {
-      //     'Accept': 'application/json',
-      //     'Authorization': this.GLOBAL.token,
-      //   }
-      // }).then(res => {
-      //   alert('已结束');
-      // }).catch(err => {
-      //   let errMsg = err.response.data.error;
-      //   if (errMsg) {
-      //     alert(errMsg);
-      //   }
-      //   else {
-      //     alert('结束失败，请稍后再试');
-      //   }
-      //   console.log(err)
-      // })
-    },
-    asyncGetQuestionIds: async function (value) {
-      const that = this;
-      let len = value.length;
-      // console.log('执行asyncGetQuestionIds')
-
-      for (let i = 0; i < len; i++) {
-        let chapterId = value[i];
-        // 获取所有问题的ID
-        await that.getQuestionIds(chapterId, len, i);
-      }
-    },
-    // 获取所有的问题的数据
-    asyncGetQuestionData: async function (value) {
-      const that = this;
-      let len = value.length
-      // console.log('执行asyncGetQuestionData')
-
-      for (let i = 0; i < len; i++) {
-        let questionId = value[i];
-        await that.getQuestionData(questionId, len, i);
-      }
-    },
+    // asyncGetQuestionIds: async function (value) {
+    //   const that = this;
+    //   let len = value.length;
+    //   // console.log('执行asyncGetQuestionIds')
+    //
+    //   for (let i = 0; i < len; i++) {
+    //     let chapterId = value[i];
+    //     // 获取所有问题的ID
+    //     await that.getQuestionIds(chapterId, len, i);
+    //   }
+    // },
+    // // 获取所有的问题的数据
+    // asyncGetQuestionData: async function (value) {
+    //   const that = this;
+    //   let len = value.length
+    //   // console.log('执行asyncGetQuestionData')
+    //
+    //   for (let i = 0; i < len; i++) {
+    //     let questionId = value[i];
+    //     await that.getQuestionData(questionId, len, i);
+    //   }
+    // },
     // 去重
     uniqData: function(value) {
       const that = this;
@@ -284,6 +266,56 @@ export default {
       }
       return uniqData;
     },
+    getOptionsString: function (value) {
+      const that = this;
+      let arr = value.split(' ');
+      let alphabet = ['A','B','C','D','E','F','G','H','I'];
+      let str = '';
+      for (let i = 0; i < arr.length; i++) {
+        str += alphabet[i] + '.' + arr[i] + '   ';
+      }
+      return str;
+    },
+    // ?? 多选的答案格式
+    computedAnswerJson: function () {
+      const that = this;
+      let answer = {};
+      if (that.answer.length !== that.questionData.length) {
+        alert('请检查是否全部作答');
+        return;
+      }
+
+      for (let i = 0; i < that.questionData.length; i++) {
+        let id = that.questionData[i]['id'];
+        let ans = that.answer[i];
+        answer[id] = ans;
+      }
+      return answer;
+    },
+    waitTime: function () {
+      const that = this;
+      // 10s等待
+      setInterval(function(){
+        that.time--;
+      },1000)
+    },
+    // 根据Id排序数组
+    sortArray: function (propertyName){
+      return function(object1,object2){
+        var value1 = parseInt(object1.id);
+        var value2 = parseInt(object2.id);
+
+        if (value1 < value2) {
+          return -1;
+        }
+        else if (value1 > value2) {
+          return 1;
+        }
+        else{
+          return 0;
+        }
+      }
+    }
   },
   computed: {
   },
@@ -293,20 +325,41 @@ export default {
   watch: {
     paperId: function (value, oldValue) {
       const that = this;
-      that.searchExaminationPaper(value);
+      that.getChapterIds(value);
     },
-    chapterIds: function (value, oldValue) {
+    chapterIds: async function (value, oldValue) {
       const that = this;
-      that.asyncGetQuestionIds(value);
+      for (let i = 0; i < value.length; i++) {
+        let response = await that.getQuestionIds(value[i])
+      }
+      that.waitTime();
+      // 10s等待
+      setTimeout(function(){
+        console.log('加载id中....')
+        console.log(that.temporaryQuestionIds);
+        that.questionIds = that.temporaryQuestionIds;
+
+      },10000)
     },
     // if get all questionIds
-    questionIds: function (value, oldValue) {
+    questionIds: async function (value, oldValue) {
       const that = this;
-      if (value.length !== 0) {
-        console.log('questionIds:-----')
-        console.log(value)
+      if (!value) return;
+
+      for (let i = 0; i < value.length; i++) {
+        let questionId = value[i];
+        that.getQuestionData(questionId);
       }
-      that.asyncGetQuestionData(value);
+
+      // 10s等待
+      setTimeout(function(){
+        console.log('加载题目中....')
+        // console.log(that.temporaryQuestionIds);
+        that.temporaryQuestionData = that.temporaryQuestionData.sort(that.sortArray());
+        that.questionData = that.temporaryQuestionData;
+        console.log(that.questionData);
+      },15000)
+
     },
     questionData: function (value, oldValue) {
       const that = this;
@@ -348,5 +401,13 @@ export default {
 }
 .multiple-choice {
   width: 200px;
+}
+.answer-input {
+  display: inline-block;
+  width: 300px;
+}
+.wait-time {
+  text-align: center;
+  margin-bottom: 20px;
 }
 </style>

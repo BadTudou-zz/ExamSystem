@@ -72,7 +72,7 @@
     ></score>
 
     <pagination v-bind:pagination-data="paginationData"
-            v-model="data"
+                v-model="data"
     ></pagination>
 
   </div>

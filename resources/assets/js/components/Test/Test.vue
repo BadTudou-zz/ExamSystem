@@ -41,7 +41,7 @@
             <td>
               <button @click="deleteTest(index)" class="button" type="button" name="button">删除</button>
               <button @click="editTest(index)" class="button" type="button" name="button">编辑</button>
-              <button @click="startTest(index)" class="button" type="button" name="button">开始</button>
+              <button @click="startTest(index)" class="button" type="button" name="button">开始考试</button>
               <button @click="gradingPapers(index)" class="button" type="button" name="button">批改</button>
             </td>
           </tr>
@@ -184,7 +184,9 @@ export default {
       let id = that.testData[index].id;
       that.paperId = that.testData[index].paper_id;
       that.examId = id;
+
       that.isTesting = true;
+
       // axios({
       //   method: 'post',
       //   url: `${this.GLOBAL.localDomain}/api/v1/exams/${id}/start`,
@@ -194,6 +196,7 @@ export default {
       //   }
       // }).then(res => {
       //   alert('已开始');
+      //   that.isTesting = true;
       // }).catch(err => {
       //   let errMsg = err.response.data.error;
       //   if (errMsg) {

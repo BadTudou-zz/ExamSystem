@@ -53,10 +53,11 @@ export default {
     },
     getScore: function () {
       const that = this;
-      let id = that.examinationPaperId;
+      let paperId = that.examinationPaperId;
+      if (!paperId) return;
       axios({
         method: 'get',
-        url: `${this.GLOBAL.localDomain}/api/v1/papers/${id}/scores`,
+        url: `${this.GLOBAL.localDomain}/api/v1/papers/${paperId}/scores`,
         headers: {
           'Accept': 'application/json',
           'Authorization': this.GLOBAL.token,
@@ -70,7 +71,6 @@ export default {
     },
   },
   created() {
-
   },
   watch: {
     data:function (value, oldValue) {
@@ -81,7 +81,7 @@ export default {
     currentExaminationPaperData: function (value, oldValue) {
       const that = this;
       that.examinationPaperId = value.id;
-      // that.getScore();
+      that.getScore();
     }
   }
 }
