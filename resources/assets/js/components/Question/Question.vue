@@ -22,19 +22,8 @@
               &nbsp;&nbsp;&nbsp;&nbsp; 类型： 单选
               &nbsp;&nbsp;&nbsp;&nbsp; 难度：{{ item.level_type }}
             </p>
-            <div class="question">问题描述{{ item.title }}</div>
-            <div class="question">选项：{{ item.body }}</div>
-          </div>
-          <div class="answer">
-            作答：
-            <div class="select">
-              <select>
-                <option value='A'>A</option>
-                <option value="B">B</option>
-                <option value="C">C</option>
-                <option value="D">D</option>
-              </select>
-            </div>
+            <div class="question">题目：{{ item.title }}</div>
+            <div class="question">选项：{{ getOptionsString(item.body) }}</div>
           </div>
         </div>
 
@@ -49,17 +38,8 @@
               &nbsp;&nbsp;&nbsp;&nbsp; 类型： 多选
               &nbsp;&nbsp;&nbsp;&nbsp; 难度：{{ item.level_type }}
             </p>
-            <div class="question">问题描述{{ item.title }}</div>
-            <div class="question">选项：{{ item.body }}</div>
-          </div>
-          <div class="answer">
-            作答：
-            <label class="checkbox multiple-choice">
-              <input type="checkbox">A
-              <input type="checkbox">B
-              <input type="checkbox">C
-              <input type="checkbox">D
-            </label>
+            <div class="question">题目：{{ item.title }}</div>
+            <div class="question">选项：{{ getOptionsString(item.body) }}</div>
           </div>
         </div>
       </div>
@@ -191,7 +171,17 @@ export default {
         that.getQuestion();
         console.log(err);
       })
-    }
+    },
+    getOptionsString: function (value) {
+      const that = this;
+      let arr = value.split(' ');
+      let alphabet = ['A','B','C','D','E','F','G','H','I'];
+      let str = '';
+      for (let i = 0; i < arr.length; i++) {
+        str += alphabet[i] + '.' + arr[i] + '   ';
+      }
+      return str;
+    },
   },
   computed: {
     isShowCreateQuestion() {
