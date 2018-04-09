@@ -2,11 +2,11 @@
 <template lang="html">
   <div class="box">
     <div>
-      <div class="search-box">
+      <div v-show="isShowSearchPaper" class="search-box">
         <input v-model="searchKey" class="input search-input" type="text" placeholder="请输入你要查看的试卷">
         <button @click="searchExaminationPaper()" class="button" type="button" name="button">查找试卷</button>
       </div>
-        <button @click="addExaminationPaper()" class="button add-role-button" type="button" name="button">添加试卷</button>
+        <button v-show="isShowCreatePaper" @click="addExaminationPaper()" class="button add-role-button" type="button" name="button">添加试卷</button>
     </div>
     <table class="table">
       <thead>
@@ -38,7 +38,7 @@
           <td>{{ toTime(item.created_at) }}</td>
           <td>{{ toTime(item.updated_at) }}</td>
           <td>
-            <button @click="deleteExaminationPaper(index)" class="button is-small" type="button" name="button">删除试卷</button>
+            <button v-show="isShowDeletePaper" @click="deleteExaminationPaper(index)" class="button is-small" type="button" name="button">删除试卷</button>
             <button @click="editExaminationPaper(index)" class="button is-small" type="button" name="button">编辑试卷</button>
             <button @click="showAllQuestion(index)" class="button is-small" type="button" name="button">全部问题</button>
             <button @click="showAllScore(index)" class="button is-small" type="button" name="button">全部分数</button>
@@ -208,16 +208,16 @@ export default {
   },
   computed: {
     isShowCreatePaper() {
-      return this.$store.state.permissionIdList.includes(39);
+      return this.GLOBAL.permissions.includes(39);
     },
     isShowSearchPaper() {
-      return this.$store.state.permissionIdList.includes(40);
+      return this.GLOBAL.permissions.includes(40);
     },
     isShowUpdatePaper() {
-      return this.$store.state.permissionIdList.includes(41);
+      return this.GLOBAL.permissions.includes(41);
     },
     isShowDeletePaper() {
-      return this.$store.state.permissionIdList.includes(42);
+      return this.GLOBAL.permissions.includes(42);
     },
   },
   created() {

@@ -2,11 +2,11 @@
 <template lang="html">
   <div class="box">
     <div>
-      <div class="search-box">
+      <div v-show="isShowSearchApplication" class="search-box">
         <input v-model="searchKey" class="input search-input" type="text" placeholder="请输入你要查看的申请">
         <button @click="searchApplyFor()" class="button" type="button" name="button">查找申请</button>
       </div>
-        <button @click="addApplyFor()" class="button add-role-button" type="button" name="button">添加申请</button>
+        <button v-show="isShowCreateApplication" @click="addApplyFor()" class="button add-role-button" type="button" name="button">添加申请</button>
     </div>
     <table class="table">
       <thead>
@@ -31,10 +31,10 @@
           <td>{{ item.data }}</td>
           <td>{{ item.updated_at.date }}</td>
           <td>
-            <button @click="deleteApplyFor(index)" class="button" type="button" name="button">删除</button>
+            <button v-show="isShowDeleteApplication" @click="deleteApplyFor(index)" class="button" type="button" name="button">删除</button>
             <button @click="editApplyFor(index)" class="button" type="button" name="button">编辑</button>
-            <button @click="acceptApplyFor(index)" class="button" type="button" name="button">接受</button>
-            <button @click="rejectApplyFor(index)" class="button" type="button" name="button">拒绝</button>
+            <button v-show="isShowAccpetApplication" @click="acceptApplyFor(index)" class="button" type="button" name="button">接受</button>
+            <button v-show="isShowRejectApplication" @click="rejectApplyFor(index)" class="button" type="button" name="button">拒绝</button>
           </td>
         </tr>
       </tbody>
@@ -191,19 +191,19 @@ export default {
   },
   computed: {
     isShowCreateApplication() {
-      return this.$store.state.permissionIdList.includes(44);
+      return this.GLOBAL.permissions.includes(44);
     },
     isShowSearchApplication() {
-      return this.$store.state.permissionIdList.includes(45);
+      return this.GLOBAL.permissions.includes(45);
     },
     isShowAccpetApplication() {
-      return this.$store.state.permissionIdList.includes(46);
+      return this.GLOBAL.permissions.includes(46);
     },
     isShowRejectApplication() {
-      return this.$store.state.permissionIdList.includes(47);
+      return this.GLOBAL.permissions.includes(47);
     },
     isShowDeleteApplication() {
-      return this.$store.state.permissionIdList.includes(48);
+      return this.GLOBAL.permissions.includes(48);
     },
   },
   created() {

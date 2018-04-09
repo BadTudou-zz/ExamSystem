@@ -51,6 +51,7 @@ export default {
       that.clearWords();
     },
     clearWords: function () {
+      const that = this;
       that.permissionData.name = '';
       that.permissionData.display_name = '';
       that.permissionData.description = '';

@@ -65,6 +65,7 @@ export default {
         }
         else {
           that.$store.commit('setPermissionIdList', that.permissionIdList);
+          sessionStorage.setItem('permissions', that.permissionIdList);
         }
       }).catch(err => {
         console.log(err);

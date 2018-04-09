@@ -4,11 +4,11 @@
 
     <div v-show="!isTesting">
       <div>
-        <div class="search-box">
+        <div v-show="isShowSearchTest" class="search-box">
           <input v-model="searchKey" class="input search-input" type="text" placeholder="请输入你要查看的考试">
           <button @click="searchTest()" class="button" type="button" name="button">查找考试</button>
         </div>
-          <button @click="addTest()" class="button add-role-button" type="button" name="button">添加考试</button>
+          <button v-show="isShowCreateTest" @click="addTest()" class="button add-role-button" type="button" name="button">添加考试</button>
       </div>
       <table class="table">
         <thead>
@@ -39,7 +39,7 @@
             <td>{{ item.created_at }}</td>
             <td>{{ item.updated_at }}</td>
             <td>
-              <button @click="deleteTest(index)" class="button" type="button" name="button">删除</button>
+              <button v-show="isShowDeleteTest" @click="deleteTest(index)" class="button" type="button" name="button">删除</button>
               <button @click="editTest(index)" class="button" type="button" name="button">编辑</button>
               <button @click="startTest(index)" class="button" type="button" name="button">开始考试</button>
               <button @click="gradingPapers(index)" class="button" type="button" name="button">批改</button>
@@ -229,6 +229,21 @@ export default {
   created() {
 
     this.getTest();
+  },
+  computed: {
+    // 【考试】
+    isShowSearchTest() {
+      return this.GLOBAL.permissions.includes(54);
+    },
+    isShowCreateTest() {
+      return this.GLOBAL.permissions.includes(55);
+    },
+    isShowUpdateTest() {
+      return this.GLOBAL.permissions.includes(56);
+    },
+    isShowDeleteTest() {
+      return this.GLOBAL.permissions.includes(57);
+    },
   },
   watch: {
     data:function (value, oldValue) {
