@@ -29790,19 +29790,19 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   },
   computed: {
     isShowCreateApplication: function isShowCreateApplication() {
-      return this.$store.state.permissionIdList.includes(44);
+      return this.GLOBAL.permissions.includes(44);
     },
     isShowSearchApplication: function isShowSearchApplication() {
-      return this.$store.state.permissionIdList.includes(45);
+      return this.GLOBAL.permissions.includes(45);
     },
     isShowAccpetApplication: function isShowAccpetApplication() {
-      return this.$store.state.permissionIdList.includes(46);
+      return this.GLOBAL.permissions.includes(46);
     },
     isShowRejectApplication: function isShowRejectApplication() {
-      return this.$store.state.permissionIdList.includes(47);
+      return this.GLOBAL.permissions.includes(47);
     },
     isShowDeleteApplication: function isShowDeleteApplication() {
-      return this.$store.state.permissionIdList.includes(48);
+      return this.GLOBAL.permissions.includes(48);
     }
   },
   created: function created() {
@@ -30537,6 +30537,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
 
 
 
@@ -30613,16 +30617,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   },
   computed: {
     isShowCreateCourse: function isShowCreateCourse() {
-      return this.$store.state.permissionIdList.includes(22);
+      return this.GLOBAL.permissions.includes(22);
     },
     isShowSearchCourse: function isShowSearchCourse() {
-      return this.$store.state.permissionIdList.includes(23);
+      return this.GLOBAL.permissions.includes(23);
     },
     isShowUpdateCourse: function isShowUpdateCourse() {
-      return this.$store.state.permissionIdList.includes(24);
+      return this.GLOBAL.permissions.includes(24);
     },
     isShowDeleteCourse: function isShowDeleteCourse() {
-      return this.$store.state.permissionIdList.includes(25);
+      return this.GLOBAL.permissions.includes(25);
     }
   },
   created: function created() {
@@ -31189,16 +31193,16 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   },
   computed: {
     isShowCreatePaper: function isShowCreatePaper() {
-      return this.$store.state.permissionIdList.includes(39);
+      return this.GLOBAL.permissions.includes(39);
     },
     isShowSearchPaper: function isShowSearchPaper() {
-      return this.$store.state.permissionIdList.includes(40);
+      return this.GLOBAL.permissions.includes(40);
     },
     isShowUpdatePaper: function isShowUpdatePaper() {
-      return this.$store.state.permissionIdList.includes(41);
+      return this.GLOBAL.permissions.includes(41);
     },
     isShowDeletePaper: function isShowDeletePaper() {
-      return this.$store.state.permissionIdList.includes(42);
+      return this.GLOBAL.permissions.includes(42);
     }
   },
   created: function created() {
@@ -31466,11 +31470,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 var localDomain = 'http://www.badtudou.com';
 var token = sessionStorage.getItem('token');
 var userId = sessionStorage.getItem('userId');
+var permissions = sessionStorage.getItem('permissions');
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   localDomain: localDomain,
   token: token,
-  userId: userId
+  userId: userId,
+  permissions: permissions
 });
 
 /***/ }),
@@ -31575,6 +31581,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
           that.getPermission(that.url);
         } else {
           that.$store.commit('setPermissionIdList', that.permissionIdList);
+          sessionStorage.setItem('permissions', that.permissionIdList);
         }
       }).catch(function (err) {
         console.log(err);
@@ -31980,13 +31987,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   },
   computed: {
     isShowSearchLabel: function isShowSearchLabel() {
-      return this.$store.state.permissionIdList.includes(50);
+      return this.GLOBAL.permissions.includes(50);
     },
     isShowUpdateLabel: function isShowUpdateLabel() {
-      return this.$store.state.permissionIdList.includes(51);
+      return this.GLOBAL.permissions.includes(51);
     },
     isShowDeleteLabel: function isShowDeleteLabel() {
-      return this.$store.state.permissionIdList.includes(52);
+      return this.GLOBAL.permissions.includes(52);
     }
   },
   created: function created() {
@@ -32713,13 +32720,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   },
   computed: {
     isShowCreateMessage: function isShowCreateMessage() {
-      return this.$store.state.permissionIdList.includes(14);
+      return this.GLOBAL.permissions.includes(14);
     },
     isShowSearchMessage: function isShowSearchMessage() {
-      return this.$store.state.permissionIdList.includes(15);
+      return this.GLOBAL.permissions.includes(15);
     },
     isShowDeleteMessage: function isShowDeleteMessage() {
-      return this.$store.state.permissionIdList.includes(16);
+      return this.GLOBAL.permissions.includes(16);
     }
   },
   created: function created() {
@@ -32891,35 +32898,59 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     }
   },
   computed: {
+    // 1.【权限】
     isShowPermission: function isShowPermission() {
-      return this.$store.state.permissionIdList.includes(4);
+      return this.GLOBAL.permissions.includes(4);
     },
+
+    // 2.【角色】
     isShowRole: function isShowRole() {
-      return this.$store.state.permissionIdList.includes(7);
+      return this.GLOBAL.permissions.includes(7);
     },
+
+    // 3.【用户】
     isShowUser: function isShowUser() {
-      return this.$store.state.permissionIdList.includes(10);
+      return this.GLOBAL.permissions.includes(10);
     },
+
+    // 4.【消息】
     isShowMessage: function isShowMessage() {
-      return this.$store.state.permissionIdList.includes(13);
+      return this.GLOBAL.permissions.includes(13);
     },
+
+    // 5.【通知】
     isShowNotification: function isShowNotification() {
-      return this.$store.state.permissionIdList.includes(17);
+      return this.GLOBAL.permissions.includes(17);
     },
+
+    // 6.【组织】
     isShowOrganization: function isShowOrganization() {
-      return this.$store.state.permissionIdList.includes(26);
+      return this.GLOBAL.permissions.includes(26);
     },
+
+    // 7.【问题】
     isShowQuestion: function isShowQuestion() {
-      return this.$store.state.permissionIdList.includes(33);
+      return this.GLOBAL.permissions.includes(33);
     },
+
+    // 8.【试卷】
     isShowPaper: function isShowPaper() {
-      return this.$store.state.permissionIdList.includes(38);
+      return this.GLOBAL.permissions.includes(38);
     },
+
+    // 9.【申请】
     isShowApplication: function isShowApplication() {
-      return this.$store.state.permissionIdList.includes(43);
+      return this.GLOBAL.permissions.includes(43);
     },
+
+    // 10.【标签】
     isShowTag: function isShowTag() {
-      return this.$store.state.permissionIdList.includes(49);
+      return this.GLOBAL.permissions.includes(49);
+    },
+
+    // 11.【试卷】
+    isShowExamPaper: function isShowExamPaper() {
+      return this.GLOBAL.permissions.includes(53);
     }
   },
   created: function created() {},
@@ -33118,16 +33149,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   },
   computed: {
     isShowCreateNotification: function isShowCreateNotification() {
-      return this.$store.state.permissionIdList.includes(18);
+      return this.GLOBAL.permissions.includes(18);
     },
     isShowSearchNotification: function isShowSearchNotification() {
-      return this.$store.state.permissionIdList.includes(19);
+      return this.GLOBAL.permissions.includes(19);
     },
     isShowUpdateNotification: function isShowUpdateNotification() {
-      return this.$store.state.permissionIdList.includes(20);
+      return this.GLOBAL.permissions.includes(20);
     },
     isShowDeleteNotification: function isShowDeleteNotification() {
-      return this.$store.state.permissionIdList.includes(21);
+      return this.GLOBAL.permissions.includes(21);
     }
   },
   created: function created() {
@@ -33542,13 +33573,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   },
   computed: {
     isShowCreateOrganization: function isShowCreateOrganization() {
-      return this.$store.state.permissionIdList.includes(27);
+      return this.GLOBAL.permissions.includes(27);
     },
     isShowSearchOrganization: function isShowSearchOrganization() {
-      return this.$store.state.permissionIdList.includes(28);
+      return this.GLOBAL.permissions.includes(28);
     },
     isShowDeleteOrganization: function isShowDeleteOrganization() {
-      return this.$store.state.permissionIdList.includes(29);
+      return this.GLOBAL.permissions.includes(29);
     }
   },
   created: function created() {
@@ -33716,6 +33747,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       that.clearWords();
     },
     clearWords: function clearWords() {
+      var that = this;
       that.permissionData.name = '';
       that.permissionData.display_name = '';
       that.permissionData.description = '';
@@ -33893,13 +33925,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   },
   computed: {
     isShowCreatePermission: function isShowCreatePermission() {
-      return this.$store.state.permissionIdList.includes(1);
+      return this.GLOBAL.permissions.includes(1);
     },
     isShowSearchPermission: function isShowSearchPermission() {
-      return this.$store.state.permissionIdList.includes(2);
+      return this.GLOBAL.permissions.includes(2);
     },
     isShowDeletePermission: function isShowDeletePermission() {
-      return this.$store.state.permissionIdList.includes(3);
+      return this.GLOBAL.permissions.includes(3);
     }
   },
   created: function created() {
@@ -35619,16 +35651,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   },
   computed: {
     isShowCreateQuestion: function isShowCreateQuestion() {
-      return this.$store.state.permissionIdList.includes(34);
+      return this.GLOBAL.permissions.includes(34);
     },
     isShowSearchQuestion: function isShowSearchQuestion() {
-      return this.$store.state.permissionIdList.includes(35);
+      return this.GLOBAL.permissions.includes(35);
     },
     isShowUpdateQuestion: function isShowUpdateQuestion() {
-      return this.$store.state.permissionIdList.includes(36);
+      return this.GLOBAL.permissions.includes(36);
     },
     isShowDeleteQuestion: function isShowDeleteQuestion() {
-      return this.$store.state.permissionIdList.includes(37);
+      return this.GLOBAL.permissions.includes(37);
     }
   },
   created: function created() {
@@ -36536,16 +36568,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   },
   computed: {
     isShowCreateRole: function isShowCreateRole() {
-      return this.$store.state.permissionIdList.includes(5);
+      return this.GLOBAL.permissions.includes(5);
     },
     isShowSearchRole: function isShowSearchRole() {
-      return this.$store.state.permissionIdList.includes(6);
+      return this.GLOBAL.permissions.includes(6);
     },
     isShowUpdateRole: function isShowUpdateRole() {
-      return this.$store.state.permissionIdList.includes(8);
+      return this.GLOBAL.permissions.includes(8);
     },
     isShowDeleteRole: function isShowDeleteRole() {
-      return this.$store.state.permissionIdList.includes(9);
+      return this.GLOBAL.permissions.includes(9);
     }
   },
   created: function created() {
@@ -37396,13 +37428,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   },
   computed: {
     isShowCreateTeaching: function isShowCreateTeaching() {
-      return this.$store.state.permissionIdList.includes(30);
+      return this.GLOBAL.permissions.includes(30);
     },
     isShowSearchTeaching: function isShowSearchTeaching() {
-      return this.$store.state.permissionIdList.includes(31);
+      return this.GLOBAL.permissions.includes(31);
     },
     isShowDeleteTeaching: function isShowDeleteTeaching() {
-      return this.$store.state.permissionIdList.includes(32);
+      return this.GLOBAL.permissions.includes(32);
     }
   },
   created: function created() {
@@ -38092,6 +38124,21 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     this.getTest();
   },
 
+  computed: {
+    // 【考试】
+    isShowSearchTest: function isShowSearchTest() {
+      return this.GLOBAL.permissions.includes(54);
+    },
+    isShowCreateTest: function isShowCreateTest() {
+      return this.GLOBAL.permissions.includes(55);
+    },
+    isShowUpdateTest: function isShowUpdateTest() {
+      return this.GLOBAL.permissions.includes(56);
+    },
+    isShowDeleteTest: function isShowDeleteTest() {
+      return this.GLOBAL.permissions.includes(57);
+    }
+  },
   watch: {
     data: function data(value, oldValue) {
       var that = this;
@@ -38408,6 +38455,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
         that.time--;
       }, 1000);
     },
+    // 根据Id排序数组
     sortArray: function sortArray(propertyName) {
       return function (object1, object2) {
         var value1 = parseInt(object1.id);
@@ -38859,10 +38907,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   },
   computed: {
     isShowUpdateUser: function isShowUpdateUser() {
-      return this.$store.state.permissionIdList.includes(11);
+      return this.GLOBAL.permissions.includes(11);
     },
     isShowDeleteUser: function isShowDeleteUser() {
-      return this.$store.state.permissionIdList.includes(12);
+      return this.GLOBAL.permissions.includes(12);
     }
   },
   created: function created() {
@@ -43595,7 +43643,7 @@ exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(2)();
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 /***/ }),
 /* 266 */
@@ -43665,7 +43713,7 @@ exports.push([module.i, "\n.options-box[data-v-33726f87] {\n  margin: 20px 0 15p
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(2)();
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 /***/ }),
 /* 276 */
@@ -64507,6 +64555,12 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   return _c('div', {
     staticClass: "box"
   }, [_c('div', [_c('div', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.isShowSearchPermission),
+      expression: "isShowSearchPermission"
+    }],
     staticClass: "search-box"
   }, [_c('input', {
     directives: [{
@@ -64541,6 +64595,12 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }
   }, [_vm._v("查找权限")])]), _vm._v(" "), _c('button', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.isShowCreatePermission),
+      expression: "isShowCreatePermission"
+    }],
     staticClass: "button add-permission-button",
     attrs: {
       "type": "button",
@@ -64800,6 +64860,12 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   return _c('div', {
     staticClass: "box"
   }, [_c('div', [_c('div', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.isShowSearchQuestion),
+      expression: "isShowSearchQuestion"
+    }],
     staticClass: "search-box"
   }, [_c('input', {
     directives: [{
@@ -64834,6 +64900,12 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }
   }, [_vm._v("查找问题")])]), _vm._v(" "), _c('button', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.isShowCreateQuestion),
+      expression: "isShowCreateQuestion"
+    }],
     staticClass: "button add-role-button",
     attrs: {
       "type": "button",
@@ -64860,6 +64932,12 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }, [_c('div', {
       staticClass: "operate-box"
     }, [_c('button', {
+      directives: [{
+        name: "show",
+        rawName: "v-show",
+        value: (_vm.isShowDeleteQuestion),
+        expression: "isShowDeleteQuestion"
+      }],
       staticClass: "delete",
       on: {
         "click": function($event) {
@@ -64896,6 +64974,12 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }, [_c('div', {
       staticClass: "operate-box"
     }, [_c('button', {
+      directives: [{
+        name: "show",
+        rawName: "v-show",
+        value: (_vm.isShowDeleteQuestion),
+        expression: "isShowDeleteQuestion"
+      }],
       staticClass: "delete",
       on: {
         "click": function($event) {
@@ -65871,7 +65955,33 @@ if (false) {
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticClass: "box"
-  }, [_c('div', [_c('button', {
+  }, [_c('div', [_c('div', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.isShowSearchCourse),
+      expression: "isShowSearchCourse"
+    }],
+    staticClass: "search-box"
+  }, [_c('input', {
+    staticClass: "input search-input",
+    attrs: {
+      "type": "text",
+      "placeholder": "请输入课程id"
+    }
+  }), _vm._v(" "), _c('button', {
+    staticClass: "button",
+    attrs: {
+      "type": "button",
+      "name": "button"
+    }
+  }, [_vm._v("查找课程")])]), _vm._v(" "), _c('button', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.isShowCreateCourse),
+      expression: "isShowCreateCourse"
+    }],
     staticClass: "button add-role-button",
     attrs: {
       "type": "button",
@@ -65886,6 +65996,12 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "table"
   }, [_vm._m(0), _vm._v(" "), _c('tbody', _vm._l((_vm.courseData), function(item, index) {
     return _c('tr', [_c('td', [_vm._v(_vm._s(item.id))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.name))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.display_name))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.number))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.descripe))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.created_at))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.updated_at))]), _vm._v(" "), _c('td', [_c('button', {
+      directives: [{
+        name: "show",
+        rawName: "v-show",
+        value: (_vm.isShowDeleteCourse),
+        expression: "isShowDeleteCourse"
+      }],
       staticClass: "button",
       attrs: {
         "type": "button",
@@ -67069,6 +67185,12 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       expression: "!isTesting"
     }]
   }, [_c('div', [_c('div', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.isShowSearchTest),
+      expression: "isShowSearchTest"
+    }],
     staticClass: "search-box"
   }, [_c('input', {
     directives: [{
@@ -67103,6 +67225,12 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }
   }, [_vm._v("查找考试")])]), _vm._v(" "), _c('button', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.isShowCreateTest),
+      expression: "isShowCreateTest"
+    }],
     staticClass: "button add-role-button",
     attrs: {
       "type": "button",
@@ -67117,6 +67245,12 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "table"
   }, [_vm._m(0), _vm._v(" "), _c('tbody', _vm._l((_vm.testData), function(item, index) {
     return _c('tr', [_c('td', [_vm._v(_vm._s(item.title))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.exam_type))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.score))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.min))]), _vm._v(" "), _c('td', [_vm._v(" " + _vm._s(item.description))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.created_at))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.updated_at))]), _vm._v(" "), _c('td', [_c('button', {
+      directives: [{
+        name: "show",
+        rawName: "v-show",
+        value: (_vm.isShowDeleteTest),
+        expression: "isShowDeleteTest"
+      }],
       staticClass: "button",
       attrs: {
         "type": "button",
@@ -67518,6 +67652,12 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   return _c('div', {
     staticClass: "box"
   }, [_c('div', [_c('div', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.isShowSearchMessage),
+      expression: "isShowSearchMessage"
+    }],
     staticClass: "search-box"
   }, [_c('input', {
     directives: [{
@@ -67552,6 +67692,12 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }
   }, [_vm._v("查找消息")])]), _vm._v(" "), _c('button', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.isShowCreateMessage),
+      expression: "isShowCreateMessage"
+    }],
     staticClass: "button add-role-button",
     attrs: {
       "type": "button",
@@ -67568,6 +67714,12 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }, [_c('div', {
       staticClass: "notification"
     }, [_c('button', {
+      directives: [{
+        name: "show",
+        rawName: "v-show",
+        value: (_vm.isShowDeleteMessage),
+        expression: "isShowDeleteMessage"
+      }],
       staticClass: "delete",
       on: {
         "click": function($event) {
@@ -68108,6 +68260,12 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "table"
   }, [_vm._m(0), _vm._v(" "), _c('tbody', _vm._l((_vm.userData), function(item, index) {
     return _c('tr', [_c('td', [_vm._v(_vm._s(item.id))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.name))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.display_name))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.created_at))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.updated_at))]), _vm._v(" "), _c('td', [_c('button', {
+      directives: [{
+        name: "show",
+        rawName: "v-show",
+        value: (_vm.isShowDeleteUser),
+        expression: "isShowDeleteUser"
+      }],
       staticClass: "button",
       attrs: {
         "type": "button",
@@ -68177,6 +68335,12 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   return _c('div', {
     staticClass: "box"
   }, [_c('div', [_c('div', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.isShowSearchOrganization),
+      expression: "isShowSearchOrganization"
+    }],
     staticClass: "search-box"
   }, [_c('input', {
     directives: [{
@@ -68211,6 +68375,12 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }
   }, [_vm._v("查找组织")])]), _vm._v(" "), _c('button', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.isShowCreateOrganization),
+      expression: "isShowCreateOrganization"
+    }],
     staticClass: "button add-role-button",
     attrs: {
       "type": "button",
@@ -68231,6 +68401,12 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "table"
   }, [_vm._m(0), _vm._v(" "), _c('tbody', _vm._l((_vm.organizationData), function(item, index) {
     return _c('tr', [_c('td', [_vm._v(_vm._s(item.id))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.name))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.creator_id))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.description))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.max))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.current))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.created_at))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.updated_at))]), _vm._v(" "), _c('td', [_c('button', {
+      directives: [{
+        name: "show",
+        rawName: "v-show",
+        value: (_vm.isShowDeleteOrganization),
+        expression: "isShowDeleteOrganization"
+      }],
       staticClass: "button",
       attrs: {
         "type": "button",
@@ -68391,7 +68567,33 @@ if (false) {
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticClass: "box"
-  }, [_c('div', [_vm._m(0), _vm._v(" "), _c('button', {
+  }, [_c('div', [_c('div', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.isShowSearchNotification),
+      expression: "isShowSearchNotification"
+    }],
+    staticClass: "search-box"
+  }, [_c('input', {
+    staticClass: "input search-input",
+    attrs: {
+      "type": "text",
+      "placeholder": "请输入你要查看的通知"
+    }
+  }), _vm._v(" "), _c('button', {
+    staticClass: "button",
+    attrs: {
+      "type": "button",
+      "name": "button"
+    }
+  }, [_vm._v("查找通知")])]), _vm._v(" "), _c('button', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.isShowCreateNotification),
+      expression: "isShowCreateNotification"
+    }],
     staticClass: "button add-role-button",
     attrs: {
       "type": "button",
@@ -68408,6 +68610,12 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }, [_c('div', {
       staticClass: "notification"
     }, [_c('button', {
+      directives: [{
+        name: "show",
+        rawName: "v-show",
+        value: (_vm.isShowDeleteNotification),
+        expression: "isShowDeleteNotification"
+      }],
       staticClass: "delete",
       on: {
         "click": function($event) {
@@ -68432,23 +68640,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       expression: "data"
     }
   })], 2)
-},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "search-box"
-  }, [_c('input', {
-    staticClass: "input search-input",
-    attrs: {
-      "type": "text",
-      "placeholder": "请输入你要查看的通知"
-    }
-  }), _vm._v(" "), _c('button', {
-    staticClass: "button",
-    attrs: {
-      "type": "button",
-      "name": "button"
-    }
-  }, [_vm._v("查找通知")])])
-}]}
+},staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {
   module.hot.accept()
@@ -68682,6 +68874,12 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   return _c('div', {
     staticClass: "box"
   }, [_c('div', [_c('div', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.isShowSearchApplication),
+      expression: "isShowSearchApplication"
+    }],
     staticClass: "search-box"
   }, [_c('input', {
     directives: [{
@@ -68716,6 +68914,12 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }
   }, [_vm._v("查找申请")])]), _vm._v(" "), _c('button', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.isShowCreateApplication),
+      expression: "isShowCreateApplication"
+    }],
     staticClass: "button add-role-button",
     attrs: {
       "type": "button",
@@ -68730,6 +68934,12 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "table"
   }, [_vm._m(0), _vm._v(" "), _c('tbody', _vm._l((_vm.applyForData), function(item, index) {
     return _c('tr', [_c('td', [_vm._v(_vm._s(item.from))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.to))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.action))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.resource_id))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.resource_type))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.data))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.updated_at.date))]), _vm._v(" "), _c('td', [_c('button', {
+      directives: [{
+        name: "show",
+        rawName: "v-show",
+        value: (_vm.isShowDeleteApplication),
+        expression: "isShowDeleteApplication"
+      }],
       staticClass: "button",
       attrs: {
         "type": "button",
@@ -68752,6 +68962,12 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         }
       }
     }, [_vm._v("编辑")]), _vm._v(" "), _c('button', {
+      directives: [{
+        name: "show",
+        rawName: "v-show",
+        value: (_vm.isShowAccpetApplication),
+        expression: "isShowAccpetApplication"
+      }],
       staticClass: "button",
       attrs: {
         "type": "button",
@@ -68763,6 +68979,12 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         }
       }
     }, [_vm._v("接受")]), _vm._v(" "), _c('button', {
+      directives: [{
+        name: "show",
+        rawName: "v-show",
+        value: (_vm.isShowRejectApplication),
+        expression: "isShowRejectApplication"
+      }],
       staticClass: "button",
       attrs: {
         "type": "button",
@@ -69109,6 +69331,12 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   return _c('div', {
     staticClass: "box"
   }, [_c('div', [_c('div', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.isShowSearchPaper),
+      expression: "isShowSearchPaper"
+    }],
     staticClass: "search-box"
   }, [_c('input', {
     directives: [{
@@ -69143,6 +69371,12 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }
   }, [_vm._v("查找试卷")])]), _vm._v(" "), _c('button', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.isShowCreatePaper),
+      expression: "isShowCreatePaper"
+    }],
     staticClass: "button add-role-button",
     attrs: {
       "type": "button",
@@ -69157,6 +69391,12 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "table"
   }, [_vm._m(0), _vm._v(" "), _c('tbody', _vm._l((_vm.examinationPaperData), function(item, index) {
     return _c('tr', [_c('td', [_vm._v(_vm._s(item.id))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.creator_id))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.title))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.score))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.min))]), _vm._v(" "), _c('td', [_vm._v(" " + _vm._s(item.description))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.sections))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.tags))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.toTime(item.created_at)))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.toTime(item.updated_at)))]), _vm._v(" "), _c('td', [_c('button', {
+      directives: [{
+        name: "show",
+        rawName: "v-show",
+        value: (_vm.isShowDeletePaper),
+        expression: "isShowDeletePaper"
+      }],
       staticClass: "button is-small",
       attrs: {
         "type": "button",
@@ -69518,6 +69758,12 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   return _c('div', {
     staticClass: "box"
   }, [_c('div', [_c('div', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.isShowSearchLabel),
+      expression: "isShowSearchLabel"
+    }],
     staticClass: "search-box"
   }, [_c('input', {
     directives: [{
@@ -69566,6 +69812,12 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "table"
   }, [_vm._m(0), _vm._v(" "), _c('tbody', _vm._l((_vm.labelData), function(item, index) {
     return _c('tr', [_c('td', [_vm._v(_vm._s(item.id))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.title))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.commentabl_type))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.creator_id))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.created_at))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.updated_at))]), _vm._v(" "), _c('td', [_c('button', {
+      directives: [{
+        name: "show",
+        rawName: "v-show",
+        value: (_vm.isShowDeleteLabel),
+        expression: "isShowDeleteLabel"
+      }],
       staticClass: "button",
       attrs: {
         "type": "button",
@@ -69868,6 +70120,12 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   return _c('div', {
     staticClass: "box"
   }, [_c('div', [_c('div', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.isShowSearchTeaching),
+      expression: "isShowSearchTeaching"
+    }],
     staticClass: "search-box"
   }, [_c('input', {
     directives: [{
@@ -69902,6 +70160,12 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }
   }, [_vm._v("查找授课")])]), _vm._v(" "), _c('button', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.isShowCreateTeaching),
+      expression: "isShowCreateTeaching"
+    }],
     staticClass: "button add-role-button",
     attrs: {
       "type": "button",
@@ -69922,6 +70186,12 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "table"
   }, [_vm._m(0), _vm._v(" "), _c('tbody', _vm._l((_vm.teachingData), function(item, index) {
     return _c('tr', [_c('td', [_vm._v(_vm._s(item.id))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.name))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.user_id))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.course_id))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.allowable_teaching_ids))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.allowable_user_ids))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.description))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.max))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.current))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.created_at))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.updated_at))]), _vm._v(" "), _c('td', [_c('button', {
+      directives: [{
+        name: "show",
+        rawName: "v-show",
+        value: (_vm.isShowDeleteTeaching),
+        expression: "isShowDeleteTeaching"
+      }],
       staticClass: "button is-small",
       attrs: {
         "type": "button",
@@ -70276,6 +70546,12 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   return _c('div', {
     staticClass: "box"
   }, [_c('div', [_c('div', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.isShowSearchRole),
+      expression: "isShowSearchRole"
+    }],
     staticClass: "search-box"
   }, [_c('input', {
     directives: [{
@@ -70310,6 +70586,12 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }
   }, [_vm._v("查找角色")])]), _vm._v(" "), _c('button', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.isShowCreateRole),
+      expression: "isShowCreateRole"
+    }],
     staticClass: "button add-role-button",
     attrs: {
       "type": "button",
@@ -70324,6 +70606,12 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "table"
   }, [_vm._m(0), _vm._v(" "), _c('tbody', _vm._l((_vm.roleData), function(item, index) {
     return _c('tr', [_c('td', [_vm._v(_vm._s(item.id))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.name))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.display_name))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.created_at))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.updated_at))]), _vm._v(" "), _c('td', [_c('button', {
+      directives: [{
+        name: "show",
+        rawName: "v-show",
+        value: (_vm.isShowDeleteRole),
+        expression: "isShowDeleteRole"
+      }],
       staticClass: "button",
       attrs: {
         "type": "button",

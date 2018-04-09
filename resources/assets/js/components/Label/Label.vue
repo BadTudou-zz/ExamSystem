@@ -2,7 +2,7 @@
 <template lang="html">
   <div class="box">
     <div>
-      <div class="search-box">
+      <div v-show="isShowSearchLabel" class="search-box">
         <input v-model="searchKey" class="input search-input" type="text" placeholder="请输入你要查看的标签">
         <button @click="searchLabel()" class="button" type="button" name="button">查找标签</button>
       </div>
@@ -29,7 +29,7 @@
           <td>{{ item.created_at }}</td>
           <td>{{ item.updated_at }}</td>
           <td>
-            <button @click="deleteLabel(index)" class="button" type="button" name="button">删除标签</button>
+            <button v-show="isShowDeleteLabel" @click="deleteLabel(index)" class="button" type="button" name="button">删除标签</button>
             <button @click="editLabel(index)" class="button" type="button" name="button">编辑标签</button>
           </td>
         </tr>
@@ -208,13 +208,13 @@ export default {
   },
   computed: {
     isShowSearchLabel() {
-      return this.$store.state.permissionIdList.includes(50);
+      return this.GLOBAL.permissions.includes(50);
     },
     isShowUpdateLabel() {
-      return this.$store.state.permissionIdList.includes(51);
+      return this.GLOBAL.permissions.includes(51);
     },
     isShowDeleteLabel() {
-      return this.$store.state.permissionIdList.includes(52);
+      return this.GLOBAL.permissions.includes(52);
     },
   },
   created() {

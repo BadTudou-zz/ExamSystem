@@ -28,7 +28,7 @@
           <td>{{ item.created_at }}</td>
           <td>{{ item.updated_at }}</td>
           <td>
-            <button @click="deleteUser(index)" class="button" type="button" name="button">删除用户</button>
+            <button v-show="isShowDeleteUser" @click="deleteUser(index)" class="button" type="button" name="button">删除用户</button>
             <button @click="editUser(index)" class="button" type="button" name="button">编辑用户</button>
             <button @click="changePassword(index)" class="button" type="button" name="button">更改密码</button>
           </td>
@@ -163,10 +163,10 @@ export default {
   },
   computed: {
     isShowUpdateUser() {
-      return this.$store.state.permissionIdList.includes(11)
+      return this.GLOBAL.permissions.includes(11)
     },
     isShowDeleteUser() {
-      return this.$store.state.permissionIdList.includes(12)
+      return this.GLOBAL.permissions.includes(12)
     },
   },
   created() {

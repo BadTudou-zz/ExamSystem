@@ -2,15 +2,15 @@
 <template lang="html">
   <div class="box">
     <div>
-      <div class="search-box">
+      <div v-show="isShowSearchMessage" class="search-box">
         <input v-model="searchKey" class="input search-input" type="text" placeholder="请输入你要查看的消息">
         <button @click="searchMessage()" class="button" type="button" name="button">查找消息</button>
       </div>
-        <button @click="addMessage()" class="button add-role-button" type="button" name="button">添加消息</button>
+        <button v-show="isShowCreateMessage" @click="addMessage()" class="button add-role-button" type="button" name="button">添加消息</button>
     </div>
     <div  v-for="(item,index) in messageData" class="message box">
       <div class="notification">
-        <button @click="deleteMessage(index)" class="delete"></button>
+        <button v-show="isShowDeleteMessage" @click="deleteMessage(index)" class="delete"></button>
         {{ item.data}}
         <p>{{item.created_at}}</p>
       </div>
@@ -115,13 +115,13 @@ export default {
   },
   computed: {
     isShowCreateMessage() {
-      return this.$store.state.permissionIdList.includes(14);
+      return this.GLOBAL.permissions.includes(14);
     },
     isShowSearchMessage() {
-      return this.$store.state.permissionIdList.includes(15);
+      return this.GLOBAL.permissions.includes(15);
     },
     isShowDeleteMessage() {
-      return this.$store.state.permissionIdList.includes(16);
+      return this.GLOBAL.permissions.includes(16);
     },
   },
   created() {

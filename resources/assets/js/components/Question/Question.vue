@@ -2,11 +2,11 @@
 <template lang="html">
   <div class="box">
     <div>
-      <div class="search-box">
+      <div v-show="isShowSearchQuestion" class="search-box">
         <input v-model="searchKey" class="input search-input" type="text" placeholder="请输入问题ID">
         <button @click="searchQuestion()" class="button" type="button" name="button">查找问题</button>
       </div>
-        <button @click="addQuestion()" class="button add-role-button" type="button" name="button">添加问题</button>
+        <button v-show="isShowCreateQuestion" @click="addQuestion()" class="button add-role-button" type="button" name="button">添加问题</button>
     </div>
 
     <div v-for="(item,index) in questionData">
@@ -15,7 +15,7 @@
         <div v-show="item.question_type === 'SINGLE_CHOICE'" class="message box">
           <div class="notification">
             <div class="operate-box">
-              <button @click="deleteQuestion(index)" class="delete"></button>
+              <button v-show="isShowDeleteQuestion" @click="deleteQuestion(index)" class="delete"></button>
               <button @click="editQuestion(index)" class="button edit-question" type="button" name="button">编辑问题</button>
             </div>
             <p class="detail">        id：{{ item.id }}
@@ -31,7 +31,7 @@
         <div v-show="item.question_type === 'MULTIPLE_CHOICE'" class="message box">
           <div class="notification">
             <div class="operate-box">
-              <button @click="deleteQuestion(index)" class="delete"></button>
+              <button v-show="isShowDeleteQuestion" @click="deleteQuestion(index)" class="delete"></button>
               <button @click="editQuestion(index)" class="button edit-question" type="button" name="button">编辑问题</button>
             </div>
             <p class="detail">        id：{{ item.id }}
@@ -185,16 +185,16 @@ export default {
   },
   computed: {
     isShowCreateQuestion() {
-      return this.$store.state.permissionIdList.includes(34);
+      return this.GLOBAL.permissions.includes(34);
     },
     isShowSearchQuestion() {
-      return this.$store.state.permissionIdList.includes(35);
+      return this.GLOBAL.permissions.includes(35);
     },
     isShowUpdateQuestion() {
-      return this.$store.state.permissionIdList.includes(36);
+      return this.GLOBAL.permissions.includes(36);
     },
     isShowDeleteQuestion() {
-      return this.$store.state.permissionIdList.includes(37);
+      return this.GLOBAL.permissions.includes(37);
     },
   },
   created() {

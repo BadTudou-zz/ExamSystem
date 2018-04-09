@@ -2,11 +2,11 @@
 <template lang="html">
   <div class="box">
     <div>
-      <div class="search-box">
+      <div v-show="isShowSearchPermission" class="search-box">
         <input v-model="permissionId" class="input search-input" type="text" placeholder="请输入你要查看的权限">
         <button @click="searchPermission()" class="button" type="button" name="button">查找权限</button>
       </div>
-        <button @click="addPermission()" class="button add-permission-button" type="button" name="button">添加权限</button>
+        <button v-show="isShowCreatePermission" @click="addPermission()" class="button add-permission-button" type="button" name="button">添加权限</button>
         <button class="button add-permission-button" type="button" name="button">同步权限</button>
     </div>
     <table class="table">
@@ -127,13 +127,13 @@ export default {
   },
   computed: {
     isShowCreatePermission() {
-      return this.$store.state.permissionIdList.includes(1)
+      return this.GLOBAL.permissions.includes(1);
     },
     isShowSearchPermission() {
-      return this.$store.state.permissionIdList.includes(2)
+      return this.GLOBAL.permissions.includes(2)
     },
     isShowDeletePermission() {
-      return this.$store.state.permissionIdList.includes(3)
+      return this.GLOBAL.permissions.includes(3)
     },
   },
   created() {

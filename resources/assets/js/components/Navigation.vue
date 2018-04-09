@@ -157,36 +157,50 @@ export default {
     }
   },
   computed: {
+    // 1.【权限】
     isShowPermission() {
-      return this.$store.state.permissionIdList.includes(4);
+      return this.GLOBAL.permissions.includes(4);
     },
+    // 2.【角色】
     isShowRole() {
-      return this.$store.state.permissionIdList.includes(7);
+      return this.GLOBAL.permissions.includes(7);
     },
+    // 3.【用户】
     isShowUser() {
-      return this.$store.state.permissionIdList.includes(10);
+      return this.GLOBAL.permissions.includes(10);
     },
+    // 4.【消息】
     isShowMessage() {
-      return this.$store.state.permissionIdList.includes(13);
+      return this.GLOBAL.permissions.includes(13);
     },
+    // 5.【通知】
     isShowNotification() {
-      return this.$store.state.permissionIdList.includes(17);
+      return this.GLOBAL.permissions.includes(17);
     },
+    // 6.【组织】
     isShowOrganization() {
-      return this.$store.state.permissionIdList.includes(26);
+      return this.GLOBAL.permissions.includes(26);
     },
+    // 7.【问题】
     isShowQuestion() {
-      return this.$store.state.permissionIdList.includes(33);
+      return this.GLOBAL.permissions.includes(33);
     },
+    // 8.【试卷】
     isShowPaper() {
-      return this.$store.state.permissionIdList.includes(38);
+      return this.GLOBAL.permissions.includes(38);
     },
+    // 9.【申请】
     isShowApplication() {
-      return this.$store.state.permissionIdList.includes(43);
+      return this.GLOBAL.permissions.includes(43);
     },
+    // 10.【标签】
     isShowTag() {
-      return this.$store.state.permissionIdList.includes(49);
+      return this.GLOBAL.permissions.includes(49);
     },
+    // 11.【试卷】
+    isShowExamPaper() {
+      return this.GLOBAL.permissions.includes(53);
+    }
   },
   created() {
   },

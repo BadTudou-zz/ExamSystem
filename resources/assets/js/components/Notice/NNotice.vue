@@ -2,15 +2,15 @@
 <template lang="html">
   <div class="box">
     <div>
-      <div class="search-box">
+      <div v-show="isShowSearchNotification" class="search-box">
         <input class="input search-input" type="text" placeholder="请输入你要查看的通知">
         <button class="button" type="button" name="button">查找通知</button>
       </div>
-        <button @click="addNotice()" class="button add-role-button" type="button" name="button">添加通知</button>
+        <button v-show="isShowCreateNotification" @click="addNotice()" class="button add-role-button" type="button" name="button">添加通知</button>
     </div>
     <div  v-for="(item,index) in noticeData" class="notice box">
       <div class="notification">
-        <button @click="deleteNotice(index)" class="delete"></button>
+        <button v-show="isShowDeleteNotification" @click="deleteNotice(index)" class="delete"></button>
         {{ item.data}}
         <p>{{item.created_at}}</p>
       </div>
@@ -91,16 +91,16 @@ export default {
   },
   computed: {
     isShowCreateNotification() {
-      return this.$store.state.permissionIdList.includes(18)
+      return this.GLOBAL.permissions.includes(18)
     },
     isShowSearchNotification() {
-      return this.$store.state.permissionIdList.includes(19)
+      return this.GLOBAL.permissions.includes(19)
     },
     isShowUpdateNotification() {
-      return this.$store.state.permissionIdList.includes(20)
+      return this.GLOBAL.permissions.includes(20)
     },
     isShowDeleteNotification() {
-      return this.$store.state.permissionIdList.includes(21)
+      return this.GLOBAL.permissions.includes(21)
     },
   },
   created() {

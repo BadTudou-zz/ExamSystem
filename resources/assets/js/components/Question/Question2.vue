@@ -153,16 +153,16 @@ export default {
   },
   computed: {
     isShowCreateQuestion() {
-      return this.$store.state.permissionIdList.includes(34);
+      return this.GLOBAL.permissions.includes(34);
     },
     isShowSearchQuestion() {
-      return this.$store.state.permissionIdList.includes(35);
+      return this.GLOBAL.permissions.includes(35);
     },
     isShowUpdateQuestion() {
-      return this.$store.state.permissionIdList.includes(36);
+      return this.GLOBAL.permissions.includes(36);
     },
     isShowDeleteQuestion() {
-      return this.$store.state.permissionIdList.includes(37);
+      return this.GLOBAL.permissions.includes(37);
     },
   },
   created() {

@@ -2,7 +2,11 @@
 <template lang="html">
   <div class="box">
     <div>
-        <button @click="addCourse()" class="button add-role-button" type="button" name="button">添加课程</button>
+        <div v-show="isShowSearchCourse" class="search-box">
+          <input class="input search-input" type="text" placeholder="请输入课程id">
+          <button class="button" type="button" name="button">查找课程</button>
+        </div>
+        <button v-show="isShowCreateCourse" @click="addCourse()" class="button add-role-button" type="button" name="button">添加课程</button>
     </div>
     <table class="table">
       <thead>
@@ -27,7 +31,7 @@
           <td>{{ item.created_at }}</td>
           <td>{{ item.updated_at }}</td>
           <td>
-            <button @click="deleteCourse(index)" class="button" type="button" name="button">删除课程</button>
+            <button v-show="isShowDeleteCourse" @click="deleteCourse(index)" class="button" type="button" name="button">删除课程</button>
             <button @click="editCourse(index)" class="button" type="button" name="button">编辑课程</button>
           </td>
         </tr>
@@ -124,16 +128,16 @@ export default {
   },
   computed: {
     isShowCreateCourse() {
-      return this.$store.state.permissionIdList.includes(22);
+      return this.GLOBAL.permissions.includes(22);
     },
     isShowSearchCourse() {
-      return this.$store.state.permissionIdList.includes(23);
+      return this.GLOBAL.permissions.includes(23);
     },
     isShowUpdateCourse() {
-      return this.$store.state.permissionIdList.includes(24);
+      return this.GLOBAL.permissions.includes(24);
     },
     isShowDeleteCourse() {
-      return this.$store.state.permissionIdList.includes(25);
+      return this.GLOBAL.permissions.includes(25);
     },
   },
   created() {
