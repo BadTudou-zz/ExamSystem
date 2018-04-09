@@ -150,8 +150,8 @@ export default {
     searchQuestion: function () {
       const that = this;
       let id = that.searchKey;
-      if (!id) {
-        alert('没有找到相关数据，已为你显示全部数据');
+      if (!that.searchKey) {
+        that.searchKey = '';
         that.getQuestion();
         return;
       }

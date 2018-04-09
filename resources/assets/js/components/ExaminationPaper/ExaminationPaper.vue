@@ -159,7 +159,7 @@ export default {
       const that = this;
       let id = that.searchKey;
       if (!id) {
-        alert('没有找到相关数据，已为你显示全部数据');
+        that.searchKey = '';
         that.getExaminationPaper();
         return;
       }

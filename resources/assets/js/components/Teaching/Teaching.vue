@@ -132,6 +132,11 @@ export default {
     },
     searchTeaching: function () {
       const that = this;
+      if (!that.searchKey) {
+        that.searchKey = '';
+        that.getTeaching();
+        return;
+      }
       axios({
         method: 'get',
         url: `${this.GLOBAL.localDomain}/api/v1/lectures/${that.searchKey}`,

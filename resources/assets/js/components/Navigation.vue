@@ -72,7 +72,7 @@
             </a>
             <div class="navbar-dropdown is-boxed">
               <router-link class="navbar-item" to="/organization">组织</router-link>
-              <router-link class="navbar-item" to="/member">成员</router-link>
+              <!-- <router-link class="navbar-item" to="/member">成员</router-link> -->
             </div>
           </div>
 

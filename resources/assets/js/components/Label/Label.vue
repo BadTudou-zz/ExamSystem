@@ -127,6 +127,11 @@ export default {
     searchLabel: function () {
       const that = this;
       let id = that.searchKey;
+      if (!that.searchKey) {
+        that.searchKey = '';
+        that.getLabel();
+        return;
+      }
       axios({
         method: 'get',
         url: `${this.GLOBAL.localDomain}/api/v1/tags/${id}`,

@@ -110,6 +110,10 @@ export default {
     },
     searchPermission: function () {
       const that = this;
+      if (!that.permissionId) {
+        that.getPermission();
+      }
+
       axios({
         method: 'get',
         url: `${this.GLOBAL.localDomain}/api/v1/permissions/${that.permissionId}`,

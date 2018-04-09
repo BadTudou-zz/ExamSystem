@@ -3,8 +3,8 @@
   <div class="box">
     <div>
       <div v-show="isShowSearchNotification" class="search-box">
-        <input class="input search-input" type="text" placeholder="请输入你要查看的通知">
-        <button class="button" type="button" name="button">查找通知</button>
+        <input v-model="searchKey" class="input search-input" type="text" placeholder="请输入你要查看的通知">
+        <button @click="searchNotice()" class="button" type="button" name="button">查找通知</button>
       </div>
         <button v-show="isShowCreateNotification" @click="addNotice()" class="button add-role-button" type="button" name="button">添加通知</button>
     </div>
@@ -36,6 +36,7 @@ export default {
       isShowModal: false,
       paginationData: null,
       data: null,
+      searchKey: null,
     }
   },
   components: {
@@ -88,6 +89,27 @@ export default {
         })
       }
     },
+    searchNotice: function () {
+      const that = this;
+      if (!that.searchKey) {
+        that.searchKey = '';
+        that.getNotice();
+        return;
+      }
+      axios({
+        method: 'get',
+        url: `${this.GLOBAL.localDomain}/api/v1/organizations/${that.searchKey}`,
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': this.GLOBAL.token,
+        }
+      }).then(res => {
+        that.noticeData = [];
+        that.noticeData.push(res.data.data);
+      }).catch(err => {
+        console.log(err)
+      })
+    }
   },
   computed: {
     isShowCreateNotification() {

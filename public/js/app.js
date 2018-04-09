@@ -4923,7 +4923,7 @@ var Component = __webpack_require__(1)(
   /* template */
   __webpack_require__(467),
   /* scopeId */
-  null,
+  "data-v-dcb71588",
   /* cssModules */
   null
 )
@@ -28426,7 +28426,7 @@ var Component = __webpack_require__(1)(
   /* template */
   __webpack_require__(399),
   /* scopeId */
-  null,
+  "data-v-120eef57",
   /* cssModules */
   null
 )
@@ -29703,6 +29703,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     searchApplyFor: function searchApplyFor() {
       var that = this;
       var id = that.searchKey;
+      if (!that.searchKey) {
+        that.searchKey = '';
+        that.getApplyFor();
+        return;
+      }
       axios({
         method: 'get',
         url: this.GLOBAL.localDomain + '/api/v1/applications/' + id,
@@ -31144,7 +31149,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       var that = this;
       var id = that.searchKey;
       if (!id) {
-        alert('没有找到相关数据，已为你显示全部数据');
+        that.searchKey = '';
         that.getExaminationPaper();
         return;
       }
@@ -31906,6 +31911,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     searchLabel: function searchLabel() {
       var that = this;
       var id = that.searchKey;
+      if (!that.searchKey) {
+        that.searchKey = '';
+        that.getLabel();
+        return;
+      }
       axios({
         method: 'get',
         url: this.GLOBAL.localDomain + '/api/v1/tags/' + id,
@@ -33092,7 +33102,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       noticeData: null,
       isShowModal: false,
       paginationData: null,
-      data: null
+      data: null,
+      searchKey: null
     };
   },
 
@@ -33145,6 +33156,27 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
           console.log(err);
         });
       }
+    },
+    searchNotice: function searchNotice() {
+      var that = this;
+      if (!that.searchKey) {
+        that.searchKey = '';
+        that.getNotice();
+        return;
+      }
+      axios({
+        method: 'get',
+        url: this.GLOBAL.localDomain + '/api/v1/organizations/' + that.searchKey,
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': this.GLOBAL.token
+        }
+      }).then(function (res) {
+        that.noticeData = [];
+        that.noticeData.push(res.data.data);
+      }).catch(function (err) {
+        console.log(err);
+      });
     }
   },
   computed: {
@@ -33525,6 +33557,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     searchOrganization: function searchOrganization() {
       var that = this;
+      if (!that.searchKey) {
+        that.searchKey = '';
+        that.getOrganization();
+        return;
+      }
       axios({
         method: 'get',
         url: this.GLOBAL.localDomain + '/api/v1/organizations/' + that.searchKey,
@@ -33908,6 +33945,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     searchPermission: function searchPermission() {
       var that = this;
+      if (!that.permissionId) {
+        that.getPermission();
+      }
+
       axios({
         method: 'get',
         url: this.GLOBAL.localDomain + '/api/v1/permissions/' + that.permissionId,
@@ -35616,8 +35657,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     searchQuestion: function searchQuestion() {
       var that = this;
       var id = that.searchKey;
-      if (!id) {
-        alert('没有找到相关数据，已为你显示全部数据');
+      if (!that.searchKey) {
+        that.searchKey = '';
         that.getQuestion();
         return;
       }
@@ -37378,6 +37419,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     searchTeaching: function searchTeaching() {
       var that = this;
+      if (!that.searchKey) {
+        that.searchKey = '';
+        that.getTeaching();
+        return;
+      }
       axios({
         method: 'get',
         url: this.GLOBAL.localDomain + '/api/v1/lectures/' + that.searchKey,
@@ -38022,6 +38068,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       var that = this;
       var id = that.searchKey;
       if (!id) {
+        that.searchKey = '';
         that.getTest();
         return;
       }
@@ -38736,12 +38783,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__editUser__ = __webpack_require__(394);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__editUser___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__editUser__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__ChangePassword__ = __webpack_require__(150);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__ChangePassword___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__ChangePassword__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__View__ = __webpack_require__(151);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__View___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__View__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_moment__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_moment__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__editUser__ = __webpack_require__(394);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__editUser___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__editUser__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ChangePassword__ = __webpack_require__(150);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ChangePassword___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__ChangePassword__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__View__ = __webpack_require__(151);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__View___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__View__);
 //
 //
 //
@@ -38796,6 +38845,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+
 
 
 
@@ -38813,11 +38863,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   },
 
   components: {
-    editUser: __WEBPACK_IMPORTED_MODULE_0__editUser___default.a,
-    ChangePassword: __WEBPACK_IMPORTED_MODULE_1__ChangePassword___default.a,
-    VView: __WEBPACK_IMPORTED_MODULE_2__View___default.a
+    editUser: __WEBPACK_IMPORTED_MODULE_1__editUser___default.a,
+    ChangePassword: __WEBPACK_IMPORTED_MODULE_2__ChangePassword___default.a,
+    VView: __WEBPACK_IMPORTED_MODULE_3__View___default.a
   },
   methods: {
+    toTime: function toTime(time) {
+      return __WEBPACK_IMPORTED_MODULE_0_moment___default()(time).format('YYYY-MM-DD');
+    },
     // 删除用户
     deleteUser: function deleteUser(index) {
       var that = this;
@@ -38859,6 +38912,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     // 查找用户
     searchUser: function searchUser() {
       var that = this;
+      if (!that.searchKey) {
+        that.getUser();
+        return;
+      }
       axios({
         method: 'get',
         url: this.GLOBAL.localDomain + '/api/v1/users/' + that.searchKey,
@@ -43594,7 +43651,7 @@ exports.push([module.i, "\ntable {\n  margin: 35px auto 0 auto;\n}\n.search-inpu
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(2)();
-exports.push([module.i, "\n.wrapper {\n  /* margin-left: 20px; */\n}\n.select {\n  margin: 0 0 20px 10px;\n}\n", ""]);
+exports.push([module.i, "\n.wrapper[data-v-120eef57] {\n  /* margin-left: 20px; */\n}\n.select[data-v-120eef57] {\n  margin: 0 0 20px 10px;\n}\n", ""]);
 
 /***/ }),
 /* 259 */
@@ -44070,7 +44127,7 @@ exports.push([module.i, "\na {\n  color: #000;\n}\n", ""]);
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(2)();
-exports.push([module.i, "\n.search-key {\n  width: 60px;\n  margin: 0 5px 0 40px;\n}\n.wrapper {\n  margin-top: 50px;\n}\nspan {\n  display: inline-block;\n  height: 36px;\n  line-height: 36px;\n}\n", ""]);
+exports.push([module.i, "\n.search-key[data-v-dcb71588] {\n  width: 60px;\n  margin: 0 5px 0 40px;\n}\n.wrapper[data-v-dcb71588] {\n  margin-top: 50px;\n}\nspan[data-v-dcb71588] {\n  display: inline-block;\n  height: 36px;\n  line-height: 36px;\n}\n", ""]);
 
 /***/ }),
 /* 327 */
@@ -68234,7 +68291,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "input search-input",
     attrs: {
       "type": "text",
-      "placeholder": "请输入你要查看的用户的ID"
+      "placeholder": "请输入用户的ID"
     },
     domProps: {
       "value": (_vm.searchKey)
@@ -68259,17 +68316,16 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_vm._v("查找用户")])])]), _vm._v(" "), _c('table', {
     staticClass: "table"
   }, [_vm._m(0), _vm._v(" "), _c('tbody', _vm._l((_vm.userData), function(item, index) {
-    return _c('tr', [_c('td', [_vm._v(_vm._s(item.id))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.name))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.display_name))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.created_at))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.updated_at))]), _vm._v(" "), _c('td', [_c('button', {
+    return _c('tr', [_c('td', [_vm._v(_vm._s(item.id))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.name))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.display_name))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.toTime(item.created_at.date)))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.toTime(item.updated_at.date)))]), _vm._v(" "), _c('td', [_c('button', {
       directives: [{
         name: "show",
         rawName: "v-show",
         value: (_vm.isShowDeleteUser),
         expression: "isShowDeleteUser"
       }],
-      staticClass: "button",
+      staticClass: "button is-small",
       attrs: {
-        "type": "button",
-        "name": "button"
+        "type": "button"
       },
       on: {
         "click": function($event) {
@@ -68277,10 +68333,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         }
       }
     }, [_vm._v("删除用户")]), _vm._v(" "), _c('button', {
-      staticClass: "button",
+      staticClass: "button is-small",
       attrs: {
-        "type": "button",
-        "name": "button"
+        "type": "button"
       },
       on: {
         "click": function($event) {
@@ -68288,10 +68343,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         }
       }
     }, [_vm._v("编辑用户")]), _vm._v(" "), _c('button', {
-      staticClass: "button",
+      staticClass: "button is-small",
       attrs: {
-        "type": "button",
-        "name": "button"
+        "type": "button"
       },
       on: {
         "click": function($event) {
@@ -68576,16 +68630,36 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }],
     staticClass: "search-box"
   }, [_c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.searchKey),
+      expression: "searchKey"
+    }],
     staticClass: "input search-input",
     attrs: {
       "type": "text",
       "placeholder": "请输入你要查看的通知"
+    },
+    domProps: {
+      "value": (_vm.searchKey)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.searchKey = $event.target.value
+      }
     }
   }), _vm._v(" "), _c('button', {
     staticClass: "button",
     attrs: {
       "type": "button",
       "name": "button"
+    },
+    on: {
+      "click": function($event) {
+        _vm.searchNotice()
+      }
     }
   }, [_vm._v("查找通知")])]), _vm._v(" "), _c('button', {
     directives: [{
@@ -72547,12 +72621,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "to": "/organization"
     }
-  }, [_vm._v("组织")]), _vm._v(" "), _c('router-link', {
-    staticClass: "navbar-item",
-    attrs: {
-      "to": "/member"
-    }
-  }, [_vm._v("成员")])], 1)]), _vm._v(" "), _c('div', {
+  }, [_vm._v("组织")])], 1)]), _vm._v(" "), _c('div', {
     staticClass: "navbar-item has-dropdown is-hoverable"
   }, [_c('a', {
     staticClass: "navbar-link"
@@ -75597,13 +75666,13 @@ var content = __webpack_require__(258);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(3)("5b34e140", content, false);
+var update = __webpack_require__(3)("ccb0b66a", content, false);
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
  if(!content.locals) {
-   module.hot.accept("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-120eef57!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./View.vue", function() {
-     var newContent = require("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-120eef57!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./View.vue");
+   module.hot.accept("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-120eef57&scoped=true!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./View.vue", function() {
+     var newContent = require("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-120eef57&scoped=true!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./View.vue");
      if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
      update(newContent);
    });
@@ -77365,13 +77434,13 @@ var content = __webpack_require__(326);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(3)("0fda6587", content, false);
+var update = __webpack_require__(3)("1d9ee8c8", content, false);
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
  if(!content.locals) {
-   module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-dcb71588!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./Pagination.vue", function() {
-     var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-dcb71588!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./Pagination.vue");
+   module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-dcb71588&scoped=true!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./Pagination.vue", function() {
+     var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-dcb71588&scoped=true!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./Pagination.vue");
      if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
      update(newContent);
    });

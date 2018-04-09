@@ -117,6 +117,11 @@ export default {
     },
     searchOrganization: function () {
       const that = this;
+      if (!that.searchKey) {
+        that.searchKey = '';
+        that.getOrganization();
+        return;
+      }
       axios({
         method: 'get',
         url: `${this.GLOBAL.localDomain}/api/v1/organizations/${that.searchKey}`,

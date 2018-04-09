@@ -3,7 +3,7 @@
   <div class="box">
     <div>
       <div class="search-box">
-        <input v-model="searchKey" class="input search-input" type="text" placeholder="请输入你要查看的用户的ID">
+        <input v-model="searchKey" class="input search-input" type="text" placeholder="请输入用户的ID">
         <button @click="searchUser()" class="button" type="button" name="button">查找用户</button>
       </div>
         <!-- <button class="button add-user-button" type="button" name="button">添加用户</button> -->
@@ -25,12 +25,12 @@
           <td>{{ item.id }}</td>
           <td>{{ item.name }}</td>
           <td>{{ item.display_name }}</td>
-          <td>{{ item.created_at }}</td>
-          <td>{{ item.updated_at }}</td>
+          <td>{{ toTime(item.created_at.date) }}</td>
+          <td>{{ toTime(item.updated_at.date) }}</td>
           <td>
-            <button v-show="isShowDeleteUser" @click="deleteUser(index)" class="button" type="button" name="button">删除用户</button>
-            <button @click="editUser(index)" class="button" type="button" name="button">编辑用户</button>
-            <button @click="changePassword(index)" class="button" type="button" name="button">更改密码</button>
+            <button v-show="isShowDeleteUser" @click="deleteUser(index)" class="button is-small" type="button">删除用户</button>
+            <button @click="editUser(index)" class="button is-small" type="button">编辑用户</button>
+            <button @click="changePassword(index)" class="button is-small" type="button">更改密码</button>
           </td>
           <td>
             <v-view></v-view>
@@ -53,6 +53,7 @@
 </template>
 
 <script>
+import moment from 'moment'
 import editUser from './editUser'
 import ChangePassword from './ChangePassword'
 import VView from './View'
@@ -73,6 +74,9 @@ export default {
     VView,
   },
   methods: {
+    toTime: function (time) {
+      return moment(time).format('YYYY-MM-DD');
+    },
     // 删除用户
     deleteUser: function (index) {
       const that = this;
@@ -115,6 +119,10 @@ export default {
     // 查找用户
     searchUser: function () {
       const that = this;
+      if (!that.searchKey) {
+        that.getUser();
+        return;
+      }
       axios({
         method: 'get',
         url: `${this.GLOBAL.localDomain}/api/v1/users/${that.searchKey}`,
