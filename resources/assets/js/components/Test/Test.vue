@@ -128,6 +128,7 @@ export default {
       const that = this;
       let id = that.searchKey;
       if (!id) {
+        that.searchKey = '';
         that.getTest();
         return;
       }

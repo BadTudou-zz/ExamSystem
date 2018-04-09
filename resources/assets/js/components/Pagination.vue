@@ -89,7 +89,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .search-key {
   width: 60px;
   margin: 0 5px 0 40px;
