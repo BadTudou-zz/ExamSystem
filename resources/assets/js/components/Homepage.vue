@@ -1,8 +1,8 @@
 <template lang="html">
     <div class="">
+      <img class="banner" src="../../img/banner1.jpg" alt="">
       <navigation2></navigation2>
     </div>
-    <!-- <navigation v-model="logOut"></navigation> -->
 </template>
 
 <script>
@@ -88,7 +88,7 @@ export default {
 <style lang="css">
 .banner {
   width: 100%;
-  height: 200px;
+  height: 250px;
   margin-bottom: -6px;
 }
 </style>

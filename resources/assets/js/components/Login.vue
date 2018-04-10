@@ -1,7 +1,8 @@
 <template lang="html">
   <div id="app" class="login-wrapper">
     <!-- login -->
-    <p class="title">用户登录</p>
+    <!-- <p class="title">用户登录</p> -->
+
     <div class="login-box">
 
       <input v-model="account" class="input form-control" placeholder="请输入你的账号/邮箱">
@@ -18,6 +19,7 @@
         <a>忘记密码</a><a @click="register()">注册</a>
       </div>
     </div>
+
 
     <register ref="register"></register>
   </div>
@@ -36,7 +38,6 @@ export default {
       account: null,  // 账号
       password: null,  // 密码
       captcha: null,  // 验证码
-      isShowLogin: false,  // 是否显示登录组件
     };
   },
   components: {
@@ -122,7 +123,6 @@ export default {
     }
   },
   created() {
-    // this.login();
     this.getVerificationCode();
   },
   watch: {
@@ -135,9 +135,13 @@ body {
   margin: 0;
 }
 .login-wrapper {
-  background-color: #334056;
+  // background-color: #334056;
   width: 100%;
-  height: 1000px;
+  height: 966px;
+  background-image:url('../../img/background.jpg');
+  background-size:auto 100%;
+  background-position:center 0;
+  background-repeat:no-repeat;
   .title {
     text-align: center;
     font-size: 34px;
@@ -156,6 +160,7 @@ body {
   border-radius: 5px;
   text-align: center;
   background-color: #fff;
+  background: hsla(0,0%,100%,0.6);
   .select-box {
     // position: relative;
     // left: -27px;

@@ -10,7 +10,7 @@
           <!-- <li><i class="fas fa-home"></i><span>主页</span></li> -->
           <li>
             <i class="far fa-user-circle"></i>
-            <router-link to="/uuser"><span>用户</span></router-link>
+            <router-link @click="currentTag = 'uuser'" :class="{'is-active' : currentTag === 'uuser'}" to="/uuser"><span>用户</span></router-link>
           </li>
 
           <li>
@@ -23,8 +23,15 @@
             <router-link to="/ppermission"><span>权限</span></router-link>
           </li>
 
-          <!-- <li><i class="far fa-user-circle"></i><span>消息</span></li> -->
-          <!-- <li><i class="far fa-user-circle"></i><span>通知</span></li> -->
+          <li>
+            <i class="far fa-comments"></i>
+            <router-link to="/mmessage"><span>消息</span></router-link>
+          </li>
+
+          <li>
+            <i class="far fa-bell"></i>
+            <router-link to="/nnotice"><span>通知</span></router-link>
+          </li>
 
           <li>
             <i class="fas fa-braille"></i>
@@ -33,15 +40,20 @@
 
           <li>
             <i class="fas fa-book"></i>
-            <router-link to="/course"><span>课程</span></router-link>
+            <!-- <router-link to="/course"><span>课程</span></router-link> -->
+            <router-link to="/courseAndTeaching"><span>课程</span></router-link>
           </li>
 
           <li>
             <i class="far fa-file-alt"></i>
-            <router-link to="/test"><span>考试</span></router-link>
+            <router-link to="/testAndPaperAndQuesiton"><span>考试</span></router-link>
           </li>
 
-          <li><i class="fas fa-align-left"></i><span>其他</span></li>
+          <!-- <li>
+            <i class="fas fa-align-left"></i>
+            <router-link to="/others"><span>其他</span></router-link>
+          </li> -->
+
         </ul>
       </div>
     </div>
@@ -50,8 +62,8 @@
       <div class="operate">
         <div class="notice">
           <router-link title="个人中心" to="/personalCenter"><i class="far fa-user"></i></router-link>
-          <router-link title="消息" to="/mmessage"><i class="far fa-comment-alt"></i></router-link><span v-show="messageLength > 0" class="prompt">{{ messageLength }}</span>
-          <router-link title="通知" to="/nnotice"><i class="fas fa-bullhorn"></i></router-link><span v-show="noticeLength > 0"class="prompt">{{ noticeLength }}</span>
+          <router-link title="个人消息" to="/mmessage"><i class="far fa-comment-alt"></i></router-link><span v-show="messageLength > 0" class="prompt">{{ messageLength }}</span>
+          <router-link title="个人通知" to="/nnotice"><i class="fas fa-bullhorn"></i></router-link><span v-show="noticeLength > 0"class="prompt">{{ noticeLength }}</span>
         </div>
         <div @click="logOut()" class="exit">
           <i class="fas fa-sign-out-alt"></i>
@@ -77,6 +89,7 @@ export default {
       messageLength: null,
       noticeData: null,
       noticeLength: null,
+      currentTag: '',
     }
   },
   components: {
@@ -166,8 +179,13 @@ export default {
 }
 .left-nav {
   width: 17%;
-  height: 800px;
+  min-height: 800px;
+  height: auto;
   background-color: #2f4860;
+}
+.is-active {
+  background-color: #1f3244;
+  color: #fff;
 }
 ul {
   padding-top: 30px;
@@ -200,9 +218,12 @@ ul li:hover {
   background-color: #1f3244;
   color: #fff;
 }
+
 .fa-home,
 .fa-user-circle,
 .fa-users,
+.fa-comments,
+.fa-bell,
 .fa-key,
 .fa-braille,
 .fa-book,
@@ -221,7 +242,7 @@ ul li span {
   text-align: center;
   /* padding-top: 15px; */
   margin: 0 auto;
-  background-color: #00d56b;
+  background-color: #5d93d2;
   color: #fff;
   font-weight: bold;
 }
