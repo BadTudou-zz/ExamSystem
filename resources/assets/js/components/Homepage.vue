@@ -1,13 +1,13 @@
 <template lang="html">
     <div class="">
-      <img class="banner" src="./../../img/banner.jpg" alt="">
-      <navigation v-model="logOut"></navigation>
+      <navigation2></navigation2>
     </div>
     <!-- <navigation v-model="logOut"></navigation> -->
 </template>
 
 <script>
-import Navigation from './Navigation'
+// import Navigation from './Navigation'
+import Navigation2 from './Navigation2'
 export default {
   data() {
     return {
@@ -18,7 +18,8 @@ export default {
     };
   },
   components: {
-    Navigation
+    // Navigation,
+    Navigation2,
   },
   methods: {
     getPermission: function (url) {
