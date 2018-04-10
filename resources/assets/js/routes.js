@@ -1,5 +1,6 @@
 export default[
-    // { path: '', redirect: '/' },
+    {path: '/', redirect: '/personalCenter'},
+    // 登录
     { path: '/login', component: require('./components/Login.vue') },
     // // 用户
     { path: '/UUser', component: require('./components/User/UUser.vue') },
@@ -22,12 +23,18 @@ export default[
     { path: '/Course', component: require('./components/Course/Course.vue') },
     // 授课
     { path: '/Teaching', component: require('./components/Teaching/Teaching.vue') },
+    // 课程 & 授课 wrapper
+    { path: '/CourseAndTeaching', component: require('./components/CourseAndTeaching.vue') },
     // 问题
     { path: '/Question', component: require('./components/Question/Question.vue') },
     // 试卷
     { path: '/ExaminationPaper', component: require('./components/ExaminationPaper/ExaminationPaper.vue') },
     // 章节
     { path: '/Chapter', component: require('./components/Chapter/Chapter.vue') },
+    // 问题 & 考 & 试卷 wrapper
+    { path: '/TestAndPaperAndQuesiton', component: require('./components/TestAndPaperAndQuesiton.vue') },
+    // others wrapper : applyFor & labe
+    { path: '/Others', component: require('./components/Others.vue') },
     // 申请
     { path: '/ApplyFor', component: require('./components/ApplyFor/ApplyFor.vue') },
     // 标签

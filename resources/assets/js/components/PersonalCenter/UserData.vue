@@ -18,11 +18,11 @@
       </div>
       <div class="label-box">
         <label class="label">创建时间：</label>
-        <span>{{ currentUserData.created_at }}</span>
+        <span>{{ toTime(currentUserData.created_at) }}</span>
       </div>
       <div class="label-box">
         <label class="label">更新时间：</label>
-        <span>{{ currentUserData.updated_at }}</span>
+        <span>{{ toTime(currentUserData.updated_at) }}</span>
       </div>
     </div>
 
@@ -36,6 +36,7 @@
 
 <script>
 import ChangePassword from '../User/ChangePassword'
+import moment from 'moment'
 
 export default {
   data() {
@@ -56,6 +57,9 @@ export default {
     ChangePassword,
   },
   methods: {
+    toTime: function (time) {
+      return moment(time).format('YYYY-MM-DD');
+    },
     // 全部用户
     getUser: function () {
       const that = this;
