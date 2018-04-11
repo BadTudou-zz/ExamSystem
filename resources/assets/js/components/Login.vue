@@ -1,7 +1,5 @@
 <template lang="html">
   <div id="app" class="login-wrapper">
-    <!-- login -->
-    <!-- <p class="title">用户登录</p> -->
 
     <div class="login-box">
 
@@ -22,6 +20,7 @@
 
 
     <register ref="register"></register>
+
   </div>
 </template>
 
@@ -29,11 +28,10 @@
 let Base64 = require('js-base64').Base64;
 // import Base64 from 'js-base64';
 import Register from './Register'
+
 export default {
   data() {
     return {
-      currentRole: '',
-      // placeholderData: '请输入你的账号/邮箱',
       captchaFigure: null,  // 验证码图片
       account: null,  // 账号
       password: null,  // 密码
@@ -65,6 +63,8 @@ export default {
       }).then(res => {
         let userId = res.data.data.user.id;
         let token = res.data.data.token;
+        that.userId = res.data.data.user.id;
+        that.token = res.data.data.token;
         sessionStorage.setItem("token",`Bearer ${token}`);
         sessionStorage.setItem('userId', userId);
         that.$store.commit('setToken', token);
@@ -127,11 +127,6 @@ body {
   background-size:auto 100%;
   background-position:center 0;
   background-repeat:no-repeat;
-  .title {
-    text-align: center;
-    font-size: 34px;
-    color: #fff;
-  }
 }
 .login-box {
   width: 320px;

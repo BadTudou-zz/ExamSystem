@@ -31717,6 +31717,38 @@ var permissions = sessionStorage.getItem('permissions');
   token: token,
   userId: userId,
   permissions: permissions
+  // a,
+
+  // export default {
+  //   data() {
+  //     return {
+  //
+  //     };
+  //   },
+  //   components: {
+  //   },
+  //   props: [
+  //     'userId',
+  //     'token',
+  //   ],
+  //   methods: {
+  //
+  //   },
+  //   created() {
+  //
+  //   },
+  //   watch: {
+  //     userId: function (value, oldValue) {
+  //       const that = this;
+  //       debugger
+  //     },
+  //     token: function (value, oldValue) {
+  //       const that = this;
+  //       debugger
+  //     }
+  //   }
+  // }
+
 });
 
 /***/ }),
@@ -32290,16 +32322,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
 
 var Base64 = __webpack_require__(345).Base64;
 // import Base64 from 'js-base64';
 
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      currentRole: '',
-      // placeholderData: '请输入你的账号/邮箱',
       captchaFigure: null, // 验证码图片
       account: null, // 账号
       password: null, // 密码
@@ -32332,6 +32362,8 @@ var Base64 = __webpack_require__(345).Base64;
       }).then(function (res) {
         var userId = res.data.data.user.id;
         var token = res.data.data.token;
+        that.userId = res.data.data.user.id;
+        that.token = res.data.data.token;
         sessionStorage.setItem("token", 'Bearer ' + token);
         sessionStorage.setItem('userId', userId);
         that.$store.commit('setToken', token);
@@ -44264,7 +44296,7 @@ exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(2)();
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 /***/ }),
 /* 275 */
@@ -44320,7 +44352,7 @@ exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(2)();
-exports.push([module.i, "\nbody[data-v-30c47f37] {\n  margin: 0;\n}\n.login-wrapper[data-v-30c47f37] {\n  width: 100%;\n  height: 966px;\n  background-image: url("+__webpack_require__(341)+");\n  background-size: auto 100%;\n  background-position: center 0;\n  background-repeat: no-repeat;\n}\n.login-wrapper .title[data-v-30c47f37] {\n    text-align: center;\n    font-size: 34px;\n    color: #fff;\n}\n.login-box[data-v-30c47f37] {\n  width: 320px;\n  height: 335px;\n  position: absolute;\n  top: 50%;\n  left: 50%;\n  margin-top: -105px;\n  margin-left: -160px;\n  padding: 25px;\n  border-radius: 5px;\n  text-align: center;\n  background-color: #fff;\n  background: rgba(255, 255, 255, 0.6);\n}\n.login-box .select-box[data-v-30c47f37] {\n    width: 270px;\n    margin-bottom: 20px;\n    height: 27px;\n    line-height: 27px;\n}\n.login-box input[data-v-30c47f37] {\n    margin-bottom: 20px;\n}\n.login-box button[data-v-30c47f37] {\n    width: 100%;\n    height: 38px;\n    font-size: 16px;\n    background-color: #2CA2FC;\n    color: #fff;\n    border: none;\n    border-radius: 5px;\n}\n.login-box div[data-v-30c47f37] {\n    display: inline-block;\n}\n.login-box .operate-box[data-v-30c47f37] {\n    float: right;\n}\n.login-box .operate-box a[data-v-30c47f37] {\n      position: relative;\n      right: 10px;\n      font-size: 12px;\n      display: inline-block;\n      margin-left: 20px;\n      margin-top: 10px;\n}\n.login-box .verification-code[data-v-30c47f37] {\n    width: 130px;\n    height: 30px;\n    margin: 0 auto;\n}\n.get-verification-code[data-v-30c47f37] {\n  display: inline-block;\n  font-size: 12px;\n}\n.code-box[data-v-30c47f37] {\n  margin-bottom: 15px;\n}\n", ""]);
+exports.push([module.i, "\nbody[data-v-30c47f37] {\n  margin: 0;\n}\n.login-wrapper[data-v-30c47f37] {\n  width: 100%;\n  height: 966px;\n  background-image: url("+__webpack_require__(341)+");\n  background-size: auto 100%;\n  background-position: center 0;\n  background-repeat: no-repeat;\n}\n.login-box[data-v-30c47f37] {\n  width: 320px;\n  height: 335px;\n  position: absolute;\n  top: 50%;\n  left: 50%;\n  margin-top: -105px;\n  margin-left: -160px;\n  padding: 25px;\n  border-radius: 5px;\n  text-align: center;\n  background-color: #fff;\n  background: rgba(255, 255, 255, 0.6);\n}\n.login-box .select-box[data-v-30c47f37] {\n    width: 270px;\n    margin-bottom: 20px;\n    height: 27px;\n    line-height: 27px;\n}\n.login-box input[data-v-30c47f37] {\n    margin-bottom: 20px;\n}\n.login-box button[data-v-30c47f37] {\n    width: 100%;\n    height: 38px;\n    font-size: 16px;\n    background-color: #2CA2FC;\n    color: #fff;\n    border: none;\n    border-radius: 5px;\n}\n.login-box div[data-v-30c47f37] {\n    display: inline-block;\n}\n.login-box .operate-box[data-v-30c47f37] {\n    float: right;\n}\n.login-box .operate-box a[data-v-30c47f37] {\n      position: relative;\n      right: 10px;\n      font-size: 12px;\n      display: inline-block;\n      margin-left: 20px;\n      margin-top: 10px;\n}\n.login-box .verification-code[data-v-30c47f37] {\n    width: 130px;\n    height: 30px;\n    margin: 0 auto;\n}\n.get-verification-code[data-v-30c47f37] {\n  display: inline-block;\n  font-size: 12px;\n}\n.code-box[data-v-30c47f37] {\n  margin-bottom: 15px;\n}\n", ""]);
 
 /***/ }),
 /* 283 */
