@@ -1,7 +1,7 @@
 <template lang="html">
     <div class="">
       <img class="banner" src="../../img/banner1.jpg" alt="">
-      <navigation2></navigation2>
+      <navigation2 v-model="logOut"></navigation2>
     </div>
 </template>
 

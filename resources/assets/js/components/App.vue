@@ -47,7 +47,7 @@ export default {
     logOut: function (value, oldValue) {
       const that = this;
       if (value === 'logOut') {
-        that.checkLoginState();
+        that.isShowLogin = true;
       }
     }
   }
