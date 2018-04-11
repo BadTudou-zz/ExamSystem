@@ -11,7 +11,6 @@ import VueRouter from 'vue-router';
 import routes from './routes';    // 路由配置文件
 import Vuex from 'vuex';
 
-
 require('./bootstrap');
 window.Vue = require('vue');
 
