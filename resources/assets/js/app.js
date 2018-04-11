@@ -15,7 +15,7 @@ import Vuex from 'vuex';
 require('./bootstrap');
 window.Vue = require('vue');
 
-Vue.prototype.GLOBAL = global_//挂载到Vue实例上面
+Vue.prototype.GLOBAL = global_; //挂载到Vue实例上面
 
 // import VueResource from 'vue-resource';
 // Vue.use(VueResource);

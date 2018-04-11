@@ -8,32 +8,32 @@
         </div>
         <ul>
           <!-- <li><i class="fas fa-home"></i><span>主页</span></li> -->
-          <li>
+          <li  v-show="isShowUser">
             <i class="far fa-user-circle"></i>
             <router-link @click="currentTag = 'uuser'" :class="{'is-active' : currentTag === 'uuser'}" to="/uuser"><span>用户</span></router-link>
           </li>
 
-          <li>
+          <li  v-show="isShowRole">
             <i class="fas fa-users"></i>
             <router-link to="/role"><span>角色</span></router-link>
           </li>
 
-          <li>
+          <li v-show="isShowPermission">
             <i class="fas fa-key"></i>
             <router-link to="/ppermission"><span>权限</span></router-link>
           </li>
 
-          <li>
+          <li v-show="isShowMessage">
             <i class="far fa-comments"></i>
             <router-link to="/mmessage"><span>消息</span></router-link>
           </li>
 
-          <li>
+          <li v-show="isShowNotification">
             <i class="far fa-bell"></i>
             <router-link to="/nnotice"><span>通知</span></router-link>
           </li>
 
-          <li>
+          <li v-show="isShowOrganization">
             <i class="fas fa-braille"></i>
             <router-link to="/organization"><span>组织</span></router-link>
           </li>
@@ -44,15 +44,15 @@
             <router-link to="/courseAndTeaching"><span>课程</span></router-link>
           </li>
 
-          <li>
+          <li v-show="isShowPaper || isShowExamPaper || isShowQuestion">
             <i class="far fa-file-alt"></i>
             <router-link to="/testAndPaperAndQuesiton"><span>考试</span></router-link>
           </li>
 
-          <!-- <li>
+          <li v-show="isShowTag">
             <i class="fas fa-align-left"></i>
             <router-link to="/others"><span>其他</span></router-link>
-          </li> -->
+          </li>
 
         </ul>
       </div>
@@ -81,6 +81,7 @@
 </template>
 
 <script>
+
 export default {
   data() {
     return {
@@ -97,12 +98,14 @@ export default {
   methods: {
     getUserDetail: function () {
       const that = this;
+      let userId = sessionStorage.getItem('userId');
       axios({
         method: 'get',
-        url: `${this.GLOBAL.localDomain}/api/v1/users/${this.GLOBAL.userId}`,
+        url: `${this.GLOBAL.localDomain}/api/v1/users/${userId}`,
         headers: {
           'Accept': 'application/json',
           'Authorization': this.GLOBAL.token,
+          // 'Authorization': token,
         }
       }).then(res => {
         that.userName = res.data.data.name;
@@ -160,6 +163,50 @@ export default {
     },
   },
   computed: {
+    // 1.【权限】
+    isShowPermission() {
+      return this.GLOBAL.permissions.includes(4);
+    },
+    // 2.【角色】
+    isShowRole() {
+      return this.GLOBAL.permissions.includes(7);
+    },
+    // 3.【用户】
+    isShowUser() {
+      return this.GLOBAL.permissions.includes(10);
+    },
+    // 4.【消息】
+    isShowMessage() {
+      return this.GLOBAL.permissions.includes(13);
+    },
+    // 5.【通知】
+    isShowNotification() {
+      return this.GLOBAL.permissions.includes(17);
+    },
+    // 6.【组织】
+    isShowOrganization() {
+      return this.GLOBAL.permissions.includes(26);
+    },
+    // 7.【问题】
+    isShowQuestion() {
+      return this.GLOBAL.permissions.includes(33);
+    },
+    // 8.【试卷】
+    isShowPaper() {
+      return this.GLOBAL.permissions.includes(38);
+    },
+    // 9.【申请】
+    isShowApplication() {
+      return this.GLOBAL.permissions.includes(43);
+    },
+    // 10.【标签】
+    isShowTag() {
+      return this.GLOBAL.permissions.includes(49);
+    },
+    // 11.【考试】
+    isShowExamPaper() {
+      return this.GLOBAL.permissions.includes(53);
+    }
   },
   created() {
     this.getUserDetail();
@@ -272,6 +319,7 @@ ul li span {
   float: right;
   height: 76px;
   line-height: 76px;
+  cursor: pointer;
 }
 .exit span {
   font-size: 14px;

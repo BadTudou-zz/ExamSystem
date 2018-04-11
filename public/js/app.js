@@ -29662,7 +29662,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     logOut: function logOut(value, oldValue) {
       var that = this;
       if (value === 'logOut') {
-        that.checkLoginState();
+        that.isShowLogin = true;
       }
     }
   }
@@ -32311,21 +32311,6 @@ var Base64 = __webpack_require__(345).Base64;
     Register: __WEBPACK_IMPORTED_MODULE_0__Register___default.a
   },
   methods: {
-    changeRole: function changeRole(element) {
-      var that = this;
-      var value = element.target.value;
-      switch (value) {
-        case 'student':
-          that.placeholderData = '请输入你的学号';
-          break;
-        case 'teacher':
-          that.placeholderData = '请输入你的教师工号';
-          break;
-        case 'administrator':
-          that.placeholderData = '请输入你的管理员账号';
-          break;
-      }
-    },
     register: function register() {
       var that = this;
       that.$refs.register.switchModal();
@@ -33293,6 +33278,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -33309,12 +33295,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   methods: {
     getUserDetail: function getUserDetail() {
       var that = this;
+      var userId = sessionStorage.getItem('userId');
       axios({
         method: 'get',
-        url: this.GLOBAL.localDomain + '/api/v1/users/' + this.GLOBAL.userId,
+        url: this.GLOBAL.localDomain + '/api/v1/users/' + userId,
         headers: {
           'Accept': 'application/json',
           'Authorization': this.GLOBAL.token
+          // 'Authorization': token,
         }
       }).then(function (res) {
         that.userName = res.data.data.name;
@@ -33369,7 +33357,62 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       });
     }
   },
-  computed: {},
+  computed: {
+    // 1.【权限】
+    isShowPermission: function isShowPermission() {
+      return this.GLOBAL.permissions.includes(4);
+    },
+
+    // 2.【角色】
+    isShowRole: function isShowRole() {
+      return this.GLOBAL.permissions.includes(7);
+    },
+
+    // 3.【用户】
+    isShowUser: function isShowUser() {
+      return this.GLOBAL.permissions.includes(10);
+    },
+
+    // 4.【消息】
+    isShowMessage: function isShowMessage() {
+      return this.GLOBAL.permissions.includes(13);
+    },
+
+    // 5.【通知】
+    isShowNotification: function isShowNotification() {
+      return this.GLOBAL.permissions.includes(17);
+    },
+
+    // 6.【组织】
+    isShowOrganization: function isShowOrganization() {
+      return this.GLOBAL.permissions.includes(26);
+    },
+
+    // 7.【问题】
+    isShowQuestion: function isShowQuestion() {
+      return this.GLOBAL.permissions.includes(33);
+    },
+
+    // 8.【试卷】
+    isShowPaper: function isShowPaper() {
+      return this.GLOBAL.permissions.includes(38);
+    },
+
+    // 9.【申请】
+    isShowApplication: function isShowApplication() {
+      return this.GLOBAL.permissions.includes(43);
+    },
+
+    // 10.【标签】
+    isShowTag: function isShowTag() {
+      return this.GLOBAL.permissions.includes(49);
+    },
+
+    // 11.【考试】
+    isShowExamPaper: function isShowExamPaper() {
+      return this.GLOBAL.permissions.includes(53);
+    }
+  },
   created: function created() {
     this.getUserDetail();
     this.getMessage();
@@ -44221,7 +44264,7 @@ exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(2)();
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 /***/ }),
 /* 275 */
@@ -44417,7 +44460,7 @@ exports.push([module.i, "\n.notice {\n  margin: 35px auto 0 auto;\n}\n.search-in
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(2)();
-exports.push([module.i, "\n.wrapper[data-v-5290f528] {\n  war\n  display: flex;\n  display: -webkit-flex;\n}\n.left-nav[data-v-5290f528] {\n  width: 17%;\n  min-height: 800px;\n  height: auto;\n  background-color: #2f4860;\n}\n.is-active[data-v-5290f528] {\n  background-color: #1f3244;\n  color: #fff;\n}\nul[data-v-5290f528] {\n  padding-top: 30px;\n}\nul li[data-v-5290f528] {\n  list-style: none;\n  text-align: center;\n  color: #76929d;\n  padding: 13px 0;\n  cursor: pointer;\n}\nul li[data-v-5290f528]:hover {\n  background-color: #1f3244;\n  color: #fff;\n}\na[data-v-5290f528] {\n  color: #76929d;\n}\na[data-v-5290f528]:hover {\n  color: #fff;\n}\nul li[data-v-5290f528] {\n  list-style: none;\n  text-align: center;\n  color: #76929d;\n  padding: 13px 0;\n  cursor: pointer;\n}\nul li[data-v-5290f528]:hover {\n  background-color: #1f3244;\n  color: #fff;\n}\n.fa-home[data-v-5290f528],\n.fa-user-circle[data-v-5290f528],\n.fa-users[data-v-5290f528],\n.fa-comments[data-v-5290f528],\n.fa-bell[data-v-5290f528],\n.fa-key[data-v-5290f528],\n.fa-braille[data-v-5290f528],\n.fa-book[data-v-5290f528],\n.fa-file-alt[data-v-5290f528],\n.fa-align-left[data-v-5290f528] {\n  /* color: #ffc500; */\n  font-size: 20px;\n}\nul li span[data-v-5290f528] {\n  display: inline-block;\n  margin-left: 20px;\n}\n.head-portrait[data-v-5290f528] {\n  height: 75px;\n  line-height: 75px;\n  text-align: center;\n  /* padding-top: 15px; */\n  margin: 0 auto;\n  background-color: #5d93d2;\n  color: #fff;\n  font-weight: bold;\n}\n.fa-heart[data-v-5290f528] {\n  font-size: 45px;\n}\n/* right */\n.right-nav[data-v-5290f528] {\n  -webkit-box-flex: 1;\n      -ms-flex: 1;\n          flex: 1;\n  background-color: #eaf1f1;\n}\n.operate[data-v-5290f528] {\n  height: 76px;\n  padding: 0 20px;\n  border-bottom: 1px solid #dedede;\n  background-color: #fff;\n}\n.notice[data-v-5290f528] {\n  font-size: 17px;\n  height: 76px;\n  line-height: 76px;\n  float: left;\n  margin: 0;\n}\n.exit[data-v-5290f528] {\n  float: right;\n  height: 76px;\n  line-height: 76px;\n}\n.exit span[data-v-5290f528] {\n  font-size: 14px;\n  height: 76px;\n  line-height: 76px;\n}\n.fa-user[data-v-5290f528],\n.fa-comment-alt[data-v-5290f528],\n.fa-bullhorn[data-v-5290f528] {\n  display: inline-block;\n  margin: 0 15px;\n  cursor: pointer;\n  color: #aeb8b8;\n}\n.fa-sign-out-alt[data-v-5290f528] {\n  font-size: 17px;\n  cursor: pointer;\n  color: #aeb8b8;\n}\n.prompt[data-v-5290f528] {\n  font-size: 12px;\n  width: 50px;\n  height: 50px;\n  border-radius: 100%;\n  color: #fff;\n  font-weight: bold;\n  background-color: red;\n  position: relative;\n  left: -20px;\n  top: -13px;\n}\n", ""]);
+exports.push([module.i, "\n.wrapper[data-v-5290f528] {\n  war\n  display: flex;\n  display: -webkit-flex;\n}\n.left-nav[data-v-5290f528] {\n  width: 17%;\n  min-height: 800px;\n  height: auto;\n  background-color: #2f4860;\n}\n.is-active[data-v-5290f528] {\n  background-color: #1f3244;\n  color: #fff;\n}\nul[data-v-5290f528] {\n  padding-top: 30px;\n}\nul li[data-v-5290f528] {\n  list-style: none;\n  text-align: center;\n  color: #76929d;\n  padding: 13px 0;\n  cursor: pointer;\n}\nul li[data-v-5290f528]:hover {\n  background-color: #1f3244;\n  color: #fff;\n}\na[data-v-5290f528] {\n  color: #76929d;\n}\na[data-v-5290f528]:hover {\n  color: #fff;\n}\nul li[data-v-5290f528] {\n  list-style: none;\n  text-align: center;\n  color: #76929d;\n  padding: 13px 0;\n  cursor: pointer;\n}\nul li[data-v-5290f528]:hover {\n  background-color: #1f3244;\n  color: #fff;\n}\n.fa-home[data-v-5290f528],\n.fa-user-circle[data-v-5290f528],\n.fa-users[data-v-5290f528],\n.fa-comments[data-v-5290f528],\n.fa-bell[data-v-5290f528],\n.fa-key[data-v-5290f528],\n.fa-braille[data-v-5290f528],\n.fa-book[data-v-5290f528],\n.fa-file-alt[data-v-5290f528],\n.fa-align-left[data-v-5290f528] {\n  /* color: #ffc500; */\n  font-size: 20px;\n}\nul li span[data-v-5290f528] {\n  display: inline-block;\n  margin-left: 20px;\n}\n.head-portrait[data-v-5290f528] {\n  height: 75px;\n  line-height: 75px;\n  text-align: center;\n  /* padding-top: 15px; */\n  margin: 0 auto;\n  background-color: #5d93d2;\n  color: #fff;\n  font-weight: bold;\n}\n.fa-heart[data-v-5290f528] {\n  font-size: 45px;\n}\n/* right */\n.right-nav[data-v-5290f528] {\n  -webkit-box-flex: 1;\n      -ms-flex: 1;\n          flex: 1;\n  background-color: #eaf1f1;\n}\n.operate[data-v-5290f528] {\n  height: 76px;\n  padding: 0 20px;\n  border-bottom: 1px solid #dedede;\n  background-color: #fff;\n}\n.notice[data-v-5290f528] {\n  font-size: 17px;\n  height: 76px;\n  line-height: 76px;\n  float: left;\n  margin: 0;\n}\n.exit[data-v-5290f528] {\n  float: right;\n  height: 76px;\n  line-height: 76px;\n  cursor: pointer;\n}\n.exit span[data-v-5290f528] {\n  font-size: 14px;\n  height: 76px;\n  line-height: 76px;\n}\n.fa-user[data-v-5290f528],\n.fa-comment-alt[data-v-5290f528],\n.fa-bullhorn[data-v-5290f528] {\n  display: inline-block;\n  margin: 0 15px;\n  cursor: pointer;\n  color: #aeb8b8;\n}\n.fa-sign-out-alt[data-v-5290f528] {\n  font-size: 17px;\n  cursor: pointer;\n  color: #aeb8b8;\n}\n.prompt[data-v-5290f528] {\n  font-size: 12px;\n  width: 50px;\n  height: 50px;\n  border-radius: 100%;\n  color: #fff;\n  font-weight: bold;\n  background-color: red;\n  position: relative;\n  left: -20px;\n  top: -13px;\n}\n", ""]);
 
 /***/ }),
 /* 303 */
@@ -69347,7 +69390,14 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "left-nav"
   }, [_c('div', [_c('div', {
     staticClass: "head-portrait"
-  }, [_vm._v("\n        当前用户：" + _vm._s(_vm.userName) + "\n      ")]), _vm._v(" "), _c('ul', [_c('li', [_c('i', {
+  }, [_vm._v("\n        当前用户：" + _vm._s(_vm.userName) + "\n      ")]), _vm._v(" "), _c('ul', [_c('li', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.isShowUser),
+      expression: "isShowUser"
+    }]
+  }, [_c('i', {
     staticClass: "far fa-user-circle"
   }), _vm._v(" "), _c('router-link', {
     class: {
@@ -69361,31 +69411,66 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.currentTag = 'uuser'
       }
     }
-  }, [_c('span', [_vm._v("用户")])])], 1), _vm._v(" "), _c('li', [_c('i', {
+  }, [_c('span', [_vm._v("用户")])])], 1), _vm._v(" "), _c('li', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.isShowRole),
+      expression: "isShowRole"
+    }]
+  }, [_c('i', {
     staticClass: "fas fa-users"
   }), _vm._v(" "), _c('router-link', {
     attrs: {
       "to": "/role"
     }
-  }, [_c('span', [_vm._v("角色")])])], 1), _vm._v(" "), _c('li', [_c('i', {
+  }, [_c('span', [_vm._v("角色")])])], 1), _vm._v(" "), _c('li', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.isShowPermission),
+      expression: "isShowPermission"
+    }]
+  }, [_c('i', {
     staticClass: "fas fa-key"
   }), _vm._v(" "), _c('router-link', {
     attrs: {
       "to": "/ppermission"
     }
-  }, [_c('span', [_vm._v("权限")])])], 1), _vm._v(" "), _c('li', [_c('i', {
+  }, [_c('span', [_vm._v("权限")])])], 1), _vm._v(" "), _c('li', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.isShowMessage),
+      expression: "isShowMessage"
+    }]
+  }, [_c('i', {
     staticClass: "far fa-comments"
   }), _vm._v(" "), _c('router-link', {
     attrs: {
       "to": "/mmessage"
     }
-  }, [_c('span', [_vm._v("消息")])])], 1), _vm._v(" "), _c('li', [_c('i', {
+  }, [_c('span', [_vm._v("消息")])])], 1), _vm._v(" "), _c('li', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.isShowNotification),
+      expression: "isShowNotification"
+    }]
+  }, [_c('i', {
     staticClass: "far fa-bell"
   }), _vm._v(" "), _c('router-link', {
     attrs: {
       "to": "/nnotice"
     }
-  }, [_c('span', [_vm._v("通知")])])], 1), _vm._v(" "), _c('li', [_c('i', {
+  }, [_c('span', [_vm._v("通知")])])], 1), _vm._v(" "), _c('li', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.isShowOrganization),
+      expression: "isShowOrganization"
+    }]
+  }, [_c('i', {
     staticClass: "fas fa-braille"
   }), _vm._v(" "), _c('router-link', {
     attrs: {
@@ -69397,13 +69482,33 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "to": "/courseAndTeaching"
     }
-  }, [_c('span', [_vm._v("课程")])])], 1), _vm._v(" "), _c('li', [_c('i', {
+  }, [_c('span', [_vm._v("课程")])])], 1), _vm._v(" "), _c('li', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.isShowPaper || _vm.isShowExamPaper || _vm.isShowQuestion),
+      expression: "isShowPaper || isShowExamPaper || isShowQuestion"
+    }]
+  }, [_c('i', {
     staticClass: "far fa-file-alt"
   }), _vm._v(" "), _c('router-link', {
     attrs: {
       "to": "/testAndPaperAndQuesiton"
     }
-  }, [_c('span', [_vm._v("考试")])])], 1)])])]), _vm._v(" "), _c('div', {
+  }, [_c('span', [_vm._v("考试")])])], 1), _vm._v(" "), _c('li', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.isShowTag),
+      expression: "isShowTag"
+    }]
+  }, [_c('i', {
+    staticClass: "fas fa-align-left"
+  }), _vm._v(" "), _c('router-link', {
+    attrs: {
+      "to": "/others"
+    }
+  }, [_c('span', [_vm._v("其他")])])], 1)])])]), _vm._v(" "), _c('div', {
     staticClass: "right-nav"
   }, [_c('div', {
     staticClass: "operate"
@@ -72283,7 +72388,15 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "src": __webpack_require__(342),
       "alt": ""
     }
-  }), _vm._v(" "), _c('navigation2')], 1)
+  }), _vm._v(" "), _c('navigation2', {
+    model: {
+      value: (_vm.logOut),
+      callback: function($$v) {
+        _vm.logOut = $$v
+      },
+      expression: "logOut"
+    }
+  })], 1)
 },staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {

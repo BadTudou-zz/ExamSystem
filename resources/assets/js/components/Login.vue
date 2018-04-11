@@ -44,21 +44,6 @@ export default {
     Register,
   },
   methods: {
-    changeRole: function (element) {
-      const that = this;
-      let value = element.target.value;
-      switch (value) {
-        case 'student':
-          that.placeholderData = '请输入你的学号';
-          break;
-        case 'teacher':
-          that.placeholderData = '请输入你的教师工号';
-          break;
-        case 'administrator':
-          that.placeholderData = '请输入你的管理员账号';
-          break;
-      }
-    },
     register: function() {
       const that = this;
       that.$refs.register.switchModal();
