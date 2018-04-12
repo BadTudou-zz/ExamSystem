@@ -31844,42 +31844,76 @@ var toTime = function toTime(time) {
   return __WEBPACK_IMPORTED_MODULE_0_moment___default()(time).format('YYYY-MM-DD');
 };
 
+var getData = function getData(url, list) {
+  var that = this;
+  var sumDataList = [];
+  if (list) {
+    sumDataList = list;
+  } else {
+    sumDataList = [];
+  }
+  axios({
+    method: 'get',
+    url: url,
+    headers: {
+      'Accept': 'application/json',
+      'Authorization': sessionStorage.getItem('token')
+    }
+  }).then(function (res) {
+    var data = res.data.data; // conclude links
+    var url = res.data.links.next;
+    sumDataList = sumDataList.concat(data);
+
+    if (url) {
+      getNextData(url, sumDataList);
+    }
+  }).catch(function (err) {
+    console.log(err);
+  });
+};
+var getNextData = function getNextData(url, list) {
+  var that = this;
+  var sumDataList = [];
+  if (list) {
+    sumDataList = list;
+  } else {
+    sumDataList = [];
+  }
+
+  axios({
+    method: 'get',
+    url: url,
+    headers: {
+      'Accept': 'application/json',
+      'Authorization': sessionStorage.getItem('token')
+    }
+  }).then(function (res) {
+    var data = res.data.data; // conclude links
+    var url = res.data.links.next;
+    sumDataList = sumDataList.concat(data);
+
+    if (url) {
+      getData(url, sumDataList);
+    } else {
+      var sum = sumDataList;
+      // debugger
+      return sum;
+    }
+  }).catch(function (err) {
+    console.log(err);
+  });
+};
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   localDomain: localDomain,
   token: token,
   userId: userId,
   permissions: permissions,
-  toTime: toTime
-  // export default {
-  //   data() {
-  //     return {
-  //
-  //     };
-  //   },
-  //   components: {
-  //   },
-  //   props: [
-  //     'userId',
-  //     'token',
-  //   ],
-  //   methods: {
-  //
-  //   },
-  //   created() {
-  //
-  //   },
-  //   watch: {
-  //     userId: function (value, oldValue) {
-  //       const that = this;
-  //       debugger
-  //     },
-  //     token: function (value, oldValue) {
-  //       const that = this;
-  //       debugger
-  //     }
-  //   }
-  // }
 
+  // methods
+  toTime: toTime,
+  getData: getData,
+  getNextData: getNextData
 });
 
 /***/ }),
@@ -34631,7 +34665,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       isShowModal: false,
       permissionId: null,
       paginationData: null,
-      data: null // from Pagination.vue
+      data: null, // from Pagination.vue
+      sumData: null
     };
   },
 
@@ -34675,7 +34710,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       var that = this;
       axios({
         method: 'get',
-        url: this.GLOBAL.localDomain + '/api/v1/roles/1/permissions?page=' + page,
+        url: this.GLOBAL.localDomain + '/api/v1/permissions/',
         headers: {
           'Accept': 'application/json',
           'Authorization': sessionStorage.getItem('token')
@@ -34687,22 +34722,86 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         console.log(err);
       });
     },
+    // searchPermission: function () {
+    //   const that = this;
+    //   if (!that.permissionId) {
+    //     that.getPermission();
+    //   }
+    //   axios({
+    //     method: 'get',
+    //     url: `${this.GLOBAL.localDomain}/api/v1/permissions/${that.permissionId}`,
+    //     headers: {
+    //       'Accept': 'application/json',
+    //       'Authorization': sessionStorage.getItem('token')
+    //     }
+    //   }).then(res => {
+    //     that.permissionData = [];
+    //     that.permissionData.push(res.data.data);
+    //   }).catch(err => {
+    //     console.log(err)
+    //   })
+    // },
     searchPermission: function searchPermission() {
       var that = this;
-      if (!that.permissionId) {
-        that.getPermission();
+      var urlPath = this.GLOBAL.localDomain + '/api/v1/permissions/';
+      // that.getData(urlPath)
+      that.sumData = this.getData(urlPath);
+    },
+    getData: function getData(url, list) {
+      var that = this;
+      var sumDataList = [];
+      if (list) {
+        sumDataList = list;
+      } else {
+        sumDataList = [];
       }
-
       axios({
         method: 'get',
-        url: this.GLOBAL.localDomain + '/api/v1/permissions/' + that.permissionId,
+        url: url,
         headers: {
           'Accept': 'application/json',
           'Authorization': sessionStorage.getItem('token')
         }
       }).then(function (res) {
-        that.permissionData = [];
-        that.permissionData.push(res.data.data);
+        var data = res.data.data; // conclude links
+        var url = res.data.links.next;
+        sumDataList = sumDataList.concat(data);
+
+        if (url) {
+          getNextData(url, sumDataList);
+        }
+      }).catch(function (err) {
+        console.log(err);
+      });
+    },
+    getNextData: function getNextData(url, list) {
+      var that = this;
+      var sumDataList = [];
+      if (list) {
+        sumDataList = list;
+      } else {
+        sumDataList = [];
+      }
+
+      axios({
+        method: 'get',
+        url: url,
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': sessionStorage.getItem('token')
+        }
+      }).then(function (res) {
+        var data = res.data.data; // conclude links
+        var url = res.data.links.next;
+        sumDataList = sumDataList.concat(data);
+
+        if (url) {
+          getData(url, sumDataList);
+        } else {
+          var sum = sumDataList;
+          // debugger
+          return sum;
+        }
       }).catch(function (err) {
         console.log(err);
       });
@@ -34728,6 +34827,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       var that = this;
       that.permissionData = value.data;
       that.paginationData = value.links;
+    },
+    sumData: function sumData(value, oldValue) {
+      var that = this;
+      debugger;
     }
   }
 });
@@ -44604,7 +44707,7 @@ exports.push([module.i, "\n.all-paper {\n  width: 20px;\n}\n", ""]);
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(2)();
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 /***/ }),
 /* 275 */
