@@ -208,16 +208,16 @@ export default {
   },
   computed: {
     isShowCreatePaper() {
-      return this.GLOBAL.permissions.includes(39);
+      return sessionStorage.getItem('permissions').includes(39);
     },
     isShowSearchPaper() {
-      return this.GLOBAL.permissions.includes(40);
+      return sessionStorage.getItem('permissions').includes(40);
     },
     isShowUpdatePaper() {
-      return this.GLOBAL.permissions.includes(41);
+      return sessionStorage.getItem('permissions').includes(41);
     },
     isShowDeletePaper() {
-      return this.GLOBAL.permissions.includes(42);
+      return sessionStorage.getItem('permissions').includes(42);
     },
   },
   created() {

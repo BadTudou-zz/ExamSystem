@@ -131,13 +131,13 @@ export default {
   },
   computed: {
     isShowCreatePermission() {
-      return this.GLOBAL.permissions.includes(1);
+      return sessionStorage.getItem('permissions').includes(1);
     },
     isShowSearchPermission() {
-      return this.GLOBAL.permissions.includes(2)
+      return sessionStorage.getItem('permissions').includes(2)
     },
     isShowDeletePermission() {
-      return this.GLOBAL.permissions.includes(3)
+      return sessionStorage.getItem('permissions').includes(3)
     },
   },
   created() {

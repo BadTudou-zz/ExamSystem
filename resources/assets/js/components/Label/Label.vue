@@ -213,13 +213,13 @@ export default {
   },
   computed: {
     isShowSearchLabel() {
-      return this.GLOBAL.permissions.includes(50);
+      return sessionStorage.getItem('permissions').includes(50);
     },
     isShowUpdateLabel() {
-      return this.GLOBAL.permissions.includes(51);
+      return sessionStorage.getItem('permissions').includes(51);
     },
     isShowDeleteLabel() {
-      return this.GLOBAL.permissions.includes(52);
+      return sessionStorage.getItem('permissions').includes(52);
     },
   },
   created() {

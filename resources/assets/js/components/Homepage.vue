@@ -1,5 +1,5 @@
 <template lang="html">
-    <div class="">
+    <div v-show="isShowNavigation" class="">
       <img class="banner" src="../../img/banner1.jpg" alt="">
       <navigation2 v-model="logOut"></navigation2>
     </div>
@@ -15,6 +15,8 @@ export default {
       permissionData: null,
       url: `${this.GLOBAL.localDomain}/api/v1/roles/1/permissions`,
       logOut: null,
+      permissions: [],
+      isShowNavigation: false
     };
   },
   components: {
@@ -67,6 +69,7 @@ export default {
         else {
           that.$store.commit('setPermissionIdList', that.permissionIdList);
           sessionStorage.setItem('permissions', that.permissionIdList);
+          that.permissions = sessionStorage.getItem('permissions');
         }
       }).catch(err => {
         console.log(err);
@@ -80,6 +83,11 @@ export default {
     logOut: function (value, oldValue) {
       const that = this;
       that.$emit('input', 'logOut');
+    },
+    permissions: function (value, oldValue) {
+      const that = this;
+      debugger
+      that.isShowNavigation = true;
     }
   }
 }

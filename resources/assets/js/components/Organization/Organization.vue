@@ -170,13 +170,13 @@ export default {
   },
   computed: {
     isShowCreateOrganization() {
-      return this.GLOBAL.permissions.includes(27)
+      return sessionStorage.getItem('permissions').includes(27)
     },
     isShowSearchOrganization() {
-      return this.GLOBAL.permissions.includes(28)
+      return sessionStorage.getItem('permissions').includes(28)
     },
     isShowDeleteOrganization() {
-      return this.GLOBAL.permissions.includes(29)
+      return sessionStorage.getItem('permissions').includes(29)
     },
   },
   created() {

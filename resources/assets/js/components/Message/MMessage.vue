@@ -115,13 +115,13 @@ export default {
   },
   computed: {
     isShowCreateMessage() {
-      return this.GLOBAL.permissions.includes(14);
+      return sessionStorage.getItem('permissions').includes(14);
     },
     isShowSearchMessage() {
-      return this.GLOBAL.permissions.includes(15);
+      return sessionStorage.getItem('permissions').includes(15);
     },
     isShowDeleteMessage() {
-      return this.GLOBAL.permissions.includes(16);
+      return sessionStorage.getItem('permissions').includes(16);
     },
   },
   created() {

@@ -29989,19 +29989,19 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   },
   computed: {
     isShowCreateApplication: function isShowCreateApplication() {
-      return this.GLOBAL.permissions.includes(44);
+      return sessionStorage.getItem('permissions').includes(44);
     },
     isShowSearchApplication: function isShowSearchApplication() {
-      return this.GLOBAL.permissions.includes(45);
+      return sessionStorage.getItem('permissions').includes(45);
     },
     isShowAccpetApplication: function isShowAccpetApplication() {
-      return this.GLOBAL.permissions.includes(46);
+      return sessionStorage.getItem('permissions').includes(46);
     },
     isShowRejectApplication: function isShowRejectApplication() {
-      return this.GLOBAL.permissions.includes(47);
+      return sessionStorage.getItem('permissions').includes(47);
     },
     isShowDeleteApplication: function isShowDeleteApplication() {
-      return this.GLOBAL.permissions.includes(48);
+      return sessionStorage.getItem('permissions').includes(48);
     }
   },
   created: function created() {
@@ -30816,16 +30816,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   },
   computed: {
     isShowCreateCourse: function isShowCreateCourse() {
-      return this.GLOBAL.permissions.includes(22);
+      return sessionStorage.getItem('permissions').includes(22);
     },
     isShowSearchCourse: function isShowSearchCourse() {
-      return this.GLOBAL.permissions.includes(23);
+      return sessionStorage.getItem('permissions').includes(23);
     },
     isShowUpdateCourse: function isShowUpdateCourse() {
-      return this.GLOBAL.permissions.includes(24);
+      return sessionStorage.getItem('permissions').includes(24);
     },
     isShowDeleteCourse: function isShowDeleteCourse() {
-      return this.GLOBAL.permissions.includes(25);
+      return sessionStorage.getItem('permissions').includes(25);
     }
   },
   created: function created() {
@@ -31437,16 +31437,16 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   },
   computed: {
     isShowCreatePaper: function isShowCreatePaper() {
-      return this.GLOBAL.permissions.includes(39);
+      return sessionStorage.getItem('permissions').includes(39);
     },
     isShowSearchPaper: function isShowSearchPaper() {
-      return this.GLOBAL.permissions.includes(40);
+      return sessionStorage.getItem('permissions').includes(40);
     },
     isShowUpdatePaper: function isShowUpdatePaper() {
-      return this.GLOBAL.permissions.includes(41);
+      return sessionStorage.getItem('permissions').includes(41);
     },
     isShowDeletePaper: function isShowDeletePaper() {
-      return this.GLOBAL.permissions.includes(42);
+      return sessionStorage.getItem('permissions').includes(42);
     }
   },
   created: function created() {
@@ -31804,7 +31804,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       permissionIdList: [],
       permissionData: null,
       url: this.GLOBAL.localDomain + '/api/v1/roles/1/permissions',
-      logOut: null
+      logOut: null,
+      permissions: [],
+      isShowNavigation: false
     };
   },
 
@@ -31857,6 +31859,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         } else {
           that.$store.commit('setPermissionIdList', that.permissionIdList);
           sessionStorage.setItem('permissions', that.permissionIdList);
+          that.permissions = sessionStorage.getItem('permissions');
         }
       }).catch(function (err) {
         console.log(err);
@@ -31871,6 +31874,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     logOut: function logOut(value, oldValue) {
       var that = this;
       that.$emit('input', 'logOut');
+    },
+    permissions: function permissions(value, oldValue) {
+      var that = this;
+      debugger;
+      that.isShowNavigation = true;
     }
   }
 });
@@ -32267,13 +32275,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   },
   computed: {
     isShowSearchLabel: function isShowSearchLabel() {
-      return this.GLOBAL.permissions.includes(50);
+      return sessionStorage.getItem('permissions').includes(50);
     },
     isShowUpdateLabel: function isShowUpdateLabel() {
-      return this.GLOBAL.permissions.includes(51);
+      return sessionStorage.getItem('permissions').includes(51);
     },
     isShowDeleteLabel: function isShowDeleteLabel() {
-      return this.GLOBAL.permissions.includes(52);
+      return sessionStorage.getItem('permissions').includes(52);
     }
   },
   created: function created() {
@@ -32985,13 +32993,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   },
   computed: {
     isShowCreateMessage: function isShowCreateMessage() {
-      return this.GLOBAL.permissions.includes(14);
+      return sessionStorage.getItem('permissions').includes(14);
     },
     isShowSearchMessage: function isShowSearchMessage() {
-      return this.GLOBAL.permissions.includes(15);
+      return sessionStorage.getItem('permissions').includes(15);
     },
     isShowDeleteMessage: function isShowDeleteMessage() {
-      return this.GLOBAL.permissions.includes(16);
+      return sessionStorage.getItem('permissions').includes(16);
     }
   },
   created: function created() {
@@ -33165,57 +33173,57 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   computed: {
     // 1.【权限】
     isShowPermission: function isShowPermission() {
-      return this.GLOBAL.permissions.includes(4);
+      return sessionStorage.getItem('permissions').includes(4);
     },
 
     // 2.【角色】
     isShowRole: function isShowRole() {
-      return this.GLOBAL.permissions.includes(7);
+      return sessionStorage.getItem('permissions').includes(7);
     },
 
     // 3.【用户】
     isShowUser: function isShowUser() {
-      return this.GLOBAL.permissions.includes(10);
+      return sessionStorage.getItem('permissions').includes(10);
     },
 
     // 4.【消息】
     isShowMessage: function isShowMessage() {
-      return this.GLOBAL.permissions.includes(13);
+      return sessionStorage.getItem('permissions').includes(13);
     },
 
     // 5.【通知】
     isShowNotification: function isShowNotification() {
-      return this.GLOBAL.permissions.includes(17);
+      return sessionStorage.getItem('permissions').includes(17);
     },
 
     // 6.【组织】
     isShowOrganization: function isShowOrganization() {
-      return this.GLOBAL.permissions.includes(26);
+      return sessionStorage.getItem('permissions').includes(26);
     },
 
     // 7.【问题】
     isShowQuestion: function isShowQuestion() {
-      return this.GLOBAL.permissions.includes(33);
+      return sessionStorage.getItem('permissions').includes(33);
     },
 
     // 8.【试卷】
     isShowPaper: function isShowPaper() {
-      return this.GLOBAL.permissions.includes(38);
+      return sessionStorage.getItem('permissions').includes(38);
     },
 
     // 9.【申请】
     isShowApplication: function isShowApplication() {
-      return this.GLOBAL.permissions.includes(43);
+      return sessionStorage.getItem('permissions').includes(43);
     },
 
     // 10.【标签】
     isShowTag: function isShowTag() {
-      return this.GLOBAL.permissions.includes(49);
+      return sessionStorage.getItem('permissions').includes(49);
     },
 
     // 11.【试卷】
     isShowExamPaper: function isShowExamPaper() {
-      return this.GLOBAL.permissions.includes(53);
+      return sessionStorage.getItem('permissions').includes(53);
     }
   },
   created: function created() {},
@@ -33660,16 +33668,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   },
   computed: {
     isShowCreateNotification: function isShowCreateNotification() {
-      return this.GLOBAL.permissions.includes(18);
+      return sessionStorage.getItem('permissions').includes(18);
     },
     isShowSearchNotification: function isShowSearchNotification() {
-      return this.GLOBAL.permissions.includes(19);
+      return sessionStorage.getItem('permissions').includes(19);
     },
     isShowUpdateNotification: function isShowUpdateNotification() {
-      return this.GLOBAL.permissions.includes(20);
+      return sessionStorage.getItem('permissions').includes(20);
     },
     isShowDeleteNotification: function isShowDeleteNotification() {
-      return this.GLOBAL.permissions.includes(21);
+      return sessionStorage.getItem('permissions').includes(21);
     }
   },
   created: function created() {
@@ -34089,13 +34097,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   },
   computed: {
     isShowCreateOrganization: function isShowCreateOrganization() {
-      return this.GLOBAL.permissions.includes(27);
+      return sessionStorage.getItem('permissions').includes(27);
     },
     isShowSearchOrganization: function isShowSearchOrganization() {
-      return this.GLOBAL.permissions.includes(28);
+      return sessionStorage.getItem('permissions').includes(28);
     },
     isShowDeleteOrganization: function isShowDeleteOrganization() {
-      return this.GLOBAL.permissions.includes(29);
+      return sessionStorage.getItem('permissions').includes(29);
     }
   },
   created: function created() {
@@ -34492,13 +34500,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   },
   computed: {
     isShowCreatePermission: function isShowCreatePermission() {
-      return this.GLOBAL.permissions.includes(1);
+      return sessionStorage.getItem('permissions').includes(1);
     },
     isShowSearchPermission: function isShowSearchPermission() {
-      return this.GLOBAL.permissions.includes(2);
+      return sessionStorage.getItem('permissions').includes(2);
     },
     isShowDeletePermission: function isShowDeletePermission() {
-      return this.GLOBAL.permissions.includes(3);
+      return sessionStorage.getItem('permissions').includes(3);
     }
   },
   created: function created() {
@@ -36224,16 +36232,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   },
   computed: {
     isShowCreateQuestion: function isShowCreateQuestion() {
-      return this.GLOBAL.permissions.includes(34);
+      return sessionStorage.getItem('permissions').includes(34);
     },
     isShowSearchQuestion: function isShowSearchQuestion() {
-      return this.GLOBAL.permissions.includes(35);
+      return sessionStorage.getItem('permissions').includes(35);
     },
     isShowUpdateQuestion: function isShowUpdateQuestion() {
-      return this.GLOBAL.permissions.includes(36);
+      return sessionStorage.getItem('permissions').includes(36);
     },
     isShowDeleteQuestion: function isShowDeleteQuestion() {
-      return this.GLOBAL.permissions.includes(37);
+      return sessionStorage.getItem('permissions').includes(37);
     }
   },
   created: function created() {
@@ -37141,16 +37149,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   },
   computed: {
     isShowCreateRole: function isShowCreateRole() {
-      return this.GLOBAL.permissions.includes(5);
+      return sessionStorage.getItem('permissions').includes(5);
     },
     isShowSearchRole: function isShowSearchRole() {
-      return this.GLOBAL.permissions.includes(6);
+      return sessionStorage.getItem('permissions').includes(6);
     },
     isShowUpdateRole: function isShowUpdateRole() {
-      return this.GLOBAL.permissions.includes(8);
+      return sessionStorage.getItem('permissions').includes(8);
     },
     isShowDeleteRole: function isShowDeleteRole() {
-      return this.GLOBAL.permissions.includes(9);
+      return sessionStorage.getItem('permissions').includes(9);
     }
   },
   created: function created() {
@@ -38006,13 +38014,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   },
   computed: {
     isShowCreateTeaching: function isShowCreateTeaching() {
-      return this.GLOBAL.permissions.includes(30);
+      return sessionStorage.getItem('permissions').includes(30);
     },
     isShowSearchTeaching: function isShowSearchTeaching() {
-      return this.GLOBAL.permissions.includes(31);
+      return sessionStorage.getItem('permissions').includes(31);
     },
     isShowDeleteTeaching: function isShowDeleteTeaching() {
-      return this.GLOBAL.permissions.includes(32);
+      return sessionStorage.getItem('permissions').includes(32);
     }
   },
   created: function created() {
@@ -38706,16 +38714,16 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   computed: {
     // 【考试】
     isShowSearchTest: function isShowSearchTest() {
-      return this.GLOBAL.permissions.includes(54);
+      return sessionStorage.getItem('permissions').includes(54);
     },
     isShowCreateTest: function isShowCreateTest() {
-      return this.GLOBAL.permissions.includes(55);
+      return sessionStorage.getItem('permissions').includes(55);
     },
     isShowUpdateTest: function isShowUpdateTest() {
-      return this.GLOBAL.permissions.includes(56);
+      return sessionStorage.getItem('permissions').includes(56);
     },
     isShowDeleteTest: function isShowDeleteTest() {
-      return this.GLOBAL.permissions.includes(57);
+      return sessionStorage.getItem('permissions').includes(57);
     }
   },
   watch: {
@@ -39547,10 +39555,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   },
   computed: {
     isShowUpdateUser: function isShowUpdateUser() {
-      return this.GLOBAL.permissions.includes(11);
+      return sessionStorage.getItem('permissions').includes(11);
     },
     isShowDeleteUser: function isShowDeleteUser() {
-      return this.GLOBAL.permissions.includes(12);
+      return sessionStorage.getItem('permissions').includes(12);
     }
   },
   created: function created() {
@@ -72351,7 +72359,14 @@ if (false) {
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {}, [_c('img', {
+  return _c('div', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.isShowNavigation),
+      expression: "isShowNavigation"
+    }]
+  }, [_c('img', {
     staticClass: "banner",
     attrs: {
       "src": __webpack_require__(342),
