@@ -196,19 +196,19 @@ export default {
   },
   computed: {
     isShowCreateApplication() {
-      return this.GLOBAL.permissions.includes(44);
+      return sessionStorage.getItem('permissions').includes(44);
     },
     isShowSearchApplication() {
-      return this.GLOBAL.permissions.includes(45);
+      return sessionStorage.getItem('permissions').includes(45);
     },
     isShowAccpetApplication() {
-      return this.GLOBAL.permissions.includes(46);
+      return sessionStorage.getItem('permissions').includes(46);
     },
     isShowRejectApplication() {
-      return this.GLOBAL.permissions.includes(47);
+      return sessionStorage.getItem('permissions').includes(47);
     },
     isShowDeleteApplication() {
-      return this.GLOBAL.permissions.includes(48);
+      return sessionStorage.getItem('permissions').includes(48);
     },
   },
   created() {

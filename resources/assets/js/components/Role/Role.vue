@@ -158,16 +158,16 @@ export default {
   },
   computed: {
     isShowCreateRole() {
-      return this.GLOBAL.permissions.includes(5)
+      return sessionStorage.getItem('permissions').includes(5)
     },
     isShowSearchRole() {
-      return this.GLOBAL.permissions.includes(6)
+      return sessionStorage.getItem('permissions').includes(6)
     },
     isShowUpdateRole() {
-      return this.GLOBAL.permissions.includes(8)
+      return sessionStorage.getItem('permissions').includes(8)
     },
     isShowDeleteRole() {
-      return this.GLOBAL.permissions.includes(9)
+      return sessionStorage.getItem('permissions').includes(9)
     },
   },
   created() {

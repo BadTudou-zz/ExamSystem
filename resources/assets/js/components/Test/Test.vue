@@ -234,16 +234,16 @@ export default {
   computed: {
     // 【考试】
     isShowSearchTest() {
-      return this.GLOBAL.permissions.includes(54);
+      return sessionStorage.getItem('permissions').includes(54);
     },
     isShowCreateTest() {
-      return this.GLOBAL.permissions.includes(55);
+      return sessionStorage.getItem('permissions').includes(55);
     },
     isShowUpdateTest() {
-      return this.GLOBAL.permissions.includes(56);
+      return sessionStorage.getItem('permissions').includes(56);
     },
     isShowDeleteTest() {
-      return this.GLOBAL.permissions.includes(57);
+      return sessionStorage.getItem('permissions').includes(57);
     },
   },
   watch: {

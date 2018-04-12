@@ -187,13 +187,13 @@ export default {
   },
   computed: {
     isShowCreateTeaching() {
-      return this.GLOBAL.permissions.includes(30)
+      return sessionStorage.getItem('permissions').includes(30)
     },
     isShowSearchTeaching() {
-      return this.GLOBAL.permissions.includes(31)
+      return sessionStorage.getItem('permissions').includes(31)
     },
     isShowDeleteTeaching() {
-      return this.GLOBAL.permissions.includes(32)
+      return sessionStorage.getItem('permissions').includes(32)
     },
   },
   created() {

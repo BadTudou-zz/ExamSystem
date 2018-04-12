@@ -128,16 +128,16 @@ export default {
   },
   computed: {
     isShowCreateCourse() {
-      return this.GLOBAL.permissions.includes(22);
+      return sessionStorage.getItem('permissions').includes(22);
     },
     isShowSearchCourse() {
-      return this.GLOBAL.permissions.includes(23);
+      return sessionStorage.getItem('permissions').includes(23);
     },
     isShowUpdateCourse() {
-      return this.GLOBAL.permissions.includes(24);
+      return sessionStorage.getItem('permissions').includes(24);
     },
     isShowDeleteCourse() {
-      return this.GLOBAL.permissions.includes(25);
+      return sessionStorage.getItem('permissions').includes(25);
     },
   },
   created() {
