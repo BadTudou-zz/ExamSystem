@@ -34,8 +34,8 @@
               <td>{{ item.description }}</td>
               <td>{{ item.max }}</td>
               <td>{{ item.current }}</td>
-              <td>{{ item.created_at }}</td>
-              <td>{{ item.updated_at }}</td>
+              <td>{{ GLOBAL.toTime(item.created_at) }}</td>
+              <td>{{ GLOBAL.toTime(item.updated_at) }}</td>
               <td>
                 <button @click="deleteMember(index)" class="button" type="button" name="button">删除成员</button>
                 <!-- <button @click="synchronizeMember(index)"  class="button" type="button" name="button">编辑成员</button> -->

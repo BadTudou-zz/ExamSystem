@@ -16,7 +16,7 @@
           <div class="notification">
             <div class="operate-box">
               <button v-show="isShowDeleteQuestion" @click="deleteQuestion(index)" class="delete"></button>
-              <button @click="editQuestion(index)" class="button edit-question" type="button" name="button">编辑问题</button>
+              <button @click="editQuestion(index)" class="button edit-question is-small" type="button" name="button">编辑问题</button>
             </div>
             <p class="detail">        id：{{ item.id }}
               &nbsp;&nbsp;&nbsp;&nbsp; 类型： 单选
@@ -32,7 +32,7 @@
           <div class="notification">
             <div class="operate-box">
               <button v-show="isShowDeleteQuestion" @click="deleteQuestion(index)" class="delete"></button>
-              <button @click="editQuestion(index)" class="button edit-question" type="button" name="button">编辑问题</button>
+              <button @click="editQuestion(index)" class="button edit-question is-small" type="button" name="button">编辑问题</button>
             </div>
             <p class="detail">        id：{{ item.id }}
               &nbsp;&nbsp;&nbsp;&nbsp; 类型： 多选

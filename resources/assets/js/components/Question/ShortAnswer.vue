@@ -21,7 +21,7 @@
           &nbsp;&nbsp;&nbsp;&nbsp; 难易程度：{{ item.level_type }}
         </p>
         {{ item.body }}
-        <p class="time">{{item.created_at}}</p>
+        <p class="time">{{ GLOBAL.toTime(item.created_at)}}</p>
       </div>
       <div class="answer">
         <p>回复：{{ item.answer_comment }}</p>

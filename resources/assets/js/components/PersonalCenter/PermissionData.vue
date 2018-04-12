@@ -20,8 +20,8 @@
           <td>{{ item.name }}</td>
           <td>{{ item.display_name }}</td>
           <td>{{ item.description }}</td>
-          <td>{{ item.created_at }}</td>
-          <td>{{ item.updated_at }}</td>
+          <td>{{ GLOBAL.toTime(item.created_at) }}</td>
+          <td>{{ GLOBAL.toTime(item.updated_at) }}</td>
         </tr>
       </tbody>
     </table>

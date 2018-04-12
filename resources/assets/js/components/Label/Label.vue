@@ -27,8 +27,8 @@
           <td>{{ item.title }}</td>
           <td>{{ item.commentabl_type }}</td>
           <td>{{ item.creator_id }}</td>
-          <td>{{ item.created_at }}</td>
-          <td>{{ item.updated_at }}</td>
+          <td>{{ GLOBAL.toTime(item.created_at) }}</td>
+          <td>{{ GLOBAL.toTime(item.updated_at) }}</td>
           <td>
             <button v-show="isShowDeleteLabel" @click="deleteLabel(index)" class="button" type="button" name="button">删除标签</button>
             <button @click="editLabel(index)" class="button" type="button" name="button">编辑标签</button>

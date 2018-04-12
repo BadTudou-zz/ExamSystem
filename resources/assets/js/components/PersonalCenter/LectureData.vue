@@ -2,10 +2,11 @@
 <template lang="html">
   <div class="box">
     <h3 class="title">选课</h3>
+
     <table class="table">
       <thead>
         <tr>
-          <th>id</th>
+          <!-- <th>id</th> -->
           <th>名称</th>
           <th>用户ID</th>
           <th>课程ID</th>
@@ -15,12 +16,12 @@
           <th>最大值容量</th>
           <th>当前容量</th>
           <th>创建时间</th>
-          <th>更新时间</th>
+          <!-- <th>更新时间</th> -->
         </tr>
       </thead>
       <tbody>
         <tr v-for="(item,index) in currentLectureData">
-          <td>{{ item.id }}</td>
+          <!-- <td>{{ item.id }}</td> -->
           <td>{{ item.name }}</td>
           <td>{{ item.user_id }}</td>
           <td>{{ item.course_id }}</td>
@@ -29,8 +30,8 @@
           <td>{{ item.describe }}</td>
           <td>{{ item.max }}</td>
           <td>{{ item.current }}</td>
-          <td>{{ item.created_at }}</td>
-          <td>{{ item.updated_at }}</td>
+          <td>{{ GLOBAL.toTime(item.created_at) }}</td>
+          <!-- <td>{{ item.updated_at }}</td> -->
         </tr>
       </tbody>
     </table>
@@ -47,7 +48,7 @@ import Pagination from './../Pagination.vue'
 export default {
   data() {
     return {
-      lectureData: null,
+      lectureData: [],
 //       currentLectureData: {
 //         id: '',
 //         name: '',
@@ -135,5 +136,8 @@ label {
   font-size: 1.5rem;
   font-weight: 600;
   line-height: 1.125;
+}
+.prompt {
+  text-align: center;
 }
 </style>

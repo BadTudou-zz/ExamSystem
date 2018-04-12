@@ -3,16 +3,21 @@
   <div class="box">
     <h3 class="title">消息</h3>
 
-    <div  v-for="(item,index) in messageData" class="message box">
-      <div class="notification">
-        {{ item.data}}
-        <p>{{item.created_at}}</p>
+    <div v-if="messageData.length !== 0">
+      <div  v-for="(item,index) in messageData" class="message box">
+        <div class="notification">
+          {{ item.data}}
+          <p>{{ GLOBAL.toTime(item.created_at) }}</p>
+        </div>
       </div>
+      <pagination v-bind:pagination-data="paginationData"
+                  v-model="data"
+      ></pagination>
     </div>
 
-    <pagination v-bind:pagination-data="paginationData"
-                v-model="data"
-    ></pagination>
+    <div v-else>
+      暂时没有收到任何消息
+    </div>
 
   </div>
 </template>
@@ -23,7 +28,7 @@ import Pagination from './../Pagination.vue'
 export default {
   data() {
     return {
-      messageData: null,
+      messageData: [],
       isShowModal: false,
       paginationData: null,
       data: null,
