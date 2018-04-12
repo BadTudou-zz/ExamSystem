@@ -31867,19 +31867,19 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     }
   },
   created: function created() {
-    this.getPermission();
+    // this.getPermission();
   },
 
   watch: {
     logOut: function logOut(value, oldValue) {
       var that = this;
       that.$emit('input', 'logOut');
-    },
-    permissions: function permissions(value, oldValue) {
-      var that = this;
-      debugger;
-      that.isShowNavigation = true;
     }
+    // permissions: function (value, oldValue) {
+    //   const that = this;
+    //   debugger
+    //   that.isShowNavigation = true;
+    // }
   }
 });
 
@@ -32343,7 +32343,14 @@ var Base64 = __webpack_require__(345).Base64;
       captchaFigure: null, // 验证码图片
       account: null, // 账号
       password: null, // 密码
-      captcha: null // 验证码
+      captcha: null, // 验证码
+
+      permissionIdList: [],
+      permissionData: null,
+      url: this.GLOBAL.localDomain + '/api/v1/roles/1/permissions',
+      logOut: null,
+      permissions: [],
+      isShowNavigation: false
     };
   },
 
@@ -32377,7 +32384,9 @@ var Base64 = __webpack_require__(345).Base64;
         sessionStorage.setItem("token", 'Bearer ' + token);
         sessionStorage.setItem('userId', userId);
         that.$store.commit('setToken', token);
-        that.$emit('input', false);
+
+        that.getPermission();
+        // that.$emit('input', false);
       }).catch(function (err) {
         var errorMsg = err.response.data.message;
         alert(errorMsg);
@@ -32413,13 +32422,69 @@ var Base64 = __webpack_require__(345).Base64;
       }).catch(function (err) {
         console.log(err);
       });
+    },
+    getPermission: function getPermission(url) {
+      var that = this;
+      console.log('getPermission');
+      var urlPath = url ? url : that.url;
+      axios({
+        method: 'get',
+        url: urlPath,
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': sessionStorage.getItem('token')
+        }
+      }).then(function (res) {
+        that.permissionData = res.data; // conclude links
+        that.url = res.data.links.next;
+        for (var i = 0; i < res.data.data.length; i++) {
+          that.permissionIdList.push(parseInt(res.data.data[i].id));
+        }
+        // that.$store.commit('setPermissionIdList', that.permissionIdList);
+        if (that.url) {
+          that.getNextPermission(that.url);
+        }
+      }).catch(function (err) {
+        console.log(err);
+      });
+    },
+    getNextPermission: function getNextPermission(url) {
+      var that = this;
+      axios({
+        method: 'get',
+        url: url,
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': sessionStorage.getItem('token')
+        }
+      }).then(function (res) {
+        that.permissionData = res.data; // conclude links
+        that.url = res.data.links.next;
+        for (var i = 0; i < res.data.data.length; i++) {
+          that.permissionIdList.push(parseInt(res.data.data[i].id));
+        }
+        if (that.url) {
+          that.getPermission(that.url);
+        } else {
+          that.$store.commit('setPermissionIdList', that.permissionIdList);
+          sessionStorage.setItem('permissions', that.permissionIdList);
+          that.permissions = sessionStorage.getItem('permissions');
+        }
+      }).catch(function (err) {
+        console.log(err);
+      });
     }
   },
   created: function created() {
     this.getVerificationCode();
   },
 
-  watch: {}
+  watch: {
+    permissions: function permissions(value, oldValue) {
+      var that = this;
+      that.$emit('input', false);
+    }
+  }
 });
 
 /***/ }),
@@ -72359,14 +72424,7 @@ if (false) {
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    directives: [{
-      name: "show",
-      rawName: "v-show",
-      value: (_vm.isShowNavigation),
-      expression: "isShowNavigation"
-    }]
-  }, [_c('img', {
+  return _c('div', {}, [_c('img', {
     staticClass: "banner",
     attrs: {
       "src": __webpack_require__(342),

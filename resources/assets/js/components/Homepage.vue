@@ -1,5 +1,5 @@
 <template lang="html">
-    <div v-show="isShowNavigation" class="">
+    <div class="">
       <img class="banner" src="../../img/banner1.jpg" alt="">
       <navigation2 v-model="logOut"></navigation2>
     </div>
@@ -77,18 +77,18 @@ export default {
     },
   },
   created() {
-    this.getPermission();
+    // this.getPermission();
   },
   watch: {
     logOut: function (value, oldValue) {
       const that = this;
       that.$emit('input', 'logOut');
     },
-    permissions: function (value, oldValue) {
-      const that = this;
-      debugger
-      that.isShowNavigation = true;
-    }
+    // permissions: function (value, oldValue) {
+    //   const that = this;
+    //   debugger
+    //   that.isShowNavigation = true;
+    // }
   }
 }
 </script>
