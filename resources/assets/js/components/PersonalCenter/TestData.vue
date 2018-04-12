@@ -1,31 +1,28 @@
-<!-- 查看组织 -->
+<!-- 查看考试 -->
 <template lang="html">
   <div class="box">
-    <h3 class="title">组织</h3>
-
+    <h3 class="title">考试</h3>
     <table class="table">
       <thead>
         <tr>
-          <th>ID</th>
-          <th>组织名</th>
-          <th>创建者ID</th>
-          <th>描述</th>
-          <th>最大容量</th>
-          <th>当前容量</th>
-          <th>创建时间</th>
+          <th>from</th>
+          <th>to</th>
+          <th>action</th>
+          <th>resource_id</th>
+          <th>resource_type</th>
+          <th>data</th>
           <th>更新时间</th>
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(item,index) in organizationData">
-          <td>{{ item.id }}</td>
-          <td>{{ item.name }}</td>
-          <td>{{ item.creator_id }}</td>
-          <td>{{ item.description }}</td>
-          <td>{{ item.max }}</td>
-          <td>{{ item.current }}</td>
-          <td>{{ GLOBAL.toTime(item.created_at) }}</td>
-          <td>{{ GLOBAL.toTime(item.updated_at) }}</td>
+        <tr v-for="(item,index) in testData">
+          <td>{{ item.from }}</td>
+          <td>{{ item.to }}</td>
+          <td>{{ item.action }}</td>
+          <td>{{ item.resource_id }}</td>
+          <td>{{ item.resource_type }}</td>
+          <td>{{ item.data }}</td>
+          <td>{{ item.updated_at.date }}</td>
         </tr>
       </tbody>
     </table>
@@ -33,40 +30,46 @@
     <pagination v-bind:pagination-data="paginationData"
                 v-model="data"
     ></pagination>
-
   </div>
 </template>
 
 <script>
-import Pagination from './../Pagination'
+import Pagination from './../Pagination.vue'
 
 export default {
   data() {
     return {
-      organizationData: null,
       isShowModal: false,
       searchKey: null,
-      editData: null,  // 当前编辑的组织数据
+      testData: null,
+      editData: null,
+      searchKey: null,
       paginationData: null,
       data: null,
-      currentOrganizationData: null,
     }
   },
   components: {
     Pagination,
   },
   methods: {
-    getOrganization: function () {
+    showModal: function () {
+      const that = this;
+      that.isShowModal = !that.isShowModal;
+    },
+    getTest: function () {
       const that = this;
       axios({
         method: 'get',
-        url: `${this.GLOBAL.localDomain}/api/v1/users/${sessionStorage.getItem('userId')}/organizations/`,
+        url: `${this.GLOBAL.localDomain}/api/v1/applications/`,
         headers: {
           'Accept': 'application/json',
           'Authorization': sessionStorage.getItem('token'),
         }
       }).then(res => {
-        that.organizationData = res.data.data;
+        // that.testData = [];
+        // that.testData.push(res.data.data);
+
+        that.testData = res.data.data;
         that.paginationData = res.data.links;
       }).catch(err => {
         console.log(err)
@@ -74,15 +77,14 @@ export default {
     },
   },
   computed: {
-
   },
   created() {
-    this.getOrganization();
+    this.getTest();
   },
   watch: {
     data:function (value, oldValue) {
       const that = this;
-      that.organizationData = value.data;
+      that.testData = value.data;
       that.paginationData = value.links;
     }
   }

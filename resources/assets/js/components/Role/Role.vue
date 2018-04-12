@@ -26,8 +26,8 @@
           <td>{{ item.id }}</td>
           <td>{{ item.name }}</td>
           <td>{{ item.display_name }}</td>
-          <td>{{ item.created_at }}</td>
-          <td>{{ item.updated_at }}</td>
+          <td>{{ GLOBAL.toTime(item.created_at) }}</td>
+          <td>{{ GLOBAL.toTime(item.updated_at) }}</td>
           <td><button v-show="isShowDeleteRole" @click="deleteRole(index)" class="button" type="button" name="button">删除角色</button></td>
           <td><button @click="showPermission(index)" class="button" type="button" name="button">查看权限</button></td>
           <td><button @click="showUser(index)" class="button" type="button" name="button">查看用户</button></td>

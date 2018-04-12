@@ -19,7 +19,7 @@
             <!-- <th>试卷ID</th> -->
             <th>考试类型</th>
             <th>成绩总值</th>
-            <th>最小</th>
+            <!-- <th>最小</th> -->
             <th>描述</th>
             <th>创建时间</th>
             <th>更新时间</th>
@@ -34,15 +34,15 @@
             <!-- <td>{{ item.paper_id }}</td> -->
             <td>{{ item.exam_type }}</td>
             <td>{{ item.score }}</td>
-            <td>{{ item.min }}</td>
+            <!-- <td>{{ item.min }}</td> -->
             <td> {{ item.description }}</td>
-            <td>{{ item.created_at }}</td>
-            <td>{{ item.updated_at }}</td>
+            <td>{{ GLOBAL.toTime(item.created_at) }}</td>
+            <td>{{ GLOBAL.toTime(item.updated_at) }}</td>
             <td>
-              <button v-show="isShowDeleteTest" @click="deleteTest(index)" class="button" type="button" name="button">删除</button>
-              <button @click="editTest(index)" class="button" type="button" name="button">编辑</button>
-              <button @click="startTest(index)" class="button" type="button" name="button">开始考试</button>
-              <button @click="gradingPapers(index)" class="button" type="button" name="button">批改</button>
+              <button v-show="isShowDeleteTest" @click="deleteTest(index)" class="is-small button" type="button" name="button">删除</button>
+              <button @click="editTest(index)" class="is-small button" type="button" name="button">编辑</button>
+              <button @click="startTest(index)" class="is-small button" type="button" name="button">开始考试</button>
+              <button @click="gradingPapers(index)" class="is-small button" type="button" name="button">批改</button>
             </td>
           </tr>
         </tbody>
@@ -196,7 +196,7 @@ export default {
           'Authorization': sessionStorage.getItem('token'),
         }
       }).then(res => {
-        alert('已开始');
+        alert('已开始考试，请等待试卷加载');
         that.isTesting = true;
       }).catch(err => {
         let errMsg = err.response.data.error;

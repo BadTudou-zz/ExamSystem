@@ -7,12 +7,14 @@
         <table class="table">
           <thead>
             <tr>
+              <th>序号</th>
               <th>分数</th>
             </tr>
           </thead>
           <tbody>
             <tr v-for="(item,index) in scoreData">
-              <td>{{ item }}</td>
+              <td>{{ index }}</td>
+              <td>{{ item }}分</td>
             </tr>
           </tbody>
         </table>
@@ -38,6 +40,10 @@ export default {
       paginationData: null,
       data: null,
       examinationPaperId: null,
+//       scoreData: {
+//         "1": "5",
+//         "2": "4"
+//       }
     }
   },
   components: {

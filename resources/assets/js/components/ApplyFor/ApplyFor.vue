@@ -213,7 +213,7 @@ export default {
   },
   created() {
     this.getApplyFor();
-    this.isShowSearchApplication();
+    // this.isShowSearchApplication();
   },
   watch: {
     data:function (value, oldValue) {

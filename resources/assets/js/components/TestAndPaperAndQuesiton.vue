@@ -9,9 +9,9 @@
       </ul>
     </div>
 
-    <test v-show="currentTag === 'test'"></test>
-    <examination-paper v-show="currentTag === 'examinationPaper'"></examination-paper>
-    <question v-show="currentTag === 'question'"></question>
+    <test v-if="currentTag === 'test'"></test>
+    <examination-paper v-if="currentTag === 'examinationPaper'"></examination-paper>
+    <question v-if="currentTag === 'question'"></question>
 
   </div>
 </template>

@@ -22,7 +22,7 @@
               <div class="question">题目：{{ item.title }}</div>
               <div class="question">选项：{{ getOptionsString(item.body) }}</div>
               <!-- <div class="options">正确答案：{{ item.answer }}</div> -->
-              <p class="time">{{item.created_at}}</p>
+              <p class="time">{{ GLOBAL.toTime(item.created_at) }}</p>
             </div>
             <div class="answer">
               作答：
@@ -46,7 +46,7 @@
               <div class="question">题目：{{ item.title }}</div>
               <div class="question">选项：{{ getOptionsString(item.body) }}</div>
               <!-- <div class="options">正确答案：{{ item.answer }}</div> -->
-              <p class="time">{{item.created_at}}</p>
+              <p class="time">{{ GLOBAL.toTime(item.created_at) }}</p>
             </div>
             <div class="answer">
               作答：
@@ -188,8 +188,10 @@ export default {
         }
       }).then(res => {
         console.log('答案提交成功');
+        debugger
       }).catch(err => {
         let errMsg = err.response.data.error;
+        debugger
         if (errMsg) {
           console.log(errMsg);
         }
@@ -286,7 +288,7 @@ export default {
       }
 
       for (let i = 0; i < that.questionData.length; i++) {
-        let id = that.questionData[i]['id'];
+        let id = `"${that.questionData[i]['id']}"`;
         let ans = that.answer[i];
         answer[id] = ans;
       }

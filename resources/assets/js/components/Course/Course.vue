@@ -28,8 +28,8 @@
           <td>{{ item.display_name }}</td>
           <td>{{ item.number }}</td>
           <td>{{ item.descripe }}</td>
-          <td>{{ item.created_at }}</td>
-          <td>{{ item.updated_at }}</td>
+          <td>{{ GLOBAL.toTime(item.created_at) }}</td>
+          <td>{{ GLOBAL.toTime(item.updated_at) }}</td>
           <td>
             <button v-show="isShowDeleteCourse" @click="deleteCourse(index)" class="button" type="button" name="button">删除课程</button>
             <button @click="editCourse(index)" class="button" type="button" name="button">编辑课程</button>

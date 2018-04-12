@@ -50,6 +50,16 @@
           </li>
 
           <li>
+            <i class="fas fa-tags"></i>
+            <router-link to="/label"><span>标签</span></router-link>
+          </li>
+
+          <li>
+            <i class="fab fa-adn"></i>
+            <router-link to="/applyFor"><span>申请</span></router-link>
+          </li>
+
+          <li>
             <i class="fas fa-align-left"></i>
             <router-link to="/others"><span>其他</span></router-link>
           </li>

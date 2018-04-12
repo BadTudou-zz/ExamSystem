@@ -11,14 +11,14 @@
     <table class="table">
       <thead>
         <tr>
-          <th>ID</th>
-          <th>创建者ID</th>
+          <!-- <th>ID</th> -->
+          <th>创建者</th>
           <th>试卷标题</th>
           <th>总分数</th>
-          <th>最小</th>
+          <!-- <th>最小</th> -->
           <th>描述</th>
-          <th>章节id</th>
-          <th>Tags</th>
+          <!-- <th>章节id</th> -->
+          <!-- <th>Tags</th> -->
           <th>创建时间</th>
           <th>更新时间</th>
           <th>试卷操作</th>
@@ -27,14 +27,14 @@
       </thead>
       <tbody>
         <tr v-for="(item,index) in examinationPaperData">
-          <td>{{ item.id }}</td>
+          <!-- <td>{{ item.id }}</td> -->
           <td>{{ item.creator_id }}</td>
           <td>{{ item.title }}</td>
           <td>{{ item.score }}</td>
-          <td>{{ item.min }}</td>
+          <!-- <td>{{ item.min }}</td> -->
           <td> {{ item.description }}</td>
-          <td>{{ item.sections }}</td>
-          <td>{{ item.tags }}</td>
+          <!-- <td>{{ item.sections }}</td> -->
+          <!-- <td>{{ item.tags }}</td> -->
           <td>{{ toTime(item.created_at) }}</td>
           <td>{{ toTime(item.updated_at) }}</td>
           <td>

@@ -5,11 +5,20 @@
 </template>
 
 <script>
+import moment from 'moment'
+
+
   // const localDomain = 'http://localhost:8000';
   const localDomain = 'http://www.badtudou.com';
   const token = sessionStorage.getItem('token');
   const userId = sessionStorage.getItem('userId');
   const permissions = sessionStorage.getItem('permissions');
+
+
+  // methods
+  const toTime = function (time) {
+    return moment(time).format('YYYY-MM-DD');
+  }
 
   export default
   {
@@ -17,6 +26,7 @@
     token,
     userId,
     permissions,
+    toTime,
   }
   // export default {
   //   data() {

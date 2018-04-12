@@ -38,8 +38,8 @@
           <td>{{ item.description }}</td>
           <td>{{ item.max }}</td>
           <td>{{ item.current }}</td>
-          <td>{{ item.created_at }}</td>
-          <td>{{ item.updated_at }}</td>
+          <td>{{ GLOBAL.toTime(item.created_at) }}</td>
+          <td>{{ GLOBAL.toTime(item.updated_at) }}</td>
           <td>
             <button v-show="isShowDeleteTeaching" @click="deleteTeaching(index)" class="button is-small" type="button" name="button">删除授课</button>
             <button @click="editTeaching(index)" class="button is-small" type="button" name="button">编辑授课</button>

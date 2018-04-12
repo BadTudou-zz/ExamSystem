@@ -12,7 +12,7 @@
       <div class="notification">
         <button v-show="isShowDeleteNotification" @click="deleteNotice(index)" class="delete"></button>
         {{ item.data}}
-        <p>{{item.created_at}}</p>
+        <p>{{ GLOBAL.toTime(item.created_at) }}</p>
       </div>
     </div>
 
