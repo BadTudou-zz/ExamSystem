@@ -3,7 +3,7 @@
   <div class="box">
     <div>
         <div v-show="isShowSearchCourse" class="search-box">
-          <input class="input search-input" type="text" placeholder="请输入课程id">
+          <input class="input search-input" type="text" placeholder="请输入课程">
           <button class="button" type="button" name="button">查找课程</button>
         </div>
         <button v-show="isShowCreateCourse" @click="addCourse()" class="button add-role-button" type="button" name="button">添加课程</button>

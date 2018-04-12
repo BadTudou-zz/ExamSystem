@@ -7,8 +7,10 @@
         <li @click="currentTag = 'teaching'" :class="{'is-active' : currentTag === 'teaching'}"><a>授课</a></li>
       </ul>
     </div>
+
     <course v-show="currentTag === 'course'"></course>
     <teaching v-show="currentTag === 'teaching'"></teaching>
+    
   </div>
 </template>
 <script>

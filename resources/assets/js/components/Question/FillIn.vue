@@ -3,7 +3,7 @@
   <div class="box">
     <div>
       <div class="search-box">
-        <input v-model="searchKey" class="input search-input" type="text" placeholder="请输入你要查看的问题的id">
+        <input v-model="searchKey" class="input search-input" type="text" placeholder="请输入你要查看的问题">
         <button @click="searchQuestion()" class="button" type="button" name="button">查找问题</button>
       </div>
         <button @click="addQuestion()" class="button add-role-button" type="button" name="button">添加问题</button>

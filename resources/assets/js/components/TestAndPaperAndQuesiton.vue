@@ -8,9 +8,11 @@
         <li @click="currentTag = 'question'" :class="{'is-active' : currentTag === 'question'}"><a>问题</a></li>
       </ul>
     </div>
+
     <test v-show="currentTag === 'test'"></test>
     <examination-paper v-show="currentTag === 'examinationPaper'"></examination-paper>
     <question v-show="currentTag === 'question'"></question>
+
   </div>
 </template>
 <script>
@@ -30,7 +32,6 @@ export default {
     Question,
   },
   methods: {
-
   },
   computed: {
   },
