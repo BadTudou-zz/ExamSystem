@@ -8,32 +8,32 @@
         </div>
         <ul>
           <!-- <li><i class="fas fa-home"></i><span>主页</span></li> -->
-          <li  v-show="isShowUser">
+          <li>
             <i class="far fa-user-circle"></i>
             <router-link @click="currentTag = 'uuser'" :class="{'is-active' : currentTag === 'uuser'}" to="/uuser"><span>用户</span></router-link>
           </li>
 
-          <li  v-show="isShowRole">
+          <li>
             <i class="fas fa-users"></i>
             <router-link to="/role"><span>角色</span></router-link>
           </li>
 
-          <li v-show="isShowPermission">
+          <li>
             <i class="fas fa-key"></i>
             <router-link to="/ppermission"><span>权限</span></router-link>
           </li>
 
-          <li v-show="isShowMessage">
+          <li>
             <i class="far fa-comments"></i>
             <router-link to="/mmessage"><span>消息</span></router-link>
           </li>
 
-          <li v-show="isShowNotification">
+          <li>
             <i class="far fa-bell"></i>
             <router-link to="/nnotice"><span>通知</span></router-link>
           </li>
 
-          <li v-show="isShowOrganization">
+          <li>
             <i class="fas fa-braille"></i>
             <router-link to="/organization"><span>组织</span></router-link>
           </li>
@@ -44,12 +44,12 @@
             <router-link to="/courseAndTeaching"><span>课程</span></router-link>
           </li>
 
-          <li v-show="isShowPaper || isShowExamPaper || isShowQuestion">
+          <li>
             <i class="far fa-file-alt"></i>
             <router-link to="/testAndPaperAndQuesiton"><span>考试</span></router-link>
           </li>
 
-          <li v-show="isShowTag">
+          <li>
             <i class="fas fa-align-left"></i>
             <router-link to="/others"><span>其他</span></router-link>
           </li>
@@ -76,12 +76,10 @@
     </div>
   </div>
 
-
   </div>
 </template>
 
 <script>
-
 export default {
   data() {
     return {
@@ -91,6 +89,8 @@ export default {
       noticeData: null,
       noticeLength: null,
       currentTag: '',
+      token: null,
+      userId: null,
     }
   },
   components: {
@@ -98,14 +98,12 @@ export default {
   methods: {
     getUserDetail: function () {
       const that = this;
-      let userId = sessionStorage.getItem('userId');
       axios({
         method: 'get',
-        url: `${this.GLOBAL.localDomain}/api/v1/users/${userId}`,
+        url: `${this.GLOBAL.localDomain}/api/v1/users/${this.userId}`,
         headers: {
           'Accept': 'application/json',
-          'Authorization': this.GLOBAL.token,
-          // 'Authorization': token,
+          'Authorization': this.token
         }
       }).then(res => {
         that.userName = res.data.data.name;
@@ -123,10 +121,10 @@ export default {
       const that = this;
       axios({
         method: 'get',
-        url: `${this.GLOBAL.localDomain}/api/v1/users/${this.GLOBAL.userId}/messages/`,
+        url: `${this.GLOBAL.localDomain}/api/v1/users/${this.userId}/messages/`,
         headers: {
           'Accept': 'application/json',
-          'Authorization': this.GLOBAL.token,
+          'Authorization': this.token,
         }
       }).then(res => {
         that.messageData = res.data.data;
@@ -144,10 +142,10 @@ export default {
       const that = this;
       axios({
         method: 'get',
-        url: `${this.GLOBAL.localDomain}/api/v1/users/${this.GLOBAL.userId}/notifications/`,
+        url: `${this.GLOBAL.localDomain}/api/v1/users/${this.userId}/notifications/`,
         headers: {
           'Accept': 'application/json',
-          'Authorization': this.GLOBAL.token,
+          'Authorization': this.token,
         }
       }).then(res => {
         that.noticeData = res.data.data;
@@ -163,55 +161,59 @@ export default {
     },
   },
   computed: {
-    // 1.【权限】
-    isShowPermission() {
-      return this.GLOBAL.permissions.includes(4);
-    },
-    // 2.【角色】
-    isShowRole() {
-      return this.GLOBAL.permissions.includes(7);
-    },
-    // 3.【用户】
-    isShowUser() {
-      return this.GLOBAL.permissions.includes(10);
-    },
-    // 4.【消息】
-    isShowMessage() {
-      return this.GLOBAL.permissions.includes(13);
-    },
-    // 5.【通知】
-    isShowNotification() {
-      return this.GLOBAL.permissions.includes(17);
-    },
-    // 6.【组织】
-    isShowOrganization() {
-      return this.GLOBAL.permissions.includes(26);
-    },
-    // 7.【问题】
-    isShowQuestion() {
-      return this.GLOBAL.permissions.includes(33);
-    },
-    // 8.【试卷】
-    isShowPaper() {
-      return this.GLOBAL.permissions.includes(38);
-    },
-    // 9.【申请】
-    isShowApplication() {
-      return this.GLOBAL.permissions.includes(43);
-    },
-    // 10.【标签】
-    isShowTag() {
-      return this.GLOBAL.permissions.includes(49);
-    },
-    // 11.【考试】
-    isShowExamPaper() {
-      return this.GLOBAL.permissions.includes(53);
-    }
+    // // 1.【权限】
+    // isShowPermission() {
+    //   return this.sessions.permissions.includes(4);
+    // },
+    // // 2.【角色】
+    // isShowRole() {
+    //   return this.sessions.permissions.includes(7);
+    // },
+    // // 3.【用户】
+    // isShowUser() {
+    //   return this.sessions.permissions.includes(10);
+    // },
+    // // 4.【消息】
+    // isShowMessage() {
+    //   return this.sessions.permissions.includes(13);
+    // },
+    // // 5.【通知】
+    // isShowNotification() {
+    //   return this.sessions.permissions.includes(17);
+    // },
+    // // 6.【组织】
+    // isShowOrganization() {
+    //   return this.sessions.permissions.includes(26);
+    // },
+    // // 7.【问题】
+    // isShowQuestion() {
+    //   return this.sessions.permissions.includes(33);
+    // },
+    // // 8.【试卷】
+    // isShowPaper() {
+    //   return this.sessions.permissions.includes(38);
+    // },
+    // // 9.【申请】
+    // isShowApplication() {
+    //   return this.sessions.permissions.includes(43);
+    // },
+    // // 10.【标签】
+    // isShowTag() {
+    //   return this.sessions.permissions.includes(49);
+    // },
+    // // 11.【考试】
+    // isShowExamPaper() {
+    //   return this.sessions.permissions.includes(53);
+    // }
   },
   created() {
+    this.token = sessionStorage.getItem('token');
+    this.userId = sessionStorage.getItem('userId');
+
     this.getUserDetail();
     this.getMessage();
     this.getNotice();
+
   },
   watch: {
   }
@@ -220,7 +222,6 @@ export default {
 
 <style scoped>
 .wrapper {
-  war
   display: flex;
   display: -webkit-flex;
 }

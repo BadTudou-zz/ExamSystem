@@ -63,7 +63,7 @@ export default {
         url: `${this.GLOBAL.localDomain}/api/v1/permissions/`,
         headers: {
           'Accept': 'application/json',
-          'Authorization': this.GLOBAL.token,
+          'Authorization': sessionStorage.getItem('token'),
         },
         params: {
           name: that.permissionData.name,

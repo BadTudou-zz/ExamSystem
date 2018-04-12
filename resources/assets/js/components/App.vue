@@ -43,6 +43,10 @@ export default {
     'loginStatus': function (value, oldValue) {
       const that = this;
       that.isShowLogin = value;
+      // if (value === false) {
+      //   location.reload();
+      //   console.log('已刷新')
+      // }
     },
     logOut: function (value, oldValue) {
       const that = this;

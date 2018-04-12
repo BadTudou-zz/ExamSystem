@@ -52,7 +52,7 @@ export default {
         url: `${this.GLOBAL.localDomain}/api/v1/roles/${id}/users?${params}`,
         headers: {
           'Accept': 'application/json',
-          'Authorization': this.GLOBAL.token,
+          'Authorization': sessionStorage.getItem('token'),
         },
         // params: {
         //

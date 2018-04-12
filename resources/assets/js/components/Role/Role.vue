@@ -93,7 +93,7 @@ export default {
           url: `${this.GLOBAL.localDomain}/api/v1/roles/${id}`,
           headers: {
             'Accept': 'application/json',
-            'Authorization': this.GLOBAL.token,
+            'Authorization': sessionStorage.getItem('token'),
           }
         }).then(res => {
           alert('删除成功！');
@@ -111,7 +111,7 @@ export default {
         url: `${this.GLOBAL.localDomain}/api/v1/roles/`,
         headers: {
           'Accept': 'application/json',
-          'Authorization': this.GLOBAL.token,
+          'Authorization': sessionStorage.getItem('token'),
         }
       }).then(res => {
         that.roleData = res.data.data;
@@ -136,7 +136,7 @@ export default {
         url: `${this.GLOBAL.localDomain}/api/v1/roles/${that.searchKey}`,
         headers: {
           'Accept': 'application/json',
-          'Authorization': this.GLOBAL.token,
+          'Authorization': sessionStorage.getItem('token'),
         }
       }).then(res => {
         that.roleData = [];

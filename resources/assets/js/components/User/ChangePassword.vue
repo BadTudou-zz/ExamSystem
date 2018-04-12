@@ -60,7 +60,7 @@ export default {
         url: `${this.GLOBAL.localDomain}/api/v1/users/${id}/password/`,
         headers: {
           'Accept': 'application/json',
-          'Authorization': this.GLOBAL.token,
+          'Authorization': sessionStorage.getItem('token'),
         },
         data: {
           password: that.password,

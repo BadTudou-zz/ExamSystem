@@ -59,7 +59,7 @@ export default {
         url: `${this.GLOBAL.localDomain}/api/v1/notifications/`,
         headers: {
           'Accept': 'application/json',
-          'Authorization': this.GLOBAL.token,
+          'Authorization': sessionStorage.getItem('token'),
         }
       }).then(res => {
         that.noticeData = res.data.data;
@@ -78,7 +78,7 @@ export default {
           url: `${this.GLOBAL.localDomain}/api/v1/notifications/${id}`,
           headers: {
             'Accept': 'application/json',
-            'Authorization': this.GLOBAL.token,
+            'Authorization': sessionStorage.getItem('token'),
           }
         }).then(res => {
           alert('删除成功');
@@ -101,7 +101,7 @@ export default {
         url: `${this.GLOBAL.localDomain}/api/v1/organizations/${that.searchKey}`,
         headers: {
           'Accept': 'application/json',
-          'Authorization': this.GLOBAL.token,
+          'Authorization': sessionStorage.getItem('token'),
         }
       }).then(res => {
         that.noticeData = [];

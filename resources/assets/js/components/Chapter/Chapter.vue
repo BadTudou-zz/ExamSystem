@@ -108,7 +108,7 @@ export default {
         url: `${this.GLOBAL.localDomain}/api/v1/papers/${id}/sections/`,
         headers: {
           'Accept': 'application/json',
-          'Authorization': this.GLOBAL.token,
+          'Authorization': sessionStorage.getItem('token'),
         }
       }).then(res => {
         // ??数据格式有误n
@@ -126,7 +126,7 @@ export default {
         url: `${this.GLOBAL.localDomain}/api/v1/papers/1/sections/${id}`,
         headers: {
           'Accept': 'application/json',
-          'Authorization': this.GLOBAL.token,
+          'Authorization': sessionStorage.getItem('token'),
         }
       }).then(res => {
         that.chapterData = [];
@@ -147,7 +147,7 @@ export default {
           url: `${this.GLOBAL.localDomain}/api/v1/papers/${paperId}/sections/${chapterId}`,
           headers: {
             'Accept': 'application/json',
-            'Authorization': this.GLOBAL.token,
+            'Authorization': sessionStorage.getItem('token'),
           }
         }).then(res => {
           alert('删除成功')

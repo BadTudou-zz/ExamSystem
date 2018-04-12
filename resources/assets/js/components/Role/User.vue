@@ -100,7 +100,7 @@ export default {
         url: `${this.GLOBAL.localDomain}/api/v1/roles/${id}/users`,
         headers: {
           'Accept': 'application/json',
-          'Authorization': this.GLOBAL.token,
+          'Authorization': sessionStorage.getItem('token'),
         }
       }).then(res => {
         that.userData = res.data.data;
@@ -119,7 +119,7 @@ export default {
           url: `${this.GLOBAL.localDomain}/api/v1/roles/${id}/users`,
           headers: {
             'Accept': 'application/json',
-            'Authorization': this.GLOBAL.token,
+            'Authorization': sessionStorage.getItem('token'),
           }
         }).then(res => {
           alert('删除成功！');

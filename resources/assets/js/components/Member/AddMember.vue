@@ -54,7 +54,7 @@ export default {
         url: `${this.GLOBAL.localDomain}/api/v1/organizations/${id}/users`,
         headers: {
           'Accept': 'application/json',
-          'Authorization': this.GLOBAL.token,
+          'Authorization': sessionStorage.getItem('token'),
         },
         params: {
           users: null,

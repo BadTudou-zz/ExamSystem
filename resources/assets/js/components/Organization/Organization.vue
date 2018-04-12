@@ -106,7 +106,7 @@ export default {
         url: `${this.GLOBAL.localDomain}/api/v1/organizations`,
         headers: {
           'Accept': 'application/json',
-          'Authorization': this.GLOBAL.token,
+          'Authorization': sessionStorage.getItem('token'),
         }
       }).then(res => {
         that.organizationData = res.data.data;
@@ -127,7 +127,7 @@ export default {
         url: `${this.GLOBAL.localDomain}/api/v1/organizations/${that.searchKey}`,
         headers: {
           'Accept': 'application/json',
-          'Authorization': this.GLOBAL.token,
+          'Authorization': sessionStorage.getItem('token'),
         }
       }).then(res => {
         that.organizationData = [];
@@ -146,7 +146,7 @@ export default {
           url: `${this.GLOBAL.localDomain}/api/v1/organizations/${id}`,
           headers: {
             'Accept': 'application/json',
-            'Authorization': this.GLOBAL.token,
+            'Authorization': sessionStorage.getItem('token'),
           }
         }).then(res => {
           alert('删除成功');

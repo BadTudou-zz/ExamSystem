@@ -11,14 +11,12 @@
   const userId = sessionStorage.getItem('userId');
   const permissions = sessionStorage.getItem('permissions');
 
-
   export default
   {
     localDomain,
     token,
     userId,
     permissions,
-    // a,
   }
   // export default {
   //   data() {

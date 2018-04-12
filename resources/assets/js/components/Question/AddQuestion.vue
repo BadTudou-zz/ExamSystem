@@ -146,7 +146,7 @@ export default {
         url: `${this.GLOBAL.localDomain}/api/v1/questions/`,
         headers: {
           'Accept': 'application/json',
-          'Authorization': this.GLOBAL.token,
+          'Authorization': sessionStorage.getItem('token'),
         },
         params: {
           question_type: that.questionData.question_type,
