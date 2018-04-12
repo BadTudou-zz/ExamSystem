@@ -36,6 +36,13 @@ export default {
       account: null,  // 账号
       password: null,  // 密码
       captcha: null,  // 验证码
+
+      permissionIdList: [],
+      permissionData: null,
+      url: `${this.GLOBAL.localDomain}/api/v1/roles/1/permissions`,
+      logOut: null,
+      permissions: [],
+      isShowNavigation: false
     };
   },
   components: {
@@ -68,7 +75,9 @@ export default {
         sessionStorage.setItem("token",`Bearer ${token}`);
         sessionStorage.setItem('userId', userId);
         that.$store.commit('setToken', token);
-        that.$emit('input', false);
+
+        that.getPermission();
+        // that.$emit('input', false);
       }).catch(err => {
         let errorMsg = err.response.data.message;
         alert(errorMsg);
@@ -105,12 +114,68 @@ export default {
       }).catch(err => {
         console.log(err)
       })
-    }
+    },
+    getPermission: function (url) {
+      const that = this;
+      console.log('getPermission')
+      let urlPath = url ? url : that.url
+      axios({
+        method: 'get',
+        url: urlPath,
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': sessionStorage.getItem('token'),
+        }
+      }).then(res => {
+        that.permissionData = res.data;  // conclude links
+        that.url = res.data.links.next;
+        for (let i = 0; i < res.data.data.length; i++) {
+          that.permissionIdList.push(parseInt(res.data.data[i].id));
+        }
+          // that.$store.commit('setPermissionIdList', that.permissionIdList);
+        if (that.url) {
+          that.getNextPermission(that.url);
+        }
+      }).catch(err => {
+        console.log(err);
+      })
+    },
+    getNextPermission: function (url) {
+      const that = this;
+      axios({
+        method: 'get',
+        url: url,
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': sessionStorage.getItem('token'),
+        }
+      }).then(res => {
+        that.permissionData = res.data;  // conclude links
+        that.url = res.data.links.next;
+        for (let i = 0; i < res.data.data.length; i++) {
+          that.permissionIdList.push(parseInt(res.data.data[i].id));
+        }
+        if (that.url) {
+          that.getPermission(that.url);
+        }
+        else {
+          that.$store.commit('setPermissionIdList', that.permissionIdList);
+          sessionStorage.setItem('permissions', that.permissionIdList);
+          that.permissions = sessionStorage.getItem('permissions');
+        }
+      }).catch(err => {
+        console.log(err);
+      })
+    },
   },
   created() {
     this.getVerificationCode();
   },
   watch: {
+    permissions: function (value, oldValue) {
+      const that = this;
+      that.$emit('input', false);
+    }
   }
 }
 </script>
