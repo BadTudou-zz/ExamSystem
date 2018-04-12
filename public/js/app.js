@@ -30006,6 +30006,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   },
   created: function created() {
     this.getApplyFor();
+    this.isShowSearchApplication();
   },
 
   watch: {
@@ -30961,6 +30962,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Course_Course___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__Course_Course__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Teaching_Teaching__ = __webpack_require__(10);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Teaching_Teaching___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__Teaching_Teaching__);
+//
+//
 //
 //
 //
@@ -32060,6 +32063,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Pagination_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__Pagination_vue__);
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
+//
 //
 //
 //
@@ -34210,6 +34214,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 
 
@@ -34227,7 +34233,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   },
   methods: {},
   computed: {},
-  created: function created() {},
+  created: function created() {
+    console.log('others');
+    console.log(this.currentTag);
+  },
 
   watch: {}
 });
@@ -38732,26 +38741,25 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
       that.isTesting = true;
 
-      // axios({
-      //   method: 'post',
-      //   url: `${this.GLOBAL.localDomain}/api/v1/exams/${id}/start`,
-      //   headers: {
-      //     'Accept': 'application/json',
-      //     'Authorization': sessionStorage.getItem('token'),
-      //   }
-      // }).then(res => {
-      //   alert('已开始');
-      //   that.isTesting = true;
-      // }).catch(err => {
-      //   let errMsg = err.response.data.error;
-      //   if (errMsg) {
-      //     alert(errMsg);
-      //   }
-      //   else {
-      //     alert('开始失败，请稍后再试');
-      //   }
-      //   console.log(err)
-      // })
+      axios({
+        method: 'post',
+        url: this.GLOBAL.localDomain + '/api/v1/exams/' + id + '/start',
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': sessionStorage.getItem('token')
+        }
+      }).then(function (res) {
+        alert('已开始');
+        that.isTesting = true;
+      }).catch(function (err) {
+        var errMsg = err.response.data.error;
+        if (errMsg) {
+          alert(errMsg);
+        } else {
+          alert('开始失败，请稍后再试');
+        }
+        console.log(err);
+      });
     },
     gradingPapers: function gradingPapers(index) {
       var that = this;
@@ -39182,6 +39190,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__ExaminationPaper_ExaminationPaper___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__ExaminationPaper_ExaminationPaper__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Question_Question__ = __webpack_require__(149);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Question_Question___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__Question_Question__);
+//
+//
 //
 //
 //
@@ -66365,9 +66375,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       staticClass: "question"
     }, [_vm._v("题目：" + _vm._s(item.title))]), _vm._v(" "), _c('div', {
       staticClass: "question"
-    }, [_vm._v("选项：" + _vm._s(_vm.getOptionsString(item.body)))]), _vm._v(" "), _c('div', {
-      staticClass: "options"
-    }, [_vm._v("正确答案：" + _vm._s(item.answer))]), _vm._v(" "), _c('p', {
+    }, [_vm._v("选项：" + _vm._s(_vm.getOptionsString(item.body)))]), _vm._v(" "), _c('p', {
       staticClass: "time"
     }, [_vm._v(_vm._s(item.created_at))])]), _vm._v(" "), _c('div', {
       staticClass: "answer"
@@ -66423,9 +66431,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       staticClass: "question"
     }, [_vm._v("题目：" + _vm._s(item.title))]), _vm._v(" "), _c('div', {
       staticClass: "question"
-    }, [_vm._v("选项：" + _vm._s(_vm.getOptionsString(item.body)))]), _vm._v(" "), _c('div', {
-      staticClass: "options"
-    }, [_vm._v("正确答案：" + _vm._s(item.answer))]), _vm._v(" "), _c('p', {
+    }, [_vm._v("选项：" + _vm._s(_vm.getOptionsString(item.body)))]), _vm._v(" "), _c('p', {
       staticClass: "time"
     }, [_vm._v(_vm._s(item.created_at))])]), _vm._v(" "), _c('div', {
       staticClass: "answer"
@@ -70722,7 +70728,7 @@ if (false) {
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticClass: "box"
-  }, [_c('div', [_c('div', {
+  }, [_vm._v("\n  标签\n  "), _c('div', [_c('div', {
     directives: [{
       name: "show",
       rawName: "v-show",

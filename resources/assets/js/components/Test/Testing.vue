@@ -21,7 +21,7 @@
               </p>
               <div class="question">题目：{{ item.title }}</div>
               <div class="question">选项：{{ getOptionsString(item.body) }}</div>
-              <div class="options">正确答案：{{ item.answer }}</div>
+              <!-- <div class="options">正确答案：{{ item.answer }}</div> -->
               <p class="time">{{item.created_at}}</p>
             </div>
             <div class="answer">
@@ -45,7 +45,7 @@
               </p>
               <div class="question">题目：{{ item.title }}</div>
               <div class="question">选项：{{ getOptionsString(item.body) }}</div>
-              <div class="options">正确答案：{{ item.answer }}</div>
+              <!-- <div class="options">正确答案：{{ item.answer }}</div> -->
               <p class="time">{{item.created_at}}</p>
             </div>
             <div class="answer">

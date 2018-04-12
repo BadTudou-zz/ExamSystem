@@ -1,6 +1,7 @@
 <!-- 查看标签 -->
 <template lang="html">
   <div class="box">
+    标签
     <div>
       <div v-show="isShowSearchLabel" class="search-box">
         <input v-model="searchKey" class="input search-input" type="text" placeholder="请输入你要查看的标签">

@@ -188,26 +188,26 @@ export default {
 
       that.isTesting = true;
 
-      // axios({
-      //   method: 'post',
-      //   url: `${this.GLOBAL.localDomain}/api/v1/exams/${id}/start`,
-      //   headers: {
-      //     'Accept': 'application/json',
-      //     'Authorization': sessionStorage.getItem('token'),
-      //   }
-      // }).then(res => {
-      //   alert('已开始');
-      //   that.isTesting = true;
-      // }).catch(err => {
-      //   let errMsg = err.response.data.error;
-      //   if (errMsg) {
-      //     alert(errMsg);
-      //   }
-      //   else {
-      //     alert('开始失败，请稍后再试');
-      //   }
-      //   console.log(err)
-      // })
+      axios({
+        method: 'post',
+        url: `${this.GLOBAL.localDomain}/api/v1/exams/${id}/start`,
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': sessionStorage.getItem('token'),
+        }
+      }).then(res => {
+        alert('已开始');
+        that.isTesting = true;
+      }).catch(err => {
+        let errMsg = err.response.data.error;
+        if (errMsg) {
+          alert(errMsg);
+        }
+        else {
+          alert('开始失败，请稍后再试');
+        }
+        console.log(err)
+      })
     },
     gradingPapers: function (index) {
       const that = this;

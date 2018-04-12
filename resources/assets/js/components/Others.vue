@@ -8,8 +8,10 @@
         <li @click="currentTag = 'label'" :class="{'is-active' : currentTag === 'label'}"><a>标签</a></li>
       </ul>
     </div>
+
     <apply-for v-show="currentTag === 'applyFor'"></apply-for>
     <label v-show="currentTag === 'label'"></label>
+
   </div>
 </template>
 
@@ -28,11 +30,12 @@ export default {
     Label,
   },
   methods: {
-
   },
   computed: {
   },
   created() {
+    console.log('others')
+    console.log(this.currentTag);
   },
   watch: {
   }
