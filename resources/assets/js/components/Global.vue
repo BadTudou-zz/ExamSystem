@@ -18,7 +18,70 @@ import moment from 'moment'
   // methods
   const toTime = function (time) {
     return moment(time).format('YYYY-MM-DD');
-  }
+  };
+
+  const getData = function (url, list) {
+    const that = this;
+    let sumDataList = [];
+    if (list) {
+      sumDataList = list;
+    }
+    else {
+      sumDataList = [];
+    }
+    axios({
+      method: 'get',
+      url: url,
+      headers: {
+        'Accept': 'application/json',
+        'Authorization': sessionStorage.getItem('token'),
+      }
+    }).then(res => {
+      let data = res.data.data;  // conclude links
+      let url = res.data.links.next;
+      sumDataList = sumDataList.concat(data);
+
+      if (url) {
+        getNextData(url, sumDataList);
+      }
+    }).catch(err => {
+      console.log(err);
+    })
+  };
+  const getNextData = function (url, list) {
+    const that = this;
+    let sumDataList = [];
+    if (list) {
+      sumDataList = list;
+    }
+    else {
+      sumDataList = [];
+    }
+
+    axios({
+      method: 'get',
+      url: url,
+      headers: {
+        'Accept': 'application/json',
+        'Authorization': sessionStorage.getItem('token'),
+      }
+    }).then(res => {
+      let data = res.data.data;  // conclude links
+      let url = res.data.links.next;
+      sumDataList = sumDataList.concat(data);
+
+      if (url) {
+        getData(url, sumDataList);
+      }
+      else {
+        let sum = sumDataList;
+        // debugger
+        return sum;
+      }
+    }).catch(err => {
+      console.log(err);
+    })
+  };
 
   export default
   {
@@ -26,37 +89,12 @@ import moment from 'moment'
     token,
     userId,
     permissions,
+
+    // methods
     toTime,
+    getData,
+    getNextData,
   }
-  // export default {
-  //   data() {
-  //     return {
-  //
-  //     };
-  //   },
-  //   components: {
-  //   },
-  //   props: [
-  //     'userId',
-  //     'token',
-  //   ],
-  //   methods: {
-  //
-  //   },
-  //   created() {
-  //
-  //   },
-  //   watch: {
-  //     userId: function (value, oldValue) {
-  //       const that = this;
-  //       debugger
-  //     },
-  //     token: function (value, oldValue) {
-  //       const that = this;
-  //       debugger
-  //     }
-  //   }
-  // }
 </script>
 
 

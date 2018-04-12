@@ -56,6 +56,7 @@ export default {
       permissionId: null,
       paginationData: null,
       data: null,  // from Pagination.vue
+      sumData: null,
     }
   },
   components: {
@@ -96,7 +97,7 @@ export default {
       const that = this;
       axios({
         method: 'get',
-        url: `${this.GLOBAL.localDomain}/api/v1/roles/1/permissions?page=${page}`,
+        url: `${this.GLOBAL.localDomain}/api/v1/permissions/`,
         headers: {
           'Accept': 'application/json',
           'Authorization': sessionStorage.getItem('token'),
@@ -113,7 +114,6 @@ export default {
       if (!that.permissionId) {
         that.getPermission();
       }
-
       axios({
         method: 'get',
         url: `${this.GLOBAL.localDomain}/api/v1/permissions/${that.permissionId}`,
@@ -128,6 +128,74 @@ export default {
         console.log(err)
       })
     },
+    // searchPermission: function () {
+    //   const that = this;
+    //   let urlPath = `${this.GLOBAL.localDomain}/api/v1/permissions/`;
+    //   // that.getData(urlPath)
+    //   that.sumData = this.getData(urlPath);
+    // },
+    // getData: function (url, list) {
+    //   const that = this;
+    //   let sumDataList = [];
+    //   if (list) {
+    //     sumDataList = list;
+    //   }
+    //   else {
+    //     sumDataList = [];
+    //   }
+    //   axios({
+    //     method: 'get',
+    //     url: url,
+    //     headers: {
+    //       'Accept': 'application/json',
+    //       'Authorization': sessionStorage.getItem('token'),
+    //     }
+    //   }).then(res => {
+    //     let data = res.data.data;  // conclude links
+    //     let url = res.data.links.next;
+    //     sumDataList = sumDataList.concat(data);
+    //
+    //     if (url) {
+    //       getNextData(url, sumDataList);
+    //     }
+    //   }).catch(err => {
+    //     console.log(err);
+    //   })
+    // },
+    // getNextData: function (url, list) {
+    //   const that = this;
+    //   let sumDataList = [];
+    //   if (list) {
+    //     sumDataList = list;
+    //   }
+    //   else {
+    //     sumDataList = [];
+    //   }
+    //
+    //   axios({
+    //     method: 'get',
+    //     url: url,
+    //     headers: {
+    //       'Accept': 'application/json',
+    //       'Authorization': sessionStorage.getItem('token'),
+    //     }
+    //   }).then(res => {
+    //     let data = res.data.data;  // conclude links
+    //     let url = res.data.links.next;
+    //     sumDataList = sumDataList.concat(data);
+    //
+    //     if (url) {
+    //       getData(url, sumDataList);
+    //     }
+    //     else {
+    //       let sum = sumDataList;
+    //       // debugger
+    //       return sum;
+    //     }
+    //   }).catch(err => {
+    //     console.log(err);
+    //   })
+    // }
   },
   computed: {
     isShowCreatePermission() {
@@ -148,6 +216,10 @@ export default {
       const that = this;
       that.permissionData = value.data;
       that.paginationData = value.links;
+    },
+    sumData: function (value, oldValue) {
+      const that = this;
+      debugger
     }
   }
 }
