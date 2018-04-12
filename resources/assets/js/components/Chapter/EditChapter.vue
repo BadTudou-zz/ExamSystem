@@ -24,12 +24,45 @@
           <input v-model="currentChapterData.describe" class="input" type="text">
         </div>
         <div class="box-item">
-          <label>问题类型</label>
-          <input v-model="currentChapterData.question_type" class="input" type="text">
+          <div class="box-item">
+            <label>问题类型</label>
+            <div class="select">
+              <select v-model="currentChapterData.question_type">
+                <option value="SINGLE_CHOICE">单选</option>
+                <option value="MULTIPLE_CHOICE">多选</option>
+                <option value="TRUE_FALSE">判断</option>
+                <option value="FILL_IN">填空</option>
+                <option value="SHORT_ANSWER">简答</option>
+              </select>
+            </div>
+          </div>
+
         </div>
         <div class="box-item">
           <label>涉及到的问题</label>
-          <input v-model="questionsString" class="input" type="text" placeholder="请用英文逗号将多个问题id分开">
+          <div class="all-question">
+
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>是否选中</th>
+                  <th>序号</th>
+                  <th>题目</th>
+                  <th>类型</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="(item,index) in questionData">
+                  <!-- <td v-show="item.question_type === currentChapterData.question_type"><input :checked="isSelectedQuesiton(item.id)"  type="checkbox" v-bind:value="item.id" v-model="selectedQuesiton" class="question-seleted"></td> -->
+                  <td v-show="item.question_type === currentChapterData.question_type"><input type="checkbox" v-bind:value="item.id" v-model="selectedQuesiton" class="question-seleted"></td>
+                  <td v-show="item.question_type === currentChapterData.question_type">{{ item.id }}</td>
+                  <td v-show="item.question_type === currentChapterData.question_type">{{ item.title }}</td>
+                  <td v-show="item.question_type === currentChapterData.question_type">{{ item.question_type }}</td>
+                </tr>
+              </tbody>
+            </table>
+
+          </div>
         </div>
       </section>
       <footer class="modal-card-foot">
@@ -53,6 +86,9 @@ export default {
         question_type: null
       },
       questionsString: '',
+      questionData: {},
+      selectedQuesiton: [],
+      editQuesitons: [],
     }
   },
   components: {
@@ -78,7 +114,7 @@ export default {
       const that = this;
       let examinationPaperId = that.examinationPaperId;
       let chapterId = that.editData.id;
-      let questionsParams = that.computedParams(that.questionsString, 'questions');
+      let questionsParams = that.computedParams(that.selectedQuesiton, 'questions');
       axios({
         method: 'put',
         url: `${this.GLOBAL.localDomain}/api/v1/papers/${examinationPaperId}/sections/${chapterId}?${questionsParams}`,
@@ -106,12 +142,12 @@ export default {
     },
     /**
      * computedParams
-     * @param  {String} str   需要转换的字符串
+     * @param  {Array} selectedQuesiton   选中的问题数组
      * @param  {String} param param拼接参数
      * @return {String}       拼接完成的params
      */
-    computedParams: function (str, param) {
-      let arr = str.split(',');
+    computedParams: function (selectedQuesiton, param) {
+      let arr = selectedQuesiton;
       let string = '';
       for (let i = 0; i < arr.length; i++) {
         if (i != 0) {
@@ -122,23 +158,49 @@ export default {
         }
       }
       return string;
+    },
+    getQuestion: function () {
+      const that = this;
+      axios({
+        method: 'get',
+        url: `${this.GLOBAL.localDomain}/api/v1/questions`,
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': sessionStorage.getItem('token'),
+        }
+      }).then(res => {
+        that.questionData = res.data.data;
+        // that.paginationData = res.data.links;
+      }).catch(err => {
+        console.log(err)
+      })
+    },
+    isSelectedQuesiton: function (id) {
+      const that = this;
+      let res = that.editQuesitons.includes(id);
+      return res;
     }
   },
   creatad() {
-
   },
   watch: {
     editData: function (value, oldValue) {
       const that = this;
+      this.getQuestion();
       that.currentChapterData.name = value.name;
       that.currentChapterData.score = value.score;
       that.currentChapterData.number = value.number;
       that.currentChapterData.describe = value.describe;
       that.currentChapterData.question_type = value.question_type;
+
+      // that.editQuesitons = that.currentChapterData.questions.split(',')
     }
   }
 }
 </script>
 
-<style>
+<style scoped>
+.question-seleted {
+  width: 20px;
+}
 </style>

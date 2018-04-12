@@ -37,7 +37,29 @@
         </div>
         <div class="box-item">
           <label>涉及到的问题</label>
-          <input v-model="questionsString" class="input" type="text" placeholder="请用英文逗号将多个问题id分开">
+          <!-- <inpust v-model="questionsString" class="input" type="text" placeholder="请用英文逗号将多个问题id分开"> -->
+          <div class="all-question">
+
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>是否选中</th>
+                  <th>序号</th>
+                  <th>题目</th>
+                  <th>类型</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="(item,index) in questionData">
+                  <td v-show="item.question_type === chapterData.question_type"><input type="checkbox" v-bind:value="item.id" v-model="selectedQuesiton" class="question-seleted"></td>
+                  <td v-show="item.question_type === chapterData.question_type">{{ item.id }}</td>
+                  <td v-show="item.question_type === chapterData.question_type">{{ item.title }}</td>
+                  <td v-show="item.question_type === chapterData.question_type">{{ item.question_type }}</td>
+                </tr>
+              </tbody>
+            </table>
+
+          </div>
         </div>
       </section>
       <footer class="modal-card-foot">
@@ -59,10 +81,13 @@ export default {
         score: null,
         number: null,
         describe: null,
-        question_type: null,
+        question_type: 'SINGLE_CHOICE',
       },
-      questions: '',  // involving questions
+      questions: '',  // 涉及的问题
       questionsString: '',
+
+      questionData: {},
+      selectedQuesiton: [],
     }
   },
   components: {
@@ -86,7 +111,7 @@ export default {
     addChapter: function () {
       const that = this;
       let id = that.examinationPaperId;
-      let questionsParams = that.computedParams(that.questionsString, 'questions');
+      let questionsParams = that.computedParams(that.selectedQuesiton, 'questions');
       axios({
         method: 'post',
         url: `${this.GLOBAL.localDomain}/api/v1/papers/${id}/sections/?${questionsParams}`,
@@ -115,12 +140,12 @@ export default {
     },
     /**
      * computedParams
-     * @param  {String} str   需要转换的字符串
+     * @param  {Array} selectedQuesiton   选中的问题数组
      * @param  {String} param param拼接参数
      * @return {String}       拼接完成的params
      */
-    computedParams: function (str, param) {
-      let arr = str.split(',');
+    computedParams: function (selectedQuesiton, param) {
+      let arr = selectedQuesiton;
       let string = '';
       for (let i = 0; i < arr.length; i++) {
         if (i != 0) {
@@ -131,12 +156,38 @@ export default {
         }
       }
       return string;
-    }
+    },
+    getQuestion: function () {
+      const that = this;
+      axios({
+        method: 'get',
+        url: `${this.GLOBAL.localDomain}/api/v1/questions`,
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': sessionStorage.getItem('token'),
+        }
+      }).then(res => {
+        that.questionData = res.data.data;
+        // that.paginationData = res.data.links;
+      }).catch(err => {
+        console.log(err)
+      })
+    },
   },
   created() {
+    this.getQuestion();
+  },
+  watch: {
+    selectedQuesiton: function (value, oldValue) {
+      const that = this;
+      console.log(value)
+    }
   }
 }
 </script>
 
-<style>
+<style scoped>
+.question-seleted {
+  width: 20px;
+}
 </style>

@@ -42,7 +42,28 @@
         </div>
         <div class="box-item">
           <label>相关的试卷ID</label>
-          <input v-model="testData.paper_id" class="input" type="text">
+          <!-- <input v-model="testData.paper_id" class="input" type="text"> -->
+          <div class="all-question">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>是否选中</th>
+                  <th>序号</th>
+                  <th>名称</th>
+                  <th>考试类型</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="(item,index) in examinationPaperData">
+                  <td><input type="radio" v-bind:value="item.id" v-model="selectedExaminationPaper" class="test-selected"></td>
+                  <td>{{ item.id }}</td>
+                  <td>{{ item.title }}</td>
+                  <td>{{ item.exam_type }}</td>
+                </tr>
+              </tbody>
+            </table>
+
+          </div>
         </div>
       </section>
       <footer class="modal-card-foot">
@@ -68,7 +89,8 @@ export default {
         begin_at: '',
         paper_id: ''
       },
-
+      examinationPaperData: {},
+      selectedExaminationPaper: '',
     }
   },
   components: {
@@ -106,7 +128,7 @@ export default {
           score: that.testData.score,
           min: that.testData.min,
           begin_at: that.testData.begin_at,
-          paper_id: that.testData.paper_id,
+          paper_id: that.selectedExaminationPaper,
         }
       }).then(res => {
         alert('添加成功');
@@ -123,13 +145,32 @@ export default {
         console.log(err);
         that.clearWords();
       })
-    }
+    },
+    getExaminationPaper: function () {
+      const that = this;
+      axios({
+        method: 'get',
+        url: `${this.GLOBAL.localDomain}/api/v1/papers`,
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': sessionStorage.getItem('token'),
+        }
+      }).then(res => {
+        that.examinationPaperData = res.data.data;
+        that.paginationData = res.data.links;
+      }).catch(err => {
+        console.log(err)
+      })
+    },
   },
   created() {
-
+    this.getExaminationPaper();
   }
 }
 </script>
 
-<style>
+<style scoped>
+.test-selected {
+  width: 20px;
+}
 </style>
