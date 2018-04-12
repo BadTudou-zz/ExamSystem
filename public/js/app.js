@@ -29658,6 +29658,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     'loginStatus': function loginStatus(value, oldValue) {
       var that = this;
       that.isShowLogin = value;
+      // if (value === false) {
+      //   location.reload();
+      //   console.log('已刷新')
+      // }
     },
     logOut: function logOut(value, oldValue) {
       var that = this;
@@ -29750,7 +29754,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         url: this.GLOBAL.localDomain + '/api/v1/applications/',
         headers: {
           'Accept': 'application/json',
-          'Authorization': this.GLOBAL.token
+          'Authorization': sessionStorage.getItem('token')
         },
         body: {
           to: that.applyForData.to,
@@ -29879,7 +29883,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           url: this.GLOBAL.localDomain + '/api/v1/applications/' + id,
           headers: {
             'Accept': 'application/json',
-            'Authorization': this.GLOBAL.token
+            'Authorization': sessionStorage.getItem('token')
           }
         }).then(function (res) {
           alert('删除成功');
@@ -29903,7 +29907,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         url: this.GLOBAL.localDomain + '/api/v1/applications/' + id,
         headers: {
           'Accept': 'application/json',
-          'Authorization': this.GLOBAL.token
+          'Authorization': sessionStorage.getItem('token')
         }
       }).then(function (res) {
         // that.applyForData = [];
@@ -29921,7 +29925,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         url: this.GLOBAL.localDomain + '/api/v1/applications/',
         headers: {
           'Accept': 'application/json',
-          'Authorization': this.GLOBAL.token
+          'Authorization': sessionStorage.getItem('token')
         }
       }).then(function (res) {
         // that.applyForData = [];
@@ -29952,7 +29956,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         url: this.GLOBAL.localDomain + '/api/v1/applications/' + id + '/accept',
         headers: {
           'Accept': 'application/json',
-          'Authorization': this.GLOBAL.token
+          'Authorization': sessionStorage.getItem('token')
         }
       }).then(function (res) {
         // that.applyForData = [];
@@ -29971,7 +29975,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         url: this.GLOBAL.localDomain + '/api/v1/applications/' + id + '/reject',
         headers: {
           'Accept': 'application/json',
-          'Authorization': this.GLOBAL.token
+          'Authorization': sessionStorage.getItem('token')
         }
       }).then(function (res) {
         alert('已拒绝');
@@ -30085,7 +30089,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         url: this.GLOBAL.localDomain + '/api/v1/questions/',
         headers: {
           'Accept': 'application/json',
-          'Authorization': this.GLOBAL.token
+          'Authorization': sessionStorage.getItem('token')
         },
         body: {
           question_type: that.chapterData.question_type,
@@ -30201,7 +30205,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
           'Accept': 'application/json',
-          'Authorization': this.GLOBAL.token
+          'Authorization': sessionStorage.getItem('token')
         },
         params: {
           name: that.chapterData.name,
@@ -30364,7 +30368,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         url: this.GLOBAL.localDomain + '/api/v1/papers/' + id + '/sections/',
         headers: {
           'Accept': 'application/json',
-          'Authorization': this.GLOBAL.token
+          'Authorization': sessionStorage.getItem('token')
         }
       }).then(function (res) {
         // ??数据格式有误n
@@ -30382,7 +30386,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         url: this.GLOBAL.localDomain + '/api/v1/papers/1/sections/' + id,
         headers: {
           'Accept': 'application/json',
-          'Authorization': this.GLOBAL.token
+          'Authorization': sessionStorage.getItem('token')
         }
       }).then(function (res) {
         that.chapterData = [];
@@ -30403,7 +30407,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
           url: this.GLOBAL.localDomain + '/api/v1/papers/' + paperId + '/sections/' + chapterId,
           headers: {
             'Accept': 'application/json',
-            'Authorization': this.GLOBAL.token
+            'Authorization': sessionStorage.getItem('token')
           }
         }).then(function (res) {
           alert('删除成功');
@@ -30520,7 +30524,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         url: this.GLOBAL.localDomain + '/api/v1/papers/' + examinationPaperId + '/sections/' + chapterId + '?' + questionsParams,
         headers: {
           'Accept': 'application/json',
-          'Authorization': this.GLOBAL.token
+          'Authorization': sessionStorage.getItem('token')
         },
         params: {
           name: that.currentChapterData.name,
@@ -30647,7 +30651,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         url: this.GLOBAL.localDomain + '/api/v1/courses',
         headers: {
           'Accept': 'application/json',
-          'Authorization': this.GLOBAL.token
+          'Authorization': sessionStorage.getItem('token')
         },
         params: {
           name: that.courseData.name,
@@ -30781,7 +30785,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
           url: this.GLOBAL.localDomain + '/api/v1/courses/' + id,
           headers: {
             'Accept': 'application/json',
-            'Authorization': this.GLOBAL.token
+            'Authorization': sessionStorage.getItem('token')
           }
         }).then(function (res) {
           alert('删除成功');
@@ -30799,7 +30803,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         url: this.GLOBAL.localDomain + '/api/v1/courses',
         headers: {
           'Accept': 'application/json',
-          'Authorization': this.GLOBAL.token
+          'Authorization': sessionStorage.getItem('token')
         }
       }).then(function (res) {
         that.courseData = res.data.data;
@@ -30913,7 +30917,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         url: this.GLOBAL.localDomain + '/api/v1/courses' + id,
         headers: {
           'Accept': 'application/json',
-          'Authorization': this.GLOBAL.token
+          'Authorization': sessionStorage.getItem('token')
         },
         params: {
           name: that.courseData.name,
@@ -31065,7 +31069,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         url: this.GLOBAL.localDomain + '/api/v1/papers/',
         headers: {
           'Accept': 'application/json',
-          'Authorization': this.GLOBAL.token
+          'Authorization': sessionStorage.getItem('token')
         },
         params: {
           title: that.examinationPaperData.title,
@@ -31168,7 +31172,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         url: this.GLOBAL.localDomain + '/api/v1/papers/' + id,
         headers: {
           'Accept': 'application/json',
-          'Authorization': this.GLOBAL.token
+          'Authorization': sessionStorage.getItem('token')
         },
         params: {
           title: that.currentExaminationPaperData.title,
@@ -31351,7 +31355,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           url: this.GLOBAL.localDomain + '/api/v1/papers/' + id,
           headers: {
             'Accept': 'application/json',
-            'Authorization': this.GLOBAL.token
+            'Authorization': sessionStorage.getItem('token')
           }
         }).then(function (res) {
           alert('删除成功');
@@ -31369,7 +31373,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         url: this.GLOBAL.localDomain + '/api/v1/papers',
         headers: {
           'Accept': 'application/json',
-          'Authorization': this.GLOBAL.token
+          'Authorization': sessionStorage.getItem('token')
         }
       }).then(function (res) {
         that.examinationPaperData = res.data.data;
@@ -31393,7 +31397,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         url: this.GLOBAL.localDomain + '/api/v1/papers/' + id,
         headers: {
           'Accept': 'application/json',
-          'Authorization': this.GLOBAL.token
+          'Authorization': sessionStorage.getItem('token')
         }
       }).then(function (res) {
         that.examinationPaperData = [];
@@ -31541,7 +31545,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         url: this.GLOBAL.localDomain + '/api/v1/papers/' + id + '/questions',
         headers: {
           'Accept': 'application/json',
-          'Authorization': this.GLOBAL.token
+          'Authorization': sessionStorage.getItem('token')
         }
       }).then(function (res) {
         if (res.data.data.length !== 0) {
@@ -31638,7 +31642,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         url: this.GLOBAL.localDomain + '/api/v1/papers/' + paperId + '/scores',
         headers: {
           'Accept': 'application/json',
-          'Authorization': this.GLOBAL.token
+          'Authorization': sessionStorage.getItem('token')
         }
       }).then(function (res) {
         that.scoreData = res.data.data;
@@ -31717,8 +31721,6 @@ var permissions = sessionStorage.getItem('permissions');
   token: token,
   userId: userId,
   permissions: permissions
-  // a,
-
   // export default {
   //   data() {
   //     return {
@@ -31819,7 +31821,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         url: urlPath,
         headers: {
           'Accept': 'application/json',
-          'Authorization': this.GLOBAL.token
+          'Authorization': sessionStorage.getItem('token')
         }
       }).then(function (res) {
         that.permissionData = res.data; // conclude links
@@ -31842,7 +31844,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         url: url,
         headers: {
           'Accept': 'application/json',
-          'Authorization': this.GLOBAL.token
+          'Authorization': sessionStorage.getItem('token')
         }
       }).then(function (res) {
         that.permissionData = res.data; // conclude links
@@ -31930,7 +31932,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         url: this.GLOBAL.localDomain + '/api/v1/applications/',
         headers: {
           'Accept': 'application/json',
-          'Authorization': this.GLOBAL.token
+          'Authorization': sessionStorage.getItem('token')
         },
         body: {
           title: that.labelData.title
@@ -32009,7 +32011,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         url: this.GLOBAL.localDomain + '/api/v1/labels' + id,
         headers: {
           'Accept': 'application/json',
-          'Authorization': this.GLOBAL.token
+          'Authorization': sessionStorage.getItem('token')
         },
         params: {
           'title': that.labelData.title
@@ -32165,7 +32167,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           url: this.GLOBAL.localDomain + '/api/v1/tags/' + id,
           headers: {
             'Accept': 'application/json',
-            'Authorization': this.GLOBAL.token
+            'Authorization': sessionStorage.getItem('token')
           }
         }).then(function (res) {
           alert('删除成功');
@@ -32189,7 +32191,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         url: this.GLOBAL.localDomain + '/api/v1/tags/' + id,
         headers: {
           'Accept': 'application/json',
-          'Authorization': this.GLOBAL.token
+          'Authorization': sessionStorage.getItem('token')
         }
       }).then(function (res) {
         that.labelData = [];
@@ -32206,7 +32208,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         url: this.GLOBAL.localDomain + '/api/v1/tags',
         headers: {
           'Accept': 'application/json',
-          'Authorization': this.GLOBAL.token
+          'Authorization': sessionStorage.getItem('token')
         }
       }).then(function (res) {
         that.labelData = [];
@@ -32234,7 +32236,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         url: this.GLOBAL.localDomain + '/api/v1/applications/' + id + '/accept',
         headers: {
           'Accept': 'application/json',
-          'Authorization': this.GLOBAL.token
+          'Authorization': sessionStorage.getItem('token')
         }
       }).then(function (res) {
 
@@ -32252,7 +32254,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         url: this.GLOBAL.localDomain + '/api/v1/applications/' + id + '/reject',
         headers: {
           'Accept': 'application/json',
-          'Authorization': this.GLOBAL.token
+          'Authorization': sessionStorage.getItem('token')
         }
       }).then(function (res) {
 
@@ -32472,7 +32474,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         url: this.GLOBAL.localDomain + '/api/v1/organizations/' + id + '/users',
         headers: {
           'Accept': 'application/json',
-          'Authorization': this.GLOBAL.token
+          'Authorization': sessionStorage.getItem('token')
         },
         params: {
           users: null
@@ -32627,7 +32629,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         url: this.GLOBAL.localDomain + '/api/v1/organizations/' + id + '/users',
         headers: {
           'Accept': 'application/json',
-          'Authorization': this.GLOBAL.token
+          'Authorization': sessionStorage.getItem('token')
         }
       }).then(function (res) {
         that.memberData = res.data.data;
@@ -32643,7 +32645,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         url: this.GLOBAL.localDomain + '/api/v1/organizations/' + that.searchKey,
         headers: {
           'Accept': 'application/json',
-          'Authorization': this.GLOBAL.token
+          'Authorization': sessionStorage.getItem('token')
         }
       }).then(function (res) {
         that.memberData = [];
@@ -32662,7 +32664,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
           url: this.GLOBAL.localDomain + '/api/v1/organizations/' + id + '/users',
           headers: {
             'Accept': 'application/json',
-            'Authorization': this.GLOBAL.token
+            'Authorization': sessionStorage.getItem('token')
           }
         }).then(function (res) {
           alert('删除成功！');
@@ -32749,7 +32751,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         url: this.GLOBAL.localDomain + '/api/v1/organizations/' + id + '/users',
         headers: {
           'Accept': 'application/json',
-          'Authorization': this.GLOBAL.token
+          'Authorization': sessionStorage.getItem('token')
         },
         params: {
           users: null
@@ -32832,7 +32834,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         url: this.GLOBAL.localDomain + '/api/v1/messages/',
         headers: {
           'Accept': 'application/json',
-          'Authorization': this.GLOBAL.token
+          'Authorization': sessionStorage.getItem('token')
         },
         params: {
           to: that.messageData.to,
@@ -32928,7 +32930,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
           url: this.GLOBAL.localDomain + '/api/v1/messages/' + id,
           headers: {
             'Accept': 'application/json',
-            'Authorization': this.GLOBAL.token
+            'Authorization': sessionStorage.getItem('token')
           }
         }).then(function (res) {
           alert('删除成功');
@@ -32950,7 +32952,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         url: this.GLOBAL.localDomain + '/api/v1/messages/',
         headers: {
           'Accept': 'application/json',
-          'Authorization': this.GLOBAL.token
+          'Authorization': sessionStorage.getItem('token')
         }
       }).then(function (res) {
         that.messageData = res.data.data;
@@ -32971,7 +32973,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         url: this.GLOBAL.localDomain + '/api/v1/messages/' + that.searchKey,
         headers: {
           'Accept': 'application/json',
-          'Authorization': this.GLOBAL.token
+          'Authorization': sessionStorage.getItem('token')
         }
       }).then(function (res) {
         that.messageData = [];
@@ -33308,8 +33310,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -33319,7 +33319,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       messageLength: null,
       noticeData: null,
       noticeLength: null,
-      currentTag: ''
+      currentTag: '',
+      token: null,
+      userId: null
     };
   },
 
@@ -33327,14 +33329,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   methods: {
     getUserDetail: function getUserDetail() {
       var that = this;
-      var userId = sessionStorage.getItem('userId');
       axios({
         method: 'get',
-        url: this.GLOBAL.localDomain + '/api/v1/users/' + userId,
+        url: this.GLOBAL.localDomain + '/api/v1/users/' + this.userId,
         headers: {
           'Accept': 'application/json',
-          'Authorization': this.GLOBAL.token
-          // 'Authorization': token,
+          'Authorization': this.token
         }
       }).then(function (res) {
         that.userName = res.data.data.name;
@@ -33352,10 +33352,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       var that = this;
       axios({
         method: 'get',
-        url: this.GLOBAL.localDomain + '/api/v1/users/' + this.GLOBAL.userId + '/messages/',
+        url: this.GLOBAL.localDomain + '/api/v1/users/' + this.userId + '/messages/',
         headers: {
           'Accept': 'application/json',
-          'Authorization': this.GLOBAL.token
+          'Authorization': this.token
         }
       }).then(function (res) {
         that.messageData = res.data.data;
@@ -33372,10 +33372,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       var that = this;
       axios({
         method: 'get',
-        url: this.GLOBAL.localDomain + '/api/v1/users/' + this.GLOBAL.userId + '/notifications/',
+        url: this.GLOBAL.localDomain + '/api/v1/users/' + this.userId + '/notifications/',
         headers: {
           'Accept': 'application/json',
-          'Authorization': this.GLOBAL.token
+          'Authorization': this.token
         }
       }).then(function (res) {
         that.noticeData = res.data.data;
@@ -33390,62 +33390,55 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     }
   },
   computed: {
-    // 1.【权限】
-    isShowPermission: function isShowPermission() {
-      return this.GLOBAL.permissions.includes(4);
-    },
-
-    // 2.【角色】
-    isShowRole: function isShowRole() {
-      return this.GLOBAL.permissions.includes(7);
-    },
-
-    // 3.【用户】
-    isShowUser: function isShowUser() {
-      return this.GLOBAL.permissions.includes(10);
-    },
-
-    // 4.【消息】
-    isShowMessage: function isShowMessage() {
-      return this.GLOBAL.permissions.includes(13);
-    },
-
-    // 5.【通知】
-    isShowNotification: function isShowNotification() {
-      return this.GLOBAL.permissions.includes(17);
-    },
-
-    // 6.【组织】
-    isShowOrganization: function isShowOrganization() {
-      return this.GLOBAL.permissions.includes(26);
-    },
-
-    // 7.【问题】
-    isShowQuestion: function isShowQuestion() {
-      return this.GLOBAL.permissions.includes(33);
-    },
-
-    // 8.【试卷】
-    isShowPaper: function isShowPaper() {
-      return this.GLOBAL.permissions.includes(38);
-    },
-
-    // 9.【申请】
-    isShowApplication: function isShowApplication() {
-      return this.GLOBAL.permissions.includes(43);
-    },
-
-    // 10.【标签】
-    isShowTag: function isShowTag() {
-      return this.GLOBAL.permissions.includes(49);
-    },
-
-    // 11.【考试】
-    isShowExamPaper: function isShowExamPaper() {
-      return this.GLOBAL.permissions.includes(53);
-    }
+    // // 1.【权限】
+    // isShowPermission() {
+    //   return this.sessions.permissions.includes(4);
+    // },
+    // // 2.【角色】
+    // isShowRole() {
+    //   return this.sessions.permissions.includes(7);
+    // },
+    // // 3.【用户】
+    // isShowUser() {
+    //   return this.sessions.permissions.includes(10);
+    // },
+    // // 4.【消息】
+    // isShowMessage() {
+    //   return this.sessions.permissions.includes(13);
+    // },
+    // // 5.【通知】
+    // isShowNotification() {
+    //   return this.sessions.permissions.includes(17);
+    // },
+    // // 6.【组织】
+    // isShowOrganization() {
+    //   return this.sessions.permissions.includes(26);
+    // },
+    // // 7.【问题】
+    // isShowQuestion() {
+    //   return this.sessions.permissions.includes(33);
+    // },
+    // // 8.【试卷】
+    // isShowPaper() {
+    //   return this.sessions.permissions.includes(38);
+    // },
+    // // 9.【申请】
+    // isShowApplication() {
+    //   return this.sessions.permissions.includes(43);
+    // },
+    // // 10.【标签】
+    // isShowTag() {
+    //   return this.sessions.permissions.includes(49);
+    // },
+    // // 11.【考试】
+    // isShowExamPaper() {
+    //   return this.sessions.permissions.includes(53);
+    // }
   },
   created: function created() {
+    this.token = sessionStorage.getItem('token');
+    this.userId = sessionStorage.getItem('userId');
+
     this.getUserDetail();
     this.getMessage();
     this.getNotice();
@@ -33518,7 +33511,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         url: this.GLOBAL.localDomain + '/api/v1/notifications/',
         headers: {
           'Accept': 'application/json',
-          'Authorization': this.GLOBAL.token
+          'Authorization': sessionStorage.getItem('token')
         },
         params: {
           // to: that.noticeData.to,
@@ -33613,7 +33606,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         url: this.GLOBAL.localDomain + '/api/v1/notifications/',
         headers: {
           'Accept': 'application/json',
-          'Authorization': this.GLOBAL.token
+          'Authorization': sessionStorage.getItem('token')
         }
       }).then(function (res) {
         that.noticeData = res.data.data;
@@ -33632,7 +33625,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
           url: this.GLOBAL.localDomain + '/api/v1/notifications/' + id,
           headers: {
             'Accept': 'application/json',
-            'Authorization': this.GLOBAL.token
+            'Authorization': sessionStorage.getItem('token')
           }
         }).then(function (res) {
           alert('删除成功');
@@ -33655,7 +33648,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         url: this.GLOBAL.localDomain + '/api/v1/organizations/' + that.searchKey,
         headers: {
           'Accept': 'application/json',
-          'Authorization': this.GLOBAL.token
+          'Authorization': sessionStorage.getItem('token')
         }
       }).then(function (res) {
         that.noticeData = [];
@@ -33762,7 +33755,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         url: this.GLOBAL.localDomain + '/api/v1/organizations',
         headers: {
           'Accept': 'application/json',
-          'Authorization': this.GLOBAL.token
+          'Authorization': sessionStorage.getItem('token')
         },
         params: {
           name: that.organizationData.name,
@@ -33878,7 +33871,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         url: this.GLOBAL.localDomain + '/api/v1/organizations/' + that.currentOrganizationData.id,
         headers: {
           'Accept': 'application/json',
-          'Authorization': this.GLOBAL.token
+          'Authorization': sessionStorage.getItem('token')
         },
         params: {
           name: that.currentOrganizationData.name,
@@ -34032,7 +34025,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         url: this.GLOBAL.localDomain + '/api/v1/organizations',
         headers: {
           'Accept': 'application/json',
-          'Authorization': this.GLOBAL.token
+          'Authorization': sessionStorage.getItem('token')
         }
       }).then(function (res) {
         that.organizationData = res.data.data;
@@ -34053,7 +34046,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         url: this.GLOBAL.localDomain + '/api/v1/organizations/' + that.searchKey,
         headers: {
           'Accept': 'application/json',
-          'Authorization': this.GLOBAL.token
+          'Authorization': sessionStorage.getItem('token')
         }
       }).then(function (res) {
         that.organizationData = [];
@@ -34072,7 +34065,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
           url: this.GLOBAL.localDomain + '/api/v1/organizations/' + id,
           headers: {
             'Accept': 'application/json',
-            'Authorization': this.GLOBAL.token
+            'Authorization': sessionStorage.getItem('token')
           }
         }).then(function (res) {
           alert('删除成功');
@@ -34206,7 +34199,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         url: urlPath,
         headers: {
           'Accept': 'application/json',
-          'Authorization': this.GLOBAL.token
+          'Authorization': sessionStorage.getItem('token')
         }
       }).then(function (res) {
         that.data = res.data;
@@ -34329,7 +34322,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         url: this.GLOBAL.localDomain + '/api/v1/permissions/',
         headers: {
           'Accept': 'application/json',
-          'Authorization': this.GLOBAL.token
+          'Authorization': sessionStorage.getItem('token')
         },
         params: {
           name: that.permissionData.name,
@@ -34447,7 +34440,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
           url: this.GLOBAL.localDomain + '/api/v1/permissions/' + id,
           headers: {
             'Accept': 'application/json',
-            'Authorization': this.GLOBAL.token
+            'Authorization': sessionStorage.getItem('token')
           }
         }).then(function (res) {
           alert('删除成功！');
@@ -34467,7 +34460,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         url: this.GLOBAL.localDomain + '/api/v1/roles/1/permissions?page=' + page,
         headers: {
           'Accept': 'application/json',
-          'Authorization': this.GLOBAL.token
+          'Authorization': sessionStorage.getItem('token')
         }
       }).then(function (res) {
         that.permissionData = res.data.data;
@@ -34487,7 +34480,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         url: this.GLOBAL.localDomain + '/api/v1/permissions/' + that.permissionId,
         headers: {
           'Accept': 'application/json',
-          'Authorization': this.GLOBAL.token
+          'Authorization': sessionStorage.getItem('token')
         }
       }).then(function (res) {
         that.permissionData = [];
@@ -34596,7 +34589,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         url: this.GLOBAL.localDomain + '/api/v1/applications/',
         headers: {
           'Accept': 'application/json',
-          'Authorization': this.GLOBAL.token
+          'Authorization': sessionStorage.getItem('token')
         }
       }).then(function (res) {
         // that.applyForData = [];
@@ -34711,10 +34704,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       var that = this;
       axios({
         method: 'get',
-        url: this.GLOBAL.localDomain + '/api/v1/users/' + this.GLOBAL.userId + '/lectures/',
+        url: this.GLOBAL.localDomain + '/api/v1/users/' + sessionStorage.getItem('userId') + '/lectures/',
         headers: {
           'Accept': 'application/json',
-          'Authorization': this.GLOBAL.token
+          'Authorization': sessionStorage.getItem('token')
         }
       }).then(function (res) {
         that.lectureData = res.data.data;
@@ -34803,10 +34796,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       var that = this;
       axios({
         method: 'get',
-        url: this.GLOBAL.localDomain + '/api/v1/users/' + this.GLOBAL.userId + '/messages/',
+        url: this.GLOBAL.localDomain + '/api/v1/users/' + sessionStorage.getItem('userId') + '/messages/',
         headers: {
           'Accept': 'application/json',
-          'Authorization': this.GLOBAL.token
+          'Authorization': sessionStorage.getItem('token')
         }
       }).then(function (res) {
         that.messageData = res.data.data;
@@ -34974,10 +34967,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       var that = this;
       axios({
         method: 'get',
-        url: this.GLOBAL.localDomain + '/api/v1/users/' + this.GLOBAL.userId + '/notifications/',
+        url: this.GLOBAL.localDomain + '/api/v1/users/' + sessionStorage.getItem('userId') + '/notifications/',
         headers: {
           'Accept': 'application/json',
-          'Authorization': this.GLOBAL.token
+          'Authorization': sessionStorage.getItem('token')
         }
       }).then(function (res) {
         that.noticeData = res.data.data;
@@ -35072,10 +35065,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       var that = this;
       axios({
         method: 'get',
-        url: this.GLOBAL.localDomain + '/api/v1/users/' + this.GLOBAL.userId + '/organizations/',
+        url: this.GLOBAL.localDomain + '/api/v1/users/' + sessionStorage.getItem('userId') + '/organizations/',
         headers: {
           'Accept': 'application/json',
-          'Authorization': this.GLOBAL.token
+          'Authorization': sessionStorage.getItem('token')
         }
       }).then(function (res) {
         that.organizationData = res.data.data;
@@ -35169,10 +35162,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       var that = this;
       axios({
         method: 'get',
-        url: this.GLOBAL.localDomain + '/api/v1/users/' + this.GLOBAL.userId + '/permissions/',
+        url: this.GLOBAL.localDomain + '/api/v1/users/' + sessionStorage.getItem('userId') + '/permissions/',
         headers: {
           'Accept': 'application/json',
-          'Authorization': this.GLOBAL.token
+          'Authorization': sessionStorage.getItem('token')
         }
       }).then(function (res) {
         that.permissionData = res.data.data;
@@ -35287,10 +35280,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       var that = this;
       axios({
         method: 'get',
-        url: this.GLOBAL.localDomain + '/api/v1/users/' + this.GLOBAL.userId,
+        url: this.GLOBAL.localDomain + '/api/v1/users/' + sessionStorage.getItem('userId'),
         headers: {
           'Accept': 'application/json',
-          'Authorization': this.GLOBAL.token
+          'Authorization': sessionStorage.getItem('token')
         }
       }).then(function (res) {
         that.userData = res.data.data;
@@ -35385,10 +35378,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       var that = this;
       axios({
         method: 'get',
-        url: this.GLOBAL.localDomain + '/api/v1/users/' + this.GLOBAL.userId + '/roles/',
+        url: this.GLOBAL.localDomain + '/api/v1/users/' + sessionStorage.getItem('userId') + '/roles/',
         headers: {
           'Accept': 'application/json',
-          'Authorization': this.GLOBAL.token
+          'Authorization': sessionStorage.getItem('token')
         }
       }).then(function (res) {
         that.roleData = res.data.data;
@@ -35490,10 +35483,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       var that = this;
       axios({
         method: 'get',
-        url: this.GLOBAL.localDomain + '/api/v1/users/' + this.GLOBAL.userId,
+        url: this.GLOBAL.localDomain + '/api/v1/users/' + sessionStorage.getItem('userId'),
         headers: {
           'Accept': 'application/json',
-          'Authorization': this.GLOBAL.token
+          'Authorization': sessionStorage.getItem('token')
         }
       }).then(function (res) {
         that.userData = res.data.data;
@@ -35673,7 +35666,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         url: this.GLOBAL.localDomain + '/api/v1/questions/',
         headers: {
           'Accept': 'application/json',
-          'Authorization': this.GLOBAL.token
+          'Authorization': sessionStorage.getItem('token')
         },
         params: {
           question_type: that.questionData.question_type,
@@ -35854,7 +35847,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         url: this.GLOBAL.localDomain + '/api/v1/questions/' + id,
         headers: {
           'Accept': 'application/json',
-          'Authorization': this.GLOBAL.token
+          'Authorization': sessionStorage.getItem('token')
         },
         params: {
           question_type: that.currentQuestionData.question_type,
@@ -36153,7 +36146,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
           url: this.GLOBAL.localDomain + '/api/v1/questions/' + id,
           headers: {
             'Accept': 'application/json',
-            'Authorization': this.GLOBAL.token
+            'Authorization': sessionStorage.getItem('token')
           }
         }).then(function (res) {
           alert('删除成功');
@@ -36171,7 +36164,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         url: this.GLOBAL.localDomain + '/api/v1/questions',
         headers: {
           'Accept': 'application/json',
-          'Authorization': this.GLOBAL.token
+          'Authorization': sessionStorage.getItem('token')
         }
       }).then(function (res) {
         that.questionData = res.data.data;
@@ -36206,7 +36199,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         url: this.GLOBAL.localDomain + '/api/v1/questions/' + id,
         headers: {
           'Accept': 'application/json',
-          'Authorization': this.GLOBAL.token
+          'Authorization': sessionStorage.getItem('token')
         }
       }).then(function (res) {
         that.questionData = [];
@@ -36594,7 +36587,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         url: this.GLOBAL.localDomain + '/api/v1/roles/' + id + '/permissions?' + params,
         headers: {
           'Accept': 'application/json',
-          'Authorization': this.GLOBAL.token
+          'Authorization': sessionStorage.getItem('token')
         }
         // params: {
         // }
@@ -36678,7 +36671,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         url: this.GLOBAL.localDomain + '/api/v1/roles/',
         headers: {
           'Accept': 'application/json',
-          'Authorization': this.GLOBAL.token
+          'Authorization': sessionStorage.getItem('token')
         },
         params: {
           name: that.roleData.name,
@@ -36782,7 +36775,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         url: this.GLOBAL.localDomain + '/api/v1/roles/' + id + '/users?' + params,
         headers: {
           'Accept': 'application/json',
-          'Authorization': this.GLOBAL.token
+          'Authorization': sessionStorage.getItem('token')
         }
         // params: {
         // }
@@ -36918,7 +36911,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         url: this.GLOBAL.localDomain + '/api/v1/roles/' + id + '/permissions',
         headers: {
           'Accept': 'application/json',
-          'Authorization': this.GLOBAL.token
+          'Authorization': sessionStorage.getItem('token')
         }
       }).then(function (res) {
         that.permissionData = res.data.data;
@@ -36937,7 +36930,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
           url: this.GLOBAL.localDomain + '/api/v1/roles/' + id + '/permissions',
           headers: {
             'Accept': 'application/json',
-            'Authorization': this.GLOBAL.token
+            'Authorization': sessionStorage.getItem('token')
           }
         }).then(function (res) {
           alert('删除成功！');
@@ -37083,7 +37076,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
           url: this.GLOBAL.localDomain + '/api/v1/roles/' + id,
           headers: {
             'Accept': 'application/json',
-            'Authorization': this.GLOBAL.token
+            'Authorization': sessionStorage.getItem('token')
           }
         }).then(function (res) {
           alert('删除成功！');
@@ -37101,7 +37094,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         url: this.GLOBAL.localDomain + '/api/v1/roles/',
         headers: {
           'Accept': 'application/json',
-          'Authorization': this.GLOBAL.token
+          'Authorization': sessionStorage.getItem('token')
         }
       }).then(function (res) {
         that.roleData = res.data.data;
@@ -37126,7 +37119,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         url: this.GLOBAL.localDomain + '/api/v1/roles/' + that.searchKey,
         headers: {
           'Accept': 'application/json',
-          'Authorization': this.GLOBAL.token
+          'Authorization': sessionStorage.getItem('token')
         }
       }).then(function (res) {
         that.roleData = [];
@@ -37232,7 +37225,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         url: this.GLOBAL.localDomain + '/api/v1/roles/' + id + '/permissions?' + params,
         headers: {
           'Accept': 'application/json',
-          'Authorization': this.GLOBAL.token
+          'Authorization': sessionStorage.getItem('token')
         }
         // params: {
         //
@@ -37327,7 +37320,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         url: this.GLOBAL.localDomain + '/api/v1/roles/' + id + '/users?' + params,
         headers: {
           'Accept': 'application/json',
-          'Authorization': this.GLOBAL.token
+          'Authorization': sessionStorage.getItem('token')
         }
         // params: {
         //
@@ -37477,7 +37470,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         url: this.GLOBAL.localDomain + '/api/v1/roles/' + id + '/users',
         headers: {
           'Accept': 'application/json',
-          'Authorization': this.GLOBAL.token
+          'Authorization': sessionStorage.getItem('token')
         }
       }).then(function (res) {
         that.userData = res.data.data;
@@ -37496,7 +37489,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
           url: this.GLOBAL.localDomain + '/api/v1/roles/' + id + '/users',
           headers: {
             'Accept': 'application/json',
-            'Authorization': this.GLOBAL.token
+            'Authorization': sessionStorage.getItem('token')
           }
         }).then(function (res) {
           alert('删除成功！');
@@ -37614,7 +37607,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         url: this.GLOBAL.localDomain + '/api/v1/lectures',
         headers: {
           'Accept': 'application/json',
-          'Authorization': this.GLOBAL.token
+          'Authorization': sessionStorage.getItem('token')
         },
         // 优化：检测id是否合法，ids是否是数组
         params: {
@@ -37697,7 +37690,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         url: this.GLOBAL.localDomain + '/api/v1/lectures',
         headers: {
           'Accept': 'application/json',
-          'Authorization': this.GLOBAL.token
+          'Authorization': sessionStorage.getItem('token')
         },
         params: {
           users: that.userData.users
@@ -37778,7 +37771,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         url: this.GLOBAL.localDomain + '/api/v1/teachings/' + that.currentTeachingData.id,
         headers: {
           'Accept': 'application/json',
-          'Authorization': this.GLOBAL.token
+          'Authorization': sessionStorage.getItem('token')
         },
         params: {
           name: that.teachingData.name,
@@ -37947,7 +37940,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         url: this.GLOBAL.localDomain + '/api/v1/lectures',
         headers: {
           'Accept': 'application/json',
-          'Authorization': this.GLOBAL.token
+          'Authorization': sessionStorage.getItem('token')
         }
       }).then(function (res) {
         that.teachingData = res.data.data;
@@ -37968,7 +37961,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         url: this.GLOBAL.localDomain + '/api/v1/lectures/' + that.searchKey,
         headers: {
           'Accept': 'application/json',
-          'Authorization': this.GLOBAL.token
+          'Authorization': sessionStorage.getItem('token')
         }
       }).then(function (res) {
         that.teachingData = [];
@@ -37987,7 +37980,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
           url: this.GLOBAL.localDomain + '/api/v1/lectures/' + id,
           headers: {
             'Accept': 'application/json',
-            'Authorization': this.GLOBAL.token
+            'Authorization': sessionStorage.getItem('token')
           }
         }).then(function (res) {
           that.teachingData = res.data.data;
@@ -38142,7 +38135,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         url: this.GLOBAL.localDomain + '/api/v1/lectures/' + id + '/users',
         headers: {
           'Accept': 'application/json',
-          'Authorization': this.GLOBAL.token
+          'Authorization': sessionStorage.getItem('token')
         }
       }).then(function (res) {
         that.userData = res.data.data;
@@ -38161,7 +38154,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
           url: this.GLOBAL.localDomain + '/api/v1/lectures/' + id + '/users',
           headers: {
             'Accept': 'application/json',
-            'Authorization': this.GLOBAL.token
+            'Authorization': sessionStorage.getItem('token')
           }
         }).then(function (res) {
           alert('删除成功！');
@@ -38292,7 +38285,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         url: this.GLOBAL.localDomain + '/api/v1/exams/',
         headers: {
           'Accept': 'application/json',
-          'Authorization': this.GLOBAL.token
+          'Authorization': sessionStorage.getItem('token')
         },
         params: {
           title: that.testData.title,
@@ -38423,7 +38416,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         url: this.GLOBAL.localDomain + '/api/v1/exams/' + id,
         headers: {
           'Accept': 'application/json',
-          'Authorization': this.GLOBAL.token
+          'Authorization': sessionStorage.getItem('token')
         },
         params: {
           title: that.testData.title,
@@ -38592,7 +38585,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           url: this.GLOBAL.localDomain + '/api/v1/exams/' + id,
           headers: {
             'Accept': 'application/json',
-            'Authorization': this.GLOBAL.token
+            'Authorization': sessionStorage.getItem('token')
           }
         }).then(function (res) {
           alert('删除成功');
@@ -38616,7 +38609,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         url: this.GLOBAL.localDomain + '/api/v1/exams/' + id,
         headers: {
           'Accept': 'application/json',
-          'Authorization': this.GLOBAL.token
+          'Authorization': sessionStorage.getItem('token')
         }
       }).then(function (res) {
         // that.testData = res.data.data
@@ -38634,7 +38627,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         url: this.GLOBAL.localDomain + '/api/v1/exams/',
         headers: {
           'Accept': 'application/json',
-          'Authorization': this.GLOBAL.token
+          'Authorization': sessionStorage.getItem('token')
         }
       }).then(function (res) {
         if (res.data.data.length !== 0) {
@@ -38671,7 +38664,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       //   url: `${this.GLOBAL.localDomain}/api/v1/exams/${id}/start`,
       //   headers: {
       //     'Accept': 'application/json',
-      //     'Authorization': this.GLOBAL.token,
+      //     'Authorization': sessionStorage.getItem('token'),
       //   }
       // }).then(res => {
       //   alert('已开始');
@@ -38695,7 +38688,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         url: this.GLOBAL.localDomain + '/api/v1/exams/' + id + '/correct',
         headers: {
           'Accept': 'application/json',
-          'Authorization': this.GLOBAL.token
+          'Authorization': sessionStorage.getItem('token')
         }
       }).then(function (res) {
         alert('批改完成');
@@ -38845,7 +38838,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
         url: this.GLOBAL.localDomain + '/api/v1/papers/' + id,
         headers: {
           'Accept': 'application/json',
-          'Authorization': this.GLOBAL.token
+          'Authorization': sessionStorage.getItem('token')
         }
       }).then(function (res) {
         var chapterIds = res.data.data.sections;
@@ -38869,7 +38862,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
         url: this.GLOBAL.localDomain + '/api/v1/papers/' + paperId + '/sections/' + chapterId,
         headers: {
           'Accept': 'application/json',
-          'Authorization': this.GLOBAL.token
+          'Authorization': sessionStorage.getItem('token')
         }
       }).then(function (res) {
 
@@ -38891,7 +38884,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
         url: this.GLOBAL.localDomain + '/api/v1/questions/' + questionId,
         headers: {
           'Accept': 'application/json',
-          'Authorization': this.GLOBAL.token
+          'Authorization': sessionStorage.getItem('token')
         }
       }).then(function (res) {
         var currentQuestionData = res.data.data;
@@ -38925,7 +38918,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
         url: this.GLOBAL.localDomain + '/api/v1/exams/' + id + '/answer/',
         headers: {
           'Accept': 'application/json',
-          'Authorization': this.GLOBAL.token
+          'Authorization': sessionStorage.getItem('token')
         },
         data: {
           'answers': answers
@@ -38955,7 +38948,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
         url: this.GLOBAL.localDomain + '/api/v1/exams/' + id + '/stop',
         headers: {
           'Accept': 'application/json',
-          'Authorization': this.GLOBAL.token
+          'Authorization': sessionStorage.getItem('token')
         }
       }).then(function (res) {
         alert('已结束');
@@ -39337,7 +39330,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         url: this.GLOBAL.localDomain + '/api/v1/users/' + id + '/password/',
         headers: {
           'Accept': 'application/json',
-          'Authorization': this.GLOBAL.token
+          'Authorization': sessionStorage.getItem('token')
         },
         data: {
           password: that.password,
@@ -39472,7 +39465,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
           url: this.GLOBAL.localDomain + '/api/v1/users/' + id,
           headers: {
             'Accept': 'application/json',
-            'Authorization': this.GLOBAL.token
+            'Authorization': sessionStorage.getItem('token')
           }
         }).then(function (res) {
           alert('删除成功！');
@@ -39491,7 +39484,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         url: this.GLOBAL.localDomain + '/api/v1/users/',
         headers: {
           'Accept': 'application/json',
-          'Authorization': this.GLOBAL.token
+          'Authorization': sessionStorage.getItem('token')
         }
       }).then(function (res) {
         that.userData = res.data.data;
@@ -39511,7 +39504,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         url: this.GLOBAL.localDomain + '/api/v1/users/' + that.searchKey,
         headers: {
           'Accept': 'application/json',
-          'Authorization': this.GLOBAL.token
+          'Authorization': sessionStorage.getItem('token')
         }
       }).then(function (res) {
         that.userData = [];
@@ -39537,7 +39530,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         url: this.GLOBAL.localDomain + '/api/v1/users/1/users/',
         headers: {
           'Accept': 'application/json',
-          'Authorization': this.GLOBAL.token
+          'Authorization': sessionStorage.getItem('token')
         }
       }).then(function (res) {
         console.log(res);
@@ -39762,7 +39755,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         url: this.GLOBAL.localDomain + '/api/v1/users/' + id,
         headers: {
           'Accept': 'application/json',
-          'Authorization': this.GLOBAL.token
+          'Authorization': sessionStorage.getItem('token')
         },
         data: {
           name: that.userData.name
@@ -44296,7 +44289,7 @@ exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(2)();
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 /***/ }),
 /* 275 */
@@ -44492,7 +44485,7 @@ exports.push([module.i, "\n.notice {\n  margin: 35px auto 0 auto;\n}\n.search-in
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(2)();
-exports.push([module.i, "\n.wrapper[data-v-5290f528] {\n  war\n  display: flex;\n  display: -webkit-flex;\n}\n.left-nav[data-v-5290f528] {\n  width: 17%;\n  min-height: 800px;\n  height: auto;\n  background-color: #2f4860;\n}\n.is-active[data-v-5290f528] {\n  background-color: #1f3244;\n  color: #fff;\n}\nul[data-v-5290f528] {\n  padding-top: 30px;\n}\nul li[data-v-5290f528] {\n  list-style: none;\n  text-align: center;\n  color: #76929d;\n  padding: 13px 0;\n  cursor: pointer;\n}\nul li[data-v-5290f528]:hover {\n  background-color: #1f3244;\n  color: #fff;\n}\na[data-v-5290f528] {\n  color: #76929d;\n}\na[data-v-5290f528]:hover {\n  color: #fff;\n}\nul li[data-v-5290f528] {\n  list-style: none;\n  text-align: center;\n  color: #76929d;\n  padding: 13px 0;\n  cursor: pointer;\n}\nul li[data-v-5290f528]:hover {\n  background-color: #1f3244;\n  color: #fff;\n}\n.fa-home[data-v-5290f528],\n.fa-user-circle[data-v-5290f528],\n.fa-users[data-v-5290f528],\n.fa-comments[data-v-5290f528],\n.fa-bell[data-v-5290f528],\n.fa-key[data-v-5290f528],\n.fa-braille[data-v-5290f528],\n.fa-book[data-v-5290f528],\n.fa-file-alt[data-v-5290f528],\n.fa-align-left[data-v-5290f528] {\n  /* color: #ffc500; */\n  font-size: 20px;\n}\nul li span[data-v-5290f528] {\n  display: inline-block;\n  margin-left: 20px;\n}\n.head-portrait[data-v-5290f528] {\n  height: 75px;\n  line-height: 75px;\n  text-align: center;\n  /* padding-top: 15px; */\n  margin: 0 auto;\n  background-color: #5d93d2;\n  color: #fff;\n  font-weight: bold;\n}\n.fa-heart[data-v-5290f528] {\n  font-size: 45px;\n}\n/* right */\n.right-nav[data-v-5290f528] {\n  -webkit-box-flex: 1;\n      -ms-flex: 1;\n          flex: 1;\n  background-color: #eaf1f1;\n}\n.operate[data-v-5290f528] {\n  height: 76px;\n  padding: 0 20px;\n  border-bottom: 1px solid #dedede;\n  background-color: #fff;\n}\n.notice[data-v-5290f528] {\n  font-size: 17px;\n  height: 76px;\n  line-height: 76px;\n  float: left;\n  margin: 0;\n}\n.exit[data-v-5290f528] {\n  float: right;\n  height: 76px;\n  line-height: 76px;\n  cursor: pointer;\n}\n.exit span[data-v-5290f528] {\n  font-size: 14px;\n  height: 76px;\n  line-height: 76px;\n}\n.fa-user[data-v-5290f528],\n.fa-comment-alt[data-v-5290f528],\n.fa-bullhorn[data-v-5290f528] {\n  display: inline-block;\n  margin: 0 15px;\n  cursor: pointer;\n  color: #aeb8b8;\n}\n.fa-sign-out-alt[data-v-5290f528] {\n  font-size: 17px;\n  cursor: pointer;\n  color: #aeb8b8;\n}\n.prompt[data-v-5290f528] {\n  font-size: 12px;\n  width: 50px;\n  height: 50px;\n  border-radius: 100%;\n  color: #fff;\n  font-weight: bold;\n  background-color: red;\n  position: relative;\n  left: -20px;\n  top: -13px;\n}\n", ""]);
+exports.push([module.i, "\n.wrapper[data-v-5290f528] {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  display: -webkit-flex;\n}\n.left-nav[data-v-5290f528] {\n  width: 17%;\n  min-height: 800px;\n  height: auto;\n  background-color: #2f4860;\n}\n.is-active[data-v-5290f528] {\n  background-color: #1f3244;\n  color: #fff;\n}\nul[data-v-5290f528] {\n  padding-top: 30px;\n}\nul li[data-v-5290f528] {\n  list-style: none;\n  text-align: center;\n  color: #76929d;\n  padding: 13px 0;\n  cursor: pointer;\n}\nul li[data-v-5290f528]:hover {\n  background-color: #1f3244;\n  color: #fff;\n}\na[data-v-5290f528] {\n  color: #76929d;\n}\na[data-v-5290f528]:hover {\n  color: #fff;\n}\nul li[data-v-5290f528] {\n  list-style: none;\n  text-align: center;\n  color: #76929d;\n  padding: 13px 0;\n  cursor: pointer;\n}\nul li[data-v-5290f528]:hover {\n  background-color: #1f3244;\n  color: #fff;\n}\n.fa-home[data-v-5290f528],\n.fa-user-circle[data-v-5290f528],\n.fa-users[data-v-5290f528],\n.fa-comments[data-v-5290f528],\n.fa-bell[data-v-5290f528],\n.fa-key[data-v-5290f528],\n.fa-braille[data-v-5290f528],\n.fa-book[data-v-5290f528],\n.fa-file-alt[data-v-5290f528],\n.fa-align-left[data-v-5290f528] {\n  /* color: #ffc500; */\n  font-size: 20px;\n}\nul li span[data-v-5290f528] {\n  display: inline-block;\n  margin-left: 20px;\n}\n.head-portrait[data-v-5290f528] {\n  height: 75px;\n  line-height: 75px;\n  text-align: center;\n  /* padding-top: 15px; */\n  margin: 0 auto;\n  background-color: #5d93d2;\n  color: #fff;\n  font-weight: bold;\n}\n.fa-heart[data-v-5290f528] {\n  font-size: 45px;\n}\n/* right */\n.right-nav[data-v-5290f528] {\n  -webkit-box-flex: 1;\n      -ms-flex: 1;\n          flex: 1;\n  background-color: #eaf1f1;\n}\n.operate[data-v-5290f528] {\n  height: 76px;\n  padding: 0 20px;\n  border-bottom: 1px solid #dedede;\n  background-color: #fff;\n}\n.notice[data-v-5290f528] {\n  font-size: 17px;\n  height: 76px;\n  line-height: 76px;\n  float: left;\n  margin: 0;\n}\n.exit[data-v-5290f528] {\n  float: right;\n  height: 76px;\n  line-height: 76px;\n  cursor: pointer;\n}\n.exit span[data-v-5290f528] {\n  font-size: 14px;\n  height: 76px;\n  line-height: 76px;\n}\n.fa-user[data-v-5290f528],\n.fa-comment-alt[data-v-5290f528],\n.fa-bullhorn[data-v-5290f528] {\n  display: inline-block;\n  margin: 0 15px;\n  cursor: pointer;\n  color: #aeb8b8;\n}\n.fa-sign-out-alt[data-v-5290f528] {\n  font-size: 17px;\n  cursor: pointer;\n  color: #aeb8b8;\n}\n.prompt[data-v-5290f528] {\n  font-size: 12px;\n  width: 50px;\n  height: 50px;\n  border-radius: 100%;\n  color: #fff;\n  font-weight: bold;\n  background-color: red;\n  position: relative;\n  left: -20px;\n  top: -13px;\n}\n", ""]);
 
 /***/ }),
 /* 303 */
@@ -69422,14 +69415,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "left-nav"
   }, [_c('div', [_c('div', {
     staticClass: "head-portrait"
-  }, [_vm._v("\n        当前用户：" + _vm._s(_vm.userName) + "\n      ")]), _vm._v(" "), _c('ul', [_c('li', {
-    directives: [{
-      name: "show",
-      rawName: "v-show",
-      value: (_vm.isShowUser),
-      expression: "isShowUser"
-    }]
-  }, [_c('i', {
+  }, [_vm._v("\n        当前用户：" + _vm._s(_vm.userName) + "\n      ")]), _vm._v(" "), _c('ul', [_c('li', [_c('i', {
     staticClass: "far fa-user-circle"
   }), _vm._v(" "), _c('router-link', {
     class: {
@@ -69443,66 +69429,31 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.currentTag = 'uuser'
       }
     }
-  }, [_c('span', [_vm._v("用户")])])], 1), _vm._v(" "), _c('li', {
-    directives: [{
-      name: "show",
-      rawName: "v-show",
-      value: (_vm.isShowRole),
-      expression: "isShowRole"
-    }]
-  }, [_c('i', {
+  }, [_c('span', [_vm._v("用户")])])], 1), _vm._v(" "), _c('li', [_c('i', {
     staticClass: "fas fa-users"
   }), _vm._v(" "), _c('router-link', {
     attrs: {
       "to": "/role"
     }
-  }, [_c('span', [_vm._v("角色")])])], 1), _vm._v(" "), _c('li', {
-    directives: [{
-      name: "show",
-      rawName: "v-show",
-      value: (_vm.isShowPermission),
-      expression: "isShowPermission"
-    }]
-  }, [_c('i', {
+  }, [_c('span', [_vm._v("角色")])])], 1), _vm._v(" "), _c('li', [_c('i', {
     staticClass: "fas fa-key"
   }), _vm._v(" "), _c('router-link', {
     attrs: {
       "to": "/ppermission"
     }
-  }, [_c('span', [_vm._v("权限")])])], 1), _vm._v(" "), _c('li', {
-    directives: [{
-      name: "show",
-      rawName: "v-show",
-      value: (_vm.isShowMessage),
-      expression: "isShowMessage"
-    }]
-  }, [_c('i', {
+  }, [_c('span', [_vm._v("权限")])])], 1), _vm._v(" "), _c('li', [_c('i', {
     staticClass: "far fa-comments"
   }), _vm._v(" "), _c('router-link', {
     attrs: {
       "to": "/mmessage"
     }
-  }, [_c('span', [_vm._v("消息")])])], 1), _vm._v(" "), _c('li', {
-    directives: [{
-      name: "show",
-      rawName: "v-show",
-      value: (_vm.isShowNotification),
-      expression: "isShowNotification"
-    }]
-  }, [_c('i', {
+  }, [_c('span', [_vm._v("消息")])])], 1), _vm._v(" "), _c('li', [_c('i', {
     staticClass: "far fa-bell"
   }), _vm._v(" "), _c('router-link', {
     attrs: {
       "to": "/nnotice"
     }
-  }, [_c('span', [_vm._v("通知")])])], 1), _vm._v(" "), _c('li', {
-    directives: [{
-      name: "show",
-      rawName: "v-show",
-      value: (_vm.isShowOrganization),
-      expression: "isShowOrganization"
-    }]
-  }, [_c('i', {
+  }, [_c('span', [_vm._v("通知")])])], 1), _vm._v(" "), _c('li', [_c('i', {
     staticClass: "fas fa-braille"
   }), _vm._v(" "), _c('router-link', {
     attrs: {
@@ -69514,27 +69465,13 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "to": "/courseAndTeaching"
     }
-  }, [_c('span', [_vm._v("课程")])])], 1), _vm._v(" "), _c('li', {
-    directives: [{
-      name: "show",
-      rawName: "v-show",
-      value: (_vm.isShowPaper || _vm.isShowExamPaper || _vm.isShowQuestion),
-      expression: "isShowPaper || isShowExamPaper || isShowQuestion"
-    }]
-  }, [_c('i', {
+  }, [_c('span', [_vm._v("课程")])])], 1), _vm._v(" "), _c('li', [_c('i', {
     staticClass: "far fa-file-alt"
   }), _vm._v(" "), _c('router-link', {
     attrs: {
       "to": "/testAndPaperAndQuesiton"
     }
-  }, [_c('span', [_vm._v("考试")])])], 1), _vm._v(" "), _c('li', {
-    directives: [{
-      name: "show",
-      rawName: "v-show",
-      value: (_vm.isShowTag),
-      expression: "isShowTag"
-    }]
-  }, [_c('i', {
+  }, [_c('span', [_vm._v("考试")])])], 1), _vm._v(" "), _c('li', [_c('i', {
     staticClass: "fas fa-align-left"
   }), _vm._v(" "), _c('router-link', {
     attrs: {

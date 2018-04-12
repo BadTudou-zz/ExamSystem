@@ -121,7 +121,7 @@ export default {
         url: `${this.GLOBAL.localDomain}/api/v1/lectures`,
         headers: {
           'Accept': 'application/json',
-          'Authorization': this.GLOBAL.token,
+          'Authorization': sessionStorage.getItem('token'),
         }
       }).then(res => {
         that.teachingData = res.data.data;
@@ -142,7 +142,7 @@ export default {
         url: `${this.GLOBAL.localDomain}/api/v1/lectures/${that.searchKey}`,
         headers: {
           'Accept': 'application/json',
-          'Authorization': this.GLOBAL.token,
+          'Authorization': sessionStorage.getItem('token'),
         }
       }).then(res => {
         that.teachingData = [];
@@ -161,7 +161,7 @@ export default {
           url: `${this.GLOBAL.localDomain}/api/v1/lectures/${id}`,
           headers: {
             'Accept': 'application/json',
-            'Authorization': this.GLOBAL.token,
+            'Authorization': sessionStorage.getItem('token'),
           }
         }).then(res => {
           that.teachingData = res.data.data;

@@ -30,7 +30,7 @@ export default {
         url: urlPath,
         headers: {
           'Accept': 'application/json',
-          'Authorization': this.GLOBAL.token,
+          'Authorization': sessionStorage.getItem('token'),
         }
       }).then(res => {
         that.permissionData = res.data;  // conclude links
@@ -53,7 +53,7 @@ export default {
         url: url,
         headers: {
           'Accept': 'application/json',
-          'Authorization': this.GLOBAL.token,
+          'Authorization': sessionStorage.getItem('token'),
         }
       }).then(res => {
         that.permissionData = res.data;  // conclude links

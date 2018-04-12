@@ -56,7 +56,7 @@ export default {
         url: `${this.GLOBAL.localDomain}/api/v1/notifications/`,
         headers: {
           'Accept': 'application/json',
-          'Authorization': this.GLOBAL.token,
+          'Authorization': sessionStorage.getItem('token'),
         },
         params: {
           // to: that.noticeData.to,

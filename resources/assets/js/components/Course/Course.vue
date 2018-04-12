@@ -97,7 +97,7 @@ export default {
           url: `${this.GLOBAL.localDomain}/api/v1/courses/${id}`,
           headers: {
             'Accept': 'application/json',
-            'Authorization': this.GLOBAL.token,
+            'Authorization': sessionStorage.getItem('token'),
           }
         }).then(res => {
           alert('删除成功');
@@ -115,7 +115,7 @@ export default {
         url: `${this.GLOBAL.localDomain}/api/v1/courses`,
         headers: {
           'Accept': 'application/json',
-          'Authorization': this.GLOBAL.token,
+          'Authorization': sessionStorage.getItem('token'),
         }
       }).then(res => {
         that.courseData = res.data.data;

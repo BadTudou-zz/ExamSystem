@@ -60,7 +60,7 @@ export default {
         url: `${this.GLOBAL.localDomain}/api/v1/papers/${paperId}/scores`,
         headers: {
           'Accept': 'application/json',
-          'Authorization': this.GLOBAL.token,
+          'Authorization': sessionStorage.getItem('token'),
         }
       }).then(res => {
         that.scoreData = res.data.data;

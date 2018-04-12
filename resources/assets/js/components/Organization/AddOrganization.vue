@@ -61,7 +61,7 @@ export default {
         url: `${this.GLOBAL.localDomain}/api/v1/organizations`,
         headers: {
           'Accept': 'application/json',
-          'Authorization': this.GLOBAL.token,
+          'Authorization': sessionStorage.getItem('token'),
         },
         params: {
           name: that.organizationData.name,

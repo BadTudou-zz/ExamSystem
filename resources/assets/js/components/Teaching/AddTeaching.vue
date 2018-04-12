@@ -74,7 +74,7 @@ export default {
         url: `${this.GLOBAL.localDomain}/api/v1/lectures`,
         headers: {
           'Accept': 'application/json',
-          'Authorization': this.GLOBAL.token,
+          'Authorization': sessionStorage.getItem('token'),
         },
         // 优化：检测id是否合法，ids是否是数组
         params: {

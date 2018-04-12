@@ -74,7 +74,7 @@ export default {
         url: `${this.GLOBAL.localDomain}/api/v1/applications/`,
         headers: {
           'Accept': 'application/json',
-          'Authorization': this.GLOBAL.token,
+          'Authorization': sessionStorage.getItem('token'),
         },
         body: {
           to: that.applyForData.to,

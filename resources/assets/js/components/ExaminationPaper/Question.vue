@@ -73,7 +73,7 @@ export default {
         url: `${this.GLOBAL.localDomain}/api/v1/papers/${id}/questions`,
         headers: {
           'Accept': 'application/json',
-          'Authorization': this.GLOBAL.token,
+          'Authorization': sessionStorage.getItem('token'),
         }
       }).then(res => {
         if (res.data.data.length !== 0) {

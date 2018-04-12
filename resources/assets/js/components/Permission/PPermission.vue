@@ -81,7 +81,7 @@ export default {
           url: `${this.GLOBAL.localDomain}/api/v1/permissions/${id}`,
           headers: {
             'Accept': 'application/json',
-            'Authorization': this.GLOBAL.token
+            'Authorization': sessionStorage.getItem('token')
           }
         }).then(res => {
           alert('删除成功！');
@@ -99,7 +99,7 @@ export default {
         url: `${this.GLOBAL.localDomain}/api/v1/roles/1/permissions?page=${page}`,
         headers: {
           'Accept': 'application/json',
-          'Authorization': this.GLOBAL.token,
+          'Authorization': sessionStorage.getItem('token'),
         }
       }).then(res => {
         that.permissionData = res.data.data;
@@ -119,7 +119,7 @@ export default {
         url: `${this.GLOBAL.localDomain}/api/v1/permissions/${that.permissionId}`,
         headers: {
           'Accept': 'application/json',
-          'Authorization': this.GLOBAL.token
+          'Authorization': sessionStorage.getItem('token')
         }
       }).then(res => {
         that.permissionData = [];

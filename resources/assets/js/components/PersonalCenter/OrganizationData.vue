@@ -60,10 +60,10 @@ export default {
       const that = this;
       axios({
         method: 'get',
-        url: `${this.GLOBAL.localDomain}/api/v1/users/${this.GLOBAL.userId}/organizations/`,
+        url: `${this.GLOBAL.localDomain}/api/v1/users/${sessionStorage.getItem('userId')}/organizations/`,
         headers: {
           'Accept': 'application/json',
-          'Authorization': this.GLOBAL.token,
+          'Authorization': sessionStorage.getItem('token'),
         }
       }).then(res => {
         that.organizationData = res.data.data;

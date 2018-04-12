@@ -57,7 +57,7 @@ export default {
         url: `${this.GLOBAL.localDomain}/api/v1/teachings/${that.currentTeachingData.id}`,
         headers: {
           'Accept': 'application/json',
-          'Authorization': this.GLOBAL.token,
+          'Authorization': sessionStorage.getItem('token'),
         },
         params: {
           name: that.teachingData.name,
