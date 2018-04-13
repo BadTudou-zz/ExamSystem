@@ -64,10 +64,10 @@ export default {
     },
     editCourse: function (index) {
       const that = this;
-      let id = that.editData[id];
+      let id = that.editData.id;
       axios({
         method: 'put',
-        url: `${this.GLOBAL.localDomain}/api/v1/courses${id}`,
+        url: `${this.GLOBAL.localDomain}/api/v1/courses/${id}`,
         headers: {
           'Accept': 'application/json',
           'Authorization': sessionStorage.getItem('token'),

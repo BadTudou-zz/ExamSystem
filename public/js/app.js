@@ -30851,7 +30851,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     editCourse: function editCourse(index) {
       var that = this;
       that.editData = that.courseData[index];
-      that.$refs.addCourse.switchModal();
+      that.$refs.editCourse.switchModal();
     },
     deleteCourse: function deleteCourse(index) {
       var that = this;
@@ -30993,10 +30993,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     editCourse: function editCourse(index) {
       var that = this;
-      var id = that.editData[id];
+      var id = that.editData.id;
       axios({
         method: 'put',
-        url: this.GLOBAL.localDomain + '/api/v1/courses' + id,
+        url: this.GLOBAL.localDomain + '/api/v1/courses/' + id,
         headers: {
           'Accept': 'application/json',
           'Authorization': sessionStorage.getItem('token')
@@ -67712,7 +67712,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         value: (_vm.isShowDeleteCourse),
         expression: "isShowDeleteCourse"
       }],
-      staticClass: "button",
+      staticClass: "is-small button",
       attrs: {
         "type": "button",
         "name": "button"
@@ -67723,7 +67723,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         }
       }
     }, [_vm._v("删除课程")]), _vm._v(" "), _c('button', {
-      staticClass: "button",
+      staticClass: "is-small button",
       attrs: {
         "type": "button",
         "name": "button"
@@ -72004,8 +72004,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }],
     staticClass: "input",
     attrs: {
-      "type": "text",
-      "placeholder": "请输入英文名"
+      "type": "text"
     },
     domProps: {
       "value": (_vm.courseData.name)
@@ -72027,8 +72026,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }],
     staticClass: "input",
     attrs: {
-      "type": "text",
-      "placeholder": "请输入中文名"
+      "type": "text"
     },
     domProps: {
       "value": (_vm.courseData.display_name)
@@ -72041,7 +72039,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   })]), _vm._v(" "), _c('div', {
     staticClass: "box-item"
-  }, [_c('label', [_vm._v("显示描述")]), _vm._v(" "), _c('input', {
+  }, [_c('label', [_vm._v("详情描述")]), _vm._v(" "), _c('input', {
     directives: [{
       name: "model",
       rawName: "v-model",
