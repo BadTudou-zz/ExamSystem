@@ -33044,6 +33044,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Pagination_vue__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Pagination_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__Pagination_vue__);
 //
 //
 //
@@ -33071,6 +33073,32 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -33079,11 +33107,19 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       messageData: {
         to: null,
         data: null
-      }
+      },
+      selectedUser: '', // 单选
+      userData: null,
+      // 翻页
+      paginationData: null,
+      data: null
+      //
     };
   },
 
-  components: {},
+  components: {
+    Pagination: __WEBPACK_IMPORTED_MODULE_0__Pagination_vue___default.a
+  },
   methods: {
     switchModal: function switchModal() {
       var that = this;
@@ -33092,8 +33128,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     clearWords: function clearWords() {
       var that = this;
-      that.messageData.to = '';
-      that.messageData.data = '';
+      // that.messageData.to = '';
+      that.selectedUser = '', that.messageData.data = '';
     },
     addMessage: function addMessage() {
       var that = this;
@@ -33105,7 +33141,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
           'Authorization': sessionStorage.getItem('token')
         },
         params: {
-          to: that.messageData.to,
+          to: that.selectedUser,
           data: that.messageData.data
         }
       }).then(function (res) {
@@ -33118,11 +33154,37 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         console.log(err);
         that.clearWords();
       });
+    },
+    // 全部用户
+    getUser: function getUser() {
+      var that = this;
+      axios({
+        method: 'get',
+        url: this.GLOBAL.localDomain + '/api/v1/users/',
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': sessionStorage.getItem('token')
+        }
+      }).then(function (res) {
+        that.userData = res.data.data;
+        that.paginationData = res.data.links;
+      }).catch(function (err) {
+        console.log(err);
+      });
     }
   },
-  created: function created() {},
+  created: function created() {
+    this.clearWords();
+    this.getUser();
+  },
 
-  watch: {}
+  watch: {
+    data: function data(value, oldValue) {
+      var that = this;
+      that.permissionData = value.data;
+      that.paginationData = value.links;
+    }
+  }
 });
 
 /***/ }),
@@ -33171,7 +33233,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      messageData: null,
+      messageData: [],
       isShowModal: false,
       paginationData: null,
       data: null,
@@ -33231,6 +33293,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     searchMessage: function searchMessage() {
       var that = this;
+      that.messageData = [];
+
       if (!that.searchKey) {
         that.searchKey = '';
         that.getMessage();
@@ -33244,7 +33308,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
           'Authorization': sessionStorage.getItem('token')
         }
       }).then(function (res) {
-        that.messageData = [];
         that.messageData.push(res.data.data);
       }).catch(function (err) {
         console.log(err);
@@ -45401,7 +45464,7 @@ exports.push([module.i, "\n.banner {\n  width: 100%;\n  height: 250px;\n  margin
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(2)();
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n.box-item input[data-v-a2c3b620] {\n  width: 20px;\n}\n", ""]);
 
 /***/ }),
 /* 329 */
@@ -64185,7 +64248,7 @@ var Component = __webpack_require__(1)(
   /* template */
   __webpack_require__(475),
   /* scopeId */
-  null,
+  "data-v-a2c3b620",
   /* cssModules */
   null
 )
@@ -73429,28 +73492,44 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "modal-card-body"
   }, [_c('div', {
     staticClass: "box-item"
-  }, [_c('label', [_vm._v("发送到")]), _vm._v(" "), _c('input', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.messageData.to),
-      expression: "messageData.to"
-    }],
-    staticClass: "input",
-    attrs: {
-      "type": "text",
-      "placeholder": "需要发送消息的用户ID"
-    },
-    domProps: {
-      "value": (_vm.messageData.to)
-    },
-    on: {
-      "input": function($event) {
-        if ($event.target.composing) { return; }
-        _vm.$set(_vm.messageData, "to", $event.target.value)
+  }, [_vm._v("\n        请选择需要发送的用户：\n\n        "), _c('div', {
+    staticClass: "all-user"
+  }, [_c('table', {
+    staticClass: "table"
+  }, [_vm._m(0), _vm._v(" "), _c('tbody', _vm._l((_vm.userData), function(item, index) {
+    return _c('tr', [_c('td', [_c('input', {
+      directives: [{
+        name: "model",
+        rawName: "v-model",
+        value: (_vm.selectedUser),
+        expression: "selectedUser"
+      }],
+      staticClass: "user-seleted",
+      attrs: {
+        "type": "radio"
+      },
+      domProps: {
+        "value": item.id,
+        "checked": _vm._q(_vm.selectedUser, item.id)
+      },
+      on: {
+        "change": function($event) {
+          _vm.selectedUser = item.id
+        }
       }
+    })]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.id))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.name))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.email))])])
+  }))]), _vm._v(" "), _c('pagination', {
+    attrs: {
+      "pagination-data": _vm.paginationData
+    },
+    model: {
+      value: (_vm.data),
+      callback: function($$v) {
+        _vm.data = $$v
+      },
+      expression: "data"
     }
-  })]), _vm._v(" "), _c('div', {
+  })], 1)]), _vm._v(" "), _c('div', {
     staticClass: "box-item"
   }, [_c('label', [_vm._v("消息内容")]), _vm._v(" "), _c('textarea', {
     directives: [{
@@ -73489,7 +73568,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }
   }, [_vm._v("取消")])])])])
-},staticRenderFns: []}
+},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('thead', [_c('tr', [_c('th', [_vm._v("是否选中")]), _vm._v(" "), _c('th', [_vm._v("序号")]), _vm._v(" "), _c('th', [_vm._v("用户名")]), _vm._v(" "), _c('th', [_vm._v("邮箱")])])])
+}]}
 module.exports.render._withStripped = true
 if (false) {
   module.hot.accept()
@@ -79298,13 +79379,13 @@ var content = __webpack_require__(328);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(3)("22a4d9c5", content, false);
+var update = __webpack_require__(3)("2c224010", content, false);
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
  if(!content.locals) {
-   module.hot.accept("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-a2c3b620!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./AddMessage.vue", function() {
-     var newContent = require("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-a2c3b620!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./AddMessage.vue");
+   module.hot.accept("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-a2c3b620&scoped=true!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./AddMessage.vue", function() {
+     var newContent = require("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-a2c3b620&scoped=true!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./AddMessage.vue");
      if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
      update(newContent);
    });
