@@ -16,8 +16,8 @@
           <th>组织名</th>
           <th>创建者ID</th>
           <th>描述</th>
-          <th>最大容量</th>
-          <th>当前容量</th>
+          <th>最大容纳人数</th>
+          <th>当前人数</th>
           <th>创建时间</th>
           <th>更新时间</th>
           <th>组织操作</th>
@@ -29,17 +29,17 @@
           <td>{{ item.id }}</td>
           <td>{{ item.name }}</td>
           <td>{{ item.creator_id }}</td>
-          <td>{{ item.description }}</td>
+          <td>{{ item.describe }}</td>
           <td>{{ item.max }}</td>
           <td>{{ item.current }}</td>
           <td>{{ GLOBAL.toTime(item.created_at) }}</td>
           <td>{{ GLOBAL.toTime(item.updated_at) }}</td>
           <td>
-            <button  v-show="isShowDeleteOrganization" @click="deleteOrganization(index)" class="button" type="button" name="button">删除组织</button>
-            <button @click="editOrganization(index)"  class="button" type="button" name="button">编辑组织</button>
+            <button  v-show="isShowDeleteOrganization" @click="deleteOrganization(index)" class="is-small button" type="button" name="button">删除组织</button>
+            <button @click="editOrganization(index)"  class="is-small button" type="button" name="button">编辑组织</button>
           </td>
           <td>
-            <button @click="showMember(index)"  class="button" type="button" name="button">查看成员</button>
+            <button @click="showMember(index)"  class="is-small button" type="button" name="button">查看成员</button>
           </td>
         </tr>
       </tbody>
@@ -69,12 +69,12 @@
 import AddOrganization from './AddOrganization'
 import EditOrganization from './EditOrganization'
 import Pagination from './../Pagination'
-import Member from './../Member/Member'
+import Member from './Member'
 
 export default {
   data() {
     return {
-      organizationData: null,
+      organizationData: [],
       isShowModal: false,
       searchKey: null,
       editData: null,  // 当前编辑的组织数据
@@ -117,6 +117,7 @@ export default {
     },
     searchOrganization: function () {
       const that = this;
+      that.organizationData = [];
       if (!that.searchKey) {
         that.searchKey = '';
         that.getOrganization();
@@ -130,7 +131,7 @@ export default {
           'Authorization': sessionStorage.getItem('token'),
         }
       }).then(res => {
-        that.organizationData = [];
+        debugger
         that.organizationData.push(res.data.data);
       }).catch(err => {
         console.log(err)
@@ -183,7 +184,6 @@ export default {
     },
   },
   created() {
-
     this.getOrganization();
   },
   watch: {
@@ -196,7 +196,7 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 table {
   margin: 35px auto 0 auto;
 }
