@@ -36722,7 +36722,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       } else {
         that.editData = that.questionData[index];
       }
-      // that.$refs.editQuestion.switchModal();
+      that.$refs.editQuestion.switchModal();
     },
     searchQuestion: function searchQuestion() {
       var that = this;
@@ -69046,7 +69046,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_vm._v("困难")])])])]), _vm._v(" "), _c('div', {
     staticClass: "box-item"
-  }, [_c('label', [_vm._v("问题")]), _vm._v(" "), _c('input', {
+  }, [_c('label', [_vm._v("题目")]), _vm._v(" "), _c('input', {
     directives: [{
       name: "model",
       rawName: "v-model",
@@ -73930,7 +73930,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_vm._v("困难")])])])]), _vm._v(" "), _c('div', {
     staticClass: "box-item"
-  }, [_c('label', [_vm._v("问题")]), _vm._v(" "), _c('input', {
+  }, [_c('label', [_vm._v("题目")]), _vm._v(" "), _c('input', {
     directives: [{
       name: "model",
       rawName: "v-model",

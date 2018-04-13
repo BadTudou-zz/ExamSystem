@@ -145,7 +145,7 @@ export default {
       else {
         that.editData = that.questionData[index];
       }
-      // that.$refs.editQuestion.switchModal();
+      that.$refs.editQuestion.switchModal();
     },
     searchQuestion: function () {
       const that = this;
