@@ -12,7 +12,7 @@
       <div class="notification">
         <button v-show="isShowDeleteNotification" @click="deleteNotice(index)" class="delete"></button>
         {{ item.data}}
-        <p>{{ GLOBAL.toTime(item.created_at) }}</p>
+        <p>{{ GLOBAL.toTime(item.created_at.date) }}</p>
       </div>
     </div>
 
@@ -91,6 +91,7 @@ export default {
     },
     searchNotice: function () {
       const that = this;
+      that.noticeData = [];
       if (!that.searchKey) {
         that.searchKey = '';
         that.getNotice();
@@ -98,14 +99,14 @@ export default {
       }
       axios({
         method: 'get',
-        url: `${this.GLOBAL.localDomain}/api/v1/organizations/${that.searchKey}`,
+        url: `${this.GLOBAL.localDomain}/api/v1/notifications/${that.searchKey}`,
         headers: {
           'Accept': 'application/json',
           'Authorization': sessionStorage.getItem('token'),
         }
       }).then(res => {
-        that.noticeData = [];
-        that.noticeData.push(res.data.data);
+        debugger
+        that.noticeData.push(res.data);
       }).catch(err => {
         console.log(err)
       })

@@ -14,7 +14,7 @@
 
         <div class="box-item">
           <label>通知内容</label>
-          <textarea  class="textarea" type="text"></textarea>
+          <textarea v-model="noticeData.data" class="textarea" type="text"></textarea>
         </div>
       </section>
       <footer class="modal-card-foot">
@@ -51,6 +51,10 @@ export default {
     },
     addNotice: function () {
       const that = this;
+      if (!that.noticeData.data) {
+        alert('请输入完整的通知内容！');
+        return;
+      }
       axios({
         method: 'post',
         url: `${this.GLOBAL.localDomain}/api/v1/notifications/`,
@@ -59,7 +63,6 @@ export default {
           'Authorization': sessionStorage.getItem('token'),
         },
         params: {
-          // to: that.noticeData.to,
           data: that.noticeData.data
         }
       }).then(res => {
@@ -82,5 +85,5 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 </style>

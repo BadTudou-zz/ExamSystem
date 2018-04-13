@@ -33133,6 +33133,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     addMessage: function addMessage() {
       var that = this;
+      if (!that.selectedUser || !that.messageData.data) {
+        alert('请检查发送的信息是否完整！');
+        return;
+      }
       axios({
         method: 'post',
         url: this.GLOBAL.localDomain + '/api/v1/messages/',
@@ -33850,6 +33854,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     addNotice: function addNotice() {
       var that = this;
+      if (!that.noticeData.data) {
+        alert('请输入完整的通知内容！');
+        return;
+      }
       axios({
         method: 'post',
         url: this.GLOBAL.localDomain + '/api/v1/notifications/',
@@ -33858,7 +33866,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
           'Authorization': sessionStorage.getItem('token')
         },
         params: {
-          // to: that.noticeData.to,
           data: that.noticeData.data
         }
       }).then(function (res) {
@@ -33982,6 +33989,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     searchNotice: function searchNotice() {
       var that = this;
+      that.noticeData = [];
       if (!that.searchKey) {
         that.searchKey = '';
         that.getNotice();
@@ -33989,14 +33997,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       }
       axios({
         method: 'get',
-        url: this.GLOBAL.localDomain + '/api/v1/organizations/' + that.searchKey,
+        url: this.GLOBAL.localDomain + '/api/v1/notifications/' + that.searchKey,
         headers: {
           'Accept': 'application/json',
           'Authorization': sessionStorage.getItem('token')
         }
       }).then(function (res) {
-        that.noticeData = [];
-        that.noticeData.push(res.data.data);
+        debugger;
+        that.noticeData.push(res.data);
       }).catch(function (err) {
         console.log(err);
       });
@@ -45317,7 +45325,7 @@ exports.push([module.i, "\ntable {\n  margin: 35px auto 0 auto;\n}\n.search-inpu
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(2)();
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 /***/ }),
 /* 308 */
@@ -64362,7 +64370,7 @@ var Component = __webpack_require__(1)(
   /* template */
   __webpack_require__(454),
   /* scopeId */
-  null,
+  "data-v-5bcdf338",
   /* cssModules */
   null
 )
@@ -70926,7 +70934,31 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.switchModal()
       }
     }
-  })]), _vm._v(" "), _vm._m(0), _vm._v(" "), _c('footer', {
+  })]), _vm._v(" "), _c('section', {
+    staticClass: "modal-card-body"
+  }, [_c('div', {
+    staticClass: "box-item"
+  }, [_c('label', [_vm._v("通知内容")]), _vm._v(" "), _c('textarea', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.noticeData.data),
+      expression: "noticeData.data"
+    }],
+    staticClass: "textarea",
+    attrs: {
+      "type": "text"
+    },
+    domProps: {
+      "value": (_vm.noticeData.data)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.$set(_vm.noticeData, "data", $event.target.value)
+      }
+    }
+  })])]), _vm._v(" "), _c('footer', {
     staticClass: "modal-card-foot"
   }, [_c('button', {
     staticClass: "button is-success",
@@ -70943,18 +70975,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }
   }, [_vm._v("取消")])])])])
-},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('section', {
-    staticClass: "modal-card-body"
-  }, [_c('div', {
-    staticClass: "box-item"
-  }, [_c('label', [_vm._v("通知内容")]), _vm._v(" "), _c('textarea', {
-    staticClass: "textarea",
-    attrs: {
-      "type": "text"
-    }
-  })])])
-}]}
+},staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {
   module.hot.accept()
@@ -78833,13 +78854,13 @@ var content = __webpack_require__(307);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(3)("2429edfd", content, false);
+var update = __webpack_require__(3)("b1d4525c", content, false);
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
  if(!content.locals) {
-   module.hot.accept("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-5bcdf338!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./AddNotice.vue", function() {
-     var newContent = require("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-5bcdf338!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./AddNotice.vue");
+   module.hot.accept("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-5bcdf338&scoped=true!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./AddNotice.vue", function() {
+     var newContent = require("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-5bcdf338&scoped=true!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./AddNotice.vue");
      if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
      update(newContent);
    });
