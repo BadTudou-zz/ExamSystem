@@ -11,24 +11,23 @@
           </div> -->
             <button @click="addPermission()" class="button add-permission-button" type="button" name="button">添加权限</button>
             <button @click="synchronizePermission()" class="button add-permission-button" type="button" name="button">同步权限</button>
+            <button @click="deletePermission()" class="button" type="button" name="button">删除权限</button>
         </div>
         <table class="table">
           <thead>
             <tr>
-              <th>ID</th>
-              <th>权限名称</th>
-              <th>显示名称</th>
+              <th>是否选中</th>
+              <th>序号</th>
+              <th>名称</th>
               <th>描述</th>
-              <th>操作</th>
             </tr>
           </thead>
           <tbody>
             <tr v-for="(item,index) in permissionData">
+              <td><input type="checkbox" v-bind:value="item.id" v-model="selectedPermission" class="permission-seleted"></td>
               <td>{{ item.id }}</td>
               <td>{{ item.name }}</td>
-              <td>{{ item.display_name }}</td>
               <td>{{ item.description }}</td>
-              <td><button @click="deletePermission(index)" class="button" type="button" name="button">删除权限</button></td>
             </tr>
           </tbody>
         </table>
@@ -64,21 +63,11 @@ export default {
   data() {
     return {
       isShowModal: false,
-      permissionData: {
-        id: '',
-        name: '',
-        display_name: '',
-        description: '',
-  //       created_at: '',
-  //       updated_at: '',
-  //       pivot: {
-  //         role_id: '',
-  //         permission_id: ''
-  //       },
-      },
+      permissionData: [],
       paginationData: null,
       data: null,
       roleId: null,
+      selectedPermission: [],
     }
   },
   components: {
@@ -114,11 +103,12 @@ export default {
     deletePermission: function (index) {
       const that = this;
       let id = that.roleId;
+      let params = this.GLOBAL.computedParams(that.selectedPermission, 'permissions');
       let prompt = confirm("确认删除该权限吗？");
       if (prompt) {
         axios({
           method: 'delete',
-          url: `${this.GLOBAL.localDomain}/api/v1/roles/${id}/permissions`,
+          url: `${this.GLOBAL.localDomain}/api/v1/roles/${id}/permissions?${params}`,
           headers: {
             'Accept': 'application/json',
             'Authorization': sessionStorage.getItem('token'),
@@ -142,7 +132,7 @@ export default {
     },
   },
   created() {
-
+    this.permissionData = [];
   },
   watch: {
     data:function (value, oldValue) {

@@ -188,10 +188,8 @@ export default {
         }
       }).then(res => {
         console.log('答案提交成功');
-        debugger
       }).catch(err => {
         let errMsg = err.response.data.error;
-        debugger
         if (errMsg) {
           console.log(errMsg);
         }

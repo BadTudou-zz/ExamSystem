@@ -8,7 +8,7 @@
           <input v-model="searchKey" class="input search-input" type="text" placeholder="请输入你要查看的考试">
           <button @click="searchTest()" class="button" type="button" name="button">查找考试</button>
         </div>
-          <button v-show="isShowCreateTest" @click="addTest()" class="button add-role-button" type="button" name="button">添加考试</button>
+        <button v-show="isShowCreateTest" @click="addTest()" class="button add-role-button" type="button" name="button">添加考试</button>
       </div>
       <table class="table">
         <thead>
@@ -41,6 +41,7 @@
             <td>
               <button v-show="isShowDeleteTest" @click="deleteTest(index)" class="is-small button" type="button" name="button">删除</button>
               <button @click="editTest(index)" class="is-small button" type="button" name="button">编辑</button>
+              <button @click="addTestUser(index)" class="button is-small" type="button" name="button">添加考试用户</button>
               <button @click="startTest(index)" class="is-small button" type="button" name="button">开始考试</button>
               <button @click="gradingPapers(index)" class="is-small button" type="button" name="button">批改</button>
             </td>
@@ -68,6 +69,10 @@
              v-bind:exam-id="examId"
     ></testing>
 
+    <add-test-user  ref="addTestUser"
+                    v-on:getTest="getTest"
+                    v-bind:exam-id="examId"
+    ></add-test-user>
   </div>
 </template>
 
@@ -76,6 +81,7 @@ import Pagination from './../Pagination.vue'
 import AddTest from './AddTest'
 import EditTest from './EditTest'
 import Testing from './Testing'
+import AddTestUser from './AddTestUser'
 
 export default {
   data() {
@@ -90,6 +96,7 @@ export default {
       paperId: null,
       examId: null,
       isTesting: false,  // 是否已经开始考试
+
     }
   },
   components: {
@@ -97,6 +104,7 @@ export default {
     EditTest,
     Pagination,
     Testing,
+    AddTestUser,
   },
   methods: {
     showModal: function () {
@@ -174,6 +182,12 @@ export default {
       const that = this;
       that.$refs.addTest.switchModal();
     },
+    addTestUser: function (index) {
+      const that = this;
+      let id = that.testData[index].id;
+      that.examId = id;
+      that.$refs.addTestUser.switchModal();
+    },
     editTest: function (index) {
       const that = this;
       that.editData = that.testData[index];
@@ -225,7 +239,7 @@ export default {
         alert('操作失败，请稍后再试');
         console.log(err)
       })
-    }
+    },
   },
   created() {
 
@@ -234,16 +248,20 @@ export default {
   computed: {
     // 【考试】
     isShowSearchTest() {
-      return sessionStorage.getItem('permissions').includes(54);
+      return true;
+      // return sessionStorage.getItem('permissions').includes(54);
     },
     isShowCreateTest() {
-      return sessionStorage.getItem('permissions').includes(55);
+      return true;
+      // return sessionStorage.getItem('permissions').includes(55);
     },
     isShowUpdateTest() {
-      return sessionStorage.getItem('permissions').includes(56);
+      return true;
+      // return sessionStorage.getItem('permissions').includes(56);
     },
     isShowDeleteTest() {
-      return sessionStorage.getItem('permissions').includes(57);
+      return true;
+      // return sessionStorage.getItem('permissions').includes(57);
     },
   },
   watch: {

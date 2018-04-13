@@ -83,6 +83,22 @@ import moment from 'moment'
     })
   };
 
+
+  // search拼接函数
+  const computedParams = function (selectedQuesiton, param) {
+    let arr = selectedQuesiton;
+    let string = '';
+    for (let i = 0; i < arr.length; i++) {
+      if (i != 0) {
+        string += '&' + param + '[' + i + ']' + '=' + arr[i];
+      }
+      else {
+        string += param + '[' + i + ']' + '=' + arr[i];
+      }
+    }
+    return string;
+  }
+
   export default
   {
     localDomain,
@@ -94,6 +110,7 @@ import moment from 'moment'
     toTime,
     getData,
     getNextData,
+    computedParams,
   }
 </script>
 

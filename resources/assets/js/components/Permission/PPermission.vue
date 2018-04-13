@@ -199,16 +199,20 @@ export default {
   },
   computed: {
     isShowCreatePermission() {
-      return sessionStorage.getItem('permissions').includes(1);
+      return true;
+      // return sessionStorage.getItem('permissions').includes(1);
     },
     isShowSearchPermission() {
-      return sessionStorage.getItem('permissions').includes(2)
+      return true;
+      // return sessionStorage.getItem('permissions').includes(2)
     },
     isShowDeletePermission() {
-      return sessionStorage.getItem('permissions').includes(3)
+      return true;
+      // return sessionStorage.getItem('permissions').includes(3)
     },
   },
   created() {
+    this.permissionData = [];
     this.getPermission();
   },
   watch: {
@@ -219,7 +223,6 @@ export default {
     },
     sumData: function (value, oldValue) {
       const that = this;
-      debugger
     }
   }
 }
