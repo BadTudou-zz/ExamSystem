@@ -17,8 +17,6 @@ export default[
     { path: '/NNotice', component: require('./components/Notice/NNotice.vue') },
     // 组织
     { path: '/Organization', component: require('./components/Organization/Organization.vue') },
-    // 【组织-成员】
-    { path: '/Member', component: require('./components/Member/Member.vue') },
     // 课程
     { path: '/Course', component: require('./components/Course/Course.vue') },
     // 授课

@@ -16,7 +16,7 @@
           <input v-model="organizationData.describe" class="input" type="text">
         </div>
         <div class="box-item">
-          <label>最大值</label>
+          <label>最大容纳人数</label>
           <input v-model="organizationData.max" class="input" type="number">
         </div>
       </section>
@@ -70,6 +70,7 @@ export default {
         }
       }).then(res => {
         alert('添加成功');
+        that.clearWords();
         that.$emit('getOrganization');   //第一个参数名为调用的方法名，第二个参数为需要传递的参数
         that.switchModal();
       }).catch(err => {
