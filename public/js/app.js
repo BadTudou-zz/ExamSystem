@@ -34695,7 +34695,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
 
 
 
@@ -34726,7 +34725,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     deletePermission: function deletePermission(index) {
       var that = this;
-      var id = that.roleData[index]['id'];
+      var id = that.permissionData[index]['id'];
       var prompt = confirm("确认删除该权限吗？");
       if (prompt) {
         axios({
@@ -34738,7 +34737,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
           }
         }).then(function (res) {
           alert('删除成功！');
-          that.getRole();
+          that.getPermission();
         }).catch(function (err) {
           alert('删除失败，请稍后再试');
           console.log(err);
@@ -45423,7 +45422,7 @@ exports.push([module.i, "\n.permission-seleted[data-v-afec6430] {\n  width: 20px
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(2)();
-exports.push([module.i, "\n.box-item input {\n  width: 20px;\n}\n", ""]);
+exports.push([module.i, "\n.box-item input[data-v-b440aab8] {\n  width: 20px;\n}\n", ""]);
 
 /***/ }),
 /* 332 */
@@ -65174,7 +65173,7 @@ var Component = __webpack_require__(1)(
   /* template */
   __webpack_require__(478),
   /* scopeId */
-  null,
+  "data-v-b440aab8",
   /* cssModules */
   null
 )
@@ -66040,13 +66039,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.addPermission()
       }
     }
-  }, [_vm._v("添加权限")]), _vm._v(" "), _c('button', {
-    staticClass: "button add-permission-button",
-    attrs: {
-      "type": "button",
-      "name": "button"
-    }
-  }, [_vm._v("同步权限")])]), _vm._v(" "), _c('table', {
+  }, [_vm._v("添加权限")])]), _vm._v(" "), _c('table', {
     staticClass: "table"
   }, [_c('thead', [_c('tr', [_c('th', [_vm._v("ID")]), _vm._v(" "), _c('th', [_vm._v("权限名")]), _vm._v(" "), _c('th', [_vm._v("别名")]), _vm._v(" "), _c('th', [_vm._v("描述")]), _vm._v(" "), _c('th', [_vm._v("创建时间")]), _vm._v(" "), _c('th', [_vm._v("更新时间")]), _vm._v(" "), _c('th', {
     directives: [{
@@ -68379,7 +68372,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }],
     staticClass: "input",
     attrs: {
-      "type": "text"
+      "type": "text",
+      "placeholder": "请输入权限的详情描述"
     },
     domProps: {
       "value": (_vm.permissionData.description)
@@ -79382,13 +79376,13 @@ var content = __webpack_require__(331);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(3)("51f9a17f", content, false);
+var update = __webpack_require__(3)("0a00fed8", content, false);
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
  if(!content.locals) {
-   module.hot.accept("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-b440aab8!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./SynchronizeUser.vue", function() {
-     var newContent = require("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-b440aab8!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./SynchronizeUser.vue");
+   module.hot.accept("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-b440aab8&scoped=true!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./SynchronizeUser.vue", function() {
+     var newContent = require("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-b440aab8&scoped=true!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./SynchronizeUser.vue");
      if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
      update(newContent);
    });
