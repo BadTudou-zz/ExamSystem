@@ -8,24 +8,20 @@
       </header>
       <section class="modal-card-body">
         <div class="box-item">
-          <label>章节名称</label>
-          <input v-model="currentExaminationPaperData.name" class="input" type="text" placeholder="请输入章节名">
+          <label>试卷标题</label>
+          <input v-model="currentExaminationPaperData.title" class="input" type="text" placeholder="请输入试卷名">
         </div>
         <div class="box-item">
-          <label>章节成绩</label>
+          <label>试卷成绩</label>
           <input v-model="currentExaminationPaperData.score" class="input" type="text">
         </div>
         <div class="box-item">
-          <label>章节数</label>
-          <input v-model="currentExaminationPaperData.number" class="input" type="text">
+          <label>最小值</label>
+          <input v-model="currentExaminationPaperData.min" class="input" type="text">
         </div>
         <div class="box-item">
-          <label>章节描述</label>
+          <label>描述</label>
           <input v-model="currentExaminationPaperData.describe" class="input" type="text">
-        </div>
-        <div class="box-item">
-          <label>问题类型</label>
-          <input v-model="currentExaminationPaperData.question_type" class="input" type="text">
         </div>
       </section>
       <footer class="modal-card-foot">
@@ -101,10 +97,10 @@ export default {
   watch: {
     editData: function (value, oldValue) {
       const that = this;
-      that.currentExaminationPaperData.id = value.id;
-      that.currentExaminationPaperData.name = value.name;
+      that.currentExaminationPaperData.title = value.title;
+      that.currentExaminationPaperData.score = value.score;
+      that.currentExaminationPaperData.min = value.min;
       that.currentExaminationPaperData.describe = value.describe;
-      that.currentExaminationPaperData.max = value.max;
     }
   }
 }

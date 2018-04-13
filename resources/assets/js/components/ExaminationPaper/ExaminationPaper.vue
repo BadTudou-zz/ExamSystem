@@ -175,7 +175,7 @@ export default {
         that.examinationPaperData.push(res.data.data);
         that.searchKey = '';
       }).catch(err => {
-        alert('查找出错，已加载全部数据');
+        alert('没有查找到相关数据，已加载全部数据');
         that.searchKey = '';
         that.getExaminationPaper();
         console.log(err);
