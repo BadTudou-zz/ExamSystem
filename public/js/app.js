@@ -31216,10 +31216,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -31280,10 +31276,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   watch: {
     editData: function editData(value, oldValue) {
       var that = this;
-      that.currentExaminationPaperData.id = value.id;
-      that.currentExaminationPaperData.name = value.name;
+      that.currentExaminationPaperData.title = value.title;
+      that.currentExaminationPaperData.score = value.score;
+      that.currentExaminationPaperData.min = value.min;
       that.currentExaminationPaperData.describe = value.describe;
-      that.currentExaminationPaperData.max = value.max;
     }
   }
 });
@@ -31488,7 +31484,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         that.examinationPaperData.push(res.data.data);
         that.searchKey = '';
       }).catch(function (err) {
-        alert('查找出错，已加载全部数据');
+        alert('没有查找到相关数据，已加载全部数据');
         that.searchKey = '';
         that.getExaminationPaper();
         console.log(err);
@@ -46117,7 +46113,7 @@ exports.push([module.i, "\ntable {\n  margin: 35px auto 0 auto;\n}\n.search-inpu
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(2)();
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 /***/ }),
 /* 340 */
@@ -75639,30 +75635,30 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "modal-card-body"
   }, [_c('div', {
     staticClass: "box-item"
-  }, [_c('label', [_vm._v("章节名称")]), _vm._v(" "), _c('input', {
+  }, [_c('label', [_vm._v("试卷标题")]), _vm._v(" "), _c('input', {
     directives: [{
       name: "model",
       rawName: "v-model",
-      value: (_vm.currentExaminationPaperData.name),
-      expression: "currentExaminationPaperData.name"
+      value: (_vm.currentExaminationPaperData.title),
+      expression: "currentExaminationPaperData.title"
     }],
     staticClass: "input",
     attrs: {
       "type": "text",
-      "placeholder": "请输入章节名"
+      "placeholder": "请输入试卷名"
     },
     domProps: {
-      "value": (_vm.currentExaminationPaperData.name)
+      "value": (_vm.currentExaminationPaperData.title)
     },
     on: {
       "input": function($event) {
         if ($event.target.composing) { return; }
-        _vm.$set(_vm.currentExaminationPaperData, "name", $event.target.value)
+        _vm.$set(_vm.currentExaminationPaperData, "title", $event.target.value)
       }
     }
   })]), _vm._v(" "), _c('div', {
     staticClass: "box-item"
-  }, [_c('label', [_vm._v("章节成绩")]), _vm._v(" "), _c('input', {
+  }, [_c('label', [_vm._v("试卷成绩")]), _vm._v(" "), _c('input', {
     directives: [{
       name: "model",
       rawName: "v-model",
@@ -75684,29 +75680,29 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   })]), _vm._v(" "), _c('div', {
     staticClass: "box-item"
-  }, [_c('label', [_vm._v("章节数")]), _vm._v(" "), _c('input', {
+  }, [_c('label', [_vm._v("最小值")]), _vm._v(" "), _c('input', {
     directives: [{
       name: "model",
       rawName: "v-model",
-      value: (_vm.currentExaminationPaperData.number),
-      expression: "currentExaminationPaperData.number"
+      value: (_vm.currentExaminationPaperData.min),
+      expression: "currentExaminationPaperData.min"
     }],
     staticClass: "input",
     attrs: {
       "type": "text"
     },
     domProps: {
-      "value": (_vm.currentExaminationPaperData.number)
+      "value": (_vm.currentExaminationPaperData.min)
     },
     on: {
       "input": function($event) {
         if ($event.target.composing) { return; }
-        _vm.$set(_vm.currentExaminationPaperData, "number", $event.target.value)
+        _vm.$set(_vm.currentExaminationPaperData, "min", $event.target.value)
       }
     }
   })]), _vm._v(" "), _c('div', {
     staticClass: "box-item"
-  }, [_c('label', [_vm._v("章节描述")]), _vm._v(" "), _c('input', {
+  }, [_c('label', [_vm._v("描述")]), _vm._v(" "), _c('input', {
     directives: [{
       name: "model",
       rawName: "v-model",
@@ -75724,28 +75720,6 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "input": function($event) {
         if ($event.target.composing) { return; }
         _vm.$set(_vm.currentExaminationPaperData, "describe", $event.target.value)
-      }
-    }
-  })]), _vm._v(" "), _c('div', {
-    staticClass: "box-item"
-  }, [_c('label', [_vm._v("问题类型")]), _vm._v(" "), _c('input', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.currentExaminationPaperData.question_type),
-      expression: "currentExaminationPaperData.question_type"
-    }],
-    staticClass: "input",
-    attrs: {
-      "type": "text"
-    },
-    domProps: {
-      "value": (_vm.currentExaminationPaperData.question_type)
-    },
-    on: {
-      "input": function($event) {
-        if ($event.target.composing) { return; }
-        _vm.$set(_vm.currentExaminationPaperData, "question_type", $event.target.value)
       }
     }
   })])]), _vm._v(" "), _c('footer', {
