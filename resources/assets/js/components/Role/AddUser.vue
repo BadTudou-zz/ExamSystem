@@ -3,69 +3,79 @@
     <div class="modal-background"></div>
     <div class="modal-card">
       <header class="modal-card-head">
-        <p class="modal-card-title">添加用户</p>
+        <p class="modal-card-title">同步成员</p>
         <button @click="switchModal()" class="delete" aria-label="close"></button>
       </header>
       <section class="modal-card-body">
         <div class="box-item">
-          <label>users</label>
-          <input v-model="userString" class="input" type="text" placeholder="请用英文逗号将多个用户id分开">
+          <div class="all-user">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>是否选中</th>
+                  <th>序号</th>
+                  <th>用户名</th>
+                  <th>邮箱</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="(item,index) in userData">
+                  <td><input type="checkbox" v-bind:value="item.id" v-model="selectedUser" class="user-seleted"></td>
+                  <td>{{ item.id }}</td>
+                  <td>{{ item.name }}</td>
+                  <td>{{ item.email }}</td>
+                </tr>
+              </tbody>
+            </table>
+            <pagination v-bind:pagination-data="paginationData"
+                        v-model="data"
+            ></pagination>
+          </div>
         </div>
       </section>
       <footer class="modal-card-foot">
-        <button @click="addUser()" class="button is-success">确认添加</button>
-        <button @click="switchModal()" class="button">取消</button>
+        <button @click="addUser()" class="button is-success">确认</button>
+        <button  @click="switchModal()" class="button">取消</button>
       </footer>
     </div>
 
   </div>
 </template>
+
 <script>
+import Pagination from './../Pagination.vue'
+
 export default {
   data() {
     return {
       isShowModal: false,
-      userString: null,
+      userData: null,
+      selectedUser: [],
+      // 翻页
+      paginationData: null,
+      data: null,
+      //
     }
   },
-  components: {
-  },
-  props:[
-    'roleId'
+  props: [
+    'roleId',
   ],
+  components: {
+    Pagination,
+  },
   methods: {
     switchModal: function () {
       const that = this;
       that.isShowModal = !that.isShowModal;
-      that.clearWords();
     },
     clearWords: function () {
       const that = this;
-      that.userString = '';
-    },
-    /**
-     * computedParams
-     * @param  {String} str   需要转换的字符串
-     * @param  {String} param param拼接参数
-     * @return {String}       拼接完成的params
-     */
-    computedParams: function (str, param) {
-      let arr = str.split(',');
-      let string = '';
-      for (let i = 0; i < arr.length; i++) {
-        if (i != 0) {
-          string += '&' + param + '=' + arr[i];
-        }
-        else {
-          string += param + '=' + arr[i];
-        }
-      }
-      return string;
+      that.selectedUser = [];
     },
     addUser: function () {
       const that = this;
       let id = that.roleId;
-      let params = that.computedParams(that.userString, 'users');
+      let params = this.GLOBAL.computedParams(that.selectedUser, 'users');
       axios({
         method: 'post',
         url: `${this.GLOBAL.localDomain}/api/v1/roles/${id}/users?${params}`,
@@ -73,28 +83,50 @@ export default {
           'Accept': 'application/json',
           'Authorization': sessionStorage.getItem('token'),
         },
-        // params: {
-        // }
       }).then(res => {
         alert('添加成功');
         that.$emit('getUser');   //第一个参数名为调用的方法名，第二个参数为需要传递的参数
         that.switchModal();
-        that.clearWords();
       }).catch(err => {
         alert('添加失败');
         console.log(err);
         that.clearWords();
       })
-    }
+    },
+    // 全部用户
+    getUser: function () {
+      const that = this;
+      axios({
+        method: 'get',
+        url: `${this.GLOBAL.localDomain}/api/v1/users/`,
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': sessionStorage.getItem('token'),
+        }
+      }).then(res => {
+        that.userData = res.data.data;
+        that.paginationData = res.data.links;
+      }).catch(err => {
+        console.log(err)
+      })
+    },
   },
   created() {
-
+    this.userData = [];
+    this.getUser();
   },
   watch: {
+    data:function (value, oldValue) {
+      const that = this;
+      that.permissionData = value.data;
+      that.paginationData = value.links;
+    }
   }
 }
 </script>
 
-
-<style>
+<style scoped>
+.box-item input {
+  width: 20px;
+}
 </style>
