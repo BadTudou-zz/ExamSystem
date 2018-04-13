@@ -6,26 +6,25 @@
       <div class="box user-box">
         <div>
             <button @click="addUser()" class="button add-role-button" type="button" name="button">添加用户</button>
+            <button @click="deleteUser()" class="button" type="button" name="button">删除用户</button>
         </div>
         <table class="table">
           <thead>
             <tr>
+              <th>是否选中</th>
               <th>用户名</th>
               <th>邮箱</th>
               <th>电话</th>
               <th>QQ</th>
-              <th>操作</th>
             </tr>
           </thead>
           <tbody>
             <tr v-for="(item,index) in userData">
+              <td><input type="checkbox" v-bind:value="item.id" v-model="users" class="user-seleted"></td>
               <td>{{ item.name }}</td>
               <td>{{ item.email }}</td>
               <td>{{ item.phone }}</td>
               <td>{{ item.qq }}</td>
-              <td>
-                <button @click="deleteUser(index)" class="button" type="button" name="button">删除用户</button>
-              </td>
             </tr>
           </tbody>
         </table>
@@ -35,7 +34,8 @@
         ></pagination>
 
         <add-user ref="addUser"
-                    v-on:getUser="getUser"
+                  v-on:getUser="getUser"
+                  v-bind:teaching-id="teachingId"
         ></add-user>
 
       </div>
@@ -55,9 +55,12 @@ export default {
       userData: null,
       searchKey: null,
       editData: null,  // 当前编辑的用户数据
+      // 翻页
       paginationData: null,
       data: null,
+      //
       teachingId: null,
+      users: [],
     }
   },
   components: {
@@ -104,19 +107,25 @@ export default {
         console.log(err)
       })
     },
-    deleteUser: function (index) {
+    deleteUser: function () {
       const that = this;
-      let id = that.userData[index]['id'];
-      let prompt = confirm("确认删除该用户吗？");
+      if (!that.users) {
+        alert('请勾选需要删除的用户');
+        return;
+      }
+      let id = that.currentTeachingData['id'];
+      let params = this.GLOBAL.computedParams(that.users, 'users')
+      let prompt = confirm("确认删除选中的用户吗？");
       if (prompt) {
         axios({
           method: 'delete',
-          url: `${this.GLOBAL.localDomain}/api/v1/lectures/${id}/users`,
+          url: `${this.GLOBAL.localDomain}/api/v1/lectures/${id}/users?${params}`,
           headers: {
             'Accept': 'application/json',
             'Authorization': sessionStorage.getItem('token'),
           }
         }).then(res => {
+          that.getUser();
           alert('删除成功！')
         }).catch(err => {
           alert('删除失败')
@@ -126,7 +135,6 @@ export default {
     }
   },
   created() {
-
   },
   watch: {
     data:function (value, oldValue) {
@@ -143,7 +151,7 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 table {
   margin: 35px auto 0 auto;
 }
