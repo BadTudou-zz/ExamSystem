@@ -12,40 +12,44 @@
     <table class="table">
       <thead>
         <tr>
-          <th>ID</th>
+          <!-- <th>ID</th> -->
           <th>授课名</th>
           <th>用户ID</th>
           <th>课程ID</th>
-          <th>允许组织的ID</th>
-          <th>允许用户的ID</th>
+          <!-- <th>允许组织的ID</th>
+          <th>允许用户的ID</th> -->
           <th>描述</th>
           <th>最大容量</th>
           <th>当前容量</th>
-          <th>创建时间</th>
-          <th>更新时间</th>
+          <!-- <th>创建时间</th> -->
+          <!-- <th>更新时间</th> -->
           <th>授课操作</th>
           <th>用户操作</th>
+          <th>更多</th>
         </tr>
       </thead>
     <tbody>
         <tr v-for="(item,index) in teachingData">
-          <td>{{ item.id }}</td>
+          <!-- <td>{{ item.id }}</td> -->
           <td>{{ item.name }}</td>
           <td>{{ item.user_id }}</td>
           <td>{{ item.course_id }}</td>
-          <td>{{ item.allowable_teaching_ids }}</td>
-          <td>{{ item.allowable_user_ids }}</td>
+          <!-- <td>{{ item.allowable_teaching_ids }}</td>
+          <td>{{ item.allowable_user_ids }}</td> -->
           <td>{{ item.description }}</td>
           <td>{{ item.max }}</td>
           <td>{{ item.current }}</td>
-          <td>{{ GLOBAL.toTime(item.created_at) }}</td>
-          <td>{{ GLOBAL.toTime(item.updated_at) }}</td>
+          <!-- <td>{{ GLOBAL.toTime(item.created_at) }}</td> -->
+          <!-- <td>{{ GLOBAL.toTime(item.updated_at) }}</td> -->
           <td>
             <button v-show="isShowDeleteTeaching" @click="deleteTeaching(index)" class="button is-small" type="button" name="button">删除授课</button>
             <button @click="editTeaching(index)" class="button is-small" type="button" name="button">编辑授课</button>
           </td>
           <td>
             <button @click="showUser(index)" class="button is-small" type="button" name="button">查看用户</button>
+          </td>
+          <td>
+            <button @click="showDetail(index)" class="button is-small" type="button" name="button">查看详情</button>
           </td>
         </tr>
       </tbody>
@@ -64,6 +68,10 @@
           v-bind:current-teaching-data="currentTeachingData"
     ></user>
 
+    <detail ref="detail"
+            v-bind:current-teaching-data="currentTeachingData"
+    ></detail>
+
     <pagination v-bind:pagination-data="paginationData"
                 v-model="data"
     ></pagination>
@@ -75,32 +83,18 @@ import AddTeaching from './AddTeaching'
 import EditTeaching from './EditTeaching'
 import Pagination from './../Pagination'
 import User from './User'
+import Detail from './Detail'
 
 export default {
   data() {
     return {
       isShowModal: false,
-      // teachingData: null,
+      teachingData: [],
       searchKey: null,
       editData: null,
       paginationData: null,
       data: null,
       currentTeachingData: null,
-      teachingData: [
-        {
-          "id": 2,
-          "name": "1班的英语",
-          "user_id": "1",
-          "course_id": "3",
-          "allowable_organization_ids": "1",
-          "allowable_user_ids": "",
-          "describe": "这是描述",
-          "max": "20",
-          "current": "1",
-          "created_at": "2018-01-19 16:14:27",
-          "updated_at": "2018-01-19 16:14:27"
-        }
-      ],
     }
   },
   components: {
@@ -108,6 +102,7 @@ export default {
     EditTeaching,
     Pagination,
     User,
+    Detail,
   },
   methods: {
     showModal: function () {
@@ -164,8 +159,11 @@ export default {
             'Authorization': sessionStorage.getItem('token'),
           }
         }).then(res => {
-          that.teachingData = res.data.data;
+          // that.teachingData = res.data.data;
+          alert('删除成功')
+          that.getTeaching()
         }).catch(err => {
+          alert('删除失败')
           console.log(err)
         })
       }
@@ -184,6 +182,11 @@ export default {
       that.currentTeachingData = that.teachingData[index];
       that.$refs.user.switchModal();
     },
+    showDetail: function (index) {
+      const that = this;
+      that.currentTeachingData = that.teachingData[index];
+      that.$refs.detail.switchModal();
+    }
   },
   computed: {
     isShowCreateTeaching() {
@@ -200,8 +203,7 @@ export default {
     },
   },
   created() {
-
-    // this.getTeaching();
+    this.getTeaching();
   },
   watch: {
     data:function (value, oldValue) {
@@ -213,7 +215,7 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 table {
   margin: 35px auto 0 auto;
 }
