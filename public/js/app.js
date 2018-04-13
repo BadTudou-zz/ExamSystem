@@ -37151,6 +37151,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Pagination_vue__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Pagination_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__Pagination_vue__);
 //
 //
 //
@@ -37173,49 +37175,61 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
       isShowModal: false,
-      userString: null
+      userData: null,
+      selectedUser: [],
+      // 翻页
+      paginationData: null,
+      data: null
+      //
     };
   },
 
-  components: {},
   props: ['roleId'],
+  components: {
+    Pagination: __WEBPACK_IMPORTED_MODULE_0__Pagination_vue___default.a
+  },
   methods: {
     switchModal: function switchModal() {
       var that = this;
       that.isShowModal = !that.isShowModal;
-      that.clearWords();
     },
     clearWords: function clearWords() {
       var that = this;
-      that.userString = '';
-    },
-    /**
-     * computedParams
-     * @param  {String} str   需要转换的字符串
-     * @param  {String} param param拼接参数
-     * @return {String}       拼接完成的params
-     */
-    computedParams: function computedParams(str, param) {
-      var arr = str.split(',');
-      var string = '';
-      for (var i = 0; i < arr.length; i++) {
-        if (i != 0) {
-          string += '&' + param + '=' + arr[i];
-        } else {
-          string += param + '=' + arr[i];
-        }
-      }
-      return string;
+      that.selectedUser = [];
     },
     addUser: function addUser() {
       var that = this;
       var id = that.roleId;
-      var params = that.computedParams(that.userString, 'users');
+      var params = this.GLOBAL.computedParams(that.selectedUser, 'users');
       axios({
         method: 'post',
         url: this.GLOBAL.localDomain + '/api/v1/roles/' + id + '/users?' + params,
@@ -37223,23 +37237,46 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
           'Accept': 'application/json',
           'Authorization': sessionStorage.getItem('token')
         }
-        // params: {
-        // }
       }).then(function (res) {
         alert('添加成功');
         that.$emit('getUser'); //第一个参数名为调用的方法名，第二个参数为需要传递的参数
         that.switchModal();
-        that.clearWords();
       }).catch(function (err) {
         alert('添加失败');
         console.log(err);
         that.clearWords();
       });
+    },
+    // 全部用户
+    getUser: function getUser() {
+      var that = this;
+      axios({
+        method: 'get',
+        url: this.GLOBAL.localDomain + '/api/v1/users/',
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': sessionStorage.getItem('token')
+        }
+      }).then(function (res) {
+        that.userData = res.data.data;
+        that.paginationData = res.data.links;
+      }).catch(function (err) {
+        console.log(err);
+      });
     }
   },
-  created: function created() {},
+  created: function created() {
+    this.userData = [];
+    this.getUser();
+  },
 
-  watch: {}
+  watch: {
+    data: function data(value, oldValue) {
+      var that = this;
+      that.permissionData = value.data;
+      that.paginationData = value.links;
+    }
+  }
 });
 
 /***/ }),
@@ -37690,28 +37727,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       var that = this;
       that.selectedPermission = [];
     },
-    /**
-     * computedParams
-     * @param  {Array} selectedQuesiton   选中的数组
-     * @param  {String} param param拼接参数
-     * @return {String}       拼接完成的params
-     */
-    computedParams: function computedParams(selectedQuesiton, param) {
-      var arr = selectedQuesiton;
-      var string = '';
-      for (var i = 0; i < arr.length; i++) {
-        if (i != 0) {
-          string += '&' + param + '[' + i + ']' + '=' + arr[i];
-        } else {
-          string += param + '[' + i + ']' + '=' + arr[i];
-        }
-      }
-      return string;
-    },
     synchronousPermission: function synchronousPermission() {
       var that = this;
       var id = that.roleId;
-      var params = that.computedParams(that.selectedPermission, 'permissions');
+      var params = this.GLOBAL.computedParams(that.selectedPermission, 'permissions');
       axios({
         method: 'put',
         url: this.GLOBAL.localDomain + '/api/v1/roles/' + id + '/permissions?' + params,
@@ -37771,6 +37790,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Pagination_vue__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Pagination_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__Pagination_vue__);
 //
 //
 //
@@ -37794,17 +37815,47 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
       isShowModal: false,
-      userString: null
+      userData: null,
+      selectedUser: [],
+      // 翻页
+      paginationData: null,
+      data: null
+      //
     };
   },
 
   props: ['roleId'],
-  components: {},
+  components: {
+    Pagination: __WEBPACK_IMPORTED_MODULE_0__Pagination_vue___default.a
+  },
   methods: {
     switchModal: function switchModal() {
       var that = this;
@@ -37812,22 +37863,19 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     clearWords: function clearWords() {
       var that = this;
-      that.userString = '';
+      that.selectedUser = [];
     },
     synchronousUser: function synchronousUser() {
       var that = this;
       var id = that.roleId;
-      var params = that.computedParams(that.userString, 'users');
+      var params = this.GLOBAL.computedParams(that.selectedUser, 'users');
       axios({
         method: 'post',
-        url: this.GLOBAL.localDomain + '/api/v1/roles/' + id + '/users?' + params,
+        url: this.GLOBAL.localDomain + '/api/v1/roles/' + id + '/users',
         headers: {
           'Accept': 'application/json',
           'Authorization': sessionStorage.getItem('token')
         }
-        // params: {
-        //
-        // }
       }).then(function (res) {
         alert('同步成功');
         that.$emit('getUser'); //第一个参数名为调用的方法名，第二个参数为需要传递的参数
@@ -37838,26 +37886,36 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         that.clearWords();
       });
     },
-    /**
-     * computedParams
-     * @param  {String} str   需要转换的字符串
-     * @param  {String} param param拼接参数
-     * @return {String}       拼接完成的params
-     */
-    computedParams: function computedParams(str, param) {
-      var arr = str.split(',');
-      var string = '';
-      for (var i = 0; i < arr.length; i++) {
-        if (i != 0) {
-          string += '&' + param + '=' + arr[i];
-        } else {
-          string += param + '=' + arr[i];
+    // 全部用户
+    getUser: function getUser() {
+      var that = this;
+      axios({
+        method: 'get',
+        url: this.GLOBAL.localDomain + '/api/v1/users/',
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': sessionStorage.getItem('token')
         }
-      }
-      return string;
+      }).then(function (res) {
+        that.userData = res.data.data;
+        that.paginationData = res.data.links;
+      }).catch(function (err) {
+        console.log(err);
+      });
     }
   },
-  created: function created() {}
+  created: function created() {
+    this.userData = [];
+    this.getUser();
+  },
+
+  watch: {
+    data: function data(value, oldValue) {
+      var that = this;
+      that.permissionData = value.data;
+      that.paginationData = value.links;
+    }
+  }
 });
 
 /***/ }),
@@ -37923,7 +37981,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
 
 
 
@@ -37937,20 +37994,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         id: '',
         name: '',
         email: ''
-        //         created_at: {
-        //           date: '',
-        //           timezone_type: ''
-        //           timezone: ''
-        //         },
-        // updated_at: {
-        //   date: '',
-        //   timezone_type: '',
-        //   timezone: ''
-        // }
       },
+      // 翻页
       paginationData: null,
       data: null,
-      roleId: null
+      //
+      roleId: null,
+      selectedUser: []
+
     };
   },
 
@@ -37965,6 +38016,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       var that = this;
       that.isShowModal = !that.isShowModal;
     },
+    // 查看角色下的用户
     getUser: function getUser() {
       var that = this;
       var id = that.roleId;
@@ -37985,11 +38037,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     deleteUser: function deleteUser(index) {
       var that = this;
       var id = that.roleId;
+      var params = that.GLOBAL.computedParams(that.selectedUser, 'users');
       var prompt = confirm("确认删除该用户吗？");
       if (prompt) {
         axios({
           method: 'delete',
-          url: this.GLOBAL.localDomain + '/api/v1/roles/' + id + '/users',
+          url: this.GLOBAL.localDomain + '/api/v1/roles/' + id + '/users?' + params,
           headers: {
             'Accept': 'application/json',
             'Authorization': sessionStorage.getItem('token')
@@ -38012,7 +38065,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       that.$refs.synchronizeUser.switchModal();
     }
   },
-  created: function created() {},
+  created: function created() {
+    this.userData = [];
+  },
 
   watch: {
     data: function data(value, oldValue) {
@@ -45123,7 +45178,7 @@ exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(2)();
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n.box-item input[data-v-44affdf5] {\n  width: 20px;\n}\n", ""]);
 
 /***/ }),
 /* 297 */
@@ -45291,7 +45346,7 @@ exports.push([module.i, "\ntable {\n  margin: 35px auto 0 auto;\n}\n.search-inpu
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(2)();
-exports.push([module.i, "\ntable {\n  margin: 35px auto 0 auto;\n}\n.user-box {\n  width: 1300px;\n}\n.user-content {\n  width: 1300px;\n}\n", ""]);
+exports.push([module.i, "\ntable[data-v-7b1c1932] {\n  margin: 35px auto 0 auto;\n}\n.user-box[data-v-7b1c1932] {\n  width: 1300px;\n}\n.user-content[data-v-7b1c1932] {\n  width: 1300px;\n}\n", ""]);
 
 /***/ }),
 /* 321 */
@@ -45368,7 +45423,7 @@ exports.push([module.i, "\n.permission-seleted[data-v-afec6430] {\n  width: 20px
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(2)();
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n.box-item input {\n  width: 20px;\n}\n", ""]);
 
 /***/ }),
 /* 332 */
@@ -65043,7 +65098,7 @@ var Component = __webpack_require__(1)(
   /* template */
   __webpack_require__(443),
   /* scopeId */
-  null,
+  "data-v-44affdf5",
   /* cssModules */
   null
 )
@@ -65157,7 +65212,7 @@ var Component = __webpack_require__(1)(
   /* template */
   __webpack_require__(467),
   /* scopeId */
-  null,
+  "data-v-7b1c1932",
   /* cssModules */
   null
 )
@@ -69582,7 +69637,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "modal-card-head"
   }, [_c('p', {
     staticClass: "modal-card-title"
-  }, [_vm._v("添加用户")]), _vm._v(" "), _c('button', {
+  }, [_vm._v("同步成员")]), _vm._v(" "), _c('button', {
     staticClass: "delete",
     attrs: {
       "aria-label": "close"
@@ -69596,28 +69651,57 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "modal-card-body"
   }, [_c('div', {
     staticClass: "box-item"
-  }, [_c('label', [_vm._v("users")]), _vm._v(" "), _c('input', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.userString),
-      expression: "userString"
-    }],
-    staticClass: "input",
-    attrs: {
-      "type": "text",
-      "placeholder": "请用英文逗号将多个用户id分开"
-    },
-    domProps: {
-      "value": (_vm.userString)
-    },
-    on: {
-      "input": function($event) {
-        if ($event.target.composing) { return; }
-        _vm.userString = $event.target.value
+  }, [_c('div', {
+    staticClass: "all-user"
+  }, [_c('table', {
+    staticClass: "table"
+  }, [_vm._m(0), _vm._v(" "), _c('tbody', _vm._l((_vm.userData), function(item, index) {
+    return _c('tr', [_c('td', [_c('input', {
+      directives: [{
+        name: "model",
+        rawName: "v-model",
+        value: (_vm.selectedUser),
+        expression: "selectedUser"
+      }],
+      staticClass: "user-seleted",
+      attrs: {
+        "type": "checkbox"
+      },
+      domProps: {
+        "value": item.id,
+        "checked": Array.isArray(_vm.selectedUser) ? _vm._i(_vm.selectedUser, item.id) > -1 : (_vm.selectedUser)
+      },
+      on: {
+        "change": function($event) {
+          var $$a = _vm.selectedUser,
+            $$el = $event.target,
+            $$c = $$el.checked ? (true) : (false);
+          if (Array.isArray($$a)) {
+            var $$v = item.id,
+              $$i = _vm._i($$a, $$v);
+            if ($$el.checked) {
+              $$i < 0 && (_vm.selectedUser = $$a.concat([$$v]))
+            } else {
+              $$i > -1 && (_vm.selectedUser = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
+            }
+          } else {
+            _vm.selectedUser = $$c
+          }
+        }
       }
+    })]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.id))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.name))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.email))])])
+  }))]), _vm._v(" "), _c('pagination', {
+    attrs: {
+      "pagination-data": _vm.paginationData
+    },
+    model: {
+      value: (_vm.data),
+      callback: function($$v) {
+        _vm.data = $$v
+      },
+      expression: "data"
     }
-  })])]), _vm._v(" "), _c('footer', {
+  })], 1)])]), _vm._v(" "), _c('footer', {
     staticClass: "modal-card-foot"
   }, [_c('button', {
     staticClass: "button is-success",
@@ -69626,7 +69710,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.addUser()
       }
     }
-  }, [_vm._v("确认添加")]), _vm._v(" "), _c('button', {
+  }, [_vm._v("确认")]), _vm._v(" "), _c('button', {
     staticClass: "button",
     on: {
       "click": function($event) {
@@ -69634,7 +69718,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }
   }, [_vm._v("取消")])])])])
-},staticRenderFns: []}
+},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('thead', [_c('tr', [_c('th', [_vm._v("是否选中")]), _vm._v(" "), _c('th', [_vm._v("序号")]), _vm._v(" "), _c('th', [_vm._v("用户名")]), _vm._v(" "), _c('th', [_vm._v("邮箱")])])])
+}]}
 module.exports.render._withStripped = true
 if (false) {
   module.hot.accept()
@@ -72522,21 +72608,54 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.synchronizeUser()
       }
     }
-  }, [_vm._v("同步用户")])]), _vm._v(" "), _c('table', {
+  }, [_vm._v("同步用户")]), _vm._v(" "), _c('button', {
+    staticClass: "button",
+    attrs: {
+      "type": "button",
+      "name": "button"
+    },
+    on: {
+      "click": function($event) {
+        _vm.deleteUser(_vm.index)
+      }
+    }
+  }, [_vm._v("删除用户")])]), _vm._v(" "), _c('table', {
     staticClass: "table"
   }, [_vm._m(0), _vm._v(" "), _c('tbody', _vm._l((_vm.userData), function(item, index) {
-    return _c('tr', [_c('td', [_vm._v(_vm._s(item.id))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.name))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.email))]), _vm._v(" "), _c('td', [_c('button', {
-      staticClass: "button",
+    return _c('tr', [_c('td', [_c('input', {
+      directives: [{
+        name: "model",
+        rawName: "v-model",
+        value: (_vm.selectedUser),
+        expression: "selectedUser"
+      }],
+      staticClass: "user-seleted",
       attrs: {
-        "type": "button",
-        "name": "button"
+        "type": "checkbox"
+      },
+      domProps: {
+        "value": item.id,
+        "checked": Array.isArray(_vm.selectedUser) ? _vm._i(_vm.selectedUser, item.id) > -1 : (_vm.selectedUser)
       },
       on: {
-        "click": function($event) {
-          _vm.deleteUser(index)
+        "change": function($event) {
+          var $$a = _vm.selectedUser,
+            $$el = $event.target,
+            $$c = $$el.checked ? (true) : (false);
+          if (Array.isArray($$a)) {
+            var $$v = item.id,
+              $$i = _vm._i($$a, $$v);
+            if ($$el.checked) {
+              $$i < 0 && (_vm.selectedUser = $$a.concat([$$v]))
+            } else {
+              $$i > -1 && (_vm.selectedUser = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
+            }
+          } else {
+            _vm.selectedUser = $$c
+          }
         }
       }
-    }, [_vm._v("删除用户")])])])
+    })]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.id))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.name))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.email))])])
   }))]), _vm._v(" "), _c('pagination', {
     attrs: {
       "pagination-data": _vm.paginationData
@@ -72576,7 +72695,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   })], 1)
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('thead', [_c('tr', [_c('th', [_vm._v("ID")]), _vm._v(" "), _c('th', [_vm._v("用户名")]), _vm._v(" "), _c('th', [_vm._v("邮箱")]), _vm._v(" "), _c('th', [_vm._v("操作")])])])
+  return _c('thead', [_c('tr', [_c('th', [_vm._v("是否选中")]), _vm._v(" "), _c('th', [_vm._v("ID")]), _vm._v(" "), _c('th', [_vm._v("用户名")]), _vm._v(" "), _c('th', [_vm._v("邮箱")])])])
 }]}
 module.exports.render._withStripped = true
 if (false) {
@@ -73563,28 +73682,57 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "modal-card-body"
   }, [_c('div', {
     staticClass: "box-item"
-  }, [_c('label', [_vm._v("users")]), _vm._v(" "), _c('input', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.userString),
-      expression: "userString"
-    }],
-    staticClass: "input",
-    attrs: {
-      "type": "text",
-      "placeholder": "请用英文逗号将多个用户id分开"
-    },
-    domProps: {
-      "value": (_vm.userString)
-    },
-    on: {
-      "input": function($event) {
-        if ($event.target.composing) { return; }
-        _vm.userString = $event.target.value
+  }, [_c('div', {
+    staticClass: "all-user"
+  }, [_c('table', {
+    staticClass: "table"
+  }, [_vm._m(0), _vm._v(" "), _c('tbody', _vm._l((_vm.userData), function(item, index) {
+    return _c('tr', [_c('td', [_c('input', {
+      directives: [{
+        name: "model",
+        rawName: "v-model",
+        value: (_vm.selectedUser),
+        expression: "selectedUser"
+      }],
+      staticClass: "user-seleted",
+      attrs: {
+        "type": "checkbox"
+      },
+      domProps: {
+        "value": item.id,
+        "checked": Array.isArray(_vm.selectedUser) ? _vm._i(_vm.selectedUser, item.id) > -1 : (_vm.selectedUser)
+      },
+      on: {
+        "change": function($event) {
+          var $$a = _vm.selectedUser,
+            $$el = $event.target,
+            $$c = $$el.checked ? (true) : (false);
+          if (Array.isArray($$a)) {
+            var $$v = item.id,
+              $$i = _vm._i($$a, $$v);
+            if ($$el.checked) {
+              $$i < 0 && (_vm.selectedUser = $$a.concat([$$v]))
+            } else {
+              $$i > -1 && (_vm.selectedUser = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
+            }
+          } else {
+            _vm.selectedUser = $$c
+          }
+        }
       }
+    })]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.id))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.name))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.email))])])
+  }))]), _vm._v(" "), _c('pagination', {
+    attrs: {
+      "pagination-data": _vm.paginationData
+    },
+    model: {
+      value: (_vm.data),
+      callback: function($$v) {
+        _vm.data = $$v
+      },
+      expression: "data"
     }
-  })])]), _vm._v(" "), _c('footer', {
+  })], 1)])]), _vm._v(" "), _c('footer', {
     staticClass: "modal-card-foot"
   }, [_c('button', {
     staticClass: "button is-success",
@@ -73601,7 +73749,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }
   }, [_vm._v("取消")])])])])
-},staticRenderFns: []}
+},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('thead', [_c('tr', [_c('th', [_vm._v("是否选中")]), _vm._v(" "), _c('th', [_vm._v("序号")]), _vm._v(" "), _c('th', [_vm._v("用户名")]), _vm._v(" "), _c('th', [_vm._v("邮箱")])])])
+}]}
 module.exports.render._withStripped = true
 if (false) {
   module.hot.accept()
@@ -78322,13 +78472,13 @@ var content = __webpack_require__(296);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(3)("383f867c", content, false);
+var update = __webpack_require__(3)("e0f814de", content, false);
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
  if(!content.locals) {
-   module.hot.accept("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-44affdf5!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./AddUser.vue", function() {
-     var newContent = require("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-44affdf5!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./AddUser.vue");
+   module.hot.accept("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-44affdf5&scoped=true!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./AddUser.vue", function() {
+     var newContent = require("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-44affdf5&scoped=true!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./AddUser.vue");
      if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
      update(newContent);
    });
@@ -78946,13 +79096,13 @@ var content = __webpack_require__(320);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(3)("731fc622", content, false);
+var update = __webpack_require__(3)("e8da2e0c", content, false);
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
  if(!content.locals) {
-   module.hot.accept("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-7b1c1932!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./User.vue", function() {
-     var newContent = require("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-7b1c1932!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./User.vue");
+   module.hot.accept("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-7b1c1932&scoped=true!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./User.vue", function() {
+     var newContent = require("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-7b1c1932&scoped=true!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./User.vue");
      if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
      update(newContent);
    });

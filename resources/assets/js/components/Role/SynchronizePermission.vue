@@ -72,29 +72,10 @@ export default {
       const that = this;
       that.selectedPermission = [];
     },
-    /**
-     * computedParams
-     * @param  {Array} selectedQuesiton   选中的数组
-     * @param  {String} param param拼接参数
-     * @return {String}       拼接完成的params
-     */
-    computedParams: function (selectedQuesiton, param) {
-      let arr = selectedQuesiton;
-      let string = '';
-      for (let i = 0; i < arr.length; i++) {
-        if (i != 0) {
-          string += '&' + param + '[' + i + ']' + '=' + arr[i];
-        }
-        else {
-          string += param + '[' + i + ']' + '=' + arr[i];
-        }
-      }
-      return string;
-    },
     synchronousPermission: function () {
       const that = this;
       let id = that.roleId;
-      let params = that.computedParams(that.selectedPermission, 'permissions');
+      let params = this.GLOBAL.computedParams(that.selectedPermission, 'permissions');
       axios({
         method: 'put',
         url: `${this.GLOBAL.localDomain}/api/v1/roles/${id}/permissions?${params}`,
