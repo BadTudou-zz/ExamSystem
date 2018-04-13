@@ -143,16 +143,20 @@ export default {
   },
   computed: {
     isShowCreateQuestion() {
-      return sessionStorage.getItem('permissions').includes(34);
+      return true;
+      // return sessionStorage.getItem('permissions').includes(34);
     },
     isShowSearchQuestion() {
-      return sessionStorage.getItem('permissions').includes(35);
+      return true;
+      // return sessionStorage.getItem('permissions').includes(35);
     },
     isShowUpdateQuestion() {
-      return sessionStorage.getItem('permissions').includes(36);
+      return true;
+      // return sessionStorage.getItem('permissions').includes(36);
     },
     isShowDeleteQuestion() {
-      return sessionStorage.getItem('permissions').includes(37);
+      return true;
+      // return sessionStorage.getItem('permissions').includes(37);
     },
   },
   created() {

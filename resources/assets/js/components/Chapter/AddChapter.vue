@@ -140,7 +140,7 @@ export default {
     },
     /**
      * computedParams
-     * @param  {Array} selectedQuesiton   选中的问题数组
+     * @param  {Array} selectedQuesiton   选中的数组
      * @param  {String} param param拼接参数
      * @return {String}       拼接完成的params
      */

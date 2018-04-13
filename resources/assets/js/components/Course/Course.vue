@@ -128,16 +128,20 @@ export default {
   },
   computed: {
     isShowCreateCourse() {
-      return sessionStorage.getItem('permissions').includes(22);
+      return true;
+      // return sessionStorage.getItem('permissions').includes(22);
     },
     isShowSearchCourse() {
-      return sessionStorage.getItem('permissions').includes(23);
+      return true;
+      // return sessionStorage.getItem('permissions').includes(23);
     },
     isShowUpdateCourse() {
-      return sessionStorage.getItem('permissions').includes(24);
+      return true;
+      // return sessionStorage.getItem('permissions').includes(24);
     },
     isShowDeleteCourse() {
-      return sessionStorage.getItem('permissions').includes(25);
+      return true;
+      // return sessionStorage.getItem('permissions').includes(25);
     },
   },
   created() {
