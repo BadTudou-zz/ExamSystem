@@ -34,7 +34,7 @@ import Pagination from './../Pagination.vue'
 export default {
   data() {
     return {
-      messageData: null,
+      messageData: [],
       isShowModal: false,
       paginationData: null,
       data: null,
@@ -93,6 +93,8 @@ export default {
     },
     searchMessage: function () {
       const that = this;
+      that.messageData = [];
+
       if (!that.searchKey) {
         that.searchKey = '';
         that.getMessage();
@@ -106,7 +108,6 @@ export default {
           'Authorization': sessionStorage.getItem('token'),
         }
       }).then(res => {
-        that.messageData = [];
         that.messageData.push(res.data.data);
       }).catch(err => {
         console.log(err)
