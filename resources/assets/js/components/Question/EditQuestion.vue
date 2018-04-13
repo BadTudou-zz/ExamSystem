@@ -30,7 +30,7 @@
         </div>
 
         <div class="box-item">
-          <label>问题</label>
+          <label>题目</label>
           <input v-model="currentQuestionData.title" class="input" type="text">
         </div>
 
