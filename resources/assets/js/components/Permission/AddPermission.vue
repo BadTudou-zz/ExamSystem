@@ -19,7 +19,7 @@
 
         <div class="box-item">
           <label>描述</label>
-          <input v-model="permissionData.description" class="input" type="text">
+          <input v-model="permissionData.description" class="input" type="text" placeholder="请输入权限的详情描述">
         </div>
       </section>
       <footer class="modal-card-foot">

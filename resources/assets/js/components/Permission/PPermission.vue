@@ -7,7 +7,6 @@
         <button @click="searchPermission()" class="button" type="button" name="button">查找权限</button>
       </div>
         <button v-show="isShowCreatePermission" @click="addPermission()" class="button add-permission-button" type="button" name="button">添加权限</button>
-        <button class="button add-permission-button" type="button" name="button">同步权限</button>
     </div>
     <table class="table">
       <thead>
@@ -74,7 +73,7 @@ export default {
     },
     deletePermission: function (index) {
       const that = this;
-      let id = that.roleData[index]['id'];
+      let id = that.permissionData[index]['id'];
       let prompt = confirm("确认删除该权限吗？");
       if (prompt) {
         axios({
@@ -86,7 +85,7 @@ export default {
           }
         }).then(res => {
           alert('删除成功！');
-          that.getRole();
+          that.getPermission();
         }).catch(err => {
           alert('删除失败，请稍后再试')
           console.log(err)
