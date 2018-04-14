@@ -12,11 +12,6 @@
           <input v-model="testData.title" class="input" type="text">
         </div>
         <div class="box-item">
-          <label>数目</label>
-          <!-- ?? -->
-          <input v-model="testData.number" class="input" type="text">
-        </div>
-        <div class="box-item">
           <label>类型</label>
           <div class="select">
             <select v-model="testData.exam_type">
@@ -33,7 +28,7 @@
           <input v-model="testData.score" class="input" type="text">
         </div>
         <div class="box-item">
-          <label>min</label>
+          <label>考试时长</label>
           <input v-model="testData.min" class="input" type="text">
         </div>
         <div class="box-item">
@@ -81,7 +76,6 @@ export default {
       isShowModal: false,
       testData: {
         title: '',
-        number: '',
         exam_type: 'OPEN',
         describe: '',
         score: '',
@@ -103,7 +97,6 @@ export default {
     clearWords: function () {
       const that = this;
       that.testData.title =  '';
-      that.testData.number =  '';
       that.testData.exam_type =  '';
       that.testData.describe =  '';
       that.testData.score =  '';
@@ -122,7 +115,6 @@ export default {
         },
         params: {
           title: that.testData.title,
-          number: that.testData.number,
           exam_type: that.testData.exam_type,
           describe: that.testData.describe,
           score: that.testData.score,

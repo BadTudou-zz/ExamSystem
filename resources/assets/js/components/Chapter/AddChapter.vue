@@ -45,20 +45,27 @@
                 <tr>
                   <th>是否选中</th>
                   <th>序号</th>
-                  <th>题目</th>
                   <th>类型</th>
+                  <th>题目</th>
+                  <th>分值</th>
                 </tr>
               </thead>
               <tbody>
                 <tr v-for="(item,index) in questionData">
-                  <td v-show="item.question_type === chapterData.question_type"><input type="checkbox" v-bind:value="item.id" v-model="selectedQuesiton" class="question-seleted"></td>
+                  <td v-show="item.question_type === chapterData.question_type">
+                    <input type="checkbox" v-bind:value="item.id" v-model="selectedQuesiton" class="question-seleted">
+                  </td>
                   <td v-show="item.question_type === chapterData.question_type">{{ item.id }}</td>
-                  <td v-show="item.question_type === chapterData.question_type">{{ item.title }}</td>
                   <td v-show="item.question_type === chapterData.question_type">{{ item.question_type }}</td>
+                  <td v-show="item.question_type === chapterData.question_type">{{ item.title }}</td>
+                  <td v-show="item.question_type === chapterData.question_type"><input v-model="questionScore[item.id]" type="number" class="input number-input"></input></td>
                 </tr>
               </tbody>
             </table>
 
+            <pagination v-bind:pagination-data="paginationData"
+                        v-model="data"
+            ></pagination>
           </div>
         </div>
       </section>
@@ -72,6 +79,7 @@
 </template>
 
 <script>
+import Pagination from './../Pagination'
 export default {
   data() {
     return {
@@ -82,15 +90,22 @@ export default {
         number: null,
         describe: null,
         question_type: 'SINGLE_CHOICE',
+        scores: {},
       },
       questions: '',  // 涉及的问题
       questionsString: '',
-
+      //
+      paginationData: null,
+      data: null,
+      //
       questionData: {},
       selectedQuesiton: [],
+      questionScore: [],
+      scoreJson: {},
     }
   },
   components: {
+    Pagination,
   },
   props: [
     'examinationPaperId',
@@ -107,11 +122,14 @@ export default {
       that.chapterData.number = '';
       that.chapterData.describe = '';
       that.chapterData.question_type = '';
+      that.selectedQuesiton = [];
+      that.questionScore = [];
     },
     addChapter: function () {
       const that = this;
       let id = that.examinationPaperId;
-      let questionsParams = that.computedParams(that.selectedQuesiton, 'questions');
+      let questionsParams = this.GLOBAL.computedParams(that.selectedQuesiton, 'questions');
+      let scores = that.computedAnswerJson();
       axios({
         method: 'post',
         url: `${this.GLOBAL.localDomain}/api/v1/papers/${id}/sections/?${questionsParams}`,
@@ -125,7 +143,8 @@ export default {
           score: that.chapterData.score,
           number: that.chapterData.number,
           describe: that.chapterData.describe,
-          question_type: that.chapterData.question_type
+          question_type: that.chapterData.question_type,
+          scores: scores,
         }
       }).then(res => {
         alert('添加成功');
@@ -138,24 +157,19 @@ export default {
         that.clearWords();
       })
     },
-    /**
-     * computedParams
-     * @param  {Array} selectedQuesiton   选中的数组
-     * @param  {String} param param拼接参数
-     * @return {String}       拼接完成的params
-     */
-    computedParams: function (selectedQuesiton, param) {
-      let arr = selectedQuesiton;
-      let string = '';
-      for (let i = 0; i < arr.length; i++) {
-        if (i != 0) {
-          string += '&' + param + '[' + i + ']' + '=' + arr[i];
-        }
-        else {
-          string += param + '[' + i + ']' + '=' + arr[i];
-        }
+    // 计算问题分值的JSON
+    computedAnswerJson: function () {
+      const that = this;
+      // if (that.selectedQuesiton.length !== that.questionScore.length) {
+      //   alert('请检查分值是否填写完整');
+      //   return;
+      // }
+      let json = {};
+      for (let i = 0; i < that.selectedQuesiton.length; i++) {
+        json[that.selectedQuesiton[i]] = that.questionScore[that.selectedQuesiton[i]];
       }
-      return string;
+      that.scoreJson = json;
+      return json;
     },
     getQuestion: function () {
       const that = this;
@@ -168,7 +182,7 @@ export default {
         }
       }).then(res => {
         that.questionData = res.data.data;
-        // that.paginationData = res.data.links;
+        that.paginationData = res.data.links;
       }).catch(err => {
         console.log(err)
       })
@@ -180,7 +194,14 @@ export default {
   watch: {
     selectedQuesiton: function (value, oldValue) {
       const that = this;
-      console.log(value)
+      // console.log('选中的问题');
+      // console.log(value)
+      // this.computedAnswerJson();
+    },
+    data:function (value, oldValue) {
+      const that = this;
+      that.questionData = value.data;
+      that.paginationData = value.links;
     }
   }
 }
@@ -189,5 +210,11 @@ export default {
 <style scoped>
 .question-seleted {
   width: 20px;
+}
+.modal-card {
+  width: 1100px;
+}
+.number-input {
+  width: 100px;
 }
 </style>

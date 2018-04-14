@@ -73,8 +73,10 @@ export default {
        isShowModal: false,
        questionData: null,
        editData: null,
+       //
        paginationData: null,
        data: null,
+       //
        searchKey: null,
     }
   },

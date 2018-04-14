@@ -8,72 +8,57 @@
         </div>
         <ul>
           <!-- <li><i class="fas fa-home"></i><span>主页</span></li> -->
-          <li v-show="isShowUser">
-            <i class="far fa-user-circle"></i>
-            <router-link @click="currentTag = 'uuser'" :class="{'is-active' : currentTag === 'uuser'}" to="/uuser"><span>用户</span></router-link>
+          <li :class="{'is-active' : currentTag === 'uuser'}" v-show="isShowUser" @click="currentTag = 'uuser'">
+            <router-link @click="currentTag = 'uuser'" to="/uuser"><i class="far fa-user-circle"></i><span>用户</span></router-link>
           </li>
 
-          <li v-show="isShowRole">
-            <i class="fas fa-users"></i>
-            <router-link to="/role"><span>角色</span></router-link>
+          <li v-show="isShowRole" :class="{'is-active' : currentTag === 'role'}" @click="currentTag = 'role'">
+            <router-link to="/role"><i class="fas fa-users"></i><span>角色</span></router-link>
           </li>
 
-          <li v-show="isShowPermission">
-            <i class="fas fa-key"></i>
-            <router-link to="/ppermission"><span>权限</span></router-link>
+          <li v-show="isShowPermission" :class="{'is-active' : currentTag === 'permission'}" @click="currentTag = 'permission'">
+            <router-link to="/ppermission"><i class="fas fa-key"></i><span>权限</span></router-link>
           </li>
 
-          <li v-show="isShowMessage">
-            <i class="far fa-comments"></i>
-            <router-link to="/mmessage"><span>消息</span></router-link>
+          <li v-show="isShowMessage" :class="{'is-active' : currentTag === 'mmessage'}"  @click="currentTag = 'mmessage'">
+            <router-link to="/mmessage"><i class="far fa-comments"></i><span>消息</span></router-link>
           </li>
 
-          <li v-show="isShowNotification">
-            <i class="far fa-bell"></i>
-            <router-link to="/nnotice"><span>通知</span></router-link>
+          <li v-show="isShowNotification" :class="{'is-active' : currentTag === 'nnotice'}"  @click="currentTag = 'nnotice'">
+            <router-link to="/nnotice"><i class="far fa-bell"></i><span>通知</span></router-link>
           </li>
 
-          <li v-show="isShowOrganization">
-            <i class="fas fa-braille"></i>
-            <router-link to="/organization"><span>组织</span></router-link>
+          <li v-show="isShowOrganization" :class="{'is-active' : currentTag === 'organization'}" @click="currentTag = 'organization'">
+            <router-link to="/organization"><i class="fas fa-braille"></i><span>组织</span></router-link>
           </li>
 
-          <li>
-            <i class="fas fa-book"></i>
-            <router-link to="/course"><span>课程</span></router-link>
-            <!-- <router-link to="/courseAndTeaching"><span>课程</span></router-link> -->
+          <li :class="{'is-active' : currentTag === 'course'}" @click="currentTag = 'course'">
+            <router-link to="/course"><i class="fas fa-book"></i><span>课程</span></router-link>
           </li>
 
 
-          <li v-show="isShowUser">
-            <i class="fas fa-book"></i>
-            <router-link to="/teaching"><span>授课</span></router-link>
-            <!-- <router-link to="/courseAndTeaching"><span>课程</span></router-link> -->
+          <li v-show="isShowUser" :class="{'is-active' : currentTag === 'teaching'}" @click="currentTag = 'teaching'">
+            <router-link to="/teaching"><i class="fas fa-book"></i><span>授课</span></router-link>
           </li>
 
-          <li v-show="isShowExam">
-            <i class="far fa-file-alt"></i>
-            <router-link to="/test"><span>考试</span></router-link>
+          <li v-show="isShowExam" :class="{'is-active' : currentTag === 'test'}" @click="currentTag = 'test'">
+            <router-link to="/test"><i class="far fa-file-alt"></i><span>考试</span></router-link>
           </li>
 
-          <li v-show="isShowPaper">
-            <i class="far fa-file-alt"></i>
-            <router-link to="/examinationPaper"><span>试卷</span></router-link>
+          <li v-show="isShowPaper" :class="{'is-active' : currentTag === 'examinationPaper'}" @click="currentTag = 'examinationPaper'">
+            <router-link to="/examinationPaper"><i class="far fa-file-alt"></i><span>试卷</span></router-link>
           </li>
 
-          <li v-show="isShowQuestion">
-            <i class="far fa-file-alt"></i>
-            <router-link to="/question"><span>问题</span></router-link>
+          <li v-show="isShowQuestion" :class="{'is-active' : currentTag === 'question'}" @click="currentTag = 'question'">
+            <router-link to="/question"><i class="far fa-file-alt"></i><span>问题</span></router-link>
           </li>
 
-          <li is-show="isShowLabel">
-            <i class="fas fa-tags"></i>
-            <router-link to="/label"><span>标签</span></router-link>
+          <li is-show="isShowLabel" :class="{'is-active' : currentTag === 'label'}" @click="currentTag = 'label'">
+            <router-link to="/label"><i class="fas fa-tags"></i><span>标签</span></router-link>
           </li>
 
-          <li v-show="isShowApplication">
-            <i class="fab fa-adn"></i>
-            <router-link to="/applyFor"><span>申请</span></router-link>
+          <li v-show="isShowApplication" :class="{'is-active' : currentTag === 'applyFor'}" @click="currentTag = 'applyFor'">
+            <router-link to="/applyFor"><i class="fab fa-adn"></i><span>申请</span></router-link>
           </li>
 
           <!-- <li>
@@ -269,10 +254,6 @@ export default {
   height: auto;
   background-color: #2f4860;
 }
-.is-active {
-  background-color: #1f3244;
-  color: #fff;
-}
 ul {
   padding-top: 30px;
 }
@@ -284,6 +265,10 @@ ul li {
   cursor: pointer;
 }
 ul li:hover {
+  background-color: #1f3244;
+  color: #fff;
+}
+.is-active {
   background-color: #1f3244;
   color: #fff;
 }

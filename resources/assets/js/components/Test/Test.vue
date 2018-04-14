@@ -13,13 +13,13 @@
       <table class="table">
         <thead>
           <tr>
-            <!-- <th>ID</th> -->
+            <th>序号</th>
             <!-- <th>创建者ID</th> -->
-            <th>考试标题</th>
+            <th>标题</th>
             <!-- <th>试卷ID</th> -->
-            <th>考试类型</th>
-            <th>成绩总值</th>
-            <!-- <th>最小</th> -->
+            <th>类型</th>
+            <th>分值</th>
+            <th>时长</th>
             <th>描述</th>
             <th>创建时间</th>
             <th>更新时间</th>
@@ -29,13 +29,13 @@
         </thead>
         <tbody>
           <tr v-for="(item,index) in testData">
-            <!-- <td>{{ item.id }}</td> -->
+            <td>{{ item.id }}</td>
             <!-- <td>{{ item.creator_id }}</td> -->
             <td>{{ item.title }}</td>
             <!-- <td>{{ item.paper_id }}</td> -->
             <td>{{ item.exam_type }}</td>
             <td>{{ item.score }}</td>
-            <!-- <td>{{ item.min }}</td> -->
+            <td>{{ item.min }}</td>
             <td> {{ item.description }}</td>
             <td>{{ GLOBAL.toTime(item.created_at) }}</td>
             <td>{{ GLOBAL.toTime(item.updated_at) }}</td>
@@ -118,7 +118,7 @@ export default {
     deleteTest: function (index) {
       const that = this;
       let id = that.testData[index].id;
-      let prompt = confirm("确认删除该标签吗？");
+      let prompt = confirm("确认删除该考试吗？");
       if (prompt) {
         axios({
           method: 'delete',

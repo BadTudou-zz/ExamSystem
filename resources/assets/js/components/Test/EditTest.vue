@@ -12,10 +12,6 @@
           <input v-model="testData.title" class="input" type="text" >
         </div>
         <div class="box-item">
-          <label>总分</label>
-          <input v-model="testData.number" class="input" type="number" >
-        </div>
-        <div class="box-item">
           <label>类型</label>
           <div class="select">
             <select v-model="testData.exam_type">
@@ -32,7 +28,7 @@
           <input v-model="testData.score" class="input" type="text">
         </div>
         <div class="box-item">
-          <label>最小值</label>
+          <label>考试时长</label>
           <input v-model="testData.min" class="input" type="text">
         </div>
         <div class="box-item">
@@ -79,7 +75,6 @@ export default {
       isShowModal: false,
       testData: {
         title: '',
-        number: '',
         exam_type: '',
         describe: '',
         score: '',
@@ -104,7 +99,6 @@ export default {
     clearWords: function () {
       const that = this;
       that.testData.title =  '';
-      that.testData.number =  '';
       that.testData.exam_type =  '';
       that.testData.describe =  '';
       that.testData.score =  '';
@@ -114,7 +108,7 @@ export default {
     },
     editTest: function (index) {
       const that = this;
-      let id = that.editData[id];
+      let id = that.editData.id;
       axios({
         method: 'put',
         url: `${this.GLOBAL.localDomain}/api/v1/exams/${id}`,
@@ -124,7 +118,6 @@ export default {
         },
         params: {
           title: that.testData.title,
-          number: that.testData.number,
           exam_type: that.testData.exam_type,
           describe: that.testData.describe,
           score: that.testData.score,
@@ -140,7 +133,7 @@ export default {
       }).catch(err => {
         alert('编辑失败');
         console.log(err);
-        that.clearWords();
+        // that.clearWords();
       })
     },
     getExaminationPaper: function () {
@@ -168,7 +161,6 @@ export default {
       that.getExaminationPaper();
 
       that.testData.title = value.title;
-      that.testData.number = value.number;
       that.testData.exam_type = value.exam_type;
       that.testData.describe = value.describe;
       that.testData.score = value.score;
