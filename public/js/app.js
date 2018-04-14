@@ -31927,7 +31927,6 @@ var getNextData = function getNextData(url, list) {
       getData(url, sumDataList);
     } else {
       var sum = sumDataList;
-      // debugger
       return sum;
     }
   }).catch(function (err) {
@@ -31963,7 +31962,6 @@ var computedUserName = function computedUserName(id) {
     }
   }).then(function (res) {
     userName = res.data.data.name;
-    debugger;
     return userName;
   }).catch(function (err) {
     console.log(err);
@@ -32169,15 +32167,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       var that = this;
       axios({
         method: 'post',
-        url: this.GLOBAL.localDomain + '/api/v1/applications/',
+        url: this.GLOBAL.localDomain + '/api/v1/tags/',
         headers: {
           'Accept': 'application/json',
           'Authorization': sessionStorage.getItem('token')
         },
-        body: {
+        params: {
           title: that.labelData.title
         }
       }).then(function (res) {
+        that.clearWords();
         alert('添加成功');
         that.$emit('getLabel'); //第一个参数名为调用的方法名，第二个参数为需要传递的参数
         that.switchModal();
@@ -32197,8 +32196,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 //
 //
 //
@@ -32224,12 +32221,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
-    return _defineProperty({
+    return {
       isShowModal: false,
       labelData: {
         title: ''
       }
-    }, 'labelData', null);
+    };
   },
 
   components: {},
@@ -32243,12 +32240,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       var that = this;
       that.labelData.title = '';
     },
-    editLabel: function editLabel(index) {
+    editLabel: function editLabel() {
       var that = this;
-      var id = that.editData[id];
+      var id = that.editData.id;
       axios({
         method: 'put',
-        url: this.GLOBAL.localDomain + '/api/v1/labels' + id,
+        url: this.GLOBAL.localDomain + '/api/v1/tags/' + id,
         headers: {
           'Accept': 'application/json',
           'Authorization': sessionStorage.getItem('token')
@@ -32370,7 +32367,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
 
 
 
@@ -32383,7 +32379,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     return _ref = {
       isShowModal: false,
       searchKey: null,
-      labelData: null,
+      labelData: [],
       editData: null
     }, _defineProperty(_ref, 'searchKey', null), _defineProperty(_ref, 'paginationData', null), _defineProperty(_ref, 'data', null), _ref;
   },
@@ -32421,6 +32417,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     },
     searchLabel: function searchLabel() {
       var that = this;
+      that.labelData = [];
       var id = that.searchKey;
       if (!that.searchKey) {
         that.searchKey = '';
@@ -32435,10 +32432,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           'Authorization': sessionStorage.getItem('token')
         }
       }).then(function (res) {
-        that.labelData = [];
         that.labelData.push(res.data.data);
       }).catch(function (err) {
         alert('暂无相关数据，已加载全部数据');
+        that.getLabel();
         console.log(err);
       });
     },
@@ -32452,8 +32449,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           'Authorization': sessionStorage.getItem('token')
         }
       }).then(function (res) {
-        that.labelData = [];
-        that.labelData.push(res.data.data);
+        that.labelData = res.data.data;
         that.paginationData = res.data.links;
       }).catch(function (err) {
         console.log(err);
@@ -45715,7 +45711,7 @@ module.exports = Array.isArray || function (arr) {
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(2)();
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 /***/ }),
 /* 265 */
@@ -45799,7 +45795,7 @@ exports.push([module.i, "\n.all-paper {\n  width: 20px;\n}\n", ""]);
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(2)();
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 /***/ }),
 /* 277 */
@@ -45841,7 +45837,7 @@ exports.push([module.i, "\n.message[data-v-2bc3df00] {\n  margin: 35px auto 0 au
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(2)();
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 /***/ }),
 /* 283 */
@@ -66564,7 +66560,31 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.switchModal()
       }
     }
-  })]), _vm._v(" "), _vm._m(0), _vm._v(" "), _c('footer', {
+  })]), _vm._v(" "), _c('section', {
+    staticClass: "modal-card-body"
+  }, [_c('div', {
+    staticClass: "box-item"
+  }, [_c('label', [_vm._v("标签标题")]), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.labelData.title),
+      expression: "labelData.title"
+    }],
+    staticClass: "input",
+    attrs: {
+      "type": "text"
+    },
+    domProps: {
+      "value": (_vm.labelData.title)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.$set(_vm.labelData, "title", $event.target.value)
+      }
+    }
+  })])]), _vm._v(" "), _c('footer', {
     staticClass: "modal-card-foot"
   }, [_c('button', {
     staticClass: "button is-success",
@@ -66581,18 +66601,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }
   }, [_vm._v("取消")])])])])
-},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('section', {
-    staticClass: "modal-card-body"
-  }, [_c('div', {
-    staticClass: "box-item"
-  }, [_c('label', [_vm._v("标签标题")]), _vm._v(" "), _c('input', {
-    staticClass: "input",
-    attrs: {
-      "type": "text"
-    }
-  })])])
-}]}
+},staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {
   module.hot.accept()
@@ -72591,7 +72600,7 @@ if (false) {
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticClass: "box"
-  }, [_vm._v("\n  标签\n  "), _c('div', [_c('div', {
+  }, [_c('div', [_c('div', {
     directives: [{
       name: "show",
       rawName: "v-show",
