@@ -43,6 +43,7 @@
               <button v-show="isShowDeleteTest" @click="deleteTest(index)" class="is-small button" type="button" name="button">删除</button>
               <button @click="editTest(index)" class="is-small button" type="button" name="button">编辑</button>
               <button @click="startTest(index)" class="is-small button" type="button" name="button">开始考试</button>
+              <button @click="stopTest(index)" class="is-small button" type="button" name="button">结束考试</button>
               <button @click="gradingPapers(index)" class="is-small button" type="button" name="button">批改</button>
             </td>
             <td>
@@ -66,11 +67,11 @@
       ></pagination>
     </div>
 
-    <testing ref="testing"
+    <!-- <testing ref="testing"
              v-show="isTesting"
              v-bind:paper-id="paperId"
              v-bind:exam-id="examId"
-    ></testing>
+    ></testing> -->
 
     <participate-user ref="participateUser"
                       v-bind:exam-id="examId"
@@ -83,7 +84,7 @@
 import Pagination from './../Pagination.vue'
 import AddTest from './AddTest'
 import EditTest from './EditTest'
-import Testing from './Testing'
+// import Testing from './Testing'
 import ParticipateUser from './ParticipateUser'
 
 export default {
@@ -106,7 +107,7 @@ export default {
     AddTest,
     EditTest,
     Pagination,
-    Testing,
+    // Testing,
     ParticipateUser,
   },
   methods: {
@@ -198,13 +199,11 @@ export default {
     },
     startTest: function (index) {
       const that = this;
-      that.$refs.testing.clearQuestionIds();
+      // that.$refs.testing.clearQuestionIds();
       let id = that.testData[index].id;
       that.paperId = that.testData[index].paper_id;
       that.examId = id;
-
-      that.isTesting = true;
-
+      // that.isTesting = true;
       axios({
         method: 'post',
         url: `${this.GLOBAL.localDomain}/api/v1/exams/${id}/start`,
@@ -213,8 +212,8 @@ export default {
           'Authorization': sessionStorage.getItem('token'),
         }
       }).then(res => {
-        alert('已开始考试，请等待试卷加载');
-        that.isTesting = true;
+        alert('已开考');
+        // that.isTesting = true;
       }).catch(err => {
         let errMsg = err.response.data.error;
         if (errMsg) {
@@ -222,6 +221,31 @@ export default {
         }
         else {
           alert('开始失败，请稍后再试');
+        }
+        console.log(err)
+      })
+    },
+    // 结束考试
+    stopTest: function (index) {
+      const that = this;
+      let id = that.testData[index].id;
+      that.examId = id;
+      axios({
+        method: 'post',
+        url: `${this.GLOBAL.localDomain}/api/v1/exams/${id}/stop`,
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': sessionStorage.getItem('token'),
+        }
+      }).then(res => {
+        alert('已结束');
+      }).catch(err => {
+        let errMsg = err.response.data.error;
+        if (errMsg) {
+          alert(errMsg);
+        }
+        else {
+          alert('结束失败，请稍后再试');
         }
         console.log(err)
       })

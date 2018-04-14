@@ -51,11 +51,11 @@
           </a>
         </li>
 
-        <!-- <li v-bind:class="{'is-active': currentTag === 'TestData'}">
+        <li v-bind:class="{'is-active': currentTag === 'TestData'}">
           <a>
             <span @click="currentTag = 'testData'">考试</span>
           </a>
-        </li> -->
+        </li>
 
       </ul>
     </div>

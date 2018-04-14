@@ -40,13 +40,30 @@
 
           <li>
             <i class="fas fa-book"></i>
-            <!-- <router-link to="/course"><span>课程</span></router-link> -->
-            <router-link to="/courseAndTeaching"><span>课程</span></router-link>
+            <router-link to="/course"><span>课程</span></router-link>
+            <!-- <router-link to="/courseAndTeaching"><span>课程</span></router-link> -->
+          </li>
+
+
+          <li>
+            <i class="fas fa-book"></i>
+            <router-link to="/teaching"><span>授课</span></router-link>
+            <!-- <router-link to="/courseAndTeaching"><span>课程</span></router-link> -->
           </li>
 
           <li>
             <i class="far fa-file-alt"></i>
-            <router-link to="/testAndPaperAndQuesiton"><span>考试</span></router-link>
+            <router-link to="/test"><span>考试</span></router-link>
+          </li>
+
+          <li>
+            <i class="far fa-file-alt"></i>
+            <router-link to="/examinationPaper"><span>试卷</span></router-link>
+          </li>
+
+          <li>
+            <i class="far fa-file-alt"></i>
+            <router-link to="/question"><span>问题</span></router-link>
           </li>
 
           <li>
@@ -59,10 +76,10 @@
             <router-link to="/applyFor"><span>申请</span></router-link>
           </li>
 
-          <li>
+          <!-- <li>
             <i class="fas fa-align-left"></i>
             <router-link to="/others"><span>其他</span></router-link>
-          </li>
+          </li> -->
 
         </ul>
       </div>
