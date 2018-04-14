@@ -136,7 +136,7 @@ export default {
   watch: {
     data:function (value, oldValue) {
       const that = this;
-      that.permissionData = value.data;
+      that.messageData = value.data;
       that.paginationData = value.links;
     }
   }

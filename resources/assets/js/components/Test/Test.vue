@@ -24,6 +24,7 @@
             <th>创建时间</th>
             <th>更新时间</th>
             <th>操作</th>
+            <th>用户</th>
           </tr>
         </thead>
         <tbody>
@@ -41,9 +42,11 @@
             <td>
               <button v-show="isShowDeleteTest" @click="deleteTest(index)" class="is-small button" type="button" name="button">删除</button>
               <button @click="editTest(index)" class="is-small button" type="button" name="button">编辑</button>
-              <button @click="addTestUser(index)" class="button is-small" type="button" name="button">添加考试用户</button>
               <button @click="startTest(index)" class="is-small button" type="button" name="button">开始考试</button>
               <button @click="gradingPapers(index)" class="is-small button" type="button" name="button">批改</button>
+            </td>
+            <td>
+              <button @click="participateUser(index)" class="is-small button" type="button" name="button">查看参与该考试的用户</button>
             </td>
           </tr>
         </tbody>
@@ -69,10 +72,10 @@
              v-bind:exam-id="examId"
     ></testing>
 
-    <add-test-user  ref="addTestUser"
-                    v-on:getTest="getTest"
-                    v-bind:exam-id="examId"
-    ></add-test-user>
+    <participate-user ref="participateUser"
+                      v-bind:exam-id="examId"
+    ></participate-user>
+
   </div>
 </template>
 
@@ -81,7 +84,7 @@ import Pagination from './../Pagination.vue'
 import AddTest from './AddTest'
 import EditTest from './EditTest'
 import Testing from './Testing'
-import AddTestUser from './AddTestUser'
+import ParticipateUser from './ParticipateUser'
 
 export default {
   data() {
@@ -104,7 +107,7 @@ export default {
     EditTest,
     Pagination,
     Testing,
-    AddTestUser,
+    ParticipateUser,
   },
   methods: {
     showModal: function () {
@@ -182,11 +185,11 @@ export default {
       const that = this;
       that.$refs.addTest.switchModal();
     },
-    addTestUser: function (index) {
+    participateUser: function (index) {
       const that = this;
       let id = that.testData[index].id;
       that.examId = id;
-      that.$refs.addTestUser.switchModal();
+      that.$refs.participateUser.switchModal();
     },
     editTest: function (index) {
       const that = this;
