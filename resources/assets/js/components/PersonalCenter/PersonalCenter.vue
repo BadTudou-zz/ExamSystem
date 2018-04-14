@@ -14,7 +14,7 @@
       <role-data v-if="navigationTag === 'roleData'"></role-data>
       <permission-data v-if="navigationTag === 'permissionData'"></permission-data>
       <apply-for-data v-if="navigationTag === 'applyForData'"></apply-for-data>
-
+      <test-data v-if="navigationTag === 'testData'"></test-data>
     </div>
 
   </div>
@@ -30,6 +30,7 @@ import OrganizationData from './OrganizationData'
 import RoleData from './RoleData'
 import PermissionData from './PermissionData'
 import ApplyForData from './ApplyForData'
+import TestData from './TestData'
 
 
 export default {
@@ -58,6 +59,7 @@ export default {
     RoleData,
     PermissionData,
     ApplyForData,
+    TestData,
   },
   methods: {
     // 全部用户
