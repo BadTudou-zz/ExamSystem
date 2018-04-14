@@ -66,7 +66,7 @@ export default {
       axios({
         method: 'get',
         url: `${this.GLOBAL.localDomain}/api/v1/users/${sessionStorage.getItem('userId')}/applications?reveived=true`,
-        url: `${this.GLOBAL.localDomain}/api/v1/applications/`,
+        // url: `${this.GLOBAL.localDomain}/api/v1/applications/`,
         headers: {
           'Accept': 'application/json',
           'Authorization': sessionStorage.getItem('token'),

@@ -9,7 +9,7 @@
             <th>序号</th>
             <th>考试标题</th>
             <th>总分</th>
-            <th></th>
+            <th>操作</th>
           </tr>
         </thead>
         <tbody>
@@ -17,7 +17,10 @@
             <td>{{ item.id }}</td>
             <td>{{ item.title }}</td>
             <td>{{ item.score }}</td>
-            <button @click="startTest(index)" class="is-small button" type="button" name="button">开始考试</button>
+            <td>
+              <button @click="startTest(index)" class="is-small button" type="button" name="button">开始考试</button>
+              <button @click="showScore(index)" class="is-small button" type="button" name="button">查看成绩</button>
+            </td>
           </tr>
         </tbody>
       </table>
@@ -33,13 +36,17 @@
              v-bind:paper-id="paperId"
              v-bind:exam-id="examId"
     ></testing>
+
+    <score ref="score"
+           v-bind:exam-id="examId"
+    ></score>
   </div>
 </template>
 
 <script>
 import Testing from './Testing'
 import Pagination from './../Pagination.vue'
-
+import Score from './Score'
 export default {
   data() {
     return {
@@ -60,6 +67,7 @@ export default {
   components: {
     Pagination,
     Testing,
+    Score,
   },
   methods: {
     showModal: function () {
@@ -86,6 +94,11 @@ export default {
         console.log(err)
       })
     },
+    showScore: function (index) {
+      const that = this;
+      that.examId = that.testData[index].id;
+      that.$refs.score.switchModal();
+    },
     startTest: function (index) {
       const that = this;
       that.$refs.testing.clearQuestionIds();
@@ -94,7 +107,7 @@ export default {
       that.examId = id;
 
       that.isTesting = true;
-      
+
       axios({
         method: 'post',
         url: `${this.GLOBAL.localDomain}/api/v1/exams/${id}/begin`,
