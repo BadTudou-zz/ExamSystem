@@ -66,7 +66,7 @@ export default {
     },
     editExaminationPaper: function () {
       const that = this;
-      let id = that.editData['id'];
+      let id = that.editData.id;
       axios({
         method: 'put',
         url: `${this.GLOBAL.localDomain}/api/v1/papers/${id}`,

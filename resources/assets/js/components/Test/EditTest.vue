@@ -8,7 +8,7 @@
       </header>
       <section class="modal-card-body">
         <div class="box-item">
-          <label>考试题目</label>
+          <label>考试标题</label>
           <input v-model="testData.title" class="input" type="text" placeholder="请输入英文名">
         </div>
         <div class="box-item">
