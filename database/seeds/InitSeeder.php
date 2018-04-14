@@ -14,9 +14,14 @@ class InitSeeder extends Seeder
      */
     public function run()
     {
-        $userAdmin = User::find(1);
-        $adminRole = Role::find(1);
+        $userAdmin = User::where('name', 'admin')->first();
+        $adminRole = Role::where('name', 'admin')->first();
         $adminRole->perms()->sync(Permission::all());
         $userAdmin->attachRole($adminRole);
+
+        $allCourse  = Permission::where('name', 'course-index')->first();
+        $allLecture = Permission::where('name', 'lecture-index')->first();
+        $userRole = Role::where('name', 'user')->first();
+        $userRole->attachPermissions(array($allCourse, $allLecture));
     }
 }
