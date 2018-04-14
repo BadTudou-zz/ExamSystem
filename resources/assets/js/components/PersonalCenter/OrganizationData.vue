@@ -24,8 +24,8 @@
           <td>{{ item.description }}</td>
           <td>{{ item.max }}</td>
           <td>{{ item.current }}</td>
-          <td>{{ item.created_at }}</td>
-          <td>{{ item.updated_at }}</td>
+          <td>{{ GLOBAL.toTime(item.created_at) }}</td>
+          <td>{{ GLOBAL.toTime(item.updated_at) }}</td>
         </tr>
       </tbody>
     </table>
@@ -43,7 +43,6 @@ import Pagination from './../Pagination'
 export default {
   data() {
     return {
-      token: null,
       organizationData: null,
       isShowModal: false,
       searchKey: null,
@@ -51,8 +50,6 @@ export default {
       paginationData: null,
       data: null,
       currentOrganizationData: null,
-      userId: null,
-
     }
   },
   components: {
@@ -63,10 +60,10 @@ export default {
       const that = this;
       axios({
         method: 'get',
-        url: `${this.GLOBAL.localDomain}/api/v1/users/${that.userId}/organizations/`,
+        url: `${this.GLOBAL.localDomain}/api/v1/users/${sessionStorage.getItem('userId')}/organizations/`,
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token
+          'Authorization': sessionStorage.getItem('token'),
         }
       }).then(res => {
         that.organizationData = res.data.data;
@@ -80,8 +77,6 @@ export default {
 
   },
   created() {
-    this.userId = sessionStorage.getItem('userId');
-    this.token = sessionStorage.getItem('token');
     this.getOrganization();
   },
   watch: {

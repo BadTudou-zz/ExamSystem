@@ -3,7 +3,7 @@
     <div class="modal-background"></div>
     <div class="modal-card">
       <header class="modal-card-head">
-        <p class="modal-card-title">编辑章节</p>
+        <p class="modal-card-title">编辑试卷</p>
         <button @click="switchModal()" class="delete" aria-label="close"></button>
       </header>
       <section class="modal-card-body">
@@ -47,7 +47,6 @@ export default {
         min: null,
         describe: null
       },
-      token: null,
       isShowModal: false,
     }
   },
@@ -77,7 +76,7 @@ export default {
         url: `${this.GLOBAL.localDomain}/api/v1/papers/${id}`,
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token,
+          'Authorization': sessionStorage.getItem('token'),
         },
         params: {
           title: that.currentExaminationPaperData.title,
@@ -97,7 +96,7 @@ export default {
     }
   },
   creatad() {
-    this.token = sessionStorage.getItem('token');
+
   },
   watch: {
     editData: function (value, oldValue) {

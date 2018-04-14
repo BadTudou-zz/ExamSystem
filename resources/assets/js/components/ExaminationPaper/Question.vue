@@ -47,20 +47,8 @@ import Pagination from './../Pagination'
 export default {
   data() {
     return {
-      token: null,
       isShowModal: false,
-      questionData: {
-        id: '',
-        question_type: '',
-        tags: '',
-        level_type: '',
-        title: '',
-        body: '',
-        answer: '',
-        answer_comment: '',
-  //       created_at: null,
-  //       updated_at: null,
-      },
+      questionData: null,
       paginationData: null,
       data: null,
       examinationPaperId: null,
@@ -85,10 +73,12 @@ export default {
         url: `${this.GLOBAL.localDomain}/api/v1/papers/${id}/questions`,
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token
+          'Authorization': sessionStorage.getItem('token'),
         }
       }).then(res => {
-        that.questionData = res.data.data;
+        if (res.data.data.length !== 0) {
+          that.questionData  = res.data.data;
+        }
         that.paginationData = res.data.links;
       }).catch(err => {
         console.log(err)
@@ -96,7 +86,7 @@ export default {
     },
   },
   created() {
-    this.token = sessionStorage.getItem('token');
+
   },
   watch: {
     data:function (value, oldValue) {

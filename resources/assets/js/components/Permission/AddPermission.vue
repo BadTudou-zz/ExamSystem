@@ -34,7 +34,6 @@
 export default {
   data() {
     return {
-      token: null,
       isShowModal: false,
       permissionData: {
         name: null,
@@ -52,6 +51,7 @@ export default {
       that.clearWords();
     },
     clearWords: function () {
+      const that = this;
       that.permissionData.name = '';
       that.permissionData.display_name = '';
       that.permissionData.description = '';
@@ -63,7 +63,7 @@ export default {
         url: `${this.GLOBAL.localDomain}/api/v1/permissions/`,
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token,
+          'Authorization': sessionStorage.getItem('token'),
         },
         params: {
           name: that.permissionData.name,
@@ -83,7 +83,7 @@ export default {
     }
   },
   created() {
-    this.token = sessionStorage.getItem('token');
+
   },
   watch: {
   }

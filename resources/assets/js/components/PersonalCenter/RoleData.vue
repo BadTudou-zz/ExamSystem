@@ -18,8 +18,8 @@
           <td>{{ item.id }}</td>
           <td>{{ item.name }}</td>
           <td>{{ item.display_name }}</td>
-          <td>{{ item.created_at }}</td>
-          <td>{{ item.updated_at }}</td>
+          <td>{{ GLOBAL.toTime(item.created_at) }}</td>
+          <td>{{ GLOBAL.toTime(item.updated_at) }}</td>
         </tr>
       </tbody>
     </table>
@@ -37,15 +37,12 @@ import Pagination from './../Pagination.vue'
 export default {
   data() {
     return {
-      token: '',
       roleData: null,
       isShowModal: false,
       searchKey: null,
       paginationData: null,
       data: null,
       currentRoleData: null,
-      userId: null,
-
     }
   },
   components: {
@@ -60,10 +57,10 @@ export default {
       const that = this;
       axios({
         method: 'get',
-        url: `${this.GLOBAL.localDomain}/api/v1/users/${that.userId}/roles/`,
+        url: `${this.GLOBAL.localDomain}/api/v1/users/${sessionStorage.getItem('userId')}/roles/`,
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token
+          'Authorization': sessionStorage.getItem('token'),
         }
       }).then(res => {
         that.roleData = res.data.data;
@@ -76,8 +73,6 @@ export default {
   computed: {
   },
   created() {
-    this.userId = sessionStorage.getItem('userId');
-    this.token = sessionStorage.getItem('token');
     this.getRole();
   },
   watch: {

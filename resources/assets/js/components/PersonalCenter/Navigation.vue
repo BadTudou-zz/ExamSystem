@@ -68,7 +68,6 @@
 export default {
   data() {
     return {
-      token: null,
       currentTag: 'userData',
     }
   },
@@ -79,7 +78,7 @@ export default {
   computed: {
   },
   created() {
-    this.token = sessionStorage.getItem('token');
+
   },
   watch: {
     currentTag: function (value, oldValue) {

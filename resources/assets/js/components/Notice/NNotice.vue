@@ -2,17 +2,17 @@
 <template lang="html">
   <div class="box">
     <div>
-      <div class="search-box">
-        <input class="input search-input" type="text" placeholder="请输入你要查看的通知">
-        <button class="button" type="button" name="button">查找通知</button>
+      <div v-show="isShowSearchNotification" class="search-box">
+        <input v-model="searchKey" class="input search-input" type="text" placeholder="请输入你要查看的通知">
+        <button @click="searchNotice()" class="button" type="button" name="button">查找通知</button>
       </div>
-        <button @click="addNotice()" class="button add-role-button" type="button" name="button">添加通知</button>
+        <button v-show="isShowCreateNotification" @click="addNotice()" class="button add-role-button" type="button" name="button">添加通知</button>
     </div>
     <div  v-for="(item,index) in noticeData" class="notice box">
       <div class="notification">
-        <button @click="deleteNotice(index)" class="delete"></button>
+        <button v-show="isShowDeleteNotification" @click="deleteNotice(index)" class="delete"></button>
         {{ item.data}}
-        <p>{{item.created_at}}</p>
+        <p>{{ GLOBAL.toTime(item.created_at) }}</p>
       </div>
     </div>
 
@@ -32,11 +32,11 @@ import Pagination from './../Pagination.vue'
 export default {
   data() {
     return {
-      token: null,
       noticeData: null,
       isShowModal: false,
       paginationData: null,
       data: null,
+      searchKey: null,
     }
   },
   components: {
@@ -59,7 +59,7 @@ export default {
         url: `${this.GLOBAL.localDomain}/api/v1/notifications/`,
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token
+          'Authorization': sessionStorage.getItem('token'),
         }
       }).then(res => {
         that.noticeData = res.data.data;
@@ -78,7 +78,7 @@ export default {
           url: `${this.GLOBAL.localDomain}/api/v1/notifications/${id}`,
           headers: {
             'Accept': 'application/json',
-            'Authorization': that.token
+            'Authorization': sessionStorage.getItem('token'),
           }
         }).then(res => {
           alert('删除成功');
@@ -89,23 +89,44 @@ export default {
         })
       }
     },
+    searchNotice: function () {
+      const that = this;
+      if (!that.searchKey) {
+        that.searchKey = '';
+        that.getNotice();
+        return;
+      }
+      axios({
+        method: 'get',
+        url: `${this.GLOBAL.localDomain}/api/v1/organizations/${that.searchKey}`,
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': sessionStorage.getItem('token'),
+        }
+      }).then(res => {
+        that.noticeData = [];
+        that.noticeData.push(res.data.data);
+      }).catch(err => {
+        console.log(err)
+      })
+    }
   },
   computed: {
     isShowCreateNotification() {
-      return this.$store.state.permissionIdList.includes(18)
+      return sessionStorage.getItem('permissions').includes(18)
     },
     isShowSearchNotification() {
-      return this.$store.state.permissionIdList.includes(19)
+      return sessionStorage.getItem('permissions').includes(19)
     },
     isShowUpdateNotification() {
-      return this.$store.state.permissionIdList.includes(20)
+      return sessionStorage.getItem('permissions').includes(20)
     },
     isShowDeleteNotification() {
-      return this.$store.state.permissionIdList.includes(21)
+      return sessionStorage.getItem('permissions').includes(21)
     },
   },
   created() {
-    this.token = sessionStorage.getItem('token');
+
     this.getNotice();
   },
   watch: {

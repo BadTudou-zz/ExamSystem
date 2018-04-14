@@ -6,11 +6,10 @@
       <div class="box chapter-box">
         <div>
           <div class="search-box">
-            <input v-model="searchKey" class="input search-input" type="text" placeholder="请输入章节ID">
+            <input v-model="searchKey" class="input search-input" type="text" placeholder="请输入章节">
             <button @click="searchChapter()" class="button" type="button" name="button">查找章节</button>
           </div>
             <button @click="addChapter()" class="button add-role-button" type="button" name="button">添加章节</button>
-            <button @click="synchronizeChapter()" class="button add-role-button" type="button" name="button">同步章节</button>
         </div>
         <table class="table">
           <thead>
@@ -53,6 +52,7 @@
         ></edit-chapter>
 
         <add-chapter ref="addChapter"
+                     v-bind:examination-paper-id="examinationPaperId"
                      v-on:getChapter="getChapter"
         ></add-chapter>
       </div>
@@ -69,7 +69,6 @@ import EditChapter from './EditChapter'
 export default {
   data() {
     return {
-      token: null,
       isShowModal: false,
       chapterData: null,
       searchKey: null,
@@ -109,7 +108,7 @@ export default {
         url: `${this.GLOBAL.localDomain}/api/v1/papers/${id}/sections/`,
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token
+          'Authorization': sessionStorage.getItem('token'),
         }
       }).then(res => {
         // ??数据格式有误n
@@ -124,10 +123,10 @@ export default {
       let id = that.searchKey;
       axios({
         method: 'get',
-        url: `${this.GLOBAL.localDomain}/api/v1/examinationPapers/${id}`,
+        url: `${this.GLOBAL.localDomain}/api/v1/papers/1/sections/${id}`,
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token
+          'Authorization': sessionStorage.getItem('token'),
         }
       }).then(res => {
         that.chapterData = [];
@@ -138,15 +137,17 @@ export default {
     },
     deleteChapter: function (index) {
       const that = this;
-      let id = that.chapterData[index]['id'];
+      let chapterId = that.chapterData[index]['id'];
+      let paperId = that.examinationPaperId;
       let prompt = confirm("确认删除该章节吗？");
+
       if (prompt) {
         axios({
           method: 'delete',
-          url: `${this.GLOBAL.localDomain}/api/v1/papers/${id}`,
+          url: `${this.GLOBAL.localDomain}/api/v1/papers/${paperId}/sections/${chapterId}`,
           headers: {
             'Accept': 'application/json',
-            'Authorization': that.token
+            'Authorization': sessionStorage.getItem('token'),
           }
         }).then(res => {
           alert('删除成功')
@@ -156,10 +157,10 @@ export default {
           console.log(err)
         })
       }
+
     }
   },
   created() {
-    this.token = sessionStorage.getItem('token');
   },
   watch: {
     data:function (value, oldValue) {

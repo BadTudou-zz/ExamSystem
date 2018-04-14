@@ -1,4 +1,4 @@
-<!-- 查看用户 -->
+ <!-- 查看用户 -->
 <template lang="html">
   <div class="modal" v-bind:class="{'is-active': isShowModal}">
     <div class="modal-background"></div>
@@ -58,7 +58,6 @@ import SynchronizeUser from './SynchronizeUser'
 export default {
   data() {
     return {
-      token: null,
       isShowModal: false,
       userData: {
         id: '',
@@ -101,7 +100,7 @@ export default {
         url: `${this.GLOBAL.localDomain}/api/v1/roles/${id}/users`,
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token
+          'Authorization': sessionStorage.getItem('token'),
         }
       }).then(res => {
         that.userData = res.data.data;
@@ -120,7 +119,7 @@ export default {
           url: `${this.GLOBAL.localDomain}/api/v1/roles/${id}/users`,
           headers: {
             'Accept': 'application/json',
-            'Authorization': that.token
+            'Authorization': sessionStorage.getItem('token'),
           }
         }).then(res => {
           alert('删除成功！');
@@ -141,7 +140,7 @@ export default {
     },
   },
   created() {
-    this.token = sessionStorage.getItem('token');
+
   },
   watch: {
     data:function (value, oldValue) {

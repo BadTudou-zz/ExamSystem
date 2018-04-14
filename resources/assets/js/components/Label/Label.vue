@@ -1,8 +1,9 @@
 <!-- 查看标签 -->
 <template lang="html">
   <div class="box">
+    标签
     <div>
-      <div class="search-box">
+      <div v-show="isShowSearchLabel" class="search-box">
         <input v-model="searchKey" class="input search-input" type="text" placeholder="请输入你要查看的标签">
         <button @click="searchLabel()" class="button" type="button" name="button">查找标签</button>
       </div>
@@ -26,10 +27,10 @@
           <td>{{ item.title }}</td>
           <td>{{ item.commentabl_type }}</td>
           <td>{{ item.creator_id }}</td>
-          <td>{{ item.created_at }}</td>
-          <td>{{ item.updated_at }}</td>
+          <td>{{ GLOBAL.toTime(item.created_at) }}</td>
+          <td>{{ GLOBAL.toTime(item.updated_at) }}</td>
           <td>
-            <button @click="deleteLabel(index)" class="button" type="button" name="button">删除标签</button>
+            <button v-show="isShowDeleteLabel" @click="deleteLabel(index)" class="button" type="button" name="button">删除标签</button>
             <button @click="editLabel(index)" class="button" type="button" name="button">编辑标签</button>
           </td>
         </tr>
@@ -85,7 +86,6 @@ export default {
   data() {
     return {
       isShowModal: false,
-      token: null,
       searchKey: null,
       labelData: null,
       editData: null,
@@ -114,7 +114,7 @@ export default {
           url: `${this.GLOBAL.localDomain}/api/v1/tags/${id}`,
           headers: {
             'Accept': 'application/json',
-            'Authorization': that.token
+            'Authorization': sessionStorage.getItem('token'),
           }
         }).then(res => {
           alert('删除成功');
@@ -128,12 +128,17 @@ export default {
     searchLabel: function () {
       const that = this;
       let id = that.searchKey;
+      if (!that.searchKey) {
+        that.searchKey = '';
+        that.getLabel();
+        return;
+      }
       axios({
         method: 'get',
         url: `${this.GLOBAL.localDomain}/api/v1/tags/${id}`,
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token
+          'Authorization': sessionStorage.getItem('token'),
         }
       }).then(res => {
         that.labelData = [];
@@ -150,7 +155,7 @@ export default {
         url: `${this.GLOBAL.localDomain}/api/v1/tags`,
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token
+          'Authorization': sessionStorage.getItem('token'),
         }
       }).then(res => {
         that.labelData = [];
@@ -178,7 +183,7 @@ export default {
         url: `${this.GLOBAL.localDomain}/api/v1/applications/${id}/accept`,
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token
+          'Authorization': sessionStorage.getItem('token'),
         }
       }).then(res => {
 
@@ -196,7 +201,7 @@ export default {
         url: `${this.GLOBAL.localDomain}/api/v1/applications/${id}/reject`,
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token
+          'Authorization': sessionStorage.getItem('token'),
         }
       }).then(res => {
 
@@ -209,17 +214,17 @@ export default {
   },
   computed: {
     isShowSearchLabel() {
-      return this.$store.state.permissionIdList.includes(50);
+      return sessionStorage.getItem('permissions').includes(50);
     },
     isShowUpdateLabel() {
-      return this.$store.state.permissionIdList.includes(51);
+      return sessionStorage.getItem('permissions').includes(51);
     },
     isShowDeleteLabel() {
-      return this.$store.state.permissionIdList.includes(52);
+      return sessionStorage.getItem('permissions').includes(52);
     },
   },
   created() {
-    this.token = sessionStorage.getItem('token');
+
     this.getLabel();
   },
   watch: {

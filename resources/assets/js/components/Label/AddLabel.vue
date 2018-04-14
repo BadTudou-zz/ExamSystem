@@ -29,7 +29,6 @@ export default {
       labelData: {
         title: '',
       },
-      token: null,
     }
   },
   components: {
@@ -50,7 +49,7 @@ export default {
         url: `${this.GLOBAL.localDomain}/api/v1/applications/`,
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token
+          'Authorization': sessionStorage.getItem('token'),
         },
         body: {
           title: that.labelData.title,
@@ -67,7 +66,7 @@ export default {
     },
   },
   created() {
-    this.token = sessionStorage.getItem('token');
+
   }
 }
 </script>

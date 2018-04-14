@@ -1,7 +1,6 @@
 <template lang="html">
   <div id="app" class="login-wrapper">
-    <!-- login -->
-    <p class="title">用户登录</p>
+
     <div class="login-box">
 
       <input v-model="account" class="input form-control" placeholder="请输入你的账号/邮箱">
@@ -19,7 +18,9 @@
       </div>
     </div>
 
+
     <register ref="register"></register>
+
   </div>
 </template>
 
@@ -27,37 +28,27 @@
 let Base64 = require('js-base64').Base64;
 // import Base64 from 'js-base64';
 import Register from './Register'
+
 export default {
   data() {
     return {
-      currentRole: '',
-      // placeholderData: '请输入你的账号/邮箱',
       captchaFigure: null,  // 验证码图片
       account: null,  // 账号
       password: null,  // 密码
       captcha: null,  // 验证码
-      isShowLogin: false,  // 是否显示登录组件
+
+      permissionIdList: [],
+      permissionData: null,
+      url: `${this.GLOBAL.localDomain}/api/v1/roles/1/permissions`,
+      logOut: null,
+      permissions: [],
+      isShowNavigation: false
     };
   },
   components: {
     Register,
   },
   methods: {
-    changeRole: function (element) {
-      const that = this;
-      let value = element.target.value;
-      switch (value) {
-        case 'student':
-          that.placeholderData = '请输入你的学号';
-          break;
-        case 'teacher':
-          that.placeholderData = '请输入你的教师工号';
-          break;
-        case 'administrator':
-          that.placeholderData = '请输入你的管理员账号';
-          break;
-      }
-    },
     register: function() {
       const that = this;
       that.$refs.register.switchModal();
@@ -79,21 +70,26 @@ export default {
       }).then(res => {
         let userId = res.data.data.user.id;
         let token = res.data.data.token;
+        that.userId = res.data.data.user.id;
+        that.token = res.data.data.token;
         sessionStorage.setItem("token",`Bearer ${token}`);
         sessionStorage.setItem('userId', userId);
         that.$store.commit('setToken', token);
-        // that.$store.commit('setUserData', userData);
-        that.$emit('input', false);
+
+        that.getPermission();
+        // that.$emit('input', false);
       }).catch(err => {
-        let errorMsg = err.response.data.error;
-        if (errorMsg === 'Unauthorised') {
-          that.password = '';
-          alert('密码错误，请重新输入');
-        }
-        if (errorMsg === 'Bad captcha！') {
-          that.captcha = '';
-          alert('验证码错误，请重新输入');
-        }
+        let errorMsg = err.response.data.message;
+        alert(errorMsg);
+        that.captcha = '';
+        // if (errorMsg === 'Unauthorised') {
+        //   that.password = '';
+        //   alert('密码错误，请重新输入');
+        // }
+        // if (errorMsg === 'Bad captcha！') {
+        //   that.captcha = '';
+        //   alert('验证码错误，请重新输入');
+        // }
         that.getVerificationCode();
       })
     },
@@ -118,13 +114,68 @@ export default {
       }).catch(err => {
         console.log(err)
       })
-    }
+    },
+    getPermission: function (url) {
+      const that = this;
+      console.log('getPermission')
+      let urlPath = url ? url : that.url
+      axios({
+        method: 'get',
+        url: urlPath,
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': sessionStorage.getItem('token'),
+        }
+      }).then(res => {
+        that.permissionData = res.data;  // conclude links
+        that.url = res.data.links.next;
+        for (let i = 0; i < res.data.data.length; i++) {
+          that.permissionIdList.push(parseInt(res.data.data[i].id));
+        }
+          // that.$store.commit('setPermissionIdList', that.permissionIdList);
+        if (that.url) {
+          that.getNextPermission(that.url);
+        }
+      }).catch(err => {
+        console.log(err);
+      })
+    },
+    getNextPermission: function (url) {
+      const that = this;
+      axios({
+        method: 'get',
+        url: url,
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': sessionStorage.getItem('token'),
+        }
+      }).then(res => {
+        that.permissionData = res.data;  // conclude links
+        that.url = res.data.links.next;
+        for (let i = 0; i < res.data.data.length; i++) {
+          that.permissionIdList.push(parseInt(res.data.data[i].id));
+        }
+        if (that.url) {
+          that.getPermission(that.url);
+        }
+        else {
+          that.$store.commit('setPermissionIdList', that.permissionIdList);
+          sessionStorage.setItem('permissions', that.permissionIdList);
+          that.permissions = sessionStorage.getItem('permissions');
+        }
+      }).catch(err => {
+        console.log(err);
+      })
+    },
   },
   created() {
-    // this.login();
     this.getVerificationCode();
   },
   watch: {
+    permissions: function (value, oldValue) {
+      const that = this;
+      that.$emit('input', false);
+    }
   }
 }
 </script>
@@ -134,14 +185,13 @@ body {
   margin: 0;
 }
 .login-wrapper {
-  background-color: #334056;
+  // background-color: #334056;
   width: 100%;
-  height: 1000px;
-  .title {
-    text-align: center;
-    font-size: 34px;
-    color: #fff;
-  }
+  height: 966px;
+  background-image:url('../../img/background.jpg');
+  background-size:auto 100%;
+  background-position:center 0;
+  background-repeat:no-repeat;
 }
 .login-box {
   width: 320px;
@@ -155,6 +205,7 @@ body {
   border-radius: 5px;
   text-align: center;
   background-color: #fff;
+  background: hsla(0,0%,100%,0.6);
   .select-box {
     // position: relative;
     // left: -27px;

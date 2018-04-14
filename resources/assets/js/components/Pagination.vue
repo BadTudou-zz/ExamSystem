@@ -12,7 +12,6 @@
 export default {
   data() {
     return {
-      token: null,
       first: null,  // 首页
       last: null,  // 尾页
       next: null,  // 下一页
@@ -35,7 +34,7 @@ export default {
         url: urlPath,
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token
+          'Authorization': sessionStorage.getItem('token'),
         }
       }).then(res => {
         that.data = res.data;
@@ -67,8 +66,6 @@ export default {
     },
   },
   created() {
-    this.token = sessionStorage.getItem('token');
-
   },
   watch: {
     paginationData: function (value, oldValue) {
@@ -92,7 +89,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .search-key {
   width: 60px;
   margin: 0 5px 0 40px;

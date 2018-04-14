@@ -51,7 +51,6 @@ import AddUser from './AddUser'
 export default {
   data() {
     return {
-      token: null,
       isShowModal: false,
       userData: null,
       searchKey: null,
@@ -96,7 +95,7 @@ export default {
         url: `${this.GLOBAL.localDomain}/api/v1/lectures/${id}/users`,
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token
+          'Authorization': sessionStorage.getItem('token'),
         }
       }).then(res => {
         that.userData = res.data.data;
@@ -115,7 +114,7 @@ export default {
           url: `${this.GLOBAL.localDomain}/api/v1/lectures/${id}/users`,
           headers: {
             'Accept': 'application/json',
-            'Authorization': that.token
+            'Authorization': sessionStorage.getItem('token'),
           }
         }).then(res => {
           alert('删除成功！')
@@ -127,7 +126,7 @@ export default {
     }
   },
   created() {
-    this.token = sessionStorage.getItem('token');
+
   },
   watch: {
     data:function (value, oldValue) {

@@ -9,26 +9,31 @@
       <section class="modal-card-body">
         <div class="box-item">
           <label>考试题目</label>
-          <input v-model="testData.title" class="input" type="text" placeholder="请输入英文名">
+          <input v-model="testData.title" class="input" type="text">
         </div>
         <div class="box-item">
           <label>数目</label>
-          <input v-model="testData.number" class="input" type="text" placeholder="请输入中文名">
+          <!-- ?? -->
+          <input v-model="testData.number" class="input" type="text">
         </div>
         <div class="box-item">
           <label>类型</label>
-          <input v-model="testData.exam_type" class="input" type="text" placeholder="请输入考试名">
+          <div class="select">
+            <select v-model="testData.exam_type">
+              <option value="OPEN">开卷</option>
+            </select>
+          </div>
         </div>
         <div class="box-item">
           <label>描述</label>
           <input v-model="testData.describe" class="input" type="text">
         </div>
         <div class="box-item">
-          <label>成绩</label>
+          <label>总分数</label>
           <input v-model="testData.score" class="input" type="text">
         </div>
         <div class="box-item">
-          <label>最小值</label>
+          <label>min</label>
           <input v-model="testData.min" class="input" type="text">
         </div>
         <div class="box-item">
@@ -37,7 +42,28 @@
         </div>
         <div class="box-item">
           <label>相关的试卷ID</label>
-          <input v-model="testData.paper_id" class="input" type="text">
+          <!-- <input v-model="testData.paper_id" class="input" type="text"> -->
+          <div class="all-question">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>是否选中</th>
+                  <th>序号</th>
+                  <th>名称</th>
+                  <th>考试类型</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="(item,index) in examinationPaperData">
+                  <td><input type="radio" v-bind:value="item.id" v-model="selectedExaminationPaper" class="test-selected"></td>
+                  <td>{{ item.id }}</td>
+                  <td>{{ item.title }}</td>
+                  <td>{{ item.exam_type }}</td>
+                </tr>
+              </tbody>
+            </table>
+
+          </div>
         </div>
       </section>
       <footer class="modal-card-foot">
@@ -56,14 +82,15 @@ export default {
       testData: {
         title: '',
         number: '',
-        exam_type: '',
+        exam_type: 'OPEN',
         describe: '',
         score: '',
         min: '',
         begin_at: '',
         paper_id: ''
       },
-      token: null,
+      examinationPaperData: {},
+      selectedExaminationPaper: '',
     }
   },
   components: {
@@ -91,7 +118,7 @@ export default {
         url: `${this.GLOBAL.localDomain}/api/v1/exams/`,
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token,
+          'Authorization': sessionStorage.getItem('token'),
         },
         params: {
           title: that.testData.title,
@@ -101,24 +128,49 @@ export default {
           score: that.testData.score,
           min: that.testData.min,
           begin_at: that.testData.begin_at,
-          paper_id: that.testData.paper_id,
+          paper_id: that.selectedExaminationPaper,
         }
       }).then(res => {
         alert('添加成功');
         that.$emit('getTest');   //第一个参数名为调用的方法名，第二个参数为需要传递的参数
         that.switchModal();
       }).catch(err => {
-        alert('添加失败');
+        let errMsg = err.response.data.message;
+        if (errMsg) {
+          alert(errMsg);
+        }
+        else {
+          alert('添加失败');
+        }
         console.log(err);
         that.clearWords();
       })
-    }
+    },
+    getExaminationPaper: function () {
+      const that = this;
+      axios({
+        method: 'get',
+        url: `${this.GLOBAL.localDomain}/api/v1/papers`,
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': sessionStorage.getItem('token'),
+        }
+      }).then(res => {
+        that.examinationPaperData = res.data.data;
+        that.paginationData = res.data.links;
+      }).catch(err => {
+        console.log(err)
+      })
+    },
   },
   created() {
-    this.token = sessionStorage.getItem('token');
+    this.getExaminationPaper();
   }
 }
 </script>
 
-<style>
+<style scoped>
+.test-selected {
+  width: 20px;
+}
 </style>

@@ -2,11 +2,11 @@
 <template lang="html">
   <div class="box">
     <div>
-      <div class="search-box">
+      <div v-show="isShowSearchApplication" class="search-box">
         <input v-model="searchKey" class="input search-input" type="text" placeholder="请输入你要查看的申请">
         <button @click="searchApplyFor()" class="button" type="button" name="button">查找申请</button>
       </div>
-        <button @click="addApplyFor()" class="button add-role-button" type="button" name="button">添加申请</button>
+        <button v-show="isShowCreateApplication" @click="addApplyFor()" class="button add-role-button" type="button" name="button">添加申请</button>
     </div>
     <table class="table">
       <thead>
@@ -31,10 +31,10 @@
           <td>{{ item.data }}</td>
           <td>{{ item.updated_at.date }}</td>
           <td>
-            <button @click="deleteApplyFor(index)" class="button" type="button" name="button">删除</button>
+            <button v-show="isShowDeleteApplication" @click="deleteApplyFor(index)" class="button" type="button" name="button">删除</button>
             <button @click="editApplyFor(index)" class="button" type="button" name="button">编辑</button>
-            <button @click="acceptApplyFor(index)" class="button" type="button" name="button">接受</button>
-            <button @click="rejectApplyFor(index)" class="button" type="button" name="button">拒绝</button>
+            <button v-show="isShowAccpetApplication" @click="acceptApplyFor(index)" class="button" type="button" name="button">接受</button>
+            <button v-show="isShowRejectApplication" @click="rejectApplyFor(index)" class="button" type="button" name="button">拒绝</button>
           </td>
         </tr>
       </tbody>
@@ -62,7 +62,6 @@ export default {
   data() {
     return {
       isShowModal: false,
-      token: null,
       searchKey: null,
       applyForData: null,
       editData: null,
@@ -91,7 +90,7 @@ export default {
           url: `${this.GLOBAL.localDomain}/api/v1/applications/${id}`,
           headers: {
             'Accept': 'application/json',
-            'Authorization': that.token
+            'Authorization': sessionStorage.getItem('token'),
           }
         }).then(res => {
           alert('删除成功');
@@ -105,12 +104,17 @@ export default {
     searchApplyFor: function () {
       const that = this;
       let id = that.searchKey;
+      if (!that.searchKey) {
+        that.searchKey = '';
+        that.getApplyFor();
+        return;
+      }
       axios({
         method: 'get',
         url: `${this.GLOBAL.localDomain}/api/v1/applications/${id}`,
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token
+          'Authorization': sessionStorage.getItem('token'),
         }
       }).then(res => {
         // that.applyForData = [];
@@ -128,7 +132,7 @@ export default {
         url: `${this.GLOBAL.localDomain}/api/v1/applications/`,
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token
+          'Authorization': sessionStorage.getItem('token'),
         }
       }).then(res => {
         // that.applyForData = [];
@@ -159,7 +163,7 @@ export default {
         url: `${this.GLOBAL.localDomain}/api/v1/applications/${id}/accept`,
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token
+          'Authorization': sessionStorage.getItem('token'),
         }
       }).then(res => {
         // that.applyForData = [];
@@ -178,7 +182,7 @@ export default {
         url: `${this.GLOBAL.localDomain}/api/v1/applications/${id}/reject`,
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token
+          'Authorization': sessionStorage.getItem('token'),
         }
       }).then(res => {
         alert('已拒绝')
@@ -192,24 +196,24 @@ export default {
   },
   computed: {
     isShowCreateApplication() {
-      return this.$store.state.permissionIdList.includes(44);
+      return sessionStorage.getItem('permissions').includes(44);
     },
     isShowSearchApplication() {
-      return this.$store.state.permissionIdList.includes(45);
+      return sessionStorage.getItem('permissions').includes(45);
     },
     isShowAccpetApplication() {
-      return this.$store.state.permissionIdList.includes(46);
+      return sessionStorage.getItem('permissions').includes(46);
     },
     isShowRejectApplication() {
-      return this.$store.state.permissionIdList.includes(47);
+      return sessionStorage.getItem('permissions').includes(47);
     },
     isShowDeleteApplication() {
-      return this.$store.state.permissionIdList.includes(48);
+      return sessionStorage.getItem('permissions').includes(48);
     },
   },
   created() {
-    this.token = sessionStorage.getItem('token');
     this.getApplyFor();
+    // this.isShowSearchApplication();
   },
   watch: {
     data:function (value, oldValue) {

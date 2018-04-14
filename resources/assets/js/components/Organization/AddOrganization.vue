@@ -39,7 +39,6 @@ export default {
         describe: null, // 组织描述
         max: null  // 最大值
       },
-      token: null,
     }
   },
   components: {
@@ -62,7 +61,7 @@ export default {
         url: `${this.GLOBAL.localDomain}/api/v1/organizations`,
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token,
+          'Authorization': sessionStorage.getItem('token'),
         },
         params: {
           name: that.organizationData.name,
@@ -81,7 +80,7 @@ export default {
     }
   },
   created() {
-    this.token = sessionStorage.getItem('token');
+
   }
 }
 </script>

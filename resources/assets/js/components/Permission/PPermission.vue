@@ -2,11 +2,11 @@
 <template lang="html">
   <div class="box">
     <div>
-      <div class="search-box">
+      <div v-show="isShowSearchPermission" class="search-box">
         <input v-model="permissionId" class="input search-input" type="text" placeholder="请输入你要查看的权限">
         <button @click="searchPermission()" class="button" type="button" name="button">查找权限</button>
       </div>
-        <button @click="addPermission()" class="button add-permission-button" type="button" name="button">添加权限</button>
+        <button v-show="isShowCreatePermission" @click="addPermission()" class="button add-permission-button" type="button" name="button">添加权限</button>
         <button class="button add-permission-button" type="button" name="button">同步权限</button>
     </div>
     <table class="table">
@@ -27,8 +27,8 @@
           <td>{{ item.name }}</td>
           <td>{{ item.display_name }}</td>
           <td>{{ item.description }}</td>
-          <td>{{ item.created_at }}</td>
-          <td>{{ item.updated_at }}</td>
+          <td>{{ GLOBAL.toTime(item.created_at) }}</td>
+          <td>{{ GLOBAL.toTime(item.updated_at) }}</td>
           <td><button v-show="isShowDeletePermission" @click="deletePermission(index)" class="button" type="button" name="button">删除权限</button></td>
         </tr>
       </tbody>
@@ -51,13 +51,12 @@ import Pagination from './../Pagination.vue'
 export default {
   data() {
     return {
-      token: null,
       permissionData: null,
       isShowModal: false,
       permissionId: null,
       paginationData: null,
       data: null,  // from Pagination.vue
-      token: null,
+      sumData: null,
     }
   },
   components: {
@@ -83,7 +82,7 @@ export default {
           url: `${this.GLOBAL.localDomain}/api/v1/permissions/${id}`,
           headers: {
             'Accept': 'application/json',
-            'Authorization': that.token
+            'Authorization': sessionStorage.getItem('token')
           }
         }).then(res => {
           alert('删除成功！');
@@ -98,11 +97,10 @@ export default {
       const that = this;
       axios({
         method: 'get',
-        url: `${this.GLOBAL.localDomain}/api/v1/roles/1/permissions?page=${page}`,
+        url: `${this.GLOBAL.localDomain}/api/v1/permissions/`,
         headers: {
           'Accept': 'application/json',
-          // 'Authorization': this.$store.state.token,
-          'Authorization': that.token,
+          'Authorization': sessionStorage.getItem('token'),
         }
       }).then(res => {
         that.permissionData = res.data.data;
@@ -113,12 +111,15 @@ export default {
     },
     searchPermission: function () {
       const that = this;
+      if (!that.permissionId) {
+        that.getPermission();
+      }
       axios({
         method: 'get',
         url: `${this.GLOBAL.localDomain}/api/v1/permissions/${that.permissionId}`,
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token
+          'Authorization': sessionStorage.getItem('token')
         }
       }).then(res => {
         that.permissionData = [];
@@ -127,20 +128,87 @@ export default {
         console.log(err)
       })
     },
+    // searchPermission: function () {
+    //   const that = this;
+    //   let urlPath = `${this.GLOBAL.localDomain}/api/v1/permissions/`;
+    //   // that.getData(urlPath)
+    //   that.sumData = this.getData(urlPath);
+    // },
+    // getData: function (url, list) {
+    //   const that = this;
+    //   let sumDataList = [];
+    //   if (list) {
+    //     sumDataList = list;
+    //   }
+    //   else {
+    //     sumDataList = [];
+    //   }
+    //   axios({
+    //     method: 'get',
+    //     url: url,
+    //     headers: {
+    //       'Accept': 'application/json',
+    //       'Authorization': sessionStorage.getItem('token'),
+    //     }
+    //   }).then(res => {
+    //     let data = res.data.data;  // conclude links
+    //     let url = res.data.links.next;
+    //     sumDataList = sumDataList.concat(data);
+    //
+    //     if (url) {
+    //       getNextData(url, sumDataList);
+    //     }
+    //   }).catch(err => {
+    //     console.log(err);
+    //   })
+    // },
+    // getNextData: function (url, list) {
+    //   const that = this;
+    //   let sumDataList = [];
+    //   if (list) {
+    //     sumDataList = list;
+    //   }
+    //   else {
+    //     sumDataList = [];
+    //   }
+    //
+    //   axios({
+    //     method: 'get',
+    //     url: url,
+    //     headers: {
+    //       'Accept': 'application/json',
+    //       'Authorization': sessionStorage.getItem('token'),
+    //     }
+    //   }).then(res => {
+    //     let data = res.data.data;  // conclude links
+    //     let url = res.data.links.next;
+    //     sumDataList = sumDataList.concat(data);
+    //
+    //     if (url) {
+    //       getData(url, sumDataList);
+    //     }
+    //     else {
+    //       let sum = sumDataList;
+    //       // debugger
+    //       return sum;
+    //     }
+    //   }).catch(err => {
+    //     console.log(err);
+    //   })
+    // }
   },
   computed: {
     isShowCreatePermission() {
-      return this.$store.state.permissionIdList.includes(1)
+      return sessionStorage.getItem('permissions').includes(1);
     },
     isShowSearchPermission() {
-      return this.$store.state.permissionIdList.includes(2)
+      return sessionStorage.getItem('permissions').includes(2)
     },
     isShowDeletePermission() {
-      return this.$store.state.permissionIdList.includes(3)
+      return sessionStorage.getItem('permissions').includes(3)
     },
   },
   created() {
-    this.token = sessionStorage.getItem('token');
     this.getPermission();
   },
   watch: {
@@ -148,6 +216,10 @@ export default {
       const that = this;
       that.permissionData = value.data;
       that.paginationData = value.links;
+    },
+    sumData: function (value, oldValue) {
+      const that = this;
+      debugger
     }
   }
 }

@@ -18,11 +18,11 @@
       </div>
       <div class="label-box">
         <label class="label">创建时间：</label>
-        <span>{{ currentUserData.created_at }}</span>
+        <span>{{ toTime(currentUserData.created_at) }}</span>
       </div>
       <div class="label-box">
         <label class="label">更新时间：</label>
-        <span>{{ currentUserData.updated_at }}</span>
+        <span>{{ toTime(currentUserData.updated_at) }}</span>
       </div>
     </div>
 
@@ -36,12 +36,11 @@
 
 <script>
 import ChangePassword from '../User/ChangePassword'
+import moment from 'moment'
 
 export default {
   data() {
     return {
-      token: '',
-      userId: null,
       userData: null,
       currentUserData: {
         id: '',
@@ -58,15 +57,18 @@ export default {
     ChangePassword,
   },
   methods: {
+    toTime: function (time) {
+      return moment(time).format('YYYY-MM-DD');
+    },
     // 全部用户
     getUser: function () {
       const that = this;
       axios({
         method: 'get',
-        url: `${this.GLOBAL.localDomain}/api/v1/users/${that.userId}`,
+        url: `${this.GLOBAL.localDomain}/api/v1/users/${sessionStorage.getItem('userId')}`,
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token
+          'Authorization': sessionStorage.getItem('token'),
         }
       }).then(res => {
         that.userData = res.data.data;
@@ -88,8 +90,6 @@ export default {
   computed: {
   },
   created() {
-    this.token = sessionStorage.getItem('token');
-    this.userId = sessionStorage.getItem('userId');
     this.getUser();
   },
   watch: {

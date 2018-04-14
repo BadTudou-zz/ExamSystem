@@ -59,7 +59,6 @@ export default {
         name: null,
         password: null,
       },
-      token: '',
     }
   },
   props: [
@@ -82,7 +81,7 @@ export default {
         url: `${this.GLOBAL.localDomain}/api/v1/users/${id}`,
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token
+          'Authorization': sessionStorage.getItem('token'),
         },
         data: {
           name: that.userData.name,
@@ -100,7 +99,7 @@ export default {
     },
   },
   created() {
-    this.token = sessionStorage.getItem('token');
+
   },
   watch: {
     isShowEditModal: function (value, oldValue) {

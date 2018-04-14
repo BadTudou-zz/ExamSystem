@@ -37,7 +37,28 @@
         </div>
         <div class="box-item">
           <label>相关的试卷ID</label>
-          <input v-model="testData.paper_id" class="input" type="text">
+          <!-- <input v-model="testData.paper_id" class="input" type="text"> -->
+          <div>
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>是否选中</th>
+                  <th>序号</th>
+                  <th>名称</th>
+                  <th>考试类型</th>
+                </tr>
+              </thead>
+              <tbody class="all-paper">
+                <tr v-for="(item,index) in examinationPaperData">
+                  <td><input type="radio" v-bind:value="item.id" v-model="selectedExaminationPaper" class="test-selected"></td>
+                  <td>{{ item.id }}</td>
+                  <td>{{ item.title }}</td>
+                  <td>{{ item.exam_type }}</td>
+                </tr>
+              </tbody>
+            </table>
+
+          </div>
         </div>
       </section>
       <footer class="modal-card-foot">
@@ -63,7 +84,8 @@ export default {
         begin_at: '',
         paper_id: ''
       },
-      token: null,
+      examinationPaperData: {},
+      selectedExaminationPaper: '',
     }
   },
   components: {
@@ -95,7 +117,7 @@ export default {
         url: `${this.GLOBAL.localDomain}/api/v1/exams/${id}`,
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token,
+          'Authorization': sessionStorage.getItem('token'),
         },
         params: {
           title: that.testData.title,
@@ -117,14 +139,31 @@ export default {
         console.log(err);
         that.clearWords();
       })
-    }
+    },
+    getExaminationPaper: function () {
+      const that = this;
+      axios({
+        method: 'get',
+        url: `${this.GLOBAL.localDomain}/api/v1/papers`,
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': sessionStorage.getItem('token'),
+        }
+      }).then(res => {
+        that.examinationPaperData = res.data.data;
+      }).catch(err => {
+        console.log(err)
+      })
+    },
   },
   created() {
-    this.token = sessionStorage.getItem('token');
+
   },
   watch: {
     editData: function (value, oldValue) {
       const that = this;
+      that.getExaminationPaper();
+
       that.testData.title = value.title;
       that.testData.number = value.number;
       that.testData.exam_type = value.exam_type;
@@ -139,4 +178,7 @@ export default {
 </script>
 
 <style>
+.all-paper {
+  width: 20px;
+}
 </style>

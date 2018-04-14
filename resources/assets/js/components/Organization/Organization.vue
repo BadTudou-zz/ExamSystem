@@ -2,12 +2,12 @@
 <template lang="html">
   <div class="box">
     <div>
-      <div class="search-box">
+      <div v-show="isShowSearchOrganization" class="search-box">
         <input v-model="searchKey" class="input search-input" type="text" placeholder="请输入你要查看的组织">
         <button @click="searchOrganization()" class="button" type="button" name="button">查找组织</button>
       </div>
-        <button @click="addOrganization()" class="button add-role-button" type="button" name="button">添加组织</button>
-        <button class="button add-role-button" type="button" name="button">同步组织</button>
+      <button v-show="isShowCreateOrganization" @click="addOrganization()" class="button add-role-button" type="button" name="button">添加组织</button>
+      <button class="button add-role-button" type="button" name="button">同步组织</button>
     </div>
     <table class="table">
       <thead>
@@ -32,10 +32,10 @@
           <td>{{ item.description }}</td>
           <td>{{ item.max }}</td>
           <td>{{ item.current }}</td>
-          <td>{{ item.created_at }}</td>
-          <td>{{ item.updated_at }}</td>
+          <td>{{ GLOBAL.toTime(item.created_at) }}</td>
+          <td>{{ GLOBAL.toTime(item.updated_at) }}</td>
           <td>
-            <button @click="deleteOrganization(index)" class="button" type="button" name="button">删除组织</button>
+            <button  v-show="isShowDeleteOrganization" @click="deleteOrganization(index)" class="button" type="button" name="button">删除组织</button>
             <button @click="editOrganization(index)"  class="button" type="button" name="button">编辑组织</button>
           </td>
           <td>
@@ -74,7 +74,6 @@ import Member from './../Member/Member'
 export default {
   data() {
     return {
-      token: null,
       organizationData: null,
       isShowModal: false,
       searchKey: null,
@@ -107,7 +106,7 @@ export default {
         url: `${this.GLOBAL.localDomain}/api/v1/organizations`,
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token
+          'Authorization': sessionStorage.getItem('token'),
         }
       }).then(res => {
         that.organizationData = res.data.data;
@@ -118,12 +117,17 @@ export default {
     },
     searchOrganization: function () {
       const that = this;
+      if (!that.searchKey) {
+        that.searchKey = '';
+        that.getOrganization();
+        return;
+      }
       axios({
         method: 'get',
         url: `${this.GLOBAL.localDomain}/api/v1/organizations/${that.searchKey}`,
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token
+          'Authorization': sessionStorage.getItem('token'),
         }
       }).then(res => {
         that.organizationData = [];
@@ -142,7 +146,7 @@ export default {
           url: `${this.GLOBAL.localDomain}/api/v1/organizations/${id}`,
           headers: {
             'Accept': 'application/json',
-            'Authorization': that.token
+            'Authorization': sessionStorage.getItem('token'),
           }
         }).then(res => {
           alert('删除成功');
@@ -166,17 +170,17 @@ export default {
   },
   computed: {
     isShowCreateOrganization() {
-      return this.$store.state.permissionIdList.includes(27)
+      return sessionStorage.getItem('permissions').includes(27)
     },
     isShowSearchOrganization() {
-      return this.$store.state.permissionIdList.includes(28)
+      return sessionStorage.getItem('permissions').includes(28)
     },
     isShowDeleteOrganization() {
-      return this.$store.state.permissionIdList.includes(29)
+      return sessionStorage.getItem('permissions').includes(29)
     },
   },
   created() {
-    this.token = sessionStorage.getItem('token');
+
     this.getOrganization();
   },
   watch: {
