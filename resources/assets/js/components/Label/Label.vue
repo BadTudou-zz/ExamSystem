@@ -1,7 +1,6 @@
 <!-- 查看标签 -->
 <template lang="html">
   <div class="box">
-    标签
     <div>
       <div v-show="isShowSearchLabel" class="search-box">
         <input v-model="searchKey" class="input search-input" type="text" placeholder="请输入你要查看的标签">
@@ -87,7 +86,7 @@ export default {
     return {
       isShowModal: false,
       searchKey: null,
-      labelData: null,
+      labelData: [],
       editData: null,
       searchKey: null,
       paginationData: null,
@@ -127,6 +126,7 @@ export default {
     },
     searchLabel: function () {
       const that = this;
+      that.labelData = [];
       let id = that.searchKey;
       if (!that.searchKey) {
         that.searchKey = '';
@@ -141,10 +141,10 @@ export default {
           'Authorization': sessionStorage.getItem('token'),
         }
       }).then(res => {
-        that.labelData = [];
         that.labelData.push(res.data.data);
       }).catch(err => {
         alert('暂无相关数据，已加载全部数据');
+        that.getLabel();
         console.log(err)
       })
     },
@@ -158,8 +158,7 @@ export default {
           'Authorization': sessionStorage.getItem('token'),
         }
       }).then(res => {
-        that.labelData = [];
-        that.labelData.push(res.data.data);
+        that.labelData = res.data.data;
         that.paginationData = res.data.links;
       }).catch(err => {
         console.log(err)
