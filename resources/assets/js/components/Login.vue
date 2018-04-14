@@ -1,7 +1,7 @@
 <template lang="html">
   <div id="app" class="login-wrapper">
 
-    <div class="login-box">
+    <div v-show="isShowLoginBox" class="login-box">
 
       <input v-model="account" class="input form-control" placeholder="请输入你的账号/邮箱">
       <input v-model="password" type="password" class="input form-control" placeholder="密码">
@@ -21,6 +21,7 @@
 
     <register ref="register"></register>
 
+    <login-loading ref="loginLoading"></login-loading>
   </div>
 </template>
 
@@ -28,6 +29,7 @@
 let Base64 = require('js-base64').Base64;
 // import Base64 from 'js-base64';
 import Register from './Register'
+import LoginLoading from './LoginLoading'
 
 export default {
   data() {
@@ -40,18 +42,22 @@ export default {
       permissionIdList: [],
       permissionData: null,
       url: `${this.GLOBAL.localDomain}/api/v1/roles/1/permissions`,
-      logOut: null,
       permissions: [],
-      isShowNavigation: false
+      isShowLoginBox: true,
     };
   },
   components: {
     Register,
+    LoginLoading,
   },
   methods: {
     register: function() {
       const that = this;
       that.$refs.register.switchModal();
+    },
+    loadingModal: function () {
+      const that = this;
+      that.$refs.loginLoading.switchModal();
     },
     login: function (username, password) {
       const that = this;
@@ -72,24 +78,17 @@ export default {
         let token = res.data.data.token;
         that.userId = res.data.data.user.id;
         that.token = res.data.data.token;
+        that.isShowLoginBox = false;
+        that.loadingModal();
         sessionStorage.setItem("token",`Bearer ${token}`);
         sessionStorage.setItem('userId', userId);
         that.$store.commit('setToken', token);
-
         that.getPermission();
-        // that.$emit('input', false);
+
       }).catch(err => {
         let errorMsg = err.response.data.message;
         alert(errorMsg);
         that.captcha = '';
-        // if (errorMsg === 'Unauthorised') {
-        //   that.password = '';
-        //   alert('密码错误，请重新输入');
-        // }
-        // if (errorMsg === 'Bad captcha！') {
-        //   that.captcha = '';
-        //   alert('验证码错误，请重新输入');
-        // }
         that.getVerificationCode();
       })
     },

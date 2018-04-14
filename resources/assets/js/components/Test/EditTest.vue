@@ -9,15 +9,19 @@
       <section class="modal-card-body">
         <div class="box-item">
           <label>考试标题</label>
-          <input v-model="testData.title" class="input" type="text" placeholder="请输入英文名">
+          <input v-model="testData.title" class="input" type="text" >
         </div>
         <div class="box-item">
-          <label>数目</label>
-          <input v-model="testData.number" class="input" type="text" placeholder="请输入中文名">
+          <label>总分</label>
+          <input v-model="testData.number" class="input" type="number" >
         </div>
         <div class="box-item">
           <label>类型</label>
-          <input v-model="testData.exam_type" class="input" type="text" placeholder="请输入考试名">
+          <div class="select">
+            <select v-model="testData.exam_type">
+              <option value="OPEN">开卷</option>
+            </select>
+          </div>
         </div>
         <div class="box-item">
           <label>描述</label>
@@ -36,8 +40,7 @@
           <input v-model="testData.begin_at" class="input" type="date">
         </div>
         <div class="box-item">
-          <label>相关的试卷ID</label>
-          <!-- <input v-model="testData.paper_id" class="input" type="text"> -->
+          <label>相关的试卷</label>
           <div>
             <table class="table">
               <thead>
@@ -170,7 +173,7 @@ export default {
       that.testData.describe = value.describe;
       that.testData.score = value.score;
       that.testData.min = value.min;
-      that.testData.begin_at = value.begin_at;
+      that.testData.begin_at = this.GLOBAL.toTime(value.begin_at);
       that.testData.paper_id = value.paper_id;
     }
   }
