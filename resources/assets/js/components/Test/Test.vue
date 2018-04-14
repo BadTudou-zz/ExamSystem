@@ -275,20 +275,20 @@ export default {
   computed: {
     // 【考试】
     isShowSearchTest() {
-      return true;
-      // return sessionStorage.getItem('permissions').includes(54);
+      // return true;
+      return sessionStorage.getItem('permissions').includes(54);
     },
     isShowCreateTest() {
-      return true;
-      // return sessionStorage.getItem('permissions').includes(55);
+      // return true;
+      return sessionStorage.getItem('permissions').includes(55);
     },
     isShowUpdateTest() {
-      return true;
-      // return sessionStorage.getItem('permissions').includes(56);
+      // return true;
+      return sessionStorage.getItem('permissions').includes(56);
     },
     isShowDeleteTest() {
-      return true;
-      // return sessionStorage.getItem('permissions').includes(57);
+      // return true;
+      return sessionStorage.getItem('permissions').includes(57);
     },
   },
   watch: {

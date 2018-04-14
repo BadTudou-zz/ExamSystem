@@ -8,32 +8,32 @@
         </div>
         <ul>
           <!-- <li><i class="fas fa-home"></i><span>主页</span></li> -->
-          <li>
+          <li v-show="isShowUser">
             <i class="far fa-user-circle"></i>
             <router-link @click="currentTag = 'uuser'" :class="{'is-active' : currentTag === 'uuser'}" to="/uuser"><span>用户</span></router-link>
           </li>
 
-          <li>
+          <li v-show="isShowRole">
             <i class="fas fa-users"></i>
             <router-link to="/role"><span>角色</span></router-link>
           </li>
 
-          <li>
+          <li v-show="isShowPermission">
             <i class="fas fa-key"></i>
             <router-link to="/ppermission"><span>权限</span></router-link>
           </li>
 
-          <li>
+          <li v-show="isShowMessage">
             <i class="far fa-comments"></i>
             <router-link to="/mmessage"><span>消息</span></router-link>
           </li>
 
-          <li>
+          <li v-show="isShowNotification">
             <i class="far fa-bell"></i>
             <router-link to="/nnotice"><span>通知</span></router-link>
           </li>
 
-          <li>
+          <li v-show="isShowOrganization">
             <i class="fas fa-braille"></i>
             <router-link to="/organization"><span>组织</span></router-link>
           </li>
@@ -45,33 +45,33 @@
           </li>
 
 
-          <li>
+          <li v-show="isShowUser">
             <i class="fas fa-book"></i>
             <router-link to="/teaching"><span>授课</span></router-link>
             <!-- <router-link to="/courseAndTeaching"><span>课程</span></router-link> -->
           </li>
 
-          <li>
+          <li v-show="isShowExam">
             <i class="far fa-file-alt"></i>
             <router-link to="/test"><span>考试</span></router-link>
           </li>
 
-          <li>
+          <li v-show="isShowPaper">
             <i class="far fa-file-alt"></i>
             <router-link to="/examinationPaper"><span>试卷</span></router-link>
           </li>
 
-          <li>
+          <li v-show="isShowQuestion">
             <i class="far fa-file-alt"></i>
             <router-link to="/question"><span>问题</span></router-link>
           </li>
 
-          <li>
+          <li is-show="isShowLabel">
             <i class="fas fa-tags"></i>
             <router-link to="/label"><span>标签</span></router-link>
           </li>
 
-          <li>
+          <li v-show="isShowApplication">
             <i class="fab fa-adn"></i>
             <router-link to="/applyFor"><span>申请</span></router-link>
           </li>
@@ -188,50 +188,61 @@ export default {
     },
   },
   computed: {
-    // // 1.【权限】
-    // isShowPermission() {
-    //   return this.sessions.permissions.includes(4);
-    // },
-    // // 2.【角色】
-    // isShowRole() {
-    //   return this.sessions.permissions.includes(7);
-    // },
-    // // 3.【用户】
-    // isShowUser() {
-    //   return this.sessions.permissions.includes(10);
-    // },
-    // // 4.【消息】
-    // isShowMessage() {
-    //   return this.sessions.permissions.includes(13);
-    // },
-    // // 5.【通知】
-    // isShowNotification() {
-    //   return this.sessions.permissions.includes(17);
-    // },
-    // // 6.【组织】
-    // isShowOrganization() {
-    //   return this.sessions.permissions.includes(26);
-    // },
-    // // 7.【问题】
-    // isShowQuestion() {
-    //   return this.sessions.permissions.includes(33);
-    // },
-    // // 8.【试卷】
-    // isShowPaper() {
-    //   return this.sessions.permissions.includes(38);
-    // },
-    // // 9.【申请】
-    // isShowApplication() {
-    //   return this.sessions.permissions.includes(43);
-    // },
-    // // 10.【标签】
-    // isShowTag() {
-    //   return this.sessions.permissions.includes(49);
-    // },
-    // // 11.【考试】
-    // isShowExamPaper() {
-    //   return this.sessions.permissions.includes(53);
-    // }
+    // 1.【权限】
+    isShowPermission() {
+      // return true;
+      return this.sessions.permissions.includes(4);
+    },
+    // 2.【角色】
+    isShowRole() {
+      // return true;
+      return this.sessions.permissions.includes(7);
+    },
+    // 3.【用户】
+    isShowUser() {
+      // return true;
+      return this.sessions.permissions.includes(10);
+    },
+    // 4.【消息】
+    isShowMessage() {
+      // return true;
+      return this.sessions.permissions.includes(13);
+    },
+    // 5.【通知】
+    isShowNotification() {
+      // return true;
+      return this.sessions.permissions.includes(17);
+    },
+    // 6.【组织】
+    isShowOrganization() {
+      // return true;
+      return this.sessions.permissions.includes(26);
+    },
+    // 7.【问题】
+    isShowQuestion() {
+      // return true;
+      return this.sessions.permissions.includes(33);
+    },
+    // 8.【试卷】
+    isShowPaper() {
+      // return true;
+      return this.sessions.permissions.includes(38);
+    },
+    // 9.【申请】
+    isShowApplication() {
+      // return true;
+      return this.sessions.permissions.includes(43);
+    },
+    // 10.【标签】
+    isShowLabel() {
+      // return true;
+      return this.sessions.permissions.includes(49);
+    },
+    // 11.【考试】
+    isShowExam() {
+      // return true;
+      return this.sessions.permissions.includes(53);
+    }
   },
   created() {
     this.token = sessionStorage.getItem('token');

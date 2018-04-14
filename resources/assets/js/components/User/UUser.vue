@@ -171,12 +171,12 @@ export default {
   },
   computed: {
     isShowUpdateUser() {
-      return true;
-      // return sessionStorage.getItem('permissions').includes(11)
+      // return true;
+      return sessionStorage.getItem('permissions').includes(11)
     },
     isShowDeleteUser() {
-      return true;
-      // return sessionStorage.getItem('permissions').includes(12)
+      // return true;
+      return sessionStorage.getItem('permissions').includes(12)
     },
   },
   created() {
