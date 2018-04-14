@@ -29,7 +29,6 @@ export default {
         title: '',
       },
       labelData: null,
-      token: null,
     }
   },
   components: {
@@ -54,7 +53,7 @@ export default {
         url: `${this.GLOBAL.localDomain}/api/v1/labels${id}`,
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token,
+          'Authorization': sessionStorage.getItem('token'),
         },
         params: {
           'title': that.labelData.title,
@@ -72,7 +71,7 @@ export default {
     }
   },
   created() {
-    this.token = sessionStorage.getItem('token');
+
   },
   watch: {
     editData: function (value, oldValue) {

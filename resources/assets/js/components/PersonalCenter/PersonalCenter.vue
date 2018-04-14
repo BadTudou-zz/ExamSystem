@@ -23,7 +23,6 @@
 <script>
 import Navigation from './Navigation'
 import UserData from './UserData'
-
 import MessageData from './MessageData'
 import NoticeData from './NoticeData'
 import LectureData from './LectureData'
@@ -36,8 +35,6 @@ import ApplyForData from './ApplyForData'
 export default {
   data() {
     return {
-      token: '',
-      userId: null,
       userData: null,
       currentUserData: {
         id: '',
@@ -68,10 +65,10 @@ export default {
       const that = this;
       axios({
         method: 'get',
-        url: `${this.GLOBAL.localDomain}/api/v1/users/${that.userId}`,
+        url: `${this.GLOBAL.localDomain}/api/v1/users/${sessionStorage.getItem('userId')}`,
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token
+          'Authorization': sessionStorage.getItem('token'),
         }
       }).then(res => {
         that.userData = res.data.data;
@@ -93,8 +90,6 @@ export default {
   computed: {
   },
   created() {
-    this.token = sessionStorage.getItem('token');
-    this.userId = sessionStorage.getItem('userId');
     this.getUser();
   },
   watch: {

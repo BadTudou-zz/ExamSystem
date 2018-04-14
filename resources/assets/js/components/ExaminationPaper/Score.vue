@@ -7,12 +7,14 @@
         <table class="table">
           <thead>
             <tr>
+              <th>序号</th>
               <th>分数</th>
             </tr>
           </thead>
           <tbody>
             <tr v-for="(item,index) in scoreData">
-              <td>{{ item }}</td>
+              <td>{{ index }}</td>
+              <td>{{ item }}分</td>
             </tr>
           </tbody>
         </table>
@@ -33,23 +35,15 @@ import Pagination from './../Pagination'
 export default {
   data() {
     return {
-      token: null,
       isShowModal: false,
-      scoreData: {
-  //       id: '',
-  //       score_type: '',
-  //       tags: '',
-  //       level_type: '',
-  //       title: '',
-  //       body: '',
-  //       answer: '',
-  //       answer_comment: '',
-  //       created_at: null,
-  //       updated_at: null,
-      },
+      scoreData: null,
       paginationData: null,
       data: null,
       examinationPaperId: null,
+//       scoreData: {
+//         "1": "5",
+//         "2": "4"
+//       }
     }
   },
   components: {
@@ -65,13 +59,14 @@ export default {
     },
     getScore: function () {
       const that = this;
-      let id = that.examinationPaperId;
+      let paperId = that.examinationPaperId;
+      if (!paperId) return;
       axios({
         method: 'get',
-        url: `${this.GLOBAL.localDomain}/api/v1/papers/${id}/scores`,
+        url: `${this.GLOBAL.localDomain}/api/v1/papers/${paperId}/scores`,
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token
+          'Authorization': sessionStorage.getItem('token'),
         }
       }).then(res => {
         that.scoreData = res.data.data;
@@ -82,7 +77,6 @@ export default {
     },
   },
   created() {
-    this.token = sessionStorage.getItem('token');
   },
   watch: {
     data:function (value, oldValue) {

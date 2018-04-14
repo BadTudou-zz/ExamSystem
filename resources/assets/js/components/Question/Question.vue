@@ -2,29 +2,46 @@
 <template lang="html">
   <div class="box">
     <div>
-      <div class="search-box">
-        <input v-model="searchKey" class="input search-input" type="text" placeholder="请输入你要查看的问题的id">
+      <div v-show="isShowSearchQuestion" class="search-box">
+        <input v-model="searchKey" class="input search-input" type="text" placeholder="请输入问题">
         <button @click="searchQuestion()" class="button" type="button" name="button">查找问题</button>
       </div>
-        <button @click="addQuestion()" class="button add-role-button" type="button" name="button">添加问题</button>
+        <button v-show="isShowCreateQuestion" @click="addQuestion()" class="button add-role-button" type="button" name="button">添加问题</button>
     </div>
 
-    <div  v-for="(item,index) in questionData" class="message box">
-      <div class="notification">
-        <div class="operate-box">
-          <button @click="deleteQuestion(index)" class="delete"></button>
-          <button @click="editQuestion(index)" class="button edit-question" type="button" name="button">编辑问题</button>
+    <div v-for="(item,index) in questionData">
+      <!-- 单选 -->
+      <div class="message">
+        <div v-show="item.question_type === 'SINGLE_CHOICE'" class="message box">
+          <div class="notification">
+            <div class="operate-box">
+              <button v-show="isShowDeleteQuestion" @click="deleteQuestion(index)" class="delete"></button>
+              <button @click="editQuestion(index)" class="button edit-question is-small" type="button" name="button">编辑问题</button>
+            </div>
+            <p class="detail">        id：{{ item.id }}
+              &nbsp;&nbsp;&nbsp;&nbsp; 类型： 单选
+              &nbsp;&nbsp;&nbsp;&nbsp; 难度：{{ item.level_type }}
+            </p>
+            <div class="question">题目：{{ item.title }}</div>
+            <div class="question">选项：{{ getOptionsString(item.body) }}</div>
+          </div>
         </div>
-        <p class="question">        问题id：{{ item.id }}
-          &nbsp;&nbsp;&nbsp;&nbsp; 问题题目：{{ item.title }}
-          &nbsp;&nbsp;&nbsp;&nbsp; 问题类型：{{ item.question_type }}
-          &nbsp;&nbsp;&nbsp;&nbsp; 难易程度：{{ item.level_type }}
-        </p>
-        {{ item.body }}
-        <p class="time">{{item.created_at}}</p>
-      </div>
-      <div class="answer">
-        <p>回复：{{ item.answer_comment }}</p>
+
+        <!-- 多选 -->
+        <div v-show="item.question_type === 'MULTIPLE_CHOICE'" class="message box">
+          <div class="notification">
+            <div class="operate-box">
+              <button v-show="isShowDeleteQuestion" @click="deleteQuestion(index)" class="delete"></button>
+              <button @click="editQuestion(index)" class="button edit-question is-small" type="button" name="button">编辑问题</button>
+            </div>
+            <p class="detail">        id：{{ item.id }}
+              &nbsp;&nbsp;&nbsp;&nbsp; 类型： 多选
+              &nbsp;&nbsp;&nbsp;&nbsp; 难度：{{ item.level_type }}
+            </p>
+            <div class="question">题目：{{ item.title }}</div>
+            <div class="question">选项：{{ getOptionsString(item.body) }}</div>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -47,13 +64,14 @@
 import Pagination from './../Pagination'
 import AddQuestion from './AddQuestion'
 import EditQuestion from './EditQuestion'
+import SingleChoice from './SingleChoice'
+import MultipleChoice from './MultipleChoice'
 
 export default {
   data() {
     return {
        isShowModal: false,
        questionData: null,
-       token: null,
        editData: null,
        paginationData: null,
        data: null,
@@ -64,15 +82,23 @@ export default {
     AddQuestion,
     EditQuestion,
     Pagination,
+    SingleChoice,
+    MultipleChoice,
   },
   methods: {
     showModal: function () {
       const that = this;
       that.isShowModal = !that.isShowModal;
     },
-    deleteQuestion: function (index) {
+    deleteQuestion: function (index, questionId) {
       const that = this;
-      let id = that.questionData[index]['id'];
+      let id;
+      if (questionId) {
+        id = questionId;
+      }
+      else {
+        id = that.questionData[index]['id'];
+      }
       let prompt = confirm("确认删除该问题吗？");
       if (prompt) {
         axios({
@@ -80,7 +106,7 @@ export default {
           url: `${this.GLOBAL.localDomain}/api/v1/questions/${id}`,
           headers: {
             'Accept': 'application/json',
-            'Authorization': that.token
+            'Authorization': sessionStorage.getItem('token'),
           }
         }).then(res => {
           alert('删除成功');
@@ -98,7 +124,7 @@ export default {
         url: `${this.GLOBAL.localDomain}/api/v1/questions`,
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token
+          'Authorization': sessionStorage.getItem('token'),
         }
       }).then(res => {
         that.questionData = res.data.data;
@@ -111,16 +137,21 @@ export default {
       const that = this;
       that.$refs.addQuestion.switchModal();
     },
-    editQuestion: function (index) {
+    editQuestion: function (index, editData) {
       const that = this;
-      that.editData = that.questionData[index];
-      that.$refs.editQuestion.switchModal();
+      if (editData) {
+        that.editData = editData;
+      }
+      else {
+        that.editData = that.questionData[index];
+      }
+      // that.$refs.editQuestion.switchModal();
     },
     searchQuestion: function () {
       const that = this;
       let id = that.searchKey;
-      if (!id) {
-        alert('没有找到相关数据，已为你显示全部数据');
+      if (!that.searchKey) {
+        that.searchKey = '';
         that.getQuestion();
         return;
       }
@@ -129,7 +160,7 @@ export default {
         url: `${this.GLOBAL.localDomain}/api/v1/questions/${id}`,
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token
+          'Authorization': sessionStorage.getItem('token'),
         }
       }).then(res => {
         that.questionData = [];
@@ -140,24 +171,34 @@ export default {
         that.getQuestion();
         console.log(err);
       })
-    }
+    },
+    getOptionsString: function (value) {
+      const that = this;
+      let arr = value.split(' ');
+      let alphabet = ['A','B','C','D','E','F','G','H','I'];
+      let str = '';
+      for (let i = 0; i < arr.length; i++) {
+        str += alphabet[i] + '.' + arr[i] + '   ';
+      }
+      return str;
+    },
   },
   computed: {
     isShowCreateQuestion() {
-      return this.$store.state.permissionIdList.includes(34);
+      return sessionStorage.getItem('permissions').includes(34);
     },
     isShowSearchQuestion() {
-      return this.$store.state.permissionIdList.includes(35);
+      return sessionStorage.getItem('permissions').includes(35);
     },
     isShowUpdateQuestion() {
-      return this.$store.state.permissionIdList.includes(36);
+      return sessionStorage.getItem('permissions').includes(36);
     },
     isShowDeleteQuestion() {
-      return this.$store.state.permissionIdList.includes(37);
+      return sessionStorage.getItem('permissions').includes(37);
     },
   },
   created() {
-    this.token = sessionStorage.getItem('token');
+
     this.getQuestion();
   },
   watch: {
@@ -170,7 +211,7 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .message {
   margin: 35px auto 0 auto;
 }
@@ -213,9 +254,6 @@ export default {
   text-align: left;
   margin-bottom: 10px;
 }
-.answer {
-  margin-left: 50px;
-}
 .edit-question {
   float: right;
 }
@@ -226,5 +264,11 @@ export default {
 .delete {
   float: right;
   margin-left: 20px;
+}
+.answer {
+  margin-left: 24px;
+}
+.multiple-choice {
+  width: 200px;
 }
 </style>

@@ -72,7 +72,7 @@
             </a>
             <div class="navbar-dropdown is-boxed">
               <router-link class="navbar-item" to="/organization">组织</router-link>
-              <router-link class="navbar-item" to="/member">成员</router-link>
+              <!-- <router-link class="navbar-item" to="/member">成员</router-link> -->
             </div>
           </div>
 
@@ -83,7 +83,6 @@
             <div class="navbar-dropdown is-boxed">
               <router-link class="navbar-item" to="/course">课程</router-link>
               <router-link class="navbar-item" to="/teaching">授课</router-link>
-              <router-link class="navbar-item" to="/question">问题</router-link>
             </div>
           </div>
 
@@ -92,9 +91,9 @@
               试卷
             </a>
             <div class="navbar-dropdown is-boxed">
-              <router-link class="navbar-item" to="/examinationPaper">试卷</router-link>
-              <!-- <router-link class="navbar-item" to="/chapter">章节</router-link> -->
               <router-link class="navbar-item" to="/test">考试</router-link>
+              <router-link class="navbar-item" to="/examinationPaper">试卷</router-link>
+              <router-link class="navbar-item" to="/question">问题</router-link>
             </div>
           </div>
 
@@ -158,36 +157,50 @@ export default {
     }
   },
   computed: {
+    // 1.【权限】
     isShowPermission() {
-      return this.$store.state.permissionIdList.includes(4);
+      return sessionStorage.getItem('permissions').includes(4);
     },
+    // 2.【角色】
     isShowRole() {
-      return this.$store.state.permissionIdList.includes(7);
+      return sessionStorage.getItem('permissions').includes(7);
     },
+    // 3.【用户】
     isShowUser() {
-      return this.$store.state.permissionIdList.includes(10);
+      return sessionStorage.getItem('permissions').includes(10);
     },
+    // 4.【消息】
     isShowMessage() {
-      return this.$store.state.permissionIdList.includes(13);
+      return sessionStorage.getItem('permissions').includes(13);
     },
+    // 5.【通知】
     isShowNotification() {
-      return this.$store.state.permissionIdList.includes(17);
+      return sessionStorage.getItem('permissions').includes(17);
     },
+    // 6.【组织】
     isShowOrganization() {
-      return this.$store.state.permissionIdList.includes(26);
+      return sessionStorage.getItem('permissions').includes(26);
     },
+    // 7.【问题】
     isShowQuestion() {
-      return this.$store.state.permissionIdList.includes(33);
+      return sessionStorage.getItem('permissions').includes(33);
     },
+    // 8.【试卷】
     isShowPaper() {
-      return this.$store.state.permissionIdList.includes(38);
+      return sessionStorage.getItem('permissions').includes(38);
     },
+    // 9.【申请】
     isShowApplication() {
-      return this.$store.state.permissionIdList.includes(43);
+      return sessionStorage.getItem('permissions').includes(43);
     },
+    // 10.【标签】
     isShowTag() {
-      return this.$store.state.permissionIdList.includes(49);
+      return sessionStorage.getItem('permissions').includes(49);
     },
+    // 11.【试卷】
+    isShowExamPaper() {
+      return sessionStorage.getItem('permissions').includes(53);
+    }
   },
   created() {
   },

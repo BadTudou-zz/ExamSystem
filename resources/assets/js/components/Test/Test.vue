@@ -1,90 +1,102 @@
 <!-- 查看考试 -->
 <template lang="html">
   <div class="box">
-    <div>
-      <div class="search-box">
-        <input v-model="searchKey" class="input search-input" type="text" placeholder="请输入你要查看的考试">
-        <button @click="searchTest()" class="button" type="button" name="button">查找考试</button>
+
+    <div v-show="!isTesting">
+      <div>
+        <div v-show="isShowSearchTest" class="search-box">
+          <input v-model="searchKey" class="input search-input" type="text" placeholder="请输入你要查看的考试">
+          <button @click="searchTest()" class="button" type="button" name="button">查找考试</button>
+        </div>
+          <button v-show="isShowCreateTest" @click="addTest()" class="button add-role-button" type="button" name="button">添加考试</button>
       </div>
-        <button @click="addTest()" class="button add-role-button" type="button" name="button">添加考试</button>
+      <table class="table">
+        <thead>
+          <tr>
+            <!-- <th>ID</th> -->
+            <!-- <th>创建者ID</th> -->
+            <th>考试标题</th>
+            <!-- <th>试卷ID</th> -->
+            <th>考试类型</th>
+            <th>成绩总值</th>
+            <!-- <th>最小</th> -->
+            <th>描述</th>
+            <th>创建时间</th>
+            <th>更新时间</th>
+            <th>操作</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="(item,index) in testData">
+            <!-- <td>{{ item.id }}</td> -->
+            <!-- <td>{{ item.creator_id }}</td> -->
+            <td>{{ item.title }}</td>
+            <!-- <td>{{ item.paper_id }}</td> -->
+            <td>{{ item.exam_type }}</td>
+            <td>{{ item.score }}</td>
+            <!-- <td>{{ item.min }}</td> -->
+            <td> {{ item.description }}</td>
+            <td>{{ GLOBAL.toTime(item.created_at) }}</td>
+            <td>{{ GLOBAL.toTime(item.updated_at) }}</td>
+            <td>
+              <button v-show="isShowDeleteTest" @click="deleteTest(index)" class="is-small button" type="button" name="button">删除</button>
+              <button @click="editTest(index)" class="is-small button" type="button" name="button">编辑</button>
+              <button @click="startTest(index)" class="is-small button" type="button" name="button">开始考试</button>
+              <button @click="gradingPapers(index)" class="is-small button" type="button" name="button">批改</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <add-test ref="addTest"
+                v-on:getTest="getTest"
+      ></add-test>
+
+      <edit-test ref="editTest"
+                 v-on:getTest="getTest"
+                 v-bind:edit-data="editData"
+      ></edit-test>
+
+      <pagination v-bind:pagination-data="paginationData"
+                  v-model="data"
+      ></pagination>
     </div>
-    <table class="table">
-      <thead>
-        <tr>
-          <!-- <th>ID</th> -->
-          <!-- <th>创建者ID</th> -->
-          <th>考试标题</th>
-          <!-- <th>试卷ID</th> -->
-          <th>考试类型</th>
-          <th>成绩总值</th>
-          <th>最小</th>
-          <th>描述</th>
-          <th>创建时间</th>
-          <th>更新时间</th>
-          <th>操作</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="(item,index) in testData">
-          <!-- <td>{{ item.id }}</td> -->
-          <!-- <td>{{ item.creator_id }}</td> -->
-          <td>{{ item.title }}</td>
-          <!-- <td>{{ item.paper_id }}</td> -->
-          <td>{{ item.exam_type }}</td>
-          <td>{{ item.score }}</td>
-          <td>{{ item.min }}</td>
-          <td> {{ item.description }}</td>
-          <td>{{ item.created_at }}</td>
-          <td>{{ item.updated_at }}</td>
-          <td>
-            <button @click="deleteTest(index)" class="button" type="button" name="button">删除</button>
-            <button @click="editTest(index)" class="button" type="button" name="button">编辑</button>
-            <button @click="startTest(index)" class="button" type="button" name="button">开始</button>
-            <button @click="stopTest(index)" class="button" type="button" name="button">结束</button>
-            <button @click="gradingPapers(index)" class="button" type="button" name="button">批改</button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
 
-    <add-test ref="addTest"
-              v-on:getTest="getTest"
-    ></add-test>
-
-    <edit-test ref="editTest"
-               v-on:getTest="getTest"
-               v-bind:edit-data="editData"
-    ></edit-test>
-
-    <pagination v-bind:pagination-data="paginationData"
-            v-model="data"
-    ></pagination>
+    <testing ref="testing"
+             v-show="isTesting"
+             v-bind:paper-id="paperId"
+             v-bind:exam-id="examId"
+    ></testing>
 
   </div>
 </template>
 
 <script>
+import Pagination from './../Pagination.vue'
 import AddTest from './AddTest'
 import EditTest from './EditTest'
-import Pagination from './../Pagination.vue'
+import Testing from './Testing'
 
 export default {
   data() {
     return {
       isShowModal: false,
-      token: null,
       searchKey: null,
       testData: null,
       editData: null,
       searchKey: null,
       paginationData: null,
       data: null,
+      paperId: null,
+      examId: null,
+      isTesting: false,  // 是否已经开始考试
     }
   },
   components: {
     AddTest,
     EditTest,
     Pagination,
+    Testing,
   },
   methods: {
     showModal: function () {
@@ -101,7 +113,7 @@ export default {
           url: `${this.GLOBAL.localDomain}/api/v1/exams/${id}`,
           headers: {
             'Accept': 'application/json',
-            'Authorization': that.token
+            'Authorization': sessionStorage.getItem('token'),
           }
         }).then(res => {
           alert('删除成功');
@@ -116,6 +128,7 @@ export default {
       const that = this;
       let id = that.searchKey;
       if (!id) {
+        that.searchKey = '';
         that.getTest();
         return;
       }
@@ -124,9 +137,10 @@ export default {
         url: `${this.GLOBAL.localDomain}/api/v1/exams/${id}`,
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token
+          'Authorization': sessionStorage.getItem('token'),
         }
       }).then(res => {
+        // that.testData = res.data.data
         that.testData = [];
         that.testData.push(res.data.data);
       }).catch(err => {
@@ -141,11 +155,17 @@ export default {
         url: `${this.GLOBAL.localDomain}/api/v1/exams/`,
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token
+          'Authorization': sessionStorage.getItem('token'),
         }
       }).then(res => {
-        that.testData = [];
-        that.testData.push(res.data.data);
+        if (res.data.data.length !== 0) {
+          that.testData = res.data.data;
+        }
+        else {
+          that.testData = [];
+        }
+        // that.testData = [];
+        // that.testData.push(res.data.data);
       }).catch(err => {
         console.log(err)
       })
@@ -161,35 +181,31 @@ export default {
     },
     startTest: function (index) {
       const that = this;
+      that.$refs.testing.clearQuestionIds();
       let id = that.testData[index].id;
+      that.paperId = that.testData[index].paper_id;
+      that.examId = id;
+
+      that.isTesting = true;
+
       axios({
         method: 'post',
         url: `${this.GLOBAL.localDomain}/api/v1/exams/${id}/start`,
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token
+          'Authorization': sessionStorage.getItem('token'),
         }
       }).then(res => {
-        alert('已开始');
+        alert('已开始考试，请等待试卷加载');
+        that.isTesting = true;
       }).catch(err => {
-        alert('开始失败，请稍后再试')
-        console.log(err)
-      })
-    },
-    stopTest: function (index) {
-      const that = this;
-      let id = that.testData[index].id;
-      axios({
-        method: 'post',
-        url: `${this.GLOBAL.localDomain}/api/v1/exams/${id}/stop`,
-        headers: {
-          'Accept': 'application/json',
-          'Authorization': that.token
+        let errMsg = err.response.data.error;
+        if (errMsg) {
+          alert(errMsg);
         }
-      }).then(res => {
-        alert('已结束');
-      }).catch(err => {
-        alert('结束失败，请稍后再试');
+        else {
+          alert('开始失败，请稍后再试');
+        }
         console.log(err)
       })
     },
@@ -201,10 +217,10 @@ export default {
         url: `${this.GLOBAL.localDomain}/api/v1/exams/${id}/correct`,
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token
+          'Authorization': sessionStorage.getItem('token'),
         }
       }).then(res => {
-        alert('可以开始批改');
+        alert('批改完成');
       }).catch(err => {
         alert('操作失败，请稍后再试');
         console.log(err)
@@ -212,8 +228,23 @@ export default {
     }
   },
   created() {
-    this.token = sessionStorage.getItem('token');
+
     this.getTest();
+  },
+  computed: {
+    // 【考试】
+    isShowSearchTest() {
+      return sessionStorage.getItem('permissions').includes(54);
+    },
+    isShowCreateTest() {
+      return sessionStorage.getItem('permissions').includes(55);
+    },
+    isShowUpdateTest() {
+      return sessionStorage.getItem('permissions').includes(56);
+    },
+    isShowDeleteTest() {
+      return sessionStorage.getItem('permissions').includes(57);
+    },
   },
   watch: {
     data:function (value, oldValue) {

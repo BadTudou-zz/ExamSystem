@@ -50,7 +50,6 @@ export default {
         resource_type: '',  // ??
         data: '',  // ??
       },
-      token: null,
     }
   },
   components: {
@@ -75,7 +74,7 @@ export default {
         url: `${this.GLOBAL.localDomain}/api/v1/applications/`,
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token
+          'Authorization': sessionStorage.getItem('token'),
         },
         body: {
           to: that.applyForData.to,
@@ -96,7 +95,6 @@ export default {
     },
   },
   created() {
-    this.token = sessionStorage.getItem('token');
   }
 }
 </script>

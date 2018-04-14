@@ -2,11 +2,11 @@
 <template lang="html">
   <div class="box">
     <div>
-      <div class="search-box">
+      <div v-show="isShowSearchRole" class="search-box">
         <input v-model="searchKey" class="input search-input" type="text" placeholder="请输入你要查找的角色ID">
         <button @click="searchRole()" class="button" type="button" name="button">查找角色</button>
       </div>
-        <button @click="addRole()" class="button add-role-button" type="button" name="button">添加角色</button>
+        <button v-show="isShowCreateRole" @click="addRole()" class="button add-role-button" type="button" name="button">添加角色</button>
     </div>
     <table class="table">
       <thead>
@@ -26,9 +26,9 @@
           <td>{{ item.id }}</td>
           <td>{{ item.name }}</td>
           <td>{{ item.display_name }}</td>
-          <td>{{ item.created_at }}</td>
-          <td>{{ item.updated_at }}</td>
-          <td><button @click="deleteRole(index)" class="button" type="button" name="button">删除角色</button></td>
+          <td>{{ GLOBAL.toTime(item.created_at) }}</td>
+          <td>{{ GLOBAL.toTime(item.updated_at) }}</td>
+          <td><button v-show="isShowDeleteRole" @click="deleteRole(index)" class="button" type="button" name="button">删除角色</button></td>
           <td><button @click="showPermission(index)" class="button" type="button" name="button">查看权限</button></td>
           <td><button @click="showUser(index)" class="button" type="button" name="button">查看用户</button></td>
         </tr>
@@ -63,7 +63,6 @@ import User from './User'
 export default {
   data() {
     return {
-      token: '',
       roleData: null,
       isShowModal: false,
       searchKey: null,
@@ -94,7 +93,7 @@ export default {
           url: `${this.GLOBAL.localDomain}/api/v1/roles/${id}`,
           headers: {
             'Accept': 'application/json',
-            'Authorization': that.token
+            'Authorization': sessionStorage.getItem('token'),
           }
         }).then(res => {
           alert('删除成功！');
@@ -112,7 +111,7 @@ export default {
         url: `${this.GLOBAL.localDomain}/api/v1/roles/`,
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token
+          'Authorization': sessionStorage.getItem('token'),
         }
       }).then(res => {
         that.roleData = res.data.data;
@@ -137,7 +136,7 @@ export default {
         url: `${this.GLOBAL.localDomain}/api/v1/roles/${that.searchKey}`,
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token
+          'Authorization': sessionStorage.getItem('token'),
         }
       }).then(res => {
         that.roleData = [];
@@ -159,20 +158,20 @@ export default {
   },
   computed: {
     isShowCreateRole() {
-      return this.$store.state.permissionIdList.includes(5)
+      return sessionStorage.getItem('permissions').includes(5)
     },
     isShowSearchRole() {
-      return this.$store.state.permissionIdList.includes(6)
+      return sessionStorage.getItem('permissions').includes(6)
     },
     isShowUpdateRole() {
-      return this.$store.state.permissionIdList.includes(8)
+      return sessionStorage.getItem('permissions').includes(8)
     },
     isShowDeleteRole() {
-      return this.$store.state.permissionIdList.includes(9)
+      return sessionStorage.getItem('permissions').includes(9)
     },
   },
   created() {
-    this.token = sessionStorage.getItem('token');
+
     this.getRole();
   },
   watch: {

@@ -30,7 +30,6 @@
 export default {
   data() {
     return {
-      token: null,
       isShowModal: false,
       noticeData: {
         to: null,
@@ -57,7 +56,7 @@ export default {
         url: `${this.GLOBAL.localDomain}/api/v1/notifications/`,
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token,
+          'Authorization': sessionStorage.getItem('token'),
         },
         params: {
           // to: that.noticeData.to,
@@ -76,7 +75,7 @@ export default {
     }
   },
   created() {
-    this.token = sessionStorage.getItem('token');
+
   },
   watch: {
   }

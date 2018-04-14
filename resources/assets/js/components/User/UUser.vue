@@ -3,7 +3,7 @@
   <div class="box">
     <div>
       <div class="search-box">
-        <input v-model="searchKey" class="input search-input" type="text" placeholder="请输入你要查看的用户的ID">
+        <input v-model="searchKey" class="input search-input" type="text" placeholder="请输入用户的ID">
         <button @click="searchUser()" class="button" type="button" name="button">查找用户</button>
       </div>
         <!-- <button class="button add-user-button" type="button" name="button">添加用户</button> -->
@@ -25,12 +25,12 @@
           <td>{{ item.id }}</td>
           <td>{{ item.name }}</td>
           <td>{{ item.display_name }}</td>
-          <td>{{ item.created_at }}</td>
-          <td>{{ item.updated_at }}</td>
+          <td>{{ toTime(item.created_at.date) }}</td>
+          <td>{{ toTime(item.updated_at.date) }}</td>
           <td>
-            <button @click="deleteUser(index)" class="button" type="button" name="button">删除用户</button>
-            <button @click="editUser(index)" class="button" type="button" name="button">编辑用户</button>
-            <button @click="changePassword(index)" class="button" type="button" name="button">更改密码</button>
+            <button v-show="isShowDeleteUser" @click="deleteUser(index)" class="button is-small" type="button">删除用户</button>
+            <button @click="editUser(index)" class="button is-small" type="button">编辑用户</button>
+            <button @click="changePassword(index)" class="button is-small" type="button">更改密码</button>
           </td>
           <td>
             <v-view></v-view>
@@ -53,6 +53,7 @@
 </template>
 
 <script>
+import moment from 'moment'
 import editUser from './editUser'
 import ChangePassword from './ChangePassword'
 import VView from './View'
@@ -60,7 +61,6 @@ import VView from './View'
 export default {
   data() {
     return {
-      token: '',
       userData: null,
       searchKey: null,
       isShowEditModal: false,
@@ -74,6 +74,9 @@ export default {
     VView,
   },
   methods: {
+    toTime: function (time) {
+      return moment(time).format('YYYY-MM-DD');
+    },
     // 删除用户
     deleteUser: function (index) {
       const that = this;
@@ -85,7 +88,7 @@ export default {
           url: `${this.GLOBAL.localDomain}/api/v1/users/${id}`,
           headers: {
             'Accept': 'application/json',
-            'Authorization': that.token
+            'Authorization': sessionStorage.getItem('token'),
           }
         }).then(res => {
           alert('删除成功！');
@@ -104,7 +107,7 @@ export default {
         url: `${this.GLOBAL.localDomain}/api/v1/users/`,
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token
+          'Authorization': sessionStorage.getItem('token'),
         }
       }).then(res => {
         that.userData = res.data.data;
@@ -116,12 +119,16 @@ export default {
     // 查找用户
     searchUser: function () {
       const that = this;
+      if (!that.searchKey) {
+        that.getUser();
+        return;
+      }
       axios({
         method: 'get',
         url: `${this.GLOBAL.localDomain}/api/v1/users/${that.searchKey}`,
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token
+          'Authorization': sessionStorage.getItem('token'),
         }
       }).then(res => {
         that.userData = [];
@@ -147,7 +154,7 @@ export default {
         url: `${this.GLOBAL.localDomain}/api/v1/users/1/users/`,
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token
+          'Authorization': sessionStorage.getItem('token'),
         }
       }).then(res => {
         console.log(res)
@@ -164,14 +171,14 @@ export default {
   },
   computed: {
     isShowUpdateUser() {
-      return this.$store.state.permissionIdList.includes(11)
+      return sessionStorage.getItem('permissions').includes(11)
     },
     isShowDeleteUser() {
-      return this.$store.state.permissionIdList.includes(12)
+      return sessionStorage.getItem('permissions').includes(12)
     },
   },
   created() {
-    this.token = sessionStorage.getItem('token');
+
     this.getUser();
     // this.checkPermissions();
   },

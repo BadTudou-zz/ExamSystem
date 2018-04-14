@@ -32,7 +32,6 @@ export default {
   data() {
     return {
       isShowModal: null,
-      token: '',
       password: null,
       new_password: null,
     }
@@ -61,7 +60,7 @@ export default {
         url: `${this.GLOBAL.localDomain}/api/v1/users/${id}/password/`,
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token,
+          'Authorization': sessionStorage.getItem('token'),
         },
         data: {
           password: that.password,
@@ -79,7 +78,7 @@ export default {
     }
   },
   created() {
-    this.token = sessionStorage.getItem('token');
+
   },
   watch: {
     isShowEditModal: function (value, oldValue) {

@@ -2,23 +2,23 @@
 <template lang="html">
   <div class="box">
     <div>
-      <div class="search-box">
+      <div v-show="isShowSearchPaper" class="search-box">
         <input v-model="searchKey" class="input search-input" type="text" placeholder="请输入你要查看的试卷">
         <button @click="searchExaminationPaper()" class="button" type="button" name="button">查找试卷</button>
       </div>
-        <button @click="addExaminationPaper()" class="button add-role-button" type="button" name="button">添加试卷</button>
+        <button v-show="isShowCreatePaper" @click="addExaminationPaper()" class="button add-role-button" type="button" name="button">添加试卷</button>
     </div>
     <table class="table">
       <thead>
         <tr>
-          <th>ID</th>
-          <th>创建者ID</th>
+          <!-- <th>ID</th> -->
+          <th>创建者</th>
           <th>试卷标题</th>
           <th>总分数</th>
-          <th>最小</th>
+          <!-- <th>最小</th> -->
           <th>描述</th>
-          <th>章节</th>
-          <th>Tags</th>
+          <!-- <th>章节id</th> -->
+          <!-- <th>Tags</th> -->
           <th>创建时间</th>
           <th>更新时间</th>
           <th>试卷操作</th>
@@ -27,24 +27,24 @@
       </thead>
       <tbody>
         <tr v-for="(item,index) in examinationPaperData">
-          <td>{{ item.id }}</td>
+          <!-- <td>{{ item.id }}</td> -->
           <td>{{ item.creator_id }}</td>
           <td>{{ item.title }}</td>
           <td>{{ item.score }}</td>
-          <td>{{ item.min }}</td>
+          <!-- <td>{{ item.min }}</td> -->
           <td> {{ item.description }}</td>
-          <td>{{ item.sections }}</td>
-          <td>{{ item.tags }}</td>
-          <td>{{ item.created_at }}</td>
-          <td>{{ item.updated_at }}</td>
+          <!-- <td>{{ item.sections }}</td> -->
+          <!-- <td>{{ item.tags }}</td> -->
+          <td>{{ toTime(item.created_at) }}</td>
+          <td>{{ toTime(item.updated_at) }}</td>
           <td>
-            <button @click="deleteExaminationPaper(index)" class="button" type="button" name="button">删除试卷</button>
-            <button @click="editExaminationPaper(index)" class="button" type="button" name="button">编辑试卷</button>
-            <button @click="showAllQuestion(index)" class="button" type="button" name="button">全部问题</button>
-            <button @click="showAllScore(index)" class="button" type="button" name="button">全部分数</button>
+            <button v-show="isShowDeletePaper" @click="deleteExaminationPaper(index)" class="button is-small" type="button" name="button">删除试卷</button>
+            <button @click="editExaminationPaper(index)" class="button is-small" type="button" name="button">编辑试卷</button>
+            <button @click="showAllQuestion(index)" class="button is-small" type="button" name="button">全部问题</button>
+            <button @click="showAllScore(index)" class="button is-small" type="button" name="button">全部分数</button>
           </td>
           <td>
-            <button @click="showChapter(index)" class="button" type="button" name="button">查看章节</button>
+            <button @click="showChapter(index)" class="button is-small" type="button" name="button">查看章节</button>
           </td>
         </tr>
       </tbody>
@@ -72,13 +72,14 @@
     ></score>
 
     <pagination v-bind:pagination-data="paginationData"
-            v-model="data"
+                v-model="data"
     ></pagination>
 
   </div>
 </template>
 
 <script>
+import moment from 'moment'
 import Pagination from './../Pagination.vue'
 import AddExaminationPaper from './AddExaminationPaper'
 import EditExaminationPaper from './EditExaminationPaper'
@@ -92,7 +93,6 @@ export default {
       searchKey: null,
       examinationPaperData: null,
       isShowModal: false,
-      token: null,
       editData: null,
       paginationData: null,
       data: null,
@@ -109,6 +109,9 @@ export default {
     Score,
   },
   methods: {
+    toTime: function (time) {
+      return moment(time).format('YYYY-MM-DD');
+    },
     showModal: function () {
       const that = this;
       that.isShowModal = !that.isShowModal;
@@ -123,7 +126,7 @@ export default {
           url: `${this.GLOBAL.localDomain}/api/v1/papers/${id}`,
           headers: {
             'Accept': 'application/json',
-            'Authorization': that.token
+            'Authorization': sessionStorage.getItem('token'),
           }
         }).then(res => {
           alert('删除成功');
@@ -141,7 +144,7 @@ export default {
         url: `${this.GLOBAL.localDomain}/api/v1/papers`,
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token
+          'Authorization': sessionStorage.getItem('token'),
         }
       }).then(res => {
         that.examinationPaperData = res.data.data;
@@ -156,7 +159,7 @@ export default {
       const that = this;
       let id = that.searchKey;
       if (!id) {
-        alert('没有找到相关数据，已为你显示全部数据');
+        that.searchKey = '';
         that.getExaminationPaper();
         return;
       }
@@ -165,7 +168,7 @@ export default {
         url: `${this.GLOBAL.localDomain}/api/v1/papers/${id}`,
         headers: {
           'Accept': 'application/json',
-          'Authorization': that.token
+          'Authorization': sessionStorage.getItem('token'),
         }
       }).then(res => {
         that.examinationPaperData = [];
@@ -205,20 +208,20 @@ export default {
   },
   computed: {
     isShowCreatePaper() {
-      return this.$store.state.permissionIdList.includes(39);
+      return sessionStorage.getItem('permissions').includes(39);
     },
     isShowSearchPaper() {
-      return this.$store.state.permissionIdList.includes(40);
+      return sessionStorage.getItem('permissions').includes(40);
     },
     isShowUpdatePaper() {
-      return this.$store.state.permissionIdList.includes(41);
+      return sessionStorage.getItem('permissions').includes(41);
     },
     isShowDeletePaper() {
-      return this.$store.state.permissionIdList.includes(42);
+      return sessionStorage.getItem('permissions').includes(42);
     },
   },
   created() {
-    this.token = sessionStorage.getItem('token');
+
     this.getExaminationPaper();
   },
   watch: {
