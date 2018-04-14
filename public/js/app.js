@@ -30139,6 +30139,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Pagination__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Pagination___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__Pagination__);
 //
 //
 //
@@ -30212,6 +30214,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -30222,17 +30232,25 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         score: null,
         number: null,
         describe: null,
-        question_type: 'SINGLE_CHOICE'
+        question_type: 'SINGLE_CHOICE',
+        scores: {}
       },
       questions: '', // 涉及的问题
       questionsString: '',
-
+      //
+      paginationData: null,
+      data: null,
+      //
       questionData: {},
-      selectedQuesiton: []
+      selectedQuesiton: [],
+      questionScore: [],
+      scoreJson: {}
     };
   },
 
-  components: {},
+  components: {
+    Pagination: __WEBPACK_IMPORTED_MODULE_0__Pagination___default.a
+  },
   props: ['examinationPaperId'],
   methods: {
     switchModal: function switchModal() {
@@ -30246,11 +30264,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       that.chapterData.number = '';
       that.chapterData.describe = '';
       that.chapterData.question_type = '';
+      that.selectedQuesiton = [];
+      that.questionScore = [];
     },
     addChapter: function addChapter() {
       var that = this;
       var id = that.examinationPaperId;
-      var questionsParams = that.computedParams(that.selectedQuesiton, 'questions');
+      var questionsParams = this.GLOBAL.computedParams(that.selectedQuesiton, 'questions');
+      var scores = that.computedAnswerJson();
       axios({
         method: 'post',
         url: this.GLOBAL.localDomain + '/api/v1/papers/' + id + '/sections/?' + questionsParams,
@@ -30264,7 +30285,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
           score: that.chapterData.score,
           number: that.chapterData.number,
           describe: that.chapterData.describe,
-          question_type: that.chapterData.question_type
+          question_type: that.chapterData.question_type,
+          scores: scores
         }
       }).then(function (res) {
         alert('添加成功');
@@ -30277,23 +30299,19 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         that.clearWords();
       });
     },
-    /**
-     * computedParams
-     * @param  {Array} selectedQuesiton   选中的数组
-     * @param  {String} param param拼接参数
-     * @return {String}       拼接完成的params
-     */
-    computedParams: function computedParams(selectedQuesiton, param) {
-      var arr = selectedQuesiton;
-      var string = '';
-      for (var i = 0; i < arr.length; i++) {
-        if (i != 0) {
-          string += '&' + param + '[' + i + ']' + '=' + arr[i];
-        } else {
-          string += param + '[' + i + ']' + '=' + arr[i];
-        }
+    // 计算问题分值的JSON
+    computedAnswerJson: function computedAnswerJson() {
+      var that = this;
+      // if (that.selectedQuesiton.length !== that.questionScore.length) {
+      //   alert('请检查分值是否填写完整');
+      //   return;
+      // }
+      var json = {};
+      for (var i = 0; i < that.selectedQuesiton.length; i++) {
+        json[that.selectedQuesiton[i]] = that.questionScore[that.selectedQuesiton[i]];
       }
-      return string;
+      that.scoreJson = json;
+      return json;
     },
     getQuestion: function getQuestion() {
       var that = this;
@@ -30306,7 +30324,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         }
       }).then(function (res) {
         that.questionData = res.data.data;
-        // that.paginationData = res.data.links;
+        that.paginationData = res.data.links;
       }).catch(function (err) {
         console.log(err);
       });
@@ -30319,7 +30337,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   watch: {
     selectedQuesiton: function selectedQuesiton(value, oldValue) {
       var that = this;
-      console.log(value);
+      // console.log('选中的问题');
+      // console.log(value)
+      // this.computedAnswerJson();
+    },
+    data: function data(value, oldValue) {
+      var that = this;
+      that.questionData = value.data;
+      that.paginationData = value.links;
     }
   }
 });
@@ -33300,21 +33325,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 //
 //
 //
@@ -37456,8 +37466,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       isShowModal: false,
       questionData: null,
       editData: null,
+      //
       paginationData: null,
       data: null,
+      //
       searchKey: null
     };
   },
@@ -40264,11 +40276,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -40276,7 +40283,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       isShowModal: false,
       testData: {
         title: '',
-        number: '',
         exam_type: 'OPEN',
         describe: '',
         score: '',
@@ -40298,7 +40304,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     clearWords: function clearWords() {
       var that = this;
       that.testData.title = '';
-      that.testData.number = '';
       that.testData.exam_type = '';
       that.testData.describe = '';
       that.testData.score = '';
@@ -40317,7 +40322,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
         params: {
           title: that.testData.title,
-          number: that.testData.number,
           exam_type: that.testData.exam_type,
           describe: that.testData.describe,
           score: that.testData.score,
@@ -40578,10 +40582,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -40589,7 +40589,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       isShowModal: false,
       testData: {
         title: '',
-        number: '',
         exam_type: '',
         describe: '',
         score: '',
@@ -40612,7 +40611,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     clearWords: function clearWords() {
       var that = this;
       that.testData.title = '';
-      that.testData.number = '';
       that.testData.exam_type = '';
       that.testData.describe = '';
       that.testData.score = '';
@@ -40622,7 +40620,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     editTest: function editTest(index) {
       var that = this;
-      var id = that.editData[id];
+      var id = that.editData.id;
       axios({
         method: 'put',
         url: this.GLOBAL.localDomain + '/api/v1/exams/' + id,
@@ -40632,7 +40630,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
         params: {
           title: that.testData.title,
-          number: that.testData.number,
           exam_type: that.testData.exam_type,
           describe: that.testData.describe,
           score: that.testData.score,
@@ -40648,7 +40645,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       }).catch(function (err) {
         alert('编辑失败');
         console.log(err);
-        that.clearWords();
+        // that.clearWords();
       });
     },
     getExaminationPaper: function getExaminationPaper() {
@@ -40675,7 +40672,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       that.getExaminationPaper();
 
       that.testData.title = value.title;
-      that.testData.number = value.number;
       that.testData.exam_type = value.exam_type;
       that.testData.describe = value.describe;
       that.testData.score = value.score;
@@ -40966,7 +40962,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     deleteTest: function deleteTest(index) {
       var that = this;
       var id = that.testData[index].id;
-      var prompt = confirm("确认删除该标签吗？");
+      var prompt = confirm("确认删除该考试吗？");
       if (prompt) {
         axios({
           method: 'delete',
@@ -46550,7 +46546,7 @@ exports.push([module.i, "\n.notice {\n  margin: 35px auto 0 auto;\n}\n.search-in
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(2)();
-exports.push([module.i, "\n.wrapper[data-v-5290f528] {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  display: -webkit-flex;\n}\n.left-nav[data-v-5290f528] {\n  width: 17%;\n  min-height: 800px;\n  height: auto;\n  background-color: #2f4860;\n}\n.is-active[data-v-5290f528] {\n  background-color: #1f3244;\n  color: #fff;\n}\nul[data-v-5290f528] {\n  padding-top: 30px;\n}\nul li[data-v-5290f528] {\n  list-style: none;\n  text-align: center;\n  color: #76929d;\n  padding: 13px 0;\n  cursor: pointer;\n}\nul li[data-v-5290f528]:hover {\n  background-color: #1f3244;\n  color: #fff;\n}\na[data-v-5290f528] {\n  color: #76929d;\n}\na[data-v-5290f528]:hover {\n  color: #fff;\n}\nul li[data-v-5290f528] {\n  list-style: none;\n  text-align: center;\n  color: #76929d;\n  padding: 13px 0;\n  cursor: pointer;\n}\nul li[data-v-5290f528]:hover {\n  background-color: #1f3244;\n  color: #fff;\n}\n.fa-home[data-v-5290f528],\n.fa-user-circle[data-v-5290f528],\n.fa-users[data-v-5290f528],\n.fa-comments[data-v-5290f528],\n.fa-bell[data-v-5290f528],\n.fa-key[data-v-5290f528],\n.fa-braille[data-v-5290f528],\n.fa-book[data-v-5290f528],\n.fa-file-alt[data-v-5290f528],\n.fa-align-left[data-v-5290f528] {\n  /* color: #ffc500; */\n  font-size: 20px;\n}\nul li span[data-v-5290f528] {\n  display: inline-block;\n  margin-left: 20px;\n}\n.head-portrait[data-v-5290f528] {\n  height: 75px;\n  line-height: 75px;\n  text-align: center;\n  /* padding-top: 15px; */\n  margin: 0 auto;\n  background-color: #5d93d2;\n  color: #fff;\n  font-weight: bold;\n}\n.fa-heart[data-v-5290f528] {\n  font-size: 45px;\n}\n/* right */\n.right-nav[data-v-5290f528] {\n  -webkit-box-flex: 1;\n      -ms-flex: 1;\n          flex: 1;\n  background-color: #eaf1f1;\n}\n.operate[data-v-5290f528] {\n  height: 76px;\n  padding: 0 20px;\n  border-bottom: 1px solid #dedede;\n  background-color: #fff;\n}\n.notice[data-v-5290f528] {\n  font-size: 17px;\n  height: 76px;\n  line-height: 76px;\n  float: left;\n  margin: 0;\n}\n.exit[data-v-5290f528] {\n  float: right;\n  height: 76px;\n  line-height: 76px;\n  cursor: pointer;\n}\n.exit span[data-v-5290f528] {\n  font-size: 14px;\n  height: 76px;\n  line-height: 76px;\n}\n.fa-user[data-v-5290f528],\n.fa-comment-alt[data-v-5290f528],\n.fa-bullhorn[data-v-5290f528] {\n  display: inline-block;\n  margin: 0 15px;\n  cursor: pointer;\n  color: #aeb8b8;\n}\n.fa-sign-out-alt[data-v-5290f528] {\n  font-size: 17px;\n  cursor: pointer;\n  color: #aeb8b8;\n}\n.prompt[data-v-5290f528] {\n  font-size: 12px;\n  width: 50px;\n  height: 50px;\n  border-radius: 100%;\n  color: #fff;\n  font-weight: bold;\n  background-color: red;\n  position: relative;\n  left: -20px;\n  top: -13px;\n}\n", ""]);
+exports.push([module.i, "\n.wrapper[data-v-5290f528] {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  display: -webkit-flex;\n}\n.left-nav[data-v-5290f528] {\n  width: 17%;\n  min-height: 800px;\n  height: auto;\n  background-color: #2f4860;\n}\nul[data-v-5290f528] {\n  padding-top: 30px;\n}\nul li[data-v-5290f528] {\n  list-style: none;\n  text-align: center;\n  color: #76929d;\n  padding: 13px 0;\n  cursor: pointer;\n}\nul li[data-v-5290f528]:hover {\n  background-color: #1f3244;\n  color: #fff;\n}\n.is-active[data-v-5290f528] {\n  background-color: #1f3244;\n  color: #fff;\n}\na[data-v-5290f528] {\n  color: #76929d;\n}\na[data-v-5290f528]:hover {\n  color: #fff;\n}\nul li[data-v-5290f528] {\n  list-style: none;\n  text-align: center;\n  color: #76929d;\n  padding: 13px 0;\n  cursor: pointer;\n}\nul li[data-v-5290f528]:hover {\n  background-color: #1f3244;\n  color: #fff;\n}\n.fa-home[data-v-5290f528],\n.fa-user-circle[data-v-5290f528],\n.fa-users[data-v-5290f528],\n.fa-comments[data-v-5290f528],\n.fa-bell[data-v-5290f528],\n.fa-key[data-v-5290f528],\n.fa-braille[data-v-5290f528],\n.fa-book[data-v-5290f528],\n.fa-file-alt[data-v-5290f528],\n.fa-align-left[data-v-5290f528] {\n  /* color: #ffc500; */\n  font-size: 20px;\n}\nul li span[data-v-5290f528] {\n  display: inline-block;\n  margin-left: 20px;\n}\n.head-portrait[data-v-5290f528] {\n  height: 75px;\n  line-height: 75px;\n  text-align: center;\n  /* padding-top: 15px; */\n  margin: 0 auto;\n  background-color: #5d93d2;\n  color: #fff;\n  font-weight: bold;\n}\n.fa-heart[data-v-5290f528] {\n  font-size: 45px;\n}\n/* right */\n.right-nav[data-v-5290f528] {\n  -webkit-box-flex: 1;\n      -ms-flex: 1;\n          flex: 1;\n  background-color: #eaf1f1;\n}\n.operate[data-v-5290f528] {\n  height: 76px;\n  padding: 0 20px;\n  border-bottom: 1px solid #dedede;\n  background-color: #fff;\n}\n.notice[data-v-5290f528] {\n  font-size: 17px;\n  height: 76px;\n  line-height: 76px;\n  float: left;\n  margin: 0;\n}\n.exit[data-v-5290f528] {\n  float: right;\n  height: 76px;\n  line-height: 76px;\n  cursor: pointer;\n}\n.exit span[data-v-5290f528] {\n  font-size: 14px;\n  height: 76px;\n  line-height: 76px;\n}\n.fa-user[data-v-5290f528],\n.fa-comment-alt[data-v-5290f528],\n.fa-bullhorn[data-v-5290f528] {\n  display: inline-block;\n  margin: 0 15px;\n  cursor: pointer;\n  color: #aeb8b8;\n}\n.fa-sign-out-alt[data-v-5290f528] {\n  font-size: 17px;\n  cursor: pointer;\n  color: #aeb8b8;\n}\n.prompt[data-v-5290f528] {\n  font-size: 12px;\n  width: 50px;\n  height: 50px;\n  border-radius: 100%;\n  color: #fff;\n  font-weight: bold;\n  background-color: red;\n  position: relative;\n  left: -20px;\n  top: -13px;\n}\n", ""]);
 
 /***/ }),
 /* 311 */
@@ -46795,7 +46791,7 @@ exports.push([module.i, "\nul li a[data-v-c65aa48c] {\n  border-bottom-width: 5p
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(2)();
-exports.push([module.i, "\n.question-seleted[data-v-c6d485a0] {\n  width: 20px;\n}\n", ""]);
+exports.push([module.i, "\n.question-seleted[data-v-c6d485a0] {\n  width: 20px;\n}\n.modal-card[data-v-c6d485a0] {\n  width: 1100px;\n}\n.number-input[data-v-c6d485a0] {\n  width: 100px;\n}\n", ""]);
 
 /***/ }),
 /* 346 */
@@ -68614,7 +68610,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   })]), _vm._v(" "), _c('div', {
     staticClass: "box-item"
-  }, [_c('label', [_vm._v("最小值")]), _vm._v(" "), _c('input', {
+  }, [_c('label', [_vm._v("时长")]), _vm._v(" "), _c('input', {
     directives: [{
       name: "model",
       rawName: "v-model",
@@ -68736,28 +68732,6 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   })]), _vm._v(" "), _c('div', {
     staticClass: "box-item"
-  }, [_c('label', [_vm._v("总分")]), _vm._v(" "), _c('input', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.testData.number),
-      expression: "testData.number"
-    }],
-    staticClass: "input",
-    attrs: {
-      "type": "number"
-    },
-    domProps: {
-      "value": (_vm.testData.number)
-    },
-    on: {
-      "input": function($event) {
-        if ($event.target.composing) { return; }
-        _vm.$set(_vm.testData, "number", $event.target.value)
-      }
-    }
-  })]), _vm._v(" "), _c('div', {
-    staticClass: "box-item"
   }, [_c('label', [_vm._v("类型")]), _vm._v(" "), _c('div', {
     staticClass: "select"
   }, [_c('select', {
@@ -68828,7 +68802,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   })]), _vm._v(" "), _c('div', {
     staticClass: "box-item"
-  }, [_c('label', [_vm._v("最小值")]), _vm._v(" "), _c('input', {
+  }, [_c('label', [_vm._v("考试时长")]), _vm._v(" "), _c('input', {
     directives: [{
       name: "model",
       rawName: "v-model",
@@ -70565,7 +70539,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_vm._v("添加考试")])]), _vm._v(" "), _c('table', {
     staticClass: "table"
   }, [_vm._m(0), _vm._v(" "), _c('tbody', _vm._l((_vm.testData), function(item, index) {
-    return _c('tr', [_c('td', [_vm._v(_vm._s(item.title))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.exam_type))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.score))]), _vm._v(" "), _c('td', [_vm._v(" " + _vm._s(item.description))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.GLOBAL.toTime(item.created_at)))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.GLOBAL.toTime(item.updated_at)))]), _vm._v(" "), _c('td', [_c('button', {
+    return _c('tr', [_c('td', [_vm._v(_vm._s(item.id))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.title))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.exam_type))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.score))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.min))]), _vm._v(" "), _c('td', [_vm._v(" " + _vm._s(item.description))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.GLOBAL.toTime(item.created_at)))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.GLOBAL.toTime(item.updated_at)))]), _vm._v(" "), _c('td', [_c('button', {
       directives: [{
         name: "show",
         rawName: "v-show",
@@ -70669,7 +70643,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   })], 1)
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('thead', [_c('tr', [_c('th', [_vm._v("考试标题")]), _vm._v(" "), _c('th', [_vm._v("考试类型")]), _vm._v(" "), _c('th', [_vm._v("成绩总值")]), _vm._v(" "), _c('th', [_vm._v("描述")]), _vm._v(" "), _c('th', [_vm._v("创建时间")]), _vm._v(" "), _c('th', [_vm._v("更新时间")]), _vm._v(" "), _c('th', [_vm._v("操作")]), _vm._v(" "), _c('th', [_vm._v("用户")])])])
+  return _c('thead', [_c('tr', [_c('th', [_vm._v("序号")]), _vm._v(" "), _c('th', [_vm._v("标题")]), _vm._v(" "), _c('th', [_vm._v("类型")]), _vm._v(" "), _c('th', [_vm._v("分值")]), _vm._v(" "), _c('th', [_vm._v("时长")]), _vm._v(" "), _c('th', [_vm._v("描述")]), _vm._v(" "), _c('th', [_vm._v("创建时间")]), _vm._v(" "), _c('th', [_vm._v("更新时间")]), _vm._v(" "), _c('th', [_vm._v("操作")]), _vm._v(" "), _c('th', [_vm._v("用户")])])])
 }]}
 module.exports.render._withStripped = true
 if (false) {
@@ -72198,13 +72172,16 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       rawName: "v-show",
       value: (_vm.isShowUser),
       expression: "isShowUser"
-    }]
-  }, [_c('i', {
-    staticClass: "far fa-user-circle"
-  }), _vm._v(" "), _c('router-link', {
+    }],
     class: {
       'is-active': _vm.currentTag === 'uuser'
     },
+    on: {
+      "click": function($event) {
+        _vm.currentTag = 'uuser'
+      }
+    }
+  }, [_c('router-link', {
     attrs: {
       "to": "/uuser"
     },
@@ -72213,153 +72190,252 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.currentTag = 'uuser'
       }
     }
-  }, [_c('span', [_vm._v("用户")])])], 1), _vm._v(" "), _c('li', {
+  }, [_c('i', {
+    staticClass: "far fa-user-circle"
+  }), _c('span', [_vm._v("用户")])])], 1), _vm._v(" "), _c('li', {
     directives: [{
       name: "show",
       rawName: "v-show",
       value: (_vm.isShowRole),
       expression: "isShowRole"
-    }]
-  }, [_c('i', {
-    staticClass: "fas fa-users"
-  }), _vm._v(" "), _c('router-link', {
+    }],
+    class: {
+      'is-active': _vm.currentTag === 'role'
+    },
+    on: {
+      "click": function($event) {
+        _vm.currentTag = 'role'
+      }
+    }
+  }, [_c('router-link', {
     attrs: {
       "to": "/role"
     }
-  }, [_c('span', [_vm._v("角色")])])], 1), _vm._v(" "), _c('li', {
+  }, [_c('i', {
+    staticClass: "fas fa-users"
+  }), _c('span', [_vm._v("角色")])])], 1), _vm._v(" "), _c('li', {
     directives: [{
       name: "show",
       rawName: "v-show",
       value: (_vm.isShowPermission),
       expression: "isShowPermission"
-    }]
-  }, [_c('i', {
-    staticClass: "fas fa-key"
-  }), _vm._v(" "), _c('router-link', {
+    }],
+    class: {
+      'is-active': _vm.currentTag === 'permission'
+    },
+    on: {
+      "click": function($event) {
+        _vm.currentTag = 'permission'
+      }
+    }
+  }, [_c('router-link', {
     attrs: {
       "to": "/ppermission"
     }
-  }, [_c('span', [_vm._v("权限")])])], 1), _vm._v(" "), _c('li', {
+  }, [_c('i', {
+    staticClass: "fas fa-key"
+  }), _c('span', [_vm._v("权限")])])], 1), _vm._v(" "), _c('li', {
     directives: [{
       name: "show",
       rawName: "v-show",
       value: (_vm.isShowMessage),
       expression: "isShowMessage"
-    }]
-  }, [_c('i', {
-    staticClass: "far fa-comments"
-  }), _vm._v(" "), _c('router-link', {
+    }],
+    class: {
+      'is-active': _vm.currentTag === 'mmessage'
+    },
+    on: {
+      "click": function($event) {
+        _vm.currentTag = 'mmessage'
+      }
+    }
+  }, [_c('router-link', {
     attrs: {
       "to": "/mmessage"
     }
-  }, [_c('span', [_vm._v("消息")])])], 1), _vm._v(" "), _c('li', {
+  }, [_c('i', {
+    staticClass: "far fa-comments"
+  }), _c('span', [_vm._v("消息")])])], 1), _vm._v(" "), _c('li', {
     directives: [{
       name: "show",
       rawName: "v-show",
       value: (_vm.isShowNotification),
       expression: "isShowNotification"
-    }]
-  }, [_c('i', {
-    staticClass: "far fa-bell"
-  }), _vm._v(" "), _c('router-link', {
+    }],
+    class: {
+      'is-active': _vm.currentTag === 'nnotice'
+    },
+    on: {
+      "click": function($event) {
+        _vm.currentTag = 'nnotice'
+      }
+    }
+  }, [_c('router-link', {
     attrs: {
       "to": "/nnotice"
     }
-  }, [_c('span', [_vm._v("通知")])])], 1), _vm._v(" "), _c('li', {
+  }, [_c('i', {
+    staticClass: "far fa-bell"
+  }), _c('span', [_vm._v("通知")])])], 1), _vm._v(" "), _c('li', {
     directives: [{
       name: "show",
       rawName: "v-show",
       value: (_vm.isShowOrganization),
       expression: "isShowOrganization"
-    }]
-  }, [_c('i', {
-    staticClass: "fas fa-braille"
-  }), _vm._v(" "), _c('router-link', {
+    }],
+    class: {
+      'is-active': _vm.currentTag === 'organization'
+    },
+    on: {
+      "click": function($event) {
+        _vm.currentTag = 'organization'
+      }
+    }
+  }, [_c('router-link', {
     attrs: {
       "to": "/organization"
     }
-  }, [_c('span', [_vm._v("组织")])])], 1), _vm._v(" "), _c('li', [_c('i', {
-    staticClass: "fas fa-book"
-  }), _vm._v(" "), _c('router-link', {
+  }, [_c('i', {
+    staticClass: "fas fa-braille"
+  }), _c('span', [_vm._v("组织")])])], 1), _vm._v(" "), _c('li', {
+    class: {
+      'is-active': _vm.currentTag === 'course'
+    },
+    on: {
+      "click": function($event) {
+        _vm.currentTag = 'course'
+      }
+    }
+  }, [_c('router-link', {
     attrs: {
       "to": "/course"
     }
-  }, [_c('span', [_vm._v("课程")])])], 1), _vm._v(" "), _c('li', {
+  }, [_c('i', {
+    staticClass: "fas fa-book"
+  }), _c('span', [_vm._v("课程")])])], 1), _vm._v(" "), _c('li', {
     directives: [{
       name: "show",
       rawName: "v-show",
       value: (_vm.isShowUser),
       expression: "isShowUser"
-    }]
-  }, [_c('i', {
-    staticClass: "fas fa-book"
-  }), _vm._v(" "), _c('router-link', {
+    }],
+    class: {
+      'is-active': _vm.currentTag === 'teaching'
+    },
+    on: {
+      "click": function($event) {
+        _vm.currentTag = 'teaching'
+      }
+    }
+  }, [_c('router-link', {
     attrs: {
       "to": "/teaching"
     }
-  }, [_c('span', [_vm._v("授课")])])], 1), _vm._v(" "), _c('li', {
+  }, [_c('i', {
+    staticClass: "fas fa-book"
+  }), _c('span', [_vm._v("授课")])])], 1), _vm._v(" "), _c('li', {
     directives: [{
       name: "show",
       rawName: "v-show",
       value: (_vm.isShowExam),
       expression: "isShowExam"
-    }]
-  }, [_c('i', {
-    staticClass: "far fa-file-alt"
-  }), _vm._v(" "), _c('router-link', {
+    }],
+    class: {
+      'is-active': _vm.currentTag === 'test'
+    },
+    on: {
+      "click": function($event) {
+        _vm.currentTag = 'test'
+      }
+    }
+  }, [_c('router-link', {
     attrs: {
       "to": "/test"
     }
-  }, [_c('span', [_vm._v("考试")])])], 1), _vm._v(" "), _c('li', {
+  }, [_c('i', {
+    staticClass: "far fa-file-alt"
+  }), _c('span', [_vm._v("考试")])])], 1), _vm._v(" "), _c('li', {
     directives: [{
       name: "show",
       rawName: "v-show",
       value: (_vm.isShowPaper),
       expression: "isShowPaper"
-    }]
-  }, [_c('i', {
-    staticClass: "far fa-file-alt"
-  }), _vm._v(" "), _c('router-link', {
+    }],
+    class: {
+      'is-active': _vm.currentTag === 'examinationPaper'
+    },
+    on: {
+      "click": function($event) {
+        _vm.currentTag = 'examinationPaper'
+      }
+    }
+  }, [_c('router-link', {
     attrs: {
       "to": "/examinationPaper"
     }
-  }, [_c('span', [_vm._v("试卷")])])], 1), _vm._v(" "), _c('li', {
+  }, [_c('i', {
+    staticClass: "far fa-file-alt"
+  }), _c('span', [_vm._v("试卷")])])], 1), _vm._v(" "), _c('li', {
     directives: [{
       name: "show",
       rawName: "v-show",
       value: (_vm.isShowQuestion),
       expression: "isShowQuestion"
-    }]
-  }, [_c('i', {
-    staticClass: "far fa-file-alt"
-  }), _vm._v(" "), _c('router-link', {
+    }],
+    class: {
+      'is-active': _vm.currentTag === 'question'
+    },
+    on: {
+      "click": function($event) {
+        _vm.currentTag = 'question'
+      }
+    }
+  }, [_c('router-link', {
     attrs: {
       "to": "/question"
     }
-  }, [_c('span', [_vm._v("问题")])])], 1), _vm._v(" "), _c('li', {
+  }, [_c('i', {
+    staticClass: "far fa-file-alt"
+  }), _c('span', [_vm._v("问题")])])], 1), _vm._v(" "), _c('li', {
+    class: {
+      'is-active': _vm.currentTag === 'label'
+    },
     attrs: {
       "is-show": "isShowLabel"
+    },
+    on: {
+      "click": function($event) {
+        _vm.currentTag = 'label'
+      }
     }
-  }, [_c('i', {
-    staticClass: "fas fa-tags"
-  }), _vm._v(" "), _c('router-link', {
+  }, [_c('router-link', {
     attrs: {
       "to": "/label"
     }
-  }, [_c('span', [_vm._v("标签")])])], 1), _vm._v(" "), _c('li', {
+  }, [_c('i', {
+    staticClass: "fas fa-tags"
+  }), _c('span', [_vm._v("标签")])])], 1), _vm._v(" "), _c('li', {
     directives: [{
       name: "show",
       rawName: "v-show",
       value: (_vm.isShowApplication),
       expression: "isShowApplication"
-    }]
-  }, [_c('i', {
-    staticClass: "fab fa-adn"
-  }), _vm._v(" "), _c('router-link', {
+    }],
+    class: {
+      'is-active': _vm.currentTag === 'applyFor'
+    },
+    on: {
+      "click": function($event) {
+        _vm.currentTag = 'applyFor'
+      }
+    }
+  }, [_c('router-link', {
     attrs: {
       "to": "/applyFor"
     }
-  }, [_c('span', [_vm._v("申请")])])], 1)])])]), _vm._v(" "), _c('div', {
+  }, [_c('i', {
+    staticClass: "fab fa-adn"
+  }), _c('span', [_vm._v("申请")])])], 1)])])]), _vm._v(" "), _c('div', {
     staticClass: "right-nav"
   }, [_c('div', {
     staticClass: "operate"
@@ -73247,7 +73323,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_vm._v("添加试卷")])]), _vm._v(" "), _c('table', {
     staticClass: "table"
   }, [_vm._m(0), _vm._v(" "), _c('tbody', _vm._l((_vm.examinationPaperData), function(item, index) {
-    return _c('tr', [_c('td', [_vm._v(_vm._s(item.creator_id))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.title))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.score))]), _vm._v(" "), _c('td', [_vm._v(" " + _vm._s(item.description))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.toTime(item.created_at)))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.toTime(item.updated_at)))]), _vm._v(" "), _c('td', [_c('button', {
+    return _c('tr', [_c('td', [_vm._v(_vm._s(item.id))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.title))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.score))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.min))]), _vm._v(" "), _c('td', [_vm._v(" " + _vm._s(item.description))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.toTime(item.created_at)))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.toTime(item.updated_at)))]), _vm._v(" "), _c('td', [_c('button', {
       directives: [{
         name: "show",
         rawName: "v-show",
@@ -73350,7 +73426,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   })], 1)
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('thead', [_c('tr', [_c('th', [_vm._v("创建者")]), _vm._v(" "), _c('th', [_vm._v("试卷标题")]), _vm._v(" "), _c('th', [_vm._v("总分数")]), _vm._v(" "), _c('th', [_vm._v("描述")]), _vm._v(" "), _c('th', [_vm._v("创建时间")]), _vm._v(" "), _c('th', [_vm._v("更新时间")]), _vm._v(" "), _c('th', [_vm._v("试卷操作")]), _vm._v(" "), _c('th', [_vm._v("章节操作")])])])
+  return _c('thead', [_c('tr', [_c('th', [_vm._v("序号")]), _vm._v(" "), _c('th', [_vm._v("试卷标题")]), _vm._v(" "), _c('th', [_vm._v("总分数")]), _vm._v(" "), _c('th', [_vm._v("时长")]), _vm._v(" "), _c('th', [_vm._v("描述")]), _vm._v(" "), _c('th', [_vm._v("创建时间")]), _vm._v(" "), _c('th', [_vm._v("更新时间")]), _vm._v(" "), _c('th', [_vm._v("试卷操作")]), _vm._v(" "), _c('th', [_vm._v("章节操作")])])])
 }]}
 module.exports.render._withStripped = true
 if (false) {
@@ -74207,28 +74283,6 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   })]), _vm._v(" "), _c('div', {
     staticClass: "box-item"
-  }, [_c('label', [_vm._v("数目")]), _vm._v(" "), _c('input', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.testData.number),
-      expression: "testData.number"
-    }],
-    staticClass: "input",
-    attrs: {
-      "type": "text"
-    },
-    domProps: {
-      "value": (_vm.testData.number)
-    },
-    on: {
-      "input": function($event) {
-        if ($event.target.composing) { return; }
-        _vm.$set(_vm.testData, "number", $event.target.value)
-      }
-    }
-  })]), _vm._v(" "), _c('div', {
-    staticClass: "box-item"
   }, [_c('label', [_vm._v("类型")]), _vm._v(" "), _c('div', {
     staticClass: "select"
   }, [_c('select', {
@@ -74299,7 +74353,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   })]), _vm._v(" "), _c('div', {
     staticClass: "box-item"
-  }, [_c('label', [_vm._v("min")]), _vm._v(" "), _c('input', {
+  }, [_c('label', [_vm._v("考试时长")]), _vm._v(" "), _c('input', {
     directives: [{
       name: "model",
       rawName: "v-model",
@@ -76669,6 +76723,13 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         value: (item.question_type === _vm.chapterData.question_type),
         expression: "item.question_type === chapterData.question_type"
       }]
+    }, [_vm._v(_vm._s(item.question_type))]), _vm._v(" "), _c('td', {
+      directives: [{
+        name: "show",
+        rawName: "v-show",
+        value: (item.question_type === _vm.chapterData.question_type),
+        expression: "item.question_type === chapterData.question_type"
+      }]
     }, [_vm._v(_vm._s(item.title))]), _vm._v(" "), _c('td', {
       directives: [{
         name: "show",
@@ -76676,8 +76737,39 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         value: (item.question_type === _vm.chapterData.question_type),
         expression: "item.question_type === chapterData.question_type"
       }]
-    }, [_vm._v(_vm._s(item.question_type))])])
-  }))])])])]), _vm._v(" "), _c('footer', {
+    }, [_c('input', {
+      directives: [{
+        name: "model",
+        rawName: "v-model",
+        value: (_vm.questionScore[item.id]),
+        expression: "questionScore[item.id]"
+      }],
+      staticClass: "input number-input",
+      attrs: {
+        "type": "number"
+      },
+      domProps: {
+        "value": (_vm.questionScore[item.id])
+      },
+      on: {
+        "input": function($event) {
+          if ($event.target.composing) { return; }
+          _vm.$set(_vm.questionScore, item.id, $event.target.value)
+        }
+      }
+    })])])
+  }))]), _vm._v(" "), _c('pagination', {
+    attrs: {
+      "pagination-data": _vm.paginationData
+    },
+    model: {
+      value: (_vm.data),
+      callback: function($$v) {
+        _vm.data = $$v
+      },
+      expression: "data"
+    }
+  })], 1)])]), _vm._v(" "), _c('footer', {
     staticClass: "modal-card-foot"
   }, [_c('button', {
     staticClass: "button is-success",
@@ -76695,7 +76787,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_vm._v("取消")])])])])
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('thead', [_c('tr', [_c('th', [_vm._v("是否选中")]), _vm._v(" "), _c('th', [_vm._v("序号")]), _vm._v(" "), _c('th', [_vm._v("题目")]), _vm._v(" "), _c('th', [_vm._v("类型")])])])
+  return _c('thead', [_c('tr', [_c('th', [_vm._v("是否选中")]), _vm._v(" "), _c('th', [_vm._v("序号")]), _vm._v(" "), _c('th', [_vm._v("类型")]), _vm._v(" "), _c('th', [_vm._v("题目")]), _vm._v(" "), _c('th', [_vm._v("分值")])])])
 }]}
 module.exports.render._withStripped = true
 if (false) {

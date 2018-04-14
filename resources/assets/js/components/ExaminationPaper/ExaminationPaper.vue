@@ -11,11 +11,11 @@
     <table class="table">
       <thead>
         <tr>
-          <!-- <th>ID</th> -->
-          <th>创建者</th>
+          <th>序号</th>
+          <!-- <th>创建者</th> -->
           <th>试卷标题</th>
           <th>总分数</th>
-          <!-- <th>最小</th> -->
+          <th>时长</th>
           <th>描述</th>
           <!-- <th>章节id</th> -->
           <!-- <th>Tags</th> -->
@@ -27,11 +27,11 @@
       </thead>
       <tbody>
         <tr v-for="(item,index) in examinationPaperData">
-          <!-- <td>{{ item.id }}</td> -->
-          <td>{{ item.creator_id }}</td>
+          <td>{{ item.id }}</td>
+          <!-- <td>{{ item.creator_id }}</td> -->
           <td>{{ item.title }}</td>
           <td>{{ item.score }}</td>
-          <!-- <td>{{ item.min }}</td> -->
+          <td>{{ item.min }}</td>
           <td> {{ item.description }}</td>
           <!-- <td>{{ item.sections }}</td> -->
           <!-- <td>{{ item.tags }}</td> -->
