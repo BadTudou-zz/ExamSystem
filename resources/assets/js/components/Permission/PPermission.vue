@@ -198,16 +198,16 @@ export default {
   },
   computed: {
     isShowCreatePermission() {
-      return true;
-      // return sessionStorage.getItem('permissions').includes(1);
+      // return true;
+      return sessionStorage.getItem('permissions').includes(1);
     },
     isShowSearchPermission() {
-      return true;
-      // return sessionStorage.getItem('permissions').includes(2)
+      // return true;
+      return sessionStorage.getItem('permissions').includes(2)
     },
     isShowDeletePermission() {
-      return true;
-      // return sessionStorage.getItem('permissions').includes(3)
+      // return true;
+      return sessionStorage.getItem('permissions').includes(3)
     },
   },
   created() {

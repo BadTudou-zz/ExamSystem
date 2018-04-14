@@ -213,16 +213,16 @@ export default {
   },
   computed: {
     isShowSearchLabel() {
-      return true;
-      // return sessionStorage.getItem('permissions').includes(50);
+      // return true;
+      return sessionStorage.getItem('permissions').includes(50);
     },
     isShowUpdateLabel() {
-      return true;
-      // return sessionStorage.getItem('permissions').includes(51);
+      // return true;
+      return sessionStorage.getItem('permissions').includes(51);
     },
     isShowDeleteLabel() {
-      return true;
-      // return sessionStorage.getItem('permissions').includes(52);
+      // return true;
+      return sessionStorage.getItem('permissions').includes(52);
     },
   },
   created() {

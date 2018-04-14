@@ -190,16 +190,16 @@ export default {
   },
   computed: {
     isShowCreateTeaching() {
-      return true;
-      // return sessionStorage.getItem('permissions').includes(30)
+      // return true;
+      return sessionStorage.getItem('permissions').includes(30)
     },
     isShowSearchTeaching() {
-      return true;
-      // return sessionStorage.getItem('permissions').includes(31)
+      // return true;
+      return sessionStorage.getItem('permissions').includes(31)
     },
     isShowDeleteTeaching() {
-      return true;
-      // return sessionStorage.getItem('permissions').includes(32)
+      // return true;
+      return sessionStorage.getItem('permissions').includes(32)
     },
   },
   created() {

@@ -208,21 +208,21 @@ export default {
   },
   computed: {
     isShowCreatePaper() {
-      // return sessionStorage.getItem('permissions').includes(39);
-      return true;
+      return sessionStorage.getItem('permissions').includes(39);
+      // return true;
     },
     isShowSearchPaper() {
-      // return sessionStorage.getItem('permissions').includes(40);
-      return true;
+      return sessionStorage.getItem('permissions').includes(40);
+      // return true;
     },
     isShowUpdatePaper() {
-      // return sessionStorage.getItem('permissions').includes(41);
-      return true;
+      return sessionStorage.getItem('permissions').includes(41);
+      // return true;
 
     },
     isShowDeletePaper() {
-      return true;
-      // return sessionStorage.getItem('permissions').includes(42);
+      // return true;
+      return sessionStorage.getItem('permissions').includes(42);
     },
   },
   created() {

@@ -114,20 +114,20 @@ export default {
   },
   computed: {
     isShowCreateNotification() {
-      return true;
-      // return sessionStorage.getItem('permissions').includes(18)
+      // return true;
+      return sessionStorage.getItem('permissions').includes(18)
     },
     isShowSearchNotification() {
-      return true;
-      // return sessionStorage.getItem('permissions').includes(19)
+      // return true;
+      return sessionStorage.getItem('permissions').includes(19)
     },
     isShowUpdateNotification() {
-      return true;
-      // return sessionStorage.getItem('permissions').includes(20)
+      // return true;
+      return sessionStorage.getItem('permissions').includes(20)
     },
     isShowDeleteNotification() {
-      return true;
-      // return sessionStorage.getItem('permissions').includes(21)
+      // return true;
+      return sessionStorage.getItem('permissions').includes(21)
     },
   },
   created() {

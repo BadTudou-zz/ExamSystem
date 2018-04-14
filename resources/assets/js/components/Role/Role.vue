@@ -158,20 +158,20 @@ export default {
   },
   computed: {
     isShowCreateRole() {
-      return true;
-      // return sessionStorage.getItem('permissions').includes(5)
+      // return true;
+      return sessionStorage.getItem('permissions').includes(5)
     },
     isShowSearchRole() {
-      return true;
-      // return sessionStorage.getItem('permissions').includes(6)
+      // return true;
+      return sessionStorage.getItem('permissions').includes(6)
     },
     isShowUpdateRole() {
-      return true;
-      // return sessionStorage.getItem('permissions').includes(8)
+      // return true;
+      return sessionStorage.getItem('permissions').includes(8)
     },
     isShowDeleteRole() {
-      return true;
-      // return sessionStorage.getItem('permissions').includes(9)
+      // return true;
+      return sessionStorage.getItem('permissions').includes(9)
     },
   },
   created() {
