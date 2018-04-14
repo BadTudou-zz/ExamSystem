@@ -27970,7 +27970,7 @@ var Component = __webpack_require__(1)(
   /* template */
   __webpack_require__(442),
   /* scopeId */
-  null,
+  "data-v-3dcb46aa",
   /* cssModules */
   null
 )
@@ -29640,6 +29640,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Pagination_vue__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Pagination_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__Pagination_vue__);
 //
 //
 //
@@ -29679,23 +29681,51 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
       isShowModal: false,
-      // ?? The data structure provided by the API documentation is problematic.
       applyForData: {
-        to: '', // ?? 语义
+        to: '', // 发送到的用户
         action: '', // ??
         resource_id: '', // ??
         resource_type: '', // ??
-        data: '' // ??
-      }
+        data: '' // ??SSS
+      },
+      // 翻页
+      paginationData: null,
+      data: null,
+      //
+      userData: []
     };
   },
 
-  components: {},
+  components: {
+    Pagination: __WEBPACK_IMPORTED_MODULE_0__Pagination_vue___default.a
+  },
   methods: {
     switchModal: function switchModal() {
       var that = this;
@@ -29721,8 +29751,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         body: {
           to: that.applyForData.to,
           action: 'create', // ?? 枚举值
-          resource_id: that.applyForData.resource_id,
-          resource_type: that.applyForData.type,
+          // resource_id: that.applyForData.resource_id,
+          resource_id: 1,
+          // resource_type: that.applyForData.type,
+          resource_type: 'Organization',
           data: that.applyForData.data
         }
       }).then(function (res) {
@@ -29734,9 +29766,37 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         console.log(err);
         that.clearWords();
       });
+    },
+    // 全部用户
+    getUser: function getUser() {
+      var that = this;
+      axios({
+        method: 'get',
+        url: this.GLOBAL.localDomain + '/api/v1/users/',
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': sessionStorage.getItem('token')
+        }
+      }).then(function (res) {
+        that.userData = res.data.data;
+        that.paginationData = res.data.links;
+      }).catch(function (err) {
+        console.log(err);
+      });
     }
   },
-  created: function created() {}
+  created: function created() {
+    this.clearWords();
+    this.getUser();
+  },
+
+  watch: {
+    data: function data(value, oldValue) {
+      var that = this;
+      that.applyForData = value.data;
+      that.paginationData = value.links;
+    }
+  }
 });
 
 /***/ }),
@@ -29872,9 +29932,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           'Authorization': sessionStorage.getItem('token')
         }
       }).then(function (res) {
-        // that.applyForData = [];
-        // that.applyForData.push(res.data.data);
-        that.applyForData = res.data.data;
+        that.applyForData = [];
+        that.applyForData.push(res.data.data);
+        // that.applyForData = res.data.data;
       }).catch(function (err) {
         alert('没有找到从相关数据，已加载全部数据');
         console.log(err);
@@ -31889,6 +31949,28 @@ var computedParams = function computedParams(selectedQuesiton, param) {
   return string;
 };
 
+// 通过ID计算用户名
+var computedUserName = function computedUserName(id) {
+  var that = this;
+  var userId = id;
+  var userName = '';
+  axios({
+    method: 'get',
+    url: localDomain + '/api/v1/users/' + userId,
+    headers: {
+      'Accept': 'application/json',
+      'Authorization': sessionStorage.getItem('token')
+    }
+  }).then(function (res) {
+    userName = res.data.data.name;
+    debugger;
+    return userName;
+  }).catch(function (err) {
+    console.log(err);
+  });
+  return userName;
+};
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   localDomain: localDomain,
   token: token,
@@ -31899,7 +31981,8 @@ var computedParams = function computedParams(selectedQuesiton, param) {
   toTime: toTime,
   getData: getData,
   getNextData: getNextData,
-  computedParams: computedParams
+  computedParams: computedParams,
+  computedUserName: computedUserName
 });
 
 /***/ }),
@@ -35079,6 +35162,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
 
 
 
@@ -35103,15 +35191,16 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       that.isShowModal = !that.isShowModal;
     },
     getApplyFor: function getApplyFor() {
+      var _axios;
+
       var that = this;
-      axios({
+      axios((_axios = {
         method: 'get',
-        url: this.GLOBAL.localDomain + '/api/v1/applications/',
-        headers: {
-          'Accept': 'application/json',
-          'Authorization': sessionStorage.getItem('token')
-        }
-      }).then(function (res) {
+        url: this.GLOBAL.localDomain + '/api/v1/users/' + sessionStorage.getItem('userId') + '/applications?reveived=true'
+      }, _defineProperty(_axios, 'url', this.GLOBAL.localDomain + '/api/v1/applications/'), _defineProperty(_axios, 'headers', {
+        'Accept': 'application/json',
+        'Authorization': sessionStorage.getItem('token')
+      }), _axios)).then(function (res) {
         // that.applyForData = [];
         // that.applyForData.push(res.data.data);
 
@@ -35119,6 +35208,44 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         that.paginationData = res.data.links;
       }).catch(function (err) {
         console.log(err);
+      });
+    },
+    acceptApplyFor: function acceptApplyFor(index) {
+      var that = this;
+      var id = that.applyForData[index].id;
+      axios({
+        method: 'post',
+        url: this.GLOBAL.localDomain + '/api/v1/applications/' + id + '/accept',
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': sessionStorage.getItem('token')
+        }
+      }).then(function (res) {
+        // that.applyForData = [];
+        // that.applyForData.push(res.data.data);
+        alert('已接受');
+      }).catch(function (err) {
+        alert('接受失败，请稍后再试');
+        console.log(err);
+      });
+    },
+    rejectApplyFor: function rejectApplyFor(index) {
+      var that = this;
+      var id = that.applyForData[index].id;
+      axios({
+        method: 'post',
+        url: this.GLOBAL.localDomain + '/api/v1/applications/' + id + '/reject',
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': sessionStorage.getItem('token')
+        }
+      }).then(function (res) {
+        alert('已拒绝');
+        // that.applyForData = [];
+        // that.applyForData.push(res.data.data);
+      }).catch(function (err) {
+        console.log(err);
+        alert('拒绝失败，请稍后再试');
       });
     }
   },
@@ -45672,7 +45799,7 @@ exports.push([module.i, "\n.all-paper {\n  width: 20px;\n}\n", ""]);
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(2)();
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 /***/ }),
 /* 277 */
@@ -45784,7 +45911,7 @@ exports.push([module.i, "\ntable {\n  margin: 35px auto 0 auto;\n}\n.search-inpu
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(2)();
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 /***/ }),
 /* 293 */
@@ -69421,56 +69548,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       value: (_vm.navigationTag === 'userData'),
       expression: "navigationTag === 'userData'"
     }]
-  }), _vm._v(" "), _c('message-data', {
-    directives: [{
-      name: "show",
-      rawName: "v-show",
-      value: (_vm.navigationTag === 'messageData'),
-      expression: "navigationTag === 'messageData'"
-    }]
-  }), _vm._v(" "), _c('notice-data', {
-    directives: [{
-      name: "show",
-      rawName: "v-show",
-      value: (_vm.navigationTag === 'noticeData'),
-      expression: "navigationTag === 'noticeData'"
-    }]
-  }), _vm._v(" "), _c('lecture-data', {
-    directives: [{
-      name: "show",
-      rawName: "v-show",
-      value: (_vm.navigationTag === 'lectureData'),
-      expression: "navigationTag === 'lectureData'"
-    }]
-  }), _vm._v(" "), _c('organization-data', {
-    directives: [{
-      name: "show",
-      rawName: "v-show",
-      value: (_vm.navigationTag === 'organizationData'),
-      expression: "navigationTag === 'organizationData'"
-    }]
-  }), _vm._v(" "), _c('role-data', {
-    directives: [{
-      name: "show",
-      rawName: "v-show",
-      value: (_vm.navigationTag === 'roleData'),
-      expression: "navigationTag === 'roleData'"
-    }]
-  }), _vm._v(" "), _c('permission-data', {
-    directives: [{
-      name: "show",
-      rawName: "v-show",
-      value: (_vm.navigationTag === 'permissionData'),
-      expression: "navigationTag === 'permissionData'"
-    }]
-  }), _vm._v(" "), _c('apply-for-data', {
-    directives: [{
-      name: "show",
-      rawName: "v-show",
-      value: (_vm.navigationTag === 'applyForData'),
-      expression: "navigationTag === 'applyForData'"
-    }]
-  })], 1)], 1)
+  }), _vm._v(" "), (_vm.navigationTag === 'messageData') ? _c('message-data') : _vm._e(), _vm._v(" "), (_vm.navigationTag === 'noticeData') ? _c('notice-data') : _vm._e(), _vm._v(" "), (_vm.navigationTag === 'lectureData') ? _c('lecture-data') : _vm._e(), _vm._v(" "), (_vm.navigationTag === 'organizationData') ? _c('organization-data') : _vm._e(), _vm._v(" "), (_vm.navigationTag === 'roleData') ? _c('role-data') : _vm._e(), _vm._v(" "), (_vm.navigationTag === 'permissionData') ? _c('permission-data') : _vm._e(), _vm._v(" "), (_vm.navigationTag === 'applyForData') ? _c('apply-for-data') : _vm._e()], 1)], 1)
 },staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {
@@ -69996,27 +70074,44 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "modal-card-body"
   }, [_c('div', {
     staticClass: "box-item"
-  }, [_c('label', [_vm._v("to")]), _vm._v(" "), _c('input', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.applyForData.to),
-      expression: "applyForData.to"
-    }],
-    staticClass: "input",
-    attrs: {
-      "type": "text"
-    },
-    domProps: {
-      "value": (_vm.applyForData.to)
-    },
-    on: {
-      "input": function($event) {
-        if ($event.target.composing) { return; }
-        _vm.$set(_vm.applyForData, "to", $event.target.value)
+  }, [_vm._v("\n        请选择需要发送的用户：\n        "), _c('div', {
+    staticClass: "all-user"
+  }, [_c('table', {
+    staticClass: "table"
+  }, [_vm._m(0), _vm._v(" "), _c('tbody', _vm._l((_vm.userData), function(item, index) {
+    return _c('tr', [_c('td', [_c('input', {
+      directives: [{
+        name: "model",
+        rawName: "v-model",
+        value: (_vm.applyForData.to),
+        expression: "applyForData.to"
+      }],
+      staticClass: "user-seleted",
+      attrs: {
+        "type": "radio"
+      },
+      domProps: {
+        "value": item.id,
+        "checked": _vm._q(_vm.applyForData.to, item.id)
+      },
+      on: {
+        "change": function($event) {
+          _vm.$set(_vm.applyForData, "to", item.id)
+        }
       }
+    })]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.id))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.name))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.email))])])
+  }))]), _vm._v(" "), _c('pagination', {
+    attrs: {
+      "pagination-data": _vm.paginationData
+    },
+    model: {
+      value: (_vm.data),
+      callback: function($$v) {
+        _vm.data = $$v
+      },
+      expression: "data"
     }
-  })]), _vm._v(" "), _c('div', {
+  })], 1)]), _vm._v(" "), _c('div', {
     staticClass: "box-item"
   }, [_c('label', [_vm._v("资源ID")]), _vm._v(" "), _c('input', {
     directives: [{
@@ -70099,7 +70194,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }
   }, [_vm._v("取消")])])])])
-},staticRenderFns: []}
+},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('thead', [_c('tr', [_c('th', [_vm._v("是否选中")]), _vm._v(" "), _c('th', [_vm._v("序号")]), _vm._v(" "), _c('th', [_vm._v("用户名")]), _vm._v(" "), _c('th', [_vm._v("邮箱")])])])
+}]}
 module.exports.render._withStripped = true
 if (false) {
   module.hot.accept()
@@ -71723,7 +71820,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_vm._v("添加申请")])]), _vm._v(" "), _c('table', {
     staticClass: "table"
   }, [_vm._m(0), _vm._v(" "), _c('tbody', _vm._l((_vm.applyForData), function(item, index) {
-    return _c('tr', [_c('td', [_vm._v(_vm._s(item.from))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.to))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.action))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.resource_id))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.resource_type))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.data))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.updated_at.date))]), _vm._v(" "), _c('td', [_c('button', {
+    return _c('tr', [_c('td', [_vm._v(_vm._s(item.from))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.to))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.action))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.resource_id))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.resource_type))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.data))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.GLOBAL.toTime(item.updated_at.date)))]), _vm._v(" "), _c('td', [_c('button', {
       directives: [{
         name: "show",
         rawName: "v-show",
@@ -71912,7 +72009,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_vm._v("申请")]), _vm._v(" "), _c('table', {
     staticClass: "table"
   }, [_vm._m(0), _vm._v(" "), _c('tbody', _vm._l((_vm.applyForData), function(item, index) {
-    return _c('tr', [_c('td', [_vm._v(_vm._s(item.from))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.to))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.action))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.resource_id))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.resource_type))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.data))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.updated_at.date))])])
+    return _c('tr', [_c('td', [_vm._v(_vm._s(item.from))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.data))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.GLOBAL.toTime(item.updated_at.date)))])])
   }))]), _vm._v(" "), _c('pagination', {
     attrs: {
       "pagination-data": _vm.paginationData
@@ -71926,7 +72023,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   })], 1)
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('thead', [_c('tr', [_c('th', [_vm._v("from")]), _vm._v(" "), _c('th', [_vm._v("to")]), _vm._v(" "), _c('th', [_vm._v("action")]), _vm._v(" "), _c('th', [_vm._v("resource_id")]), _vm._v(" "), _c('th', [_vm._v("resource_type")]), _vm._v(" "), _c('th', [_vm._v("data")]), _vm._v(" "), _c('th', [_vm._v("更新时间")])])])
+  return _c('thead', [_c('tr', [_c('th', [_vm._v("发送者")]), _vm._v(" "), _c('th', [_vm._v("data")]), _vm._v(" "), _c('th', [_vm._v("更新时间")])])])
 }]}
 module.exports.render._withStripped = true
 if (false) {
@@ -79548,13 +79645,13 @@ var content = __webpack_require__(292);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(3)("197a4a2c", content, false);
+var update = __webpack_require__(3)("4d71d6c1", content, false);
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
  if(!content.locals) {
-   module.hot.accept("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-3dcb46aa!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./AddApplyFor.vue", function() {
-     var newContent = require("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-3dcb46aa!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./AddApplyFor.vue");
+   module.hot.accept("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-3dcb46aa&scoped=true!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./AddApplyFor.vue", function() {
+     var newContent = require("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-3dcb46aa&scoped=true!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./AddApplyFor.vue");
      if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
      update(newContent);
    });

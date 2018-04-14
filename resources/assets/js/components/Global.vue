@@ -75,7 +75,6 @@ import moment from 'moment'
       }
       else {
         let sum = sumDataList;
-        // debugger
         return sum;
       }
     }).catch(err => {
@@ -97,7 +96,28 @@ import moment from 'moment'
       }
     }
     return string;
-  }
+  };
+
+  // 通过ID计算用户名
+  const computedUserName = function (id) {
+    const that = this;
+    let userId = id;
+    let userName = '';
+    axios({
+      method: 'get',
+      url: `${localDomain}/api/v1/users/${userId}`,
+      headers: {
+        'Accept': 'application/json',
+        'Authorization': sessionStorage.getItem('token'),
+      }
+    }).then(res => {
+      userName = res.data.data.name;
+      return userName;
+    }).catch(err => {
+      console.log(err)
+    })
+    return userName;
+  };
 
   export default
   {
@@ -111,6 +131,7 @@ import moment from 'moment'
     getData,
     getNextData,
     computedParams,
+    computedUserName,
   }
 </script>
 

@@ -29,7 +29,7 @@
           <td>{{ item.resource_id }}</td>
           <td>{{ item.resource_type }}</td>
           <td>{{ item.data }}</td>
-          <td>{{ item.updated_at.date }}</td>
+          <td>{{ GLOBAL.toTime(item.updated_at.date) }}</td>
           <td>
             <button v-show="isShowDeleteApplication" @click="deleteApplyFor(index)" class="button" type="button" name="button">删除</button>
             <button @click="editApplyFor(index)" class="button" type="button" name="button">编辑</button>
@@ -117,9 +117,9 @@ export default {
           'Authorization': sessionStorage.getItem('token'),
         }
       }).then(res => {
-        // that.applyForData = [];
-        // that.applyForData.push(res.data.data);
-        that.applyForData = res.data.data;
+        that.applyForData = [];
+        that.applyForData.push(res.data.data);
+        // that.applyForData = res.data.data;
       }).catch(err => {
         alert('没有找到从相关数据，已加载全部数据')
         console.log(err)

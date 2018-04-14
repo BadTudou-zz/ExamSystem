@@ -5,24 +5,29 @@
     <table class="table">
       <thead>
         <tr>
-          <th>from</th>
-          <th>to</th>
-          <th>action</th>
-          <th>resource_id</th>
-          <th>resource_type</th>
+          <th>发送者</th>
+          <!-- <th>to</th> -->
+          <!-- <th>action</th> -->
+          <!-- <th>resource_id</th> -->
+          <!-- <th>resource_type</th> -->
           <th>data</th>
           <th>更新时间</th>
+          <!-- <th>操作</th> -->
         </tr>
       </thead>
       <tbody>
         <tr v-for="(item,index) in applyForData">
           <td>{{ item.from }}</td>
-          <td>{{ item.to }}</td>
-          <td>{{ item.action }}</td>
-          <td>{{ item.resource_id }}</td>
-          <td>{{ item.resource_type }}</td>
+          <!-- <td>{{ item.to }}</td> -->
+          <!-- <td>{{ item.action }}</td> -->
+          <!-- <td>{{ item.resource_id }}</td> -->
+          <!-- <td>{{ item.resource_type }}</td> -->
           <td>{{ item.data }}</td>
-          <td>{{ item.updated_at.date }}</td>
+          <td>{{ GLOBAL.toTime(item.updated_at.date) }}</td>
+          <!-- <td>
+            <button @click="acceptApplyFor(index)" class="button" type="button" name="button">接受</button>
+            <button @click="rejectApplyFor(index)" class="button" type="button" name="button">拒绝</button>
+          </td> -->
         </tr>
       </tbody>
     </table>
@@ -60,6 +65,7 @@ export default {
       const that = this;
       axios({
         method: 'get',
+        url: `${this.GLOBAL.localDomain}/api/v1/users/${sessionStorage.getItem('userId')}/applications?reveived=true`,
         url: `${this.GLOBAL.localDomain}/api/v1/applications/`,
         headers: {
           'Accept': 'application/json',
@@ -73,6 +79,44 @@ export default {
         that.paginationData = res.data.links;
       }).catch(err => {
         console.log(err)
+      })
+    },
+    acceptApplyFor: function (index) {
+      const that = this;
+      let id = that.applyForData[index].id;
+      axios({
+        method: 'post',
+        url: `${this.GLOBAL.localDomain}/api/v1/applications/${id}/accept`,
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': sessionStorage.getItem('token'),
+        }
+      }).then(res => {
+        // that.applyForData = [];
+        // that.applyForData.push(res.data.data);
+        alert('已接受')
+      }).catch(err => {
+        alert('接受失败，请稍后再试')
+        console.log(err)
+      })
+    },
+    rejectApplyFor: function (index) {
+      const that = this;
+      let id = that.applyForData[index].id;
+      axios({
+        method: 'post',
+        url: `${this.GLOBAL.localDomain}/api/v1/applications/${id}/reject`,
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': sessionStorage.getItem('token'),
+        }
+      }).then(res => {
+        alert('已拒绝')
+        // that.applyForData = [];
+        // that.applyForData.push(res.data.data);
+      }).catch(err => {
+        console.log(err)
+        alert('拒绝失败，请稍后再试')
       })
     },
   },
