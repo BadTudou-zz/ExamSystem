@@ -29785,8 +29785,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     }
   },
   created: function created() {
-    this.clearWords();
-    this.getUser();
+    // this.clearWords();
+    // this.getUser();
   },
 
   watch: {
@@ -29794,6 +29794,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       var that = this;
       that.applyForData = value.data;
       that.paginationData = value.links;
+    },
+    isShowModal: function isShowModal(value, oldVale) {
+      var that = this;
+      if (value) {
+        this.clearWords();
+        this.getUser();
+      }
     }
   }
 });
@@ -30330,9 +30337,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       });
     }
   },
-  created: function created() {
-    this.getQuestion();
-  },
+  created: function created() {},
 
   watch: {
     selectedQuesiton: function selectedQuesiton(value, oldValue) {
@@ -30345,6 +30350,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       var that = this;
       that.questionData = value.data;
       that.paginationData = value.links;
+    },
+    isShowModal: function isShowModal(value, oldVale) {
+      var that = this;
+      if (value) {
+        this.getQuestion();
+      }
     }
   }
 });
@@ -32934,6 +32945,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       var that = this;
       that.messageData = value.data;
       that.paginationData = value.links;
+    },
+    isShowModal: function isShowModal(value, oldVale) {
+      var that = this;
+      if (value) {
+        this.clearWords();
+        this.getUser();
+      }
     }
   }
 });
@@ -33950,8 +33968,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     }
   },
   created: function created() {
-    this.clearWords();
-    this.getUser();
+    // this.clearWords();
+    // this.getUser();
   },
 
   watch: {
@@ -33959,6 +33977,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       var that = this;
       that.memberDatas = value.data;
       that.paginationData = value.links;
+    },
+    isShowModal: function isShowModal(value, oldVale) {
+      var that = this;
+      if (value) {
+        this.clearWords();
+        this.getUser();
+      }
     }
   }
 });
@@ -34719,8 +34744,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     }
   },
   created: function created() {
-    this.clearWords();
-    this.getUser();
+    // this.clearWords();
+    // this.getUser();
   },
 
   watch: {
@@ -34728,6 +34753,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       var that = this;
       that.permissionData = value.data;
       that.paginationData = value.links;
+    },
+    isShowModal: function isShowModal(value, oldVale) {
+      var that = this;
+      if (value) {
+        this.clearWords();
+        this.getUser();
+      }
     }
   }
 });
@@ -38010,8 +38042,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     }
   },
   created: function created() {
-    this.clearWords();
-    this.getPermission();
+    // this.clearWords();
+    // this.getPermission();
   },
 
   watch: {
@@ -38023,6 +38055,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     selectedPermission: function selectedPermission(value, oldValue) {
       var that = this;
       console.log(value);
+    },
+    isShowModal: function isShowModal(value, oldVale) {
+      var that = this;
+      if (value) {
+        this.clearWords();
+        this.getPermission();
+      }
     }
   }
 });
@@ -38239,8 +38278,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     }
   },
   created: function created() {
-    this.userData = [];
-    this.getUser();
+    // this.userData = [];
+    // this.getUser();
   },
 
   watch: {
@@ -38248,6 +38287,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       var that = this;
       that.permissionData = value.data;
       that.paginationData = value.links;
+    },
+    isShowModal: function isShowModal(value, oldVale) {
+      var that = this;
+      if (value) {
+        this.userData = [];
+        this.getUser();
+      }
     }
   }
 });
@@ -38740,8 +38786,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     }
   },
   created: function created() {
-    this.clearWords();
-    this.getPermission();
+    // this.clearWords();
+    // this.getPermission();
   },
 
   watch: {
@@ -38753,6 +38799,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     selectedPermission: function selectedPermission(value, oldValue) {
       var that = this;
       console.log(value);
+    },
+    isShowModal: function isShowModal(value, oldVale) {
+      var that = this;
+      if (value) {
+        this.clearWords();
+        this.getPermission();
+      }
     }
   }
 });
@@ -38878,8 +38931,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     }
   },
   created: function created() {
-    this.userData = [];
-    this.getUser();
+    // this.userData = [];
+    // this.getUser();
   },
 
   watch: {
@@ -38887,6 +38940,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       var that = this;
       that.permissionData = value.data;
       that.paginationData = value.links;
+    },
+    isShowModal: function isShowModal(value, oldVale) {
+      var that = this;
+      if (value) {
+        this.userData = [];
+        this.getUser();
+      }
     }
   }
 });
@@ -39306,9 +39366,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     }
   },
   created: function created() {
-    this.getCourse();
-    this.getOrganization();
-    this.getUser();
+    // this.getCourse();
+    // this.getOrganization();
+    // this.getUser();
   },
 
   watch: {
@@ -39326,6 +39386,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       var that = this;
       that.userData = value.data;
       that.paginationData3 = value.links;
+    },
+    isShowModal: function isShowModal(value, oldVale) {
+      var that = this;
+      if (value) {
+        this.getCourse();
+        this.getOrganization();
+        this.getUser();
+      }
     }
   }
 });
@@ -39770,8 +39838,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     }
   },
   created: function created() {
-    this.getCourse();
-    this.getOrganization();
+    // this.getCourse();
+    // this.getOrganization();
   },
 
   watch: {
@@ -39799,6 +39867,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         }
 
         that.teachingData.describe = value.describe;
+      }
+    },
+    isShowModal: function isShowModal(value, oldVale) {
+      var that = this;
+      if (value) {
+        this.getCourse();
+        this.getOrganization();
       }
     }
   }
@@ -40361,8 +40436,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       });
     }
   },
-  created: function created() {
-    this.getExaminationPaper();
+  created: function created() {},
+
+  watch: {
+    isShowModal: function isShowModal(value, oldVale) {
+      var that = this;
+      if (value) {
+        this.getExaminationPaper();
+      }
+    }
   }
 });
 
@@ -40489,8 +40571,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     }
   },
   created: function created() {
-    this.clearWords();
-    this.getUser();
+    // this.clearWords();
+    // this.getUser();
   },
 
   watch: {
@@ -40502,6 +40584,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     selectedUser: function selectedUser(value, oldValue) {
       var that = this;
       console.log(value);
+    },
+    isShowModal: function isShowModal(value, oldVale) {
+      var that = this;
+      if (value) {
+        this.clearWords();
+        this.getUser();
+      }
     }
   }
 });
@@ -46462,7 +46551,7 @@ exports.push([module.i, "\ntable {\n  margin: 35px auto 0 auto;\n}\n.search-inpu
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(2)();
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 /***/ }),
 /* 299 */

@@ -195,8 +195,8 @@ export default {
     },
   },
   created() {
-    this.getCourse();
-    this.getOrganization();
+    // this.getCourse();
+    // this.getOrganization();
   },
   watch: {
     data1: function (value, oldValue) {
@@ -224,7 +224,14 @@ export default {
 
         that.teachingData.describe = value.describe;
       }
-    }
+    },
+    isShowModal: function (value, oldVale) {
+      const that = this;
+      if (value) {
+        this.getCourse();
+        this.getOrganization();
+      }
+    },
   }
 }
 </script>

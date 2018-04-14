@@ -138,7 +138,14 @@ export default {
       const that = this;
       that.messageData = value.data;
       that.paginationData = value.links;
-    }
+    },
+    isShowModal: function (value, oldVale) {
+      const that = this;
+      if (value) {
+        this.clearWords();
+        this.getUser();
+      }
+    },
   }
 }
 </script>

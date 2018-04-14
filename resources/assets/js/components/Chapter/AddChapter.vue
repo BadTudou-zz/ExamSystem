@@ -189,7 +189,6 @@ export default {
     },
   },
   created() {
-    this.getQuestion();
   },
   watch: {
     selectedQuesiton: function (value, oldValue) {
@@ -202,7 +201,13 @@ export default {
       const that = this;
       that.questionData = value.data;
       that.paginationData = value.links;
-    }
+    },
+    isShowModal: function (value, oldVale) {
+      const that = this;
+      if (value) {
+        this.getQuestion();
+      }
+    },
   }
 }
 </script>

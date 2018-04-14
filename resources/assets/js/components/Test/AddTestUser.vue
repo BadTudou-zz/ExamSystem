@@ -114,8 +114,8 @@ export default {
     },
   },
   created() {
-    this.clearWords();
-    this.getUser();
+    // this.clearWords();
+    // this.getUser();
   },
   watch: {
     data:function (value, oldValue) {
@@ -126,7 +126,14 @@ export default {
     selectedUser: function (value, oldValue) {
       const that = this;
       console.log(value)
-    }
+    },
+    isShowModal: function (value, oldVale) {
+      const that = this;
+      if (value) {
+        this.clearWords();
+        this.getUser();
+      }
+    },
   }
 }
 </script>

@@ -156,7 +156,14 @@ export default {
     },
   },
   created() {
-    this.getExaminationPaper();
+  },
+  watch: {
+    isShowModal: function (value, oldVale) {
+      const that = this;
+      if (value) {
+        this.getExaminationPaper();
+      }
+    },
   }
 }
 </script>

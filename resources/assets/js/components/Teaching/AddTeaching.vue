@@ -244,9 +244,9 @@ export default {
     },
   },
   created() {
-    this.getCourse();
-    this.getOrganization();
-    this.getUser();
+    // this.getCourse();
+    // this.getOrganization();
+    // this.getUser();
   },
   watch: {
     data1: function (value, oldValue) {
@@ -263,7 +263,15 @@ export default {
       const that = this;
       that.userData = value.data;
       that.paginationData3 = value.links;
-    }
+    },
+    isShowModal: function (value, oldVale) {
+      const that = this;
+      if (value) {
+        this.getCourse();
+        this.getOrganization();
+        this.getUser();
+      }
+    },
   }
 }
 </script>

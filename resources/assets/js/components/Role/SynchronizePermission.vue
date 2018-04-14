@@ -112,8 +112,8 @@ export default {
     },
   },
   created() {
-    this.clearWords();
-    this.getPermission();
+    // this.clearWords();
+    // this.getPermission();
   },
   watch: {
     data:function (value, oldValue) {
@@ -124,7 +124,14 @@ export default {
     selectedPermission: function(value, oldValue) {
       const that = this;
       console.log(value)
-    }
+    },
+    isShowModal: function (value, oldVale) {
+      const that = this;
+      if (value) {
+        this.clearWords();
+        this.getPermission();
+      }
+    },
   }
 }
 </script>
