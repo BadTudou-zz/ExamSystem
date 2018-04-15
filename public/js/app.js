@@ -32618,8 +32618,8 @@ var Base64 = __webpack_require__(356).Base64;
 
       permissionIdList: [],
       permissionData: null,
-      url: this.GLOBAL.localDomain + '/api/v1/roles/1/permissions',
       permissions: [],
+      url: '',
       isShowLoginBox: true
     };
   },
@@ -32638,6 +32638,8 @@ var Base64 = __webpack_require__(356).Base64;
       that.$refs.loginLoading.switchModal();
     },
     login: function login(username, password) {
+      var _this = this;
+
       var that = this;
       axios({
         method: 'post',
@@ -32661,7 +32663,9 @@ var Base64 = __webpack_require__(356).Base64;
         sessionStorage.setItem("token", 'Bearer ' + token);
         sessionStorage.setItem('userId', userId);
         that.$store.commit('setToken', token);
-        that.getPermission();
+
+        var url = _this.GLOBAL.localDomain + '/api/v1/users/' + that.userId + '/permissions/';
+        that.getPermission(url);
       }).catch(function (err) {
         var errorMsg = err.response.data.message;
         alert(errorMsg);
@@ -32690,6 +32694,14 @@ var Base64 = __webpack_require__(356).Base64;
         console.log(err);
       });
     },
+    getJsonLength: function getJsonLength(json) {
+      var that = this;
+      var jsonLength = 0;
+      for (var i in json) {
+        jsonLength++;
+      }
+      return jsonLength;
+    },
     getPermission: function getPermission(url) {
       var that = this;
       console.log('getPermission');
@@ -32704,43 +32716,55 @@ var Base64 = __webpack_require__(356).Base64;
       }).then(function (res) {
         that.permissionData = res.data; // conclude links
         that.url = res.data.links.next;
-        for (var i = 0; i < res.data.data.length; i++) {
-          that.permissionIdList.push(parseInt(res.data.data[i].id));
+        console.log(res.data.data.length);
+        var len = res.data.data.length ? res.data.data.length : that.getJsonLength(res.data.data);
+        // debugger
+        for (var i = 0; i < len; i++) {
+          that.permissionIdList.push(res.data.data[i].name);
+          // debugger
         }
-        // that.$store.commit('setPermissionIdList', that.permissionIdList);
+        console.log('===================');
+        console.log(that.permissionIdList);
         if (that.url) {
-          that.getNextPermission(that.url);
-        }
-      }).catch(function (err) {
-        console.log(err);
-      });
-    },
-    getNextPermission: function getNextPermission(url) {
-      var that = this;
-      axios({
-        method: 'get',
-        url: url,
-        headers: {
-          'Accept': 'application/json',
-          'Authorization': sessionStorage.getItem('token')
-        }
-      }).then(function (res) {
-        that.permissionData = res.data; // conclude links
-        that.url = res.data.links.next;
-        for (var i = 0; i < res.data.data.length; i++) {
-          that.permissionIdList.push(parseInt(res.data.data[i].name));
-        }
-        if (that.url) {
+          debugger;
           that.getPermission(that.url);
         } else {
-          that.$store.commit('setPermissionIdList', that.permissionIdList);
           sessionStorage.setItem('permissions', that.permissionIdList);
           that.permissions = sessionStorage.getItem('permissions');
+          debugger;
         }
       }).catch(function (err) {
         console.log(err);
       });
     }
+    // getNextPermission: function (url) {
+    //   const that = this;
+    //   axios({
+    //     method: 'get',
+    //     url: url,
+    //     headers: {
+    //       'Accept': 'application/json',
+    //       'Authorization': sessionStorage.getItem('token'),
+    //     }
+    //   }).then(res => {
+    //     that.permissionData = res.data;  // conclude links
+    //     that.url = res.data.links.next;
+    //
+    //     for (let i = 0; i < res.data.data.length; i++) {
+    //       debugger
+    //       that.permissionIdList.push(parseInt(res.data.data[i].name));
+    //     }
+    //     if (that.url) {
+    //       that.getPermission(that.url);
+    //     }
+    //     else {
+    //       sessionStorage.setItem('permissions', that.permissionIdList);
+    //       that.permissions = sessionStorage.getItem('permissions');
+    //     }
+    //   }).catch(err => {
+    //     console.log(err);
+    //   })
+    // },
   },
   created: function created() {
     this.getVerificationCode();
@@ -33576,7 +33600,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       return sessionStorage.getItem('permissions').includes('tag-index');
     },
 
-    // 11.【试卷】
+    // 11.【考试】
     isShowExamPaper: function isShowExamPaper() {
       // return true;
       return sessionStorage.getItem('permissions').includes('exam-index');
@@ -72426,8 +72450,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     directives: [{
       name: "show",
       rawName: "v-show",
-      value: (_vm.isShowExam),
-      expression: "isShowExam"
+      value: (_vm.isShowExamPaper),
+      expression: "isShowExamPaper"
     }],
     class: {
       'is-active': _vm.currentTag === 'test'
