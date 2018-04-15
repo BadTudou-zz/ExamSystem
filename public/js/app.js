@@ -30006,7 +30006,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   },
   created: function created() {
     this.getApplyFor();
-    // this.isShowSearchApplication();
   },
 
   watch: {
@@ -32046,72 +32045,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     // Navigation,
     Navigation2: __WEBPACK_IMPORTED_MODULE_0__Navigation2___default.a
   },
-  methods: {
-    getPermission: function getPermission(url) {
-      var that = this;
-      var urlPath = url ? url : that.url;
-      axios({
-        method: 'get',
-        url: urlPath,
-        headers: {
-          'Accept': 'application/json',
-          'Authorization': sessionStorage.getItem('token')
-        }
-      }).then(function (res) {
-        that.permissionData = res.data; // conclude links
-        that.url = res.data.links.next;
-        for (var i = 0; i < res.data.data.length; i++) {
-          that.permissionIdList.push(parseInt(res.data.data[i].id));
-        }
-        // that.$store.commit('setPermissionIdList', that.permissionIdList);
-        if (that.url) {
-          that.getNextPermission(that.url);
-        }
-      }).catch(function (err) {
-        console.log(err);
-      });
-    },
-    getNextPermission: function getNextPermission(url) {
-      var that = this;
-      axios({
-        method: 'get',
-        url: url,
-        headers: {
-          'Accept': 'application/json',
-          'Authorization': sessionStorage.getItem('token')
-        }
-      }).then(function (res) {
-        that.permissionData = res.data; // conclude links
-        that.url = res.data.links.next;
-        for (var i = 0; i < res.data.data.length; i++) {
-          that.permissionIdList.push(parseInt(res.data.data[i].id));
-        }
-        if (that.url) {
-          that.getPermission(that.url);
-        } else {
-          that.$store.commit('setPermissionIdList', that.permissionIdList);
-          sessionStorage.setItem('permissions', that.permissionIdList);
-          that.permissions = sessionStorage.getItem('permissions');
-        }
-      }).catch(function (err) {
-        console.log(err);
-      });
-    }
-  },
-  created: function created() {
-    // this.getPermission();
-  },
+  methods: {},
+  created: function created() {},
 
   watch: {
     logOut: function logOut(value, oldValue) {
       var that = this;
       that.$emit('input', 'logOut');
     }
-    // permissions: function (value, oldValue) {
-    //   const that = this;
-    //   debugger
-    //   that.isShowNavigation = true;
-    // }
   }
 });
 
@@ -32684,54 +32625,30 @@ var Base64 = __webpack_require__(358).Base64;
         that.permissionData = res.data; // conclude links
         that.url = res.data.links.next;
         console.log(res.data.data.length);
+
         var len = res.data.data.length ? res.data.data.length : that.getJsonLength(res.data.data);
-        // debugger
-        for (var i = 0; i < len; i++) {
-          that.permissionIdList.push(res.data.data[i].name);
-          // debugger
+
+        // data数据结构不一致 可能是数组/也可能是json
+        if (res.data.data.length) {
+          for (var i = 0; i < len; i++) {
+            that.permissionIdList.push(res.data.data[i].name);
+          }
+        } else if (that.getJsonLength(res.data.data)) {
+          for (var _i in res.data.data) {
+            that.permissionIdList.push(res.data.data[_i].name);
+          }
         }
-        console.log('===================');
-        console.log(that.permissionIdList);
+
         if (that.url) {
-          debugger;
           that.getPermission(that.url);
         } else {
           sessionStorage.setItem('permissions', that.permissionIdList);
           that.permissions = sessionStorage.getItem('permissions');
-          debugger;
         }
       }).catch(function (err) {
         console.log(err);
       });
     }
-    // getNextPermission: function (url) {
-    //   const that = this;
-    //   axios({
-    //     method: 'get',
-    //     url: url,
-    //     headers: {
-    //       'Accept': 'application/json',
-    //       'Authorization': sessionStorage.getItem('token'),
-    //     }
-    //   }).then(res => {
-    //     that.permissionData = res.data;  // conclude links
-    //     that.url = res.data.links.next;
-    //
-    //     for (let i = 0; i < res.data.data.length; i++) {
-    //       debugger
-    //       that.permissionIdList.push(parseInt(res.data.data[i].name));
-    //     }
-    //     if (that.url) {
-    //       that.getPermission(that.url);
-    //     }
-    //     else {
-    //       sessionStorage.setItem('permissions', that.permissionIdList);
-    //       that.permissions = sessionStorage.getItem('permissions');
-    //     }
-    //   }).catch(err => {
-    //     console.log(err);
-    //   })
-    // },
   },
   created: function created() {
     this.getVerificationCode();
@@ -33254,6 +33171,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       console.log('退出登录');
       that.$emit('input', 'logOut');
       sessionStorage.removeItem("token");
+      sessionStorage.removeItem("permissions");
     }
   },
   computed: {
@@ -33464,6 +33382,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       console.log('退出登录');
       that.$emit('input', 'logOut');
       sessionStorage.removeItem("token");
+      sessionStorage.removeItem("permissions");
     },
     getMessage: function getMessage() {
       var that = this;
@@ -33537,38 +33456,50 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       return sessionStorage.getItem('permissions').includes('notification-index');
     },
 
-    // 6.【组织】
+    // 6.【课程】
+    isShowCourse: function isShowCourse() {
+      // return true;
+      return sessionStorage.getItem('permissions').includes('course-index');
+    },
+
+    // 7.【组织】
     isShowOrganization: function isShowOrganization() {
       // return true;
       return sessionStorage.getItem('permissions').includes('organization-index');
     },
 
-    // 7.【问题】
+    // 8.【授课】
+    isShowLecture: function isShowLecture() {
+      // return true;
+      return sessionStorage.getItem('permissions').includes('lecture-index');
+    },
+
+    // 9.【问题】
     isShowQuestion: function isShowQuestion() {
       // return true;
       return sessionStorage.getItem('permissions').includes('question-index');
     },
 
-    // 8.【试卷】
+    // 10.【试卷】
     isShowPaper: function isShowPaper() {
       // return true;
       return sessionStorage.getItem('permissions').includes('paper-index');
     },
 
-    // 9.【申请】
+    // 11.【申请】
     isShowApplication: function isShowApplication() {
       // return true;
       return sessionStorage.getItem('permissions').includes('application-index');
     },
 
-    // 10.【标签】
+    // 12.【标签】
     isShowTag: function isShowTag() {
       // return true;
       return sessionStorage.getItem('permissions').includes('tag-index');
     },
 
-    // 11.【考试】
-    isShowExamPaper: function isShowExamPaper() {
+    // 13.【考试】
+    isShowExam: function isShowExam() {
       // return true;
       return sessionStorage.getItem('permissions').includes('exam-index');
     }
@@ -72214,7 +72145,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "disabled": "",
       "type": "text",
-      "placeholder": "请输入用户的ID"
+      "placeholder": "请输入关键字"
     },
     domProps: {
       "value": (_vm.searchKey)
@@ -72874,6 +72805,12 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_c('i', {
     staticClass: "fas fa-braille"
   }), _c('span', [_vm._v("组织")])])], 1), _vm._v(" "), _c('li', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.isShowCourse),
+      expression: "isShowCourse"
+    }],
     class: {
       'is-active': _vm.currentTag === 'course'
     },
@@ -72892,8 +72829,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     directives: [{
       name: "show",
       rawName: "v-show",
-      value: (_vm.isShowUser),
-      expression: "isShowUser"
+      value: (_vm.isShowLecture),
+      expression: "isShowLecture"
     }],
     class: {
       'is-active': _vm.currentTag === 'teaching'
@@ -72913,8 +72850,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     directives: [{
       name: "show",
       rawName: "v-show",
-      value: (_vm.isShowExamPaper),
-      expression: "isShowExamPaper"
+      value: (_vm.isShowExam),
+      expression: "isShowExam"
     }],
     class: {
       'is-active': _vm.currentTag === 'test'
@@ -72977,7 +72914,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       'is-active': _vm.currentTag === 'label'
     },
     attrs: {
-      "is-show": "isShowLabel"
+      "is-show": "isShowTag"
     },
     on: {
       "click": function($event) {

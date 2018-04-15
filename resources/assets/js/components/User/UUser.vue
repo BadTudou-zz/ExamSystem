@@ -3,7 +3,7 @@
   <div class="box">
     <div>
       <div class="search-box">
-        <input disabled v-model="searchKey" class="input search-input" type="text" placeholder="请输入用户的ID">
+        <input disabled v-model="searchKey" class="input search-input" type="text" placeholder="请输入关键字">
         <button disabled @click="searchUser()" class="button" type="button" name="button">查找用户</button>
       </div>
         <!-- <button class="button add-user-button" type="button" name="button">添加用户</button> -->
