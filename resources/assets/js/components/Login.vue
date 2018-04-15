@@ -139,55 +139,32 @@ export default {
         that.permissionData = res.data;  // conclude links
         that.url = res.data.links.next;
         console.log(res.data.data.length);
+
         let len = res.data.data.length ? res.data.data.length : that.getJsonLength(res.data.data);
-        // debugger
-        for (let i = 0; i < len; i++) {
-          that.permissionIdList.push(res.data.data[i].name);
-          // debugger
+
+        // data数据结构不一致 可能是数组/也可能是json
+        if (res.data.data.length) {
+          for (let i = 0; i < len; i++) {
+            that.permissionIdList.push(res.data.data[i].name);
+          }
         }
-        console.log('===================')
-        console.log(that.permissionIdList)
+        else if (that.getJsonLength(res.data.data)) {
+          for (let i in res.data.data) {
+            that.permissionIdList.push(res.data.data[i].name);
+          }
+        }
+
         if (that.url) {
-          debugger
           that.getPermission(that.url);
         }
         else {
           sessionStorage.setItem('permissions', that.permissionIdList);
           that.permissions = sessionStorage.getItem('permissions');
-          debugger
         }
       }).catch(err => {
         console.log(err);
       })
     },
-    // getNextPermission: function (url) {
-    //   const that = this;
-    //   axios({
-    //     method: 'get',
-    //     url: url,
-    //     headers: {
-    //       'Accept': 'application/json',
-    //       'Authorization': sessionStorage.getItem('token'),
-    //     }
-    //   }).then(res => {
-    //     that.permissionData = res.data;  // conclude links
-    //     that.url = res.data.links.next;
-    //
-    //     for (let i = 0; i < res.data.data.length; i++) {
-    //       debugger
-    //       that.permissionIdList.push(parseInt(res.data.data[i].name));
-    //     }
-    //     if (that.url) {
-    //       that.getPermission(that.url);
-    //     }
-    //     else {
-    //       sessionStorage.setItem('permissions', that.permissionIdList);
-    //       that.permissions = sessionStorage.getItem('permissions');
-    //     }
-    //   }).catch(err => {
-    //     console.log(err);
-    //   })
-    // },
   },
   created() {
     this.getVerificationCode();

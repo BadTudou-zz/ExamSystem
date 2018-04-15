@@ -32,16 +32,16 @@
             <router-link to="/organization"><i class="fas fa-braille"></i><span>组织</span></router-link>
           </li>
 
-          <li :class="{'is-active' : currentTag === 'course'}" @click="currentTag = 'course'">
+          <li v-show="isShowCourse" :class="{'is-active' : currentTag === 'course'}" @click="currentTag = 'course'">
             <router-link to="/course"><i class="fas fa-book"></i><span>课程</span></router-link>
           </li>
 
 
-          <li v-show="isShowUser" :class="{'is-active' : currentTag === 'teaching'}" @click="currentTag = 'teaching'">
+          <li v-show="isShowLecture" :class="{'is-active' : currentTag === 'teaching'}" @click="currentTag = 'teaching'">
             <router-link to="/teaching"><i class="fas fa-book"></i><span>授课</span></router-link>
           </li>
 
-          <li v-show="isShowExamPaper" :class="{'is-active' : currentTag === 'test'}" @click="currentTag = 'test'">
+          <li v-show="isShowExam" :class="{'is-active' : currentTag === 'test'}" @click="currentTag = 'test'">
             <router-link to="/test"><i class="far fa-file-alt"></i><span>考试</span></router-link>
           </li>
 
@@ -53,7 +53,7 @@
             <router-link to="/question"><i class="far fa-file-alt"></i><span>问题</span></router-link>
           </li>
 
-          <li is-show="isShowLabel" :class="{'is-active' : currentTag === 'label'}" @click="currentTag = 'label'">
+          <li is-show="isShowTag" :class="{'is-active' : currentTag === 'label'}" @click="currentTag = 'label'">
             <router-link to="/label"><i class="fas fa-tags"></i><span>标签</span></router-link>
           </li>
 
@@ -128,6 +128,7 @@ export default {
       console.log('退出登录');
       that.$emit('input', 'logOut');
       sessionStorage.removeItem("token");
+      sessionStorage.removeItem("permissions");
     },
     getMessage: function () {
       const that = this;
@@ -198,33 +199,43 @@ export default {
       // return true;
       return sessionStorage.getItem('permissions').includes('notification-index');
     },
-    // 6.【组织】
+    // 6.【课程】
+    isShowCourse() {
+      // return true;
+      return sessionStorage.getItem('permissions').includes('course-index');
+    },
+    // 7.【组织】
     isShowOrganization() {
       // return true;
       return sessionStorage.getItem('permissions').includes('organization-index');
     },
-    // 7.【问题】
+    // 8.【授课】
+    isShowLecture() {
+      // return true;
+      return sessionStorage.getItem('permissions').includes('lecture-index');
+    },
+    // 9.【问题】
     isShowQuestion() {
       // return true;
       return sessionStorage.getItem('permissions').includes('question-index');
     },
-    // 8.【试卷】
+    // 10.【试卷】
     isShowPaper() {
       // return true;
       return sessionStorage.getItem('permissions').includes('paper-index');
     },
-    // 9.【申请】
+    // 11.【申请】
     isShowApplication() {
       // return true;
       return sessionStorage.getItem('permissions').includes('application-index');
     },
-    // 10.【标签】
+    // 12.【标签】
     isShowTag() {
       // return true;
       return sessionStorage.getItem('permissions').includes('tag-index');
     },
-    // 11.【考试】
-    isShowExamPaper() {
+    // 13.【考试】
+    isShowExam() {
       // return true;
       return sessionStorage.getItem('permissions').includes('exam-index');
     }

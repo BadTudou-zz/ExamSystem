@@ -220,7 +220,6 @@ export default {
   },
   created() {
     this.getApplyFor();
-    // this.isShowSearchApplication();
   },
   watch: {
     data:function (value, oldValue) {
