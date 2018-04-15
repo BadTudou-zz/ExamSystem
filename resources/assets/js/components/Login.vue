@@ -41,8 +41,8 @@ export default {
 
       permissionIdList: [],
       permissionData: null,
-      url: `${this.GLOBAL.localDomain}/api/v1/roles/1/permissions`,
       permissions: [],
+      url: '',
       isShowLoginBox: true,
     };
   },
@@ -83,7 +83,9 @@ export default {
         sessionStorage.setItem("token",`Bearer ${token}`);
         sessionStorage.setItem('userId', userId);
         that.$store.commit('setToken', token);
-        that.getPermission();
+
+        let url = `${this.GLOBAL.localDomain}/api/v1/users/${that.userId}/permissions/`;
+        that.getPermission(url);
 
       }).catch(err => {
         let errorMsg = err.response.data.message;
@@ -114,6 +116,14 @@ export default {
         console.log(err)
       })
     },
+    getJsonLength: function (json) {
+      const that = this;
+      let jsonLength = 0;
+      for (let i in json) {
+          jsonLength++;
+      }
+      return jsonLength;
+    },
     getPermission: function (url) {
       const that = this;
       console.log('getPermission')
@@ -128,44 +138,56 @@ export default {
       }).then(res => {
         that.permissionData = res.data;  // conclude links
         that.url = res.data.links.next;
-        for (let i = 0; i < res.data.data.length; i++) {
-          that.permissionIdList.push(parseInt(res.data.data[i].id));
+        console.log(res.data.data.length);
+        let len = res.data.data.length ? res.data.data.length : that.getJsonLength(res.data.data);
+        // debugger
+        for (let i = 0; i < len; i++) {
+          that.permissionIdList.push(res.data.data[i].name);
+          // debugger
         }
-          // that.$store.commit('setPermissionIdList', that.permissionIdList);
+        console.log('===================')
+        console.log(that.permissionIdList)
         if (that.url) {
-          that.getNextPermission(that.url);
-        }
-      }).catch(err => {
-        console.log(err);
-      })
-    },
-    getNextPermission: function (url) {
-      const that = this;
-      axios({
-        method: 'get',
-        url: url,
-        headers: {
-          'Accept': 'application/json',
-          'Authorization': sessionStorage.getItem('token'),
-        }
-      }).then(res => {
-        that.permissionData = res.data;  // conclude links
-        that.url = res.data.links.next;
-        for (let i = 0; i < res.data.data.length; i++) {
-          that.permissionIdList.push(parseInt(res.data.data[i].name));
-        }
-        if (that.url) {
+          debugger
           that.getPermission(that.url);
         }
         else {
-          that.$store.commit('setPermissionIdList', that.permissionIdList);
           sessionStorage.setItem('permissions', that.permissionIdList);
           that.permissions = sessionStorage.getItem('permissions');
+          debugger
         }
       }).catch(err => {
         console.log(err);
       })
     },
+    // getNextPermission: function (url) {
+    //   const that = this;
+    //   axios({
+    //     method: 'get',
+    //     url: url,
+    //     headers: {
+    //       'Accept': 'application/json',
+    //       'Authorization': sessionStorage.getItem('token'),
+    //     }
+    //   }).then(res => {
+    //     that.permissionData = res.data;  // conclude links
+    //     that.url = res.data.links.next;
+    //
+    //     for (let i = 0; i < res.data.data.length; i++) {
+    //       debugger
+    //       that.permissionIdList.push(parseInt(res.data.data[i].name));
+    //     }
+    //     if (that.url) {
+    //       that.getPermission(that.url);
+    //     }
+    //     else {
+    //       sessionStorage.setItem('permissions', that.permissionIdList);
+    //       that.permissions = sessionStorage.getItem('permissions');
+    //     }
+    //   }).catch(err => {
+    //     console.log(err);
+    //   })
+    // },
   },
   created() {
     this.getVerificationCode();

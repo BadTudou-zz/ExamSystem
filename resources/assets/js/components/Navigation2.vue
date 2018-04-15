@@ -41,7 +41,7 @@
             <router-link to="/teaching"><i class="fas fa-book"></i><span>授课</span></router-link>
           </li>
 
-          <li v-show="isShowExam" :class="{'is-active' : currentTag === 'test'}" @click="currentTag = 'test'">
+          <li v-show="isShowExamPaper" :class="{'is-active' : currentTag === 'test'}" @click="currentTag = 'test'">
             <router-link to="/test"><i class="far fa-file-alt"></i><span>考试</span></router-link>
           </li>
 
@@ -223,7 +223,7 @@ export default {
       // return true;
       return sessionStorage.getItem('permissions').includes('tag-index');
     },
-    // 11.【试卷】
+    // 11.【考试】
     isShowExamPaper() {
       // return true;
       return sessionStorage.getItem('permissions').includes('exam-index');
