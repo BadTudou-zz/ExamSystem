@@ -7,6 +7,7 @@
         <button disabled @click="searchQuestion()" class="button" type="button" name="button">查找问题</button>
       </div>
         <button v-show="isShowCreateQuestion" @click="addQuestion()" class="button add-role-button" type="button" name="button">添加问题</button>
+        <button disabled v-show="isShowUpdateQuestion" @click="updateQuestion()" class="button" type="button" name="button">同步问题</button>
     </div>
 
     <div v-for="(item,index) in questionData">

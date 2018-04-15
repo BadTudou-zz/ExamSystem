@@ -28,7 +28,7 @@
           <input v-model="testData.score" class="input" type="text">
         </div>
         <div class="box-item">
-          <label>考试时长</label>
+          <label>考试时长(分钟制)</label>
           <input v-model="testData.min" class="input" type="text">
         </div>
         <div class="box-item">

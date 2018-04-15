@@ -82,7 +82,6 @@ export default {
     },
     examId: function () {
       const that = this;
-      
     }
   }
 }

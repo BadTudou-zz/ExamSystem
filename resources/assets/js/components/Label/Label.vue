@@ -7,6 +7,7 @@
         <button disabled @click="searchLabel()" class="button" type="button" name="button">查找标签</button>
       </div>
         <button @click="addLabel()" class="button add-role-button" type="button" name="button">添加标签</button>
+        <button disabled v-show="isShowUpdateLabel" @click="updateLabel()" class="button" type="button" name="button">同步标签</button>
     </div>
     <table class="table">
       <thead>

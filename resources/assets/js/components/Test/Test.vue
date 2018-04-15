@@ -9,6 +9,7 @@
           <button disabled @click="searchTest()" class="button" type="button" name="button">查找考试</button>
         </div>
         <button v-show="isShowCreateTest" @click="addTest()" class="button add-role-button" type="button" name="button">添加考试</button>
+        <button disabled v-show="isShowUpdateTest" @click="updateTest()" class="button" type="button" name="button">同步考试</button>
       </div>
       <table class="table">
         <thead>

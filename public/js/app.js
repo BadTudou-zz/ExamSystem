@@ -30275,10 +30275,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     // 计算问题分值的JSON
     computedAnswerJson: function computedAnswerJson() {
       var that = this;
-      // if (that.selectedQuesiton.length !== that.questionScore.length) {
-      //   alert('请检查分值是否填写完整');
-      //   return;
-      // }
       var json = {};
       for (var i = 0; i < that.selectedQuesiton.length; i++) {
         json[that.selectedQuesiton[i]] = that.questionScore[that.selectedQuesiton[i]];
@@ -30308,9 +30304,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   watch: {
     selectedQuesiton: function selectedQuesiton(value, oldValue) {
       var that = this;
-      // console.log('选中的问题');
-      // console.log(value)
-      // this.computedAnswerJson();
     },
     data: function data(value, oldValue) {
       var that = this;
@@ -30595,22 +30588,25 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
       isShowModal: false,
       currentChapterData: {
-        name: null,
+        name: '',
         score: null,
         number: null,
-        describe: null,
-        question_type: null
+        describe: '',
+        question_type: '',
+        scores: {}
       },
       questionsString: '',
       questionData: {},
       selectedQuesiton: [],
-      editQuesitons: []
+      editQuesitons: [],
+      questionScore: []
     };
   },
 
@@ -30628,12 +30624,26 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       that.currentChapterData.number = '';
       that.currentChapterData.describe = '';
       that.currentChapterData.question_type = '';
+      that.selectedQuesiton = [];
+      that.questionScore = [];
+    },
+    // 计算问题分值的JSON
+    computedAnswerJson: function computedAnswerJson() {
+      var that = this;
+      var json = {};
+      for (var i = 0; i < that.selectedQuesiton.length; i++) {
+        json[that.selectedQuesiton[i]] = that.questionScore[that.selectedQuesiton[i]];
+      }
+      that.scoreJson = json;
+      return json;
     },
     editChapter: function editChapter() {
       var that = this;
       var examinationPaperId = that.examinationPaperId;
+      var questionsParams = this.GLOBAL.computedParams(that.selectedQuesiton, 'questions');
       var chapterId = that.editData.id;
-      var questionsParams = that.computedParams(that.selectedQuesiton, 'questions');
+      var scores = that.computedAnswerJson();
+
       axios({
         method: 'put',
         url: this.GLOBAL.localDomain + '/api/v1/papers/' + examinationPaperId + '/sections/' + chapterId + '?' + questionsParams,
@@ -30646,7 +30656,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
           score: that.currentChapterData.score,
           number: that.currentChapterData.number,
           describe: that.currentChapterData.describe,
-          question_type: that.currentChapterData.question_type
+          question_type: that.currentChapterData.question_type,
+          scores: scores
         }
       }).then(function (res) {
         alert('编辑成功');
@@ -30658,24 +30669,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         that.clearWords();
         alert('编辑失败');
       });
-    },
-    /**
-     * computedParams
-     * @param  {Array} selectedQuesiton   选中的问题数组
-     * @param  {String} param param拼接参数
-     * @return {String}       拼接完成的params
-     */
-    computedParams: function computedParams(selectedQuesiton, param) {
-      var arr = selectedQuesiton;
-      var string = '';
-      for (var i = 0; i < arr.length; i++) {
-        if (i != 0) {
-          string += '&' + param + '[' + i + ']' + '=' + arr[i];
-        } else {
-          string += param + '[' + i + ']' + '=' + arr[i];
-        }
-      }
-      return string;
     },
     getQuestion: function getQuestion() {
       var that = this;
@@ -30824,6 +30817,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__EditCourse___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__EditCourse__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Pagination_vue__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Pagination_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__Pagination_vue__);
+//
 //
 //
 //
@@ -31367,6 +31361,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__Score___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6__Score__);
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
+//
 //
 //
 //
@@ -32232,6 +32227,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Pagination_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__Pagination_vue__);
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
+//
 //
 //
 //
@@ -33616,6 +33612,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__AddNotice___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__AddNotice__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Pagination_vue__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Pagination_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__Pagination_vue__);
+//
 //
 //
 //
@@ -37511,6 +37508,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 
 
@@ -38496,6 +38494,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Permission___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__Permission__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__User__ = __webpack_require__(417);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__User___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__User__);
+//
 //
 //
 //
@@ -40428,6 +40427,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         }
       }).then(function (res) {
         alert('添加成功');
+        that.clearWords();
         that.$emit('getTest'); //第一个参数名为调用的方法名，第二个参数为需要传递的参数
         that.switchModal();
       }).catch(function (err) {
@@ -40438,7 +40438,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
           alert('添加失败');
         }
         console.log(err);
-        that.clearWords();
       });
     },
     getExaminationPaper: function getExaminationPaper() {
@@ -40957,6 +40956,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__ParticipateUser___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__ParticipateUser__);
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
+//
 //
 //
 //
@@ -46431,7 +46431,7 @@ exports.push([module.i, "\n.message[data-v-16a7b3dd] {\n  margin: 35px auto 0 au
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(1)();
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 /***/ }),
 /* 279 */
@@ -68715,7 +68715,25 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.addQuestion()
       }
     }
-  }, [_vm._v("添加问题")])]), _vm._v(" "), _vm._l((_vm.questionData), function(item, index) {
+  }, [_vm._v("添加问题")]), _vm._v(" "), _c('button', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.isShowUpdateQuestion),
+      expression: "isShowUpdateQuestion"
+    }],
+    staticClass: "button",
+    attrs: {
+      "disabled": "",
+      "type": "button",
+      "name": "button"
+    },
+    on: {
+      "click": function($event) {
+        _vm.updateQuestion()
+      }
+    }
+  }, [_vm._v("同步问题")])]), _vm._v(" "), _vm._l((_vm.questionData), function(item, index) {
     return _c('div', [_c('div', {
       staticClass: "message"
     }, [_c('div', {
@@ -69300,7 +69318,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   })]), _vm._v(" "), _c('div', {
     staticClass: "box-item"
-  }, [_c('label', [_vm._v("考试时长")]), _vm._v(" "), _c('input', {
+  }, [_c('label', [_vm._v("考试时长(分钟制)")]), _vm._v(" "), _c('input', {
     directives: [{
       name: "model",
       rawName: "v-model",
@@ -69696,7 +69714,25 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.addCourse()
       }
     }
-  }, [_vm._v("添加课程")])]), _vm._v(" "), _c('table', {
+  }, [_vm._v("添加课程")]), _vm._v(" "), _c('button', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.isShowUpdateCourse),
+      expression: "isShowUpdateCourse"
+    }],
+    staticClass: "button",
+    attrs: {
+      "disabled": "",
+      "type": "button",
+      "name": "button"
+    },
+    on: {
+      "click": function($event) {
+        _vm.updateCourse()
+      }
+    }
+  }, [_vm._v("同步课程")])]), _vm._v(" "), _c('table', {
     staticClass: "table"
   }, [_vm._m(0), _vm._v(" "), _c('tbody', _vm._l((_vm.courseData), function(item, index) {
     return _c('tr', [_c('td', [_vm._v(_vm._s(item.id))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.name))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.display_name))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.number))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.descripe))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.GLOBAL.toTime(item.created_at)))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.GLOBAL.toTime(item.updated_at)))]), _vm._v(" "), _c('td', [_c('button', {
@@ -71036,7 +71072,25 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.addTest()
       }
     }
-  }, [_vm._v("添加考试")])]), _vm._v(" "), _c('table', {
+  }, [_vm._v("添加考试")]), _vm._v(" "), _c('button', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.isShowUpdateTest),
+      expression: "isShowUpdateTest"
+    }],
+    staticClass: "button",
+    attrs: {
+      "disabled": "",
+      "type": "button",
+      "name": "button"
+    },
+    on: {
+      "click": function($event) {
+        _vm.updateTest()
+      }
+    }
+  }, [_vm._v("同步考试")])]), _vm._v(" "), _c('table', {
     staticClass: "table"
   }, [_vm._m(0), _vm._v(" "), _c('tbody', _vm._l((_vm.testData), function(item, index) {
     return _c('tr', [_c('td', [_vm._v(_vm._s(item.id))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.title))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.exam_type))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.score))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.min))]), _vm._v(" "), _c('td', [_vm._v(" " + _vm._s(item.description))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.GLOBAL.toTime(item.created_at)))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.GLOBAL.toTime(item.updated_at)))]), _vm._v(" "), _c('td', [_c('button', {
@@ -72169,7 +72223,25 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.searchUser()
       }
     }
-  }, [_vm._v("查找用户")])])]), _vm._v(" "), _c('table', {
+  }, [_vm._v("查找用户")])]), _vm._v(" "), _c('button', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.isShowUpdateUser),
+      expression: "isShowUpdateUser"
+    }],
+    staticClass: "button",
+    attrs: {
+      "disabled": "",
+      "type": "button",
+      "name": "button"
+    },
+    on: {
+      "click": function($event) {
+        _vm.updateUser()
+      }
+    }
+  }, [_vm._v("同步用户")])]), _vm._v(" "), _c('table', {
     staticClass: "table"
   }, [_vm._m(0), _vm._v(" "), _c('tbody', _vm._l((_vm.userData), function(item, index) {
     return _c('tr', [_c('td', [_vm._v(_vm._s(item.id))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.name))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.display_name))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.toTime(item.created_at.date)))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.toTime(item.updated_at.date)))]), _vm._v(" "), _c('td', [_c('button', {
@@ -72618,7 +72690,25 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.addNotice()
       }
     }
-  }, [_vm._v("添加通知")])]), _vm._v(" "), _vm._l((_vm.noticeData), function(item, index) {
+  }, [_vm._v("添加通知")]), _vm._v(" "), _c('button', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.isShowUpdateNotification),
+      expression: "isShowUpdateNotification"
+    }],
+    staticClass: "button",
+    attrs: {
+      "disabled": "",
+      "type": "button",
+      "name": "button"
+    },
+    on: {
+      "click": function($event) {
+        _vm.updateNotice()
+      }
+    }
+  }, [_vm._v("同步通知")])]), _vm._v(" "), _vm._l((_vm.noticeData), function(item, index) {
     return _c('div', {
       staticClass: "notice box"
     }, [_c('div', {
@@ -72825,7 +72915,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "to": "/course"
     }
   }, [_c('i', {
-    staticClass: "fas fa-book"
+    staticClass: "fas fa-newspaper"
   }), _c('span', [_vm._v("课程")])])], 1), _vm._v(" "), _c('li', {
     directives: [{
       name: "show",
@@ -72888,7 +72978,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "to": "/examinationPaper"
     }
   }, [_c('i', {
-    staticClass: "far fa-file-alt"
+    staticClass: "fas fa-paperclip"
   }), _c('span', [_vm._v("试卷")])])], 1), _vm._v(" "), _c('li', {
     directives: [{
       name: "show",
@@ -72909,7 +72999,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "to": "/question"
     }
   }, [_c('i', {
-    staticClass: "far fa-file-alt"
+    staticClass: "fas fa-list-ol"
   }), _c('span', [_vm._v("问题")])])], 1), _vm._v(" "), _c('li', {
     class: {
       'is-active': _vm.currentTag === 'label'
@@ -73818,6 +73908,13 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         value: (item.question_type === _vm.currentChapterData.question_type),
         expression: "item.question_type === currentChapterData.question_type"
       }]
+    }, [_vm._v(_vm._s(item.question_type))]), _vm._v(" "), _c('td', {
+      directives: [{
+        name: "show",
+        rawName: "v-show",
+        value: (item.question_type === _vm.currentChapterData.question_type),
+        expression: "item.question_type === currentChapterData.question_type"
+      }]
     }, [_vm._v(_vm._s(item.title))]), _vm._v(" "), _c('td', {
       directives: [{
         name: "show",
@@ -73825,7 +73922,27 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         value: (item.question_type === _vm.currentChapterData.question_type),
         expression: "item.question_type === currentChapterData.question_type"
       }]
-    }, [_vm._v(_vm._s(item.question_type))])])
+    }, [_c('input', {
+      directives: [{
+        name: "model",
+        rawName: "v-model",
+        value: (_vm.questionScore[item.id]),
+        expression: "questionScore[item.id]"
+      }],
+      staticClass: "input number-input",
+      attrs: {
+        "type": "number"
+      },
+      domProps: {
+        "value": (_vm.questionScore[item.id])
+      },
+      on: {
+        "input": function($event) {
+          if ($event.target.composing) { return; }
+          _vm.$set(_vm.questionScore, item.id, $event.target.value)
+        }
+      }
+    })])])
   }))])])])]), _vm._v(" "), _c('footer', {
     staticClass: "modal-card-foot"
   }, [_c('button', {
@@ -73844,7 +73961,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_vm._v("取消")])])])])
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('thead', [_c('tr', [_c('th', [_vm._v("是否选中")]), _vm._v(" "), _c('th', [_vm._v("序号")]), _vm._v(" "), _c('th', [_vm._v("题目")]), _vm._v(" "), _c('th', [_vm._v("类型")])])])
+  return _c('thead', [_c('tr', [_c('th', [_vm._v("是否选中")]), _vm._v(" "), _c('th', [_vm._v("序号")]), _vm._v(" "), _c('th', [_vm._v("类型")]), _vm._v(" "), _c('th', [_vm._v("题目")]), _vm._v(" "), _c('th', [_vm._v("分值")])])])
 }]}
 module.exports.render._withStripped = true
 if (false) {
@@ -73920,7 +74037,25 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.addExaminationPaper()
       }
     }
-  }, [_vm._v("添加试卷")])]), _vm._v(" "), _c('table', {
+  }, [_vm._v("添加试卷")]), _vm._v(" "), _c('button', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.isShowUpdatePaper),
+      expression: "isShowUpdatePaper"
+    }],
+    staticClass: "button",
+    attrs: {
+      "disabled": "",
+      "type": "button",
+      "name": "button"
+    },
+    on: {
+      "click": function($event) {
+        _vm.updatePaper()
+      }
+    }
+  }, [_vm._v("同步试卷")])]), _vm._v(" "), _c('table', {
     staticClass: "table"
   }, [_vm._m(0), _vm._v(" "), _c('tbody', _vm._l((_vm.examinationPaperData), function(item, index) {
     return _c('tr', [_c('td', [_vm._v(_vm._s(item.id))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.title))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.score))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.min))]), _vm._v(" "), _c('td', [_vm._v(" " + _vm._s(item.description))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.toTime(item.created_at)))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.toTime(item.updated_at)))]), _vm._v(" "), _c('td', [_c('button', {
@@ -74325,7 +74460,25 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.addLabel()
       }
     }
-  }, [_vm._v("添加标签")])]), _vm._v(" "), _c('table', {
+  }, [_vm._v("添加标签")]), _vm._v(" "), _c('button', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.isShowUpdateLabel),
+      expression: "isShowUpdateLabel"
+    }],
+    staticClass: "button",
+    attrs: {
+      "disabled": "",
+      "type": "button",
+      "name": "button"
+    },
+    on: {
+      "click": function($event) {
+        _vm.updateLabel()
+      }
+    }
+  }, [_vm._v("同步标签")])]), _vm._v(" "), _c('table', {
     staticClass: "table"
   }, [_vm._m(0), _vm._v(" "), _c('tbody', _vm._l((_vm.labelData), function(item, index) {
     return _c('tr', [_c('td', [_vm._v(_vm._s(item.id))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.title))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.commentabl_type))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.creator_id))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.GLOBAL.toTime(item.created_at)))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.GLOBAL.toTime(item.updated_at)))]), _vm._v(" "), _c('td', [_c('button', {
@@ -74959,7 +75112,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   })]), _vm._v(" "), _c('div', {
     staticClass: "box-item"
-  }, [_c('label', [_vm._v("考试时长")]), _vm._v(" "), _c('input', {
+  }, [_c('label', [_vm._v("考试时长(分钟制)")]), _vm._v(" "), _c('input', {
     directives: [{
       name: "model",
       rawName: "v-model",
@@ -75123,7 +75276,25 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.addRole()
       }
     }
-  }, [_vm._v("添加角色")])]), _vm._v(" "), _c('table', {
+  }, [_vm._v("添加角色")]), _vm._v(" "), _c('button', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.isShowUpdateRole),
+      expression: "isShowUpdateRole"
+    }],
+    staticClass: "button add-role-button",
+    attrs: {
+      "disabled": "",
+      "type": "button",
+      "name": "button"
+    },
+    on: {
+      "click": function($event) {
+        _vm.updateRole()
+      }
+    }
+  }, [_vm._v("同步角色")])]), _vm._v(" "), _c('table', {
     staticClass: "table"
   }, [_vm._m(0), _vm._v(" "), _c('tbody', _vm._l((_vm.roleData), function(item, index) {
     return _c('tr', [_c('td', [_vm._v(_vm._s(item.id))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.name))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.display_name))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.GLOBAL.toTime(item.created_at)))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.GLOBAL.toTime(item.updated_at)))]), _vm._v(" "), _c('td', [_c('button', {

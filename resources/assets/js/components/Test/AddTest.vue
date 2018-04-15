@@ -28,7 +28,7 @@
           <input v-model="testData.score" class="input" type="text">
         </div>
         <div class="box-item">
-          <label>考试时长</label>
+          <label>考试时长(分钟制)</label>
           <input v-model="testData.min" class="input" type="text">
         </div>
         <div class="box-item">
@@ -124,6 +124,7 @@ export default {
         }
       }).then(res => {
         alert('添加成功');
+        that.clearWords();
         that.$emit('getTest');   //第一个参数名为调用的方法名，第二个参数为需要传递的参数
         that.switchModal();
       }).catch(err => {
@@ -135,7 +136,6 @@ export default {
           alert('添加失败');
         }
         console.log(err);
-        that.clearWords();
       })
     },
     getExaminationPaper: function () {

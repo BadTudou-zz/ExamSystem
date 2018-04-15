@@ -7,6 +7,7 @@
         <button disabled @click="searchExaminationPaper()" class="button" type="button" name="button">查找试卷</button>
       </div>
         <button v-show="isShowCreatePaper" @click="addExaminationPaper()" class="button add-role-button" type="button" name="button">添加试卷</button>
+        <button disabled v-show="isShowUpdatePaper" @click="updatePaper()" class="button" type="button" name="button">同步试卷</button>
     </div>
     <table class="table">
       <thead>
