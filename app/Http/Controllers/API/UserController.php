@@ -35,6 +35,8 @@ use App\Notifications\SystemNotification;
 use App\Util\CaptchaUtil;
 use App\Util\OrmUtil;
 use Illuminate\Support\Facades\Hash;
+use App\Role;
+
 
 class UserController extends Controller
 {
@@ -200,6 +202,9 @@ class UserController extends Controller
         $user->save();
         $data['token'] =  $user->createToken('MyApp')->accessToken;
         $data['user'] = $user;
+
+        $userRole = Role::where('name', 'user')->first();
+        $user->attachRole($userRole);        
 
         return response()->json(['data'=>$data], $this->successStatus);
     }
