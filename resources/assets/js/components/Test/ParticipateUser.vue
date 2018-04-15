@@ -6,7 +6,7 @@
       <div class="box user-box">
         <div>
             <button @click="addTestUser()" class="button add-role-button" type="button" name="button">添加用户</button>
-            <button @click="deleteUser()" class="delete" type="button" name="button">删除用户</button>
+            <button @click="deleteUser()" class="button" type="button" name="button">删除用户</button>
         </div>
         <table class="table">
           <thead>
@@ -108,7 +108,7 @@ export default {
       if (prompt) {
         axios({
           method: 'delete',
-          url: `${this.GLOBAL.localDomain}/api/v1/lectures/${id}/users?${params}`,
+          url: `${this.GLOBAL.localDomain}/api/v1/exams/${id}/users?${params}`,
           headers: {
             'Accept': 'application/json',
             'Authorization': sessionStorage.getItem('token'),

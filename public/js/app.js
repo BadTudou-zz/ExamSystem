@@ -34247,7 +34247,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       var that = this;
       that.$refs.addMember.switchModal();
     },
-    synchronizeMember: function synchronizeMember(index) {
+    synchronizeMember: function synchronizeMember() {
       var that = this;
       that.$refs.synchronizeMember.switchModal();
     },
@@ -34620,6 +34620,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     switchModal: function switchModal() {
       var that = this;
       that.isShowModal = !that.isShowModal;
+      debugger;
     },
     clearWords: function clearWords() {
       var that = this;
@@ -39088,7 +39089,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         console.log(err);
       });
     },
-    deleteUser: function deleteUser(index) {
+    deleteUser: function deleteUser() {
       var that = this;
       var id = that.roleId;
       var params = that.GLOBAL.computedParams(that.selectedUser, 'users');
@@ -40911,7 +40912,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       if (prompt) {
         axios({
           method: 'delete',
-          url: this.GLOBAL.localDomain + '/api/v1/lectures/' + id + '/users?' + params,
+          url: this.GLOBAL.localDomain + '/api/v1/exams/' + id + '/users?' + params,
           headers: {
             'Accept': 'application/json',
             'Authorization': sessionStorage.getItem('token')
@@ -68552,7 +68553,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }
   }, [_vm._v("同步成员")]), _vm._v(" "), _c('button', {
-    staticClass: "delete",
+    staticClass: "button",
     attrs: {
       "type": "button",
       "name": "button"
@@ -69440,7 +69441,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }
   }, [_vm._v("添加用户")]), _vm._v(" "), _c('button', {
-    staticClass: "delete",
+    staticClass: "button",
     attrs: {
       "type": "button",
       "name": "button"
@@ -70866,7 +70867,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }
   }, [_vm._v("同步权限")]), _vm._v(" "), _c('button', {
-    staticClass: "delete",
+    staticClass: "button",
     attrs: {
       "type": "button",
       "name": "button"
@@ -72197,7 +72198,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
           _vm.editUser(index)
         }
       }
-    }, [_vm._v("编辑用户")]), _vm._v(" "), _c('button', {
+    }, [_vm._v("更改用户名")]), _vm._v(" "), _c('button', {
       staticClass: "button is-small",
       attrs: {
         "type": "button"
@@ -75242,14 +75243,14 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }
   }, [_vm._v("同步用户")]), _vm._v(" "), _c('button', {
-    staticClass: "delete",
+    staticClass: "button",
     attrs: {
       "type": "button",
       "name": "button"
     },
     on: {
       "click": function($event) {
-        _vm.deleteUser(_vm.index)
+        _vm.deleteUser()
       }
     }
   }, [_vm._v("删除用户")])]), _vm._v(" "), _c('table', {
@@ -76055,7 +76056,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }
   }, [_vm._v("添加用户")]), _vm._v(" "), _c('button', {
-    staticClass: "delete",
+    staticClass: "button",
     attrs: {
       "type": "button",
       "name": "button"

@@ -11,7 +11,7 @@
           </div>
             <button @click="addMember()" class="button add-role-button" type="button" name="button">添加成员</button>
             <button @click="synchronizeMember()" class="button add-role-button" type="button" name="button">同步成员</button>
-            <button @click="deleteMember()" class="delete" type="button" name="button">删除成员</button>
+            <button @click="deleteMember()" class="button" type="button" name="button">删除成员</button>
         </div>
         <table class="table">
           <thead>
@@ -107,7 +107,7 @@ export default {
       const that = this;
       that.$refs.addMember.switchModal();
     },
-    synchronizeMember: function (index) {
+    synchronizeMember: function () {
       const that = this;
       that.$refs.synchronizeMember.switchModal();
     },

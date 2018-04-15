@@ -29,7 +29,7 @@
           <td>{{ toTime(item.updated_at.date) }}</td>
           <td>
             <button v-show="isShowDeleteUser" @click="deleteUser(index)" class="delete" type="button">删除用户</button>
-            <button @click="editUser(index)" class="button is-small" type="button">编辑用户</button>
+            <button @click="editUser(index)" class="button is-small" type="button">更改用户名</button>
             <button @click="changePassword(index)" class="button is-small" type="button">更改密码</button>
           </td>
           <!-- <td>
