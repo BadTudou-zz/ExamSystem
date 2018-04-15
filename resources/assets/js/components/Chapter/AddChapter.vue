@@ -160,10 +160,6 @@ export default {
     // 计算问题分值的JSON
     computedAnswerJson: function () {
       const that = this;
-      // if (that.selectedQuesiton.length !== that.questionScore.length) {
-      //   alert('请检查分值是否填写完整');
-      //   return;
-      // }
       let json = {};
       for (let i = 0; i < that.selectedQuesiton.length; i++) {
         json[that.selectedQuesiton[i]] = that.questionScore[that.selectedQuesiton[i]];
@@ -193,9 +189,6 @@ export default {
   watch: {
     selectedQuesiton: function (value, oldValue) {
       const that = this;
-      // console.log('选中的问题');
-      // console.log(value)
-      // this.computedAnswerJson();
     },
     data:function (value, oldValue) {
       const that = this;

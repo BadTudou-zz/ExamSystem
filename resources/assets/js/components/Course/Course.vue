@@ -7,6 +7,7 @@
           <button class="button" type="button" name="button">查找课程</button>
         </div>
         <button v-show="isShowCreateCourse" @click="addCourse()" class="button add-role-button" type="button" name="button">添加课程</button>
+        <button disabled v-show="isShowUpdateCourse" @click="updateCourse()" class="button" type="button" name="button">同步课程</button>
     </div>
     <table class="table">
       <thead>

@@ -33,7 +33,7 @@
           </li>
 
           <li v-show="isShowCourse" :class="{'is-active' : currentTag === 'course'}" @click="currentTag = 'course'">
-            <router-link to="/course"><i class="fas fa-book"></i><span>课程</span></router-link>
+            <router-link to="/course"><i class="fas fa-newspaper"></i><span>课程</span></router-link>
           </li>
 
 
@@ -46,11 +46,11 @@
           </li>
 
           <li v-show="isShowPaper" :class="{'is-active' : currentTag === 'examinationPaper'}" @click="currentTag = 'examinationPaper'">
-            <router-link to="/examinationPaper"><i class="far fa-file-alt"></i><span>试卷</span></router-link>
+            <router-link to="/examinationPaper"><i class="fas fa-paperclip"></i><span>试卷</span></router-link>
           </li>
 
           <li v-show="isShowQuestion" :class="{'is-active' : currentTag === 'question'}" @click="currentTag = 'question'">
-            <router-link to="/question"><i class="far fa-file-alt"></i><span>问题</span></router-link>
+            <router-link to="/question"><i class="fas fa-list-ol"></i><span>问题</span></router-link>
           </li>
 
           <li is-show="isShowTag" :class="{'is-active' : currentTag === 'label'}" @click="currentTag = 'label'">

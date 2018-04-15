@@ -7,6 +7,7 @@
         <button disabled @click="searchNotice()" class="button" type="button" name="button">查找通知</button>
       </div>
         <button v-show="isShowCreateNotification" @click="addNotice()" class="button add-role-button" type="button" name="button">添加通知</button>
+        <button disabled v-show="isShowUpdateNotification" @click="updateNotice()" class="button" type="button" name="button">同步通知</button>
     </div>
     <div  v-for="(item,index) in noticeData" class="notice box">
       <div class="notification">
