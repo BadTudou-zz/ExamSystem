@@ -276,19 +276,19 @@ export default {
     // 【考试】
     isShowSearchTest() {
       // return true;
-      return sessionStorage.getItem('permissions').includes(54);
+      return sessionStorage.getItem('permissions').includes('exam-show');
     },
     isShowCreateTest() {
       // return true;
-      return sessionStorage.getItem('permissions').includes(55);
+      return sessionStorage.getItem('permissions').includes('exam-store');
     },
     isShowUpdateTest() {
       // return true;
-      return sessionStorage.getItem('permissions').includes(56);
+      return sessionStorage.getItem('permissions').includes('exam-update');
     },
     isShowDeleteTest() {
       // return true;
-      return sessionStorage.getItem('permissions').includes(57);
+      return sessionStorage.getItem('permissions').includes('exam-destroy');
     },
   },
   watch: {

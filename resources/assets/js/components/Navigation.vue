@@ -160,57 +160,57 @@ export default {
     // 1.【权限】
     isShowPermission() {
       // return true;
-      return sessionStorage.getItem('permissions').includes(4);
+      return sessionStorage.getItem('permissions').includes('permission-index');
     },
     // 2.【角色】
     isShowRole() {
       // return true;
-      return sessionStorage.getItem('permissions').includes(7);
+      return sessionStorage.getItem('permissions').includes('role-index');
     },
     // 3.【用户】
     isShowUser() {
       // return true;
-      return sessionStorage.getItem('permissions').includes(10);
+      return sessionStorage.getItem('permissions').includes('user-index');
     },
     // 4.【消息】
     isShowMessage() {
       // return true;
-      return sessionStorage.getItem('permissions').includes(13);
+      return sessionStorage.getItem('permissions').includes('message-index');
     },
     // 5.【通知】
     isShowNotification() {
       // return true;
-      return sessionStorage.getItem('permissions').includes(17);
+      return sessionStorage.getItem('permissions').includes('notification-index');
     },
     // 6.【组织】
     isShowOrganization() {
       // return true;
-      return sessionStorage.getItem('permissions').includes(26);
+      return sessionStorage.getItem('permissions').includes('organization-index');
     },
     // 7.【问题】
     isShowQuestion() {
       // return true;
-      return sessionStorage.getItem('permissions').includes(33);
+      return sessionStorage.getItem('permissions').includes('question-index');
     },
     // 8.【试卷】
     isShowPaper() {
       // return true;
-      return sessionStorage.getItem('permissions').includes(38);
+      return sessionStorage.getItem('permissions').includes('paper-index');
     },
     // 9.【申请】
     isShowApplication() {
       // return true;
-      return sessionStorage.getItem('permissions').includes(43);
+      return sessionStorage.getItem('permissions').includes('application-index');
     },
     // 10.【标签】
     isShowTag() {
       // return true;
-      return sessionStorage.getItem('permissions').includes(49);
+      return sessionStorage.getItem('permissions').includes('tag-index');
     },
     // 11.【试卷】
     isShowExamPaper() {
       // return true;
-      return sessionStorage.getItem('permissions').includes(53);
+      return sessionStorage.getItem('permissions').includes('exam-index');
     }
   },
   created() {

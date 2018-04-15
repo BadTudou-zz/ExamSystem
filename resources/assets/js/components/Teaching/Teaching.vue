@@ -191,15 +191,15 @@ export default {
   computed: {
     isShowCreateTeaching() {
       // return true;
-      return sessionStorage.getItem('permissions').includes(30)
+      return sessionStorage.getItem('permissions').includes('lecture-store')
     },
     isShowSearchTeaching() {
       // return true;
-      return sessionStorage.getItem('permissions').includes(31)
+      return sessionStorage.getItem('permissions').includes('lecture-show')
     },
     isShowDeleteTeaching() {
       // return true;
-      return sessionStorage.getItem('permissions').includes(32)
+      return sessionStorage.getItem('permissions').includes('lecture-destroy')
     },
   },
   created() {

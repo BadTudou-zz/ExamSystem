@@ -214,15 +214,15 @@ export default {
   computed: {
     isShowSearchLabel() {
       // return true;
-      return sessionStorage.getItem('permissions').includes(50);
+      return sessionStorage.getItem('permissions').includes('tag-show');
     },
     isShowUpdateLabel() {
       // return true;
-      return sessionStorage.getItem('permissions').includes(51);
+      return sessionStorage.getItem('permissions').includes('tag-update');
     },
     isShowDeleteLabel() {
       // return true;
-      return sessionStorage.getItem('permissions').includes(52);
+      return sessionStorage.getItem('permissions').includes('tag-destroy');
     },
   },
   created() {

@@ -129,19 +129,19 @@ export default {
   computed: {
     isShowCreateCourse() {
       // return true;
-      return sessionStorage.getItem('permissions').includes(22);
+      return sessionStorage.getItem('permissions').includes('course-store');
     },
     isShowSearchCourse() {
       // return true;
-      return sessionStorage.getItem('permissions').includes(23);
+      return sessionStorage.getItem('permissions').includes('course-show');
     },
     isShowUpdateCourse() {
       // return true;
-      return sessionStorage.getItem('permissions').includes(24);
+      return sessionStorage.getItem('permissions').includes('course-update');
     },
     isShowDeleteCourse() {
       // return true;
-      return sessionStorage.getItem('permissions').includes(25);
+      return sessionStorage.getItem('permissions').includes('course-destroy');
     },
   },
   created() {

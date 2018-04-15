@@ -188,19 +188,19 @@ export default {
   computed: {
     isShowCreateQuestion() {
       // return true;
-      return sessionStorage.getItem('permissions').includes(34);
+      return sessionStorage.getItem('permissions').includes('question-store');
     },
     isShowSearchQuestion() {
       // return true;
-      return sessionStorage.getItem('permissions').includes(35);
+      return sessionStorage.getItem('permissions').includes('question-show');
     },
     isShowUpdateQuestion() {
       // return true;
-      return sessionStorage.getItem('permissions').includes(36);
+      return sessionStorage.getItem('permissions').includes('question-update');
     },
     isShowDeleteQuestion() {
       // return true;
-      return sessionStorage.getItem('permissions').includes(37);
+      return sessionStorage.getItem('permissions').includes('question-destroy');
     },
   },
   created() {

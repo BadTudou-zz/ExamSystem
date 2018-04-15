@@ -172,15 +172,15 @@ export default {
   computed: {
     isShowCreateOrganization() {
       // return true;
-      return sessionStorage.getItem('permissions').includes(27)
+      return sessionStorage.getItem('permissions').includes('organization-store')
     },
     isShowSearchOrganization() {
       // return true;
-      return sessionStorage.getItem('permissions').includes(28)
+      return sessionStorage.getItem('permissions').includes('organization-show')
     },
     isShowDeleteOrganization() {
       // return true;
-      return sessionStorage.getItem('permissions').includes(29)
+      return sessionStorage.getItem('permissions').includes('organization-destroy')
     },
   },
   created() {

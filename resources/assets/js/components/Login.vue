@@ -152,7 +152,7 @@ export default {
         that.permissionData = res.data;  // conclude links
         that.url = res.data.links.next;
         for (let i = 0; i < res.data.data.length; i++) {
-          that.permissionIdList.push(parseInt(res.data.data[i].id));
+          that.permissionIdList.push(parseInt(res.data.data[i].name));
         }
         if (that.url) {
           that.getPermission(that.url);
