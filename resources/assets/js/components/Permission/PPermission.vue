@@ -28,7 +28,7 @@
           <td>{{ item.description }}</td>
           <td>{{ GLOBAL.toTime(item.created_at) }}</td>
           <td>{{ GLOBAL.toTime(item.updated_at) }}</td>
-          <td><button v-show="isShowDeletePermission" @click="deletePermission(index)" class="button" type="button" name="button">删除权限</button></td>
+          <td><button v-show="isShowDeletePermission" @click="deletePermission(index)" class="delete" type="button" name="button">删除权限</button></td>
         </tr>
       </tbody>
     </table>

@@ -40,7 +40,7 @@
             <td>{{ GLOBAL.toTime(item.created_at) }}</td>
             <td>{{ GLOBAL.toTime(item.updated_at) }}</td>
             <td>
-              <button v-show="isShowDeleteTest" @click="deleteTest(index)" class="is-small button" type="button" name="button">删除</button>
+              <button v-show="isShowDeleteTest" @click="deleteTest(index)" class="delete" type="button" name="button">删除</button>
               <button @click="editTest(index)" class="is-small button" type="button" name="button">编辑</button>
               <button @click="startTest(index)" class="is-small button" type="button" name="button">开始考试</button>
               <button @click="stopTest(index)" class="is-small button" type="button" name="button">结束考试</button>
