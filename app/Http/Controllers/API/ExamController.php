@@ -80,7 +80,7 @@ class ExamController extends Controller
     {
         $user = Auth::user();
         $exam = $user->exams()->where('exam_id', $id)->first();
-        if (!$exam->begin_at || !$exam->start_at || $exam->begin_at < Carbon::now()) {
+        if (!$exam->begin_at || !$exam->start_at) {
             return response()->json(['error'=>'考试还未开始，请耐心等待！'], 400);
         }
 
@@ -122,7 +122,7 @@ class ExamController extends Controller
         $user = Auth::user();
         $exam = $user->exams()->where('exam_id', $id)->first();
 
-        if (!$exam->begin_at || $exam->begin_at < Carbon::now()) {
+        if (!$exam->start_at) {
             return response()->json(['error'=>'考试还未开始，请耐心等待！'], 400);
         }
 
@@ -145,7 +145,7 @@ class ExamController extends Controller
         $user = Auth::user();
         $exam = $user->exams()->where('exam_id', $id)->first();
 
-        if (!$exam->begin_at || $exam->begin_at < Carbon::now()) {
+        if (!$exam->begin_at) {
             return response()->json(['error'=>'考试还未开始，不能结束！'], 400);
         }
 

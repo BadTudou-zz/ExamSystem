@@ -159,6 +159,13 @@ class PermissionsTableSeeder extends Seeder
         $destroyNotification->save();
 
         // 创建课程
+        $indexCourse = new Permission();
+        $indexCourse->name         = 'course-index';
+        $indexCourse->display_name = 'All Course';
+        $indexCourse->description  = 'All Course';
+        $indexCourse->save();
+
+        // 创建课程
         $storeCourse = new Permission();
         $storeCourse->name         = 'course-store';
         $storeCourse->display_name = 'Create Course';
@@ -213,6 +220,14 @@ class PermissionsTableSeeder extends Seeder
         $destroyOrganization->display_name = 'Destroy A Organization';
         $destroyOrganization->description  = 'Destroy A Organization';
         $destroyOrganization->save();
+
+
+        // 全部讲课
+        $allLecture = new Permission();
+        $allLecture->name         = 'lecture-index';
+        $allLecture->display_name = 'All Lecture';
+        $allLecture->description  = 'All Lecture';
+        $allLecture->save();
 
         // 创建讲课
         $storeLecture = new Permission();

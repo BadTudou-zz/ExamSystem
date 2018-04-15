@@ -34,5 +34,12 @@ class RolesTableSeeder extends Seeder
         $student->description  = '学生';
         $student->save();
 
+        // 用户
+        $user = new Role();
+        $user->name         = 'user';
+        $user->display_name = '用户';
+        $user->description  = '用户';
+        $user->save();
+
     }
 }
