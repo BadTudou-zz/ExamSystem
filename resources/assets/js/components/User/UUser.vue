@@ -3,8 +3,8 @@
   <div class="box">
     <div>
       <div class="search-box">
-        <input v-model="searchKey" class="input search-input" type="text" placeholder="请输入用户的ID">
-        <button @click="searchUser()" class="button" type="button" name="button">查找用户</button>
+        <input disabled v-model="searchKey" class="input search-input" type="text" placeholder="请输入用户的ID">
+        <button disabled @click="searchUser()" class="button" type="button" name="button">查找用户</button>
       </div>
         <!-- <button class="button add-user-button" type="button" name="button">添加用户</button> -->
     </div>
@@ -17,7 +17,7 @@
           <th>创建时间</th>
           <th>更新时间</th>
           <th>操作</th>
-          <th>查看</th>
+          <!-- <th>查看</th> -->
         </tr>
       </thead>
       <tbody>
@@ -32,9 +32,9 @@
             <button @click="editUser(index)" class="button is-small" type="button">编辑用户</button>
             <button @click="changePassword(index)" class="button is-small" type="button">更改密码</button>
           </td>
-          <td>
+          <!-- <td>
             <v-view></v-view>
-          </td>
+          </td> -->
         </tr>
       </tbody>
     </table>
@@ -56,7 +56,7 @@
 import moment from 'moment'
 import editUser from './editUser'
 import ChangePassword from './ChangePassword'
-import VView from './View'
+// import VView from './View'
 
 export default {
   data() {
@@ -71,7 +71,7 @@ export default {
   components: {
     editUser,
     ChangePassword,
-    VView,
+    // VView,
   },
   methods: {
     toTime: function (time) {

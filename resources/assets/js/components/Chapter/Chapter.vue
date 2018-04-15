@@ -6,8 +6,8 @@
       <div class="box chapter-box">
         <div>
           <div class="search-box">
-            <input v-model="searchKey" class="input search-input" type="text" placeholder="请输入章节">
-            <button @click="searchChapter()" class="button" type="button" name="button">查找章节</button>
+            <input disabled v-model="searchKey" class="input search-input" type="text" placeholder="请输入章节">
+            <button disabled @click="searchChapter()" class="button" type="button" name="button">查找章节</button>
           </div>
             <button @click="addChapter()" class="button add-role-button" type="button" name="button">添加章节</button>
         </div>

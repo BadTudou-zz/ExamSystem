@@ -3,8 +3,8 @@
   <div class="box">
     <div>
       <div v-show="isShowSearchRole" class="search-box">
-        <input v-model="searchKey" class="input search-input" type="text" placeholder="请输入你要查找的角色ID">
-        <button @click="searchRole()" class="button" type="button" name="button">查找角色</button>
+        <input disabled v-model="searchKey" class="input search-input" type="text" placeholder="请输入你要查找的角色ID">
+        <button disabled @click="searchRole()" class="button" type="button" name="button">查找角色</button>
       </div>
         <button v-show="isShowCreateRole" @click="addRole()" class="button add-role-button" type="button" name="button">添加角色</button>
     </div>
