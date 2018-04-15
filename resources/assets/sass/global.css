@@ -1,0 +1,25 @@
+.button {
+  border-radius: 2px;
+  font-size: .75rem;d
+}
+
+.search-input {
+  border-radius: 2px;
+  font-size: .75rem;
+}
+
+.delete {
+  height: 16px;
+  line-height: 16px;
+  max-height: 16px;
+  max-width: 16px;
+  min-height: 16px;
+  min-width: 16px;
+  width: 16px;
+  margin: 5px 10px 0 0;
+}
+.edit-icon {
+  cursor: pointer;
+  display: inline-block;
+  color: #cecece;
+}

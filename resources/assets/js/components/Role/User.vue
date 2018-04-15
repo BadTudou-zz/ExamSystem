@@ -7,7 +7,7 @@
         <div>
           <button @click="addUser()" class="button add-user-button" type="button" name="button">添加用户</button>
           <button @click="synchronizeUser()" class="button add-user-button" type="button" name="button">同步用户</button>
-          <button @click="deleteUser(index)" class="button" type="button" name="button">删除用户</button>
+          <button @click="deleteUser(index)" class="delete" type="button" name="button">删除用户</button>
         </div>
         <table class="table">
           <thead>

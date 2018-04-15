@@ -29,7 +29,7 @@
           <td>{{ GLOBAL.toTime(item.created_at) }}</td>
           <td>{{ GLOBAL.toTime(item.updated_at) }}</td>
           <td>
-            <button v-show="isShowDeleteLabel" @click="deleteLabel(index)" class="button" type="button" name="button">删除标签</button>
+            <button v-show="isShowDeleteLabel" @click="deleteLabel(index)" class="delete" type="button" name="button">删除标签</button>
             <button @click="editLabel(index)" class="button" type="button" name="button">编辑标签</button>
           </td>
         </tr>

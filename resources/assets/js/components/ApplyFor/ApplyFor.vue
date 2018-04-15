@@ -4,9 +4,9 @@
     <div>
       <div v-show="isShowSearchApplication" class="search-box">
         <input disabled v-model="searchKey" class="input search-input" type="text" placeholder="请输入关键字">
-        <button disabled @click="searchApplyFor()" class="button" type="button" name="button">查找申请</button>
+        <button disabled @click="searchApplyFor()" class="button is-small" type="button" name="button">查找申请</button>
       </div>
-        <button v-show="isShowCreateApplication" @click="addApplyFor()" class="button add-role-button" type="button" name="button">添加申请</button>
+        <button v-show="isShowCreateApplication" @click="addApplyFor()" class="button add-role-button is-small" type="button" name="button">添加申请</button>
     </div>
     <table class="table">
       <thead>
@@ -31,10 +31,11 @@
           <td>{{ item.data }}</td>
           <td>{{ GLOBAL.toTime(item.updated_at.date) }}</td>
           <td>
-            <button v-show="isShowDeleteApplication" @click="deleteApplyFor(index)" class="button" type="button" name="button">删除</button>
-            <button @click="editApplyFor(index)" class="button" type="button" name="button">编辑</button>
-            <button v-show="isShowAccpetApplication" @click="acceptApplyFor(index)" class="button" type="button" name="button">接受</button>
-            <button v-show="isShowRejectApplication" @click="rejectApplyFor(index)" class="button" type="button" name="button">拒绝</button>
+            <button v-show="isShowDeleteApplication" @click="deleteApplyFor(index)" class="delete is-small" type="button" name="button">删除</button>
+            <button @click="editApplyFor(index)" class="button is-small" type="button" name="button">编辑</button>
+            <!-- <i @click="editApplyFor(index)" class="far fa-edit edit-icon"></i> -->
+            <button v-show="isShowAccpetApplication" @click="acceptApplyFor(index)" class="button is-small" type="button" name="button">接受</button>
+            <button v-show="isShowRejectApplication" @click="rejectApplyFor(index)" class="button is-small" type="button" name="button">拒绝</button>
           </td>
         </tr>
       </tbody>
@@ -151,6 +152,7 @@ export default {
     },
     editApplyFor: function (index) {
       const that = this;
+      console.log('编辑申请')
       that.editData = that.applyForData[index];
       // that.$refs.addApplyFor.switchModal();
       that.$refs.editApplyFor.switchModal();
