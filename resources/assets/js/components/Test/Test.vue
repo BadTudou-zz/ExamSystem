@@ -5,8 +5,8 @@
     <div v-show="!isTesting">
       <div>
         <div v-show="isShowSearchTest" class="search-box">
-          <input v-model="searchKey" class="input search-input" type="text" placeholder="请输入你要查看的考试">
-          <button @click="searchTest()" class="button" type="button" name="button">查找考试</button>
+          <input disabled v-model="searchKey" class="input search-input" type="text" placeholder="请输入关键字">
+          <button disabled @click="searchTest()" class="button" type="button" name="button">查找考试</button>
         </div>
         <button v-show="isShowCreateTest" @click="addTest()" class="button add-role-button" type="button" name="button">添加考试</button>
       </div>

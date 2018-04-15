@@ -74,8 +74,8 @@
       <div class="operate">
         <div class="notice">
           <router-link title="个人中心" to="/personalCenter"><i class="far fa-user"></i></router-link>
-          <router-link title="个人消息" to="/mmessage"><i class="far fa-comment-alt"></i></router-link><span v-show="messageLength > 0" class="prompt">{{ messageLength }}</span>
-          <router-link title="个人通知" to="/nnotice"><i class="fas fa-bullhorn"></i></router-link><span v-show="noticeLength > 0"class="prompt">{{ noticeLength }}</span>
+          <router-link title="个人消息" to="/mmessage"><i class="far fa-comment-alt"></i></router-link><span v-show="messageLength > 0" class="prompt"><span class="data-length">{{ messageLength }}</span></span>
+          <router-link title="个人通知" to="/nnotice"><i class="fas fa-bullhorn"></i><span v-show="noticeLength > 0" class="prompt"><span class="data-length">{{ noticeLength }}</span></span></router-link>
         </div>
         <div @click="logOut()" class="exit">
           <i class="fas fa-sign-out-alt"></i>
@@ -365,14 +365,19 @@ ul li span {
 }
 .prompt {
   font-size: 12px;
-  width: 50px;
-  height: 50px;
+  width: 15px;
+  height: 15px;
   border-radius: 100%;
   color: #fff;
   font-weight: bold;
   background-color: red;
   position: relative;
   left: -20px;
-  top: -13px;
+  top: 15px;
+  display: inline-block;
+}
+.data-length {
+  position: relative;
+  top: -30px;
 }
 </style>

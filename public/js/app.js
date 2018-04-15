@@ -38386,10 +38386,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
 
 
 
@@ -46659,7 +46655,7 @@ exports.push([module.i, "\n.notice {\n  margin: 35px auto 0 auto;\n}\n.search-in
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(2)();
-exports.push([module.i, "\n.wrapper[data-v-5290f528] {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  display: -webkit-flex;\n}\n.left-nav[data-v-5290f528] {\n  width: 17%;\n  min-height: 800px;\n  height: auto;\n  background-color: #2f4860;\n}\nul[data-v-5290f528] {\n  padding-top: 30px;\n}\nul li[data-v-5290f528] {\n  list-style: none;\n  text-align: center;\n  color: #76929d;\n  padding: 13px 0;\n  cursor: pointer;\n}\nul li[data-v-5290f528]:hover {\n  background-color: #1f3244;\n  color: #fff;\n}\n.is-active[data-v-5290f528] {\n  background-color: #1f3244;\n  color: #fff;\n}\na[data-v-5290f528] {\n  color: #76929d;\n}\na[data-v-5290f528]:hover {\n  color: #fff;\n}\nul li[data-v-5290f528] {\n  list-style: none;\n  text-align: center;\n  color: #76929d;\n  padding: 13px 0;\n  cursor: pointer;\n}\nul li[data-v-5290f528]:hover {\n  background-color: #1f3244;\n  color: #fff;\n}\n.fa-home[data-v-5290f528],\n.fa-user-circle[data-v-5290f528],\n.fa-users[data-v-5290f528],\n.fa-comments[data-v-5290f528],\n.fa-bell[data-v-5290f528],\n.fa-key[data-v-5290f528],\n.fa-braille[data-v-5290f528],\n.fa-book[data-v-5290f528],\n.fa-file-alt[data-v-5290f528],\n.fa-align-left[data-v-5290f528] {\n  /* color: #ffc500; */\n  font-size: 20px;\n}\nul li span[data-v-5290f528] {\n  display: inline-block;\n  margin-left: 20px;\n}\n.head-portrait[data-v-5290f528] {\n  height: 75px;\n  line-height: 75px;\n  text-align: center;\n  /* padding-top: 15px; */\n  margin: 0 auto;\n  background-color: #5d93d2;\n  color: #fff;\n  font-weight: bold;\n}\n.fa-heart[data-v-5290f528] {\n  font-size: 45px;\n}\n/* right */\n.right-nav[data-v-5290f528] {\n  -webkit-box-flex: 1;\n      -ms-flex: 1;\n          flex: 1;\n  background-color: #eaf1f1;\n}\n.operate[data-v-5290f528] {\n  height: 76px;\n  padding: 0 20px;\n  border-bottom: 1px solid #dedede;\n  background-color: #fff;\n}\n.notice[data-v-5290f528] {\n  font-size: 17px;\n  height: 76px;\n  line-height: 76px;\n  float: left;\n  margin: 0;\n}\n.exit[data-v-5290f528] {\n  float: right;\n  height: 76px;\n  line-height: 76px;\n  cursor: pointer;\n}\n.exit span[data-v-5290f528] {\n  font-size: 14px;\n  height: 76px;\n  line-height: 76px;\n}\n.fa-user[data-v-5290f528],\n.fa-comment-alt[data-v-5290f528],\n.fa-bullhorn[data-v-5290f528] {\n  display: inline-block;\n  margin: 0 15px;\n  cursor: pointer;\n  color: #aeb8b8;\n}\n.fa-sign-out-alt[data-v-5290f528] {\n  font-size: 17px;\n  cursor: pointer;\n  color: #aeb8b8;\n}\n.prompt[data-v-5290f528] {\n  font-size: 12px;\n  width: 50px;\n  height: 50px;\n  border-radius: 100%;\n  color: #fff;\n  font-weight: bold;\n  background-color: red;\n  position: relative;\n  left: -20px;\n  top: -13px;\n}\n", ""]);
+exports.push([module.i, "\n.wrapper[data-v-5290f528] {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  display: -webkit-flex;\n}\n.left-nav[data-v-5290f528] {\n  width: 17%;\n  min-height: 800px;\n  height: auto;\n  background-color: #2f4860;\n}\nul[data-v-5290f528] {\n  padding-top: 30px;\n}\nul li[data-v-5290f528] {\n  list-style: none;\n  text-align: center;\n  color: #76929d;\n  padding: 13px 0;\n  cursor: pointer;\n}\nul li[data-v-5290f528]:hover {\n  background-color: #1f3244;\n  color: #fff;\n}\n.is-active[data-v-5290f528] {\n  background-color: #1f3244;\n  color: #fff;\n}\na[data-v-5290f528] {\n  color: #76929d;\n}\na[data-v-5290f528]:hover {\n  color: #fff;\n}\nul li[data-v-5290f528] {\n  list-style: none;\n  text-align: center;\n  color: #76929d;\n  padding: 13px 0;\n  cursor: pointer;\n}\nul li[data-v-5290f528]:hover {\n  background-color: #1f3244;\n  color: #fff;\n}\n.fa-home[data-v-5290f528],\n.fa-user-circle[data-v-5290f528],\n.fa-users[data-v-5290f528],\n.fa-comments[data-v-5290f528],\n.fa-bell[data-v-5290f528],\n.fa-key[data-v-5290f528],\n.fa-braille[data-v-5290f528],\n.fa-book[data-v-5290f528],\n.fa-file-alt[data-v-5290f528],\n.fa-align-left[data-v-5290f528] {\n  /* color: #ffc500; */\n  font-size: 20px;\n}\nul li span[data-v-5290f528] {\n  display: inline-block;\n  margin-left: 20px;\n}\n.head-portrait[data-v-5290f528] {\n  height: 75px;\n  line-height: 75px;\n  text-align: center;\n  /* padding-top: 15px; */\n  margin: 0 auto;\n  background-color: #5d93d2;\n  color: #fff;\n  font-weight: bold;\n}\n.fa-heart[data-v-5290f528] {\n  font-size: 45px;\n}\n/* right */\n.right-nav[data-v-5290f528] {\n  -webkit-box-flex: 1;\n      -ms-flex: 1;\n          flex: 1;\n  background-color: #eaf1f1;\n}\n.operate[data-v-5290f528] {\n  height: 76px;\n  padding: 0 20px;\n  border-bottom: 1px solid #dedede;\n  background-color: #fff;\n}\n.notice[data-v-5290f528] {\n  font-size: 17px;\n  height: 76px;\n  line-height: 76px;\n  float: left;\n  margin: 0;\n}\n.exit[data-v-5290f528] {\n  float: right;\n  height: 76px;\n  line-height: 76px;\n  cursor: pointer;\n}\n.exit span[data-v-5290f528] {\n  font-size: 14px;\n  height: 76px;\n  line-height: 76px;\n}\n.fa-user[data-v-5290f528],\n.fa-comment-alt[data-v-5290f528],\n.fa-bullhorn[data-v-5290f528] {\n  display: inline-block;\n  margin: 0 15px;\n  cursor: pointer;\n  color: #aeb8b8;\n}\n.fa-sign-out-alt[data-v-5290f528] {\n  font-size: 17px;\n  cursor: pointer;\n  color: #aeb8b8;\n}\n.prompt[data-v-5290f528] {\n  font-size: 12px;\n  width: 15px;\n  height: 15px;\n  border-radius: 100%;\n  color: #fff;\n  font-weight: bold;\n  background-color: red;\n  position: relative;\n  left: -20px;\n  top: 15px;\n  display: inline-block;\n}\n.data-length[data-v-5290f528] {\n  position: relative;\n  top: -30px;\n}\n", ""]);
 
 /***/ }),
 /* 311 */
@@ -67822,8 +67818,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }],
     staticClass: "input search-input",
     attrs: {
+      "disabled": "",
       "type": "text",
-      "placeholder": "请输入你要查看的权限"
+      "placeholder": "请输入关键字"
     },
     domProps: {
       "value": (_vm.permissionId)
@@ -67837,6 +67834,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }), _vm._v(" "), _c('button', {
     staticClass: "button",
     attrs: {
+      "disabled": "",
       "type": "button",
       "name": "button"
     },
@@ -68124,8 +68122,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }],
     staticClass: "input search-input",
     attrs: {
+      "disabled": "",
       "type": "text",
-      "placeholder": "请输入你要查看的成员"
+      "placeholder": "请输入关键字"
     },
     domProps: {
       "value": (_vm.searchKey)
@@ -68139,6 +68138,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }), _vm._v(" "), _c('button', {
     staticClass: "button",
     attrs: {
+      "disabled": "",
       "type": "button",
       "name": "button"
     },
@@ -70609,8 +70609,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }],
     staticClass: "input search-input",
     attrs: {
+      "disabled": "",
       "type": "text",
-      "placeholder": "请输入你要查看的考试"
+      "placeholder": "请输入关键字"
     },
     domProps: {
       "value": (_vm.searchKey)
@@ -70624,6 +70625,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }), _vm._v(" "), _c('button', {
     staticClass: "button",
     attrs: {
+      "disabled": "",
       "type": "button",
       "name": "button"
     },
@@ -71110,8 +71112,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }],
     staticClass: "input search-input",
     attrs: {
+      "disabled": "",
       "type": "text",
-      "placeholder": "请输入你要查看的消息"
+      "placeholder": "请输入关键字"
     },
     domProps: {
       "value": (_vm.searchKey)
@@ -71125,6 +71128,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }), _vm._v(" "), _c('button', {
     staticClass: "button",
     attrs: {
+      "disabled": "",
       "type": "button",
       "name": "button"
     },
@@ -71919,8 +71923,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }],
     staticClass: "input search-input",
     attrs: {
+      "disabled": "",
       "type": "text",
-      "placeholder": "请输入你要查看的组织"
+      "placeholder": "请输入关键字"
     },
     domProps: {
       "value": (_vm.searchKey)
@@ -71934,6 +71939,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }), _vm._v(" "), _c('button', {
     staticClass: "button",
     attrs: {
+      "disabled": "",
       "type": "button",
       "name": "button"
     },
@@ -72183,8 +72189,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }],
     staticClass: "input search-input",
     attrs: {
+      "disabled": "",
       "type": "text",
-      "placeholder": "请输入你要查看的通知"
+      "placeholder": "请输入关键字"
     },
     domProps: {
       "value": (_vm.searchKey)
@@ -72198,6 +72205,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }), _vm._v(" "), _c('button', {
     staticClass: "button",
     attrs: {
+      "disabled": "",
       "type": "button",
       "name": "button"
     },
@@ -72576,14 +72584,16 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       expression: "messageLength > 0"
     }],
     staticClass: "prompt"
-  }, [_vm._v(_vm._s(_vm.messageLength))]), _vm._v(" "), _c('router-link', {
+  }, [_c('span', {
+    staticClass: "data-length"
+  }, [_vm._v(_vm._s(_vm.messageLength))])]), _vm._v(" "), _c('router-link', {
     attrs: {
       "title": "个人通知",
       "to": "/nnotice"
     }
   }, [_c('i', {
     staticClass: "fas fa-bullhorn"
-  })]), _c('span', {
+  }), _c('span', {
     directives: [{
       name: "show",
       rawName: "v-show",
@@ -72591,7 +72601,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       expression: "noticeLength > 0"
     }],
     staticClass: "prompt"
-  }, [_vm._v(_vm._s(_vm.noticeLength))])], 1), _vm._v(" "), _c('div', {
+  }, [_c('span', {
+    staticClass: "data-length"
+  }, [_vm._v(_vm._s(_vm.noticeLength))])])])], 1), _vm._v(" "), _c('div', {
     staticClass: "exit",
     on: {
       "click": function($event) {
@@ -72853,8 +72865,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }],
     staticClass: "input search-input",
     attrs: {
+      "disabled": "",
       "type": "text",
-      "placeholder": "请输入你要查看的申请"
+      "placeholder": "请输入关键字"
     },
     domProps: {
       "value": (_vm.searchKey)
@@ -72868,6 +72881,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }), _vm._v(" "), _c('button', {
     staticClass: "button",
     attrs: {
+      "disabled": "",
       "type": "button",
       "name": "button"
     },
@@ -73393,8 +73407,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }],
     staticClass: "input search-input",
     attrs: {
+      "disabled": "",
       "type": "text",
-      "placeholder": "请输入你要查看的试卷"
+      "placeholder": "请输入关键字"
     },
     domProps: {
       "value": (_vm.searchKey)
@@ -73408,6 +73423,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }), _vm._v(" "), _c('button', {
     staticClass: "button",
     attrs: {
+      "disabled": "",
       "type": "button",
       "name": "button"
     },
@@ -73694,12 +73710,14 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_c('input', {
     staticClass: "input search-input",
     attrs: {
+      "disabledd": "",
       "type": "text",
-      "placeholder": "请输入你要查看的用户"
+      "placeholder": "请输入关键字"
     }
   }), _vm._v(" "), _c('button', {
     staticClass: "button",
     attrs: {
+      "disabledd": "",
       "type": "button",
       "name": "button"
     }
@@ -73800,8 +73818,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }],
     staticClass: "input search-input",
     attrs: {
+      "disabled": "",
       "type": "text",
-      "placeholder": "请输入你要查看的标签"
+      "placeholder": "请输入关键字"
     },
     domProps: {
       "value": (_vm.searchKey)
@@ -73815,6 +73834,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }), _vm._v(" "), _c('button', {
     staticClass: "button",
     attrs: {
+      "disabled": "",
       "type": "button",
       "name": "button"
     },
@@ -74160,8 +74180,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }],
     staticClass: "input search-input",
     attrs: {
+      "disabled": "",
       "type": "text",
-      "placeholder": "请输入你要查看的授课"
+      "placeholder": "请输入关键字"
     },
     domProps: {
       "value": (_vm.searchKey)
@@ -74175,6 +74196,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }), _vm._v(" "), _c('button', {
     staticClass: "button",
     attrs: {
+      "disabled": "",
       "type": "button",
       "name": "button"
     },

@@ -3,8 +3,8 @@
   <div class="box">
     <div>
       <div v-show="isShowSearchOrganization" class="search-box">
-        <input v-model="searchKey" class="input search-input" type="text" placeholder="请输入你要查看的组织">
-        <button @click="searchOrganization()" class="button" type="button" name="button">查找组织</button>
+        <input disabled v-model="searchKey" class="input search-input" type="text" placeholder="请输入关键字">
+        <button disabled @click="searchOrganization()" class="button" type="button" name="button">查找组织</button>
       </div>
       <button v-show="isShowCreateOrganization" @click="addOrganization()" class="button add-role-button" type="button" name="button">添加组织</button>
       <button class="button add-role-button" type="button" name="button">同步组织</button>

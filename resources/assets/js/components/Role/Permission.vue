@@ -5,10 +5,6 @@
     <div class="modal-content permission-content">
       <div class="box permission-box">
         <div>
-          <!-- <div class="search-box">
-            <input v-model="permissionId" class="input search-input" type="text" placeholder="请输入你要查看的权限">
-            <button @click="searchPermission()" class="button" type="button" name="button">查找权限</button>
-          </div> -->
             <button @click="addPermission()" class="button add-permission-button" type="button" name="button">添加权限</button>
             <button @click="synchronizePermission()" class="button add-permission-button" type="button" name="button">同步权限</button>
             <button @click="deletePermission()" class="button" type="button" name="button">删除权限</button>

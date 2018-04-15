@@ -3,8 +3,8 @@
   <div class="box">
     <div>
       <div v-show="isShowSearchTeaching" class="search-box">
-        <input v-model="searchKey" class="input search-input" type="text" placeholder="请输入你要查看的授课">
-        <button @click="searchTeaching()" class="button" type="button" name="button">查找授课</button>
+        <input disabled v-model="searchKey" class="input search-input" type="text" placeholder="请输入关键字">
+        <button disabled @click="searchTeaching()" class="button" type="button" name="button">查找授课</button>
       </div>
         <button v-show="isShowCreateTeaching" @click="addTeaching()" class="button add-role-button" type="button" name="button">添加授课</button>
         <button class="button add-role-button" type="button" name="button">同步授课</button>

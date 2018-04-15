@@ -3,8 +3,8 @@
   <div class="box">
     <div>
       <div v-show="isShowSearchNotification" class="search-box">
-        <input v-model="searchKey" class="input search-input" type="text" placeholder="请输入你要查看的通知">
-        <button @click="searchNotice()" class="button" type="button" name="button">查找通知</button>
+        <input disabled v-model="searchKey" class="input search-input" type="text" placeholder="请输入关键字">
+        <button disabled @click="searchNotice()" class="button" type="button" name="button">查找通知</button>
       </div>
         <button v-show="isShowCreateNotification" @click="addNotice()" class="button add-role-button" type="button" name="button">添加通知</button>
     </div>

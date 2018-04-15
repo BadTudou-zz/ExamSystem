@@ -3,8 +3,8 @@
   <div class="box">
     <div>
       <div v-show="isShowSearchApplication" class="search-box">
-        <input v-model="searchKey" class="input search-input" type="text" placeholder="请输入你要查看的申请">
-        <button @click="searchApplyFor()" class="button" type="button" name="button">查找申请</button>
+        <input disabled v-model="searchKey" class="input search-input" type="text" placeholder="请输入关键字">
+        <button disabled @click="searchApplyFor()" class="button" type="button" name="button">查找申请</button>
       </div>
         <button v-show="isShowCreateApplication" @click="addApplyFor()" class="button add-role-button" type="button" name="button">添加申请</button>
     </div>
