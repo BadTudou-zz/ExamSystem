@@ -3,8 +3,8 @@
   <div class="box">
     <div>
       <div v-show="isShowSearchPermission" class="search-box">
-        <input v-model="permissionId" class="input search-input" type="text" placeholder="请输入你要查看的权限">
-        <button @click="searchPermission()" class="button" type="button" name="button">查找权限</button>
+        <input disabled v-model="permissionId" class="input search-input" type="text" placeholder="请输入关键字">
+        <button disabled @click="searchPermission()" class="button" type="button" name="button">查找权限</button>
       </div>
         <button v-show="isShowCreatePermission" @click="addPermission()" class="button add-permission-button" type="button" name="button">添加权限</button>
     </div>

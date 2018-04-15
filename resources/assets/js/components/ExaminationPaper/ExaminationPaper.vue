@@ -3,8 +3,8 @@
   <div class="box">
     <div>
       <div v-show="isShowSearchPaper" class="search-box">
-        <input v-model="searchKey" class="input search-input" type="text" placeholder="请输入你要查看的试卷">
-        <button @click="searchExaminationPaper()" class="button" type="button" name="button">查找试卷</button>
+        <input disabled v-model="searchKey" class="input search-input" type="text" placeholder="请输入关键字">
+        <button disabled @click="searchExaminationPaper()" class="button" type="button" name="button">查找试卷</button>
       </div>
         <button v-show="isShowCreatePaper" @click="addExaminationPaper()" class="button add-role-button" type="button" name="button">添加试卷</button>
     </div>

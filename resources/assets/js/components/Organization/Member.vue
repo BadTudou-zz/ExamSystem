@@ -6,8 +6,8 @@
       <div class="box member-box">
         <div>
           <div class="search-box">
-            <input v-model="searchKey" class="input search-input" type="text" placeholder="请输入你要查看的成员">
-            <button @click="searchMember()" class="button" type="button" name="button">查找成员</button>
+            <input disabled v-model="searchKey" class="input search-input" type="text" placeholder="请输入关键字">
+            <button disabled @click="searchMember()" class="button" type="button" name="button">查找成员</button>
           </div>
             <button @click="addMember()" class="button add-role-button" type="button" name="button">添加成员</button>
             <button @click="synchronizeMember()" class="button add-role-button" type="button" name="button">同步成员</button>
