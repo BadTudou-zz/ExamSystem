@@ -197,23 +197,23 @@ export default {
   computed: {
     isShowCreateApplication() {
       // return true;
-      return sessionStorage.getItem('permissions').includes(44);
+      return sessionStorage.getItem('permissions').includes('application-store');
     },
     isShowSearchApplication() {
       // return true;
-      return sessionStorage.getItem('permissions').includes(45);
+      return sessionStorage.getItem('permissions').includes('application-show');
     },
     isShowAccpetApplication() {
       // return true;
-      return sessionStorage.getItem('permissions').includes(46);
+      return sessionStorage.getItem('permissions').includes('application-accept');
     },
     isShowRejectApplication() {
       // return true;
-      return sessionStorage.getItem('permissions').includes(47);
+      return sessionStorage.getItem('permissions').includes('application-reject');
     },
     isShowDeleteApplication() {
-      return true;
-      return sessionStorage.getItem('permissions').includes(48);
+      // return true;
+      return sessionStorage.getItem('permissions').includes('application-destroy');
     },
   },
   created() {

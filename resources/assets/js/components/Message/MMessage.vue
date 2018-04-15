@@ -116,16 +116,16 @@ export default {
   },
   computed: {
     isShowCreateMessage() {
-      return true;
-      // return sessionStorage.getItem('permissions').includes(14);
+      // return true;
+      return sessionStorage.getItem('permissions').includes('message-store');
     },
     isShowSearchMessage() {
-      return true;
-      // return sessionStorage.getItem('permissions').includes(15);
+      // return true;
+      return sessionStorage.getItem('permissions').includes('message-show');
     },
     isShowDeleteMessage() {
-      return true;
-      // return sessionStorage.getItem('permissions').includes(16);
+      // return true;
+      return sessionStorage.getItem('permissions').includes('message-destroy');
     },
   },
   created() {

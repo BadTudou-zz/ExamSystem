@@ -115,19 +115,19 @@ export default {
   computed: {
     isShowCreateNotification() {
       // return true;
-      return sessionStorage.getItem('permissions').includes(18)
+      return sessionStorage.getItem('permissions').includes('notification-store')
     },
     isShowSearchNotification() {
       // return true;
-      return sessionStorage.getItem('permissions').includes(19)
+      return sessionStorage.getItem('permissions').includes('notification-show')
     },
     isShowUpdateNotification() {
       // return true;
-      return sessionStorage.getItem('permissions').includes(20)
+      return sessionStorage.getItem('permissions').includes('notification-update')
     },
     isShowDeleteNotification() {
       // return true;
-      return sessionStorage.getItem('permissions').includes(21)
+      return sessionStorage.getItem('permissions').includes('notification-destroy')
     },
   },
   created() {

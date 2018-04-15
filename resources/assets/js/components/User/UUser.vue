@@ -172,11 +172,11 @@ export default {
   computed: {
     isShowUpdateUser() {
       // return true;
-      return sessionStorage.getItem('permissions').includes(11)
+      return sessionStorage.getItem('permissions').includes('user-update')
     },
     isShowDeleteUser() {
       // return true;
-      return sessionStorage.getItem('permissions').includes(12)
+      return sessionStorage.getItem('permissions').includes('user-destroy')
     },
   },
   created() {

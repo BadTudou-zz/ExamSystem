@@ -159,19 +159,19 @@ export default {
   computed: {
     isShowCreateRole() {
       // return true;
-      return sessionStorage.getItem('permissions').includes(5)
+      return sessionStorage.getItem('permissions').includes('role-store')
     },
     isShowSearchRole() {
       // return true;
-      return sessionStorage.getItem('permissions').includes(6)
+      return sessionStorage.getItem('permissions').includes('role-show')
     },
     isShowUpdateRole() {
       // return true;
-      return sessionStorage.getItem('permissions').includes(8)
+      return sessionStorage.getItem('permissions').includes('role-update')
     },
     isShowDeleteRole() {
       // return true;
-      return sessionStorage.getItem('permissions').includes(9)
+      return sessionStorage.getItem('permissions').includes('role-destroy')
     },
   },
   created() {

@@ -30018,23 +30018,23 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   computed: {
     isShowCreateApplication: function isShowCreateApplication() {
       // return true;
-      return sessionStorage.getItem('permissions').includes(44);
+      return sessionStorage.getItem('permissions').includes('application-store');
     },
     isShowSearchApplication: function isShowSearchApplication() {
       // return true;
-      return sessionStorage.getItem('permissions').includes(45);
+      return sessionStorage.getItem('permissions').includes('application-show');
     },
     isShowAccpetApplication: function isShowAccpetApplication() {
       // return true;
-      return sessionStorage.getItem('permissions').includes(46);
+      return sessionStorage.getItem('permissions').includes('application-accept');
     },
     isShowRejectApplication: function isShowRejectApplication() {
       // return true;
-      return sessionStorage.getItem('permissions').includes(47);
+      return sessionStorage.getItem('permissions').includes('application-reject');
     },
     isShowDeleteApplication: function isShowDeleteApplication() {
-      return true;
-      return sessionStorage.getItem('permissions').includes(48);
+      // return true;
+      return sessionStorage.getItem('permissions').includes('application-destroy');
     }
   },
   created: function created() {
@@ -30990,19 +30990,19 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   computed: {
     isShowCreateCourse: function isShowCreateCourse() {
       // return true;
-      return sessionStorage.getItem('permissions').includes(22);
+      return sessionStorage.getItem('permissions').includes('course-store');
     },
     isShowSearchCourse: function isShowSearchCourse() {
       // return true;
-      return sessionStorage.getItem('permissions').includes(23);
+      return sessionStorage.getItem('permissions').includes('course-show');
     },
     isShowUpdateCourse: function isShowUpdateCourse() {
       // return true;
-      return sessionStorage.getItem('permissions').includes(24);
+      return sessionStorage.getItem('permissions').includes('course-update');
     },
     isShowDeleteCourse: function isShowDeleteCourse() {
       // return true;
-      return sessionStorage.getItem('permissions').includes(25);
+      return sessionStorage.getItem('permissions').includes('course-destroy');
     }
   },
   created: function created() {
@@ -31612,20 +31612,20 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   },
   computed: {
     isShowCreatePaper: function isShowCreatePaper() {
-      return sessionStorage.getItem('permissions').includes(39);
+      return sessionStorage.getItem('permissions').includes('paper-store');
       // return true;
     },
     isShowSearchPaper: function isShowSearchPaper() {
-      return sessionStorage.getItem('permissions').includes(40);
+      return sessionStorage.getItem('permissions').includes('paper-show');
       // return true;
     },
     isShowUpdatePaper: function isShowUpdatePaper() {
-      return sessionStorage.getItem('permissions').includes(41);
+      return sessionStorage.getItem('permissions').includes('paper-update');
       // return true;
     },
     isShowDeletePaper: function isShowDeletePaper() {
       // return true;
-      return sessionStorage.getItem('permissions').includes(42);
+      return sessionStorage.getItem('permissions').includes('paper-destroy');
     }
   },
   created: function created() {
@@ -32540,15 +32540,15 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   computed: {
     isShowSearchLabel: function isShowSearchLabel() {
       // return true;
-      return sessionStorage.getItem('permissions').includes(50);
+      return sessionStorage.getItem('permissions').includes('tag-show');
     },
     isShowUpdateLabel: function isShowUpdateLabel() {
       // return true;
-      return sessionStorage.getItem('permissions').includes(51);
+      return sessionStorage.getItem('permissions').includes('tag-update');
     },
     isShowDeleteLabel: function isShowDeleteLabel() {
       // return true;
-      return sessionStorage.getItem('permissions').includes(52);
+      return sessionStorage.getItem('permissions').includes('tag-destroy');
     }
   },
   created: function created() {
@@ -32728,7 +32728,7 @@ var Base64 = __webpack_require__(356).Base64;
         that.permissionData = res.data; // conclude links
         that.url = res.data.links.next;
         for (var i = 0; i < res.data.data.length; i++) {
-          that.permissionIdList.push(parseInt(res.data.data[i].id));
+          that.permissionIdList.push(parseInt(res.data.data[i].name));
         }
         if (that.url) {
           that.getPermission(that.url);
@@ -33085,16 +33085,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   },
   computed: {
     isShowCreateMessage: function isShowCreateMessage() {
-      return true;
-      // return sessionStorage.getItem('permissions').includes(14);
+      // return true;
+      return sessionStorage.getItem('permissions').includes('message-store');
     },
     isShowSearchMessage: function isShowSearchMessage() {
-      return true;
-      // return sessionStorage.getItem('permissions').includes(15);
+      // return true;
+      return sessionStorage.getItem('permissions').includes('message-show');
     },
     isShowDeleteMessage: function isShowDeleteMessage() {
-      return true;
-      // return sessionStorage.getItem('permissions').includes(16);
+      // return true;
+      return sessionStorage.getItem('permissions').includes('message-destroy');
     }
   },
   created: function created() {
@@ -33269,67 +33269,67 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     // 1.【权限】
     isShowPermission: function isShowPermission() {
       // return true;
-      return sessionStorage.getItem('permissions').includes(4);
+      return sessionStorage.getItem('permissions').includes('permission-index');
     },
 
     // 2.【角色】
     isShowRole: function isShowRole() {
       // return true;
-      return sessionStorage.getItem('permissions').includes(7);
+      return sessionStorage.getItem('permissions').includes('role-index');
     },
 
     // 3.【用户】
     isShowUser: function isShowUser() {
       // return true;
-      return sessionStorage.getItem('permissions').includes(10);
+      return sessionStorage.getItem('permissions').includes('user-index');
     },
 
     // 4.【消息】
     isShowMessage: function isShowMessage() {
       // return true;
-      return sessionStorage.getItem('permissions').includes(13);
+      return sessionStorage.getItem('permissions').includes('message-index');
     },
 
     // 5.【通知】
     isShowNotification: function isShowNotification() {
       // return true;
-      return sessionStorage.getItem('permissions').includes(17);
+      return sessionStorage.getItem('permissions').includes('notification-index');
     },
 
     // 6.【组织】
     isShowOrganization: function isShowOrganization() {
       // return true;
-      return sessionStorage.getItem('permissions').includes(26);
+      return sessionStorage.getItem('permissions').includes('organization-index');
     },
 
     // 7.【问题】
     isShowQuestion: function isShowQuestion() {
       // return true;
-      return sessionStorage.getItem('permissions').includes(33);
+      return sessionStorage.getItem('permissions').includes('question-index');
     },
 
     // 8.【试卷】
     isShowPaper: function isShowPaper() {
       // return true;
-      return sessionStorage.getItem('permissions').includes(38);
+      return sessionStorage.getItem('permissions').includes('paper-index');
     },
 
     // 9.【申请】
     isShowApplication: function isShowApplication() {
       // return true;
-      return sessionStorage.getItem('permissions').includes(43);
+      return sessionStorage.getItem('permissions').includes('application-index');
     },
 
     // 10.【标签】
     isShowTag: function isShowTag() {
       // return true;
-      return sessionStorage.getItem('permissions').includes(49);
+      return sessionStorage.getItem('permissions').includes('tag-index');
     },
 
     // 11.【试卷】
     isShowExamPaper: function isShowExamPaper() {
       // return true;
-      return sessionStorage.getItem('permissions').includes(53);
+      return sessionStorage.getItem('permissions').includes('exam-index');
     }
   },
   created: function created() {},
@@ -33519,67 +33519,67 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     // 1.【权限】
     isShowPermission: function isShowPermission() {
       // return true;
-      return sessionStorage.getItem('permissions').includes(4);
+      return sessionStorage.getItem('permissions').includes('permission-index');
     },
 
     // 2.【角色】
     isShowRole: function isShowRole() {
       // return true;
-      return sessionStorage.getItem('permissions').includes(7);
+      return sessionStorage.getItem('permissions').includes('role-index');
     },
 
     // 3.【用户】
     isShowUser: function isShowUser() {
       // return true;
-      return sessionStorage.getItem('permissions').includes(10);
+      return sessionStorage.getItem('permissions').includes('user-index');
     },
 
     // 4.【消息】
     isShowMessage: function isShowMessage() {
       // return true;
-      return sessionStorage.getItem('permissions').includes(13);
+      return sessionStorage.getItem('permissions').includes('message-index');
     },
 
     // 5.【通知】
     isShowNotification: function isShowNotification() {
       // return true;
-      return sessionStorage.getItem('permissions').includes(17);
+      return sessionStorage.getItem('permissions').includes('notification-index');
     },
 
     // 6.【组织】
     isShowOrganization: function isShowOrganization() {
       // return true;
-      return sessionStorage.getItem('permissions').includes(26);
+      return sessionStorage.getItem('permissions').includes('organization-index');
     },
 
     // 7.【问题】
     isShowQuestion: function isShowQuestion() {
       // return true;
-      return sessionStorage.getItem('permissions').includes(33);
+      return sessionStorage.getItem('permissions').includes('question-index');
     },
 
     // 8.【试卷】
     isShowPaper: function isShowPaper() {
       // return true;
-      return sessionStorage.getItem('permissions').includes(38);
+      return sessionStorage.getItem('permissions').includes('paper-index');
     },
 
     // 9.【申请】
     isShowApplication: function isShowApplication() {
       // return true;
-      return sessionStorage.getItem('permissions').includes(43);
+      return sessionStorage.getItem('permissions').includes('application-index');
     },
 
     // 10.【标签】
-    isShowLabel: function isShowLabel() {
+    isShowTag: function isShowTag() {
       // return true;
-      return sessionStorage.getItem('permissions').includes(49);
+      return sessionStorage.getItem('permissions').includes('tag-index');
     },
 
-    // 11.【考试】
-    isShowExam: function isShowExam() {
+    // 11.【试卷】
+    isShowExamPaper: function isShowExamPaper() {
       // return true;
-      return sessionStorage.getItem('permissions').includes(53);
+      return sessionStorage.getItem('permissions').includes('exam-index');
     }
   },
   created: function created() {
@@ -33812,19 +33812,19 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   computed: {
     isShowCreateNotification: function isShowCreateNotification() {
       // return true;
-      return sessionStorage.getItem('permissions').includes(18);
+      return sessionStorage.getItem('permissions').includes('notification-store');
     },
     isShowSearchNotification: function isShowSearchNotification() {
       // return true;
-      return sessionStorage.getItem('permissions').includes(19);
+      return sessionStorage.getItem('permissions').includes('notification-show');
     },
     isShowUpdateNotification: function isShowUpdateNotification() {
       // return true;
-      return sessionStorage.getItem('permissions').includes(20);
+      return sessionStorage.getItem('permissions').includes('notification-update');
     },
     isShowDeleteNotification: function isShowDeleteNotification() {
       // return true;
-      return sessionStorage.getItem('permissions').includes(21);
+      return sessionStorage.getItem('permissions').includes('notification-destroy');
     }
   },
   created: function created() {
@@ -34593,15 +34593,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   computed: {
     isShowCreateOrganization: function isShowCreateOrganization() {
       // return true;
-      return sessionStorage.getItem('permissions').includes(27);
+      return sessionStorage.getItem('permissions').includes('organization-store');
     },
     isShowSearchOrganization: function isShowSearchOrganization() {
       // return true;
-      return sessionStorage.getItem('permissions').includes(28);
+      return sessionStorage.getItem('permissions').includes('organization-show');
     },
     isShowDeleteOrganization: function isShowDeleteOrganization() {
       // return true;
-      return sessionStorage.getItem('permissions').includes(29);
+      return sessionStorage.getItem('permissions').includes('organization-destroy');
     }
   },
   created: function created() {
@@ -35217,15 +35217,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   computed: {
     isShowCreatePermission: function isShowCreatePermission() {
       // return true;
-      return sessionStorage.getItem('permissions').includes(1);
+      return sessionStorage.getItem('permissions').includes('permission-store');
     },
     isShowSearchPermission: function isShowSearchPermission() {
       // return true;
-      return sessionStorage.getItem('permissions').includes(2);
+      return sessionStorage.getItem('permissions').includes('permission-show');
     },
     isShowDeletePermission: function isShowDeletePermission() {
       // return true;
-      return sessionStorage.getItem('permissions').includes(3);
+      return sessionStorage.getItem('permissions').includes('permission-destroy');
     }
   },
   created: function created() {
@@ -37612,19 +37612,19 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   computed: {
     isShowCreateQuestion: function isShowCreateQuestion() {
       // return true;
-      return sessionStorage.getItem('permissions').includes(34);
+      return sessionStorage.getItem('permissions').includes('question-store');
     },
     isShowSearchQuestion: function isShowSearchQuestion() {
       // return true;
-      return sessionStorage.getItem('permissions').includes(35);
+      return sessionStorage.getItem('permissions').includes('question-show');
     },
     isShowUpdateQuestion: function isShowUpdateQuestion() {
       // return true;
-      return sessionStorage.getItem('permissions').includes(36);
+      return sessionStorage.getItem('permissions').includes('question-update');
     },
     isShowDeleteQuestion: function isShowDeleteQuestion() {
       // return true;
-      return sessionStorage.getItem('permissions').includes(37);
+      return sessionStorage.getItem('permissions').includes('question-destroy');
     }
   },
   created: function created() {
@@ -38636,19 +38636,19 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   computed: {
     isShowCreateRole: function isShowCreateRole() {
       // return true;
-      return sessionStorage.getItem('permissions').includes(5);
+      return sessionStorage.getItem('permissions').includes('role-store');
     },
     isShowSearchRole: function isShowSearchRole() {
       // return true;
-      return sessionStorage.getItem('permissions').includes(6);
+      return sessionStorage.getItem('permissions').includes('role-show');
     },
     isShowUpdateRole: function isShowUpdateRole() {
       // return true;
-      return sessionStorage.getItem('permissions').includes(8);
+      return sessionStorage.getItem('permissions').includes('role-update');
     },
     isShowDeleteRole: function isShowDeleteRole() {
       // return true;
-      return sessionStorage.getItem('permissions').includes(9);
+      return sessionStorage.getItem('permissions').includes('role-destroy');
     }
   },
   created: function created() {
@@ -40089,15 +40089,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   computed: {
     isShowCreateTeaching: function isShowCreateTeaching() {
       // return true;
-      return sessionStorage.getItem('permissions').includes(30);
+      return sessionStorage.getItem('permissions').includes('lecture-store');
     },
     isShowSearchTeaching: function isShowSearchTeaching() {
       // return true;
-      return sessionStorage.getItem('permissions').includes(31);
+      return sessionStorage.getItem('permissions').includes('lecture-show');
     },
     isShowDeleteTeaching: function isShowDeleteTeaching() {
       // return true;
-      return sessionStorage.getItem('permissions').includes(32);
+      return sessionStorage.getItem('permissions').includes('lecture-destroy');
     }
   },
   created: function created() {
@@ -41207,19 +41207,19 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     // 【考试】
     isShowSearchTest: function isShowSearchTest() {
       // return true;
-      return sessionStorage.getItem('permissions').includes(54);
+      return sessionStorage.getItem('permissions').includes('exam-show');
     },
     isShowCreateTest: function isShowCreateTest() {
       // return true;
-      return sessionStorage.getItem('permissions').includes(55);
+      return sessionStorage.getItem('permissions').includes('exam-store');
     },
     isShowUpdateTest: function isShowUpdateTest() {
       // return true;
-      return sessionStorage.getItem('permissions').includes(56);
+      return sessionStorage.getItem('permissions').includes('exam-update');
     },
     isShowDeleteTest: function isShowDeleteTest() {
       // return true;
-      return sessionStorage.getItem('permissions').includes(57);
+      return sessionStorage.getItem('permissions').includes('exam-destroy');
     }
   },
   watch: {
@@ -41684,11 +41684,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   computed: {
     isShowUpdateUser: function isShowUpdateUser() {
       // return true;
-      return sessionStorage.getItem('permissions').includes(11);
+      return sessionStorage.getItem('permissions').includes('user-update');
     },
     isShowDeleteUser: function isShowDeleteUser() {
       // return true;
-      return sessionStorage.getItem('permissions').includes(12);
+      return sessionStorage.getItem('permissions').includes('user-destroy');
     }
   },
   created: function created() {
