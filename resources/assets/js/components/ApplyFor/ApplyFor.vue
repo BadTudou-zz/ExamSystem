@@ -33,8 +33,7 @@
           <td>{{ GLOBAL.toTime(item.updated_at.date) }}</td>
           <td>
             <button v-show="isShowDeleteApplication" @click="deleteApplyFor(index)" class="delete is-small" type="button" name="button">删除</button>
-            <button @click="editApplyFor(index)" class="button is-small" type="button" name="button">编辑</button>
-            <!-- <i @click="editApplyFor(index)" class="far fa-edit edit-icon"></i> -->
+            <div @click="editApplyFor(index)" class="edit-button"><i class="fas fa-edit"></i></div>
             <button v-show="isShowAccpetApplication" @click="acceptApplyFor(index)" class="button is-small" type="button" name="button">接受</button>
             <button v-show="isShowRejectApplication" @click="rejectApplyFor(index)" class="button is-small" type="button" name="button">拒绝</button>
           </td>
@@ -228,7 +227,6 @@ export default {
     },
     editApplyFor: function (index) {
       const that = this;
-      console.log('编辑申请')
       that.editData = that.applyForData[index];
       // that.$refs.addApplyFor.switchModal();
       that.$refs.editApplyFor.switchModal();

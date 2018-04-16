@@ -13,7 +13,7 @@
       <div class="notification">
         <div class="operate-box">
           <button @click="deleteQuestion(index)" class="delete"></button>
-          <button @click="editQuestion(index)" class="button edit-question" type="button" name="button">编辑问题</button>
+          <div @click="editQuestion(index)" class="edit-button"><i class="fas fa-edit"></i></div>
         </div>
         <p class="question">        问题id：{{ item.id }}
           &nbsp;&nbsp;&nbsp;&nbsp; 问题题目：{{ item.title }}

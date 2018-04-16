@@ -43,7 +43,7 @@
             <td>{{ GLOBAL.toTime(item.updated_at) }}</td>
             <td>
               <button v-show="isShowDeleteTest" @click="deleteTest(index)" class="delete" type="button" name="button">删除</button>
-              <button @click="editTest(index)" class="is-small button" type="button" name="button">编辑</button>
+              <div @click="editTest(index)" class="edit-button"><i class="fas fa-edit"></i></div>
               <button @click="startTest(index)" class="is-small button" type="button" name="button">开始考试</button>
               <button @click="stopTest(index)" class="is-small button" type="button" name="button">结束考试</button>
               <button @click="gradingPapers(index)" class="is-small button" type="button" name="button">批改</button>

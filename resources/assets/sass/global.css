@@ -28,3 +28,9 @@
   display: inline-block;
   cursor: pointer;
 }
+.edit-button {
+  display: inline-block;
+  cursor: pointer;
+  color: #cecece;
+  margin: 0 10px;
+}
