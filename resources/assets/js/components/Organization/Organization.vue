@@ -131,7 +131,6 @@ export default {
           'Authorization': sessionStorage.getItem('token'),
         }
       }).then(res => {
-        debugger
         that.organizationData.push(res.data.data);
       }).catch(err => {
         console.log(err)

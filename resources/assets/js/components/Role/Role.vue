@@ -125,6 +125,10 @@ export default {
       const that = this;
       that.$refs.addRole.switchModal();
     },
+    // updateRole: function () {
+    //   const that = this;
+    //   that.$refs.updateRole.switchModal();
+    // },
     // 查找用户
     searchRole: function () {
       const that = this;

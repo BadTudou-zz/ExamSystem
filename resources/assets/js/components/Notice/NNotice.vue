@@ -106,7 +106,6 @@ export default {
           'Authorization': sessionStorage.getItem('token'),
         }
       }).then(res => {
-        debugger
         that.noticeData.push(res.data);
       }).catch(err => {
         console.log(err)

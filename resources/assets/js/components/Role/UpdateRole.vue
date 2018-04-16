@@ -8,7 +8,6 @@
       </header>
       <section class="modal-card-body">
         <div class="box-item">
-          请选择成员：
           <div class="all-user">
             <table class="table">
               <thead>
@@ -32,11 +31,10 @@
                         v-model="data"
             ></pagination>
           </div>
-
         </div>
       </section>
       <footer class="modal-card-foot">
-        <button @click="synchronizeMember()" class="button is-success">确认</button>
+        <button @click="synchronousUser()" class="button is-success">确认</button>
         <button  @click="switchModal()" class="button">取消</button>
       </footer>
     </div>
@@ -46,16 +44,13 @@
 
 <script>
 import Pagination from './../Pagination.vue'
+
 export default {
   data() {
     return {
       isShowModal: false,
-      memberData: {
-        users: null,
-      },
-      permissionId: null,
+      userData: null,
       selectedUser: [],
-      userData: [],
       // 翻页
       paginationData: null,
       data: null,
@@ -63,7 +58,7 @@ export default {
     }
   },
   props: [
-    'organizationId',
+    'roleId',
   ],
   components: {
     Pagination,
@@ -77,21 +72,20 @@ export default {
       const that = this;
       that.selectedUser = [];
     },
-    synchronizeMember: function () {
+    synchronousUser: function () {
       const that = this;
-      let id = that.organizationId;
+      let id = that.roleId;
       let params = this.GLOBAL.computedParams(that.selectedUser, 'users');
       axios({
-        method: 'put',
-        url: `${this.GLOBAL.localDomain}/api/v1/organizations/${id}/users?${params}`,
+        method: 'post',
+        url: `${this.GLOBAL.localDomain}/api/v1/roles/${id}/users`,
         headers: {
           'Accept': 'application/json',
           'Authorization': sessionStorage.getItem('token'),
         },
       }).then(res => {
-        that.clearWords();
         alert('同步成功');
-        that.$emit('getMember');   //第一个参数名为调用的方法名，第二个参数为需要传递的参数
+        that.$emit('getUser');   //第一个参数名为调用的方法名，第二个参数为需要传递的参数
         that.switchModal();
       }).catch(err => {
         alert('同步失败');
@@ -118,7 +112,7 @@ export default {
     },
   },
   created() {
-    // this.clearWords();
+    // this.userData = [];
     // this.getUser();
   },
   watch: {
@@ -130,7 +124,7 @@ export default {
     isShowModal: function (value, oldVale) {
       const that = this;
       if (value) {
-        this.clearWords();
+        this.userData = [];
         this.getUser();
       }
     },
