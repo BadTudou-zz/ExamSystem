@@ -6,10 +6,11 @@
       <div class="box chapter-box">
         <div>
           <div class="search-box">
-            <input disabled v-model="searchKey" class="input search-input" type="text" placeholder="请输入章节">
-            <button disabled @click="searchChapter()" class="button" type="button" name="button">查找章节</button>
+            <input v-model="searchKey" class="input search-input" type="text" placeholder="请输入章节">
+            <!-- <button disabled @click="searchChapter()" class="button" type="button" name="button">查找章节</button> -->
+            <div @click="searchChapter()" class="search-button"><i class="fas fa-search"></i></div>
           </div>
-            <button @click="addChapter()" class="button add-role-button" type="button" name="button">添加章节</button>
+            <button @click="addChapter()" class="button add-chapter-button" type="button" name="button">添加章节</button>
         </div>
         <table class="table">
           <thead>
@@ -41,7 +42,8 @@
           </tbody>
         </table>
 
-        <pagination v-bind:pagination-data="paginationData"
+        <pagination v-show="searchResult.length === 0"
+                    v-bind:pagination-data="paginationData"
                     v-model="data"
         ></pagination>
 
@@ -76,6 +78,10 @@ export default {
       paginationData: null,
       data: null,
       examinationPaperId: null,
+      // get all chapter
+      currentChapter: [],
+      allChapter: [],
+      searchResult: [],
     }
   },
   components: {
@@ -118,21 +124,91 @@ export default {
         console.log(err)
       })
     },
+    // searchChapter: function () {
+    //   const that = this;
+    //   let id = that.searchKey;
+    //   axios({
+    //     method: 'get',
+    //     url: `${this.GLOBAL.localDomain}/api/v1/papers/1/sections/${id}`,
+    //     headers: {
+    //       'Accept': 'application/json',
+    //       'Authorization': sessionStorage.getItem('token'),
+    //     }
+    //   }).then(res => {
+    //     that.chapterData = [];
+    //     that.chapterData.push(res.data.data);
+    //   }).catch(err => {
+    //     console.log(err)
+    //   })
+    // },
     searchChapter: function () {
       const that = this;
-      let id = that.searchKey;
+      // 如果没有搜索值
+      if (!that.searchKey) {
+        that.getChapter();
+        that.searchResult = [];
+        return;
+      }
+      // 如果已经获取全部数据
+      else if (that.allChapter.length > 0) {
+        let allData  = that.allChapter;
+        let len = that.allChapter.length;
+        let res = [];
+
+        for (let i = 0; i < len; i++) {
+          for (let j in allData[i]) {
+            if (allData[i][j]) {
+              if ((allData[i][j].toString()).indexOf(that.searchKey) !== -1) {
+                res.push(allData[i]);
+                break;
+              }
+            }
+          }
+        }
+        that.searchResult = res;
+        that.chapterData = res;
+      }
+      // 如果有搜索值并且还未获取全部数据
+      else {
+        let url = `${this.GLOBAL.localDomain}/api/v1/sections/`;
+        that.getAllChapter(url);
+      }
+    },
+    getAllChapter: function (url) {
+      const that = this;
+      let urlPath = url ? url : that.url
       axios({
         method: 'get',
-        url: `${this.GLOBAL.localDomain}/api/v1/papers/1/sections/${id}`,
+        url: urlPath,
         headers: {
           'Accept': 'application/json',
           'Authorization': sessionStorage.getItem('token'),
         }
       }).then(res => {
-        that.chapterData = [];
-        that.chapterData.push(res.data.data);
+        that.url = res.data.links.next;
+
+        let len = res.data.data.length ? res.data.data.length : that.getJsonLength(res.data.data);
+
+        // data数据结构不一致 可能是数组/也可能是json
+        if (res.data.data.length) {
+          for (let i = 0; i < len; i++) {
+            that.currentChapter.push(res.data.data[i]);
+          }
+        }
+        else if (that.getJsonLength(res.data.data)) {
+          for (let i in res.data.data) {
+            that.currentChapter.push(res.data.data[i]);
+          }
+        }
+
+        if (that.url) {
+          that.getAllChapter(that.url);
+        }
+        else {
+          that.allChapter = that.currentChapter;
+        }
       }).catch(err => {
-        console.log(err)
+        console.log(err);
       })
     },
     deleteChapter: function (index) {
@@ -172,6 +248,10 @@ export default {
       const that = this;
       that.examinationPaperId = value.id;
       that.getChapter();
+    },
+    allChapter: function (value, oldValue) {
+      const that = this;
+      that.searchChapter(that.searchKey);
     }
   }
 }
@@ -191,7 +271,7 @@ table {
   display: inline-block;
   border-right: 1px solid #dedede;
 }
-.add-role-button {
+.add-chapter-button {
   margin-left: 20px;
 }
 .chapter-box {

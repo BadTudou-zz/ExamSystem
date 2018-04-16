@@ -3,10 +3,11 @@
   <div class="box">
     <div>
       <div v-show="isShowSearchPaper" class="search-box">
-        <input disabled v-model="searchKey" class="input search-input" type="text" placeholder="请输入关键字">
-        <button disabled @click="searchExaminationPaper()" class="button" type="button" name="button">查找试卷</button>
+        <input v-model="searchKey" class="input search-input" type="text" placeholder="请输入关键字">
+        <!-- <button disabled @click="searchExaminationPaper()" class="button" type="button" name="button">查找试卷</button> -->
+        <div @click="searchExaminationPaper()" class="search-button"><i class="fas fa-search"></i></div>
       </div>
-        <button v-show="isShowCreatePaper" @click="addExaminationPaper()" class="button add-role-button" type="button" name="button">添加试卷</button>
+        <button v-show="isShowCreatePaper" @click="addExaminationPaper()" class="button add-examinationPaper-button" type="button" name="button">添加试卷</button>
         <button disabled v-show="isShowUpdatePaper" @click="updatePaper()" class="button" type="button" name="button">同步试卷</button>
     </div>
     <table class="table">
@@ -72,7 +73,8 @@
            v-bind:current-examination-paper-data="currentExaminationPaperData"
     ></score>
 
-    <pagination v-bind:pagination-data="paginationData"
+    <pagination v-show="searchResult.length === 0"
+                v-bind:pagination-data="paginationData"
                 v-model="data"
     ></pagination>
 
@@ -99,6 +101,10 @@ export default {
       data: null,
       editData: null,
       currentExaminationPaperData: null,
+      // get all examinationPaper
+      currentExaminationPaper: [],
+      allExaminationPaper: [],
+      searchResult: [],
     }
   },
   components: {
@@ -156,29 +162,99 @@ export default {
         console.log(err)
       })
     },
+    // searchExaminationPaper: function () {
+    //   const that = this;
+    //   let id = that.searchKey;
+    //   if (!id) {
+    //     that.searchKey = '';
+    //     that.getExaminationPaper();
+    //     return;
+    //   }
+    //   axios({
+    //     method: 'get',
+    //     url: `${this.GLOBAL.localDomain}/api/v1/papers/${id}`,
+    //     headers: {
+    //       'Accept': 'application/json',
+    //       'Authorization': sessionStorage.getItem('token'),
+    //     }
+    //   }).then(res => {
+    //     that.examinationPaperData = [];
+    //     that.examinationPaperData.push(res.data.data);
+    //     that.searchKey = '';
+    //   }).catch(err => {
+    //     alert('没有查找到相关数据，已加载全部数据');
+    //     that.searchKey = '';
+    //     that.getExaminationPaper();
+    //     console.log(err);
+    //   })
+    // },
     searchExaminationPaper: function () {
       const that = this;
-      let id = that.searchKey;
-      if (!id) {
-        that.searchKey = '';
+      // 如果没有搜索值
+      if (!that.searchKey) {
         that.getExaminationPaper();
+        that.searchResult = [];
         return;
       }
+      // 如果已经获取全部数据
+      else if (that.allExaminationPaper.length > 0) {
+        let allData  = that.allExaminationPaper;
+        let len = that.allExaminationPaper.length;
+        let res = [];
+
+        for (let i = 0; i < len; i++) {
+          for (let j in allData[i]) {
+            if (allData[i][j]) {
+              if ((allData[i][j].toString()).indexOf(that.searchKey) !== -1) {
+                res.push(allData[i]);
+                break;
+              }
+            }
+          }
+        }
+        that.searchResult = res;
+        that.examinationPaperData = res;
+      }
+      // 如果有搜索值并且还未获取全部数据
+      else {
+        let url = `${this.GLOBAL.localDomain}/api/v1/papers/`;
+        that.getAllExaminationPaper(url);
+      }
+    },
+    getAllExaminationPaper: function (url) {
+      const that = this;
+      let urlPath = url ? url : that.url
       axios({
         method: 'get',
-        url: `${this.GLOBAL.localDomain}/api/v1/papers/${id}`,
+        url: urlPath,
         headers: {
           'Accept': 'application/json',
           'Authorization': sessionStorage.getItem('token'),
         }
       }).then(res => {
-        that.examinationPaperData = [];
-        that.examinationPaperData.push(res.data.data);
-        that.searchKey = '';
+        that.url = res.data.links.next;
+
+        let len = res.data.data.length ? res.data.data.length : that.getJsonLength(res.data.data);
+
+        // data数据结构不一致 可能是数组/也可能是json
+        if (res.data.data.length) {
+          for (let i = 0; i < len; i++) {
+            that.currentExaminationPaper.push(res.data.data[i]);
+          }
+        }
+        else if (that.getJsonLength(res.data.data)) {
+          for (let i in res.data.data) {
+            that.currentExaminationPaper.push(res.data.data[i]);
+          }
+        }
+
+        if (that.url) {
+          that.getAllExaminationPaper(that.url);
+        }
+        else {
+          that.allExaminationPaper = that.currentExaminationPaper;
+        }
       }).catch(err => {
-        alert('没有查找到相关数据，已加载全部数据');
-        that.searchKey = '';
-        that.getExaminationPaper();
         console.log(err);
       })
     },
@@ -234,6 +310,10 @@ export default {
       const that = this;
       that.examinationPaperData = value.data;
       that.paginationData = value.links;
+    },
+    allExaminationPaper: function (value, oldValue) {
+      const that = this;
+      that.searchExaminationPaper(that.searchKey);
     }
   }
 }
@@ -253,7 +333,7 @@ table {
   display: inline-block;
   border-right: 1px solid #dedede;
 }
-.add-role-button {
+.add-examinationPaper-button {
   margin-left: 20px;
 }
 .box-item {

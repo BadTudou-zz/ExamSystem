@@ -3,10 +3,11 @@
   <div class="box">
     <div>
       <div v-show="isShowSearchLabel" class="search-box">
-        <input disabled v-model="searchKey" class="input search-input" type="text" placeholder="请输入关键字">
-        <button disabled @click="searchLabel()" class="button" type="button" name="button">查找标签</button>
+        <input v-model="searchKey" class="input search-input" type="text" placeholder="请输入关键字">
+        <!-- <button disabled @click="searchLabel()" class="button" type="button" name="button">查找标签</button> -->
+        <div @click="searchLabel()" class="search-button"><i class="fas fa-search"></i></div>
       </div>
-        <button @click="addLabel()" class="button add-role-button" type="button" name="button">添加标签</button>
+        <button @click="addLabel()" class="button add-label-button" type="button" name="button">添加标签</button>
         <button disabled v-show="isShowUpdateLabel" @click="updateLabel()" class="button" type="button" name="button">同步标签</button>
     </div>
     <table class="table">
@@ -71,8 +72,9 @@
     ></edit-label>
 
 
-    <pagination v-bind:pagination-data="paginationData"
-            v-model="data"
+    <pagination v-show="searchResult.length === 0"
+                v-bind:pagination-data="paginationData"
+                v-model="data"
     ></pagination>
   </div>
 </template>
@@ -92,6 +94,10 @@ export default {
       searchKey: null,
       paginationData: null,
       data: null,
+      // get all label
+      currentLabel: [],
+      allLabel: [],
+      searchResult: [],
     }
   },
   components: {
@@ -125,28 +131,98 @@ export default {
         })
       }
     },
+    // searchLabel: function () {
+    //   const that = this;
+    //   that.labelData = [];
+    //   let id = that.searchKey;
+    //   if (!that.searchKey) {
+    //     that.searchKey = '';
+    //     that.getLabel();
+    //     return;
+    //   }
+    //   axios({
+    //     method: 'get',
+    //     url: `${this.GLOBAL.localDomain}/api/v1/tags/${id}`,
+    //     headers: {
+    //       'Accept': 'application/json',
+    //       'Authorization': sessionStorage.getItem('token'),
+    //     }
+    //   }).then(res => {
+    //     that.labelData.push(res.data.data);
+    //   }).catch(err => {
+    //     alert('暂无相关数据，已加载全部数据');
+    //     that.getLabel();
+    //     console.log(err)
+    //   })
+    // },
     searchLabel: function () {
       const that = this;
-      that.labelData = [];
-      let id = that.searchKey;
+      // 如果没有搜索值
       if (!that.searchKey) {
-        that.searchKey = '';
         that.getLabel();
+        that.searchResult = [];
         return;
       }
+      // 如果已经获取全部数据
+      else if (that.allLabel.length > 0) {
+        let allData  = that.allLabel;
+        let len = that.allLabel.length;
+        let res = [];
+
+        for (let i = 0; i < len; i++) {
+          for (let j in allData[i]) {
+            if (allData[i][j]) {
+              if ((allData[i][j].toString()).indexOf(that.searchKey) !== -1) {
+                res.push(allData[i]);
+                break;
+              }
+            }
+          }
+        }
+        that.searchResult = res;
+        that.labelData = res;
+      }
+      // 如果有搜索值并且还未获取全部数据
+      else {
+        let url = `${this.GLOBAL.localDomain}/api/v1/tags/`;
+        that.getAllLabel(url);
+      }
+    },
+    getAllLabel: function (url) {
+      const that = this;
+      let urlPath = url ? url : that.url
       axios({
         method: 'get',
-        url: `${this.GLOBAL.localDomain}/api/v1/tags/${id}`,
+        url: urlPath,
         headers: {
           'Accept': 'application/json',
           'Authorization': sessionStorage.getItem('token'),
         }
       }).then(res => {
-        that.labelData.push(res.data.data);
+        that.url = res.data.links.next;
+
+        let len = res.data.data.length ? res.data.data.length : that.getJsonLength(res.data.data);
+
+        // data数据结构不一致 可能是数组/也可能是json
+        if (res.data.data.length) {
+          for (let i = 0; i < len; i++) {
+            that.currentLabel.push(res.data.data[i]);
+          }
+        }
+        else if (that.getJsonLength(res.data.data)) {
+          for (let i in res.data.data) {
+            that.currentLabel.push(res.data.data[i]);
+          }
+        }
+
+        if (that.url) {
+          that.getAllLabel(that.url);
+        }
+        else {
+          that.allLabel = that.currentLabel;
+        }
       }).catch(err => {
-        alert('暂无相关数据，已加载全部数据');
-        that.getLabel();
-        console.log(err)
+        console.log(err);
       })
     },
     getLabel: function () {
@@ -235,6 +311,10 @@ export default {
       const that = this;
       that.permissionData = value.data;
       that.paginationData = value.links;
+    },
+    allLabel: function (value, oldValue) {
+      const that = this;
+      that.searchLabel(that.searchKey);
     }
   }
 }
@@ -254,7 +334,7 @@ table {
   display: inline-block;
   border-right: 1px solid #dedede;
 }
-.add-role-button {
+.add-label-button {
   margin-left: 20px;
 }
 .box-item {

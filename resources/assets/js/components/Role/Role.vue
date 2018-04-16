@@ -3,8 +3,9 @@
   <div class="box">
     <div>
       <div v-show="isShowSearchRole" class="search-box">
-        <input disabled v-model="searchKey" class="input search-input" type="text" placeholder="请输入你要查找的角色ID">
-        <button disabled @click="searchRole()" class="button" type="button" name="button">查找角色</button>
+        <input v-model="searchKey" class="input search-input" type="text" placeholder="请输入你要查找的角色ID">
+        <!-- <button disabled @click="searchRole()" class="button" type="button" name="button">查找角色</button> -->
+        <div @click="searchRole()" class="search-button"><i class="fas fa-search"></i></div>
       </div>
       <button v-show="isShowCreateRole" @click="addRole()" class="button add-role-button" type="button" name="button">添加角色</button>
       <button disabled v-show="isShowUpdateRole" @click="updateRole()" class="button add-role-button" type="button" name="button">同步角色</button>
@@ -30,13 +31,14 @@
           <td>{{ GLOBAL.toTime(item.created_at) }}</td>
           <td>{{ GLOBAL.toTime(item.updated_at) }}</td>
           <td><button v-show="isShowDeleteRole" @click="deleteRole(index)" class="delete" type="button" name="button">删除角色</button></td>
-          <td><button @click="showPermission(index)" class="button" type="button" name="button">查看权限</button></td>
+          <td><button @click="showRole(index)" class="button" type="button" name="button">查看权限</button></td>
           <td><button @click="showUser(index)" class="button" type="button" name="button">查看用户</button></td>
         </tr>
       </tbody>
     </table>
 
-    <pagination v-bind:pagination-data="paginationData"
+    <pagination v-show="searchResult.length === 0"
+                v-bind:pagination-data="paginationData"
                 v-model="data"
     ></pagination>
 
@@ -44,9 +46,9 @@
               v-on:getRole="getRole"
     ></add-role>
 
-    <permission ref="permission"
+    <role ref="role"
                 v-bind:current-role-data="currentRoleData"
-    ></permission>
+    ></role>
 
     <user ref="user"
           v-bind:current-role-data="currentRoleData"
@@ -58,7 +60,7 @@
 <script>
 import Pagination from './../Pagination.vue'
 import AddRole from './AddRole'
-import Permission from './Permission'
+import Role from './Role'
 import User from './User'
 
 export default {
@@ -70,12 +72,16 @@ export default {
       paginationData: null,
       data: null,
       currentRoleData: null,
+      // get all role
+      currentRole: [],
+      allRole: [],
+      searchResult: [],
     }
   },
   components: {
     AddRole,
     Pagination,
-    Permission,
+    Role,
     User,
   },
   methods: {
@@ -125,35 +131,101 @@ export default {
       const that = this;
       that.$refs.addRole.switchModal();
     },
-    // updateRole: function () {
-    //   const that = this;
-    //   that.$refs.updateRole.switchModal();
-    // },
     // 查找用户
+    // searchRole: function () {
+    //   const that = this;
+    //   if (!that.searchKey) {
+    //     that.getRole();
+    //     return;
+    //   }
+    //   axios({
+    //     method: 'get',
+    //     url: `${this.GLOBAL.localDomain}/api/v1/roles/${that.searchKey}`,
+    //     headers: {
+    //       'Accept': 'application/json',
+    //       'Authorization': sessionStorage.getItem('token'),
+    //     }
+    //   }).then(res => {
+    //     that.roleData = [];
+    //     that.roleData.push(res.data.data);
+    //   }).catch(err => {
+    //     console.log(err)
+    //   })
+    // },
     searchRole: function () {
       const that = this;
+      // 如果没有搜索值
       if (!that.searchKey) {
         that.getRole();
+        that.searchResult = [];
         return;
       }
+      // 如果已经获取全部数据
+      else if (that.allRole.length > 0) {
+        let allData  = that.allRole;
+        let len = that.allRole.length;
+        let res = [];
+
+        for (let i = 0; i < len; i++) {
+          for (let j in allData[i]) {
+            if (allData[i][j]) {
+              if ((allData[i][j].toString()).indexOf(that.searchKey) !== -1) {
+                res.push(allData[i]);
+                break;
+              }
+            }
+          }
+        }
+        that.searchResult = res;
+        that.roleData = res;
+      }
+      // 如果有搜索值并且还未获取全部数据
+      else {
+        let url = `${this.GLOBAL.localDomain}/api/v1/roles/`;
+        that.getAllRole(url);
+      }
+    },
+    getAllRole: function (url) {
+      const that = this;
+      let urlPath = url ? url : that.url
       axios({
         method: 'get',
-        url: `${this.GLOBAL.localDomain}/api/v1/roles/${that.searchKey}`,
+        url: urlPath,
         headers: {
           'Accept': 'application/json',
           'Authorization': sessionStorage.getItem('token'),
         }
       }).then(res => {
-        that.roleData = [];
-        that.roleData.push(res.data.data);
+        that.url = res.data.links.next;
+
+        let len = res.data.data.length ? res.data.data.length : that.getJsonLength(res.data.data);
+
+        // data数据结构不一致 可能是数组/也可能是json
+        if (res.data.data.length) {
+          for (let i = 0; i < len; i++) {
+            that.currentRole.push(res.data.data[i]);
+          }
+        }
+        else if (that.getJsonLength(res.data.data)) {
+          for (let i in res.data.data) {
+            that.currentRole.push(res.data.data[i]);
+          }
+        }
+
+        if (that.url) {
+          that.getAllRole(that.url);
+        }
+        else {
+          that.allRole = that.currentRole;
+        }
       }).catch(err => {
-        console.log(err)
+        console.log(err);
       })
     },
-    showPermission: function (index) {
+    showRole: function (index) {
       const that = this;
       that.currentRoleData = that.roleData[index];
-      that.$refs.permission.switchModal();
+      that.$refs.role.switchModal();
     },
     showUser: function (index) {
       const that = this;
@@ -188,7 +260,12 @@ export default {
       const that = this;
       that.roleData = value.data;
       that.paginationData = value.links;
+    },
+    allRole: function (value, oldValue) {
+      const that = this;
+      that.searchRole(that.searchKey);
     }
+
   }
 }
 </script>

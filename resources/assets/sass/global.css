@@ -23,3 +23,8 @@
   display: inline-block;
   color: #cecece;
 }
+
+.search-button {
+  display: inline-block;
+  cursor: pointer;
+}

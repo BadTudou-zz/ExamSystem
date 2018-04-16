@@ -3,8 +3,9 @@
   <div class="box">
     <div>
       <div v-show="isShowSearchMessage" class="search-box">
-        <input disabled v-model="searchKey" class="input search-input" type="text" placeholder="请输入关键字">
-        <button disabled @click="searchMessage()" class="button" type="button" name="button">查找消息</button>
+        <input v-model="searchKey" class="input search-input" type="text" placeholder="请输入关键字">
+        <!-- <button disabled @click="searchMessage()" class="button" type="button" name="button">查找消息</button> -->
+        <div @click="searchMessage()" class="search-button"><i class="fas fa-search"></i></div>
       </div>
         <button v-show="isShowCreateMessage" @click="addMessage()" class="button add-role-button" type="button" name="button">添加消息</button>
     </div>
@@ -20,7 +21,8 @@
                  v-on:getMessage="getMessage"
     ></add-message>
 
-    <pagination v-bind:pagination-data="paginationData"
+    <pagination v-show="searchResult.length === 0"
+                v-bind:pagination-data="paginationData"
                 v-model="data"
     ></pagination>
 
@@ -39,6 +41,11 @@ export default {
       paginationData: null,
       data: null,
       searchKey: null,
+      // get all message
+      currentMessage: [],
+      allMessage: [],
+      searchResult: [],
+
     }
   },
   components: {
@@ -91,28 +98,98 @@ export default {
         console.log(err)
       })
     },
+    // searchMessage: function () {
+    //   const that = this;
+    //   that.messageData = [];
+    //
+    //   if (!that.searchKey) {
+    //     that.searchKey = '';
+    //     that.getMessage();
+    //     return;
+    //   }
+    //   axios({
+    //     method: 'get',
+    //     url: `${this.GLOBAL.localDomain}/api/v1/messages/${that.searchKey}`,
+    //     headers: {
+    //       'Accept': 'application/json',
+    //       'Authorization': sessionStorage.getItem('token'),
+    //     }
+    //   }).then(res => {
+    //     that.messageData.push(res.data.data);
+    //   }).catch(err => {
+    //     console.log(err)
+    //   })
+    // },
     searchMessage: function () {
       const that = this;
-      that.messageData = [];
-
+      // 如果没有搜索值
       if (!that.searchKey) {
-        that.searchKey = '';
         that.getMessage();
+        that.searchResult = [];
         return;
       }
+      // 如果已经获取全部数据
+      else if (that.allMessage.length > 0) {
+        let allData  = that.allMessage;
+        let len = that.allMessage.length;
+        let res = [];
+
+        for (let i = 0; i < len; i++) {
+          for (let j in allData[i]) {
+            if (allData[i][j]) {
+              if ((allData[i][j].toString()).indexOf(that.searchKey) !== -1) {
+                res.push(allData[i]);
+                break;
+              }
+            }
+          }
+        }
+        that.searchResult = res;
+        that.messageData = res;
+      }
+      // 如果有搜索值并且还未获取全部数据
+      else {
+        let url = `${this.GLOBAL.localDomain}/api/v1/messages/`;
+        that.getAllMessage(url);
+      }
+    },
+    getAllMessage: function (url) {
+      const that = this;
+      let urlPath = url ? url : that.url
       axios({
         method: 'get',
-        url: `${this.GLOBAL.localDomain}/api/v1/messages/${that.searchKey}`,
+        url: urlPath,
         headers: {
           'Accept': 'application/json',
           'Authorization': sessionStorage.getItem('token'),
         }
       }).then(res => {
-        that.messageData.push(res.data.data);
+        that.url = res.data.links.next;
+
+        let len = res.data.data.length ? res.data.data.length : that.getJsonLength(res.data.data);
+
+        // data数据结构不一致 可能是数组/也可能是json
+        if (res.data.data.length) {
+          for (let i = 0; i < len; i++) {
+            that.currentMessage.push(res.data.data[i]);
+          }
+        }
+        else if (that.getJsonLength(res.data.data)) {
+          for (let i in res.data.data) {
+            that.currentMessage.push(res.data.data[i]);
+          }
+        }
+
+        if (that.url) {
+          that.getAllMessage(that.url);
+        }
+        else {
+          that.allMessage = that.currentMessage;
+        }
       }).catch(err => {
-        console.log(err)
+        console.log(err);
       })
-    }
+    },
   },
   computed: {
     isShowCreateMessage() {
@@ -129,8 +206,13 @@ export default {
     },
   },
   created() {
-
     this.getMessage();
+  },
+  watch: {
+    allMessage: function (value, oldValue) {
+      const that = this;
+      that.searchMessage(that.searchKey);
+    }
   }
 }
 </script>

@@ -3,10 +3,11 @@
   <div class="box">
     <div>
       <div v-show="isShowSearchQuestion" class="search-box">
-        <input disabled v-model="searchKey" class="input search-input" type="text" placeholder="请输入问题">
-        <button disabled @click="searchQuestion()" class="button" type="button" name="button">查找问题</button>
+        <input v-model="searchKey" class="input search-input" type="text" placeholder="请输入问题">
+        <!-- <button disabled @click="searchQuestion()" class="button" type="button" name="button">查找问题</button> -->
+        <div @click="searchQuestion()" class="search-button"><i class="fas fa-search"></i></div>
       </div>
-        <button v-show="isShowCreateQuestion" @click="addQuestion()" class="button add-role-button" type="button" name="button">添加问题</button>
+        <button v-show="isShowCreateQuestion" @click="addQuestion()" class="button add-question-button" type="button" name="button">添加问题</button>
         <button disabled v-show="isShowUpdateQuestion" @click="updateQuestion()" class="button" type="button" name="button">同步问题</button>
     </div>
 
@@ -55,7 +56,8 @@
                    v-bind:edit-data="editData"
     ></edit-question>
 
-    <pagination v-bind:pagination-data="paginationData"
+    <pagination v-show="searchResult.length === 0"
+                v-bind:pagination-data="paginationData"
                 v-model="data"
     ></pagination>
   </div>
@@ -79,6 +81,11 @@ export default {
        data: null,
        //
        searchKey: null,
+       // get all question
+       currentQuestion: [],
+       allQuestion: [],
+       searchResult: [],
+
     }
   },
   components: {
@@ -175,6 +182,76 @@ export default {
         console.log(err);
       })
     },
+    searchQuestion: function () {
+      const that = this;
+      // 如果没有搜索值
+      if (!that.searchKey) {
+        that.getQuestion();
+        that.searchResult = [];
+        return;
+      }
+      // 如果已经获取全部数据
+      else if (that.allQuestion.length > 0) {
+        let allData  = that.allQuestion;
+        let len = that.allQuestion.length;
+        let res = [];
+
+        for (let i = 0; i < len; i++) {
+          for (let j in allData[i]) {
+            if (allData[i][j]) {
+              if ((allData[i][j].toString()).indexOf(that.searchKey) !== -1) {
+                res.push(allData[i]);
+                break;
+              }
+            }
+          }
+        }
+        that.searchResult = res;
+        that.questionData = res;
+      }
+      // 如果有搜索值并且还未获取全部数据
+      else {
+        let url = `${this.GLOBAL.localDomain}/api/v1/questions/`;
+        that.getAllQuestion(url);
+      }
+    },
+    getAllQuestion: function (url) {
+      const that = this;
+      let urlPath = url ? url : that.url
+      axios({
+        method: 'get',
+        url: urlPath,
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': sessionStorage.getItem('token'),
+        }
+      }).then(res => {
+        that.url = res.data.links.next;
+
+        let len = res.data.data.length ? res.data.data.length : that.getJsonLength(res.data.data);
+
+        // data数据结构不一致 可能是数组/也可能是json
+        if (res.data.data.length) {
+          for (let i = 0; i < len; i++) {
+            that.currentQuestion.push(res.data.data[i]);
+          }
+        }
+        else if (that.getJsonLength(res.data.data)) {
+          for (let i in res.data.data) {
+            that.currentQuestion.push(res.data.data[i]);
+          }
+        }
+
+        if (that.url) {
+          that.getAllQuestion(that.url);
+        }
+        else {
+          that.allQuestion = that.currentQuestion;
+        }
+      }).catch(err => {
+        console.log(err);
+      })
+    },
     getOptionsString: function (value) {
       const that = this;
       let arr = value.split(' ');
@@ -213,6 +290,10 @@ export default {
       const that = this;
       that.questionData = value.data;
       that.paginationData = value.links;
+    },
+    allQuestion: function (value, oldValue) {
+      const that = this;
+      that.searchQuestion(that.searchKey);
     }
   }
 }
@@ -232,7 +313,7 @@ export default {
   display: inline-block;
   border-right: 1px solid #dedede;
 }
-.add-role-button {
+.add-question-button {
   margin-left: 20px;
 }
 .box-item {
