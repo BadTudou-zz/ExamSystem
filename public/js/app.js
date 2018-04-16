@@ -34976,6 +34976,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 
 
@@ -34984,10 +34985,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     return {
       permissionData: null,
       isShowModal: false,
-      permissionId: null,
+      searchKey: null,
       paginationData: null,
       data: null, // from Pagination.vue
-      sumData: null
+      sumData: null,
+
+      // get all permission
+      currentPermission: [],
+      allPermission: [],
+      searchResult: []
     };
   },
 
@@ -35045,91 +35051,97 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     searchPermission: function searchPermission() {
       var that = this;
-      if (!that.permissionId) {
+      // 如果没有搜索值
+      if (!that.searchKey) {
+        debugger;
         that.getPermission();
+        that.searchResult = [];
+        return;
       }
+      // 如果已经获取全部数据
+      else if (that.allPermission.length > 0) {
+          var allData = that.allPermission;
+          var len = that.allPermission.length;
+          var res = [];
+
+          for (var i = 0; i < len; i++) {
+            for (var j in allData[i]) {
+              if (allData[i][j].toString().indexOf(that.searchKey) !== -1) {
+                res.push(allData[i]);
+                break;
+              }
+            }
+          }
+          that.searchResult = res;
+          that.permissionData = res;
+        }
+        // 如果有搜索值并且还未获取全部数据
+        else {
+            var url = this.GLOBAL.localDomain + '/api/v1/permissions/';
+            that.getAllPermission(url);
+          }
+      // axios({
+      //   method: 'get',
+      //   url: `${this.GLOBAL.localDomain}/api/v1/permissions/${that.searchKey}`,
+      //   headers: {
+      //     'Accept': 'application/json',
+      //     'Authorization': sessionStorage.getItem('token')
+      //   }
+      // }).then(res => {
+      //   that.permissionData = [];
+      //   that.permissionData.push(res.data.data);
+      // }).catch(err => {
+      //   console.log(err)
+      // })
+    },
+    getAllPermission: function getAllPermission(url) {
+      var that = this;
+      console.log('getPermission');
+      var urlPath = url ? url : that.url;
       axios({
         method: 'get',
-        url: this.GLOBAL.localDomain + '/api/v1/permissions/' + that.permissionId,
+        url: urlPath,
         headers: {
           'Accept': 'application/json',
           'Authorization': sessionStorage.getItem('token')
         }
       }).then(function (res) {
-        that.permissionData = [];
-        that.permissionData.push(res.data.data);
+        that.url = res.data.links.next;
+        console.log(res.data.data.length);
+
+        var len = res.data.data.length ? res.data.data.length : that.getJsonLength(res.data.data);
+
+        // data数据结构不一致 可能是数组/也可能是json
+        if (res.data.data.length) {
+          for (var i = 0; i < len; i++) {
+            // debugger
+            that.currentPermission.push(res.data.data[i]);
+          }
+        } else if (that.getJsonLength(res.data.data)) {
+          for (var _i in res.data.data) {
+            // debugger
+            that.currentPermission.push(res.data.data[_i]);
+          }
+        }
+
+        if (that.url) {
+          that.getAllPermission(that.url);
+        } else {
+          that.allPermission = that.currentPermission;
+          // sessionStorage.setItem('permissions', that.allPermission);
+        }
       }).catch(function (err) {
         console.log(err);
       });
+    },
+    getJsonLength: function getJsonLength(json) {
+      var that = this;
+      var jsonLength = 0;
+      for (var i in json) {
+        jsonLength++;
+      }
+      return jsonLength;
     }
-    // searchPermission: function () {
-    //   const that = this;
-    //   let urlPath = `${this.GLOBAL.localDomain}/api/v1/permissions/`;
-    //   // that.getData(urlPath)
-    //   that.sumData = this.getData(urlPath);
-    // },
-    // getData: function (url, list) {
-    //   const that = this;
-    //   let sumDataList = [];
-    //   if (list) {
-    //     sumDataList = list;
-    //   }
-    //   else {
-    //     sumDataList = [];
-    //   }
-    //   axios({
-    //     method: 'get',
-    //     url: url,
-    //     headers: {
-    //       'Accept': 'application/json',
-    //       'Authorization': sessionStorage.getItem('token'),
-    //     }
-    //   }).then(res => {
-    //     let data = res.data.data;  // conclude links
-    //     let url = res.data.links.next;
-    //     sumDataList = sumDataList.concat(data);
-    //
-    //     if (url) {
-    //       getNextData(url, sumDataList);
-    //     }
-    //   }).catch(err => {
-    //     console.log(err);
-    //   })
-    // },
-    // getNextData: function (url, list) {
-    //   const that = this;
-    //   let sumDataList = [];
-    //   if (list) {
-    //     sumDataList = list;
-    //   }
-    //   else {
-    //     sumDataList = [];
-    //   }
-    //
-    //   axios({
-    //     method: 'get',
-    //     url: url,
-    //     headers: {
-    //       'Accept': 'application/json',
-    //       'Authorization': sessionStorage.getItem('token'),
-    //     }
-    //   }).then(res => {
-    //     let data = res.data.data;  // conclude links
-    //     let url = res.data.links.next;
-    //     sumDataList = sumDataList.concat(data);
-    //
-    //     if (url) {
-    //       getData(url, sumDataList);
-    //     }
-    //     else {
-    //       let sum = sumDataList;
-    //       // debugger
-    //       return sum;
-    //     }
-    //   }).catch(err => {
-    //     console.log(err);
-    //   })
-    // }
   },
   computed: {
     isShowCreatePermission: function isShowCreatePermission() {
@@ -35158,6 +35170,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     sumData: function sumData(value, oldValue) {
       var that = this;
+    },
+    allPermission: function allPermission(value, oldValue) {
+      var that = this;
+      that.searchPermission(that.searchKey);
     }
   }
 });
@@ -68197,28 +68213,26 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     directives: [{
       name: "model",
       rawName: "v-model",
-      value: (_vm.permissionId),
-      expression: "permissionId"
+      value: (_vm.searchKey),
+      expression: "searchKey"
     }],
     staticClass: "input search-input",
     attrs: {
-      "disabled": "",
       "type": "text",
       "placeholder": "请输入关键字"
     },
     domProps: {
-      "value": (_vm.permissionId)
+      "value": (_vm.searchKey)
     },
     on: {
       "input": function($event) {
         if ($event.target.composing) { return; }
-        _vm.permissionId = $event.target.value
+        _vm.searchKey = $event.target.value
       }
     }
   }), _vm._v(" "), _c('button', {
     staticClass: "button",
     attrs: {
-      "disabled": "",
       "type": "button",
       "name": "button"
     },
@@ -68273,6 +68287,12 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }, [_vm._v("删除权限")])])])
   }))]), _vm._v(" "), _c('pagination', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.searchResult.length === 0),
+      expression: "searchResult.length === 0"
+    }],
     attrs: {
       "pagination-data": _vm.paginationData
     },
