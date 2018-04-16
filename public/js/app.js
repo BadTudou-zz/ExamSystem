@@ -33721,7 +33721,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
           'Authorization': sessionStorage.getItem('token')
         }
       }).then(function (res) {
-        debugger;
         that.noticeData.push(res.data);
       }).catch(function (err) {
         console.log(err);
@@ -34471,7 +34470,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
           'Authorization': sessionStorage.getItem('token')
         }
       }).then(function (res) {
-        debugger;
         that.organizationData.push(res.data.data);
       }).catch(function (err) {
         console.log(err);
@@ -34617,7 +34615,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     switchModal: function switchModal() {
       var that = this;
       that.isShowModal = !that.isShowModal;
-      debugger;
     },
     clearWords: function clearWords() {
       var that = this;
@@ -38622,6 +38619,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       var that = this;
       that.$refs.addRole.switchModal();
     },
+    // updateRole: function () {
+    //   const that = this;
+    //   that.$refs.updateRole.switchModal();
+    // },
     // 查找用户
     searchRole: function searchRole() {
       var that = this;
