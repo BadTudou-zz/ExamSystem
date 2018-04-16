@@ -4,7 +4,7 @@
     <div>
       <div v-show="isShowSearchPermission" class="search-box">
         <input v-model="searchKey" class="input search-input" type="text" placeholder="请输入关键字">
-        <button @click="searchPermission()" class="button" type="button" name="button">查找权限</button>
+        <div @click="searchPermission()" class="search-button"><i class="fas fa-search"></i></div>
       </div>
         <button v-show="isShowCreatePermission" @click="addPermission()" class="button add-permission-button" type="button" name="button">添加权限</button>
     </div>
@@ -54,9 +54,10 @@ export default {
       permissionData: null,
       isShowModal: false,
       searchKey: null,
+      // pagination
       paginationData: null,
-      data: null,  // from Pagination.vue
-      sumData: null,
+      data: null,
+      //
 
       // get all permission
       currentPermission: [],
@@ -114,6 +115,28 @@ export default {
         console.log(err)
       })
     },
+    // searchPermission: function () {
+    //   const that = this;
+    //   // 如果没有搜索值
+    //   if (!that.searchKey) {
+    //     that.getPermission();
+    //     that.searchResult = [];
+    //     return;
+    //   }
+    //   axios({
+    //     method: 'get',
+    //     url: `${this.GLOBAL.localDomain}/api/v1/permissions/${that.searchKey}`,
+    //     headers: {
+    //       'Accept': 'application/json',
+    //       'Authorization': sessionStorage.getItem('token')
+    //     }
+    //   }).then(res => {
+    //     that.permissionData = [];
+    //     that.permissionData.push(res.data.data);
+    //   }).catch(err => {
+    //     console.log(err)
+    //   })
+    // },
     searchPermission: function () {
       const that = this;
       // 如果没有搜索值
@@ -129,10 +152,12 @@ export default {
         let res = [];
 
         for (let i = 0; i < len; i++) {
-          for (let j in allData[i]) {
-            if ((allData[i][j].toString()).indexOf(that.searchKey) !== -1) {
-              res.push(allData[i]);
-              break;
+          if (allData[i][j]) {
+            for (let j in allData[i]) {
+              if ((allData[i][j].toString()).indexOf(that.searchKey) !== -1) {
+                res.push(allData[i]);
+                break;
+              }
             }
           }
         }
@@ -144,23 +169,9 @@ export default {
         let url = `${this.GLOBAL.localDomain}/api/v1/permissions/`;
         that.getAllPermission(url);
       }
-      // axios({
-      //   method: 'get',
-      //   url: `${this.GLOBAL.localDomain}/api/v1/permissions/${that.searchKey}`,
-      //   headers: {
-      //     'Accept': 'application/json',
-      //     'Authorization': sessionStorage.getItem('token')
-      //   }
-      // }).then(res => {
-      //   that.permissionData = [];
-      //   that.permissionData.push(res.data.data);
-      // }).catch(err => {
-      //   console.log(err)
-      // })
     },
     getAllPermission: function (url) {
       const that = this;
-      console.log('getPermission')
       let urlPath = url ? url : that.url
       axios({
         method: 'get',
@@ -171,8 +182,6 @@ export default {
         }
       }).then(res => {
         that.url = res.data.links.next;
-        console.log(res.data.data.length);
-
         let len = res.data.data.length ? res.data.data.length : that.getJsonLength(res.data.data);
 
         // data数据结构不一致 可能是数组/也可能是json
@@ -192,8 +201,6 @@ export default {
         }
         else {
           that.allPermission = that.currentPermission;
-          // sessionStorage.setItem('permissions', that.allPermission);
-
         }
       }).catch(err => {
         console.log(err);
@@ -231,9 +238,6 @@ export default {
       const that = this;
       that.permissionData = value.data;
       that.paginationData = value.links;
-    },
-    sumData: function (value, oldValue) {
-      const that = this;
     },
     allPermission: function (value, oldValue) {
       const that = this;

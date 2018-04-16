@@ -3,10 +3,11 @@
   <div class="box">
     <div>
       <div v-show="isShowSearchApplication" class="search-box">
-        <input disabled v-model="searchKey" class="input search-input" type="text" placeholder="请输入关键字">
-        <button disabled @click="searchApplyFor()" class="button is-small" type="button" name="button">查找申请</button>
+        <input v-model="searchKey" class="input search-input" type="text" placeholder="请输入关键字">
+        <!-- <button disabled @click="searchApplyFor()" class="button is-small" type="button" name="button">查找申请</button> -->
+        <div @click="searchApplyFor()" class="search-button"><i class="fas fa-search"></i></div>
       </div>
-        <button v-show="isShowCreateApplication" @click="addApplyFor()" class="button add-role-button is-small" type="button" name="button">添加申请</button>
+        <button v-show="isShowCreateApplication" @click="addApplyFor()" class="button add-applyFor-button is-small" type="button" name="button">添加申请</button>
     </div>
     <table class="table">
       <thead>
@@ -48,8 +49,9 @@
                     v-on:getApplyFor="getApplyFor"
                     v-bind:edit-data="editData"></edit-apply-for>
 
-    <pagination v-bind:pagination-data="paginationData"
-            v-model="data"
+    <pagination v-show="searchResult.length === 0"
+                v-bind:pagination-data="paginationData"
+                v-model="data"
     ></pagination>
   </div>
 </template>
@@ -69,6 +71,10 @@ export default {
       searchKey: null,
       paginationData: null,
       data: null,
+      // get all applyFor
+      currentApplyFor: [],
+      allApplyFor: [],
+      searchResult: [],
     }
   },
   components: {
@@ -124,6 +130,76 @@ export default {
       }).catch(err => {
         alert('没有找到从相关数据，已加载全部数据')
         console.log(err)
+      })
+    },
+    searchApplyFor: function () {
+      const that = this;
+      // 如果没有搜索值
+      if (!that.searchKey) {
+        that.getApplyFor();
+        that.searchResult = [];
+        return;
+      }
+      // 如果已经获取全部数据
+      else if (that.allApplyFor.length > 0) {
+        let allData  = that.allApplyFor;
+        let len = that.allApplyFor.length;
+        let res = [];
+
+        for (let i = 0; i < len; i++) {
+          for (let j in allData[i]) {
+            if (allData[i][j]) {
+              if ((allData[i][j].toString()).indexOf(that.searchKey) !== -1) {
+                res.push(allData[i]);
+                break;
+              }
+            }
+          }
+        }
+        that.searchResult = res;
+        that.applyForData = res;
+      }
+      // 如果有搜索值并且还未获取全部数据
+      else {
+        let url = `${this.GLOBAL.localDomain}/api/v1/applications/`;
+        that.getAllApplyFor(url);
+      }
+    },
+    getAllApplyFor: function (url) {
+      const that = this;
+      let urlPath = url ? url : that.url
+      axios({
+        method: 'get',
+        url: urlPath,
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': sessionStorage.getItem('token'),
+        }
+      }).then(res => {
+        that.url = res.data.links.next;
+
+        let len = res.data.data.length ? res.data.data.length : that.getJsonLength(res.data.data);
+
+        // data数据结构不一致 可能是数组/也可能是json
+        if (res.data.data.length) {
+          for (let i = 0; i < len; i++) {
+            that.currentApplyFor.push(res.data.data[i]);
+          }
+        }
+        else if (that.getJsonLength(res.data.data)) {
+          for (let i in res.data.data) {
+            that.currentApplyFor.push(res.data.data[i]);
+          }
+        }
+
+        if (that.url) {
+          that.getAllApplyFor(that.url);
+        }
+        else {
+          that.allApplyFor = that.currentApplyFor;
+        }
+      }).catch(err => {
+        console.log(err);
       })
     },
     getApplyFor: function () {
@@ -226,6 +302,10 @@ export default {
       const that = this;
       that.permissionData = value.data;
       that.paginationData = value.links;
+    },
+    allApplyFor: function (value, oldValue) {
+      const that = this;
+      that.searchApplyFor(that.searchKey);
     }
   }
 }
@@ -245,7 +325,7 @@ table {
   display: inline-block;
   border-right: 1px solid #dedede;
 }
-.add-role-button {
+.add-applyFor-button {
   margin-left: 20px;
 }
 .box-item {

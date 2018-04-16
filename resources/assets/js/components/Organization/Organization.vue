@@ -3,8 +3,9 @@
   <div class="box">
     <div>
       <div v-show="isShowSearchOrganization" class="search-box">
-        <input disabled v-model="searchKey" class="input search-input" type="text" placeholder="请输入关键字">
-        <button disabled @click="searchOrganization()" class="button" type="button" name="button">查找组织</button>
+        <input v-model="searchKey" class="input search-input" type="text" placeholder="请输入关键字">
+        <!-- <button disabled @click="searchOrganization()" class="button" type="button" name="button">查找组织</button> -->
+        <div @click="searchOrganization()" class="search-button"><i class="fas fa-search"></i></div>
       </div>
       <button v-show="isShowCreateOrganization" @click="addOrganization()" class="button add-role-button" type="button" name="button">添加组织</button>
       <button class="button add-role-button" type="button" name="button">同步组织</button>
@@ -58,7 +59,8 @@
             v-bind:current-organization-data="currentOrganizationData"
     ></member>
 
-    <pagination v-bind:pagination-data="paginationData"
+    <pagination v-show="searchResult.length === 0"
+                v-bind:pagination-data="paginationData"
                 v-model="data"
     ></pagination>
 
@@ -81,6 +83,10 @@ export default {
       paginationData: null,
       data: null,
       currentOrganizationData: null,
+      // get all organization
+      currentOrganization: [],
+      allOrganization: [],
+      searchResult: [],
     }
   },
   components: {
@@ -115,25 +121,96 @@ export default {
         console.log(err)
       })
     },
+    // searchOrganization: function () {
+    //   const that = this;
+    //   that.organizationData = [];
+    //   if (!that.searchKey) {
+    //     that.searchKey = '';
+    //     that.getOrganization();
+    //     return;
+    //   }
+    //   axios({
+    //     method: 'get',
+    //     url: `${this.GLOBAL.localDomain}/api/v1/organizations/${that.searchKey}`,
+    //     headers: {
+    //       'Accept': 'application/json',
+    //       'Authorization': sessionStorage.getItem('token'),
+    //     }
+    //   }).then(res => {
+    //     that.organizationData.push(res.data.data);
+    //   }).catch(err => {
+    //     console.log(err)
+    //   })
+    // },
+
     searchOrganization: function () {
       const that = this;
-      that.organizationData = [];
+      // 如果没有搜索值
       if (!that.searchKey) {
-        that.searchKey = '';
         that.getOrganization();
+        that.searchResult = [];
         return;
       }
+      // 如果已经获取全部数据
+      else if (that.allOrganization.length > 0) {
+        let allData  = that.allOrganization;
+        let len = that.allOrganization.length;
+        let res = [];
+
+        for (let i = 0; i < len; i++) {
+          for (let j in allData[i]) {
+            if (allData[i][j]) {
+              if ((allData[i][j].toString()).indexOf(that.searchKey) !== -1) {
+                res.push(allData[i]);
+                break;
+              }
+            }
+          }
+        }
+        that.searchResult = res;
+        that.organizationData = res;
+      }
+      // 如果有搜索值并且还未获取全部数据
+      else {
+        let url = `${this.GLOBAL.localDomain}/api/v1/organizations/`;
+        that.getAllOrganization(url);
+      }
+    },
+    getAllOrganization: function (url) {
+      const that = this;
+      let urlPath = url ? url : that.url
       axios({
         method: 'get',
-        url: `${this.GLOBAL.localDomain}/api/v1/organizations/${that.searchKey}`,
+        url: urlPath,
         headers: {
           'Accept': 'application/json',
           'Authorization': sessionStorage.getItem('token'),
         }
       }).then(res => {
-        that.organizationData.push(res.data.data);
+        that.url = res.data.links.next;
+
+        let len = res.data.data.length ? res.data.data.length : that.getJsonLength(res.data.data);
+
+        // data数据结构不一致 可能是数组/也可能是json
+        if (res.data.data.length) {
+          for (let i = 0; i < len; i++) {
+            that.currentOrganization.push(res.data.data[i]);
+          }
+        }
+        else if (that.getJsonLength(res.data.data)) {
+          for (let i in res.data.data) {
+            that.currentOrganization.push(res.data.data[i]);
+          }
+        }
+
+        if (that.url) {
+          that.getAllOrganization(that.url);
+        }
+        else {
+          that.allOrganization = that.currentOrganization;
+        }
       }).catch(err => {
-        console.log(err)
+        console.log(err);
       })
     },
     deleteOrganization: function (index) {
@@ -190,6 +267,10 @@ export default {
       const that = this;
       that.organizationData = value.data;
       that.paginationData = value.links;
+    },
+    allOrganization: function (value, oldValue) {
+      const that = this;
+      that.searchOrganization(that.searchKey);
     }
   }
 }
