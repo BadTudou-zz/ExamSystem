@@ -29805,7 +29805,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
 
 
 
@@ -29968,7 +29967,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     that.$refs.addApplyFor.switchModal();
   }), _defineProperty(_methods, 'editApplyFor', function editApplyFor(index) {
     var that = this;
-    console.log('编辑申请');
     that.editData = that.applyForData[index];
     // that.$refs.addApplyFor.switchModal();
     that.$refs.editApplyFor.switchModal();
@@ -47950,7 +47948,7 @@ exports.push([module.i, "\nlabel {\n  display: inline-block;\n  width: 100px;\n}
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(1)();
-exports.push([module.i, ".button {\n  border-radius: 2px;\n  font-size: .75rem;d\n}\n\n.search-input {\n  border-radius: 2px;\n  font-size: .75rem;\n}\n\n.delete {\n  height: 16px;\n  line-height: 16px;\n  max-height: 16px;\n  max-width: 16px;\n  min-height: 16px;\n  min-width: 16px;\n  width: 16px;\n  margin: 5px 10px 0 0;\n}\n.edit-icon {\n  cursor: pointer;\n  display: inline-block;\n  color: #cecece;\n}\n\n.search-button {\n  display: inline-block;\n  cursor: pointer;\n}\n", ""]);
+exports.push([module.i, ".button {\n  border-radius: 2px;\n  font-size: .75rem;d\n}\n\n.search-input {\n  border-radius: 2px;\n  font-size: .75rem;\n}\n\n.delete {\n  height: 16px;\n  line-height: 16px;\n  max-height: 16px;\n  max-width: 16px;\n  min-height: 16px;\n  min-width: 16px;\n  width: 16px;\n  margin: 5px 10px 0 0;\n}\n.edit-icon {\n  cursor: pointer;\n  display: inline-block;\n  color: #cecece;\n}\n\n.search-button {\n  display: inline-block;\n  cursor: pointer;\n}\n.edit-button {\n  display: inline-block;\n  cursor: pointer;\n  color: #cecece;\n  margin: 0 10px;\n}\n", ""]);
 
 /***/ }),
 /* 354 */
@@ -69784,18 +69782,16 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
           _vm.deleteQuestion(index)
         }
       }
-    }), _vm._v(" "), _c('button', {
-      staticClass: "button edit-question is-small",
-      attrs: {
-        "type": "button",
-        "name": "button"
-      },
+    }), _vm._v(" "), _c('div', {
+      staticClass: "edit-button",
       on: {
         "click": function($event) {
           _vm.editQuestion(index)
         }
       }
-    }, [_vm._v("编辑问题")])]), _vm._v(" "), _c('p', {
+    }, [_c('i', {
+      staticClass: "fas fa-edit"
+    })])]), _vm._v(" "), _c('p', {
       staticClass: "detail"
     }, [_vm._v("        id：" + _vm._s(item.id) + "\n                 类型： 单选\n                 难度：" + _vm._s(item.level_type) + "\n          ")]), _vm._v(" "), _c('div', {
       staticClass: "question"
@@ -70799,18 +70795,16 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
           _vm.deleteCourse(index)
         }
       }
-    }, [_vm._v("删除课程")]), _vm._v(" "), _c('button', {
-      staticClass: "is-small button",
-      attrs: {
-        "type": "button",
-        "name": "button"
-      },
+    }, [_vm._v("删除课程")]), _vm._v(" "), _c('div', {
+      staticClass: "edit-button",
       on: {
         "click": function($event) {
           _vm.editCourse(index)
         }
       }
-    }, [_vm._v("编辑课程")])])])
+    }, [_c('i', {
+      staticClass: "fas fa-edit"
+    })])])])
   }))]), _vm._v(" "), _c('add-course', {
     ref: "addCourse",
     on: {
@@ -70880,18 +70874,16 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
           _vm.deleteQuestion(index)
         }
       }
-    }), _vm._v(" "), _c('button', {
-      staticClass: "button edit-question",
-      attrs: {
-        "type": "button",
-        "name": "button"
-      },
+    }), _vm._v(" "), _c('div', {
+      staticClass: "edit-button",
       on: {
         "click": function($event) {
           _vm.editQuestion(index)
         }
       }
-    }, [_vm._v("编辑问题")])]), _vm._v(" "), _c('p', {
+    }, [_c('i', {
+      staticClass: "fas fa-edit"
+    })])]), _vm._v(" "), _c('p', {
       staticClass: "detail"
     }, [_vm._v("        id：" + _vm._s(item.id) + "\n               类型： 单选\n               难度：" + _vm._s(item.level_type) + "\n        ")]), _vm._v(" "), _c('div', {
       staticClass: "question"
@@ -72159,18 +72151,16 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
           _vm.deleteTest(index)
         }
       }
-    }, [_vm._v("删除")]), _vm._v(" "), _c('button', {
-      staticClass: "is-small button",
-      attrs: {
-        "type": "button",
-        "name": "button"
-      },
+    }, [_vm._v("删除")]), _vm._v(" "), _c('div', {
+      staticClass: "edit-button",
       on: {
         "click": function($event) {
           _vm.editTest(index)
         }
       }
-    }, [_vm._v("编辑")]), _vm._v(" "), _c('button', {
+    }, [_c('i', {
+      staticClass: "fas fa-edit"
+    })]), _vm._v(" "), _c('button', {
       staticClass: "is-small button",
       attrs: {
         "type": "button",
@@ -73516,18 +73506,16 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
           _vm.deleteOrganization(index)
         }
       }
-    }, [_vm._v("删除组织")]), _vm._v(" "), _c('button', {
-      staticClass: "is-small button",
-      attrs: {
-        "type": "button",
-        "name": "button"
-      },
+    }, [_vm._v("删除组织")]), _vm._v(" "), _c('div', {
+      staticClass: "edit-button",
       on: {
         "click": function($event) {
           _vm.editOrganization(index)
         }
       }
-    }, [_vm._v("编辑组织")])]), _vm._v(" "), _c('td', [_c('button', {
+    }, [_c('i', {
+      staticClass: "fas fa-edit"
+    })])]), _vm._v(" "), _c('td', [_c('button', {
       staticClass: "is-small button",
       attrs: {
         "type": "button",
@@ -74480,18 +74468,16 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
           _vm.deleteApplyFor(index)
         }
       }
-    }, [_vm._v("删除")]), _vm._v(" "), _c('button', {
-      staticClass: "button is-small",
-      attrs: {
-        "type": "button",
-        "name": "button"
-      },
+    }, [_vm._v("删除")]), _vm._v(" "), _c('div', {
+      staticClass: "edit-button",
       on: {
         "click": function($event) {
           _vm.editApplyFor(index)
         }
       }
-    }, [_vm._v("编辑")]), _vm._v(" "), _c('button', {
+    }, [_c('i', {
+      staticClass: "fas fa-edit"
+    })]), _vm._v(" "), _c('button', {
       directives: [{
         name: "show",
         rawName: "v-show",
@@ -75147,18 +75133,16 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
           _vm.deleteExaminationPaper(index)
         }
       }
-    }, [_vm._v("删除试卷")]), _vm._v(" "), _c('button', {
-      staticClass: "button is-small",
-      attrs: {
-        "type": "button",
-        "name": "button"
-      },
+    }, [_vm._v("删除试卷")]), _vm._v(" "), _c('div', {
+      staticClass: "edit-button",
       on: {
         "click": function($event) {
           _vm.editExaminationPaper(index)
         }
       }
-    }, [_vm._v("编辑试卷")]), _vm._v(" "), _c('button', {
+    }, [_c('i', {
+      staticClass: "fas fa-edit"
+    })]), _vm._v(" "), _c('button', {
       staticClass: "button is-small",
       attrs: {
         "type": "button",
@@ -75572,18 +75556,16 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
           _vm.deleteLabel(index)
         }
       }
-    }, [_vm._v("删除标签")]), _vm._v(" "), _c('button', {
-      staticClass: "button",
-      attrs: {
-        "type": "button",
-        "name": "button"
-      },
+    }, [_vm._v("删除标签")]), _vm._v(" "), _c('div', {
+      staticClass: "edit-button",
       on: {
         "click": function($event) {
           _vm.editLabel(index)
         }
       }
-    }, [_vm._v("编辑标签")])])])
+    }, [_c('i', {
+      staticClass: "fas fa-edit"
+    })])])])
   }))]), _vm._v(" "), _c('div', {
     staticClass: "modal",
     class: {
@@ -75948,18 +75930,16 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
           _vm.deleteTeaching(index)
         }
       }
-    }, [_vm._v("删除授课")]), _vm._v(" "), _c('button', {
-      staticClass: "button is-small",
-      attrs: {
-        "type": "button",
-        "name": "button"
-      },
+    }, [_vm._v("删除授课")]), _vm._v(" "), _c('div', {
+      staticClass: "edit-button",
       on: {
         "click": function($event) {
           _vm.editTeaching(index)
         }
       }
-    }, [_vm._v("编辑授课")])]), _vm._v(" "), _c('td', [_c('button', {
+    }, [_c('i', {
+      staticClass: "fas fa-edit"
+    })])]), _vm._v(" "), _c('td', [_c('button', {
       staticClass: "button is-small",
       attrs: {
         "type": "button",

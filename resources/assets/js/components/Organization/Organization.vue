@@ -37,7 +37,7 @@
           <td>{{ GLOBAL.toTime(item.updated_at) }}</td>
           <td>
             <button  v-show="isShowDeleteOrganization" @click="deleteOrganization(index)" class="delete" type="button" name="button">删除组织</button>
-            <button @click="editOrganization(index)"  class="is-small button" type="button" name="button">编辑组织</button>
+            <div @click="editOrganization(index)" class="edit-button"><i class="fas fa-edit"></i></div>
           </td>
           <td>
             <button @click="showMember(index)"  class="is-small button" type="button" name="button">查看成员</button>

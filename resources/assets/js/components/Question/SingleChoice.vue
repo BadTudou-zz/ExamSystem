@@ -7,7 +7,7 @@
         <div class="notification">
           <div class="operate-box">
             <button @click="deleteQuestion(index)" class="delete"></button>
-            <button @click="editQuestion(index)" class="button edit-question" type="button" name="button">编辑问题</button>
+            <div @click="editQuestion(index)" class="edit-button"><i class="fas fa-edit"></i></div>
           </div>
           <p class="detail">        id：{{ item.id }}
             &nbsp;&nbsp;&nbsp;&nbsp; 类型： 单选
