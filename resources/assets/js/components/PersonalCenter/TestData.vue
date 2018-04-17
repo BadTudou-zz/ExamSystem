@@ -33,6 +33,7 @@
 
     <testing ref="testing"
              v-show="isTesting"
+             v-on:switchTesting="switchTesting"
              v-bind:paper-id="paperId"
              v-bind:exam-id="examId"
     ></testing>
@@ -70,9 +71,13 @@ export default {
     Score,
   },
   methods: {
-    showModal: function () {
+    switchModal: function () {
       const that = this;
       that.isShowModal = !that.isShowModal;
+    },
+    switchTesting: function () {
+      const that = this;
+      that.isTesting = !that.isTesting;
     },
     getTest: function () {
       const that = this;
@@ -101,13 +106,10 @@ export default {
     },
     startTest: function (index) {
       const that = this;
-      that.$refs.testing.clearQuestionIds();
       let id = that.testData[index].id;
       that.paperId = that.testData[index].paper_id;
       that.examId = id;
-
-      that.isTesting = true;
-
+      // that.switchTesting();
       axios({
         method: 'post',
         url: `${this.GLOBAL.localDomain}/api/v1/exams/${id}/begin`,
@@ -117,7 +119,7 @@ export default {
         }
       }).then(res => {
         alert('已开考');
-        that.isTesting = true;
+        that.switchTesting();
       }).catch(err => {
         let errMsg = err.response.data.error;
         if (errMsg) {

@@ -1,9 +1,10 @@
 <!-- 查看问题 -->
+<!-- 暂时弃用该方案 -->
 <template lang="html">
   <div class="box">
     <div>
       <div class="search-box">
-        <input disabled v-model="searchKey" class="input search-input" type="text" placeholder="请输入问题">
+        <input disabled v-model="searchKey" class="input search-input" type="text" placeholder="请输入关键字">
         <button disabled @click="searchQuestion()" class="button" type="button" name="button">查找问题</button>
       </div>
         <button @click="addQuestion()" class="button add-role-button" type="button" name="button">添加问题</button>

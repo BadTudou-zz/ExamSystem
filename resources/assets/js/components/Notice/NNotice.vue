@@ -256,4 +256,7 @@ export default {
   margin-top: 25px;
   text-align: right;
 }
+.notification {
+  background-color: #fff;
+}
 </style>
