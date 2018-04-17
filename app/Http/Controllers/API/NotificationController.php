@@ -19,7 +19,7 @@ class NotificationController extends Controller
 {
     public function index(IndexNotification $request)
     {
-        return new SystemNotificationCollection( Notification::where('type', SystemNotification::class)->paginate());
+        return SystemNotificationResource::collection( Notification::where('type', SystemNotification::class)->paginate());
     }
 
     public function show(Request $request, $id)
