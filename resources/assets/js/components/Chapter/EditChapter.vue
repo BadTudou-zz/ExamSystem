@@ -115,6 +115,23 @@ export default {
       that.selectedQuesiton = [];
       that.questionScore = [];
     },
+    scoresJsonConvertsToArray: function (json) {
+      let selectedQuestionIds = [];
+      let scores = [];
+      let res = [];
+
+      for (i in json) {
+        selectedQuestionIds.push(parseInt(i));
+        scores.push(parseInt(json[i]));
+      }
+
+      for (let i = 0; i < selectedQuestionIds.length; i++) {
+        res[selectedQuestionIds[i]] = scores[i];
+      }
+      that.selectedQuesiton = selectedQuestionIds;
+      that.questionScore = res;
+      // return res;
+    },
     // 计算问题分值的JSON
     computedAnswerJson: function () {
       const that = this;
@@ -192,7 +209,8 @@ export default {
       that.currentChapterData.describe = value.describe;
       that.currentChapterData.question_type = value.question_type;
 
-      // that.editQuesitons = that.currentChapterData.questions.split(',')
+      that.currentChapterData.scores = value.scores;
+      // that.scoresJsonConvertsToArray(value.scores);
     }
   }
 }
