@@ -32,12 +32,12 @@
             <router-link to="/organization"><i class="fas fa-braille"></i><span>组织</span></router-link>
           </li>
 
-          <li v-show="isShowCourse" :class="{'is-active' : currentTag === 'course'}" @click="currentTag = 'course'">
+          <li :class="{'is-active' : currentTag === 'course'}" @click="currentTag = 'course'">
             <router-link to="/course"><i class="fas fa-newspaper"></i><span>课程</span></router-link>
           </li>
 
 
-          <li v-show="isShowLecture" :class="{'is-active' : currentTag === 'teaching'}" @click="currentTag = 'teaching'">
+          <li :class="{'is-active' : currentTag === 'teaching'}" @click="currentTag = 'teaching'">
             <router-link to="/teaching"><i class="fas fa-book"></i><span>授课</span></router-link>
           </li>
 
