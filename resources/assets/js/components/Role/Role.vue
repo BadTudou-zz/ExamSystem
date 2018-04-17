@@ -31,7 +31,7 @@
           <td>{{ GLOBAL.toTime(item.created_at) }}</td>
           <td>{{ GLOBAL.toTime(item.updated_at) }}</td>
           <td><button v-show="isShowDeleteRole" @click="deleteRole(index)" class="delete" type="button" name="button">删除角色</button></td>
-          <td><button @click="showRole(index)" class="button" type="button" name="button">查看权限</button></td>
+          <td><button @click="showPermission(index)" class="button" type="button" name="button">查看权限</button></td>
           <td><button @click="showUser(index)" class="button" type="button" name="button">查看用户</button></td>
         </tr>
       </tbody>
@@ -47,13 +47,16 @@
     ></add-role>
 
     <role ref="role"
-                v-bind:current-role-data="currentRoleData"
+          v-bind:current-role-data="currentRoleData"
     ></role>
 
     <user ref="user"
           v-bind:current-role-data="currentRoleData"
     ></user>
 
+    <permission  ref="permission"
+                 v-bind:current-role-data="currentRoleData"
+    ></permission>
   </div>
 </template>
 
@@ -62,6 +65,7 @@ import Pagination from './../Pagination.vue'
 import AddRole from './AddRole'
 import Role from './Role'
 import User from './User'
+import Permission from './Permission'
 
 export default {
   data() {
@@ -83,6 +87,7 @@ export default {
     Pagination,
     Role,
     User,
+    Permission,
   },
   methods: {
     switchModal: function () {
@@ -222,10 +227,10 @@ export default {
         console.log(err);
       })
     },
-    showRole: function (index) {
+    showPermission: function (index) {
       const that = this;
       that.currentRoleData = that.roleData[index];
-      that.$refs.role.switchModal();
+      that.$refs.permission.switchModal();
     },
     showUser: function (index) {
       const that = this;
