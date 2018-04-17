@@ -82,7 +82,7 @@ export default {
        currentQuestionData: [],
        temporaryQuestionData: [], // 临时存储
        answer: [],
-       time: 25,
+       time: 15,
     }
   },
   components: {
@@ -201,14 +201,14 @@ export default {
         console.log(err)
       })
     },
-    // 完成 or 结束考试
+    // 完成考试
     stopTest: function () {
       const that = this;
       let id = that.examId;
 
       axios({
         method: 'post',
-        url: `${this.GLOBAL.localDomain}/api/v1/exams/${id}/stop`,
+        url: `${this.GLOBAL.localDomain}/api/v1/exams/${id}/finish`,
         headers: {
           'Accept': 'application/json',
           'Authorization': sessionStorage.getItem('token'),

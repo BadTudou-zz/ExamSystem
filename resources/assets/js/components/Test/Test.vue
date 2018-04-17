@@ -24,7 +24,7 @@
             <th>时长</th>
             <th>描述</th>
             <th>创建时间</th>
-            <th>更新时间</th>
+            <!-- <th>更新时间</th> -->
             <th>操作</th>
             <th>用户</th>
           </tr>
@@ -40,7 +40,7 @@
             <td>{{ item.min }}</td>
             <td> {{ item.description }}</td>
             <td>{{ GLOBAL.toTime(item.created_at) }}</td>
-            <td>{{ GLOBAL.toTime(item.updated_at) }}</td>
+            <!-- <td>{{ GLOBAL.toTime(item.updated_at) }}</td> -->
             <td>
               <button v-show="isShowDeleteTest" @click="deleteTest(index)" class="delete" type="button" name="button">删除</button>
               <div @click="editTest(index)" class="edit-button"><i class="fas fa-edit"></i></div>
