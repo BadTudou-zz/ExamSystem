@@ -1,70 +1,72 @@
 <!-- 查看章节 -->
 <template lang="html">
-  <div class="modal" v-bind:class="{'is-active': isShowModal}">
-    <div class="modal-background"></div>
-    <div class="modal-content chapter-content">
-      <div class="box chapter-box">
-        <div>
-          <div class="search-box">
-            <input v-model="searchKey" class="input search-input" type="text" placeholder="请输入章节">
-            <!-- <button disabled @click="searchChapter()" class="button" type="button" name="button">查找章节</button> -->
-            <div @click="searchChapter()" class="search-button"><i class="fas fa-search"></i></div>
+  <div v-if="isShowModal">
+    <div class="modal" v-bind:class="{'is-active': isShowModal}">
+      <div class="modal-background"></div>
+      <div class="modal-content chapter-content">
+        <div class="box chapter-box">
+          <div>
+            <div class="search-box">
+              <input v-model="searchKey" class="input search-input" type="text" placeholder="请输入章节">
+              <!-- <button disabled @click="searchChapter()" class="button" type="button" name="button">查找章节</button> -->
+              <div @click="searchChapter()" class="search-button"><i class="fas fa-search"></i></div>
+            </div>
+              <button @click="addChapter()" class="button add-chapter-button" type="button" name="button">添加章节</button>
           </div>
-            <button @click="addChapter()" class="button add-chapter-button" type="button" name="button">添加章节</button>
+          <table class="table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>章节名</th>
+                <th>描述</th>
+                <th>问题类型</th>
+                <th>分值</th>
+                <th>数量</th>
+                <th>问题</th>
+                <th>操作</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="(item,index) in chapterData">
+                <td>{{ item.id }}</td>
+                <td>{{ item.name }}</td>
+                <td>{{ item.describe }}</td>
+                <td>{{ item.question_type }}</td>
+                <td>{{ item.score }}</td>
+                <td>{{ item.number }}</td>
+                <td>{{ item.questions }}</td>
+                <td>
+                  <button @click="deleteChapter(index)" class="delete" type="button" name="button">删除章节</button>
+                  <button @click="editChapter(index)"  class="button" type="button" name="button">编辑章节</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+          <!-- <pagination v-show="searchResult.length === 0"
+                      v-bind:pagination-data="paginationData"
+                      v-model="data"
+          ></pagination> -->
+
+          <edit-chapter ref="editChapter"
+                        v-on:getChapter="getChapter"
+                        v-bind:edit-data="editData"
+                        v-bind:examination-paper-id="examinationPaperId"
+          ></edit-chapter>
+
+          <add-chapter ref="addChapter"
+                       v-bind:examination-paper-id="examinationPaperId"
+                       v-on:getChapter="getChapter"
+          ></add-chapter>
         </div>
-        <table class="table">
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>章节名</th>
-              <th>描述</th>
-              <th>问题类型</th>
-              <th>分值</th>
-              <th>数量</th>
-              <th>问题</th>
-              <th>操作</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="(item,index) in chapterData">
-              <td>{{ item.id }}</td>
-              <td>{{ item.name }}</td>
-              <td>{{ item.describe }}</td>
-              <td>{{ item.question_type }}</td>
-              <td>{{ item.score }}</td>
-              <td>{{ item.number }}</td>
-              <td>{{ item.questions }}</td>
-              <td>
-                <button @click="deleteChapter(index)" class="delete" type="button" name="button">删除章节</button>
-                <button @click="editChapter(index)"  class="button" type="button" name="button">编辑章节</button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-
-        <pagination v-show="searchResult.length === 0"
-                    v-bind:pagination-data="paginationData"
-                    v-model="data"
-        ></pagination>
-
-        <edit-chapter ref="editChapter"
-                      v-on:getChapter="getChapter"
-                      v-bind:edit-data="editData"
-                      v-bind:examination-paper-id="examinationPaperId"
-        ></edit-chapter>
-
-        <add-chapter ref="addChapter"
-                     v-bind:examination-paper-id="examinationPaperId"
-                     v-on:getChapter="getChapter"
-        ></add-chapter>
       </div>
+      <button @click="switchModal()" class="modal-close is-large" aria-label="close"></button>
     </div>
-    <button @click="switchModal()" class="modal-close is-large" aria-label="close"></button>
   </div>
 </template>
 
 <script>
-import Pagination from './../Pagination'
+// import Pagination from './../Pagination'
 import AddChapter from './AddChapter'
 import EditChapter from './EditChapter'
 
@@ -85,7 +87,7 @@ export default {
     }
   },
   components: {
-    Pagination,
+    // Pagination,
     AddChapter,
     EditChapter,
   },
@@ -239,15 +241,15 @@ export default {
   created() {
   },
   watch: {
-    data:function (value, oldValue) {
-      const that = this;
-      that.examinationPaperData = value.data;
-      that.paginationData = value.links;
-    },
+    // data:function (value, oldValue) {
+    //   const that = this;
+    //   that.chapterData = value.data;
+    //   that.paginationData = value.links;
+    // },
     currentExaminationPaperData: function (value, oldValue) {
       const that = this;
       that.examinationPaperId = value.id;
-      that.getChapter();
+      this.getChapter();
     },
     allChapter: function (value, oldValue) {
       const that = this;

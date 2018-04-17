@@ -52,6 +52,7 @@ export default {
     },
     getScore: function () {
       const that = this;
+      console.log('查询成绩');
       let examId = that.examId;
       let score = '';
       axios({
@@ -62,7 +63,7 @@ export default {
           'Authorization': sessionStorage.getItem('token'),
         }
       }).then(res => {
-        this.score = res.data.data.score;
+        that.score = res.data.score;
       }).catch(err => {
         console.log(err);
       })
@@ -80,8 +81,12 @@ export default {
         this.getScore();
       }
     },
-    examId: function () {
+    examId: function (value, oldValue) {
       const that = this;
+    },
+    score: function (value, oldValue) {
+      const that = this;
+      that.score = value;
     }
   }
 }

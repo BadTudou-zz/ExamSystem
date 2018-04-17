@@ -3,7 +3,7 @@
   <div class="box">
     <div>
       <div v-show="isShowSearchQuestion" class="search-box">
-        <input v-model="searchKey" class="input search-input" type="text" placeholder="请输入问题">
+        <input v-model="searchKey" class="input search-input" type="text" placeholder="请输入关键字">
         <!-- <button disabled @click="searchQuestion()" class="button" type="button" name="button">查找问题</button> -->
         <div @click="searchQuestion()" class="search-button"><i class="fas fa-search"></i></div>
       </div>
@@ -18,11 +18,11 @@
           <div class="notification">
             <div class="operate-box">
               <button v-show="isShowDeleteQuestion" @click="deleteQuestion(index)" class="delete"></button>
-              <div @click="editQuestion(index)" class="edit-button"><i class="fas fa-edit"></i></div>
+              <button @click="editQuestion(index)" class="button edit-question is-small" type="button" name="button">编辑问题</button>
             </div>
             <p class="detail">        id：{{ item.id }}
               &nbsp;&nbsp;&nbsp;&nbsp; 类型： 单选
-              &nbsp;&nbsp;&nbsp;&nbsp; 难度：{{ item.level_type }}
+              &nbsp;&nbsp;&nbsp;&nbsp; 难度：{{ computedDifficulty(item.level_type) }}
             </p>
             <div class="question">题目：{{ item.title }}</div>
             <div class="question">选项：{{ getOptionsString(item.body) }}</div>
@@ -38,7 +38,7 @@
             </div>
             <p class="detail">        id：{{ item.id }}
               &nbsp;&nbsp;&nbsp;&nbsp; 类型： 多选
-              &nbsp;&nbsp;&nbsp;&nbsp; 难度：{{ item.level_type }}
+              &nbsp;&nbsp;&nbsp;&nbsp; 难度：{{ computedDifficulty(item.level_type) }}
             </p>
             <div class="question">题目：{{ item.title }}</div>
             <div class="question">选项：{{ getOptionsString(item.body) }}</div>
@@ -262,6 +262,18 @@ export default {
       }
       return str;
     },
+    computedDifficulty: function (value) {
+      let difficultyName = '';
+      switch (value) {
+        case 'EASY':
+          difficultyName = '容易';
+          break;
+        case 'HARD':
+          difficultyName = '困难';
+          break;
+      }
+      return difficultyName;
+    }
   },
   computed: {
     isShowCreateQuestion() {
@@ -282,7 +294,6 @@ export default {
     },
   },
   created() {
-
     this.getQuestion();
   },
   watch: {

@@ -181,9 +181,11 @@ export default {
       that.currentQuestionData.question_type = value.question_type;
       that.currentQuestionData.level_type = value.level_type;
       that.currentQuestionData.title = value.title;
-      that.currentQuestionData.body = value.body;
       that.currentQuestionData.answer = value.answer;
       that.currentQuestionData.answer_comment = value.answer_comment;
+
+      that.currentQuestionData.body = value.body;
+      that.options = value.body.split(' ');
     }
   }
 }

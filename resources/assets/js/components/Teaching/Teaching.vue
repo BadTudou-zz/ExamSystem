@@ -61,8 +61,8 @@
     ></add-teaching>
 
     <edit-teaching ref="editTeaching"
-                       v-on:getTeaching="getTeaching"
-                       v-bind:edit-data="editData"
+                   v-on:getTeaching="getTeaching"
+                   v-bind:edit-data="editData"
     ></edit-teaching>
 
     <user ref="user"
