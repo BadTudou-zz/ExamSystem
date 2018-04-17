@@ -31,7 +31,7 @@
                 <td>{{ item.id }}</td>
                 <td>{{ item.name }}</td>
                 <td>{{ item.describe }}</td>
-                <td>{{ item.question_type }}</td>
+                <td>{{ computedQuestionType(item.question_type) }}</td>
                 <td>{{ item.score }}</td>
                 <td>{{ item.number }}</td>
                 <td>{{ item.questions }}</td>
@@ -43,10 +43,10 @@
             </tbody>
           </table>
 
-          <!-- <pagination v-show="searchResult.length === 0"
+          <pagination v-show="searchResult.length === 0"
                       v-bind:pagination-data="paginationData"
                       v-model="data"
-          ></pagination> -->
+          ></pagination>
 
           <edit-chapter ref="editChapter"
                         v-on:getChapter="getChapter"
@@ -66,7 +66,7 @@
 </template>
 
 <script>
-// import Pagination from './../Pagination'
+import Pagination from './../Pagination'
 import AddChapter from './AddChapter'
 import EditChapter from './EditChapter'
 
@@ -87,7 +87,7 @@ export default {
     }
   },
   components: {
-    // Pagination,
+    Pagination,
     AddChapter,
     EditChapter,
   },
@@ -235,7 +235,29 @@ export default {
           console.log(err)
         })
       }
+    },
+    computedQuestionType: function (value) {
+      const that = this;
 
+      let questionType = '';
+      switch (value) {
+        case 'SINGLE_CHOICE':
+          questionType = '单选';
+          break;
+        case 'MULTIPLE_CHOICE':
+          questionType = '多选';
+          break;
+        case 'TRUE_FALSE':
+          questionType = '判断';
+          break;
+        case 'FILL_IN':
+          questionType = '填空';
+          break;
+        case 'SHORT_ANSWER':
+          questionType = '简答';
+          break;
+      }
+      return questionType;
     }
   },
   created() {
