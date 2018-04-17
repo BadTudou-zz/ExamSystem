@@ -3,10 +3,12 @@
   <div class="box">
     <div>
         <div v-show="isShowSearchCourse" class="search-box">
-          <input class="input search-input" type="text" placeholder="请输入课程">
-          <button class="button" type="button" name="button">查找课程</button>
+          <input v-model="searchKey" class="input search-input" type="text" placeholder="请输入课程">
+          <!-- <button class="button" type="button" name="button">查找课程</button> -->
+          <div @click="searchCourse()" class="search-button"><i class="fas fa-search"></i></div>
         </div>
-        <button v-show="isShowCreateCourse" @click="addCourse()" class="button add-role-button" type="button" name="button">添加课程</button>
+        <button v-show="isShowCreateCourse" @click="addCourse()" class="button add-course-button" type="button" name="button">添加课程</button>
+        <button disabled v-show="isShowUpdateCourse" @click="updateCourse()" class="button" type="button" name="button">同步课程</button>
     </div>
     <table class="table">
       <thead>
@@ -31,8 +33,8 @@
           <td>{{ GLOBAL.toTime(item.created_at) }}</td>
           <td>{{ GLOBAL.toTime(item.updated_at) }}</td>
           <td>
-            <button v-show="isShowDeleteCourse" @click="deleteCourse(index)" class="button" type="button" name="button">删除课程</button>
-            <button @click="editCourse(index)" class="button" type="button" name="button">编辑课程</button>
+            <button v-show="isShowDeleteCourse" @click="deleteCourse(index)" class="delete" type="button" name="button">删除课程</button>
+            <div @click="editCourse(index)" class="edit-button"><i class="fas fa-edit"></i></div>
           </td>
         </tr>
       </tbody>
@@ -47,7 +49,8 @@
                  v-bind:edit-data="editData"
     ></edit-course>
 
-    <pagination v-bind:pagination-data="paginationData"
+    <pagination v-show="searchResult.length === 0"
+                v-bind:pagination-data="paginationData"
                 v-model="data"
     ></pagination>
   </div>
@@ -66,6 +69,12 @@ export default {
       editData: null,
       paginationData: null,
       data: null,
+      searchKey: '',
+      // get all course
+      currentCourse: [],
+      allCourse: [],
+      searchResult: [],
+
     }
   },
   components: {
@@ -85,7 +94,7 @@ export default {
     editCourse: function (index) {
       const that = this;
       that.editData = that.courseData[index];
-      that.$refs.addCourse.switchModal();
+      that.$refs.editCourse.switchModal();
     },
     deleteCourse: function (index) {
       const that = this;
@@ -124,20 +133,95 @@ export default {
       }).catch(err => {
         console.log(err)
       })
-    }
+    },
+    searchCourse: function () {
+      const that = this;
+      // 如果没有搜索值
+      if (!that.searchKey) {
+        that.getCourse();
+        that.searchResult = [];
+        return;
+      }
+      // 如果已经获取全部数据
+      else if (that.allCourse.length > 0) {
+        let allData  = that.allCourse;
+        let len = that.allCourse.length;
+        let res = [];
+
+        for (let i = 0; i < len; i++) {
+          for (let j in allData[i]) {
+            if (allData[i][j]) {
+              if ((allData[i][j].toString()).indexOf(that.searchKey) !== -1) {
+                res.push(allData[i]);
+                break;
+              }
+            }
+          }
+        }
+        that.searchResult = res;
+        that.courseData = res;
+      }
+      // 如果有搜索值并且还未获取全部数据
+      else {
+        let url = `${this.GLOBAL.localDomain}/api/v1/courses/`;
+        that.getAllCourse(url);
+      }
+    },
+    getAllCourse: function (url) {
+      const that = this;
+      let urlPath = url ? url : that.url
+      axios({
+        method: 'get',
+        url: urlPath,
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': sessionStorage.getItem('token'),
+        }
+      }).then(res => {
+        that.url = res.data.links.next;
+
+        let len = res.data.data.length ? res.data.data.length : that.getJsonLength(res.data.data);
+
+        // data数据结构不一致 可能是数组/也可能是json
+        if (res.data.data.length) {
+          for (let i = 0; i < len; i++) {
+            that.currentCourse.push(res.data.data[i]);
+          }
+        }
+        else if (that.getJsonLength(res.data.data)) {
+          for (let i in res.data.data) {
+            that.currentCourse.push(res.data.data[i]);
+          }
+        }
+
+        if (that.url) {
+          that.getAllCourse(that.url);
+        }
+        else {
+          that.allCourse = that.currentCourse;
+        }
+      }).catch(err => {
+        console.log(err);
+      })
+    },
+
   },
   computed: {
     isShowCreateCourse() {
-      return sessionStorage.getItem('permissions').includes(22);
+      // return true;
+      return sessionStorage.getItem('permissions').includes('course-store');
     },
     isShowSearchCourse() {
-      return sessionStorage.getItem('permissions').includes(23);
+      // return true;
+      return sessionStorage.getItem('permissions').includes('course-show');
     },
     isShowUpdateCourse() {
-      return sessionStorage.getItem('permissions').includes(24);
+      // return true;
+      return sessionStorage.getItem('permissions').includes('course-update');
     },
     isShowDeleteCourse() {
-      return sessionStorage.getItem('permissions').includes(25);
+      // return true;
+      return sessionStorage.getItem('permissions').includes('course-destroy');
     },
   },
   created() {
@@ -146,8 +230,12 @@ export default {
   watch: {
     data:function (value, oldValue) {
       const that = this;
-      that.permissionData = value.data;
+      that.courseData = value.data;
       that.paginationData = value.links;
+    },
+    allCourse: function (value, oldValue) {
+      const that = this;
+      that.searchCourse(that.searchKey);
     }
   }
 }
@@ -167,7 +255,7 @@ table {
   display: inline-block;
   border-right: 1px solid #dedede;
 }
-.add-role-button {
+.add-course-button {
   margin-left: 20px;
 }
 .box-item {

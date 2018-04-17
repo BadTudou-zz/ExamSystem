@@ -47,17 +47,18 @@
                 <tr>
                   <th>是否选中</th>
                   <th>序号</th>
-                  <th>题目</th>
                   <th>类型</th>
+                  <th>题目</th>
+                  <th>分值</th>
                 </tr>
               </thead>
               <tbody>
                 <tr v-for="(item,index) in questionData">
-                  <!-- <td v-show="item.question_type === currentChapterData.question_type"><input :checked="isSelectedQuesiton(item.id)"  type="checkbox" v-bind:value="item.id" v-model="selectedQuesiton" class="question-seleted"></td> -->
                   <td v-show="item.question_type === currentChapterData.question_type"><input type="checkbox" v-bind:value="item.id" v-model="selectedQuesiton" class="question-seleted"></td>
                   <td v-show="item.question_type === currentChapterData.question_type">{{ item.id }}</td>
-                  <td v-show="item.question_type === currentChapterData.question_type">{{ item.title }}</td>
                   <td v-show="item.question_type === currentChapterData.question_type">{{ item.question_type }}</td>
+                  <td v-show="item.question_type === currentChapterData.question_type">{{ item.title }}</td>
+                  <td v-show="item.question_type === currentChapterData.question_type"><input v-model="questionScore[item.id]" type="number" class="input number-input"></input></td>
                 </tr>
               </tbody>
             </table>
@@ -79,16 +80,18 @@ export default {
     return {
       isShowModal: false,
       currentChapterData: {
-        name: null,
+        name: '',
         score: null,
         number: null,
-        describe: null,
-        question_type: null
+        describe: '',
+        question_type: '',
+        scores: {},
       },
       questionsString: '',
       questionData: {},
       selectedQuesiton: [],
       editQuesitons: [],
+      questionScore: [],
     }
   },
   components: {
@@ -109,12 +112,26 @@ export default {
       that.currentChapterData.number = '';
       that.currentChapterData.describe = '';
       that.currentChapterData.question_type = '';
+      that.selectedQuesiton = [];
+      that.questionScore = [];
+    },
+    // 计算问题分值的JSON
+    computedAnswerJson: function () {
+      const that = this;
+      let json = {};
+      for (let i = 0; i < that.selectedQuesiton.length; i++) {
+        json[that.selectedQuesiton[i]] = that.questionScore[that.selectedQuesiton[i]];
+      }
+      that.scoreJson = json;
+      return json;
     },
     editChapter: function () {
       const that = this;
       let examinationPaperId = that.examinationPaperId;
+      let questionsParams = this.GLOBAL.computedParams(that.selectedQuesiton, 'questions');
       let chapterId = that.editData.id;
-      let questionsParams = that.computedParams(that.selectedQuesiton, 'questions');
+      let scores = that.computedAnswerJson();
+
       axios({
         method: 'put',
         url: `${this.GLOBAL.localDomain}/api/v1/papers/${examinationPaperId}/sections/${chapterId}?${questionsParams}`,
@@ -128,6 +145,7 @@ export default {
           number: that.currentChapterData.number,
           describe: that.currentChapterData.describe,
           question_type: that.currentChapterData.question_type,
+          scores: scores,
         }
       }).then(res => {
         alert('编辑成功');
@@ -139,25 +157,6 @@ export default {
         that.clearWords();
         alert('编辑失败');
       })
-    },
-    /**
-     * computedParams
-     * @param  {Array} selectedQuesiton   选中的问题数组
-     * @param  {String} param param拼接参数
-     * @return {String}       拼接完成的params
-     */
-    computedParams: function (selectedQuesiton, param) {
-      let arr = selectedQuesiton;
-      let string = '';
-      for (let i = 0; i < arr.length; i++) {
-        if (i != 0) {
-          string += '&' + param + '[' + i + ']' + '=' + arr[i];
-        }
-        else {
-          string += param + '[' + i + ']' + '=' + arr[i];
-        }
-      }
-      return string;
     },
     getQuestion: function () {
       const that = this;

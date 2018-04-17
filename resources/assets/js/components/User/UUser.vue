@@ -3,10 +3,12 @@
   <div class="box">
     <div>
       <div class="search-box">
-        <input v-model="searchKey" class="input search-input" type="text" placeholder="请输入用户的ID">
-        <button @click="searchUser()" class="button" type="button" name="button">查找用户</button>
+        <input v-model="searchKey" class="input search-input" type="text" placeholder="请输入关键字">
+        <!-- <button disabled @click="searchUser()" class="button" type="button" name="button">查找用户</button> -->
+        <div @click="searchUser()" class="search-button"><i class="fas fa-search"></i></div>
+
       </div>
-        <!-- <button class="button add-user-button" type="button" name="button">添加用户</button> -->
+      <button disabled v-show="isShowUpdateUser" @click="updateUser()" class="button" type="button" name="button">同步用户</button>
     </div>
     <table class="table">
       <thead>
@@ -17,7 +19,7 @@
           <th>创建时间</th>
           <th>更新时间</th>
           <th>操作</th>
-          <th>查看</th>
+          <!-- <th>查看</th> -->
         </tr>
       </thead>
       <tbody>
@@ -28,17 +30,21 @@
           <td>{{ toTime(item.created_at.date) }}</td>
           <td>{{ toTime(item.updated_at.date) }}</td>
           <td>
-            <button v-show="isShowDeleteUser" @click="deleteUser(index)" class="button is-small" type="button">删除用户</button>
-            <button @click="editUser(index)" class="button is-small" type="button">编辑用户</button>
+            <button v-show="isShowDeleteUser" @click="deleteUser(index)" class="delete" type="button">删除用户</button>
+            <button @click="editUser(index)" class="button is-small" type="button">更改用户名</button>
             <button @click="changePassword(index)" class="button is-small" type="button">更改密码</button>
           </td>
-          <td>
+          <!-- <td>
             <v-view></v-view>
-          </td>
+          </td> -->
         </tr>
       </tbody>
     </table>
 
+    <pagination v-show="searchResult.length === 0"
+                v-bind:pagination-data="paginationData"
+                v-model="data"
+    ></pagination>
 
     <edit-user ref="editUser"
                v-bind:edit-data="editData"
@@ -53,10 +59,11 @@
 </template>
 
 <script>
+import Pagination from './../Pagination.vue'
 import moment from 'moment'
 import editUser from './editUser'
 import ChangePassword from './ChangePassword'
-import VView from './View'
+// import VView from './View'
 
 export default {
   data() {
@@ -66,12 +73,21 @@ export default {
       isShowEditModal: false,
       currentUserData: null, // 当前选中的用户
       editData: null,
+      // pagination
+      paginationData: null,
+      data: null,
+      //
+      // get all user
+      currentUser: [],
+      allUser: [],
+      searchResult: [],
     }
   },
   components: {
     editUser,
     ChangePassword,
-    VView,
+    // VView,
+    Pagination,
   },
   methods: {
     toTime: function (time) {
@@ -111,30 +127,99 @@ export default {
         }
       }).then(res => {
         that.userData = res.data.data;
-
+        that.paginationData = res.data.links;
       }).catch(err => {
         console.log(err)
       })
     },
     // 查找用户
+    // searchUser: function () {
+    //   const that = this;
+    //   if (!that.searchKey) {
+    //     that.getUser();
+    //     return;
+    //   }
+    //   axios({
+    //     method: 'get',
+    //     url: `${this.GLOBAL.localDomain}/api/v1/users/${that.searchKey}`,
+    //     headers: {
+    //       'Accept': 'application/json',
+    //       'Authorization': sessionStorage.getItem('token'),
+    //     }
+    //   }).then(res => {
+    //     that.userData = [];
+    //     that.userData.push(res.data.data);
+    //   }).catch(err => {
+    //     console.log(err)
+    //   })
+    // },
     searchUser: function () {
       const that = this;
+      // 如果没有搜索值
       if (!that.searchKey) {
         that.getUser();
+        that.searchResult = [];
         return;
       }
+      // 如果已经获取全部数据
+      else if (that.allUser.length > 0) {
+        let allData  = that.allUser;
+        let len = that.allUser.length;
+        let res = [];
+
+        for (let i = 0; i < len; i++) {
+          for (let j in allData[i]) {
+            if (allData[i][j]) {
+              if ((allData[i][j].toString()).indexOf(that.searchKey) !== -1) {
+                res.push(allData[i]);
+                break;
+              }
+            }
+          }
+        }
+        that.searchResult = res;
+        that.userData = res;
+      }
+      // 如果有搜索值并且还未获取全部数据
+      else {
+        let url = `${this.GLOBAL.localDomain}/api/v1/users/`;
+        that.getAllUser(url);
+      }
+    },
+    getAllUser: function (url) {
+      const that = this;
+      let urlPath = url ? url : that.url
       axios({
         method: 'get',
-        url: `${this.GLOBAL.localDomain}/api/v1/users/${that.searchKey}`,
+        url: urlPath,
         headers: {
           'Accept': 'application/json',
           'Authorization': sessionStorage.getItem('token'),
         }
       }).then(res => {
-        that.userData = [];
-        that.userData.push(res.data.data);
+        that.url = res.data.links.next;
+        let len = res.data.data.length ? res.data.data.length : that.getJsonLength(res.data.data);
+
+        // data数据结构不一致 可能是数组/也可能是json
+        if (res.data.data.length) {
+          for (let i = 0; i < len; i++) {
+            that.currentUser.push(res.data.data[i]);
+          }
+        }
+        else if (that.getJsonLength(res.data.data)) {
+          for (let i in res.data.data) {
+            that.currentUser.push(res.data.data[i]);
+          }
+        }
+
+        if (that.url) {
+          that.getAllUser(that.url);
+        }
+        else {
+          that.allUser = that.currentUser;
+        }
       }).catch(err => {
-        console.log(err)
+        console.log(err);
       })
     },
     editUser: function (index) {
@@ -147,7 +232,7 @@ export default {
       that.editData = that.userData[index];
       that.$refs.changePassword.switchModal();
     },
-    checkPermissions: function () {
+    checkUsers: function () {
       const that = this;
       axios({
         method: 'get',
@@ -171,18 +256,29 @@ export default {
   },
   computed: {
     isShowUpdateUser() {
-      return sessionStorage.getItem('permissions').includes(11)
+      // return true;
+      return sessionStorage.getItem('permissions').includes('user-update')
     },
     isShowDeleteUser() {
-      return sessionStorage.getItem('permissions').includes(12)
+      // return true;
+      return sessionStorage.getItem('permissions').includes('user-destroy')
     },
   },
   created() {
 
     this.getUser();
-    // this.checkPermissions();
+    // this.checkUsers();
   },
   watch: {
+    data:function (value, oldValue) {
+      const that = this;
+      that.userData = value.data;
+      that.paginationData = value.links;
+    },
+    allUser: function (value, oldValue) {
+      const that = this;
+      that.searchUser(that.searchKey);
+    }
   }
 }
 </script>

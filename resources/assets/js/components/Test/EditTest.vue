@@ -8,16 +8,16 @@
       </header>
       <section class="modal-card-body">
         <div class="box-item">
-          <label>考试题目</label>
-          <input v-model="testData.title" class="input" type="text" placeholder="请输入英文名">
-        </div>
-        <div class="box-item">
-          <label>数目</label>
-          <input v-model="testData.number" class="input" type="text" placeholder="请输入中文名">
+          <label>考试标题</label>
+          <input v-model="testData.title" class="input" type="text" >
         </div>
         <div class="box-item">
           <label>类型</label>
-          <input v-model="testData.exam_type" class="input" type="text" placeholder="请输入考试名">
+          <div class="select">
+            <select v-model="testData.exam_type">
+              <option value="OPEN">开卷</option>
+            </select>
+          </div>
         </div>
         <div class="box-item">
           <label>描述</label>
@@ -28,7 +28,7 @@
           <input v-model="testData.score" class="input" type="text">
         </div>
         <div class="box-item">
-          <label>最小值</label>
+          <label>考试时长(分钟制)</label>
           <input v-model="testData.min" class="input" type="text">
         </div>
         <div class="box-item">
@@ -36,8 +36,7 @@
           <input v-model="testData.begin_at" class="input" type="date">
         </div>
         <div class="box-item">
-          <label>相关的试卷ID</label>
-          <!-- <input v-model="testData.paper_id" class="input" type="text"> -->
+          <label>相关的试卷</label>
           <div>
             <table class="table">
               <thead>
@@ -76,7 +75,6 @@ export default {
       isShowModal: false,
       testData: {
         title: '',
-        number: '',
         exam_type: '',
         describe: '',
         score: '',
@@ -101,7 +99,6 @@ export default {
     clearWords: function () {
       const that = this;
       that.testData.title =  '';
-      that.testData.number =  '';
       that.testData.exam_type =  '';
       that.testData.describe =  '';
       that.testData.score =  '';
@@ -111,7 +108,7 @@ export default {
     },
     editTest: function (index) {
       const that = this;
-      let id = that.editData[id];
+      let id = that.editData.id;
       axios({
         method: 'put',
         url: `${this.GLOBAL.localDomain}/api/v1/exams/${id}`,
@@ -121,7 +118,6 @@ export default {
         },
         params: {
           title: that.testData.title,
-          number: that.testData.number,
           exam_type: that.testData.exam_type,
           describe: that.testData.describe,
           score: that.testData.score,
@@ -137,7 +133,7 @@ export default {
       }).catch(err => {
         alert('编辑失败');
         console.log(err);
-        that.clearWords();
+        // that.clearWords();
       })
     },
     getExaminationPaper: function () {
@@ -165,12 +161,11 @@ export default {
       that.getExaminationPaper();
 
       that.testData.title = value.title;
-      that.testData.number = value.number;
       that.testData.exam_type = value.exam_type;
       that.testData.describe = value.describe;
       that.testData.score = value.score;
       that.testData.min = value.min;
-      that.testData.begin_at = value.begin_at;
+      that.testData.begin_at = this.GLOBAL.toTime(value.begin_at);
       that.testData.paper_id = value.paper_id;
     }
   }

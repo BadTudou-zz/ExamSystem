@@ -75,12 +75,48 @@ import moment from 'moment'
       }
       else {
         let sum = sumDataList;
-        // debugger
         return sum;
       }
     }).catch(err => {
       console.log(err);
     })
+  };
+
+
+  // search拼接函数
+  const computedParams = function (selectedQuesiton, param) {
+    let arr = selectedQuesiton;
+    let string = '';
+    for (let i = 0; i < arr.length; i++) {
+      if (i != 0) {
+        string += '&' + param + '[' + i + ']' + '=' + arr[i];
+      }
+      else {
+        string += param + '[' + i + ']' + '=' + arr[i];
+      }
+    }
+    return string;
+  };
+
+  // 通过ID计算用户名
+  const computedUserName = function (id) {
+    const that = this;
+    let userId = id;
+    let userName = '';
+    axios({
+      method: 'get',
+      url: `${localDomain}/api/v1/users/${userId}`,
+      headers: {
+        'Accept': 'application/json',
+        'Authorization': sessionStorage.getItem('token'),
+      }
+    }).then(res => {
+      userName = res.data.data.name;
+      return userName;
+    }).catch(err => {
+      console.log(err)
+    })
+    return userName;
   };
 
   export default
@@ -94,6 +130,8 @@ import moment from 'moment'
     toTime,
     getData,
     getNextData,
+    computedParams,
+    computedUserName,
   }
 </script>
 

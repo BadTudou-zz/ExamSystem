@@ -1,41 +1,52 @@
 <!-- 查看考试 -->
 <template lang="html">
-  <div class="box">
-    <h3 class="title">考试</h3>
-    <table class="table">
-      <thead>
-        <tr>
-          <th>from</th>
-          <th>to</th>
-          <th>action</th>
-          <th>resource_id</th>
-          <th>resource_type</th>
-          <th>data</th>
-          <th>更新时间</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="(item,index) in testData">
-          <td>{{ item.from }}</td>
-          <td>{{ item.to }}</td>
-          <td>{{ item.action }}</td>
-          <td>{{ item.resource_id }}</td>
-          <td>{{ item.resource_type }}</td>
-          <td>{{ item.data }}</td>
-          <td>{{ item.updated_at.date }}</td>
-        </tr>
-      </tbody>
-    </table>
+  <div>
+    <div  v-show="!isTesting">
+      <h3 class="title">考试</h3>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>序号</th>
+            <th>考试标题</th>
+            <th>总分</th>
+            <th>操作</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="(item,index) in testData">
+            <td>{{ item.id }}</td>
+            <td>{{ item.title }}</td>
+            <td>{{ item.score }}</td>
+            <td>
+              <button @click="startTest(index)" class="is-small button" type="button" name="button">开始考试</button>
+              <button @click="showScore(index)" class="is-small button" type="button" name="button">查看成绩</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
 
-    <pagination v-bind:pagination-data="paginationData"
-                v-model="data"
-    ></pagination>
+      <pagination v-bind:pagination-data="paginationData"
+                  v-model="data"
+      ></pagination>
+
+    </div>
+
+    <testing ref="testing"
+             v-show="isTesting"
+             v-bind:paper-id="paperId"
+             v-bind:exam-id="examId"
+    ></testing>
+
+    <score ref="score"
+           v-bind:exam-id="examId"
+    ></score>
   </div>
 </template>
 
 <script>
+import Testing from './Testing'
 import Pagination from './../Pagination.vue'
-
+import Score from './Score'
 export default {
   data() {
     return {
@@ -44,12 +55,19 @@ export default {
       testData: null,
       editData: null,
       searchKey: null,
+      //
       paginationData: null,
       data: null,
+      //
+      isTesting: false,  // 是否已经开始考试
+      paperId: null,  // 试卷ID
+      examId: null, // 考试ID testID
     }
   },
   components: {
     Pagination,
+    Testing,
+    Score,
   },
   methods: {
     showModal: function () {
@@ -60,18 +78,54 @@ export default {
       const that = this;
       axios({
         method: 'get',
-        url: `${this.GLOBAL.localDomain}/api/v1/applications/`,
+        url: `${this.GLOBAL.localDomain}/api/v1/exams/`,
         headers: {
           'Accept': 'application/json',
           'Authorization': sessionStorage.getItem('token'),
         }
       }).then(res => {
-        // that.testData = [];
-        // that.testData.push(res.data.data);
-
-        that.testData = res.data.data;
-        that.paginationData = res.data.links;
+        if (res.data.data.length !== 0) {
+          that.testData = res.data.data;
+        }
+        else {
+          that.testData = [];
+        }
       }).catch(err => {
+        console.log(err)
+      })
+    },
+    showScore: function (index) {
+      const that = this;
+      that.examId = that.testData[index].id;
+      that.$refs.score.switchModal();
+    },
+    startTest: function (index) {
+      const that = this;
+      that.$refs.testing.clearQuestionIds();
+      let id = that.testData[index].id;
+      that.paperId = that.testData[index].paper_id;
+      that.examId = id;
+
+      that.isTesting = true;
+
+      axios({
+        method: 'post',
+        url: `${this.GLOBAL.localDomain}/api/v1/exams/${id}/begin`,
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': sessionStorage.getItem('token'),
+        }
+      }).then(res => {
+        alert('已开考');
+        that.isTesting = true;
+      }).catch(err => {
+        let errMsg = err.response.data.error;
+        if (errMsg) {
+          alert(errMsg);
+        }
+        else {
+          alert('开始失败，请稍后再试');
+        }
         console.log(err)
       })
     },

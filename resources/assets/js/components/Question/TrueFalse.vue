@@ -3,8 +3,8 @@
   <div class="box">
     <div>
       <div class="search-box">
-        <input v-model="searchKey" class="input search-input" type="text" placeholder="请输入你要查看的问题的id">
-        <button @click="searchQuestion()" class="button" type="button" name="button">查找问题</button>
+        <input disabled v-model="searchKey" class="input search-input" type="text" placeholder="请输入关键字">
+        <button disabled @click="searchQuestion()" class="button" type="button" name="button">查找问题</button>
       </div>
         <button @click="addQuestion()" class="button add-role-button" type="button" name="button">添加问题</button>
     </div>
@@ -13,7 +13,7 @@
       <div class="notification">
         <div class="operate-box">
           <button @click="deleteQuestion(index)" class="delete"></button>
-          <button @click="editQuestion(index)" class="button edit-question" type="button" name="button">编辑问题</button>
+          <div @click="editQuestion(index)" class="edit-button"><i class="fas fa-edit"></i></div>
         </div>
         <p class="question">        问题id：{{ item.id }}
           &nbsp;&nbsp;&nbsp;&nbsp; 问题题目：{{ item.title }}
@@ -142,18 +142,6 @@ export default {
     }
   },
   computed: {
-    isShowCreateQuestion() {
-      return sessionStorage.getItem('permissions').includes(34);
-    },
-    isShowSearchQuestion() {
-      return sessionStorage.getItem('permissions').includes(35);
-    },
-    isShowUpdateQuestion() {
-      return sessionStorage.getItem('permissions').includes(36);
-    },
-    isShowDeleteQuestion() {
-      return sessionStorage.getItem('permissions').includes(37);
-    },
   },
   created() {
 

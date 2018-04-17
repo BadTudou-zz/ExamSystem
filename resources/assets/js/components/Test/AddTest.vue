@@ -8,13 +8,8 @@
       </header>
       <section class="modal-card-body">
         <div class="box-item">
-          <label>考试题目</label>
+          <label>考试标题</label>
           <input v-model="testData.title" class="input" type="text">
-        </div>
-        <div class="box-item">
-          <label>数目</label>
-          <!-- ?? -->
-          <input v-model="testData.number" class="input" type="text">
         </div>
         <div class="box-item">
           <label>类型</label>
@@ -33,7 +28,7 @@
           <input v-model="testData.score" class="input" type="text">
         </div>
         <div class="box-item">
-          <label>min</label>
+          <label>考试时长(分钟制)</label>
           <input v-model="testData.min" class="input" type="text">
         </div>
         <div class="box-item">
@@ -81,7 +76,6 @@ export default {
       isShowModal: false,
       testData: {
         title: '',
-        number: '',
         exam_type: 'OPEN',
         describe: '',
         score: '',
@@ -103,7 +97,6 @@ export default {
     clearWords: function () {
       const that = this;
       that.testData.title =  '';
-      that.testData.number =  '';
       that.testData.exam_type =  '';
       that.testData.describe =  '';
       that.testData.score =  '';
@@ -122,7 +115,6 @@ export default {
         },
         params: {
           title: that.testData.title,
-          number: that.testData.number,
           exam_type: that.testData.exam_type,
           describe: that.testData.describe,
           score: that.testData.score,
@@ -132,6 +124,7 @@ export default {
         }
       }).then(res => {
         alert('添加成功');
+        that.clearWords();
         that.$emit('getTest');   //第一个参数名为调用的方法名，第二个参数为需要传递的参数
         that.switchModal();
       }).catch(err => {
@@ -143,7 +136,6 @@ export default {
           alert('添加失败');
         }
         console.log(err);
-        that.clearWords();
       })
     },
     getExaminationPaper: function () {
@@ -164,7 +156,14 @@ export default {
     },
   },
   created() {
-    this.getExaminationPaper();
+  },
+  watch: {
+    isShowModal: function (value, oldVale) {
+      const that = this;
+      if (value) {
+        this.getExaminationPaper();
+      }
+    },
   }
 }
 </script>

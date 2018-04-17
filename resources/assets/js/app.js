@@ -10,6 +10,7 @@ import global_ from './components/Global'//引用文件
 import VueRouter from 'vue-router';
 import routes from './routes';    // 路由配置文件
 import Vuex from 'vuex';
+import global_css from '../../assets/sass/global.css';
 
 require('./bootstrap');
 window.Vue = require('vue');

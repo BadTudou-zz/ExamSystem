@@ -3,11 +3,13 @@
     <div class="modal-background"></div>
     <div class="modal-card">
       <header class="modal-card-head">
-        <p class="modal-card-title">同步成员</p>
+        <p class="modal-card-title">添加考试用户</p>
         <button @click="switchModal()" class="delete" aria-label="close"></button>
       </header>
       <section class="modal-card-body">
         <div class="box-item">
+          请选择需要发送的用户：
+
           <div class="all-user">
             <table class="table">
               <thead>
@@ -31,14 +33,14 @@
                         v-model="data"
             ></pagination>
           </div>
+
         </div>
       </section>
       <footer class="modal-card-foot">
-        <button @click="addUser()" class="button is-success">确认</button>
+        <button @click="addTestUsers()" class="button is-success">确认</button>
         <button  @click="switchModal()" class="button">取消</button>
       </footer>
     </div>
-
   </div>
 </template>
 
@@ -49,20 +51,21 @@ export default {
   data() {
     return {
       isShowModal: false,
-      userData: null,
+      testUserData: {},
       selectedUser: [],
+      userData: null,
       // 翻页
       paginationData: null,
       data: null,
       //
     }
   },
-  props: [
-    'roleId',
-  ],
   components: {
     Pagination,
   },
+  props: [
+    'examId'
+  ],
   methods: {
     switchModal: function () {
       const that = this;
@@ -72,25 +75,24 @@ export default {
       const that = this;
       that.selectedUser = [];
     },
-    addUser: function () {
+    addTestUsers: function () {
       const that = this;
-      let id = that.roleId;
       let params = this.GLOBAL.computedParams(that.selectedUser, 'users');
       axios({
         method: 'post',
-        url: `${this.GLOBAL.localDomain}/api/v1/roles/${id}/users?${params}`,
+        url: `${this.GLOBAL.localDomain}/api/v1/exams/${that.examId}/users?${params}`,
         headers: {
           'Accept': 'application/json',
           'Authorization': sessionStorage.getItem('token'),
         },
       }).then(res => {
-        alert('添加成功');
         that.$emit('getUser');   //第一个参数名为调用的方法名，第二个参数为需要传递的参数
+        that.clearWords();
         that.switchModal();
+        alert('添加成功');
       }).catch(err => {
         alert('添加失败');
-        console.log(err);
-        that.clearWords();
+        console.log(err)
       })
     },
     // 全部用户
@@ -107,24 +109,28 @@ export default {
         that.userData = res.data.data;
         that.paginationData = res.data.links;
       }).catch(err => {
-        console.log(err)
+        console.log(err);
       })
     },
   },
   created() {
-    // this.userData = [];
+    // this.clearWords();
     // this.getUser();
   },
   watch: {
     data:function (value, oldValue) {
       const that = this;
-      that.permissionData = value.data;
+      that.userData = value.data;
       that.paginationData = value.links;
+    },
+    selectedUser: function (value, oldValue) {
+      const that = this;
+      console.log(value)
     },
     isShowModal: function (value, oldVale) {
       const that = this;
       if (value) {
-        this.userData = [];
+        this.clearWords();
         this.getUser();
       }
     },
@@ -133,7 +139,7 @@ export default {
 </script>
 
 <style scoped>
-.box-item input {
+.user-seleted {
   width: 20px;
 }
 </style>

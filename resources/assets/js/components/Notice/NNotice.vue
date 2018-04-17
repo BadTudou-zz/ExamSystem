@@ -3,16 +3,18 @@
   <div class="box">
     <div>
       <div v-show="isShowSearchNotification" class="search-box">
-        <input v-model="searchKey" class="input search-input" type="text" placeholder="请输入你要查看的通知">
-        <button @click="searchNotice()" class="button" type="button" name="button">查找通知</button>
+        <input v-model="searchKey" class="input search-input" type="text" placeholder="请输入关键字">
+        <!-- <button disabled @click="searchNotice()" class="button" type="button" name="button">查找通知</button> -->
+        <div @click="searchNotice()" class="search-button"><i class="fas fa-search"></i></div>
       </div>
         <button v-show="isShowCreateNotification" @click="addNotice()" class="button add-role-button" type="button" name="button">添加通知</button>
+        <button disabled v-show="isShowUpdateNotification" @click="updateNotice()" class="button" type="button" name="button">同步通知</button>
     </div>
     <div  v-for="(item,index) in noticeData" class="notice box">
       <div class="notification">
         <button v-show="isShowDeleteNotification" @click="deleteNotice(index)" class="delete"></button>
         {{ item.data}}
-        <p>{{ GLOBAL.toTime(item.created_at) }}</p>
+        <p>{{ GLOBAL.toTime(item.created_at.date) }}</p>
       </div>
     </div>
 
@@ -20,8 +22,9 @@
                  v-on:getNotice="getNotice"
     ></add-notice>
 
-    <pagination v-bind:pagination-data="paginationData"
-            v-model="data"
+    <pagination v-show="searchResult.length === 0"
+                v-bind:pagination-data="paginationData"
+                v-model="data"
     ></pagination>
   </div>
 </template>
@@ -37,6 +40,10 @@ export default {
       paginationData: null,
       data: null,
       searchKey: null,
+      // get all notice
+      currentNotice: [],
+      allNotice: [],
+      searchResult: [],
     }
   },
   components: {
@@ -89,40 +96,114 @@ export default {
         })
       }
     },
+    // searchNotice: function () {
+    //   const that = this;
+    //   that.noticeData = [];
+    //   if (!that.searchKey) {
+    //     that.searchKey = '';
+    //     that.getNotice();
+    //     return;
+    //   }
+    //   axios({
+    //     method: 'get',
+    //     url: `${this.GLOBAL.localDomain}/api/v1/notifications/${that.searchKey}`,
+    //     headers: {
+    //       'Accept': 'application/json',
+    //       'Authorization': sessionStorage.getItem('token'),
+    //     }
+    //   }).then(res => {
+    //     that.noticeData.push(res.data);
+    //   }).catch(err => {
+    //     console.log(err)
+    //   })
+    // },
     searchNotice: function () {
       const that = this;
+      // 如果没有搜索值
       if (!that.searchKey) {
-        that.searchKey = '';
         that.getNotice();
+        that.searchResult = [];
         return;
       }
+      // 如果已经获取全部数据
+      else if (that.allNotice.length > 0) {
+        let allData  = that.allNotice;
+        let len = that.allNotice.length;
+        let res = [];
+
+        for (let i = 0; i < len; i++) {
+          for (let j in allData[i]) {
+            if (allData[i][j]) {
+              if ((allData[i][j].toString()).indexOf(that.searchKey) !== -1) {
+                res.push(allData[i]);
+                break;
+              }
+            }
+          }
+        }
+        that.searchResult = res;
+        that.noticeData = res;
+      }
+      // 如果有搜索值并且还未获取全部数据
+      else {
+        let url = `${this.GLOBAL.localDomain}/api/v1/notices/`;
+        that.getAllNotice(url);
+      }
+    },
+    getAllNotice: function (url) {
+      const that = this;
+      let urlPath = url ? url : that.url
       axios({
         method: 'get',
-        url: `${this.GLOBAL.localDomain}/api/v1/organizations/${that.searchKey}`,
+        url: urlPath,
         headers: {
           'Accept': 'application/json',
           'Authorization': sessionStorage.getItem('token'),
         }
       }).then(res => {
-        that.noticeData = [];
-        that.noticeData.push(res.data.data);
+        that.url = res.data.links.next;
+
+        let len = res.data.data.length ? res.data.data.length : that.getJsonLength(res.data.data);
+
+        // data数据结构不一致 可能是数组/也可能是json
+        if (res.data.data.length) {
+          for (let i = 0; i < len; i++) {
+            that.currentNotice.push(res.data.data[i]);
+          }
+        }
+        else if (that.getJsonLength(res.data.data)) {
+          for (let i in res.data.data) {
+            that.currentNotice.push(res.data.data[i]);
+          }
+        }
+
+        if (that.url) {
+          that.getAllNotice(that.url);
+        }
+        else {
+          that.allNotice = that.currentNotice;
+        }
       }).catch(err => {
-        console.log(err)
+        console.log(err);
       })
-    }
+    },
   },
   computed: {
     isShowCreateNotification() {
-      return sessionStorage.getItem('permissions').includes(18)
+      // return true;
+      return sessionStorage.getItem('permissions').includes('notification-store')
     },
     isShowSearchNotification() {
-      return sessionStorage.getItem('permissions').includes(19)
+      // return true;
+      return sessionStorage.getItem('permissions').includes('notification-show')
     },
     isShowUpdateNotification() {
-      return sessionStorage.getItem('permissions').includes(20)
+      // return true;
+      return sessionStorage.getItem('permissions').includes('notification-update')
     },
     isShowDeleteNotification() {
-      return sessionStorage.getItem('permissions').includes(21)
+      // return true;
+      return sessionStorage.getItem('permissions').includes('notification-destroy')
     },
   },
   created() {
@@ -132,8 +213,12 @@ export default {
   watch: {
     data:function (value, oldValue) {
       const that = this;
-      that.permissionData = value.data;
+      that.noticeData = value.data;
       that.paginationData = value.links;
+    },
+    allNotice: function (value, oldValue) {
+      const that = this;
+      that.searchNotice(that.searchKey);
     }
   }
 }

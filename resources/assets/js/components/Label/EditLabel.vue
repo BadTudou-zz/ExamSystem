@@ -9,7 +9,7 @@
       <section class="modal-card-body">
         <div class="box-item">
           <label>标签标题</label>
-          <input class="input" type="text" >
+          <input v-model="labelData.title" class="input" type="text" >
         </div>
       </section>
       <footer class="modal-card-foot">
@@ -28,7 +28,6 @@ export default {
       labelData: {
         title: '',
       },
-      labelData: null,
     }
   },
   components: {
@@ -45,12 +44,12 @@ export default {
       const that = this;
       that.labelData.title = '';
     },
-    editLabel: function (index) {
+    editLabel: function () {
       const that = this;
-      let id = that.editData[id];
+      let id = that.editData.id;
       axios({
         method: 'put',
-        url: `${this.GLOBAL.localDomain}/api/v1/labels${id}`,
+        url: `${this.GLOBAL.localDomain}/api/v1/tags/${id}`,
         headers: {
           'Accept': 'application/json',
           'Authorization': sessionStorage.getItem('token'),

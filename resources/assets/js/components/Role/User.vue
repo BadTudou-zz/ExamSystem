@@ -7,24 +7,23 @@
         <div>
           <button @click="addUser()" class="button add-user-button" type="button" name="button">添加用户</button>
           <button @click="synchronizeUser()" class="button add-user-button" type="button" name="button">同步用户</button>
+          <button @click="deleteUser()" class="button" type="button" name="button">删除用户</button>
         </div>
         <table class="table">
           <thead>
             <tr>
+              <th>是否选中</th>
               <th>ID</th>
               <th>用户名</th>
               <th>邮箱</th>
-              <!-- <th>创建时间</th> -->
-              <th>操作</th>
             </tr>
           </thead>
           <tbody>
             <tr v-for="(item,index) in userData">
+              <td><input type="checkbox" v-bind:value="item.id" v-model="selectedUser" class="user-seleted"></td>
               <td>{{ item.id }}</td>
               <td>{{ item.name }}</td>
               <td>{{ item.email }}</td>
-              <!-- <td>{{ item.created_at.date }}</td> -->
-              <td><button @click="deleteUser(index)" class="button" type="button" name="button">删除用户</button></td>
             </tr>
           </tbody>
         </table>
@@ -63,20 +62,14 @@ export default {
         id: '',
         name: '',
         email: '',
-//         created_at: {
-//           date: '',
-//           timezone_type: ''
-//           timezone: ''
-//         },
-        // updated_at: {
-        //   date: '',
-        //   timezone_type: '',
-        //   timezone: ''
-        // }
       },
+      // 翻页
       paginationData: null,
       data: null,
+      //
       roleId: null,
+      selectedUser: [],
+
     }
   },
   components: {
@@ -92,6 +85,7 @@ export default {
       const that = this;
       that.isShowModal = !that.isShowModal;
     },
+    // 查看角色下的用户
     getUser: function () {
       const that = this;
       let id = that.roleId;
@@ -109,14 +103,15 @@ export default {
         console.log(err)
       })
     },
-    deleteUser: function (index) {
+    deleteUser: function () {
       const that = this;
       let id = that.roleId;
+      let params = that.GLOBAL.computedParams(that.selectedUser, 'users');
       let prompt = confirm("确认删除该用户吗？");
       if (prompt) {
         axios({
           method: 'delete',
-          url: `${this.GLOBAL.localDomain}/api/v1/roles/${id}/users`,
+          url: `${this.GLOBAL.localDomain}/api/v1/roles/${id}/users?${params}`,
           headers: {
             'Accept': 'application/json',
             'Authorization': sessionStorage.getItem('token'),
@@ -140,7 +135,7 @@ export default {
     },
   },
   created() {
-
+    this.userData = [];
   },
   watch: {
     data:function (value, oldValue) {
@@ -157,7 +152,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 table {
   margin: 35px auto 0 auto;
 }

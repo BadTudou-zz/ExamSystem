@@ -183,7 +183,7 @@ export default {
           'Accept': 'application/json',
           'Authorization': sessionStorage.getItem('token'),
         },
-        data: {
+        params: {
           'answers': answers
         }
       }).then(res => {
@@ -203,7 +203,6 @@ export default {
     stopTest: function () {
       const that = this;
       let id = that.examId;
-      console.log(that.computedAnswerJson());
       // 提交答案
       that.submitAnswer();
 
@@ -227,28 +226,6 @@ export default {
         console.log(err)
       })
     },
-    // asyncGetQuestionIds: async function (value) {
-    //   const that = this;
-    //   let len = value.length;
-    //   // console.log('执行asyncGetQuestionIds')
-    //
-    //   for (let i = 0; i < len; i++) {
-    //     let chapterId = value[i];
-    //     // 获取所有问题的ID
-    //     await that.getQuestionIds(chapterId, len, i);
-    //   }
-    // },
-    // // 获取所有的问题的数据
-    // asyncGetQuestionData: async function (value) {
-    //   const that = this;
-    //   let len = value.length
-    //   // console.log('执行asyncGetQuestionData')
-    //
-    //   for (let i = 0; i < len; i++) {
-    //     let questionId = value[i];
-    //     await that.getQuestionData(questionId, len, i);
-    //   }
-    // },
     // 去重
     uniqData: function(value) {
       const that = this;
@@ -279,18 +256,16 @@ export default {
     // ?? 多选的答案格式
     computedAnswerJson: function () {
       const that = this;
-      let answer = {};
       if (that.answer.length !== that.questionData.length) {
         alert('请检查是否全部作答');
         return;
       }
 
+      let json = {};
       for (let i = 0; i < that.questionData.length; i++) {
-        let id = `"${that.questionData[i]['id']}"`;
-        let ans = that.answer[i];
-        answer[id] = ans;
+        json[that.questionData[i].id] = that.answer[i];
       }
-      return answer;
+      return json;
     },
     waitTime: function () {
       const that = this;
@@ -329,13 +304,15 @@ export default {
     },
     chapterIds: async function (value, oldValue) {
       const that = this;
+      console.log('获取章节ID')
+      console.log(value)
       for (let i = 0; i < value.length; i++) {
         let response = await that.getQuestionIds(value[i])
       }
       that.waitTime();
       // 10s等待
       setTimeout(function(){
-        console.log('加载id中....')
+        console.log('加载问题id中....')
         console.log(that.temporaryQuestionIds);
         that.questionIds = that.temporaryQuestionIds;
 
@@ -354,7 +331,6 @@ export default {
       // 10s等待
       setTimeout(function(){
         console.log('加载题目中....')
-        // console.log(that.temporaryQuestionIds);
         that.temporaryQuestionData = that.temporaryQuestionData.sort(that.sortArray());
         that.questionData = that.temporaryQuestionData;
         console.log(that.questionData);

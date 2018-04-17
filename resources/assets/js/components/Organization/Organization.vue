@@ -3,8 +3,9 @@
   <div class="box">
     <div>
       <div v-show="isShowSearchOrganization" class="search-box">
-        <input v-model="searchKey" class="input search-input" type="text" placeholder="请输入你要查看的组织">
-        <button @click="searchOrganization()" class="button" type="button" name="button">查找组织</button>
+        <input v-model="searchKey" class="input search-input" type="text" placeholder="请输入关键字">
+        <!-- <button disabled @click="searchOrganization()" class="button" type="button" name="button">查找组织</button> -->
+        <div @click="searchOrganization()" class="search-button"><i class="fas fa-search"></i></div>
       </div>
       <button v-show="isShowCreateOrganization" @click="addOrganization()" class="button add-role-button" type="button" name="button">添加组织</button>
       <button class="button add-role-button" type="button" name="button">同步组织</button>
@@ -16,8 +17,8 @@
           <th>组织名</th>
           <th>创建者ID</th>
           <th>描述</th>
-          <th>最大容量</th>
-          <th>当前容量</th>
+          <th>最大容纳人数</th>
+          <th>当前人数</th>
           <th>创建时间</th>
           <th>更新时间</th>
           <th>组织操作</th>
@@ -29,17 +30,17 @@
           <td>{{ item.id }}</td>
           <td>{{ item.name }}</td>
           <td>{{ item.creator_id }}</td>
-          <td>{{ item.description }}</td>
+          <td>{{ item.describe }}</td>
           <td>{{ item.max }}</td>
           <td>{{ item.current }}</td>
           <td>{{ GLOBAL.toTime(item.created_at) }}</td>
           <td>{{ GLOBAL.toTime(item.updated_at) }}</td>
           <td>
-            <button  v-show="isShowDeleteOrganization" @click="deleteOrganization(index)" class="button" type="button" name="button">删除组织</button>
-            <button @click="editOrganization(index)"  class="button" type="button" name="button">编辑组织</button>
+            <button  v-show="isShowDeleteOrganization" @click="deleteOrganization(index)" class="delete" type="button" name="button">删除组织</button>
+            <div @click="editOrganization(index)" class="edit-button"><i class="fas fa-edit"></i></div>
           </td>
           <td>
-            <button @click="showMember(index)"  class="button" type="button" name="button">查看成员</button>
+            <button @click="showMember(index)"  class="is-small button" type="button" name="button">查看成员</button>
           </td>
         </tr>
       </tbody>
@@ -58,7 +59,8 @@
             v-bind:current-organization-data="currentOrganizationData"
     ></member>
 
-    <pagination v-bind:pagination-data="paginationData"
+    <pagination v-show="searchResult.length === 0"
+                v-bind:pagination-data="paginationData"
                 v-model="data"
     ></pagination>
 
@@ -69,18 +71,22 @@
 import AddOrganization from './AddOrganization'
 import EditOrganization from './EditOrganization'
 import Pagination from './../Pagination'
-import Member from './../Member/Member'
+import Member from './Member'
 
 export default {
   data() {
     return {
-      organizationData: null,
+      organizationData: [],
       isShowModal: false,
       searchKey: null,
       editData: null,  // 当前编辑的组织数据
       paginationData: null,
       data: null,
       currentOrganizationData: null,
+      // get all organization
+      currentOrganization: [],
+      allOrganization: [],
+      searchResult: [],
     }
   },
   components: {
@@ -115,25 +121,96 @@ export default {
         console.log(err)
       })
     },
+    // searchOrganization: function () {
+    //   const that = this;
+    //   that.organizationData = [];
+    //   if (!that.searchKey) {
+    //     that.searchKey = '';
+    //     that.getOrganization();
+    //     return;
+    //   }
+    //   axios({
+    //     method: 'get',
+    //     url: `${this.GLOBAL.localDomain}/api/v1/organizations/${that.searchKey}`,
+    //     headers: {
+    //       'Accept': 'application/json',
+    //       'Authorization': sessionStorage.getItem('token'),
+    //     }
+    //   }).then(res => {
+    //     that.organizationData.push(res.data.data);
+    //   }).catch(err => {
+    //     console.log(err)
+    //   })
+    // },
+
     searchOrganization: function () {
       const that = this;
+      // 如果没有搜索值
       if (!that.searchKey) {
-        that.searchKey = '';
         that.getOrganization();
+        that.searchResult = [];
         return;
       }
+      // 如果已经获取全部数据
+      else if (that.allOrganization.length > 0) {
+        let allData  = that.allOrganization;
+        let len = that.allOrganization.length;
+        let res = [];
+
+        for (let i = 0; i < len; i++) {
+          for (let j in allData[i]) {
+            if (allData[i][j]) {
+              if ((allData[i][j].toString()).indexOf(that.searchKey) !== -1) {
+                res.push(allData[i]);
+                break;
+              }
+            }
+          }
+        }
+        that.searchResult = res;
+        that.organizationData = res;
+      }
+      // 如果有搜索值并且还未获取全部数据
+      else {
+        let url = `${this.GLOBAL.localDomain}/api/v1/organizations/`;
+        that.getAllOrganization(url);
+      }
+    },
+    getAllOrganization: function (url) {
+      const that = this;
+      let urlPath = url ? url : that.url
       axios({
         method: 'get',
-        url: `${this.GLOBAL.localDomain}/api/v1/organizations/${that.searchKey}`,
+        url: urlPath,
         headers: {
           'Accept': 'application/json',
           'Authorization': sessionStorage.getItem('token'),
         }
       }).then(res => {
-        that.organizationData = [];
-        that.organizationData.push(res.data.data);
+        that.url = res.data.links.next;
+
+        let len = res.data.data.length ? res.data.data.length : that.getJsonLength(res.data.data);
+
+        // data数据结构不一致 可能是数组/也可能是json
+        if (res.data.data.length) {
+          for (let i = 0; i < len; i++) {
+            that.currentOrganization.push(res.data.data[i]);
+          }
+        }
+        else if (that.getJsonLength(res.data.data)) {
+          for (let i in res.data.data) {
+            that.currentOrganization.push(res.data.data[i]);
+          }
+        }
+
+        if (that.url) {
+          that.getAllOrganization(that.url);
+        }
+        else {
+          that.allOrganization = that.currentOrganization;
+        }
       }).catch(err => {
-        console.log(err)
+        console.log(err);
       })
     },
     deleteOrganization: function (index) {
@@ -170,17 +247,19 @@ export default {
   },
   computed: {
     isShowCreateOrganization() {
-      return sessionStorage.getItem('permissions').includes(27)
+      // return true;
+      return sessionStorage.getItem('permissions').includes('organization-store')
     },
     isShowSearchOrganization() {
-      return sessionStorage.getItem('permissions').includes(28)
+      // return true;
+      return sessionStorage.getItem('permissions').includes('organization-show')
     },
     isShowDeleteOrganization() {
-      return sessionStorage.getItem('permissions').includes(29)
+      // return true;
+      return sessionStorage.getItem('permissions').includes('organization-destroy')
     },
   },
   created() {
-
     this.getOrganization();
   },
   watch: {
@@ -188,12 +267,16 @@ export default {
       const that = this;
       that.organizationData = value.data;
       that.paginationData = value.links;
+    },
+    allOrganization: function (value, oldValue) {
+      const that = this;
+      that.searchOrganization(that.searchKey);
     }
   }
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 table {
   margin: 35px auto 0 auto;
 }

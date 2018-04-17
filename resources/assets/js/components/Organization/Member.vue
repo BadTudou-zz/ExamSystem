@@ -6,41 +6,36 @@
       <div class="box member-box">
         <div>
           <div class="search-box">
-            <input v-model="searchKey" class="input search-input" type="text" placeholder="请输入你要查看的成员">
-            <button @click="searchMember()" class="button" type="button" name="button">查找成员</button>
+            <input disabled v-model="searchKey" class="input search-input" type="text" placeholder="请输入关键字">
+            <button disabled @click="searchMember()" class="button" type="button" name="button">查找成员</button>
           </div>
             <button @click="addMember()" class="button add-role-button" type="button" name="button">添加成员</button>
             <button @click="synchronizeMember()" class="button add-role-button" type="button" name="button">同步成员</button>
+            <button @click="deleteMember()" class="button" type="button" name="button">删除成员</button>
         </div>
         <table class="table">
           <thead>
             <tr>
-              <!-- <th>ID</th> -->
+              <th>是否选中</th>
+              <th>ID</th>
               <th>成员名</th>
-              <!-- <th>创建者ID</th> -->
-              <th>描述</th>
-              <th>最大容量</th>
-              <th>当前容量</th>
+              <th>邮箱</th>
+              <th>手机</th>
+              <th>QQ</th>
               <th>创建时间</th>
               <th>更新时间</th>
-              <th>操作</th>
             </tr>
           </thead>
           <tbody>
             <tr v-for="(item,index) in memberData">
-              <!-- <td>{{ item.id }}</td> -->
+              <td><input type="checkbox" v-bind:value="item.id" v-model="selectedMember" class="permission-seleted"></td>
+              <td>{{ item.id }}</td>
               <td>{{ item.name }}</td>
-              <!-- <td>{{ item.creator_id }}</td> -->
-              <td>{{ item.description }}</td>
-              <td>{{ item.max }}</td>
-              <td>{{ item.current }}</td>
+              <td>{{ item.email }}</td>
+              <td>{{ item.phone }}</td>
+              <td>{{ item.qq }}</td>
               <td>{{ GLOBAL.toTime(item.created_at) }}</td>
               <td>{{ GLOBAL.toTime(item.updated_at) }}</td>
-              <td>
-                <button @click="deleteMember(index)" class="button" type="button" name="button">删除成员</button>
-                <!-- <button @click="synchronizeMember(index)"  class="button" type="button" name="button">编辑成员</button> -->
-                <!-- <button  class="button" type="button" name="button">查看成员</button> -->
-              </td>
             </tr>
           </tbody>
         </table>
@@ -79,6 +74,7 @@ export default {
       paginationData: null,
       data: null,
       organizationId: null,
+      selectedMember: [],
     }
   },
   components: {
@@ -111,7 +107,7 @@ export default {
       const that = this;
       that.$refs.addMember.switchModal();
     },
-    synchronizeMember: function (index) {
+    synchronizeMember: function () {
       const that = this;
       that.$refs.synchronizeMember.switchModal();
     },
@@ -148,20 +144,25 @@ export default {
         console.log(err)
       })
     },
-    deleteMember: function (index) {
+    deleteMember: function () {
       const that = this;
-      let id = that.memberData[index]['id'];
+      if (!that.selectedMember) {
+        alert('请选择需要删除的成员');
+      }
+      let id = that.organizationId;
+      let params = this.GLOBAL.computedParams(that.selectedMember, 'users');
       let prompt = confirm("确认删除该成员吗？");
       if (prompt) {
         axios({
           method: 'delete',
-          url: `${this.GLOBAL.localDomain}/api/v1/organizations/${id}/users`,
+          url: `${this.GLOBAL.localDomain}/api/v1/organizations/${id}/users?${params}`,
           headers: {
             'Accept': 'application/json',
             'Authorization': sessionStorage.getItem('token'),
           }
         }).then(res => {
-          alert('删除成功！')
+          alert('删除成功！');
+          that.getMember();
         }).catch(err => {
           alert('删除失败')
           console.log(err)
