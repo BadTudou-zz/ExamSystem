@@ -1,7 +1,7 @@
 <template lang="html">
   <div id="app" class="login-wrapper">
 
-    <div class="login-box">
+    <div v-show="isShowLoginBox" class="login-box">
 
       <input v-model="account" class="input form-control" placeholder="请输入你的账号/邮箱">
       <input v-model="password" type="password" class="input form-control" placeholder="密码">
@@ -21,6 +21,7 @@
 
     <register ref="register"></register>
 
+    <login-loading ref="loginLoading"></login-loading>
   </div>
 </template>
 
@@ -28,6 +29,7 @@
 let Base64 = require('js-base64').Base64;
 // import Base64 from 'js-base64';
 import Register from './Register'
+import LoginLoading from './LoginLoading'
 
 export default {
   data() {
@@ -39,19 +41,23 @@ export default {
 
       permissionIdList: [],
       permissionData: null,
-      url: `${this.GLOBAL.localDomain}/api/v1/roles/1/permissions`,
-      logOut: null,
       permissions: [],
-      isShowNavigation: false
+      url: '',
+      isShowLoginBox: true,
     };
   },
   components: {
     Register,
+    LoginLoading,
   },
   methods: {
     register: function() {
       const that = this;
       that.$refs.register.switchModal();
+    },
+    loadingModal: function () {
+      const that = this;
+      that.$refs.loginLoading.switchModal();
     },
     login: function (username, password) {
       const that = this;
@@ -72,24 +78,19 @@ export default {
         let token = res.data.data.token;
         that.userId = res.data.data.user.id;
         that.token = res.data.data.token;
+        that.isShowLoginBox = false;
+        that.loadingModal();
         sessionStorage.setItem("token",`Bearer ${token}`);
         sessionStorage.setItem('userId', userId);
         that.$store.commit('setToken', token);
 
-        that.getPermission();
-        // that.$emit('input', false);
+        let url = `${this.GLOBAL.localDomain}/api/v1/users/${that.userId}/permissions/`;
+        that.getPermission(url);
+
       }).catch(err => {
         let errorMsg = err.response.data.message;
         alert(errorMsg);
         that.captcha = '';
-        // if (errorMsg === 'Unauthorised') {
-        //   that.password = '';
-        //   alert('密码错误，请重新输入');
-        // }
-        // if (errorMsg === 'Bad captcha！') {
-        //   that.captcha = '';
-        //   alert('验证码错误，请重新输入');
-        // }
         that.getVerificationCode();
       })
     },
@@ -115,6 +116,14 @@ export default {
         console.log(err)
       })
     },
+    getJsonLength: function (json) {
+      const that = this;
+      let jsonLength = 0;
+      for (let i in json) {
+          jsonLength++;
+      }
+      return jsonLength;
+    },
     getPermission: function (url) {
       const that = this;
       console.log('getPermission')
@@ -129,37 +138,26 @@ export default {
       }).then(res => {
         that.permissionData = res.data;  // conclude links
         that.url = res.data.links.next;
-        for (let i = 0; i < res.data.data.length; i++) {
-          that.permissionIdList.push(parseInt(res.data.data[i].id));
+        console.log(res.data.data.length);
+
+        let len = res.data.data.length ? res.data.data.length : that.getJsonLength(res.data.data);
+
+        // data数据结构不一致 可能是数组/也可能是json
+        if (res.data.data.length) {
+          for (let i = 0; i < len; i++) {
+            that.permissionIdList.push(res.data.data[i].name);
+          }
         }
-          // that.$store.commit('setPermissionIdList', that.permissionIdList);
-        if (that.url) {
-          that.getNextPermission(that.url);
+        else if (that.getJsonLength(res.data.data)) {
+          for (let i in res.data.data) {
+            that.permissionIdList.push(res.data.data[i].name);
+          }
         }
-      }).catch(err => {
-        console.log(err);
-      })
-    },
-    getNextPermission: function (url) {
-      const that = this;
-      axios({
-        method: 'get',
-        url: url,
-        headers: {
-          'Accept': 'application/json',
-          'Authorization': sessionStorage.getItem('token'),
-        }
-      }).then(res => {
-        that.permissionData = res.data;  // conclude links
-        that.url = res.data.links.next;
-        for (let i = 0; i < res.data.data.length; i++) {
-          that.permissionIdList.push(parseInt(res.data.data[i].id));
-        }
+
         if (that.url) {
           that.getPermission(that.url);
         }
         else {
-          that.$store.commit('setPermissionIdList', that.permissionIdList);
           sessionStorage.setItem('permissions', that.permissionIdList);
           that.permissions = sessionStorage.getItem('permissions');
         }

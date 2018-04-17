@@ -46,15 +46,16 @@ export default {
       const that = this;
       axios({
         method: 'post',
-        url: `${this.GLOBAL.localDomain}/api/v1/applications/`,
+        url: `${this.GLOBAL.localDomain}/api/v1/tags/`,
         headers: {
           'Accept': 'application/json',
           'Authorization': sessionStorage.getItem('token'),
         },
-        body: {
+        params: {
           title: that.labelData.title,
         }
       }).then(res => {
+        that.clearWords()
         alert('添加成功');
         that.$emit('getLabel');   //第一个参数名为调用的方法名，第二个参数为需要传递的参数
         that.switchModal();

@@ -7,6 +7,7 @@
         <label class="label">用户ID：</label>
         <span>{{ currentUserData.id }}</span>
         <a @click="changePassword()" class="button is-link is-outlined change-password is-small">更改密码</a>
+        <a @click="changeUserName()" class="button is-link is-outlined change-password is-small">更改用户名</a>
       </div>
       <div class="label-box">
         <label class="label">用户名：</label>
@@ -31,11 +32,18 @@
                      v-on:getUser="getUser"
     ></change-password>
 
+
+    <change-user-name ref="changeUserName"
+                      v-bind:edit-data="editData"
+                      v-on:getUser="getUser"
+    ></change-user-name>
+
   </div>
 </template>
 
 <script>
 import ChangePassword from '../User/ChangePassword'
+import ChangeUserName from './ChangeUserName'
 import moment from 'moment'
 
 export default {
@@ -55,6 +63,7 @@ export default {
   },
   components: {
     ChangePassword,
+    ChangeUserName,
   },
   methods: {
     toTime: function (time) {
@@ -85,6 +94,11 @@ export default {
       const that = this;
       that.editData = that.userData;
       that.$refs.changePassword.switchModal();
+    },
+    changeUserName: function () {
+      const that = this;
+      that.editData = that.userData;
+      that.$refs.changeUserName.switchModal();
     },
   },
   computed: {

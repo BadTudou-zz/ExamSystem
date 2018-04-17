@@ -5,7 +5,7 @@
     <div class="modal-content user-content">
       <div class="box user-box">
         <div>
-            <button @click="addUser()" class="button add-role-button" type="button" name="button">添加用户</button>
+            <button @click="addTestUser()" class="button add-role-button" type="button" name="button">添加用户</button>
             <button @click="deleteUser()" class="button" type="button" name="button">删除用户</button>
         </div>
         <table class="table">
@@ -33,10 +33,10 @@
                     v-model="data"
         ></pagination>
 
-        <add-user ref="addUser"
-                  v-on:getUser="getUser"
-                  v-bind:teaching-id="teachingId"
-        ></add-user>
+        <add-test-user ref="addTestUser"
+                       v-on:getUser="getUser"
+                       v-bind:exam-id="examId"
+        ></add-test-user>
 
       </div>
     </div>
@@ -46,7 +46,7 @@
 
 <script>
 import Pagination from './../Pagination'
-import AddUser from './AddUser'
+import AddTestUser from './AddTestUser'
 
 export default {
   data() {
@@ -65,37 +65,26 @@ export default {
   },
   components: {
     Pagination,
-    AddUser,
+    AddTestUser,
   },
   props: [
-    'currentTeachingData',
+    'examId'
   ],
   methods: {
     switchModal: function () {
       const that = this;
       that.isShowModal = !that.isShowModal;
     },
-    clearWords: function () {
+    addTestUser: function() {
       const that = this;
-      that.name = '';
-      that.email = '';
-      that.phone = '';
-      that.qq = '';
-    },
-    addUser: function() {
-      const that = this;
-      that.$refs.addUser.switchModal();
-    },
-    synchronizeUser: function (index) {
-      const that = this;
-      that.$refs.synchronizeUser.switchModal();
+      that.$refs.addTestUser.switchModal();
     },
     getUser: function () {
       const that = this;
-      let id = that.currentTeachingData['id'];
+      let id = that.examId;
       axios({
         method: 'get',
-        url: `${this.GLOBAL.localDomain}/api/v1/lectures/${id}/users`,
+        url: `${this.GLOBAL.localDomain}/api/v1/exams/${id}/users`,
         headers: {
           'Accept': 'application/json',
           'Authorization': sessionStorage.getItem('token'),
@@ -113,13 +102,13 @@ export default {
         alert('请勾选需要删除的用户');
         return;
       }
-      let id = that.currentTeachingData['id'];
+      let id = that.examId;
       let params = this.GLOBAL.computedParams(that.users, 'users')
       let prompt = confirm("确认删除选中的用户吗？");
       if (prompt) {
         axios({
           method: 'delete',
-          url: `${this.GLOBAL.localDomain}/api/v1/lectures/${id}/users?${params}`,
+          url: `${this.GLOBAL.localDomain}/api/v1/exams/${id}/users?${params}`,
           headers: {
             'Accept': 'application/json',
             'Authorization': sessionStorage.getItem('token'),
@@ -142,9 +131,7 @@ export default {
       that.teachingData = value.data;
       that.paginationData = value.links;
     },
-    currentTeachingData: function (value, oldValue) {
-      const that = this;
-      that.teachingId = value.id;
+    examId: function (value, oldValue) {
       this.getUser();
     }
   }

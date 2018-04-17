@@ -9,14 +9,14 @@
       <section class="modal-card-body">
         <div class="box-item">
           <label>课程名称</label>
-          <input v-model="courseData.name" class="input" type="text" placeholder="请输入英文名">
+          <input v-model="courseData.name" class="input" type="text">
         </div>
         <div class="box-item">
           <label>显示名称</label>
-          <input v-model="courseData.display_name" class="input" type="text" placeholder="请输入中文名">
+          <input v-model="courseData.display_name" class="input" type="text">
         </div>
         <div class="box-item">
-          <label>显示描述</label>
+          <label>详情描述</label>
           <input v-model="courseData.descripe" class="input" type="text" placeholder="请输入课程名">
         </div>
         <div class="box-item">

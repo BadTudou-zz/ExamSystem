@@ -8,8 +8,32 @@
       </header>
       <section class="modal-card-body">
         <div class="box-item">
-          <label>发送到</label>
-          <input v-model="messageData.to" class="input" type="text" placeholder="需要发送消息的用户ID">
+          请选择需要发送的用户：
+
+          <div class="all-user">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>是否选中</th>
+                  <th>序号</th>
+                  <th>用户名</th>
+                  <th>邮箱</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="(item,index) in userData">
+                  <td><input type="radio" v-bind:value="item.id" v-model="selectedUser" class="user-seleted"></td>
+                  <td>{{ item.id }}</td>
+                  <td>{{ item.name }}</td>
+                  <td>{{ item.email }}</td>
+                </tr>
+              </tbody>
+            </table>
+            <pagination v-bind:pagination-data="paginationData"
+                        v-model="data"
+            ></pagination>
+          </div>
+
         </div>
 
         <div class="box-item">
@@ -26,6 +50,8 @@
   </div>
 </template>
 <script>
+import Pagination from './../Pagination.vue'
+
 export default {
   data() {
     return {
@@ -33,10 +59,17 @@ export default {
       messageData: {
         to: null,
         data: null,
-      }
+      },
+      selectedUser: '', // 单选
+      userData: null,
+      // 翻页
+      paginationData: null,
+      data: null,
+      //
     }
   },
   components: {
+    Pagination,
   },
   methods: {
     switchModal: function () {
@@ -46,11 +79,16 @@ export default {
     },
     clearWords: function () {
       const that = this;
-      that.messageData.to = '';
+      // that.messageData.to = '';
+      that.selectedUser = '',
       that.messageData.data = '';
     },
     addMessage: function () {
       const that = this;
+      if (!that.selectedUser || !that.messageData.data) {
+        alert('请检查发送的信息是否完整！');
+        return;
+      }
       axios({
         method: 'post',
         url: `${this.GLOBAL.localDomain}/api/v1/messages/`,
@@ -59,7 +97,7 @@ export default {
           'Authorization': sessionStorage.getItem('token'),
         },
         params: {
-          to: that.messageData.to,
+          to: that.selectedUser,
           data: that.messageData.data
         }
       }).then(res => {
@@ -72,15 +110,48 @@ export default {
         console.log(err);
         that.clearWords();
       })
-    }
+    },
+    // 全部用户
+    getUser: function () {
+      const that = this;
+      axios({
+        method: 'get',
+        url: `${this.GLOBAL.localDomain}/api/v1/users/`,
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': sessionStorage.getItem('token'),
+        }
+      }).then(res => {
+        that.userData = res.data.data;
+        that.paginationData = res.data.links;
+      }).catch(err => {
+        console.log(err);
+      })
+    },
   },
   created() {
-
+    this.clearWords();
+    this.getUser();
   },
   watch: {
+    data:function (value, oldValue) {
+      const that = this;
+      that.messageData = value.data;
+      that.paginationData = value.links;
+    },
+    isShowModal: function (value, oldVale) {
+      const that = this;
+      if (value) {
+        this.clearWords();
+        this.getUser();
+      }
+    },
   }
 }
 </script>
 
-<style>
+<style scoped>
+.box-item input {
+  width: 20px;
+}
 </style>

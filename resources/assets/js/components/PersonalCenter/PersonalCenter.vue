@@ -7,14 +7,14 @@
     <div class="data-box">
 
       <user-data v-show="navigationTag === 'userData'"></user-data>
-      <message-data v-show="navigationTag === 'messageData'"></message-data>
-      <notice-data v-show="navigationTag === 'noticeData'"></notice-data>
-      <lecture-data v-show="navigationTag === 'lectureData'"></lecture-data>
-      <organization-data v-show="navigationTag === 'organizationData'"></organization-data>
-      <role-data v-show="navigationTag === 'roleData'"></role-data>
-      <permission-data v-show="navigationTag === 'permissionData'"></permission-data>
-      <apply-for-data v-show="navigationTag === 'applyForData'"></apply-for-data>
-
+      <message-data v-if="navigationTag === 'messageData'"></message-data>
+      <notice-data v-if="navigationTag === 'noticeData'"></notice-data>
+      <lecture-data v-if="navigationTag === 'lectureData'"></lecture-data>
+      <organization-data v-if="navigationTag === 'organizationData'"></organization-data>
+      <role-data v-if="navigationTag === 'roleData'"></role-data>
+      <permission-data v-if="navigationTag === 'permissionData'"></permission-data>
+      <apply-for-data v-if="navigationTag === 'applyForData'"></apply-for-data>
+      <test-data v-if="navigationTag === 'testData'"></test-data>
     </div>
 
   </div>
@@ -30,6 +30,7 @@ import OrganizationData from './OrganizationData'
 import RoleData from './RoleData'
 import PermissionData from './PermissionData'
 import ApplyForData from './ApplyForData'
+import TestData from './TestData'
 
 
 export default {
@@ -58,6 +59,7 @@ export default {
     RoleData,
     PermissionData,
     ApplyForData,
+    TestData,
   },
   methods: {
     // 全部用户

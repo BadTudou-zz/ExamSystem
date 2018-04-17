@@ -8,13 +8,33 @@
       </header>
       <section class="modal-card-body">
         <div class="box-item">
-          <label>to</label>
-          <input v-model="applyForData.to" class="input" type="text">
+          请选择需要发送的用户：
+          <div class="all-user">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>是否选中</th>
+                  <th>序号</th>
+                  <th>用户名</th>
+                  <th>邮箱</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="(item,index) in userData">
+                  <td><input type="radio" v-bind:value="item.id" v-model="applyForData.to" class="user-seleted"></td>
+                  <td>{{ item.id }}</td>
+                  <td>{{ item.name }}</td>
+                  <td>{{ item.email }}</td>
+                </tr>
+              </tbody>
+            </table>
+            <pagination v-bind:pagination-data="paginationData"
+                        v-model="data"
+            ></pagination>
+          </div>
+
         </div>
-        <!-- <div class="box-item">
-          <label>action</label>
-          <input v-model="applyForData.action" class="input" type="text">
-        </div> -->
+
         <div class="box-item">
           <label>资源ID</label>
           <input v-model="applyForData.resource_id" class="input" type="text">
@@ -38,21 +58,28 @@
 </template>
 
 <script>
+import Pagination from './../Pagination.vue'
+
 export default {
   data() {
     return {
       isShowModal: false,
-      // ?? The data structure provided by the API documentation is problematic.
       applyForData: {
-        to: '',  // ?? 语义
+        to: '',  // 发送到的用户
         action: '',  // ??
         resource_id: '',  // ??
         resource_type: '',  // ??
-        data: '',  // ??
+        data: '',  // ??SSS
       },
+      // 翻页
+      paginationData: null,
+      data: null,
+      //
+      userData: [],
     }
   },
   components: {
+    Pagination,
   },
   methods: {
     switchModal: function () {
@@ -79,8 +106,10 @@ export default {
         body: {
           to: that.applyForData.to,
           action: 'create',  // ?? 枚举值
-          resource_id: that.applyForData.resource_id,
-          resource_type: that.applyForData.type,
+          // resource_id: that.applyForData.resource_id,
+          resource_id: 1,
+          // resource_type: that.applyForData.type,
+          resource_type: 'Organization',
           data: that.applyForData.data
         }
       }).then(res => {
@@ -93,11 +122,44 @@ export default {
         that.clearWords();
       })
     },
+    // 全部用户
+    getUser: function () {
+      const that = this;
+      axios({
+        method: 'get',
+        url: `${this.GLOBAL.localDomain}/api/v1/users/`,
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': sessionStorage.getItem('token'),
+        }
+      }).then(res => {
+        that.userData = res.data.data;
+        that.paginationData = res.data.links;
+      }).catch(err => {
+        console.log(err);
+      })
+    }
   },
   created() {
+    // this.clearWords();
+    // this.getUser();
+  },
+  watch: {
+    data:function (value, oldValue) {
+      const that = this;
+      that.applyForData = value.data;
+      that.paginationData = value.links;
+    },
+    isShowModal: function (value, oldVale) {
+      const that = this;
+      if (value) {
+        this.clearWords();
+        this.getUser();
+      }
+    },
   }
 }
 </script>
 
-<style>
+<style scoped>
 </style>
