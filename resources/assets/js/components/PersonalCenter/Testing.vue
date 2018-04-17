@@ -3,12 +3,12 @@
   <div>
 
     <div v-if="isLoading">
-      <p class="wait-time">题目加载中，请稍等{{time}}秒</p>
+      <p class="wait-time">题目加载中，请稍等{{ time }}秒</p>
       <img class="loading" src="../../../img/loading.gif" alt="">
     </div>
 
     <div v-else>
-      <button @click="stopTest()" class="button is-info finish-test" type="button" name="button">完成考试</button>
+      <button @click="submitAnswer()" class="button is-info finish-test" type="button" name="button">完成考试</button>
 
 
       <div v-for="(item,index) in questionData">
@@ -110,6 +110,7 @@ export default {
       }).catch(err => {
         console.log(err.message)
         alert('无相关试卷');
+
       })
     },
     clearQuestionIds: function () {
@@ -188,6 +189,7 @@ export default {
         }
       }).then(res => {
         console.log('答案提交成功');
+        that.stopTest();
       }).catch(err => {
         let errMsg = err.response.data.error;
         if (errMsg) {
@@ -203,8 +205,6 @@ export default {
     stopTest: function () {
       const that = this;
       let id = that.examId;
-      // 提交答案
-      that.submitAnswer();
 
       axios({
         method: 'post',
@@ -214,6 +214,7 @@ export default {
           'Authorization': sessionStorage.getItem('token'),
         }
       }).then(res => {
+        that.$emit('switchTesting');   //第一个参数名为调用的方法名，第二个参数为需要传递的参数
         alert('已结束');
       }).catch(err => {
         let errMsg = err.response.data.error;
@@ -301,6 +302,7 @@ export default {
     paperId: function (value, oldValue) {
       const that = this;
       that.getChapterIds(value);
+      that.clearQuestionIds();
     },
     chapterIds: async function (value, oldValue) {
       const that = this;
