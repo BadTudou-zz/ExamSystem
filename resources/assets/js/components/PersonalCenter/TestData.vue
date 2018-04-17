@@ -81,9 +81,10 @@ export default {
     },
     getTest: function () {
       const that = this;
+
       axios({
         method: 'get',
-        url: `${this.GLOBAL.localDomain}/api/v1/exams/`,
+        url: `${this.GLOBAL.localDomain}/api/v1/users/${sessionStorage.getItem('userId')}/exams`,
         headers: {
           'Accept': 'application/json',
           'Authorization': sessionStorage.getItem('token'),

@@ -37061,9 +37061,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     },
     getTest: function getTest() {
       var that = this;
+
       axios({
         method: 'get',
-        url: this.GLOBAL.localDomain + '/api/v1/exams/',
+        url: this.GLOBAL.localDomain + '/api/v1/users/' + sessionStorage.getItem('userId') + '/exams',
         headers: {
           'Accept': 'application/json',
           'Authorization': sessionStorage.getItem('token')
@@ -37333,14 +37334,14 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
         console.log(err);
       });
     },
-    // 完成 or 结束考试
+    // 完成考试
     stopTest: function stopTest() {
       var that = this;
       var id = that.examId;
 
       axios({
         method: 'post',
-        url: this.GLOBAL.localDomain + '/api/v1/exams/' + id + '/stop',
+        url: this.GLOBAL.localDomain + '/api/v1/exams/' + id + '/finish',
         headers: {
           'Accept': 'application/json',
           'Authorization': sessionStorage.getItem('token')
@@ -74017,12 +74018,6 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_c('i', {
     staticClass: "fas fa-braille"
   }), _c('span', [_vm._v("组织")])])], 1), _vm._v(" "), _c('li', {
-    directives: [{
-      name: "show",
-      rawName: "v-show",
-      value: (_vm.isShowCourse),
-      expression: "isShowCourse"
-    }],
     class: {
       'is-active': _vm.currentTag === 'course'
     },
@@ -74038,12 +74033,6 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_c('i', {
     staticClass: "fas fa-newspaper"
   }), _c('span', [_vm._v("课程")])])], 1), _vm._v(" "), _c('li', {
-    directives: [{
-      name: "show",
-      rawName: "v-show",
-      value: (_vm.isShowLecture),
-      expression: "isShowLecture"
-    }],
     class: {
       'is-active': _vm.currentTag === 'teaching'
     },
