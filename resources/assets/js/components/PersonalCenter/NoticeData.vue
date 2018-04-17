@@ -1,6 +1,6 @@
 <!-- 查看通知 -->
 <template lang="html">
-  <div class="box">
+  <div>
     <h3 class="title">通知</h3>
 
     <div v-if="noticeData.length !== 0">

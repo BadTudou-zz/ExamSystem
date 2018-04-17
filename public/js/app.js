@@ -30772,12 +30772,29 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       that.selectedQuesiton = [];
       that.questionScore = [];
     },
+    scoresJsonConvertsToArray: function scoresJsonConvertsToArray(json) {
+      var selectedQuestionIds = [];
+      var scores = [];
+      var res = [];
+
+      for (i in json) {
+        selectedQuestionIds.push(parseInt(i));
+        scores.push(parseInt(json[i]));
+      }
+
+      for (var _i = 0; _i < selectedQuestionIds.length; _i++) {
+        res[selectedQuestionIds[_i]] = scores[_i];
+      }
+      that.selectedQuesiton = selectedQuestionIds;
+      that.questionScore = res;
+      // return res;
+    },
     // 计算问题分值的JSON
     computedAnswerJson: function computedAnswerJson() {
       var that = this;
       var json = {};
-      for (var i = 0; i < that.selectedQuesiton.length; i++) {
-        json[that.selectedQuesiton[i]] = that.questionScore[that.selectedQuesiton[i]];
+      for (var _i2 = 0; _i2 < that.selectedQuesiton.length; _i2++) {
+        json[that.selectedQuesiton[_i2]] = that.questionScore[that.selectedQuesiton[_i2]];
       }
       that.scoreJson = json;
       return json;
@@ -30849,7 +30866,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       that.currentChapterData.describe = value.describe;
       that.currentChapterData.question_type = value.question_type;
 
-      // that.editQuesitons = that.currentChapterData.questions.split(',')
+      that.currentChapterData.scores = value.scores;
+      that.scoresJsonConvertsToArray(value.scores);
     }
   }
 });
@@ -36901,7 +36919,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
           'Authorization': sessionStorage.getItem('token')
         }
       }).then(function (res) {
-        debugger;
         that.score = res.data.score;
       }).catch(function (err) {
         console.log(err);
@@ -37046,7 +37063,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     startTest: function startTest(index) {
       var that = this;
       var id = that.testData[index].id;
-      that.paperId = that.testData[index].paper_id;
       that.examId = id;
       // that.switchTesting();
       axios({
@@ -37057,6 +37073,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           'Authorization': sessionStorage.getItem('token')
         }
       }).then(function (res) {
+        that.paperId = that.testData[index].paper_id;
         alert('已开考');
         that.switchTesting();
       }).catch(function (err) {
@@ -47480,7 +47497,7 @@ exports.push([module.i, "\n.message[data-v-16a7b3dd] {\n  margin: 35px auto 0 au
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(1)();
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 /***/ }),
 /* 279 */
@@ -72162,7 +72179,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_vm._v("同步考试")])]), _vm._v(" "), _c('table', {
     staticClass: "table"
   }, [_vm._m(0), _vm._v(" "), _c('tbody', _vm._l((_vm.testData), function(item, index) {
-    return _c('tr', [_c('td', [_vm._v(_vm._s(item.id))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.title))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.exam_type))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.score))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.min))]), _vm._v(" "), _c('td', [_vm._v(" " + _vm._s(item.description))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.GLOBAL.toTime(item.created_at)))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.GLOBAL.toTime(item.updated_at)))]), _vm._v(" "), _c('td', [_c('button', {
+    return _c('tr', [_c('td', [_vm._v(_vm._s(item.id))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.title))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.exam_type))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.score))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.min))]), _vm._v(" "), _c('td', [_vm._v(" " + _vm._s(item.description))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.GLOBAL.toTime(item.created_at)))]), _vm._v(" "), _c('td', [_c('button', {
       directives: [{
         name: "show",
         rawName: "v-show",
@@ -72270,7 +72287,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   })], 1)
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('thead', [_c('tr', [_c('th', [_vm._v("序号")]), _vm._v(" "), _c('th', [_vm._v("标题")]), _vm._v(" "), _c('th', [_vm._v("类型")]), _vm._v(" "), _c('th', [_vm._v("分值")]), _vm._v(" "), _c('th', [_vm._v("时长")]), _vm._v(" "), _c('th', [_vm._v("描述")]), _vm._v(" "), _c('th', [_vm._v("创建时间")]), _vm._v(" "), _c('th', [_vm._v("更新时间")]), _vm._v(" "), _c('th', [_vm._v("操作")]), _vm._v(" "), _c('th', [_vm._v("用户")])])])
+  return _c('thead', [_c('tr', [_c('th', [_vm._v("序号")]), _vm._v(" "), _c('th', [_vm._v("标题")]), _vm._v(" "), _c('th', [_vm._v("类型")]), _vm._v(" "), _c('th', [_vm._v("分值")]), _vm._v(" "), _c('th', [_vm._v("时长")]), _vm._v(" "), _c('th', [_vm._v("描述")]), _vm._v(" "), _c('th', [_vm._v("创建时间")]), _vm._v(" "), _c('th', [_vm._v("操作")]), _vm._v(" "), _c('th', [_vm._v("用户")])])])
 }]}
 module.exports.render._withStripped = true
 if (false) {
@@ -74202,9 +74219,7 @@ if (false) {
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "box"
-  }, [_c('h3', {
+  return _c('div', [_c('h3', {
     staticClass: "title"
   }, [_vm._v("通知")]), _vm._v(" "), (_vm.noticeData.length !== 0) ? _c('div', [_vm._l((_vm.noticeData), function(item, index) {
     return _c('div', {
@@ -75842,9 +75857,7 @@ if (false) {
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "box"
-  }, [_c('h3', {
+  return _c('div', [_c('h3', {
     staticClass: "title"
   }, [_vm._v("消息")]), _vm._v(" "), (_vm.messageData.length !== 0) ? _c('div', [_vm._l((_vm.messageData), function(item, index) {
     return _c('div', {

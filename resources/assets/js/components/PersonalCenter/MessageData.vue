@@ -1,6 +1,6 @@
 <!-- 查看消息 -->
 <template lang="html">
-  <div class="box">
+  <div>
     <h3 class="title">消息</h3>
 
     <div v-if="messageData.length !== 0">

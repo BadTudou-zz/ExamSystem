@@ -82,7 +82,7 @@ export default {
        currentQuestionData: [],
        temporaryQuestionData: [], // 临时存储
        answer: [],
-       time: 25,
+       time: 15,
     }
   },
   components: {
