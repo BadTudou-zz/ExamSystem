@@ -33,7 +33,7 @@ class CorrecExam implements ShouldQueue
     public function handle()
     {
         $questions = $this->exam->paper->questions();
-        $scores = json_decode(array_values($this->exam->paper->scores())[0]);
+        $scores = $this->exam->paper->scores();
         foreach ($this->exam->users as $key => $user) {
             $answers = json_decode($user->pivot->answers);
             $score = 0;
@@ -42,7 +42,7 @@ class CorrecExam implements ShouldQueue
                     return $item->id == $key;
                 });
                if($question->answer == trim($answer)){
-                    $score += $scores->$key;
+                    $score += $scores[$key];
                }
 
             }
