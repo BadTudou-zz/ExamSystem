@@ -107,7 +107,6 @@ export default {
     startTest: function (index) {
       const that = this;
       let id = that.testData[index].id;
-      that.paperId = that.testData[index].paper_id;
       that.examId = id;
       // that.switchTesting();
       axios({
@@ -118,6 +117,7 @@ export default {
           'Authorization': sessionStorage.getItem('token'),
         }
       }).then(res => {
+        that.paperId = that.testData[index].paper_id;
         alert('已开考');
         that.switchTesting();
       }).catch(err => {
