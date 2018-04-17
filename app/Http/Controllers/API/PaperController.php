@@ -52,7 +52,7 @@ class PaperController extends Controller
 
     public function scores(ShowPaper $request, $id)
     {
-        return response()->json(['data'=> json_decode(Paper::findOrFail($id)->scores()[0])]);
+        return response()->json(['data'=> Paper::findOrFail($id)->scores()]);
     }
 
     public function update(UpdatePaper $request, $id)

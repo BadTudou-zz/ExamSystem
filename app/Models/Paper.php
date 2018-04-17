@@ -27,6 +27,14 @@ class Paper extends Model
 
     public function scores()
     {
-        return array_column($this->sections()->all(), 'scores');
+        $scores = implode(',', array_column($this->sections()->all(), 'scores'));
+        $scores = json_decode('[' . $scores . ']', true);
+        $sectionArray = [];
+        foreach ($scores as $key => $scoresChilden) {
+            foreach ($scoresChilden as $key => $score) {
+                $sectionArray[$key] = $score;
+            }
+        }
+        return $sectionArray;
     }
 }
