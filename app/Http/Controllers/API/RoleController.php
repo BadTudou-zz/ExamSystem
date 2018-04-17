@@ -56,7 +56,7 @@ class RoleController extends Controller
     }
 
     // 给角色添加权限
-    public function attachPermissions(AttachPermissionsToRole $request, $id)
+    public function attachPermissions(AttachPermissionsFromRole $request, $id)
     {
         $role = Role::find($id);
         $permissions = array_column($role->perms->all(), 'id');
@@ -86,7 +86,7 @@ class RoleController extends Controller
     }
 
     // 从角色删除用户
-    public function detachUsers(DetacUsersFromRole $request, $id)
+    public function detachUsers(DetachUsersToRole $request, $id)
     {
         $role = Role::find($id);
         $users = array_column($role->users->all(), 'id');
