@@ -124,13 +124,17 @@ class UserController extends Controller
             ->where('notifiable_id', '!=', $user->id)
             ->get()
             ->filter(function ($message, $key) use($user){
-                    return json_decode($message->data)->notifiable_id == $user->id;
+                return json_decode($message->data)->notifiable_id == $user->id;
             })
             ->all();
             return  PrivateMessageResource::collection(OrmUtil::paginate($messages));
         }
         else {
-            return  new PrivateMessageCollection( Auth::user()->notifications()->where('type', PrivateMessage::class)->paginate());
+            $user = Auth::user();
+            $messages = Notification::where('type', PrivateMessage::class)
+            ->where('notifiable_id', $user->id)
+            ->paginate();
+            return  PrivateMessageResource::collection($messages);
         }
     }
 
@@ -148,7 +152,12 @@ class UserController extends Controller
             return  SystemNotificationResource::collection($this->paginate($messages));
         }
         else {
-            return  new SystemNotificationCollection( Auth::user()->notifications()->where('type', SystemNotification::class)->paginate());
+            $user = Auth::user();
+            $messages = Notification::where('type', SystemNotification::class)
+            ->where('notifiable_id', $user->id)
+            ->paginate();
+
+            return  SystemNotificationResource::collection($messages);
         }
     }
 

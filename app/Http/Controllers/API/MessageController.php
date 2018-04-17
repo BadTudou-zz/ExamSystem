@@ -22,7 +22,7 @@ class MessageController extends Controller
 {
     public function index(IndexMessage $request)
     {
-        return new PrivateMessageCollection( Message::where('type', PrivateMessage::class)->paginate());
+        return PrivateMessageResource::collection(Message::where('type', PrivateMessage::class)->paginate());
     }
 
     public function store(StoreMessage $request)
