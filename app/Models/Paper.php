@@ -20,7 +20,8 @@ class Paper extends Model
 
     public function questions()
     {
-    	$questionIds =array_column($this->sections()->all(), 'questions');
+    	$questions = array_column($this->sections()->all(), 'questions');
+        $questionIds=  explode(",", $questions[0]);
     	return Question::whereIn('id', $questionIds)->get();
     }
 
