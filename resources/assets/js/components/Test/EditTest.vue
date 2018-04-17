@@ -166,7 +166,9 @@ export default {
       that.testData.score = value.score;
       that.testData.min = value.min;
       that.testData.begin_at = this.GLOBAL.toTime(value.begin_at);
+
       that.testData.paper_id = value.paper_id;
+      that.selectedExaminationPaper = value.paper_id;
     }
   }
 }

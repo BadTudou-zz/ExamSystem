@@ -19,9 +19,9 @@
           </tbody>
         </table>
 
-        <pagination v-bind:pagination-data="paginationData"
+        <!-- <pagination v-bind:pagination-data="paginationData"
                     v-model="data"
-        ></pagination>
+        ></pagination> -->
 
       </div>
     </div>
@@ -30,7 +30,7 @@
 </template>
 
 <script>
-import Pagination from './../Pagination'
+// import Pagination from './../Pagination'
 
 export default {
   data() {
@@ -47,7 +47,7 @@ export default {
     }
   },
   components: {
-    Pagination,
+    // Pagination,
   },
   props: [
     'currentExaminationPaperData',
@@ -79,11 +79,11 @@ export default {
   created() {
   },
   watch: {
-    data:function (value, oldValue) {
-      const that = this;
-      that.examinationPaperData = value.data;
-      that.paginationData = value.links;
-    },
+    // data:function (value, oldValue) {
+    //   const that = this;
+    //   that.examinationPaperData = value.data;
+    //   that.paginationData = value.links;
+    // },
     currentExaminationPaperData: function (value, oldValue) {
       const that = this;
       that.examinationPaperId = value.id;
