@@ -164,8 +164,8 @@ class UserController extends Controller
     public function exams(ShowUser $request)
     {
         $user = Auth::user();
-        $exams = $user->exams();
-        return ExamResource::collection($exams);
+        $exams = $user->exams;
+        return ExamResource::collection(OrmUtil::paginate($exams));
     }
 
     /**
