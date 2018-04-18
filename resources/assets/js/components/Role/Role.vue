@@ -4,11 +4,9 @@
     <div>
       <div v-show="isShowSearchRole" class="search-box">
         <input v-model="searchKey" class="input search-input" type="text" placeholder="请输入你要查找的角色ID">
-        <!-- <button disabled @click="searchRole()" class="button" type="button" name="button">查找角色</button> -->
         <div @click="searchRole()" class="search-button"><i class="fas fa-search"></i></div>
       </div>
       <button v-show="isShowCreateRole" @click="addRole()" class="button add-role-button" type="button" name="button">添加角色</button>
-      <button disabled v-show="isShowUpdateRole" @click="updateRole()" class="button add-role-button" type="button" name="button">同步角色</button>
     </div>
     <table class="table">
       <thead>
@@ -30,7 +28,10 @@
           <td>{{ item.display_name }}</td>
           <td>{{ GLOBAL.toTime(item.created_at) }}</td>
           <td>{{ GLOBAL.toTime(item.updated_at) }}</td>
-          <td><button v-show="isShowDeleteRole" @click="deleteRole(index)" class="delete" type="button" name="button">删除角色</button></td>
+          <td>
+            <button v-show="isShowDeleteRole" @click="deleteRole(index)" class="delete" type="button" name="button">删除角色</button>
+            <div v-show="isShowEditRole" @click="editRole(index)" class="edit-button"><i class="fas fa-edit"></i></div>
+          </td>
           <td><button @click="showPermission(index)" class="button" type="button" name="button">查看权限</button></td>
           <td><button @click="showUser(index)" class="button" type="button" name="button">查看用户</button></td>
         </tr>
@@ -46,9 +47,10 @@
               v-on:getRole="getRole"
     ></add-role>
 
-    <role ref="role"
-          v-bind:current-role-data="currentRoleData"
-    ></role>
+    <edit-role ref="editRole"
+               v-on:getRole="getRole"
+               v-bind:edit-data="editData"
+    ></edit-role>
 
     <user ref="user"
           v-bind:current-role-data="currentRoleData"
@@ -63,9 +65,9 @@
 <script>
 import Pagination from './../Pagination.vue'
 import AddRole from './AddRole'
-import Role from './Role'
 import User from './User'
 import Permission from './Permission'
+import EditRole from './EditRole'
 
 export default {
   data() {
@@ -80,14 +82,15 @@ export default {
       currentRole: [],
       allRole: [],
       searchResult: [],
+      editData: null,
     }
   },
   components: {
     AddRole,
     Pagination,
-    Role,
     User,
     Permission,
+    EditRole,
   },
   methods: {
     switchModal: function () {
@@ -135,6 +138,11 @@ export default {
     addRole: function () {
       const that = this;
       that.$refs.addRole.switchModal();
+    },
+    editRole: function (index) {
+      const that = this;
+      that.editData = that.roleData[index];
+      that.$refs.editRole.switchModal();
     },
     // 查找用户
     // searchRole: function () {
@@ -247,7 +255,7 @@ export default {
       // return true;
       return sessionStorage.getItem('permissions').includes('role-show')
     },
-    isShowUpdateRole() {
+    isShowEditRole() {
       // return true;
       return sessionStorage.getItem('permissions').includes('role-update')
     },

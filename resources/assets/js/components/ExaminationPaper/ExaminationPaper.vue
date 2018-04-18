@@ -8,7 +8,6 @@
         <div @click="searchExaminationPaper()" class="search-button"><i class="fas fa-search"></i></div>
       </div>
         <button v-show="isShowCreatePaper" @click="addExaminationPaper()" class="button add-examinationPaper-button" type="button" name="button">添加试卷</button>
-        <button disabled v-show="isShowUpdatePaper" @click="updatePaper()" class="button" type="button" name="button">同步试卷</button>
     </div>
     <table class="table">
       <thead>
@@ -17,7 +16,7 @@
           <!-- <th>创建者</th> -->
           <th>试卷标题</th>
           <th>总分数</th>
-          <th>时长</th>
+          <th>时长(分钟)</th>
           <th>描述</th>
           <!-- <th>章节id</th> -->
           <!-- <th>Tags</th> -->
@@ -41,7 +40,7 @@
           <td>{{ toTime(item.updated_at) }}</td>
           <td>
             <button v-show="isShowDeletePaper" @click="deleteExaminationPaper(index)" class="delete" type="button" name="button">删除试卷</button>
-            <div @click="editExaminationPaper(index)" class="edit-button"><i class="fas fa-edit"></i></div>
+            <div v-show="isShowEditPaper" @click="editExaminationPaper(index)" class="edit-button"><i class="fas fa-edit"></i></div>
             <button @click="showAllQuestion(index)" class="button is-small" type="button" name="button">全部问题</button>
             <button @click="showAllScore(index)" class="button is-small" type="button" name="button">全部分数</button>
           </td>
@@ -292,7 +291,7 @@ export default {
       return sessionStorage.getItem('permissions').includes('paper-show');
       // return true;
     },
-    isShowUpdatePaper() {
+    isShowEditPaper() {
       return sessionStorage.getItem('permissions').includes('paper-update');
       // return true;
     },

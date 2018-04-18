@@ -6,7 +6,6 @@
 </template>
 
 <script>
-// import Navigation from './Navigation'
 import Navigation2 from './Navigation2'
 export default {
   data() {
@@ -20,7 +19,6 @@ export default {
     };
   },
   components: {
-    // Navigation,
     Navigation2,
   },
   methods: {

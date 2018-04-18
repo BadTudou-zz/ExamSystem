@@ -8,14 +8,13 @@
         <div @click="searchUser()" class="search-button"><i class="fas fa-search"></i></div>
 
       </div>
-      <button disabled v-show="isShowUpdateUser" @click="updateUser()" class="button" type="button" name="button">同步用户</button>
     </div>
     <table class="table">
       <thead>
         <tr>
           <th>ID</th>
           <th>用户名</th>
-          <th>别名</th>
+          <th>邮箱</th>
           <th>创建时间</th>
           <th>更新时间</th>
           <th>操作</th>
@@ -26,13 +25,13 @@
         <tr v-for="(item,index) in userData">
           <td>{{ item.id }}</td>
           <td>{{ item.name }}</td>
-          <td>{{ item.display_name }}</td>
+          <td>{{ item.email }}</td>
           <td>{{ toTime(item.created_at.date) }}</td>
           <td>{{ toTime(item.updated_at.date) }}</td>
           <td>
             <button v-show="isShowDeleteUser" @click="deleteUser(index)" class="delete" type="button">删除用户</button>
-            <button @click="editUser(index)" class="button is-small" type="button">更改用户名</button>
-            <button @click="changePassword(index)" class="button is-small" type="button">更改密码</button>
+            <button v-show="isShowEditUser" @click="editUser(index)" class="button is-small" type="button">更改用户名</button>
+            <button v-show="isShowEditUser" @click="changePassword(index)" class="button is-small" type="button">更改密码</button>
           </td>
           <!-- <td>
             <v-view></v-view>
@@ -251,11 +250,10 @@ export default {
       const that = this;
       that.isShowEditModal = true;
       that.currentUserData = that.userData[index];
-      //
     }
   },
   computed: {
-    isShowUpdateUser() {
+    isShowEditUser() {
       // return true;
       return sessionStorage.getItem('permissions').includes('user-update')
     },

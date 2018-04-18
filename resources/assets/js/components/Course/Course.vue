@@ -8,7 +8,6 @@
           <div @click="searchCourse()" class="search-button"><i class="fas fa-search"></i></div>
         </div>
         <button v-show="isShowCreateCourse" @click="addCourse()" class="button add-course-button" type="button" name="button">添加课程</button>
-        <button disabled v-show="isShowUpdateCourse" @click="updateCourse()" class="button" type="button" name="button">同步课程</button>
     </div>
     <table class="table">
       <thead>
@@ -34,7 +33,7 @@
           <td>{{ GLOBAL.toTime(item.updated_at) }}</td>
           <td>
             <button v-show="isShowDeleteCourse" @click="deleteCourse(index)" class="delete" type="button" name="button">删除课程</button>
-            <div @click="editCourse(index)" class="edit-button"><i class="fas fa-edit"></i></div>
+            <div v-show="isShowEditCourse" @click="editCourse(index)" class="edit-button"><i class="fas fa-edit"></i></div>
           </td>
         </tr>
       </tbody>
@@ -215,7 +214,7 @@ export default {
       // return true;
       return sessionStorage.getItem('permissions').includes('course-show');
     },
-    isShowUpdateCourse() {
+    isShowEditCourse() {
       // return true;
       return sessionStorage.getItem('permissions').includes('course-update');
     },

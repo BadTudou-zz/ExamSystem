@@ -14,7 +14,6 @@
     <body>
         <div id="app">
           <app><app>
-          <!-- <navigation></navigation> -->
         </div>
     </body>
 

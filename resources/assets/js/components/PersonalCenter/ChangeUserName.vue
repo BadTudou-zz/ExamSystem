@@ -75,10 +75,10 @@ export default {
   created() {
   },
   watch: {
-    isShowEditModal: function (value, oldValue) {
+    editData: function (value, oldValue) {
       const that = this;
-      that.isShowModal = value;
-    },
+      that.userData.name = value.name;
+    }
   }
 }
 </script>
