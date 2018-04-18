@@ -10,6 +10,7 @@ use App\User;
 use App\Http\Resources\RoleCollection;
 use App\Http\Requests\Role\Index as IndexRole;
 use App\Http\Requests\Role\Store as StoreRole;
+use App\Http\Requests\Role\Update as UpdateRole;
 use App\Http\Requests\Role\Show as ShowRole;
 use App\Http\Requests\Role\Destroy as DestroyRole;
 use App\Http\Requests\Role\SyncPermissions as SyncPermissionsToRole;
@@ -37,6 +38,13 @@ class RoleController extends Controller
     {
         $role = Role::create($request->all());
         return $role;
+    }
+
+    public function update(UpdateRole $request, $id)
+    {
+        $role = Role::findOrFail($id);
+        $role->update($request->all());
+        return new RoleResource($role);
     }
 
     public function show(ShowRole $request, $id)
