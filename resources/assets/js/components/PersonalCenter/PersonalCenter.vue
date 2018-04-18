@@ -2,7 +2,7 @@
 <template lang="html">
   <div class="box">
 
-    <navigation v-model="navigationTag"></navigation>
+    <personal-center-navigation v-model="navigationTag"></personal-center-navigation>
 
     <div class="data-box">
 
@@ -21,7 +21,7 @@
 </template>
 
 <script>
-import Navigation from './Navigation'
+import PersonalCenterNavigation from './PersonalCenterNavigation'
 import UserData from './UserData'
 import MessageData from './MessageData'
 import NoticeData from './NoticeData'
@@ -50,7 +50,7 @@ export default {
     }
   },
   components: {
-    Navigation,
+    PersonalCenterNavigation,
     UserData,
     MessageData,
     NoticeData,

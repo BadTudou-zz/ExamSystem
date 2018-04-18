@@ -189,7 +189,7 @@ export default {
         }
       }).then(res => {
         console.log('答案提交成功');
-        that.stopTest();
+        that.finishTest();
       }).catch(err => {
         let errMsg = err.response.data.error;
         if (errMsg) {
@@ -202,7 +202,7 @@ export default {
       })
     },
     // 完成考试
-    stopTest: function () {
+    finishTest: function () {
       const that = this;
       let id = that.examId;
 

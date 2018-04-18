@@ -35,7 +35,6 @@ Vue.component('example', require('./components/Example.vue'));
 Vue.component('login', require('./components/Login.vue'));
 Vue.component('register', require('./components/Register.vue'));
 Vue.component('app', require('./components/App.vue'));
-Vue.component('navigation', require('./components/Navigation.vue'));
 
 
 // const app = new Vue({

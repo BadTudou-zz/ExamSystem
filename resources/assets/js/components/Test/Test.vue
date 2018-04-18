@@ -10,7 +10,6 @@
           <div @click="searchTest()" class="search-button"><i class="fas fa-search"></i></div>
         </div>
         <button v-show="isShowCreateTest" @click="addTest()" class="button add-test-button" type="button" name="button">添加考试</button>
-        <button disabled v-show="isShowUpdateTest" @click="updateTest()" class="button" type="button" name="button">同步考试</button>
       </div>
       <table class="table">
         <thead>
@@ -21,7 +20,7 @@
             <!-- <th>试卷ID</th> -->
             <th>类型</th>
             <th>分值</th>
-            <th>时长</th>
+            <th>时长(分钟)</th>
             <th>描述</th>
             <th>创建时间</th>
             <!-- <th>更新时间</th> -->
@@ -43,7 +42,7 @@
             <!-- <td>{{ GLOBAL.toTime(item.updated_at) }}</td> -->
             <td>
               <button v-show="isShowDeleteTest" @click="deleteTest(index)" class="delete" type="button" name="button">删除</button>
-              <div @click="editTest(index)" class="edit-button"><i class="fas fa-edit"></i></div>
+              <div v-show="isShowEditTest" @click="editTest(index)" class="edit-button"><i class="fas fa-edit"></i></div>
               <button @click="startTest(index)" class="is-small button" type="button" name="button">开始考试</button>
               <button @click="stopTest(index)" class="is-small button" type="button" name="button">结束考试</button>
               <button @click="gradingPapers(index)" class="is-small button" type="button" name="button">批改</button>
@@ -359,7 +358,7 @@ export default {
       // return true;
       return sessionStorage.getItem('permissions').includes('exam-store');
     },
-    isShowUpdateTest() {
+    isShowEditTest() {
       // return true;
       return sessionStorage.getItem('permissions').includes('exam-update');
     },

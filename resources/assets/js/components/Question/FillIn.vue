@@ -150,7 +150,7 @@ export default {
       // return true;
       return sessionStorage.getItem('permissions').includes('question-show');
     },
-    isShowUpdateQuestion() {
+    isShowEditQuestion() {
       // return true;
       return sessionStorage.getItem('permissions').includes('question-update');
     },

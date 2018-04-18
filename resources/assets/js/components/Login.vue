@@ -162,6 +162,8 @@ export default {
           that.permissions = sessionStorage.getItem('permissions');
         }
       }).catch(err => {
+        alert('登录失败，请重新登录');
+        that.$refs.loginLoading.switchModal();
         console.log(err);
       })
     },

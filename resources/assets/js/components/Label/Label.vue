@@ -8,7 +8,6 @@
         <div @click="searchLabel()" class="search-button"><i class="fas fa-search"></i></div>
       </div>
         <button @click="addLabel()" class="button add-label-button" type="button" name="button">添加标签</button>
-        <button disabled v-show="isShowUpdateLabel" @click="updateLabel()" class="button" type="button" name="button">同步标签</button>
     </div>
     <table class="table">
       <thead>
@@ -32,7 +31,7 @@
           <td>{{ GLOBAL.toTime(item.updated_at) }}</td>
           <td>
             <button v-show="isShowDeleteLabel" @click="deleteLabel(index)" class="delete" type="button" name="button">删除标签</button>
-            <div @click="editLabel(index)" class="edit-button"><i class="fas fa-edit"></i></div>
+            <div v-show="isShowEditLabel" @click="editLabel(index)" class="edit-button"><i class="fas fa-edit"></i></div>
           </td>
         </tr>
       </tbody>
@@ -293,7 +292,7 @@ export default {
       // return true;
       return sessionStorage.getItem('permissions').includes('tag-show');
     },
-    isShowUpdateLabel() {
+    isShowEditLabel() {
       // return true;
       return sessionStorage.getItem('permissions').includes('tag-update');
     },

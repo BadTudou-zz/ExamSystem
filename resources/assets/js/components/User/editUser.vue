@@ -65,7 +65,6 @@ export default {
     'editData',
   ],
   components: {
-
   },
   methods: {
     switchModal: function () {
@@ -107,7 +106,8 @@ export default {
       that.isShowModal = value;
     },
     editData: function (value, oldValue) {
-      console.log(value)
+      const that = this;
+      that.userData.name = value.name;
     }
   }
 }

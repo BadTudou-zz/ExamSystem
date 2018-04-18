@@ -8,7 +8,6 @@
         <div @click="searchQuestion()" class="search-button"><i class="fas fa-search"></i></div>
       </div>
         <button v-show="isShowCreateQuestion" @click="addQuestion()" class="button add-question-button" type="button" name="button">添加问题</button>
-        <button disabled v-show="isShowUpdateQuestion" @click="updateQuestion()" class="button" type="button" name="button">同步问题</button>
     </div>
 
     <div v-for="(item,index) in questionData">
@@ -18,7 +17,7 @@
           <div class="notification">
             <div class="operate-box">
               <button v-show="isShowDeleteQuestion" @click="deleteQuestion(index)" class="delete"></button>
-              <button @click="editQuestion(index)" class="button edit-question is-small" type="button" name="button">编辑问题</button>
+              <button v-show="isShowEditQuestion" @click="editQuestion(index)" class="button edit-question is-small" type="button" name="button">编辑问题</button>
             </div>
             <p class="detail">        id：{{ item.id }}
               &nbsp;&nbsp;&nbsp;&nbsp; 类型： 单选
@@ -34,7 +33,7 @@
           <div class="notification">
             <div class="operate-box">
               <button v-show="isShowDeleteQuestion" @click="deleteQuestion(index)" class="delete"></button>
-              <button @click="editQuestion(index)" class="button edit-question is-small" type="button" name="button">编辑问题</button>
+              <button v-show="isShowEditQuestion" @click="editQuestion(index)" class="button edit-question is-small" type="button" name="button">编辑问题</button>
             </div>
             <p class="detail">        id：{{ item.id }}
               &nbsp;&nbsp;&nbsp;&nbsp; 类型： 多选
@@ -284,7 +283,7 @@ export default {
       // return true;
       return sessionStorage.getItem('permissions').includes('question-show');
     },
-    isShowUpdateQuestion() {
+    isShowEditQuestion() {
       // return true;
       return sessionStorage.getItem('permissions').includes('question-update');
     },
