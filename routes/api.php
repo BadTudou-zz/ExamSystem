@@ -58,13 +58,13 @@ Route::prefix('v1')->middleware(['auth:api'])->group(function () {
     Route::apiResource('omments', 'API\CommentController');
     // 课程
     Route::apiResource('courses', 'API\CourseController');
-    // 问题
+    // 题目
     Route::apiResource('questions', 'API\QuestionController');
     // 课程
     Route::apiResource('courses', 'API\CourseController');
     // 试卷
     Route::apiResource('papers', 'API\PaperController');
-    //试卷-问题
+    //试卷-题目
     Route::get('papers/{id}/questions', 'API\PaperController@questions');
     // 试卷-分数
     Route::get('papers/{id}/scores', 'API\PaperController@scores');

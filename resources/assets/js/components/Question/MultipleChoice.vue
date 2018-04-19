@@ -8,13 +8,13 @@
         <div class="notification">
           <div class="operate-box">
             <button @click="deleteQuestion(index)" class="delete"></button>
-            <button @click="editQuestion(index)" class="button edit-question" type="button" name="button">编辑问题</button>
+            <button @click="editQuestion(index)" class="button edit-question" type="button" name="button">编辑题目</button>
           </div>
           <p class="detail">        id：{{ item.id }}
             &nbsp;&nbsp;&nbsp;&nbsp; 类型： 多选
             &nbsp;&nbsp;&nbsp;&nbsp; 难度：{{ item.level_type }}
           </p>
-          <div class="question">问题描述{{ item.title }}</div>
+          <div class="question">题目描述{{ item.title }}</div>
           <div class="question">选项：{{ item.body }}</div>
           <div class="options">正确答案：{{ item.answer }}</div>
           <p class="time">{{ GLOBAL.toTime(item.created_at) }}</p>
@@ -75,7 +75,7 @@ export default {
       }
       return str;
     },
-    // 筛选单选问题
+    // 筛选单选题目
     filter: function (data) {
       const that = this;
       that.multipleChoiceData = [];

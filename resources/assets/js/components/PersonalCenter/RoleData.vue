@@ -3,7 +3,7 @@
   <div class="box">
     <h3 class="title">角色</h3>
 
-    <table class="table">
+    <table v-if="roleData" class="table">
       <thead>
         <tr>
           <th>ID</th>
@@ -23,6 +23,9 @@
         </tr>
       </tbody>
     </table>
+    <div v-else>
+      暂无角色数据
+    </div>
 
     <pagination v-bind:pagination-data="paginationData"
                 v-model="data"

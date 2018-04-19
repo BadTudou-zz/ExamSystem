@@ -7,7 +7,7 @@
       <div  v-for="(item,index) in noticeData" class="notice box">
         <div class="notification">
           {{ item.data}}
-          <p>{{ GLOBAL.toTime(item.created_at) }}</p>
+          <p>{{ GLOBAL.toTime(item.created_at.date) }}</p>
         </div>
       </div>
 

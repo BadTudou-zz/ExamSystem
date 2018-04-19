@@ -5,9 +5,13 @@
 
     <div v-if="messageData.length !== 0">
       <div  v-for="(item,index) in messageData" class="message box">
-        <div class="notification">
-          {{ item.data}}
-          <p>{{ GLOBAL.toTime(item.created_at) }}</p>
+        <div class="message">
+          <p class="message-data">{{ item.data }}</p>
+
+          <div class="message-detail">
+            <p>来自：{{ item.from_name }}</p>
+            <p>收到时间：{{ GLOBAL.toTime(item.created_at.date) }}</p>
+          </div>
         </div>
       </div>
       <pagination v-bind:pagination-data="paginationData"
@@ -103,14 +107,18 @@ export default {
     width: 130px;
   }
 }
-.notification p{
-  margin-top: 25px;
+.message-detail {
+  margin: 0px;
   text-align: right;
+  color: #acb9b8;
 }
 .title {
   color: #363636;
   font-size: 1.5rem;
   font-weight: 600;
   line-height: 1.125;
+}
+.message-data {
+  margin-bottom: 20px;
 }
 </style>

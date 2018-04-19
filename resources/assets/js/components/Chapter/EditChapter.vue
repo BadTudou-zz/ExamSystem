@@ -25,7 +25,7 @@
         </div>
         <div class="box-item">
           <div class="box-item">
-            <label>问题类型</label>
+            <label>题目类型</label>
             <div class="select">
               <select v-model="currentChapterData.question_type">
                 <option value="SINGLE_CHOICE">单选</option>
@@ -39,7 +39,7 @@
 
         </div>
         <div class="box-item">
-          <label>涉及到的问题</label>
+          <label>涉及到的题目</label>
           <div class="all-question">
 
             <table class="table">
@@ -132,7 +132,7 @@ export default {
       that.questionScore = res;
       // return res;
     },
-    // 计算问题分值的JSON
+    // 计算题目分值的JSON
     computedAnswerJson: function () {
       const that = this;
       let json = {};

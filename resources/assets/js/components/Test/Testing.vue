@@ -234,11 +234,11 @@ export default {
     //
     //   for (let i = 0; i < len; i++) {
     //     let chapterId = value[i];
-    //     // 获取所有问题的ID
+    //     // 获取所有题目的ID
     //     await that.getQuestionIds(chapterId, len, i);
     //   }
     // },
-    // // 获取所有的问题的数据
+    // // 获取所有的题目的数据
     // asyncGetQuestionData: async function (value) {
     //   const that = this;
     //   let len = value.length

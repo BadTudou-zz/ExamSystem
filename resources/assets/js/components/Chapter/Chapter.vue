@@ -19,10 +19,10 @@
                 <th>ID</th>
                 <th>章节名</th>
                 <th>描述</th>
-                <th>问题类型</th>
+                <th>题目类型</th>
                 <th>分值</th>
                 <th>数量</th>
-                <th>问题</th>
+                <th>题目</th>
                 <th>操作</th>
               </tr>
             </thead>

@@ -88,8 +88,15 @@ export default {
         that.getPermission(url);
 
       }).catch(err => {
+        let errorCode = err.response.status;  // http code
         let errorMsg = err.response.data.message;
-        alert(errorMsg);
+        if (errorMsg) {
+          alert(errorMsg);
+        }
+        else if (errorCode === 401) {
+          alert('密码错误');
+          that.password = '';
+        }
         that.captcha = '';
         that.getVerificationCode();
       })

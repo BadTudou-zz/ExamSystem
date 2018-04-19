@@ -2,7 +2,8 @@
 <template lang="html">
   <div class="box">
     <h3 class="title">申请</h3>
-    <table class="table">
+
+    <table v-if="applyForData" class="table">
       <thead>
         <tr>
           <th>发送者</th>
@@ -31,6 +32,10 @@
         </tr>
       </tbody>
     </table>
+    <div v-else>
+      暂无任何申请
+    </div>
+
 
     <pagination v-bind:pagination-data="paginationData"
                 v-model="data"

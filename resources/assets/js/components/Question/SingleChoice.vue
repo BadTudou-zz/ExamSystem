@@ -13,7 +13,7 @@
             &nbsp;&nbsp;&nbsp;&nbsp; 类型： 单选
             &nbsp;&nbsp;&nbsp;&nbsp; 难度：{{ item.level_type }}
           </p>
-          <div class="question">问题描述{{ item.title }}</div>
+          <div class="question">题目描述{{ item.title }}</div>
           <div class="question">选项：{{ getOptionsString(item.body) }}</div>
           <div class="options">正确答案：{{ item.answer }}</div>
           <p class="time">{{ GLOBAL.toTime(item.created_at) }}</p>
