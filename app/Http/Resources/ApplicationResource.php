@@ -18,6 +18,8 @@ class ApplicationResource extends Resource
             'id' => $this->id,
             'from' => $this->notifiable_id,
             'to' => json_decode($this->data)->notifiable_id,
+            'from_name' => json_decode($this->data)->from_name,
+            'to_name' => json_decode($this->data)->to_name,
             'action' => json_decode($this->data)->action,
             'resource_id' => json_decode($this->data)->resource_id,
             'resource_type' => json_decode($this->data)->resource_type,
