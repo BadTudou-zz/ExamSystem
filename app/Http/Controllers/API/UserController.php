@@ -111,7 +111,7 @@ class UserController extends Controller
             return  ApplicationResource::collection(OrmUtil::paginate($applications));
         }
         else {
-            return  new ApplicationCollection( Auth::user()->notifications()->where('type', ApplicationNotification::class)->paginate());
+            return  ApplicationResource::collection( Auth::user()->notifications()->where('type', ApplicationNotification::class)->paginate());
         }
         
     }
