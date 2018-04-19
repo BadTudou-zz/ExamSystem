@@ -29,7 +29,9 @@ class ApplicationController extends Controller
 
     public function store(StoreApplication $request)
     {
-        return Auth::user()->notify(new ApplicationNotification((object)['id' => $request->to, 'action' => $request->action, 'resource_id' => $request->resource_id, 'resource_type' => $request->resource_type, 'data' => $request->data]));
+        $fromUser =  Auth::user();
+        $toUser = User::findOrFail($request->to);
+        return $fromUser->notify(new ApplicationNotification((object)['id' => $request->to, 'from_name' => $fromUser->name, 'to_name' => $toUser->name, 'action' => $request->action, 'resource_id' => $request->resource_id, 'resource_type' => $request->resource_type, 'data' => $request->data]));
     }
 
     public function show(ShowApplication $request, $id)
