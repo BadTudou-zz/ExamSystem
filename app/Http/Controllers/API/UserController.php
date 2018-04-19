@@ -11,7 +11,7 @@ use App\Http\Resources\UserResource;
 use App\Http\Resources\OrganizationCollection;
 use App\Http\Resources\LectureCollection;
 use App\Http\Resources\RoleCollection;
-use App\Http\Resources\PermissionCollection;
+use App\Http\Resources\PermissionResource;
 use App\Http\Resources\ApplicationResource;
 use App\Http\Resources\ExamResource;
 use App\Http\Resources\ApplicationCollection;
@@ -93,8 +93,8 @@ class UserController extends Controller
     {
         $permissions = User::find($id)->roles()->get()->map(function ($role){
             return $role->perms()->get();
-        })[0];
-        return new PermissionCollection(OrmUtil::paginate($permissions));
+        });
+        return PermissionResource::collection(OrmUtil::paginate(count($permissions)?$permissions[0]:null));
     }
 
     public function applications(ShowUser $request)
