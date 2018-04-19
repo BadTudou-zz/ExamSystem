@@ -59,6 +59,8 @@ class PrivateMessage extends Notification
 
         return [
             'notifiable_id' => $this->message->id,
+            'from_name' => $this->message->from_name,
+            'to_name' => $this->message->to_name,
             'data' => $this->message->data
         ];
     }

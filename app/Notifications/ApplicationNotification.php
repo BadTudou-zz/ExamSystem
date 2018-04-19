@@ -57,6 +57,8 @@ class ApplicationNotification extends Notification
     {
         return [
             'notifiable_id' => $this->application->id,
+            'from_name' => $this->message->from_name,
+            'to_name' => $this->message->to_name,
             'action' => $this->application->action,
             'resource_id' => $this->application->resource_id,
             'resource_type' => $this->application->resource_type,

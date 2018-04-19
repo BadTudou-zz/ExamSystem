@@ -27,7 +27,9 @@ class MessageController extends Controller
 
     public function store(StoreMessage $request)
     {
-        Auth::user()->notify(new PrivateMessage((object)['id' => $request->to, 'data' => $request->data]));
+        $fromUser =  Auth::user();
+        $toUser = User::findOrFail($request->to);
+        $fromUser->notify(new PrivateMessage((object)['id' => $request->to, 'from_name' => $fromUser->name, 'to_name' => $toUser->name, 'data' => $request->data]));
     }
 
     public function show(ShowMessage $request, $id)
