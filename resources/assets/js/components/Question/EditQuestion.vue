@@ -12,10 +12,10 @@
           <div class="select">
             <select v-model="currentQuestionData.question_type">
               <option value="SINGLE_CHOICE">单选</option>
-              <option disabled value="MULTIPLE_CHOICE">多选</option>
+              <!-- <option disabled value="MULTIPLE_CHOICE">多选</option>
               <option disabled value="TRUE_FALSE">判断</option>
               <option disabled value="FILL_IN">填空</option>
-              <option disabled value="SHORT_ANSWER">简答</option>
+              <option disabled value="SHORT_ANSWER">简答</option> -->
             </select>
           </div>
         </div>

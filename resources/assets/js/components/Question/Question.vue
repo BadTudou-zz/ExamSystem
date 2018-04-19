@@ -19,12 +19,14 @@
               <button v-show="isShowDeleteQuestion" @click="deleteQuestion(index)" class="delete"></button>
               <button v-show="isShowEditQuestion" @click="editQuestion(index)" class="button edit-question is-small" type="button" name="button">编辑问题</button>
             </div>
-            <p class="detail">        id：{{ item.id }}
+            <p class="detail">        序号：{{ item.id }}
               &nbsp;&nbsp;&nbsp;&nbsp; 类型： 单选
               &nbsp;&nbsp;&nbsp;&nbsp; 难度：{{ computedDifficulty(item.level_type) }}
             </p>
             <div class="question">题目：{{ item.title }}</div>
-            <div class="question">选项：{{ getOptionsString(item.body) }}</div>
+            <div class="question">
+              选项：{{ getOptionsString(item.body) }}
+            </div>
           </div>
         </div>
 
@@ -35,12 +37,14 @@
               <button v-show="isShowDeleteQuestion" @click="deleteQuestion(index)" class="delete"></button>
               <button v-show="isShowEditQuestion" @click="editQuestion(index)" class="button edit-question is-small" type="button" name="button">编辑问题</button>
             </div>
-            <p class="detail">        id：{{ item.id }}
+            <p class="detail">        序号：{{ item.id }}
               &nbsp;&nbsp;&nbsp;&nbsp; 类型： 多选
               &nbsp;&nbsp;&nbsp;&nbsp; 难度：{{ computedDifficulty(item.level_type) }}
             </p>
             <div class="question">题目：{{ item.title }}</div>
-            <div class="question">选项：{{ getOptionsString(item.body) }}</div>
+            <div v-html class="question">
+              选项：{{ getOptionsString(item.body) }}
+            </div>
           </div>
         </div>
       </div>
@@ -257,8 +261,16 @@ export default {
       let alphabet = ['A','B','C','D','E','F','G','H','I'];
       let str = '';
       for (let i = 0; i < arr.length; i++) {
-        str += alphabet[i] + '.' + arr[i] + '   ';
+        str += ' ' + alphabet[i] + '.' + arr[i]  + '\n';
+        // if (i === 0) {
+        //   str += alphabet[i] + '.' + arr[i] + '.';
+        // }
+        // else {
+        //   str += ' ' + alphabet[i] + '.' + arr[i];
+        // }
       }
+      // let optionArray = str.split('\n');
+      // return opstrtionArray;
       return str;
     },
     computedDifficulty: function (value) {

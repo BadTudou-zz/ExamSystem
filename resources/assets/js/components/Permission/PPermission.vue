@@ -8,7 +8,7 @@
       </div>
         <button v-show="isShowCreatePermission" @click="addPermission()" class="button add-permission-button" type="button" name="button">添加权限</button>
     </div>
-    <table class="table">
+    <table class="table is-bordered is-striped is-hoverable is-fullwidths">
       <thead>
         <tr>
           <th>ID</th>

@@ -28,10 +28,10 @@
           <div class="select">
             <select v-model="chapterData.question_type">
               <option value="SINGLE_CHOICE">单选</option>
-              <option value="MULTIPLE_CHOICE">多选</option>
+              <!-- <option value="MULTIPLE_CHOICE">多选</option>
               <option value="TRUE_FALSE">判断</option>
               <option value="FILL_IN">填空</option>
-              <option value="SHORT_ANSWER">简答</option>
+              <option value="SHORT_ANSWER">简答</option> -->
             </select>
           </div>
         </div>

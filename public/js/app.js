@@ -29551,6 +29551,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 
 
@@ -29559,7 +29561,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   data: function data() {
     return {
       isShowLogin: true,
-      loginStatus: null,
       logOut: null
     };
   },
@@ -29572,7 +29573,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     checkLoginState: function checkLoginState() {
       var that = this;
       var token = sessionStorage.getItem("token");
-      if (token) {
+      var userPermissions = sessionStorage.getItem('permissions');
+      if (token && userPermissions !== null) {
         that.isShowLogin = false;
       } else {
         that.isShowLogin = true;
@@ -29584,10 +29586,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   },
 
   watch: {
-    'loginStatus': function loginStatus(value, oldValue) {
-      var that = this;
-      that.isShowLogin = value;
-    },
     logOut: function logOut(value, oldValue) {
       var that = this;
       if (value === 'logOut') {
@@ -29664,6 +29662,52 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -29672,17 +29716,21 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     return {
       isShowModal: false,
       applyForData: {
-        to: '', // 发送到的用户
-        action: '', // ??
-        resource_id: '', // ??
-        resource_type: '', // ??
-        data: '' // ??SSS
+        to: '',
+        action: 'create',
+        resource_id: '',
+        resource_type: 'Organization', // 组织、授课
+        data: ''
       },
       // 翻页
-      paginationData: null,
-      data: null,
+      paginationData1: null,
+      data1: null,
+      // 翻页
+      paginationData2: null,
+      data2: null,
       //
-      userData: []
+      userData: [],
+      resourceData: []
     };
   },
 
@@ -29697,7 +29745,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     clearWords: function clearWords() {
       var that = this;
       that.applyForData.to = '';
-      that.applyForData.action = '';
+      that.applyForData.action = 'create';
       that.applyForData.resource_id = '';
       that.applyForData.resource_type = '';
       that.applyForData.data = '';
@@ -29713,14 +29761,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
         body: {
           to: that.applyForData.to,
-          action: 'create', // ?? 枚举值
-          // resource_id: that.applyForData.resource_id,
-          resource_id: 1,
-          // resource_type: that.applyForData.type,
-          resource_type: 'Organization',
+          action: 'create',
+          resource_id: that.applyForData.resource_id,
+          resource_type: that.applyForData.resource_type,
           data: that.applyForData.data
         }
       }).then(function (res) {
+        debugger;
         alert('添加成功');
         that.$emit('getApplyFor'); //第一个参数名为调用的方法名，第二个参数为需要传递的参数
         that.switchModal();
@@ -29742,7 +29789,39 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         }
       }).then(function (res) {
         that.userData = res.data.data;
-        that.paginationData = res.data.links;
+        that.paginationData1 = res.data.links;
+      }).catch(function (err) {
+        console.log(err);
+      });
+    },
+    getOrganization: function getOrganization() {
+      var that = this;
+      axios({
+        method: 'get',
+        url: this.GLOBAL.localDomain + '/api/v1/organizations',
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': sessionStorage.getItem('token')
+        }
+      }).then(function (res) {
+        that.resourceData = res.data.data;
+        that.paginationData2 = res.data.links;
+      }).catch(function (err) {
+        console.log(err);
+      });
+    },
+    getLecture: function getLecture() {
+      var that = this;
+      axios({
+        method: 'get',
+        url: this.GLOBAL.localDomain + '/api/v1/lectures',
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': sessionStorage.getItem('token')
+        }
+      }).then(function (res) {
+        that.resourceData = res.data.data;
+        that.paginationData2 = res.data.links;
       }).catch(function (err) {
         console.log(err);
       });
@@ -29754,16 +29833,31 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   },
 
   watch: {
-    data: function data(value, oldValue) {
-      var that = this;
-      that.applyForData = value.data;
-      that.paginationData = value.links;
-    },
     isShowModal: function isShowModal(value, oldVale) {
       var that = this;
       if (value) {
         this.clearWords();
         this.getUser();
+      }
+    },
+    data1: function data1(value, oldValue) {
+      var that = this;
+      that.applyForData = value.data;
+      that.paginationData1 = value.links;
+    },
+    data2: function data2(value, oldValue) {
+      var that = this;
+      that.resourceData = value.data;
+      that.paginationData2 = value.links;
+    },
+    'applyForData.resource_type': function applyForDataResource_type(value, oldValue) {
+      var that = this;
+      if (value === 'Organization') {
+        that.getOrganization();
+      } else if (value === 'Lecture') {
+        that.getLecture();
+      } else {
+        return;
       }
     }
   }
@@ -30005,7 +30099,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   }), _defineProperty(_methods, 'editApplyFor', function editApplyFor(index) {
     var that = this;
     that.editData = that.applyForData[index];
-    // that.$refs.addApplyFor.switchModal();
     that.$refs.editApplyFor.switchModal();
   }), _defineProperty(_methods, 'acceptApplyFor', function acceptApplyFor(index) {
     var that = this;
@@ -30089,6 +30182,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Pagination_vue__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Pagination_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__Pagination_vue__);
 //
 //
 //
@@ -30127,47 +30222,233 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
       isShowModal: false,
-      chapterData: {
-        title: null,
-        score: null,
-        min: null,
-        describe: null
-      }
+      applyForData: {
+        to: '',
+        action: 'create',
+        resource_id: '',
+        resource_type: 'Organization', // 组织、授课
+        data: ''
+      },
+      // 翻页
+      paginationData1: null,
+      data1: null,
+      // 翻页
+      paginationData2: null,
+      data2: null,
+      //
+      userData: [],
+      resourceData: []
     };
   },
 
-  components: {},
+  components: {
+    Pagination: __WEBPACK_IMPORTED_MODULE_0__Pagination_vue___default.a
+  },
   props: ['editData'],
   methods: {
     switchModal: function switchModal() {
       var that = this;
       that.isShowModal = !that.isShowModal;
     },
+    clearWords: function clearWords() {
+      var that = this;
+      that.applyForData.to = '';
+      that.applyForData.action = 'create';
+      that.applyForData.resource_id = '';
+      that.applyForData.resource_type = '';
+      that.applyForData.data = '';
+    },
     editApplyFor: function editApplyFor() {
       var that = this;
       axios({
-        method: 'post',
-        url: this.GLOBAL.localDomain + '/api/v1/questions/',
+        method: 'put',
+        url: this.GLOBAL.localDomain + '/api/v1/applications/',
         headers: {
           'Accept': 'application/json',
           'Authorization': sessionStorage.getItem('token')
         },
         body: {
-          question_type: that.chapterData.question_type,
-          level_type: that.chapterData.level_type,
-          title: that.chapterData.title,
-          body: that.chapterData.body,
-          answer: that.chapterData.answer,
-          answer_comment: that.chapterData.answer_comment
+          to: that.applyForData.to,
+          action: 'create',
+          resource_id: that.applyForData.resource_id,
+          resource_type: that.applyForData.resource_type,
+          data: that.applyForData.data
         }
-      }).then(function (res) {}).catch(function (err) {
+      }).then(function (res) {
+        debugger;
+        alert('添加成功');
+        that.$emit('getApplyFor'); //第一个参数名为调用的方法名，第二个参数为需要传递的参数
+        that.switchModal();
+      }).catch(function (err) {
+        alert('添加失败');
+        console.log(err);
+        that.clearWords();
+      });
+    },
+    // 全部用户
+    getUser: function getUser() {
+      var that = this;
+      axios({
+        method: 'get',
+        url: this.GLOBAL.localDomain + '/api/v1/users/',
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': sessionStorage.getItem('token')
+        }
+      }).then(function (res) {
+        that.userData = res.data.data;
+        that.paginationData1 = res.data.links;
+      }).catch(function (err) {
         console.log(err);
       });
+    },
+    getOrganization: function getOrganization() {
+      var that = this;
+      axios({
+        method: 'get',
+        url: this.GLOBAL.localDomain + '/api/v1/organizations',
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': sessionStorage.getItem('token')
+        }
+      }).then(function (res) {
+        that.resourceData = res.data.data;
+        that.paginationData2 = res.data.links;
+      }).catch(function (err) {
+        console.log(err);
+      });
+    },
+    getLecture: function getLecture() {
+      var that = this;
+      axios({
+        method: 'get',
+        url: this.GLOBAL.localDomain + '/api/v1/lectures',
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': sessionStorage.getItem('token')
+        }
+      }).then(function (res) {
+        that.resourceData = res.data.data;
+        that.paginationData2 = res.data.links;
+      }).catch(function (err) {
+        console.log(err);
+      });
+    }
+  },
+  created: function created() {
+    // this.clearWords();
+    // this.getUser();
+  },
+
+  watch: {
+    isShowModal: function isShowModal(value, oldVale) {
+      var that = this;
+      if (value) {
+        this.clearWords();
+        this.getUser();
+      }
+    },
+    data1: function data1(value, oldValue) {
+      var that = this;
+      that.applyForData = value.data;
+      that.paginationData1 = value.links;
+    },
+    data2: function data2(value, oldValue) {
+      var that = this;
+      that.resourceData = value.data;
+      that.paginationData2 = value.links;
+    },
+    'applyForData.resource_type': function applyForDataResource_type(value, oldValue) {
+      var that = this;
+      if (value === 'Organization') {
+        that.getOrganization();
+      } else if (value === 'Lecture') {
+        that.getLecture();
+      } else {
+        return;
+      }
+    },
+    editData: function editData(value, oldValue) {
+      var that = this;
+      that.applyForData.to = value.to;
+      that.applyForData.action = value.action;
+      that.applyForData.resource_id = value.resource_id;
+      that.applyForData.resource_type = value.resource_type;
+      that.applyForData.data = value.data;
     }
   }
 });
@@ -33053,6 +33334,8 @@ var Base64 = __webpack_require__(358).Base64;
       }).catch(function (err) {
         alert('登录失败，请重新登录');
         that.$refs.loginLoading.switchModal();
+        // that.$emit('input', 'loginFailure');
+        that.isShowLoginBox = true;
         console.log(err);
       });
     }
@@ -33064,7 +33347,8 @@ var Base64 = __webpack_require__(358).Base64;
   watch: {
     permissions: function permissions(value, oldValue) {
       var that = this;
-      that.$emit('input', false);
+      that.$refs.loginLoading.switchModal();
+      that.$emit('checkLoginState'); //第一个参数名为调用的方法名，第二个参数为需要传递的参数
     }
   }
 });
@@ -37146,7 +37430,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
       }
       return str;
     },
-    // ?? 多选的答案格式
+    //
     computedAnswerJson: function computedAnswerJson() {
       var that = this;
       if (that.answer.length !== that.questionData.length) {
@@ -37951,6 +38235,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
 
 
 
@@ -38141,8 +38429,16 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     var alphabet = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I'];
     var str = '';
     for (var i = 0; i < arr.length; i++) {
-      str += alphabet[i] + '.' + arr[i] + '   ';
+      str += ' ' + alphabet[i] + '.' + arr[i] + '\n';
+      // if (i === 0) {
+      //   str += alphabet[i] + '.' + arr[i] + '.';
+      // }
+      // else {
+      //   str += ' ' + alphabet[i] + '.' + arr[i];
+      // }
     }
+    // let optionArray = str.split('\n');
+    // return opstrtionArray;
     return str;
   }), _defineProperty(_methods, 'computedDifficulty', function computedDifficulty(value) {
     var difficultyName = '';
@@ -38435,6 +38731,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         }
       }).then(function (res) {
         alert('注册成功');
+        that.switchModal();
         that.name = '';
         that.email = '';
         that.password = '';
@@ -47335,7 +47632,7 @@ exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(1)();
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n.seleted-input[data-v-06de79a7] {\n  width: 10px;\n}\n", ""]);
 
 /***/ }),
 /* 271 */
@@ -47524,7 +47821,7 @@ exports.push([module.i, "\ntable {\n  margin: 35px auto 0 auto;\n}\n.search-inpu
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(1)();
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n.seleted-input[data-v-3dcb46aa] {\n  width: 10px;\n}\n", ""]);
 
 /***/ }),
 /* 298 */
@@ -66201,7 +66498,7 @@ var Component = __webpack_require__(2)(
   /* template */
   __webpack_require__(433),
   /* scopeId */
-  null,
+  "data-v-06de79a7",
   /* cssModules */
   null
 )
@@ -68787,7 +69084,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "modal-card-head"
   }, [_c('p', {
     staticClass: "modal-card-title"
-  }, [_vm._v("编辑申请")]), _vm._v(" "), _c('button', {
+  }, [_vm._v("添加申请")]), _vm._v(" "), _c('button', {
     staticClass: "delete",
     attrs: {
       "aria-label": "close"
@@ -68801,113 +69098,154 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "modal-card-body"
   }, [_c('div', {
     staticClass: "box-item"
-  }, [_c('label', [_vm._v("to")]), _vm._v(" "), _c('input', {
+  }, [_vm._v("\n        请选择需要发送的用户：\n        "), _c('div', {
+    staticClass: "all-user"
+  }, [_c('table', {
+    staticClass: "table"
+  }, [_vm._m(0), _vm._v(" "), _c('tbody', _vm._l((_vm.userData), function(item, index) {
+    return _c('tr', [_c('td', [_c('input', {
+      directives: [{
+        name: "model",
+        rawName: "v-model",
+        value: (_vm.applyForData.to),
+        expression: "applyForData.to"
+      }],
+      staticClass: "seleted-input",
+      attrs: {
+        "type": "radio"
+      },
+      domProps: {
+        "value": item.id,
+        "checked": _vm._q(_vm.applyForData.to, item.id)
+      },
+      on: {
+        "change": function($event) {
+          _vm.$set(_vm.applyForData, "to", item.id)
+        }
+      }
+    })]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.id))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.name))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.email))])])
+  }))]), _vm._v(" "), _c('pagination', {
+    attrs: {
+      "pagination-data": _vm.paginationData1
+    },
+    model: {
+      value: (_vm.data1),
+      callback: function($$v) {
+        _vm.data1 = $$v
+      },
+      expression: "data1"
+    }
+  })], 1)]), _vm._v(" "), _c('div', {
+    staticClass: "box-item"
+  }, [_vm._v("\n        请选择需要申请的资源：\n        "), _c('div', {
+    staticClass: "select"
+  }, [_c('select', {
     directives: [{
       name: "model",
       rawName: "v-model",
-      value: (_vm.chapterData.to),
-      expression: "chapterData.to"
+      value: (_vm.applyForData.resource_type),
+      expression: "applyForData.resource_type"
     }],
-    staticClass: "input",
-    attrs: {
-      "type": "text",
-      "placeholder": "请输入申请名"
-    },
-    domProps: {
-      "value": (_vm.chapterData.to)
-    },
     on: {
-      "input": function($event) {
-        if ($event.target.composing) { return; }
-        _vm.$set(_vm.chapterData, "to", $event.target.value)
+      "change": function($event) {
+        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+          return o.selected
+        }).map(function(o) {
+          var val = "_value" in o ? o._value : o.value;
+          return val
+        });
+        _vm.$set(_vm.applyForData, "resource_type", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
       }
     }
-  })]), _vm._v(" "), _c('div', {
+  }, [_c('option', {
+    attrs: {
+      "value": "Organization"
+    }
+  }, [_vm._v("组织")]), _vm._v(" "), _c('option', {
+    attrs: {
+      "value": "Lecture"
+    }
+  }, [_vm._v("授课")])])]), _vm._v(" "), _c('div', {
+    staticClass: "all-user"
+  }, [(_vm.applyForData.resource_type === 'Organization') ? _c('table', {
+    staticClass: "table"
+  }, [_vm._m(1), _vm._v(" "), _c('tbody', _vm._l((_vm.resourceData), function(item, index) {
+    return _c('tr', [_c('td', [_c('input', {
+      directives: [{
+        name: "model",
+        rawName: "v-model",
+        value: (_vm.applyForData.resource_id),
+        expression: "applyForData.resource_id"
+      }],
+      staticClass: "seleted-input",
+      attrs: {
+        "type": "radio"
+      },
+      domProps: {
+        "value": item.id,
+        "checked": _vm._q(_vm.applyForData.resource_id, item.id)
+      },
+      on: {
+        "change": function($event) {
+          _vm.$set(_vm.applyForData, "resource_id", item.id)
+        }
+      }
+    })]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.id))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.name))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.describe))])])
+  }))]) : _vm._e(), _vm._v(" "), (_vm.applyForData.resource_type === 'Lecture') ? _c('table', {
+    staticClass: "table"
+  }, [_vm._m(2), _vm._v(" "), _c('tbody', _vm._l((_vm.resourceData), function(item, index) {
+    return _c('tr', [_c('td', [_c('input', {
+      directives: [{
+        name: "model",
+        rawName: "v-model",
+        value: (_vm.applyForData.resource_id),
+        expression: "applyForData.resource_id"
+      }],
+      staticClass: "seleted-input",
+      attrs: {
+        "type": "radio"
+      },
+      domProps: {
+        "value": item.id,
+        "checked": _vm._q(_vm.applyForData.resource_id, item.id)
+      },
+      on: {
+        "change": function($event) {
+          _vm.$set(_vm.applyForData, "resource_id", item.id)
+        }
+      }
+    })]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.id))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.name))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.describe))])])
+  }))]) : _vm._e(), _vm._v(" "), _c('pagination', {
+    attrs: {
+      "pagination-data": _vm.paginationData2
+    },
+    model: {
+      value: (_vm.data2),
+      callback: function($$v) {
+        _vm.data2 = $$v
+      },
+      expression: "data2"
+    }
+  })], 1)]), _vm._v(" "), _c('div', {
     staticClass: "box-item"
-  }, [_c('label', [_vm._v("resource_id")]), _vm._v(" "), _c('input', {
+  }, [_c('label', [_vm._v("内容")]), _vm._v(" "), _c('input', {
     directives: [{
       name: "model",
       rawName: "v-model",
-      value: (_vm.chapterData.resource_id),
-      expression: "chapterData.resource_id"
+      value: (_vm.applyForData.data),
+      expression: "applyForData.data"
     }],
     staticClass: "input",
     attrs: {
       "type": "text"
     },
     domProps: {
-      "value": (_vm.chapterData.resource_id)
+      "value": (_vm.applyForData.data)
     },
     on: {
       "input": function($event) {
         if ($event.target.composing) { return; }
-        _vm.$set(_vm.chapterData, "resource_id", $event.target.value)
-      }
-    }
-  })]), _vm._v(" "), _c('div', {
-    staticClass: "box-item"
-  }, [_c('label', [_vm._v("resource_type")]), _vm._v(" "), _c('input', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.chapterData.resource_type),
-      expression: "chapterData.resource_type"
-    }],
-    staticClass: "input",
-    attrs: {
-      "type": "text"
-    },
-    domProps: {
-      "value": (_vm.chapterData.resource_type)
-    },
-    on: {
-      "input": function($event) {
-        if ($event.target.composing) { return; }
-        _vm.$set(_vm.chapterData, "resource_type", $event.target.value)
-      }
-    }
-  })]), _vm._v(" "), _c('div', {
-    staticClass: "box-item"
-  }, [_c('label', [_vm._v("data")]), _vm._v(" "), _c('input', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.chapterData.data),
-      expression: "chapterData.data"
-    }],
-    staticClass: "input",
-    attrs: {
-      "type": "text"
-    },
-    domProps: {
-      "value": (_vm.chapterData.data)
-    },
-    on: {
-      "input": function($event) {
-        if ($event.target.composing) { return; }
-        _vm.$set(_vm.chapterData, "data", $event.target.value)
-      }
-    }
-  })]), _vm._v(" "), _c('div', {
-    staticClass: "box-item"
-  }, [_c('label', [_vm._v("问题类型")]), _vm._v(" "), _c('input', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.chapterData.question_type),
-      expression: "chapterData.question_type"
-    }],
-    staticClass: "input",
-    attrs: {
-      "type": "text"
-    },
-    domProps: {
-      "value": (_vm.chapterData.question_type)
-    },
-    on: {
-      "input": function($event) {
-        if ($event.target.composing) { return; }
-        _vm.$set(_vm.chapterData, "question_type", $event.target.value)
+        _vm.$set(_vm.applyForData, "data", $event.target.value)
       }
     }
   })])]), _vm._v(" "), _c('footer', {
@@ -68916,7 +69254,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "button is-success",
     on: {
       "click": function($event) {
-        _vm.addApplyFor()
+        _vm.editApplyFor()
       }
     }
   }, [_vm._v("确认")]), _vm._v(" "), _c('button', {
@@ -68927,7 +69265,13 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }
   }, [_vm._v("取消")])])])])
-},staticRenderFns: []}
+},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('thead', [_c('tr', [_c('th', [_vm._v("是否选中")]), _vm._v(" "), _c('th', [_vm._v("序号")]), _vm._v(" "), _c('th', [_vm._v("用户名")]), _vm._v(" "), _c('th', [_vm._v("邮箱")])])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('thead', [_c('tr', [_c('th', [_vm._v("是否选中")]), _vm._v(" "), _c('th', [_vm._v("序号")]), _vm._v(" "), _c('th', [_vm._v("组织名")]), _vm._v(" "), _c('th', [_vm._v("描述")])])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('thead', [_c('tr', [_c('th', [_vm._v("是否选中")]), _vm._v(" "), _c('th', [_vm._v("序号")]), _vm._v(" "), _c('th', [_vm._v("课程名")]), _vm._v(" "), _c('th', [_vm._v("描述")])])])
+}]}
 module.exports.render._withStripped = true
 if (false) {
   module.hot.accept()
@@ -69200,7 +69544,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }
   }, [_vm._v("添加权限")])]), _vm._v(" "), _c('table', {
-    staticClass: "table"
+    staticClass: "table is-bordered is-striped is-hoverable is-fullwidths"
   }, [_c('thead', [_c('tr', [_c('th', [_vm._v("ID")]), _vm._v(" "), _c('th', [_vm._v("权限名")]), _vm._v(" "), _c('th', [_vm._v("别名")]), _vm._v(" "), _c('th', [_vm._v("描述")]), _vm._v(" "), _c('th', [_vm._v("创建时间")]), _vm._v(" "), _c('th', [_vm._v("更新时间")]), _vm._v(" "), _c('th', {
     directives: [{
       name: "show",
@@ -69720,11 +70064,11 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }, [_vm._v("编辑问题")])]), _vm._v(" "), _c('p', {
       staticClass: "detail"
-    }, [_vm._v("        id：" + _vm._s(item.id) + "\n                 类型： 单选\n                 难度：" + _vm._s(_vm.computedDifficulty(item.level_type)) + "\n          ")]), _vm._v(" "), _c('div', {
+    }, [_vm._v("        序号：" + _vm._s(item.id) + "\n                 类型： 单选\n                 难度：" + _vm._s(_vm.computedDifficulty(item.level_type)) + "\n          ")]), _vm._v(" "), _c('div', {
       staticClass: "question"
     }, [_vm._v("题目：" + _vm._s(item.title))]), _vm._v(" "), _c('div', {
       staticClass: "question"
-    }, [_vm._v("选项：" + _vm._s(_vm.getOptionsString(item.body)))])])]), _vm._v(" "), _c('div', {
+    }, [_vm._v("\n            选项：" + _vm._s(_vm.getOptionsString(item.body)) + "\n          ")])])]), _vm._v(" "), _c('div', {
       directives: [{
         name: "show",
         rawName: "v-show",
@@ -69768,11 +70112,11 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }, [_vm._v("编辑问题")])]), _vm._v(" "), _c('p', {
       staticClass: "detail"
-    }, [_vm._v("        id：" + _vm._s(item.id) + "\n                 类型： 多选\n                 难度：" + _vm._s(_vm.computedDifficulty(item.level_type)) + "\n          ")]), _vm._v(" "), _c('div', {
+    }, [_vm._v("        序号：" + _vm._s(item.id) + "\n                 类型： 多选\n                 难度：" + _vm._s(_vm.computedDifficulty(item.level_type)) + "\n          ")]), _vm._v(" "), _c('div', {
       staticClass: "question"
     }, [_vm._v("题目：" + _vm._s(item.title))]), _vm._v(" "), _c('div', {
       staticClass: "question"
-    }, [_vm._v("选项：" + _vm._s(_vm.getOptionsString(item.body)))])])])])])
+    }, [_vm._v("\n            选项：" + _vm._s(_vm.getOptionsString(item.body)) + "\n          ")])])])])])
   }), _vm._v(" "), _c('add-question', {
     ref: "addQuestion",
     on: {
@@ -70584,7 +70928,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }
   }, [_vm._v("添加课程")])]), _vm._v(" "), _c('table', {
-    staticClass: "table"
+    staticClass: "table is-bordered is-striped is-hoverable is-fullwidths"
   }, [_vm._m(0), _vm._v(" "), _c('tbody', _vm._l((_vm.courseData), function(item, index) {
     return _c('tr', [_c('td', [_vm._v(_vm._s(item.id))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.name))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.display_name))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.number))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.descripe))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.GLOBAL.toTime(item.created_at)))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.GLOBAL.toTime(item.updated_at)))]), _vm._v(" "), _c('td', [_c('button', {
       directives: [{
@@ -71282,27 +71626,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "value": "SINGLE_CHOICE"
     }
-  }, [_vm._v("单选")]), _vm._v(" "), _c('option', {
-    attrs: {
-      "disabled": "",
-      "value": "MULTIPLE_CHOICE"
-    }
-  }, [_vm._v("多选")]), _vm._v(" "), _c('option', {
-    attrs: {
-      "disabled": "",
-      "value": "TRUE_FALSE"
-    }
-  }, [_vm._v("判断")]), _vm._v(" "), _c('option', {
-    attrs: {
-      "disabled": "",
-      "value": "FILL_IN"
-    }
-  }, [_vm._v("填空")]), _vm._v(" "), _c('option', {
-    attrs: {
-      "disabled": "",
-      "value": "SHORT_ANSWER"
-    }
-  }, [_vm._v("简答")])])])]), _vm._v(" "), _c('div', {
+  }, [_vm._v("单选")])])])]), _vm._v(" "), _c('div', {
     staticClass: "box-item"
   }, [_c('label', [_vm._v("问题难度")]), _vm._v(" "), _c('div', {
     staticClass: "select"
@@ -71928,7 +72252,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }
   }, [_vm._v("添加考试")])]), _vm._v(" "), _c('table', {
-    staticClass: "table"
+    staticClass: "table is-bordered is-striped is-hoverable is-fullwidths"
   }, [_vm._m(0), _vm._v(" "), _c('tbody', _vm._l((_vm.testData), function(item, index) {
     return _c('tr', [_c('td', [_vm._v(_vm._s(item.id))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.title))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.exam_type))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.score))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.min))]), _vm._v(" "), _c('td', [_vm._v(" " + _vm._s(item.description))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.GLOBAL.toTime(item.created_at)))]), _vm._v(" "), _c('td', [_c('button', {
       directives: [{
@@ -72244,7 +72568,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         value: (_vm.applyForData.to),
         expression: "applyForData.to"
       }],
-      staticClass: "user-seleted",
+      staticClass: "seleted-input",
       attrs: {
         "type": "radio"
       },
@@ -72260,62 +72584,109 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     })]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.id))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.name))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.email))])])
   }))]), _vm._v(" "), _c('pagination', {
     attrs: {
-      "pagination-data": _vm.paginationData
+      "pagination-data": _vm.paginationData1
     },
     model: {
-      value: (_vm.data),
+      value: (_vm.data1),
       callback: function($$v) {
-        _vm.data = $$v
+        _vm.data1 = $$v
       },
-      expression: "data"
+      expression: "data1"
     }
   })], 1)]), _vm._v(" "), _c('div', {
     staticClass: "box-item"
-  }, [_c('label', [_vm._v("资源ID")]), _vm._v(" "), _c('input', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.applyForData.resource_id),
-      expression: "applyForData.resource_id"
-    }],
-    staticClass: "input",
-    attrs: {
-      "type": "text"
-    },
-    domProps: {
-      "value": (_vm.applyForData.resource_id)
-    },
-    on: {
-      "input": function($event) {
-        if ($event.target.composing) { return; }
-        _vm.$set(_vm.applyForData, "resource_id", $event.target.value)
-      }
-    }
-  })]), _vm._v(" "), _c('div', {
-    staticClass: "box-item"
-  }, [_c('label', [_vm._v("资源类型")]), _vm._v(" "), _c('input', {
+  }, [_vm._v("\n        请选择需要申请的资源：\n        "), _c('div', {
+    staticClass: "select"
+  }, [_c('select', {
     directives: [{
       name: "model",
       rawName: "v-model",
       value: (_vm.applyForData.resource_type),
       expression: "applyForData.resource_type"
     }],
-    staticClass: "input",
-    attrs: {
-      "type": "text"
-    },
-    domProps: {
-      "value": (_vm.applyForData.resource_type)
-    },
     on: {
-      "input": function($event) {
-        if ($event.target.composing) { return; }
-        _vm.$set(_vm.applyForData, "resource_type", $event.target.value)
+      "change": function($event) {
+        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+          return o.selected
+        }).map(function(o) {
+          var val = "_value" in o ? o._value : o.value;
+          return val
+        });
+        _vm.$set(_vm.applyForData, "resource_type", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
       }
     }
-  })]), _vm._v(" "), _c('div', {
+  }, [_c('option', {
+    attrs: {
+      "value": "Organization"
+    }
+  }, [_vm._v("组织")]), _vm._v(" "), _c('option', {
+    attrs: {
+      "value": "Lecture"
+    }
+  }, [_vm._v("授课")])])]), _vm._v(" "), _c('div', {
+    staticClass: "all-user"
+  }, [(_vm.applyForData.resource_type === 'Organization') ? _c('table', {
+    staticClass: "table"
+  }, [_vm._m(1), _vm._v(" "), _c('tbody', _vm._l((_vm.resourceData), function(item, index) {
+    return _c('tr', [_c('td', [_c('input', {
+      directives: [{
+        name: "model",
+        rawName: "v-model",
+        value: (_vm.applyForData.resource_id),
+        expression: "applyForData.resource_id"
+      }],
+      staticClass: "seleted-input",
+      attrs: {
+        "type": "radio"
+      },
+      domProps: {
+        "value": item.id,
+        "checked": _vm._q(_vm.applyForData.resource_id, item.id)
+      },
+      on: {
+        "change": function($event) {
+          _vm.$set(_vm.applyForData, "resource_id", item.id)
+        }
+      }
+    })]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.id))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.name))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.describe))])])
+  }))]) : _vm._e(), _vm._v(" "), (_vm.applyForData.resource_type === 'Lecture') ? _c('table', {
+    staticClass: "table"
+  }, [_vm._m(2), _vm._v(" "), _c('tbody', _vm._l((_vm.resourceData), function(item, index) {
+    return _c('tr', [_c('td', [_c('input', {
+      directives: [{
+        name: "model",
+        rawName: "v-model",
+        value: (_vm.applyForData.resource_id),
+        expression: "applyForData.resource_id"
+      }],
+      staticClass: "seleted-input",
+      attrs: {
+        "type": "radio"
+      },
+      domProps: {
+        "value": item.id,
+        "checked": _vm._q(_vm.applyForData.resource_id, item.id)
+      },
+      on: {
+        "change": function($event) {
+          _vm.$set(_vm.applyForData, "resource_id", item.id)
+        }
+      }
+    })]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.id))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.name))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.describe))])])
+  }))]) : _vm._e(), _vm._v(" "), _c('pagination', {
+    attrs: {
+      "pagination-data": _vm.paginationData2
+    },
+    model: {
+      value: (_vm.data2),
+      callback: function($$v) {
+        _vm.data2 = $$v
+      },
+      expression: "data2"
+    }
+  })], 1)]), _vm._v(" "), _c('div', {
     staticClass: "box-item"
-  }, [_c('label', [_vm._v("数据")]), _vm._v(" "), _c('input', {
+  }, [_c('label', [_vm._v("内容")]), _vm._v(" "), _c('input', {
     directives: [{
       name: "model",
       rawName: "v-model",
@@ -72354,6 +72725,10 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_vm._v("取消")])])])])
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('thead', [_c('tr', [_c('th', [_vm._v("是否选中")]), _vm._v(" "), _c('th', [_vm._v("序号")]), _vm._v(" "), _c('th', [_vm._v("用户名")]), _vm._v(" "), _c('th', [_vm._v("邮箱")])])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('thead', [_c('tr', [_c('th', [_vm._v("是否选中")]), _vm._v(" "), _c('th', [_vm._v("序号")]), _vm._v(" "), _c('th', [_vm._v("组织名")]), _vm._v(" "), _c('th', [_vm._v("描述")])])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('thead', [_c('tr', [_c('th', [_vm._v("是否选中")]), _vm._v(" "), _c('th', [_vm._v("序号")]), _vm._v(" "), _c('th', [_vm._v("课程名")]), _vm._v(" "), _c('th', [_vm._v("描述")])])])
 }]}
 module.exports.render._withStripped = true
 if (false) {
@@ -73165,7 +73540,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_c('i', {
     staticClass: "fas fa-search"
   })])])]), _vm._v(" "), _c('table', {
-    staticClass: "table"
+    staticClass: "table is-bordered is-striped is-hoverable is-fullwidths"
   }, [_vm._m(0), _vm._v(" "), _c('tbody', _vm._l((_vm.userData), function(item, index) {
     return _c('tr', [_c('td', [_vm._v(_vm._s(item.id))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.name))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.email))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.toTime(item.created_at.date)))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.toTime(item.updated_at.date)))]), _vm._v(" "), _c('td', [_c('button', {
       directives: [{
@@ -73379,7 +73754,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "name": "button"
     }
   }, [_vm._v("同步组织")])]), _vm._v(" "), _c('table', {
-    staticClass: "table"
+    staticClass: "table is-bordered is-striped is-hoverable is-fullwidths"
   }, [_vm._m(0), _vm._v(" "), _c('tbody', _vm._l((_vm.organizationData), function(item, index) {
     return _c('tr', [_c('td', [_vm._v(_vm._s(item.id))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.name))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.creator_id))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.describe))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.max))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.current))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.GLOBAL.toTime(item.created_at)))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.GLOBAL.toTime(item.updated_at)))]), _vm._v(" "), _c('td', [_c('button', {
       directives: [{
@@ -74309,7 +74684,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }
   }, [_vm._v("添加申请")])]), _vm._v(" "), _c('table', {
-    staticClass: "table"
+    staticClass: "table is-bordered is-striped is-hoverable is-fullwidths"
   }, [_vm._m(0), _vm._v(" "), _c('tbody', _vm._l((_vm.applyForData), function(item, index) {
     return _c('tr', [_c('td', [_vm._v(_vm._s(item.from))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.to))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.action))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.resource_id))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.resource_type))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.data))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.GLOBAL.toTime(item.updated_at.date)))]), _vm._v(" "), _c('td', [_c('button', {
       directives: [{
@@ -74753,23 +75128,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "value": "SINGLE_CHOICE"
     }
-  }, [_vm._v("单选")]), _vm._v(" "), _c('option', {
-    attrs: {
-      "value": "MULTIPLE_CHOICE"
-    }
-  }, [_vm._v("多选")]), _vm._v(" "), _c('option', {
-    attrs: {
-      "value": "TRUE_FALSE"
-    }
-  }, [_vm._v("判断")]), _vm._v(" "), _c('option', {
-    attrs: {
-      "value": "FILL_IN"
-    }
-  }, [_vm._v("填空")]), _vm._v(" "), _c('option', {
-    attrs: {
-      "value": "SHORT_ANSWER"
-    }
-  }, [_vm._v("简答")])])])])]), _vm._v(" "), _c('div', {
+  }, [_vm._v("单选")])])])])]), _vm._v(" "), _c('div', {
     staticClass: "box-item"
   }, [_c('label', [_vm._v("涉及到的问题")]), _vm._v(" "), _c('div', {
     staticClass: "all-question"
@@ -74956,7 +75315,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }
   }, [_vm._v("添加试卷")])]), _vm._v(" "), _c('table', {
-    staticClass: "table"
+    staticClass: "table is-bordered is-striped is-hoverable is-fullwidths"
   }, [_vm._m(0), _vm._v(" "), _c('tbody', _vm._l((_vm.examinationPaperData), function(item, index) {
     return _c('tr', [_c('td', [_vm._v(_vm._s(item.id))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.title))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.score))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.min))]), _vm._v(" "), _c('td', [_vm._v(" " + _vm._s(item.description))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.toTime(item.created_at)))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.toTime(item.updated_at)))]), _vm._v(" "), _c('td', [_c('button', {
       directives: [{
@@ -75494,7 +75853,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }
   }, [_vm._v("添加标签")])]), _vm._v(" "), _c('table', {
-    staticClass: "table"
+    staticClass: "table is-bordered is-striped is-hoverable is-fullwidths"
   }, [_vm._m(0), _vm._v(" "), _c('tbody', _vm._l((_vm.labelData), function(item, index) {
     return _c('tr', [_c('td', [_vm._v(_vm._s(item.id))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.title))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.commentabl_type))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.creator_id))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.GLOBAL.toTime(item.created_at)))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.GLOBAL.toTime(item.updated_at)))]), _vm._v(" "), _c('td', [_c('button', {
       directives: [{
@@ -75872,7 +76231,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "name": "button"
     }
   }, [_vm._v("同步授课")])]), _vm._v(" "), _c('table', {
-    staticClass: "table"
+    staticClass: "table is-bordered is-striped is-hoverable is-fullwidths"
   }, [_vm._m(0), _vm._v(" "), _c('tbody', _vm._l((_vm.teachingData), function(item, index) {
     return _c('tr', [_c('td', [_vm._v(_vm._s(item.name))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.user_id))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.course_id))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.description))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.max))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.current))]), _vm._v(" "), _c('td', [_c('button', {
       directives: [{
@@ -76296,7 +76655,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }
   }, [_vm._v("添加角色")])]), _vm._v(" "), _c('table', {
-    staticClass: "table"
+    staticClass: "table is-bordered is-striped is-hoverable is-fullwidths"
   }, [_vm._m(0), _vm._v(" "), _c('tbody', _vm._l((_vm.roleData), function(item, index) {
     return _c('tr', [_c('td', [_vm._v(_vm._s(item.id))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.name))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.display_name))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.GLOBAL.toTime(item.created_at)))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.GLOBAL.toTime(item.updated_at)))]), _vm._v(" "), _c('td', [_c('button', {
       directives: [{
@@ -76757,12 +77116,8 @@ if (false) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {}, [(_vm.isShowLogin) ? _c('login', {
-    model: {
-      value: (_vm.loginStatus),
-      callback: function($$v) {
-        _vm.loginStatus = $$v
-      },
-      expression: "loginStatus"
+    on: {
+      "checkLoginState": _vm.checkLoginState
     }
   }) : _c('home-page', {
     model: {
@@ -76838,26 +77193,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "value": "SINGLE_CHOICE"
     }
-  }, [_vm._v("单选")]), _vm._v(" "), _c('option', {
-    attrs: {
-      "value": "MULTIPLE_CHOICE"
-    }
-  }, [_vm._v("多选")]), _vm._v(" "), _c('option', {
-    attrs: {
-      "disabled": "",
-      "value": "TRUE_FALSE"
-    }
-  }, [_vm._v("判断")]), _vm._v(" "), _c('option', {
-    attrs: {
-      "disabled": "",
-      "value": "FILL_IN"
-    }
-  }, [_vm._v("填空")]), _vm._v(" "), _c('option', {
-    attrs: {
-      "disabled": "",
-      "value": "SHORT_ANSWER"
-    }
-  }, [_vm._v("简答")])])])]), _vm._v(" "), _c('div', {
+  }, [_vm._v("单选")])])])]), _vm._v(" "), _c('div', {
     staticClass: "box-item"
   }, [_c('label', [_vm._v("问题难度")]), _vm._v(" "), _c('div', {
     staticClass: "select"
@@ -77420,7 +77756,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }
   }, [_vm._v("添加章节")])]), _vm._v(" "), _c('table', {
-    staticClass: "table"
+    staticClass: "table is-bordered is-striped is-hoverable is-fullwidths"
   }, [_vm._m(0), _vm._v(" "), _c('tbody', _vm._l((_vm.chapterData), function(item, index) {
     return _c('tr', [_c('td', [_vm._v(_vm._s(item.id))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.name))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.describe))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.computedQuestionType(item.question_type)))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.score))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.number))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.questions))]), _vm._v(" "), _c('td', [_c('button', {
       staticClass: "delete",
@@ -78459,23 +78795,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "value": "SINGLE_CHOICE"
     }
-  }, [_vm._v("单选")]), _vm._v(" "), _c('option', {
-    attrs: {
-      "value": "MULTIPLE_CHOICE"
-    }
-  }, [_vm._v("多选")]), _vm._v(" "), _c('option', {
-    attrs: {
-      "value": "TRUE_FALSE"
-    }
-  }, [_vm._v("判断")]), _vm._v(" "), _c('option', {
-    attrs: {
-      "value": "FILL_IN"
-    }
-  }, [_vm._v("填空")]), _vm._v(" "), _c('option', {
-    attrs: {
-      "value": "SHORT_ANSWER"
-    }
-  }, [_vm._v("简答")])])])]), _vm._v(" "), _c('div', {
+  }, [_vm._v("单选")])])])]), _vm._v(" "), _c('div', {
     staticClass: "box-item"
   }, [_c('label', [_vm._v("涉及到的问题")]), _vm._v(" "), _c('div', {
     staticClass: "all-question"
@@ -81794,13 +82114,13 @@ var content = __webpack_require__(270);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(3)("f29e4c8c", content, false);
+var update = __webpack_require__(3)("0a5d7b45", content, false);
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
  if(!content.locals) {
-   module.hot.accept("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-06de79a7!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./EditApplyFor.vue", function() {
-     var newContent = require("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-06de79a7!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./EditApplyFor.vue");
+   module.hot.accept("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-06de79a7&scoped=true!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./EditApplyFor.vue", function() {
+     var newContent = require("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-06de79a7&scoped=true!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./EditApplyFor.vue");
      if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
      update(newContent);
    });
