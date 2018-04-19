@@ -164,6 +164,8 @@ export default {
       }).catch(err => {
         alert('登录失败，请重新登录');
         that.$refs.loginLoading.switchModal();
+        // that.$emit('input', 'loginFailure');
+        that.isShowLoginBox = true;
         console.log(err);
       })
     },
@@ -174,7 +176,8 @@ export default {
   watch: {
     permissions: function (value, oldValue) {
       const that = this;
-      that.$emit('input', false);
+      that.$refs.loginLoading.switchModal();
+      that.$emit('checkLoginState');   //第一个参数名为调用的方法名，第二个参数为需要传递的参数
     }
   }
 }

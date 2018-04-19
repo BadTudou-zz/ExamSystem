@@ -9,7 +9,7 @@
       </div>
         <button v-show="isShowCreatePaper" @click="addExaminationPaper()" class="button add-examinationPaper-button" type="button" name="button">添加试卷</button>
     </div>
-    <table class="table">
+    <table class="table is-bordered is-striped is-hoverable is-fullwidths">
       <thead>
         <tr>
           <th>序号</th>
