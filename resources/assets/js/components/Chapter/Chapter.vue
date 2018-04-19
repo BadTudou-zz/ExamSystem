@@ -13,7 +13,7 @@
             </div>
               <button @click="addChapter()" class="button add-chapter-button" type="button" name="button">添加章节</button>
           </div>
-          <table class="table">
+          <table class="table is-bordered is-striped is-hoverable is-fullwidths">
             <thead>
               <tr>
                 <th>ID</th>

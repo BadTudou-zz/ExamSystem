@@ -254,7 +254,7 @@ export default {
       }
       return str;
     },
-    // ?? 多选的答案格式
+    //
     computedAnswerJson: function () {
       const that = this;
       if (that.answer.length !== that.questionData.length) {

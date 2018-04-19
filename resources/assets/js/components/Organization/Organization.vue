@@ -10,7 +10,7 @@
       <button v-show="isShowCreateOrganization" @click="addOrganization()" class="button add-role-button" type="button" name="button">添加组织</button>
       <button class="button add-role-button" type="button" name="button">同步组织</button>
     </div>
-    <table class="table">
+    <table class="table is-bordered is-striped is-hoverable is-fullwidths">
       <thead>
         <tr>
           <th>ID</th>
