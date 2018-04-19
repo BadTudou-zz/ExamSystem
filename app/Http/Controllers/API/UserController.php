@@ -93,7 +93,7 @@ class UserController extends Controller
     {
         $permissions = User::find($id)->roles()->get()->map(function ($role){
             return $role->perms()->get();
-        })[0];
+        });
         return new PermissionCollection(OrmUtil::paginate($permissions));
     }
 
