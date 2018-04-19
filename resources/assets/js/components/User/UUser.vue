@@ -9,7 +9,7 @@
 
       </div>
     </div>
-    <table class="table">
+    <table class="table is-bordered is-striped is-hoverable is-fullwidths">
       <thead>
         <tr>
           <th>ID</th>

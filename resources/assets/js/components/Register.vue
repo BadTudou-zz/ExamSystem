@@ -102,6 +102,7 @@ export default {
         }
       }).then(res => {
         alert('注册成功');
+        that.switchModal();
         that.name = '';
         that.email = '';
         that.password = '';

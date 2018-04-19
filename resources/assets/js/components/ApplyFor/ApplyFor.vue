@@ -9,7 +9,7 @@
       </div>
         <button v-show="isShowCreateApplication" @click="addApplyFor()" class="button add-applyFor-button is-small" type="button" name="button">添加申请</button>
     </div>
-    <table class="table">
+    <table class="table is-bordered is-striped is-hoverable is-fullwidths">
       <thead>
         <tr>
           <th>from</th>
@@ -228,7 +228,6 @@ export default {
     editApplyFor: function (index) {
       const that = this;
       that.editData = that.applyForData[index];
-      // that.$refs.addApplyFor.switchModal();
       that.$refs.editApplyFor.switchModal();
     },
     acceptApplyFor: function (index) {
