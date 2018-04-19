@@ -30555,7 +30555,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         question_type: 'SINGLE_CHOICE',
         scores: {}
       },
-      questions: '', // 涉及的问题
+      questions: '', // 涉及的题目
       questionsString: '',
       //
       paginationData: null,
@@ -30619,7 +30619,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         that.clearWords();
       });
     },
-    // 计算问题分值的JSON
+    // 计算题目分值的JSON
     computedAnswerJson: function computedAnswerJson() {
       var that = this;
       var json = {};
@@ -31094,7 +31094,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       that.questionScore = res;
       // return res;
     },
-    // 计算问题分值的JSON
+    // 计算题目分值的JSON
     computedAnswerJson: function computedAnswerJson() {
       var that = this;
       var json = {};
@@ -33261,8 +33261,14 @@ var Base64 = __webpack_require__(358).Base64;
         var url = _this.GLOBAL.localDomain + '/api/v1/users/' + that.userId + '/permissions/';
         that.getPermission(url);
       }).catch(function (err) {
+        var errorCode = err.response.status; // http code
         var errorMsg = err.response.data.message;
-        alert(errorMsg);
+        if (errorMsg) {
+          alert(errorMsg);
+        } else if (errorCode === 401) {
+          alert('密码错误');
+          that.password = '';
+        }
         that.captcha = '';
         that.getVerificationCode();
       });
@@ -33565,6 +33571,34 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__AddMessage___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__AddMessage__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Pagination_vue__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Pagination_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__Pagination_vue__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -34011,7 +34045,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       return sessionStorage.getItem('permissions').includes('lecture-index');
     },
 
-    // 9.【问题】
+    // 9.【题目】
     isShowQuestion: function isShowQuestion() {
       // return true;
       return sessionStorage.getItem('permissions').includes('question-index');
@@ -34153,6 +34187,25 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__AddNotice___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__AddNotice__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Pagination_vue__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Pagination_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__Pagination_vue__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -35927,6 +35980,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
 
 
 
@@ -36162,6 +36220,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
 
 
 
@@ -36169,19 +36232,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   data: function data() {
     return {
       lectureData: [],
-      //       currentLectureData: {
-      //         id: '',
-      //         name: '',
-      //         user_id: '',
-      //         course_id: '',
-      //         allowable_organization_ids: '',
-      //         allowable_user_ids: '',
-      //         describe: '',
-      //         max: '',
-      //         current: '',
-      //         created_at: '',
-      //         updated_at: '',
-      //       },
       currentLectureData: null,
       isShowEditModal: false,
       editData: null,
@@ -36246,6 +36296,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Pagination_vue__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Pagination_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__Pagination_vue__);
+//
+//
+//
+//
 //
 //
 //
@@ -36456,6 +36510,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
 
 
 
@@ -36515,6 +36572,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Pagination_vue__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Pagination_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__Pagination_vue__);
+//
+//
+//
 //
 //
 //
@@ -36863,6 +36923,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
 
 
 
@@ -37027,6 +37090,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Score___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__Score__);
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
+//
+//
+//
+//
 //
 //
 //
@@ -37486,7 +37553,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
       that.waitTime();
       // 10s等待
       setTimeout(function () {
-        console.log('加载问题id中....');
+        console.log('加载题目id中....');
         console.log(that.temporaryQuestionIds);
         that.questionIds = that.temporaryQuestionIds;
       }, 10000);
@@ -38094,7 +38161,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       }
       return str;
     },
-    // 筛选单选问题
+    // 筛选单选题目
     filter: function filter(data) {
       var that = this;
       that.multipleChoiceData = [];
@@ -38285,7 +38352,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       } else {
         id = that.questionData[index]['id'];
       }
-      var prompt = confirm("确认删除该问题吗？");
+      var prompt = confirm("确认删除该题目吗？");
       if (prompt) {
         axios({
           method: 'delete',
@@ -43286,13 +43353,13 @@ if (token) {
 { path: '/Teaching', component: __webpack_require__(10) },
 // 课程 & 授课 wrapper
 { path: '/CourseAndTeaching', component: __webpack_require__(371) },
-// 问题
+// 题目
 { path: '/Question', component: __webpack_require__(149) },
 // 试卷
 { path: '/ExaminationPaper', component: __webpack_require__(144) },
 // 章节
 { path: '/Chapter', component: __webpack_require__(142) },
-// 问题 & 考 & 试卷 wrapper
+// 题目 & 考 & 试卷 wrapper
 { path: '/TestAndPaperAndQuesiton', component: __webpack_require__(427) },
 // others wrapper : applyFor & labe
 { path: '/Others', component: __webpack_require__(392) },
@@ -48017,7 +48084,7 @@ exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(1)();
-exports.push([module.i, "\n.message {\n  margin: 35px auto 0 auto;\n}\n.search-input {\n  width: 200px;\n  display: inline-block;\n  margin-right: 10px;\n}\n.search-box {\n  padding-right: 20px;\n  display: inline-block;\n  border-right: 1px solid #dedede;\n}\n.add-role-button {\n  margin-left: 20px;\n}\n.box-item {\n  margin-bottom: 20px;\n}\n.box-item input {\n    display: inline-block;\n    width: 300px;\n}\n.box-item label {\n    display: inline-block;\n    width: 130px;\n}\n.notification p {\n  margin-top: 25px;\n  text-align: right;\n}\n.title {\n  color: #363636;\n  font-size: 1.5rem;\n  font-weight: 600;\n  line-height: 1.125;\n}\n", ""]);
+exports.push([module.i, "\n.message {\n  margin: 35px auto 0 auto;\n}\n.search-input {\n  width: 200px;\n  display: inline-block;\n  margin-right: 10px;\n}\n.search-box {\n  padding-right: 20px;\n  display: inline-block;\n  border-right: 1px solid #dedede;\n}\n.add-role-button {\n  margin-left: 20px;\n}\n.box-item {\n  margin-bottom: 20px;\n}\n.box-item input {\n    display: inline-block;\n    width: 300px;\n}\n.box-item label {\n    display: inline-block;\n    width: 130px;\n}\n.message-detail {\n  margin: 0px;\n  text-align: right;\n  color: #acb9b8;\n}\n.title {\n  color: #363636;\n  font-size: 1.5rem;\n  font-weight: 600;\n  line-height: 1.125;\n}\n.message-data {\n  margin-bottom: 20px;\n}\n", ""]);
 
 /***/ }),
 /* 326 */
@@ -48220,7 +48287,7 @@ exports.push([module.i, "\nlabel {\n  display: inline-block;\n  width: 100px;\n}
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(1)();
-exports.push([module.i, ".button {\n  border-radius: 2px;\n  font-size: .75rem;d\n}\n\n.search-input {\n  border-radius: 2px;\n  font-size: .75rem;\n}\n\n.delete {\n  height: 16px;\n  line-height: 16px;\n  max-height: 16px;\n  max-width: 16px;\n  min-height: 16px;\n  min-width: 16px;\n  width: 16px;\n  margin: 5px 10px 0 0;\n}\n.edit-icon {\n  cursor: pointer;\n  display: inline-block;\n  color: #cecece;\n}\n\n.search-button {\n  display: inline-block;\n  cursor: pointer;\n}\n.edit-button {\n  display: inline-block;\n  cursor: pointer;\n  color: #cecece;\n  margin: 0 10px;\n}\n", ""]);
+exports.push([module.i, ".button {\n  border-radius: 2px;\n  font-size: .75rem;d\n}\n\n.search-input {\n  border-radius: 2px;\n  font-size: .75rem;\n}\n\n.delete {\n  height: 16px;\n  line-height: 16px;\n  max-height: 16px;\n  max-width: 16px;\n  min-height: 16px;\n  min-width: 16px;\n  width: 16px;\n  margin: 5px 10px 0 0;\n}\n.edit-icon {\n  cursor: pointer;\n  display: inline-block;\n  color: #cecece;\n}\n\n.search-button {\n  display: inline-block;\n  cursor: pointer;\n}\n.edit-button {\n  display: inline-block;\n  cursor: pointer;\n  color: #cecece;\n  margin: 0 10px;\n}\n\n.limit-words {\n  display: inline-block;\n  width: 300px;\n  overflow: hidden;\n  text-overflow:ellipsis;\n  white-space: nowrap;\n}\n", ""]);
 
 /***/ }),
 /* 355 */
@@ -69774,7 +69841,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   })])
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('thead', [_c('tr', [_c('th', [_vm._v("ID")]), _vm._v(" "), _c('th', [_vm._v("问题类型")]), _vm._v(" "), _c('th', [_vm._v("标签")]), _vm._v(" "), _c('th', [_vm._v("等级类型")]), _vm._v(" "), _c('th', [_vm._v("题目")]), _vm._v(" "), _c('th', [_vm._v("body")]), _vm._v(" "), _c('th', [_vm._v("答案")]), _vm._v(" "), _c('th', [_vm._v("答案评论")])])])
+  return _c('thead', [_c('tr', [_c('th', [_vm._v("ID")]), _vm._v(" "), _c('th', [_vm._v("题目类型")]), _vm._v(" "), _c('th', [_vm._v("标签")]), _vm._v(" "), _c('th', [_vm._v("等级类型")]), _vm._v(" "), _c('th', [_vm._v("题目")]), _vm._v(" "), _c('th', [_vm._v("body")]), _vm._v(" "), _c('th', [_vm._v("答案")]), _vm._v(" "), _c('th', [_vm._v("答案评论")])])])
 }]}
 module.exports.render._withStripped = true
 if (false) {
@@ -70017,7 +70084,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.addQuestion()
       }
     }
-  }, [_vm._v("添加问题")])]), _vm._v(" "), _vm._l((_vm.questionData), function(item, index) {
+  }, [_vm._v("添加题目")])]), _vm._v(" "), _vm._l((_vm.questionData), function(item, index) {
     return _c('div', [_c('div', {
       staticClass: "message"
     }, [_c('div', {
@@ -70062,7 +70129,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
           _vm.editQuestion(index)
         }
       }
-    }, [_vm._v("编辑问题")])]), _vm._v(" "), _c('p', {
+    }, [_vm._v("编辑题目")])]), _vm._v(" "), _c('p', {
       staticClass: "detail"
     }, [_vm._v("        序号：" + _vm._s(item.id) + "\n                 类型： 单选\n                 难度：" + _vm._s(_vm.computedDifficulty(item.level_type)) + "\n          ")]), _vm._v(" "), _c('div', {
       staticClass: "question"
@@ -70110,7 +70177,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
           _vm.editQuestion(index)
         }
       }
-    }, [_vm._v("编辑问题")])]), _vm._v(" "), _c('p', {
+    }, [_vm._v("编辑题目")])]), _vm._v(" "), _c('p', {
       staticClass: "detail"
     }, [_vm._v("        序号：" + _vm._s(item.id) + "\n                 类型： 多选\n                 难度：" + _vm._s(_vm.computedDifficulty(item.level_type)) + "\n          ")]), _vm._v(" "), _c('div', {
       staticClass: "question"
@@ -71045,7 +71112,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       staticClass: "detail"
     }, [_vm._v("        id：" + _vm._s(item.id) + "\n               类型： 单选\n               难度：" + _vm._s(item.level_type) + "\n        ")]), _vm._v(" "), _c('div', {
       staticClass: "question"
-    }, [_vm._v("问题描述" + _vm._s(item.title))]), _vm._v(" "), _c('div', {
+    }, [_vm._v("题目描述" + _vm._s(item.title))]), _vm._v(" "), _c('div', {
       staticClass: "question"
     }, [_vm._v("选项：" + _vm._s(_vm.getOptionsString(item.body)))]), _vm._v(" "), _c('div', {
       staticClass: "options"
@@ -71588,7 +71655,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "modal-card-head"
   }, [_c('p', {
     staticClass: "modal-card-title"
-  }, [_vm._v("编辑问题")]), _vm._v(" "), _c('button', {
+  }, [_vm._v("编辑题目")]), _vm._v(" "), _c('button', {
     staticClass: "delete",
     attrs: {
       "aria-label": "close"
@@ -71602,7 +71669,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "modal-card-body"
   }, [_c('div', {
     staticClass: "box-item"
-  }, [_c('label', [_vm._v("问题类型")]), _vm._v(" "), _c('div', {
+  }, [_c('label', [_vm._v("题目类型")]), _vm._v(" "), _c('div', {
     staticClass: "select"
   }, [_c('select', {
     directives: [{
@@ -71628,7 +71695,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_vm._v("单选")])])])]), _vm._v(" "), _c('div', {
     staticClass: "box-item"
-  }, [_c('label', [_vm._v("问题难度")]), _vm._v(" "), _c('div', {
+  }, [_c('label', [_vm._v("题目难度")]), _vm._v(" "), _c('div', {
     staticClass: "select"
   }, [_c('select', {
     directives: [{
@@ -72800,12 +72867,12 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.addMessage()
       }
     }
-  }, [_vm._v("添加消息")])]), _vm._v(" "), _vm._l((_vm.messageData), function(item, index) {
-    return _c('div', {
-      staticClass: "message box"
-    }, [_c('div', {
-      staticClass: "notification"
-    }, [_c('button', {
+  }, [_vm._v("添加消息")])]), _vm._v(" "), _c('table', {
+    staticClass: "table is-bordered is-striped is-hoverable is-fullwidths"
+  }, [_vm._m(0), _vm._v(" "), _c('tbody', _vm._l((_vm.messageData), function(item, index) {
+    return _c('tr', [_c('td', [_vm._v(_vm._s(item.from_name))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.to_name))]), _vm._v(" "), _c('td', [_c('p', {
+      staticClass: "limit-words"
+    }, [_vm._v(_vm._s(item.data))])]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.GLOBAL.toTime(item.created_at.date)))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.GLOBAL.toTime(item.updated_at.date)))]), _vm._v(" "), _c('td', [_c('button', {
       directives: [{
         name: "show",
         rawName: "v-show",
@@ -72813,13 +72880,16 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         expression: "isShowDeleteMessage"
       }],
       staticClass: "delete",
+      attrs: {
+        "type": "button"
+      },
       on: {
         "click": function($event) {
           _vm.deleteMessage(index)
         }
       }
-    }), _vm._v("\n      " + _vm._s(item.data) + "\n      "), _c('p', [_vm._v(_vm._s(_vm.GLOBAL.toTime(item.created_at.date)))])])])
-  }), _vm._v(" "), _c('add-message', {
+    }, [_vm._v("删除消息")])])])
+  }))]), _vm._v(" "), _c('add-message', {
     ref: "addMessage",
     on: {
       "getMessage": _vm.getMessage
@@ -72841,8 +72911,10 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       },
       expression: "data"
     }
-  })], 2)
-},staticRenderFns: []}
+  })], 1)
+},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('thead', [_c('tr', [_c('th', [_vm._v("发送者")]), _vm._v(" "), _c('th', [_vm._v("接受者")]), _vm._v(" "), _c('th', [_vm._v("内容")]), _vm._v(" "), _c('th', [_vm._v("创建时间")]), _vm._v(" "), _c('th', [_vm._v("更新时间")]), _vm._v(" "), _c('th', [_vm._v("操作")])])])
+}]}
 module.exports.render._withStripped = true
 if (false) {
   module.hot.accept()
@@ -74013,26 +74085,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.addNotice()
       }
     }
-  }, [_vm._v("添加通知")])]), _vm._v(" "), _vm._l((_vm.noticeData), function(item, index) {
-    return _c('div', {
-      staticClass: "notice box"
-    }, [_c('div', {
-      staticClass: "notification"
-    }, [_c('button', {
-      directives: [{
-        name: "show",
-        rawName: "v-show",
-        value: (_vm.isShowDeleteNotification),
-        expression: "isShowDeleteNotification"
-      }],
-      staticClass: "delete",
-      on: {
-        "click": function($event) {
-          _vm.deleteNotice(index)
-        }
-      }
-    }), _vm._v("\n      " + _vm._s(item.data) + "\n      "), _c('p', [_vm._v(_vm._s(_vm.GLOBAL.toTime(item.created_at.date)))])])])
-  }), _vm._v(" "), _c('add-notice', {
+  }, [_vm._v("添加通知")])]), _vm._v(" "), _c('add-notice', {
     ref: "addNotice",
     on: {
       "getNotice": _vm.getNotice
@@ -74054,7 +74107,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       },
       expression: "data"
     }
-  })], 2)
+  })], 1)
 },staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {
@@ -74299,7 +74352,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_c('i', {
     staticClass: "fas fa-list-ol"
-  }), _c('span', [_vm._v("问题")])])], 1), _vm._v(" "), _c('li', {
+  }), _c('span', [_vm._v("题目")])])], 1), _vm._v(" "), _c('li', {
     class: {
       'is-active': _vm.currentTag === 'label'
     },
@@ -74418,7 +74471,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       staticClass: "notice box"
     }, [_c('div', {
       staticClass: "notification"
-    }, [_vm._v("\n        " + _vm._s(item.data) + "\n        "), _c('p', [_vm._v(_vm._s(_vm.GLOBAL.toTime(item.created_at)))])])])
+    }, [_vm._v("\n        " + _vm._s(item.data) + "\n        "), _c('p', [_vm._v(_vm._s(_vm.GLOBAL.toTime(item.created_at.date)))])])])
   }), _vm._v(" "), _c('pagination', {
     attrs: {
       "pagination-data": _vm.paginationData
@@ -74472,11 +74525,11 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
           _vm.editQuestion(index)
         }
       }
-    }, [_vm._v("编辑问题")])]), _vm._v(" "), _c('p', {
+    }, [_vm._v("编辑题目")])]), _vm._v(" "), _c('p', {
       staticClass: "detail"
     }, [_vm._v("        id：" + _vm._s(item.id) + "\n               类型： 多选\n               难度：" + _vm._s(item.level_type) + "\n        ")]), _vm._v(" "), _c('div', {
       staticClass: "question"
-    }, [_vm._v("问题描述" + _vm._s(item.title))]), _vm._v(" "), _c('div', {
+    }, [_vm._v("题目描述" + _vm._s(item.title))]), _vm._v(" "), _c('div', {
       staticClass: "question"
     }, [_vm._v("选项：" + _vm._s(item.body))]), _vm._v(" "), _c('div', {
       staticClass: "options"
@@ -74686,7 +74739,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_vm._v("添加申请")])]), _vm._v(" "), _c('table', {
     staticClass: "table is-bordered is-striped is-hoverable is-fullwidths"
   }, [_vm._m(0), _vm._v(" "), _c('tbody', _vm._l((_vm.applyForData), function(item, index) {
-    return _c('tr', [_c('td', [_vm._v(_vm._s(item.from))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.to))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.action))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.resource_id))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.resource_type))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.data))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.GLOBAL.toTime(item.updated_at.date)))]), _vm._v(" "), _c('td', [_c('button', {
+    return _c('tr', [_c('td', [_vm._v(_vm._s(item.from))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.to))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.data))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.resource_type))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.GLOBAL.toTime(item.updated_at.date)))]), _vm._v(" "), _c('td', [_c('button', {
       directives: [{
         name: "show",
         rawName: "v-show",
@@ -74779,7 +74832,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   })], 1)
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('thead', [_c('tr', [_c('th', [_vm._v("from")]), _vm._v(" "), _c('th', [_vm._v("to")]), _vm._v(" "), _c('th', [_vm._v("action")]), _vm._v(" "), _c('th', [_vm._v("resource_id")]), _vm._v(" "), _c('th', [_vm._v("resource_type")]), _vm._v(" "), _c('th', [_vm._v("data")]), _vm._v(" "), _c('th', [_vm._v("更新时间")]), _vm._v(" "), _c('th', [_vm._v("操作")])])])
+  return _c('thead', [_c('tr', [_c('th', [_vm._v("申请人")]), _vm._v(" "), _c('th', [_vm._v("批准人")]), _vm._v(" "), _c('th', [_vm._v("申请消息")]), _vm._v(" "), _c('th', [_vm._v("resource_type")]), _vm._v(" "), _c('th', [_vm._v("更新时间")]), _vm._v(" "), _c('th', [_vm._v("操作")])])])
 }]}
 module.exports.render._withStripped = true
 if (false) {
@@ -74876,11 +74929,11 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "box"
   }, [_c('h3', {
     staticClass: "title"
-  }, [_vm._v("申请")]), _vm._v(" "), _c('table', {
+  }, [_vm._v("申请")]), _vm._v(" "), (_vm.applyForData) ? _c('table', {
     staticClass: "table"
   }, [_vm._m(0), _vm._v(" "), _c('tbody', _vm._l((_vm.applyForData), function(item, index) {
     return _c('tr', [_c('td', [_vm._v(_vm._s(item.from))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.data))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.GLOBAL.toTime(item.updated_at.date)))])])
-  }))]), _vm._v(" "), _c('pagination', {
+  }))]) : _c('div', [_vm._v("\n    暂无任何申请\n  ")]), _vm._v(" "), _c('pagination', {
     attrs: {
       "pagination-data": _vm.paginationData
     },
@@ -75104,7 +75157,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "box-item"
   }, [_c('div', {
     staticClass: "box-item"
-  }, [_c('label', [_vm._v("问题类型")]), _vm._v(" "), _c('div', {
+  }, [_c('label', [_vm._v("题目类型")]), _vm._v(" "), _c('div', {
     staticClass: "select"
   }, [_c('select', {
     directives: [{
@@ -75130,7 +75183,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_vm._v("单选")])])])])]), _vm._v(" "), _c('div', {
     staticClass: "box-item"
-  }, [_c('label', [_vm._v("涉及到的问题")]), _vm._v(" "), _c('div', {
+  }, [_c('label', [_vm._v("涉及到的题目")]), _vm._v(" "), _c('div', {
     staticClass: "all-question"
   }, [_c('table', {
     staticClass: "table"
@@ -75360,7 +75413,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
           _vm.showAllQuestion(index)
         }
       }
-    }, [_vm._v("全部问题")]), _vm._v(" "), _c('button', {
+    }, [_vm._v("全部题目")]), _vm._v(" "), _c('button', {
       staticClass: "button is-small",
       attrs: {
         "type": "button",
@@ -75578,7 +75631,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }]
   }, [_c('h3', {
     staticClass: "title"
-  }, [_vm._v("考试")]), _vm._v(" "), _c('table', {
+  }, [_vm._v("考试")]), _vm._v(" "), (_vm.testData) ? _c('table', {
     staticClass: "table"
   }, [_vm._m(0), _vm._v(" "), _c('tbody', _vm._l((_vm.testData), function(item, index) {
     return _c('tr', [_c('td', [_vm._v(_vm._s(item.id))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.title))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.score))]), _vm._v(" "), _c('td', [_c('button', {
@@ -75604,7 +75657,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         }
       }
     }, [_vm._v("查看成绩")])])])
-  }))]), _vm._v(" "), _c('pagination', {
+  }))]) : _c('div', [_vm._v("\n      暂无任何考试\n    ")]), _vm._v(" "), _c('pagination', {
     attrs: {
       "pagination-data": _vm.paginationData
     },
@@ -76139,8 +76192,12 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     return _c('div', {
       staticClass: "message box"
     }, [_c('div', {
-      staticClass: "notification"
-    }, [_vm._v("\n        " + _vm._s(item.data) + "\n        "), _c('p', [_vm._v(_vm._s(_vm.GLOBAL.toTime(item.created_at)))])])])
+      staticClass: "message"
+    }, [_c('p', {
+      staticClass: "message-data"
+    }, [_vm._v(_vm._s(item.data))]), _vm._v(" "), _c('div', {
+      staticClass: "message-detail"
+    }, [_c('p', [_vm._v("来自：" + _vm._s(item.from_name))]), _vm._v(" "), _c('p', [_vm._v("收到时间：" + _vm._s(_vm.GLOBAL.toTime(item.created_at.date)))])])])])
   }), _vm._v(" "), _c('pagination', {
     attrs: {
       "pagination-data": _vm.paginationData
@@ -76343,11 +76400,11 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "box"
   }, [_c('h3', {
     staticClass: "title"
-  }, [_vm._v("角色")]), _vm._v(" "), _c('table', {
+  }, [_vm._v("角色")]), _vm._v(" "), (_vm.roleData) ? _c('table', {
     staticClass: "table"
   }, [_vm._m(0), _vm._v(" "), _c('tbody', _vm._l((_vm.roleData), function(item, index) {
     return _c('tr', [_c('td', [_vm._v(_vm._s(item.id))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.name))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.display_name))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.GLOBAL.toTime(item.created_at)))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.GLOBAL.toTime(item.updated_at)))])])
-  }))]), _vm._v(" "), _c('pagination', {
+  }))]) : _c('div', [_vm._v("\n    暂无角色数据\n  ")]), _vm._v(" "), _c('pagination', {
     attrs: {
       "pagination-data": _vm.paginationData
     },
@@ -77155,7 +77212,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "modal-card-head"
   }, [_c('p', {
     staticClass: "modal-card-title"
-  }, [_vm._v("添加问题")]), _vm._v(" "), _c('button', {
+  }, [_vm._v("添加题目")]), _vm._v(" "), _c('button', {
     staticClass: "delete",
     attrs: {
       "aria-label": "close"
@@ -77169,7 +77226,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "modal-card-body"
   }, [_c('div', {
     staticClass: "box-item"
-  }, [_c('label', [_vm._v("问题类型")]), _vm._v(" "), _c('div', {
+  }, [_c('label', [_vm._v("题目类型")]), _vm._v(" "), _c('div', {
     staticClass: "select"
   }, [_c('select', {
     directives: [{
@@ -77195,7 +77252,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_vm._v("单选")])])])]), _vm._v(" "), _c('div', {
     staticClass: "box-item"
-  }, [_c('label', [_vm._v("问题难度")]), _vm._v(" "), _c('div', {
+  }, [_c('label', [_vm._v("题目难度")]), _vm._v(" "), _c('div', {
     staticClass: "select"
   }, [_c('select', {
     directives: [{
@@ -77827,7 +77884,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   })])]) : _vm._e()
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('thead', [_c('tr', [_c('th', [_vm._v("ID")]), _vm._v(" "), _c('th', [_vm._v("章节名")]), _vm._v(" "), _c('th', [_vm._v("描述")]), _vm._v(" "), _c('th', [_vm._v("问题类型")]), _vm._v(" "), _c('th', [_vm._v("分值")]), _vm._v(" "), _c('th', [_vm._v("数量")]), _vm._v(" "), _c('th', [_vm._v("问题")]), _vm._v(" "), _c('th', [_vm._v("操作")])])])
+  return _c('thead', [_c('tr', [_c('th', [_vm._v("ID")]), _vm._v(" "), _c('th', [_vm._v("章节名")]), _vm._v(" "), _c('th', [_vm._v("描述")]), _vm._v(" "), _c('th', [_vm._v("题目类型")]), _vm._v(" "), _c('th', [_vm._v("分值")]), _vm._v(" "), _c('th', [_vm._v("数量")]), _vm._v(" "), _c('th', [_vm._v("题目")]), _vm._v(" "), _c('th', [_vm._v("操作")])])])
 }]}
 module.exports.render._withStripped = true
 if (false) {
@@ -78102,11 +78159,11 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "box"
   }, [_c('h3', {
     staticClass: "title"
-  }, [_vm._v("选课")]), _vm._v(" "), _c('table', {
+  }, [_vm._v("选课")]), _vm._v(" "), (_vm.currentLectureData) ? _c('table', {
     staticClass: "table"
   }, [_vm._m(0), _vm._v(" "), _c('tbody', _vm._l((_vm.currentLectureData), function(item, index) {
     return _c('tr', [_c('td', [_vm._v(_vm._s(item.name))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.user_id))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.course_id))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.allowable_organization_ids))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.allowable_user_ids))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.describe))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.max))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.current))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.GLOBAL.toTime(item.created_at)))])])
-  }))]), _vm._v(" "), _c('pagination', {
+  }))]) : _c('div', [_vm._v("\n    暂无选课数据\n  ")]), _vm._v(" "), _c('pagination', {
     attrs: {
       "pagination-data": _vm.paginationData
     },
@@ -78640,7 +78697,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.currentTag = 'question'
       }
     }
-  }, [_c('a', [_vm._v("问题")])])])]), _vm._v(" "), (_vm.currentTag === 'test') ? _c('test') : _vm._e(), _vm._v(" "), (_vm.currentTag === 'examinationPaper') ? _c('examination-paper') : _vm._e(), _vm._v(" "), (_vm.currentTag === 'question') ? _c('question') : _vm._e()], 1)
+  }, [_c('a', [_vm._v("题目")])])])]), _vm._v(" "), (_vm.currentTag === 'test') ? _c('test') : _vm._e(), _vm._v(" "), (_vm.currentTag === 'examinationPaper') ? _c('examination-paper') : _vm._e(), _vm._v(" "), (_vm.currentTag === 'question') ? _c('question') : _vm._e()], 1)
 },staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {
@@ -78771,7 +78828,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   })]), _vm._v(" "), _c('div', {
     staticClass: "box-item"
-  }, [_c('label', [_vm._v("问题类型")]), _vm._v(" "), _c('div', {
+  }, [_c('label', [_vm._v("题目类型")]), _vm._v(" "), _c('div', {
     staticClass: "select"
   }, [_c('select', {
     directives: [{
@@ -78797,7 +78854,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_vm._v("单选")])])])]), _vm._v(" "), _c('div', {
     staticClass: "box-item"
-  }, [_c('label', [_vm._v("涉及到的问题")]), _vm._v(" "), _c('div', {
+  }, [_c('label', [_vm._v("涉及到的题目")]), _vm._v(" "), _c('div', {
     staticClass: "all-question"
   }, [_c('table', {
     staticClass: "table"
@@ -79049,11 +79106,11 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "box"
   }, [_c('h3', {
     staticClass: "title"
-  }, [_vm._v("组织")]), _vm._v(" "), _c('table', {
+  }, [_vm._v("组织")]), _vm._v(" "), (_vm.organizationData) ? _c('table', {
     staticClass: "table"
   }, [_vm._m(0), _vm._v(" "), _c('tbody', _vm._l((_vm.organizationData), function(item, index) {
     return _c('tr', [_c('td', [_vm._v(_vm._s(item.id))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.name))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.creator_id))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.description))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.max))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.current))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.GLOBAL.toTime(item.created_at)))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.GLOBAL.toTime(item.updated_at)))])])
-  }))]), _vm._v(" "), _c('pagination', {
+  }))]) : _c('div', [_vm._v("\n    暂无组织数据\n  ")]), _vm._v(" "), _c('pagination', {
     attrs: {
       "pagination-data": _vm.paginationData
     },
@@ -79230,11 +79287,11 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "box"
   }, [_c('h3', {
     staticClass: "title"
-  }, [_vm._v("权限")]), _vm._v(" "), _c('table', {
+  }, [_vm._v("权限")]), _vm._v(" "), (_vm.permissionData) ? _c('table', {
     staticClass: "table"
   }, [_vm._m(0), _vm._v(" "), _c('tbody', _vm._l((_vm.permissionData), function(item, index) {
     return _c('tr', [_c('td', [_vm._v(_vm._s(item.id))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.name))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.display_name))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.description))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.GLOBAL.toTime(item.created_at)))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.GLOBAL.toTime(item.updated_at)))])])
-  }))]), _vm._v(" "), _c('pagination', {
+  }))]) : _c('div', [_vm._v("\n    暂无权限数据\n  ")]), _vm._v(" "), _c('pagination', {
     attrs: {
       "pagination-data": _vm.paginationData
     },

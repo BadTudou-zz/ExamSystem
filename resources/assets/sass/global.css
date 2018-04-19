@@ -34,3 +34,11 @@
   color: #cecece;
   margin: 0 10px;
 }
+
+.limit-words {
+  display: inline-block;
+  width: 300px;
+  overflow: hidden;
+  text-overflow:ellipsis;
+  white-space: nowrap;
+}

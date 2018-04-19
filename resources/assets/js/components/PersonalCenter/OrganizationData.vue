@@ -3,7 +3,7 @@
   <div class="box">
     <h3 class="title">组织</h3>
 
-    <table class="table">
+    <table v-if="organizationData" class="table">
       <thead>
         <tr>
           <th>ID</th>
@@ -29,6 +29,9 @@
         </tr>
       </tbody>
     </table>
+    <div v-else>
+      暂无组织数据
+    </div>
 
     <pagination v-bind:pagination-data="paginationData"
                 v-model="data"

@@ -3,7 +3,7 @@
   <div class="box">
     <h3 class="title">权限</h3>
 
-    <table class="table">
+    <table v-if="permissionData" class="table">
       <thead>
         <tr>
           <th>ID</th>
@@ -25,6 +25,9 @@
         </tr>
       </tbody>
     </table>
+    <div v-else>
+      暂无权限数据
+    </div>
 
     <pagination v-bind:pagination-data="paginationData"
                 v-model="data"

@@ -5,7 +5,7 @@
       <ul>
         <li @click="currentTag = 'test'" :class="{'is-active' : currentTag === 'test'}"><a>考试</a></li>
         <li @click="currentTag = 'examinationPaper'" :class="{'is-active' : currentTag === 'examinationPaper'}"><a>试卷</a></li>
-        <li @click="currentTag = 'question'" :class="{'is-active' : currentTag === 'question'}"><a>问题</a></li>
+        <li @click="currentTag = 'question'" :class="{'is-active' : currentTag === 'question'}"><a>题目</a></li>
       </ul>
     </div>
 

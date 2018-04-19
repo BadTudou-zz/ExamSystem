@@ -4,9 +4,9 @@
     <div>
       <div class="search-box">
         <input disabled v-model="searchKey" class="input search-input" type="text" placeholder="请输入关键字">
-        <button disabled @click="searchQuestion()" class="button" type="button" name="button">查找问题</button>
+        <button disabled @click="searchQuestion()" class="button" type="button" name="button">查找题目</button>
       </div>
-        <button @click="addQuestion()" class="button add-role-button" type="button" name="button">添加问题</button>
+        <button @click="addQuestion()" class="button add-role-button" type="button" name="button">添加题目</button>
     </div>
 
     <div  v-for="(item,index) in questionData" class="message box">
@@ -15,9 +15,9 @@
           <button @click="deleteQuestion(index)" class="delete"></button>
           <div @click="editQuestion(index)" class="edit-button"><i class="fas fa-edit"></i></div>
         </div>
-        <p class="question">        问题id：{{ item.id }}
-          &nbsp;&nbsp;&nbsp;&nbsp; 问题题目：{{ item.title }}
-          &nbsp;&nbsp;&nbsp;&nbsp; 问题类型：{{ item.question_type }}
+        <p class="question">        题目id：{{ item.id }}
+          &nbsp;&nbsp;&nbsp;&nbsp; 题目题目：{{ item.title }}
+          &nbsp;&nbsp;&nbsp;&nbsp; 题目类型：{{ item.question_type }}
           &nbsp;&nbsp;&nbsp;&nbsp; 难易程度：{{ item.level_type }}
         </p>
         {{ item.body }}
@@ -72,7 +72,7 @@ export default {
     deleteQuestion: function (index) {
       const that = this;
       let id = that.questionData[index]['id'];
-      let prompt = confirm("确认删除该问题吗？");
+      let prompt = confirm("确认删除该题目吗？");
       if (prompt) {
         axios({
           method: 'delete',

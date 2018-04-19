@@ -1,4 +1,4 @@
-<!-- 查看问题 -->
+<!-- 查看题目 -->
 <template lang="html">
   <div class="modal" v-bind:class="{'is-active': isShowModal}">
     <div class="modal-background"></div>
@@ -8,7 +8,7 @@
           <thead>
             <tr>
               <th>ID</th>
-              <th>问题类型</th>
+              <th>题目类型</th>
               <th>标签</th>
               <th>等级类型</th>
               <th>题目</th>

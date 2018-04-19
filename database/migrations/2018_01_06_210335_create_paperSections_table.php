@@ -20,7 +20,7 @@ class CreatePaperSectionsTable extends Migration
             $table->enum('question_type', ['SINGLE_CHOICE', 'MULTIPLE_CHOICE', ' TRUE_FALSE', 'FILL_IN', 'SHORT_ANSWER']);;
             $table->integer('score')->comment('分值');
             $table->integer('number')->comment('提数');
-            $table->string('questions')->comment('问题')->nullable();
+            $table->string('questions')->comment('题目')->nullable();
             $table->string('scores')->comment('分数')->nullable();
             $table->timestamps();
         });

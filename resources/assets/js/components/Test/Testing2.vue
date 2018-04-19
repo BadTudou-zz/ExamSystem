@@ -70,7 +70,7 @@ export default {
       const that = this;
       that.questionIds = [];
     },
-    // 通过章节ID数组找到所有章节下面的问题
+    // 通过章节ID数组找到所有章节下面的题目
     getQuestionIds: function (chapterId, totalLength, currentLength) {
       const that = this;
       let paperId = that.paperId;
@@ -206,11 +206,11 @@ export default {
 
       for (let i = 0; i < len; i++) {
         let chapterId = value[i];
-        // 获取所有问题的ID
+        // 获取所有题目的ID
         await that.getQuestionIds(chapterId, len, i);
       }
     },
-    // 获取所有的问题的数据
+    // 获取所有的题目的数据
     asyncGetQuestionData: async function (value) {
       const that = this;
       let len = value.length
@@ -238,7 +238,7 @@ export default {
       }
       return uniqData;
     },
-    // 问题分类
+    // 题目分类
     questionClassification: function (allQuestionData) {
       const that = this;
       // let data = that.uniqData(allQuestionData);

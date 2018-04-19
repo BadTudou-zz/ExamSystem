@@ -1,13 +1,13 @@
-<!-- 查看问题 -->
+<!-- 查看题目 -->
 <template lang="html">
   <div class="box">
     <div>
       <div v-show="isShowSearchQuestion" class="search-box">
         <input v-model="searchKey" class="input search-input" type="text" placeholder="请输入关键字">
-        <!-- <button disabled @click="searchQuestion()" class="button" type="button" name="button">查找问题</button> -->
+        <!-- <button disabled @click="searchQuestion()" class="button" type="button" name="button">查找题目</button> -->
         <div @click="searchQuestion()" class="search-button"><i class="fas fa-search"></i></div>
       </div>
-        <button v-show="isShowCreateQuestion" @click="addQuestion()" class="button add-question-button" type="button" name="button">添加问题</button>
+        <button v-show="isShowCreateQuestion" @click="addQuestion()" class="button add-question-button" type="button" name="button">添加题目</button>
     </div>
 
     <div v-for="(item,index) in questionData">
@@ -17,7 +17,7 @@
           <div class="notification">
             <div class="operate-box">
               <button v-show="isShowDeleteQuestion" @click="deleteQuestion(index)" class="delete"></button>
-              <button v-show="isShowEditQuestion" @click="editQuestion(index)" class="button edit-question is-small" type="button" name="button">编辑问题</button>
+              <button v-show="isShowEditQuestion" @click="editQuestion(index)" class="button edit-question is-small" type="button" name="button">编辑题目</button>
             </div>
             <p class="detail">        序号：{{ item.id }}
               &nbsp;&nbsp;&nbsp;&nbsp; 类型： 单选
@@ -35,7 +35,7 @@
           <div class="notification">
             <div class="operate-box">
               <button v-show="isShowDeleteQuestion" @click="deleteQuestion(index)" class="delete"></button>
-              <button v-show="isShowEditQuestion" @click="editQuestion(index)" class="button edit-question is-small" type="button" name="button">编辑问题</button>
+              <button v-show="isShowEditQuestion" @click="editQuestion(index)" class="button edit-question is-small" type="button" name="button">编辑题目</button>
             </div>
             <p class="detail">        序号：{{ item.id }}
               &nbsp;&nbsp;&nbsp;&nbsp; 类型： 多选
@@ -112,7 +112,7 @@ export default {
       else {
         id = that.questionData[index]['id'];
       }
-      let prompt = confirm("确认删除该问题吗？");
+      let prompt = confirm("确认删除该题目吗？");
       if (prompt) {
         axios({
           method: 'delete',

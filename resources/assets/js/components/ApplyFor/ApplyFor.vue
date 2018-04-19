@@ -12,12 +12,12 @@
     <table class="table is-bordered is-striped is-hoverable is-fullwidths">
       <thead>
         <tr>
-          <th>from</th>
-          <th>to</th>
-          <th>action</th>
-          <th>resource_id</th>
+          <th>申请人</th>
+          <th>批准人</th>
+          <th>申请消息</th>
+          <!-- <th>action</th> -->
+          <!-- <th>resource_id</th> -->
           <th>resource_type</th>
-          <th>data</th>
           <th>更新时间</th>
           <th>操作</th>
         </tr>
@@ -26,10 +26,10 @@
         <tr v-for="(item,index) in applyForData">
           <td>{{ item.from }}</td>
           <td>{{ item.to }}</td>
-          <td>{{ item.action }}</td>
-          <td>{{ item.resource_id }}</td>
-          <td>{{ item.resource_type }}</td>
           <td>{{ item.data }}</td>
+          <!-- <td>{{ item.action }}</td> -->
+          <!-- <td>{{ item.resource_id }}</td> -->
+          <td>{{ item.resource_type }}</td>
           <td>{{ GLOBAL.toTime(item.updated_at.date) }}</td>
           <td>
             <button v-show="isShowDeleteApplication" @click="deleteApplyFor(index)" class="delete is-small" type="button" name="button">删除</button>

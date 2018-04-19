@@ -3,12 +3,12 @@
     <div class="modal-background"></div>
     <div class="modal-card">
       <header class="modal-card-head">
-        <p class="modal-card-title">添加问题</p>
+        <p class="modal-card-title">添加题目</p>
         <button @click="switchModal()" class="delete" aria-label="close"></button>
       </header>
       <section class="modal-card-body">
         <div class="box-item">
-          <label>问题类型</label>
+          <label>题目类型</label>
           <div class="select">
             <select v-model="questionData.question_type">
               <option value="SINGLE_CHOICE">单选</option>
@@ -20,7 +20,7 @@
           </div>
         </div>
         <div class="box-item">
-          <label>问题难度</label>
+          <label>题目难度</label>
           <!-- ?? 枚举值有哪些 -->
           <div class="select">
             <select v-model="questionData.level_type">

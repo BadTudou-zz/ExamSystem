@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('content')
     @section('content')
-    问题
+    题目
     {{ csrf_field() }}
     @endsection
 @endsection

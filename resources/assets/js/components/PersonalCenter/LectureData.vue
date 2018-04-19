@@ -3,7 +3,7 @@
   <div class="box">
     <h3 class="title">选课</h3>
 
-    <table class="table">
+    <table v-if="currentLectureData" class="table">
       <thead>
         <tr>
           <!-- <th>id</th> -->
@@ -36,6 +36,11 @@
       </tbody>
     </table>
 
+    <div v-else>
+      暂无选课数据
+    </div>
+
+
     <pagination v-bind:pagination-data="paginationData"
                 v-model="data"
     ></pagination>
@@ -49,19 +54,6 @@ export default {
   data() {
     return {
       lectureData: [],
-//       currentLectureData: {
-//         id: '',
-//         name: '',
-//         user_id: '',
-//         course_id: '',
-//         allowable_organization_ids: '',
-//         allowable_user_ids: '',
-//         describe: '',
-//         max: '',
-//         current: '',
-//         created_at: '',
-//         updated_at: '',
-//       },
       currentLectureData: null,
       isShowEditModal: false,
       editData: null,

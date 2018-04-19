@@ -314,7 +314,7 @@ export default {
       that.waitTime();
       // 10s等待
       setTimeout(function(){
-        console.log('加载问题id中....')
+        console.log('加载题目id中....')
         console.log(that.temporaryQuestionIds);
         that.questionIds = that.temporaryQuestionIds;
 

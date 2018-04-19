@@ -51,7 +51,7 @@ Route::get('lectures/{id}', function ($id) {
     return view('lectures.show');
 });
 
-//问题
+//题目
 Route::get('questions/{id}', function ($id) {
     return view('questions.show');
 });

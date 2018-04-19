@@ -9,13 +9,32 @@
       </div>
         <button v-show="isShowCreateNotification" @click="addNotice()" class="button add-role-button" type="button" name="button">添加通知</button>
     </div>
-    <div  v-for="(item,index) in noticeData" class="notice box">
-      <div class="notification">
-        <button v-show="isShowDeleteNotification" @click="deleteNotice(index)" class="delete"></button>
-        {{ item.data}}
-        <p>{{ GLOBAL.toTime(item.created_at.date) }}</p>
-      </div>
-    </div>
+
+    <!-- <table class="table is-bordered is-striped is-hoverable is-fullwidths">
+      <thead>
+        <tr>
+          <th>发送者</th>
+          <th>接受者</th>
+          <th>内容</th>
+          <th>创建时间</th>
+          <th>更新时间</th>
+          <th>操作</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="(item,index) in noticeData">
+          <td>{{ item.from_name }}</td>
+          <td>{{ item.to_name }}</td>
+          <td><p class="limit-words">{{ item.data }}</p></td>
+          <td>{{ GLOBAL.toTime(item.created_at.date) }}</td>
+          <td>{{ GLOBAL.toTime(item.updated_at.date) }}</td>
+          <td>
+            <button v-show="isShowDeleteMessage" @click="deleteMessage(index)" class="delete" type="button">删除消息</button>
+          </td>
+        </tr>
+      </tbody>
+    </table> -->
+
 
     <add-notice ref="addNotice"
                  v-on:getNotice="getNotice"

@@ -50,7 +50,7 @@
           </li>
 
           <li v-show="isShowQuestion" :class="{'is-active' : currentTag === 'question'}" @click="currentTag = 'question'">
-            <router-link to="/question"><i class="fas fa-list-ol"></i><span>问题</span></router-link>
+            <router-link to="/question"><i class="fas fa-list-ol"></i><span>题目</span></router-link>
           </li>
 
           <li is-show="isShowTag" :class="{'is-active' : currentTag === 'label'}" @click="currentTag = 'label'">
@@ -214,7 +214,7 @@ export default {
       // return true;
       return sessionStorage.getItem('permissions').includes('lecture-index');
     },
-    // 9.【问题】
+    // 9.【题目】
     isShowQuestion() {
       // return true;
       return sessionStorage.getItem('permissions').includes('question-index');

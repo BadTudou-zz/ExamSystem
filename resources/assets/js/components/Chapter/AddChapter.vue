@@ -24,7 +24,7 @@
           <input v-model="chapterData.describe" class="input" type="text">
         </div>
         <div class="box-item">
-          <label>问题类型</label>
+          <label>题目类型</label>
           <div class="select">
             <select v-model="chapterData.question_type">
               <option value="SINGLE_CHOICE">单选</option>
@@ -36,8 +36,8 @@
           </div>
         </div>
         <div class="box-item">
-          <label>涉及到的问题</label>
-          <!-- <inpust v-model="questionsString" class="input" type="text" placeholder="请用英文逗号将多个问题id分开"> -->
+          <label>涉及到的题目</label>
+          <!-- <inpust v-model="questionsString" class="input" type="text" placeholder="请用英文逗号将多个题目id分开"> -->
           <div class="all-question">
 
             <table class="table">
@@ -92,7 +92,7 @@ export default {
         question_type: 'SINGLE_CHOICE',
         scores: {},
       },
-      questions: '',  // 涉及的问题
+      questions: '',  // 涉及的题目
       questionsString: '',
       //
       paginationData: null,
@@ -157,7 +157,7 @@ export default {
         that.clearWords();
       })
     },
-    // 计算问题分值的JSON
+    // 计算题目分值的JSON
     computedAnswerJson: function () {
       const that = this;
       let json = {};

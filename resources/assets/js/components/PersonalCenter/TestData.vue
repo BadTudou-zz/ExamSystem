@@ -3,7 +3,7 @@
   <div>
     <div  v-show="!isTesting">
       <h3 class="title">考试</h3>
-      <table class="table">
+      <table v-if="testData" class="table">
         <thead>
           <tr>
             <th>序号</th>
@@ -24,6 +24,10 @@
           </tr>
         </tbody>
       </table>
+
+      <div v-else>
+        暂无任何考试
+      </div>
 
       <pagination v-bind:pagination-data="paginationData"
                   v-model="data"
