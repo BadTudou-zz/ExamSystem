@@ -3,43 +3,51 @@
   <div>
 
     <div v-if="isLoading">
-      <p class="wait-time">题目加载中，请稍等{{ time }}秒</p>
+      <p class="wait-time">题目加载中，请稍等{{ loadingTime }}秒</p>
       <img class="loading" src="../../../img/loading.gif" alt="">
     </div>
 
     <div v-else>
-      <button @click="submitAnswer()" class="button is-info finish-test" type="button" name="button">完成考试</button>
-
+      <button @click="submitAnswer()" class="button is-info finish-" type="button" name="button">完成考试</button>
+      <!-- <div class="">考试剩余时间：{{ examTime }}</div> -->
 
       <div v-for="(item,index) in questionData">
         <!-- 单选 -->
         <div class="message">
           <div v-show="item.question_type === 'SINGLE_CHOICE'" class="message box">
-            <div class="notification">
-              <p class="detail">        id：{{ item.id }}
-                &nbsp;&nbsp;&nbsp;&nbsp; 类型： 单选
-              </p>
+            <div class="question-title">
+              <span class="question-index"> {{ index + 1 }}</span>
+              <span class="question-type">单选题</span>
+              <span class="question-difficulty">难度：{{item.level_type}} </span>
+            </div>
+            <div class="triangle-topright">
+
+            </div>
+            <div class="test">
               <div class="question">题目：{{ item.title }}</div>
-              <div class="question">选项：{{ getOptionsString(item.body) }}</div>
-              <!-- <div class="options">正确答案：{{ item.answer }}</div> -->
-              <p class="time">{{ GLOBAL.toTime(item.created_at) }}</p>
+              <!-- <div class="question">选项：{{ getOptionsString(item.body) }}</div> -->
             </div>
             <div class="answer">
-              作答：
-              <div class="select">
-                <select v-model="answer[index]">
-                  <option value='A'>A</option>
-                  <option value="B">B</option>
-                  <option value="C">C</option>
-                  <option value="D">D</option>
-                </select>
-              </div>
+              <label class="checkbox">
+                <div class="">
+                  <input class="answer-index" v-model="answer[index]" value="A" type="radio">{{ getOptionsString(item.body)[0] }}
+                </div>
+                <div class="">
+                  <input class="answer-index" v-model="answer[index]" value="B" type="radio">{{ getOptionsString(item.body)[1] }}
+                </div>
+                <div class="">
+                  <input class="answer-index" v-model="answer[index]" value="C" type="radio">{{ getOptionsString(item.body)[2] }}
+                </div>
+                <div class="">
+                  <input class="answer-index" v-model="answer[index]" value="D" type="radio">{{ getOptionsString(item.body)[3] }}
+                </div>
+              </label>
             </div>
           </div>
 
           <!-- 多选 -->
           <div v-show="item.question_type === 'MULTIPLE_CHOICE'" class="message box">
-            <div class="notification">
+            <div class="test">
               <p class="detail">        id：{{ item.id }}
                 &nbsp;&nbsp;&nbsp;&nbsp; 类型： 多选
               </p>
@@ -69,6 +77,7 @@
 
 <script>
 import SingleChoice from '../Question/SingleChoice'
+import moment from 'moment'
 
 export default {
   data() {
@@ -82,7 +91,7 @@ export default {
        currentQuestionData: [],
        temporaryQuestionData: [], // 临时存储
        answer: [],
-       time: 15,
+       loadingTime: 15,
     }
   },
   components: {
@@ -91,8 +100,12 @@ export default {
   props: [
     'paperId',
     'examId',
+    'examTime',
   ],
   methods: {
+    toTime: function (time) {
+      return moment(time).format('HH:mm:ss');
+    },
     getChapterIds: function (paperId) {
       const that = this;
       let id = paperId;
@@ -170,7 +183,7 @@ export default {
       let uniq = [...new Set(arr)];
       return uniq;
     },
-    quitTest: function () {
+    quit: function () {
       const that = this;
     },
     submitAnswer: function () {
@@ -189,7 +202,7 @@ export default {
         }
       }).then(res => {
         console.log('答案提交成功');
-        that.finishTest();
+        that.finish();
       }).catch(err => {
         let errMsg = err.response.data.error;
         if (errMsg) {
@@ -202,7 +215,7 @@ export default {
       })
     },
     // 完成考试
-    finishTest: function () {
+    finish: function () {
       const that = this;
       let id = that.examId;
 
@@ -250,11 +263,11 @@ export default {
       let alphabet = ['A','B','C','D','E','F','G','H','I'];
       let str = '';
       for (let i = 0; i < arr.length; i++) {
-        str += alphabet[i] + '.' + arr[i] + '   ';
+        str += alphabet[i] + '.' + arr[i] + '\n';
       }
-      return str;
+      return str.split('\n');
     },
-    //
+    // ?? 多选的答案格式
     computedAnswerJson: function () {
       const that = this;
       if (that.answer.length !== that.questionData.length) {
@@ -270,9 +283,15 @@ export default {
     },
     waitTime: function () {
       const that = this;
-      // 10s等待
+
       setInterval(function(){
-        that.time--;
+        that.loadingTime --;
+      },1000)
+    },
+    countdown: function () {
+      const that = this;
+      setInterval(function(){
+        that.examTime --;
       },1000)
     },
     // 根据Id排序数组
@@ -306,6 +325,7 @@ export default {
     },
     chapterIds: async function (value, oldValue) {
       const that = this;
+
       console.log('获取章节ID')
       console.log(value)
       for (let i = 0; i < value.length; i++) {
@@ -314,7 +334,7 @@ export default {
       that.waitTime();
       // 10s等待
       setTimeout(function(){
-        console.log('加载题目id中....')
+        console.log('加载问题id中....')
         console.log(that.temporaryQuestionIds);
         that.questionIds = that.temporaryQuestionIds;
 
@@ -342,23 +362,26 @@ export default {
     questionData: function (value, oldValue) {
       const that = this;
       that.isLoading = false;
+      // that.examTime = 100 * 60; //
+      // that.countdown();
     }
   }
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .message {
   margin: 35px auto 0 auto;
-  background-color: #fff;
+  background-color: #f1faff;
 }
 .message {
-  .notification {
+  .test {
     margin: 0;
-    background-color: #fff;
+    padding: 0;
+    background-color: #f1faff;
   }
 }
-.notification .time{
+.test .time{
   margin-top: 25px;
   text-align: right;
   padding-bottom: 20px;
@@ -374,7 +397,7 @@ export default {
   margin: 0 auto;
   display: block;
 }
-.finish-test {
+.finish- {
   margin-left: 20px;
 }
 .multiple-choice {
@@ -387,5 +410,49 @@ export default {
 .wait-time {
   text-align: center;
   margin-bottom: 20px;
+}
+.box {
+  border: 2px dashed #00c4ff;
+}
+.question-title {
+  width: 200px;
+  height: 33px;
+  line-height: 33px;
+  border: 1px solid #538abd;
+  color: #000;
+  background-color: #f1faff;
+  position: relative;
+  top: -23px;
+  left: -65px;
+}
+.question-index {
+  display: inline-block;
+  border-right: 1px solid #538abd;
+  background-color: #00c4ff;
+  color: #fff;
+  padding: 0 10px;
+  height: 100%;
+}
+.question-type {
+  display: inline-block;
+  border-right: 1px solid #538abd;
+  padding: 0 11px 0 7px;
+  height: 100%;
+}
+.question-difficulty {
+  display: inline-block;
+  height: 100%;
+}
+.triangle-topright {
+  width: 0;
+  height: 0;
+  border-top: 15px solid #538abd;
+  border-left: 15px solid transparent;
+  position: relative;
+  left: -65px;
+  top: -23px;
+}
+.answer-index {
+  margin: 0 12px 18px 0;
 }
 </style>

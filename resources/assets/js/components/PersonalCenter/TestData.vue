@@ -3,7 +3,7 @@
   <div>
     <div  v-show="!isTesting">
       <h3 class="title">考试</h3>
-      <table v-if="testData" class="table">
+      <table class="table">
         <thead>
           <tr>
             <th>序号</th>
@@ -25,10 +25,6 @@
         </tbody>
       </table>
 
-      <div v-else>
-        暂无任何考试
-      </div>
-
       <pagination v-bind:pagination-data="paginationData"
                   v-model="data"
       ></pagination>
@@ -40,6 +36,7 @@
              v-on:switchTesting="switchTesting"
              v-bind:paper-id="paperId"
              v-bind:exam-id="examId"
+             v-bind:exam-time="examTime"
     ></testing>
 
     <score ref="score"
@@ -67,6 +64,7 @@ export default {
       isTesting: false,  // 是否已经开始考试
       paperId: null,  // 试卷ID
       examId: null, // 考试ID testID
+      examTime: null,
     }
   },
   components: {
@@ -114,6 +112,8 @@ export default {
       let id = that.testData[index].id;
       that.examId = id;
       // that.switchTesting();
+      // that.paperId = that.testData[index].paper_id;
+
       axios({
         method: 'post',
         url: `${this.GLOBAL.localDomain}/api/v1/exams/${id}/begin`,
@@ -123,6 +123,7 @@ export default {
         }
       }).then(res => {
         that.paperId = that.testData[index].paper_id;
+        that.examTime = that.testData[index].min;
         alert('已开考');
         that.switchTesting();
       }).catch(err => {
@@ -135,6 +136,7 @@ export default {
         }
         console.log(err)
       })
+
     },
   },
   computed: {
