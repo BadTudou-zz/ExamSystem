@@ -37137,9 +37137,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
-//
-//
 
 
 
@@ -37153,7 +37150,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       searchKey: null,
       testData: null,
       editData: null
-    }, _defineProperty(_ref, 'searchKey', null), _defineProperty(_ref, 'paginationData', null), _defineProperty(_ref, 'data', null), _defineProperty(_ref, 'isTesting', false), _defineProperty(_ref, 'paperId', null), _defineProperty(_ref, 'examId', null), _ref;
+    }, _defineProperty(_ref, 'searchKey', null), _defineProperty(_ref, 'paginationData', null), _defineProperty(_ref, 'data', null), _defineProperty(_ref, 'isTesting', false), _defineProperty(_ref, 'paperId', null), _defineProperty(_ref, 'examId', null), _defineProperty(_ref, 'examTime', null), _ref;
   },
 
   components: {
@@ -37200,6 +37197,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       var id = that.testData[index].id;
       that.examId = id;
       // that.switchTesting();
+      // that.paperId = that.testData[index].paper_id;
+
       axios({
         method: 'post',
         url: this.GLOBAL.localDomain + '/api/v1/exams/' + id + '/begin',
@@ -37209,6 +37208,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         }
       }).then(function (res) {
         that.paperId = that.testData[index].paper_id;
+        that.examTime = that.testData[index].min;
         alert('已开考');
         that.switchTesting();
       }).catch(function (err) {
@@ -37244,6 +37244,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Question_SingleChoice__ = __webpack_require__(150);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Question_SingleChoice___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__Question_SingleChoice__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_moment__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_moment__);
 function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
 //
@@ -37315,6 +37317,15 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+
 
 
 
@@ -37330,15 +37341,18 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
       currentQuestionData: [],
       temporaryQuestionData: [], // 临时存储
       answer: [],
-      time: 15
+      loadingTime: 15
     };
   },
 
   components: {
     SingleChoice: __WEBPACK_IMPORTED_MODULE_0__Question_SingleChoice___default.a
   },
-  props: ['paperId', 'examId'],
+  props: ['paperId', 'examId', 'examTime'],
   methods: {
+    toTime: function toTime(time) {
+      return __WEBPACK_IMPORTED_MODULE_1_moment___default()(time).format('HH:mm:ss');
+    },
     getChapterIds: function getChapterIds(paperId) {
       var that = this;
       var id = paperId;
@@ -37415,7 +37429,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
       var uniq = [].concat(_toConsumableArray(new Set(arr)));
       return uniq;
     },
-    quitTest: function quitTest() {
+    quit: function quit() {
       var that = this;
     },
     submitAnswer: function submitAnswer() {
@@ -37434,7 +37448,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
         }
       }).then(function (res) {
         console.log('答案提交成功');
-        that.finishTest();
+        that.finish();
       }).catch(function (err) {
         var errMsg = err.response.data.error;
         if (errMsg) {
@@ -37446,7 +37460,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
       });
     },
     // 完成考试
-    finishTest: function finishTest() {
+    finish: function finish() {
       var that = this;
       var id = that.examId;
 
@@ -37493,11 +37507,11 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
       var alphabet = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I'];
       var str = '';
       for (var i = 0; i < arr.length; i++) {
-        str += alphabet[i] + '.' + arr[i] + '   ';
+        str += alphabet[i] + '.' + arr[i] + '\n';
       }
-      return str;
+      return str.split('\n');
     },
-    //
+    // ?? 多选的答案格式
     computedAnswerJson: function computedAnswerJson() {
       var that = this;
       if (that.answer.length !== that.questionData.length) {
@@ -37513,9 +37527,15 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
     },
     waitTime: function waitTime() {
       var that = this;
-      // 10s等待
+
       setInterval(function () {
-        that.time--;
+        that.loadingTime--;
+      }, 1000);
+    },
+    countdown: function countdown() {
+      var that = this;
+      setInterval(function () {
+        that.examTime--;
       }, 1000);
     },
     // 根据Id排序数组
@@ -37545,6 +37565,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
     },
     chapterIds: async function chapterIds(value, oldValue) {
       var that = this;
+
       console.log('获取章节ID');
       console.log(value);
       for (var i = 0; i < value.length; i++) {
@@ -37553,7 +37574,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
       that.waitTime();
       // 10s等待
       setTimeout(function () {
-        console.log('加载题目id中....');
+        console.log('加载问题id中....');
         console.log(that.temporaryQuestionIds);
         that.questionIds = that.temporaryQuestionIds;
       }, 10000);
@@ -37579,6 +37600,8 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
     questionData: function questionData(value, oldValue) {
       var that = this;
       that.isLoading = false;
+      // that.examTime = 100 * 60; //
+      // that.countdown();
     }
   }
 });
@@ -47706,7 +47729,7 @@ exports.push([module.i, "\n.seleted-input[data-v-06de79a7] {\n  width: 10px;\n}\
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(1)();
-exports.push([module.i, "\n.message {\n  margin: 35px auto 0 auto;\n  background-color: #fff;\n}\n.message .notification {\n  margin: 0;\n  background-color: #fff;\n}\n.notification .time {\n  margin-top: 25px;\n  text-align: right;\n  padding-bottom: 20px;\n  border-bottom: 1px solid #dedede;\n}\n.question {\n  text-align: left;\n  margin-bottom: 10px;\n}\n.loading {\n  width: 50px;\n  height: 50px;\n  margin: 0 auto;\n  display: block;\n}\n.finish-test {\n  margin-left: 20px;\n}\n.multiple-choice {\n  width: 200px;\n}\n.answer-input {\n  display: inline-block;\n  width: 300px;\n}\n.wait-time {\n  text-align: center;\n  margin-bottom: 20px;\n}\n", ""]);
+exports.push([module.i, "\n.message[data-v-08285138] {\n  margin: 35px auto 0 auto;\n  background-color: #f1faff;\n}\n.message .test[data-v-08285138] {\n  margin: 0;\n  padding: 0;\n  background-color: #f1faff;\n}\n.test .time[data-v-08285138] {\n  margin-top: 25px;\n  text-align: right;\n  padding-bottom: 20px;\n  border-bottom: 1px solid #dedede;\n}\n.question[data-v-08285138] {\n  text-align: left;\n  margin-bottom: 10px;\n}\n.loading[data-v-08285138] {\n  width: 50px;\n  height: 50px;\n  margin: 0 auto;\n  display: block;\n}\n.finish-[data-v-08285138] {\n  margin-left: 20px;\n}\n.multiple-choice[data-v-08285138] {\n  width: 200px;\n}\n.answer-input[data-v-08285138] {\n  display: inline-block;\n  width: 300px;\n}\n.wait-time[data-v-08285138] {\n  text-align: center;\n  margin-bottom: 20px;\n}\n.box[data-v-08285138] {\n  border: 2px dashed #00c4ff;\n}\n.question-title[data-v-08285138] {\n  width: 200px;\n  height: 33px;\n  line-height: 33px;\n  border: 1px solid #538abd;\n  color: #000;\n  background-color: #f1faff;\n  position: relative;\n  top: -23px;\n  left: -65px;\n}\n.question-index[data-v-08285138] {\n  display: inline-block;\n  border-right: 1px solid #538abd;\n  background-color: #00c4ff;\n  color: #fff;\n  padding: 0 10px;\n  height: 100%;\n}\n.question-type[data-v-08285138] {\n  display: inline-block;\n  border-right: 1px solid #538abd;\n  padding: 0 11px 0 7px;\n  height: 100%;\n}\n.question-difficulty[data-v-08285138] {\n  display: inline-block;\n  height: 100%;\n}\n.triangle-topright[data-v-08285138] {\n  width: 0;\n  height: 0;\n  border-top: 15px solid #538abd;\n  border-left: 15px solid transparent;\n  position: relative;\n  left: -65px;\n  top: -23px;\n}\n.answer-index[data-v-08285138] {\n  margin: 0 12px 18px 0;\n}\n", ""]);
 
 /***/ }),
 /* 272 */
@@ -68081,7 +68104,7 @@ var Component = __webpack_require__(2)(
   /* template */
   __webpack_require__(434),
   /* scopeId */
-  null,
+  "data-v-08285138",
   /* cssModules */
   null
 )
@@ -69354,14 +69377,14 @@ if (false) {
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', [(_vm.isLoading) ? _c('div', [_c('p', {
     staticClass: "wait-time"
-  }, [_vm._v("题目加载中，请稍等" + _vm._s(_vm.time) + "秒")]), _vm._v(" "), _c('img', {
+  }, [_vm._v("题目加载中，请稍等" + _vm._s(_vm.loadingTime) + "秒")]), _vm._v(" "), _c('img', {
     staticClass: "loading",
     attrs: {
       "src": __webpack_require__(16),
       "alt": ""
     }
   })]) : _c('div', [_c('button', {
-    staticClass: "button is-info finish-test",
+    staticClass: "button is-info finish-",
     attrs: {
       "type": "button",
       "name": "button"
@@ -69383,54 +69406,104 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }],
       staticClass: "message box"
     }, [_c('div', {
-      staticClass: "notification"
-    }, [_c('p', {
-      staticClass: "detail"
-    }, [_vm._v("        id：" + _vm._s(item.id) + "\n                   类型： 单选\n            ")]), _vm._v(" "), _c('div', {
+      staticClass: "question-title"
+    }, [_c('span', {
+      staticClass: "question-index"
+    }, [_vm._v(" " + _vm._s(index + 1))]), _vm._v(" "), _c('span', {
+      staticClass: "question-type"
+    }, [_vm._v("单选题")]), _vm._v(" "), _c('span', {
+      staticClass: "question-difficulty"
+    }, [_vm._v("难度：" + _vm._s(item.level_type) + " ")])]), _vm._v(" "), _c('div', {
+      staticClass: "triangle-topright"
+    }), _vm._v(" "), _c('div', {
+      staticClass: "test"
+    }, [_c('div', {
       staticClass: "question"
-    }, [_vm._v("题目：" + _vm._s(item.title))]), _vm._v(" "), _c('div', {
-      staticClass: "question"
-    }, [_vm._v("选项：" + _vm._s(_vm.getOptionsString(item.body)))]), _vm._v(" "), _c('p', {
-      staticClass: "time"
-    }, [_vm._v(_vm._s(_vm.GLOBAL.toTime(item.created_at)))])]), _vm._v(" "), _c('div', {
+    }, [_vm._v("题目：" + _vm._s(item.title))])]), _vm._v(" "), _c('div', {
       staticClass: "answer"
-    }, [_vm._v("\n            作答：\n            "), _c('div', {
-      staticClass: "select"
-    }, [_c('select', {
+    }, [_c('label', {
+      staticClass: "checkbox"
+    }, [_c('div', {}, [_c('input', {
       directives: [{
         name: "model",
         rawName: "v-model",
         value: (_vm.answer[index]),
         expression: "answer[index]"
       }],
+      staticClass: "answer-index",
+      attrs: {
+        "value": "A",
+        "type": "radio"
+      },
+      domProps: {
+        "checked": _vm._q(_vm.answer[index], "A")
+      },
       on: {
         "change": function($event) {
-          var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
-            return o.selected
-          }).map(function(o) {
-            var val = "_value" in o ? o._value : o.value;
-            return val
-          });
-          _vm.$set(_vm.answer, index, $event.target.multiple ? $$selectedVal : $$selectedVal[0])
+          _vm.$set(_vm.answer, index, "A")
         }
       }
-    }, [_c('option', {
+    }), _vm._v(_vm._s(_vm.getOptionsString(item.body)[0]) + "\n              ")]), _vm._v(" "), _c('div', {}, [_c('input', {
+      directives: [{
+        name: "model",
+        rawName: "v-model",
+        value: (_vm.answer[index]),
+        expression: "answer[index]"
+      }],
+      staticClass: "answer-index",
       attrs: {
-        "value": "A"
+        "value": "B",
+        "type": "radio"
+      },
+      domProps: {
+        "checked": _vm._q(_vm.answer[index], "B")
+      },
+      on: {
+        "change": function($event) {
+          _vm.$set(_vm.answer, index, "B")
+        }
       }
-    }, [_vm._v("A")]), _vm._v(" "), _c('option', {
+    }), _vm._v(_vm._s(_vm.getOptionsString(item.body)[1]) + "\n              ")]), _vm._v(" "), _c('div', {}, [_c('input', {
+      directives: [{
+        name: "model",
+        rawName: "v-model",
+        value: (_vm.answer[index]),
+        expression: "answer[index]"
+      }],
+      staticClass: "answer-index",
       attrs: {
-        "value": "B"
+        "value": "C",
+        "type": "radio"
+      },
+      domProps: {
+        "checked": _vm._q(_vm.answer[index], "C")
+      },
+      on: {
+        "change": function($event) {
+          _vm.$set(_vm.answer, index, "C")
+        }
       }
-    }, [_vm._v("B")]), _vm._v(" "), _c('option', {
+    }), _vm._v(_vm._s(_vm.getOptionsString(item.body)[2]) + "\n              ")]), _vm._v(" "), _c('div', {}, [_c('input', {
+      directives: [{
+        name: "model",
+        rawName: "v-model",
+        value: (_vm.answer[index]),
+        expression: "answer[index]"
+      }],
+      staticClass: "answer-index",
       attrs: {
-        "value": "C"
+        "value": "D",
+        "type": "radio"
+      },
+      domProps: {
+        "checked": _vm._q(_vm.answer[index], "D")
+      },
+      on: {
+        "change": function($event) {
+          _vm.$set(_vm.answer, index, "D")
+        }
       }
-    }, [_vm._v("C")]), _vm._v(" "), _c('option', {
-      attrs: {
-        "value": "D"
-      }
-    }, [_vm._v("D")])])])])]), _vm._v(" "), _c('div', {
+    }), _vm._v(_vm._s(_vm.getOptionsString(item.body)[3]) + "\n              ")])])])]), _vm._v(" "), _c('div', {
       directives: [{
         name: "show",
         rawName: "v-show",
@@ -69439,7 +69512,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }],
       staticClass: "message box"
     }, [_c('div', {
-      staticClass: "notification"
+      staticClass: "test"
     }, [_c('p', {
       staticClass: "detail"
     }, [_vm._v("        id：" + _vm._s(item.id) + "\n                   类型： 多选\n            ")]), _vm._v(" "), _c('div', {
@@ -75631,7 +75704,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }]
   }, [_c('h3', {
     staticClass: "title"
-  }, [_vm._v("考试")]), _vm._v(" "), (_vm.testData) ? _c('table', {
+  }, [_vm._v("考试")]), _vm._v(" "), _c('table', {
     staticClass: "table"
   }, [_vm._m(0), _vm._v(" "), _c('tbody', _vm._l((_vm.testData), function(item, index) {
     return _c('tr', [_c('td', [_vm._v(_vm._s(item.id))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.title))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.score))]), _vm._v(" "), _c('td', [_c('button', {
@@ -75657,7 +75730,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         }
       }
     }, [_vm._v("查看成绩")])])])
-  }))]) : _c('div', [_vm._v("\n      暂无任何考试\n    ")]), _vm._v(" "), _c('pagination', {
+  }))]), _vm._v(" "), _c('pagination', {
     attrs: {
       "pagination-data": _vm.paginationData
     },
@@ -75678,7 +75751,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     ref: "testing",
     attrs: {
       "paper-id": _vm.paperId,
-      "exam-id": _vm.examId
+      "exam-id": _vm.examId,
+      "exam-time": _vm.examTime
     },
     on: {
       "switchTesting": _vm.switchTesting
@@ -82197,13 +82271,13 @@ var content = __webpack_require__(271);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(3)("c65d958a", content, false);
+var update = __webpack_require__(3)("ec9d81e0", content, false);
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
  if(!content.locals) {
-   module.hot.accept("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-08285138!../../../../../node_modules/sass-loader/lib/loader.js!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./Testing.vue", function() {
-     var newContent = require("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-08285138!../../../../../node_modules/sass-loader/lib/loader.js!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./Testing.vue");
+   module.hot.accept("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-08285138&scoped=true!../../../../../node_modules/sass-loader/lib/loader.js!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./Testing.vue", function() {
+     var newContent = require("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-08285138&scoped=true!../../../../../node_modules/sass-loader/lib/loader.js!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./Testing.vue");
      if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
      update(newContent);
    });
