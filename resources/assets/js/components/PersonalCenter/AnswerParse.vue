@@ -3,24 +3,14 @@
   <div>
 
     <div v-if="isLoading">
-      <p class="wait-time">题目加载中，请稍等{{ loadingTime }}秒</p>
+      <p class="wait-time">解析加载中，请稍等{{ loadingTime }}秒</p>
       <img class="loading" src="../../../img/loading.gif" alt="">
     </div>
 
     <div v-else>
-      <h1>{{ testTitle }}</h1>
-      <button @click="submitAnswer()" class="button is-info finish-exam" type="button" name="button">完成考试</button>
-      <div class="countdown">
-        <!-- <i class="far fa-clock"></i> -->
-        <!-- 考试剩余时间: {{ testRemainingTime }} -->
-        <!-- 考试剩余时间: {{ toTime(testRemainingTime) }} -->
-
-      </div>
-
       <div v-for="(item,index) in questionData">
-        <!-- 单选 -->
-        <div class="testing">
-          <div v-show="item.question_type === 'SINGLE_CHOICE'" class="testing box">
+        <div class="message">
+          <div v-show="item.question_type === 'SINGLE_CHOICE'" class="message box">
             <div class="question-title">
               <span class="question-index"> {{ index + 1 }}</span>
               <span class="question-type">单选题</span>
@@ -49,6 +39,11 @@
                 </div>
               </label>
             </div>
+
+            <div class="parsing">
+              <p>你的答案：{{ examineeAnswer[item.id] }}</p>
+              <p>答案解析：{{ item.answer }}，{{ item.answer_comment }}</p>
+            </div>
           </div>
 
         </div>
@@ -60,73 +55,29 @@
 </template>
 
 <script>
-import SingleChoice from '../Question/SingleChoice'
 import moment from 'moment'
 
 export default {
   data() {
     return {
        questionData: [],
-//        questionData: [
-//         {
-//             "id": 2,
-//             "question_type": "SINGLE_CHOICE",
-//             "tag_id": "0",
-//             "level_type": "EASY",
-//             "title": "1+1等于多少23234？",
-//             "body": "1.2 \n2. 3\n3. 4",
-//             "answer": "1",
-//             "answer_comment": "没有",
-//             "created_at": "2018-01-27 04:54:50",
-//             "updated_at": "2018-01-27 04:59:21"
-//         },
-//         {
-//             "id": 3,
-//             "question_type": "SINGLE_CHOICE",
-//             "tag_id": "0",
-//             "level_type": "EASY",
-//             "title": "1+1等于多少23234？",
-//             "body": "1.2 \n2. 3\n3. 4",
-//             "answer": "1",
-//             "answer_comment": "没有",
-//             "created_at": "2018-01-27 04:58:32",
-//             "updated_at": "2018-01-27 04:58:32"
-//         },
-//         {
-//             "id": 4,
-//             "question_type": "SINGLE_CHOICE",
-//             "tag_id": "0",
-//             "level_type": "EASY",
-//             "title": "1+1等于多少？",
-//             "body": "1.2 \n2. 3\n3. 4",
-//             "answer": "1",
-//             "answer_comment": "没有",
-//             "created_at": "2018-01-27 05:06:28",
-//             "updated_at": "2018-01-27 05:06:28"
-//         }
-//     ],
        chapterIds: [],
        isLoading: true,
-       singleChoiceAnswer: null,
        questionIds: [],
        temporaryQuestionIds: [],  // 临时存储
        currentQuestionData: [],
        temporaryQuestionData: [], // 临时存储
        answer: [],
        loadingTime: 15,
-       testRemainingTime: null,
-
-       testTitle: '',
        paperId: null,
-       examId: null,
-       examTime: null,
+       examineeAnswer: [],  // 考生的回答
     }
   },
   components: {
-    SingleChoice,
   },
   props: [
-    'currentTestData',
+    'testData',
+    'scoreData',
   ],
   methods: {
     toTime: function (time) {
@@ -307,12 +258,6 @@ export default {
         that.loadingTime --;
       },1000)
     },
-    countdown: function () {
-      const that = this;
-      setInterval(function(){
-        that.testRemainingTime --;
-      },1000)
-    },
     // 根据Id排序数组
     sortArray: function (propertyName){
       return function(object1,object2){
@@ -337,13 +282,19 @@ export default {
 
   },
   watch: {
-    currentTestData: function (value, oldValue) {
+    testData: function (value, oldValue) {
       const that = this;
-      that.paperId = value.paper_id;
       that.examId = value.id;
-      that.examTime = value.min;
-      that.testTitle = value.title;
-      debugger
+      that.paperId = value.paper_id;
+    },
+    scoreData: function (value, oldValue) {
+      const that = this;
+      let data = JSON.parse(value.answers);
+      for (let i in data) {
+        let index = parseInt(i);
+        let val = data[i];
+        that.examineeAnswer[index] = val;
+      }
     },
     paperId: function (value, oldValue) {
       const that = this;
@@ -352,7 +303,6 @@ export default {
     },
     chapterIds: async function (value, oldValue) {
       const that = this;
-
       console.log('获取章节ID')
       console.log(value)
       for (let i = 0; i < value.length; i++) {
@@ -390,21 +340,16 @@ export default {
       const that = this;
       that.isLoading = false;
     },
-    examTime: function (value, oldValue) {
-      const that = this;
-      that.testRemainingTime = value * 60; //
-      that.countdown();
-    }
   }
 }
 </script>
 
 <style lang="scss" scoped>
-.testing {
+.message {
   margin: 35px auto 0 auto;
   background-color: #f1faff;
 }
-.testing {
+.message {
   .test {
     margin: 0;
     padding: 0;
@@ -484,19 +429,5 @@ export default {
 }
 .answer-index {
   margin: 0 12px 18px 0;
-}
-.countdown {
-  display: inline-block;
-}
-.fa-clock {
-  font-size: 30px;
-  margin-right: 10px;
-}
-.finish-exam {
-  float: right;
-}
-h1 {
-  font-size: 25px;
-  text-align: center;
 }
 </style>
