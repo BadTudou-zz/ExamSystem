@@ -10,7 +10,9 @@
         <button v-show="isShowCreateTeaching" @click="addTeaching()" class="button add-teaching-button" type="button" name="button">添加授课</button>
         <button class="button add-teaching-button" type="button" name="button">同步授课</button>
     </div>
-    <table class="table is-bordered is-striped is-hoverable is-fullwidths">
+
+    <p v-if="!teachingData" class="empty-message-prompt">暂无授课</p>
+    <table v-else class="table is-bordered is-striped is-hoverable is-fullwidths">
       <thead>
         <tr>
           <!-- <th>ID</th> -->
@@ -37,7 +39,7 @@
           <td>{{ item.course_id }}</td>
           <!-- <td>{{ item.allowable_teaching_ids }}</td>
           <td>{{ item.allowable_user_ids }}</td> -->
-          <td>{{ item.description }}</td>
+          <td><p class="limit-words">{{ item.description }}</p></td>
           <td>{{ item.max }}</td>
           <td>{{ item.current }}</td>
           <!-- <td>{{ GLOBAL.toTime(item.created_at) }}</td> -->

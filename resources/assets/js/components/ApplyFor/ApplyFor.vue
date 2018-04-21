@@ -9,7 +9,8 @@
       </div>
         <button v-show="isShowCreateApplication" @click="addApplyFor()" class="button add-applyFor-button is-small" type="button" name="button">添加申请</button>
     </div>
-    <table class="table is-bordered is-striped is-hoverable is-fullwidths">
+    <p v-if="!applyForData" class="empty-message-prompt">暂无申请</p>
+    <table v-else class="table is-bordered is-striped is-hoverable is-fullwidths">
       <thead>
         <tr>
           <th>申请人</th>
@@ -22,6 +23,7 @@
           <th>操作</th>
         </tr>
       </thead>
+
       <tbody>
         <tr v-for="(item,index) in applyForData">
           <td>{{ item.from }}</td>
@@ -40,6 +42,7 @@
         </tr>
       </tbody>
     </table>
+
 
     <add-apply-for ref="addApplyFor"
                    v-on:getApplyFor="getApplyFor"></add-apply-for>

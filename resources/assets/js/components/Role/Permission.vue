@@ -23,7 +23,7 @@
               <td><input type="checkbox" v-bind:value="item.id" v-model="selectedPermission" class="permission-seleted"></td>
               <td>{{ item.id }}</td>
               <td>{{ item.name }}</td>
-              <td>{{ item.description }}</td>
+              <td><p class="limit-words">{{ item.description }}</p></td>
             </tr>
           </tbody>
         </table>

@@ -3,8 +3,9 @@
   <div>
     <h3 class="title">消息</h3>
 
-    <div v-if="messageData.length !== 0">
-      <div  v-for="(item,index) in messageData" class="message box">
+    <div>
+      <p v-if="!messageData" class="empty-message-prompt">暂无消息</p>
+      <div v-else v-for="(item,index) in messageData" class="message box">
         <div class="message">
           <p class="message-data">{{ item.data }}</p>
 
@@ -17,10 +18,6 @@
       <pagination v-bind:pagination-data="paginationData"
                   v-model="data"
       ></pagination>
-    </div>
-
-    <div v-else>
-      暂时没有收到任何消息
     </div>
 
   </div>

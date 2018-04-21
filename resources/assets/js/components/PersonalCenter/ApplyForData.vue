@@ -3,7 +3,8 @@
   <div class="box">
     <h3 class="title">申请</h3>
 
-    <table v-if="applyForData" class="table">
+    <p v-if="!applyForData" class="empty-message-prompt">暂无申请</p>
+    <table v-else class="table">
       <thead>
         <tr>
           <th>发送者</th>
@@ -32,9 +33,6 @@
         </tr>
       </tbody>
     </table>
-    <div v-else>
-      暂无任何申请
-    </div>
 
 
     <pagination v-bind:pagination-data="paginationData"

@@ -13,7 +13,8 @@
             </div>
               <button @click="addChapter()" class="button add-chapter-button" type="button" name="button">添加章节</button>
           </div>
-          <table class="table is-bordered is-striped is-hoverable is-fullwidths">
+          <p v-if="!chapterData" class="empty-message-prompt">暂无章节</p>
+          <table v-else class="table is-bordered is-striped is-hoverable is-fullwidths">
             <thead>
               <tr>
                 <th>ID</th>
@@ -30,7 +31,7 @@
               <tr v-for="(item,index) in chapterData">
                 <td>{{ item.id }}</td>
                 <td>{{ item.name }}</td>
-                <td>{{ item.describe }}</td>
+                <td><p class="limit-words">{{ item.describe }}</p></td>
                 <td>{{ computedQuestionType(item.question_type) }}</td>
                 <td>{{ item.score }}</td>
                 <td>{{ item.number }}</td>

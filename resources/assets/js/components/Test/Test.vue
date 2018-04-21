@@ -11,7 +11,9 @@
         </div>
         <button v-show="isShowCreateTest" @click="addTest()" class="button add-test-button" type="button" name="button">添加考试</button>
       </div>
-      <table class="table is-bordered is-striped is-hoverable is-fullwidths">
+      
+      <p v-if="!testData" class="empty-message-prompt">暂无考试</p>
+      <table v-else class="table is-bordered is-striped is-hoverable is-fullwidths">
         <thead>
           <tr>
             <th>序号</th>
@@ -21,8 +23,8 @@
             <th>类型</th>
             <th>分值</th>
             <th>时长(分钟)</th>
-            <th>描述</th>
-            <th>创建时间</th>
+            <th><p class="test-limit-words">描述</p></th>
+            <!-- <th>创建时间</th> -->
             <!-- <th>更新时间</th> -->
             <th>操作</th>
             <th>用户</th>
@@ -38,7 +40,7 @@
             <td>{{ item.score }}</td>
             <td>{{ item.min }}</td>
             <td> {{ item.description }}</td>
-            <td>{{ GLOBAL.toTime(item.created_at) }}</td>
+            <!-- <td>{{ GLOBAL.toTime(item.created_at) }}</td> -->
             <!-- <td>{{ GLOBAL.toTime(item.updated_at) }}</td> -->
             <td>
               <button v-show="isShowDeleteTest" @click="deleteTest(index)" class="delete" type="button" name="button">删除</button>
@@ -48,7 +50,7 @@
               <button @click="gradingPapers(index)" class="is-small button" type="button" name="button">批改</button>
             </td>
             <td>
-              <button @click="participateUser(index)" class="is-small button" type="button" name="button">查看参与该考试的用户</button>
+              <button @click="participateUser(index)" class="is-small button" type="button" name="button">查看考试用户</button>
             </td>
           </tr>
         </tbody>
@@ -410,4 +412,12 @@ table {
     width: 130px;
   }
 }
+.test-limit-words {
+  display: inline-block;
+  width: 200px;
+  overflow: hidden;
+  text-overflow:ellipsis;
+  white-space: nowrap;
+}
+
 </style>
