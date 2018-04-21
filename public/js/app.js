@@ -35996,6 +35996,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 //
 //
 //
+//
 
 
 
@@ -38275,7 +38276,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       var that = this;
 
       var body = that.getAnswerOptions();
-      // ?? 备注必填
+
+      if (!that.questionData.question_type || !that.questionData.level_type || !that.questionData.title || !body || !that.questionData.answer || !that.questionData.answer_comment) {
+        alert('请检查内容是否填写完整');
+        return;
+      }
+
       axios({
         method: 'post',
         url: this.GLOBAL.localDomain + '/api/v1/questions/',
@@ -48699,7 +48705,7 @@ exports.push([module.i, "\n.search-key[data-v-dcb71588] {\n  width: 60px;\n  mar
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(1)();
-exports.push([module.i, "\n.message[data-v-e0bbc386] {\n  margin: 35px auto 0 auto;\n  background-color: #f1faff;\n}\n.message .test[data-v-e0bbc386] {\n  margin: 0;\n  padding: 0;\n  background-color: #f1faff;\n}\n.test .time[data-v-e0bbc386] {\n  margin-top: 25px;\n  text-align: right;\n  padding-bottom: 20px;\n  border-bottom: 1px solid #dedede;\n}\n.question[data-v-e0bbc386] {\n  text-align: left;\n  margin-bottom: 10px;\n}\n.loading[data-v-e0bbc386] {\n  width: 50px;\n  height: 50px;\n  margin: 0 auto;\n  display: block;\n}\n.finish-[data-v-e0bbc386] {\n  margin-left: 20px;\n}\n.multiple-choice[data-v-e0bbc386] {\n  width: 200px;\n}\n.answer-input[data-v-e0bbc386] {\n  display: inline-block;\n  width: 300px;\n}\n.wait-time[data-v-e0bbc386] {\n  text-align: center;\n  margin-bottom: 20px;\n}\n.box[data-v-e0bbc386] {\n  border: 2px dashed #00c4ff;\n}\n.question-title[data-v-e0bbc386] {\n  width: 200px;\n  height: 33px;\n  line-height: 33px;\n  border: 1px solid #538abd;\n  color: #000;\n  background-color: #f1faff;\n  position: relative;\n  top: -23px;\n  left: -65px;\n}\n.question-index[data-v-e0bbc386] {\n  display: inline-block;\n  border-right: 1px solid #538abd;\n  background-color: #00c4ff;\n  color: #fff;\n  padding: 0 10px;\n  height: 100%;\n}\n.question-type[data-v-e0bbc386] {\n  display: inline-block;\n  border-right: 1px solid #538abd;\n  padding: 0 11px 0 7px;\n  height: 100%;\n}\n.question-difficulty[data-v-e0bbc386] {\n  display: inline-block;\n  height: 100%;\n}\n.triangle-topright[data-v-e0bbc386] {\n  width: 0;\n  height: 0;\n  border-top: 15px solid #538abd;\n  border-left: 15px solid transparent;\n  position: relative;\n  left: -65px;\n  top: -23px;\n}\n.answer-index[data-v-e0bbc386] {\n  margin: 0 12px 18px 0;\n}\n", ""]);
+exports.push([module.i, "\n.message[data-v-e0bbc386] {\n  margin: 35px auto 0 auto;\n  background-color: #f1faff;\n}\n.message .test[data-v-e0bbc386] {\n  margin: 0;\n  padding: 0;\n  background-color: #f1faff;\n}\n.test .time[data-v-e0bbc386] {\n  margin-top: 25px;\n  text-align: right;\n  padding-bottom: 20px;\n  border-bottom: 1px solid #dedede;\n}\n.question[data-v-e0bbc386] {\n  text-align: left;\n  margin-bottom: 10px;\n}\n.loading[data-v-e0bbc386] {\n  width: 50px;\n  height: 50px;\n  margin: 0 auto;\n  display: block;\n}\n.finish-[data-v-e0bbc386] {\n  margin-left: 20px;\n}\n.multiple-choice[data-v-e0bbc386] {\n  width: 200px;\n}\n.answer-input[data-v-e0bbc386] {\n  display: inline-block;\n  width: 300px;\n}\n.wait-time[data-v-e0bbc386] {\n  text-align: center;\n  margin-bottom: 20px;\n}\n.box[data-v-e0bbc386] {\n  border: 2px dashed #00c4ff;\n}\n.question-title[data-v-e0bbc386] {\n  width: 200px;\n  height: 33px;\n  line-height: 33px;\n  border: 1px solid #538abd;\n  color: #000;\n  background-color: #f1faff;\n  position: relative;\n  top: -23px;\n  left: -65px;\n}\n.question-index[data-v-e0bbc386] {\n  display: inline-block;\n  border-right: 1px solid #538abd;\n  background-color: #00c4ff;\n  color: #fff;\n  padding: 0 10px;\n  height: 100%;\n}\n.question-type[data-v-e0bbc386] {\n  display: inline-block;\n  border-right: 1px solid #538abd;\n  padding: 0 11px 0 7px;\n  height: 100%;\n}\n.question-difficulty[data-v-e0bbc386] {\n  display: inline-block;\n  height: 100%;\n}\n.triangle-topright[data-v-e0bbc386] {\n  width: 0;\n  height: 0;\n  border-top: 15px solid #538abd;\n  border-left: 15px solid transparent;\n  position: relative;\n  left: -65px;\n  top: -23px;\n}\n.answer-index[data-v-e0bbc386] {\n  margin: 0 12px 18px 0;\n}\n.parsing[data-v-e0bbc386] {\n  background-color: #d9f4ff;\n  padding: 20px 15px;\n  border-radius: 5px;\n}\n.is-false[data-v-e0bbc386] {\n  color: red;\n}\n.is-true[data-v-e0bbc386] {\n  color: green;\n}\n", ""]);
 
 /***/ }),
 /* 355 */
@@ -48713,7 +48719,7 @@ exports.push([module.i, "\nlabel {\n  display: inline-block;\n  width: 100px;\n}
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(1)();
-exports.push([module.i, ".button {\n  border-radius: 2px;\n  font-size: .75rem;d\n}\n\n.search-input {\n  border-radius: 2px;\n  font-size: .75rem;\n}\n\n.delete {\n  height: 16px;\n  line-height: 16px;\n  max-height: 16px;\n  max-width: 16px;\n  min-height: 16px;\n  min-width: 16px;\n  width: 16px;\n  margin: 5px 10px 0 0;\n}\n.edit-icon {\n  cursor: pointer;\n  display: inline-block;\n  color: #cecece;\n}\n\n.search-button {\n  display: inline-block;\n  cursor: pointer;\n}\n.edit-button {\n  display: inline-block;\n  cursor: pointer;\n  color: #cecece;\n  margin: 0 10px;\n}\n\n.limit-words {\n  display: inline-block;\n  width: 300px;\n  overflow: hidden;\n  text-overflow:ellipsis;\n  white-space: nowrap;\n}\n", ""]);
+exports.push([module.i, ".button {\n  border-radius: 2px;\n  font-size: .75rem;d\n}\n\n.search-input {\n  border-radius: 2px;\n  font-size: .75rem;\n}\n\n.delete {\n  height: 16px;\n  line-height: 16px;\n  max-height: 16px;\n  max-width: 16px;\n  min-height: 16px;\n  min-width: 16px;\n  width: 16px;\n  margin: 5px 10px 0 0;\n}\n.edit-icon {\n  cursor: pointer;\n  display: inline-block;\n  color: #cecece;\n}\n\n.search-button {\n  display: inline-block;\n  cursor: pointer;\n}\n.edit-button {\n  display: inline-block;\n  cursor: pointer;\n  color: #cecece;\n  margin: 0 10px;\n}\n\n.limit-words {\n  display: inline-block;\n  width: 300px;\n  overflow: hidden;\n  text-overflow:ellipsis;\n  white-space: nowrap;\n}\ntable {\n  width: 100%;\n}\n", ""]);
 
 /***/ }),
 /* 357 */
@@ -77914,7 +77920,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   })])]), _vm._v(" "), _c('div', {
     staticClass: "box-item"
-  }, [_c('label', [_vm._v("答案备注")]), _vm._v(" "), _c('textarea', {
+  }, [_c('label', [_vm._v("答案解析")]), _vm._v(" "), _c('textarea', {
     directives: [{
       name: "model",
       rawName: "v-model",
@@ -79927,7 +79933,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }), _vm._v(_vm._s(_vm.getOptionsString(item.body)[3]) + "\n              ")])])]), _vm._v(" "), _c('div', {
       staticClass: "parsing"
-    }, [_c('p', [_vm._v("你的答案：" + _vm._s(_vm.examineeAnswer[item.id]))]), _vm._v(" "), _c('p', [_vm._v("答案解析：" + _vm._s(item.answer) + "，" + _vm._s(item.answer_comment))])])])])])
+    }, [_c('p', {
+      class: [item.answer === _vm.examineeAnswer[item.id] ? 'is-true' : 'is-false']
+    }, [_vm._v("我的答案：" + _vm._s(_vm.examineeAnswer[item.id]))]), _vm._v(" "), _c('p', [_vm._v("参考答案：" + _vm._s(item.answer) + " ")]), _vm._v(" "), _c('p', [_vm._v("答案解析：" + _vm._s(item.answer_comment))])])])])])
   }))])
 },staticRenderFns: []}
 module.exports.render._withStripped = true

@@ -76,7 +76,7 @@
         </div>
 
         <div class="box-item">
-          <label>答案备注</label>
+          <label>答案解析</label>
           <textarea v-model="questionData.answer_comment" class="textarea" type="text"></textarea>
         </div>
 
@@ -140,7 +140,14 @@ export default {
       const that = this;
 
       let body = that.getAnswerOptions();
-      // ?? 备注必填
+
+      if (!that.questionData.question_type || !that.questionData.level_type || !that.questionData.title ||
+          !body || !that.questionData.answer || !that.questionData.answer_comment)
+      {
+        alert('请检查内容是否填写完整');
+        return;
+      }
+
       axios({
         method: 'post',
         url: `${this.GLOBAL.localDomain}/api/v1/questions/`,
