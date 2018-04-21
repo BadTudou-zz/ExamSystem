@@ -3,22 +3,18 @@
   <div>
     <h3 class="title">通知</h3>
 
-    <div v-if="noticeData.length !== 0">
-      <div  v-for="(item,index) in noticeData" class="notice box">
-        <div class="notification">
-          {{ item.data}}
-          <p>{{ GLOBAL.toTime(item.created_at.date) }}</p>
-        </div>
+    <p v-if="!noticeData" class="empty-message-prompt">暂无通知</p>
+    <div v-else  v-for="(item,index) in noticeData" class="notice box">
+      <div class="notification">
+        {{ item.data}}
+        <p>{{ GLOBAL.toTime(item.created_at.date) }}</p>
       </div>
-
-      <pagination v-bind:pagination-data="paginationData"
-                  v-model="data"
-      ></pagination>
     </div>
 
-    <div v-else>
-      暂时没有收到任何通知
-    </div>
+    <pagination v-bind:pagination-data="paginationData"
+                v-model="data"
+    ></pagination>
+
   </div>
 
 

@@ -17,7 +17,8 @@
       </div>
     </div> -->
 
-    <table class="table is-bordered is-striped is-hoverable is-fullwidths">
+    <p v-if="!messageData" class="empty-message-prompt">暂无消息</p>
+    <table v-else class="table is-bordered is-striped is-hoverable is-fullwidths">
       <thead>
         <tr>
           <!-- <th>序号</th> -->

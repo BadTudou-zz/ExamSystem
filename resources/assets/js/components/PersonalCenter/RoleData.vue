@@ -3,7 +3,9 @@
   <div class="box">
     <h3 class="title">角色</h3>
 
-    <table v-if="roleData" class="table">
+    <p v-if="!roleData" class="empty-message-prompt">暂无角色</p>
+
+    <table v-else class="table">
       <thead>
         <tr>
           <th>ID</th>
@@ -23,9 +25,6 @@
         </tr>
       </tbody>
     </table>
-    <div v-else>
-      暂无角色数据
-    </div>
 
     <pagination v-bind:pagination-data="paginationData"
                 v-model="data"

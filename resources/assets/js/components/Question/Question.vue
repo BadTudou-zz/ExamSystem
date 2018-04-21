@@ -10,7 +10,8 @@
         <button v-show="isShowCreateQuestion" @click="addQuestion()" class="button add-question-button" type="button" name="button">添加题目</button>
     </div>
 
-    <table class="table is-bordered is-striped is-hoverable is-fullwidths">
+    <p v-if="!questionData" class="empty-message-prompt">暂无题目</p>
+    <table v-else class="table is-bordered is-striped is-hoverable is-fullwidths">
       <thead>
         <tr>
           <th>序号</th>

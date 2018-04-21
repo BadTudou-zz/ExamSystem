@@ -9,7 +9,8 @@
         </div>
         <button v-show="isShowCreateCourse" @click="addCourse()" class="button add-course-button" type="button" name="button">添加课程</button>
     </div>
-    <table class="table is-bordered is-striped is-hoverable is-fullwidths">
+    <p v-if="!courseData" class="empty-message-prompt">暂无课程</p>
+    <table v-else class="table is-bordered is-striped is-hoverable is-fullwidths">
       <thead>
         <tr>
           <th>ID</th>
@@ -28,7 +29,7 @@
           <td>{{ item.name }}</td>
           <td>{{ item.display_name }}</td>
           <td>{{ item.number }}</td>
-          <td>{{ item.descripe }}</td>
+          <td><p class="limit-words">{{ item.descripe }}</p></td>
           <td>{{ GLOBAL.toTime(item.created_at) }}</td>
           <td>{{ GLOBAL.toTime(item.updated_at) }}</td>
           <td>

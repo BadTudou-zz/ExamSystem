@@ -3,7 +3,8 @@
   <div class="box">
     <h3 class="title">选课</h3>
 
-    <table v-if="currentLectureData" class="table">
+    <p v-if="!currentLectureData" class="empty-message-prompt">暂无选课</p>
+    <table v-else class="table">
       <thead>
         <tr>
           <!-- <th>id</th> -->
@@ -27,7 +28,7 @@
           <td>{{ item.course_id }}</td>
           <td>{{ item.allowable_organization_ids }}</td>
           <td>{{ item.allowable_user_ids }}</td>
-          <td>{{ item.describe }}</td>
+          <td><p class="limit-words">{{ item.describe }}</p></td>
           <td>{{ item.max }}</td>
           <td>{{ item.current }}</td>
           <td>{{ GLOBAL.toTime(item.created_at) }}</td>
@@ -35,10 +36,6 @@
         </tr>
       </tbody>
     </table>
-
-    <div v-else>
-      暂无选课数据
-    </div>
 
 
     <pagination v-bind:pagination-data="paginationData"
