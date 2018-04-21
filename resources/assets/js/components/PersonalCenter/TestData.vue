@@ -31,16 +31,22 @@
 
     </div>
 
-    <testing ref="testing"
+    <!-- <testing ref="testing"
              v-show="isTesting"
              v-on:switchTesting="switchTesting"
              v-bind:paper-id="paperId"
              v-bind:exam-id="examId"
              v-bind:exam-time="examTime"
+    ></testing>     -->
+
+    <testing ref="testing"
+                 v-show="isTesting"
+                 v-on:switchTesting="switchTesting"
+                 v-bind:current-test-data="currentTestData"
     ></testing>
 
     <score ref="score"
-           v-bind:exam-id="examId"
+           v-bind:selected-test-data="selectedTestData"
     ></score>
   </div>
 </template>
@@ -62,9 +68,11 @@ export default {
       data: null,
       //
       isTesting: false,  // 是否已经开始考试
-      paperId: null,  // 试卷ID
-      examId: null, // 考试ID testID
+      // paperId: null,  // 试卷ID
+      // examId: null, // 考试ID testID
       examTime: null,
+      selectedTestData: null,  // 当前选中的考试
+      currentTestData: null,
     }
   },
   components: {
@@ -104,29 +112,26 @@ export default {
     },
     showScore: function (index) {
       const that = this;
-      that.examId = that.testData[index].id;
       that.$refs.score.switchModal();
+      that.selectedTestData = that.testData[index];
     },
     startTest: function (index) {
       const that = this;
-      let id = that.testData[index].id;
-      that.examId = id;
-      // that.switchTesting();
-      // that.paperId = that.testData[index].paper_id;
 
       axios({
         method: 'post',
-        url: `${this.GLOBAL.localDomain}/api/v1/exams/${id}/begin`,
+        url: `${this.GLOBAL.localDomain}/api/v1/exams/${that.testData[index].id}/begin`,
         headers: {
           'Accept': 'application/json',
           'Authorization': sessionStorage.getItem('token'),
         }
       }).then(res => {
-        that.paperId = that.testData[index].paper_id;
-        that.examTime = that.testData[index].min;
-        alert('已开考');
+        that.currentTestData = that.testData[index];
         that.switchTesting();
+        alert('已开考');
       }).catch(err => {
+        // that.switchTesting();
+        // that.currentTestData = that.testData[index];
         let errMsg = err.response.data.error;
         if (errMsg) {
           alert(errMsg);
