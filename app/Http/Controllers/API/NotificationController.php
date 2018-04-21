@@ -34,8 +34,7 @@ class NotificationController extends Controller
 
     public function destroy(DestroyNotification $request, $id)
     {
-        $user = Auth::user();
-        $user->notifications()->where('type', SystemNotification::class)
+        Notification::where('type', SystemNotification::class)
             ->where('id', $id)
             ->first()
             ->delete();
