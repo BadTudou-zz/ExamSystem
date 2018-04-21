@@ -10,45 +10,31 @@
         <button v-show="isShowCreateQuestion" @click="addQuestion()" class="button add-question-button" type="button" name="button">添加题目</button>
     </div>
 
-    <div v-for="(item,index) in questionData">
-      <!-- 单选 -->
-      <div class="message">
-        <div v-show="item.question_type === 'SINGLE_CHOICE'" class="message box">
-          <div class="notification">
-            <div class="operate-box">
-              <button v-show="isShowDeleteQuestion" @click="deleteQuestion(index)" class="delete"></button>
-              <button v-show="isShowEditQuestion" @click="editQuestion(index)" class="button edit-question is-small" type="button" name="button">编辑题目</button>
-            </div>
-            <p class="detail">        序号：{{ item.id }}
-              &nbsp;&nbsp;&nbsp;&nbsp; 类型： 单选
-              &nbsp;&nbsp;&nbsp;&nbsp; 难度：{{ computedDifficulty(item.level_type) }}
-            </p>
-            <div class="question">题目：{{ item.title }}</div>
-            <div class="question">
-              选项：{{ getOptionsString(item.body) }}
-            </div>
-          </div>
-        </div>
-
-        <!-- 多选 -->
-        <div v-show="item.question_type === 'MULTIPLE_CHOICE'" class="message box">
-          <div class="notification">
-            <div class="operate-box">
-              <button v-show="isShowDeleteQuestion" @click="deleteQuestion(index)" class="delete"></button>
-              <button v-show="isShowEditQuestion" @click="editQuestion(index)" class="button edit-question is-small" type="button" name="button">编辑题目</button>
-            </div>
-            <p class="detail">        序号：{{ item.id }}
-              &nbsp;&nbsp;&nbsp;&nbsp; 类型： 多选
-              &nbsp;&nbsp;&nbsp;&nbsp; 难度：{{ computedDifficulty(item.level_type) }}
-            </p>
-            <div class="question">题目：{{ item.title }}</div>
-            <div v-html class="question">
-              选项：{{ getOptionsString(item.body) }}
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+    <table class="table is-bordered is-striped is-hoverable is-fullwidths">
+      <thead>
+        <tr>
+          <th>序号</th>
+          <th>类型</th>
+          <th>难度</th>
+          <th>题目</th>
+          <th>选项</th>
+          <th is-show="isShowDeleteQuestion">操作</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="(item,index) in questionData">
+          <td>{{ item.id }}</td>
+          <td>{{ computedQuestionType(item.question_type) }}</td>
+          <td>{{ computedLevelType(item.level_type) }}</td>
+          <td><p  :title="item.title" class="limit-words">{{ item.title }}</p></td>
+          <td><p  :title="getOptionsString(item.body)" class="question-limit-words">{{ getOptionsString(item.body) }}</p></td>
+          <td>
+            <div v-show="isShowEditQuestion" @click="editQuestion(index)" class="edit-button"><i class="fas fa-edit"></i></div>
+            <button v-show="isShowDeleteQuestion" @click="deleteQuestion(index)" class="delete" type="button" name="button">删除题目</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
 
     <add-question ref="addQuestion"
                   v-on:getQuestion="getQuestion"
@@ -273,17 +259,30 @@ export default {
       // return opstrtionArray;
       return str;
     },
-    computedDifficulty: function (value) {
-      let difficultyName = '';
+    computedLevelType: function (value) {
+      let levelType = '';
       switch (value) {
         case 'EASY':
-          difficultyName = '容易';
+          levelType = '容易';
           break;
         case 'HARD':
-          difficultyName = '困难';
+          levelType = '困难';
           break;
       }
-      return difficultyName;
+      return levelType;
+    },
+    computedQuestionType: function (value) {
+      const that = this;
+      let questionType = '';
+      switch (value) {
+        case 'SINGLE_CHOICE':
+          questionType = '单选';
+          break;
+        case 'MULTIPLE_CHOICE':
+          questionType = '多选';
+          break;
+      }
+      return questionType;
     }
   },
   computed: {
@@ -381,4 +380,12 @@ export default {
 .multiple-choice {
   width: 200px;
 }
+.question-limit-words {
+  display: inline-block;
+  width: 200px;
+  overflow: hidden;
+  text-overflow:ellipsis;
+  white-space: nowrap;
+}
+
 </style>

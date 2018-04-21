@@ -8,47 +8,68 @@
       </header>
       <section class="modal-card-body">
         <table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth">
-          <thead>
+          <!-- <thead>
             <tr>
               <th></th>
-              <th>详情</th>
+              <th></th>
             </tr>
-          </thead>
+          </thead> -->
         <tbody>
-            <tr>
-              <td>成绩</td>
-              <td>{{ score }}</td>
-            </tr>
-            <!-- <tr>
-              <td></td>
-              <td>{{ currentTeachingData.name }}</td>
-            </tr> -->
-
+          <tr>
+            <td>试卷名</td>
+            <td>{{ examTitle }}</td>
+          </tr>
+          <tr>
+            <td>成绩</td>
+            <td>{{ score }}  <button @click="answerParse()" class="button is-small answer-parse" type="button" name="button">查看答案解析</button> </td>
+          </tr>
           </tbody>
         </table>
+
+        <answer-parse ref="answerParse"
+                      v-show="isShowAnswerParse"
+                      v-bind:test-data="testData"
+                      v-bind:score-data="scoreData"
+        ></answer-parse>
+
       </section>
     </div>
+
+
   </div>
 </template>
 
 <script>
-
+import AnswerParse from './AnswerParse'
 export default {
   data() {
     return {
       isShowModal: false,
       score: '暂无考试成绩',
+      isShowAnswerParse: false,
+      paperId: null,
+      testData: null,
+      scoreData: null,
+      examId: null,
+      scoreData: null,
+      examTitle: '',
     }
   },
   components: {
+    AnswerParse,
   },
   props: [
-    'examId'
+    'selectedTestData'
   ],
   methods: {
     switchModal: function () {
       const that = this;
       that.isShowModal = !that.isShowModal;
+    },
+    answerParse: function () {
+      const that = this;
+      that.testData = that.selectedTestData;
+      that.isShowAnswerParse = true;
     },
     getScore: function () {
       const that = this;
@@ -63,6 +84,7 @@ export default {
           'Authorization': sessionStorage.getItem('token'),
         }
       }).then(res => {
+        that.scoreData = res.data;
         that.score = res.data.score;
       }).catch(err => {
         console.log(err);
@@ -75,23 +97,22 @@ export default {
   created() {
   },
   watch: {
-    isShowModal: function (value,oldValue) {
+    selectedTestData: function (value, oldValue) {
       const that = this;
-      if (value) {
-        this.getScore();
-      }
-    },
-    examId: function (value, oldValue) {
-      const that = this;
-    },
-    score: function (value, oldValue) {
-      const that = this;
-      that.score = value;
+      that.examId = value.id;
+      that.examTitle = value.title;
+      that.getScore();
     }
   }
 }
 </script>
 
 <style scoped>
-
+.answer-parse {
+    background-color: #ffd530;
+    margin-left: 40px;
+}
+.modal-card {
+  width: 1000px;
+}
 </style>
