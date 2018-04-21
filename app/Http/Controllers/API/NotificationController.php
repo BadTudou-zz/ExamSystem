@@ -36,7 +36,6 @@ class NotificationController extends Controller
     {
         $user = Auth::user();
         $user->notifications()->where('type', SystemNotification::class)
-            ->where('notifiable_id', $user->id)
             ->where('id', $id)
             ->first()
             ->delete();
