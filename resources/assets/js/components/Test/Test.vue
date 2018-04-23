@@ -44,7 +44,7 @@
             <!-- <td>{{ GLOBAL.toTime(item.updated_at) }}</td> -->
             <td>
               <button v-show="isShowDeleteTest" @click="deleteTest(index)" class="delete" type="button" name="button">删除</button>
-              <div v-show="isShowEditTest" @click="editTest(index)" class="edit-button"><i class="fas fa-edit"></i></div>
+              <div v-show="isShowEditTest" @click="editTest(index)" class="icon-button"><i class="fas fa-edit"></i></div>
               <button @click="startTest(index)" class="is-small button" type="button" name="button">开始考试</button>
               <button @click="stopTest(index)" class="is-small button" type="button" name="button">结束考试</button>
               <button @click="gradingPapers(index)" class="is-small button" type="button" name="button">批改</button>

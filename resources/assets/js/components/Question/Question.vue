@@ -30,7 +30,7 @@
           <td><p  :title="item.title" class="limit-words">{{ item.title }}</p></td>
           <td><p  :title="getOptionsString(item.body)" class="question-limit-words">{{ getOptionsString(item.body) }}</p></td>
           <td>
-            <div v-show="isShowEditQuestion" @click="editQuestion(index)" class="edit-button"><i class="fas fa-edit"></i></div>
+            <div v-show="isShowEditQuestion" @click="editQuestion(index)" class="icon-button"><i class="fas fa-edit"></i></div>
             <button v-show="isShowDeleteQuestion" @click="deleteQuestion(index)" class="delete" type="button" name="button">删除题目</button>
           </td>
         </tr>
