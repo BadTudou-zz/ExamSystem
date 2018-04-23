@@ -31,7 +31,8 @@
           <td>{{ toTime(item.created_at.date) }}</td>
           <td>{{ toTime(item.updated_at.date) }}</td>
           <td>
-            <button v-show="isShowDeleteUser" @click="deleteUser(index)" class="delete" type="button">删除用户</button>
+            <div v-show="isShowDeleteUser" @click="deleteUser(index)" class="icon-button"><i class="far fa-trash-alt"></i></div>
+            <!-- <button v-show="isShowDeleteUser" @click="deleteUser(index)" class="delete" type="button">删除用户</button> -->
             <button v-show="isShowEditUser" @click="editUser(index)" class="button is-small" type="button">更改用户名</button>
             <button v-show="isShowEditUser" @click="changePassword(index)" class="button is-small" type="button">更改密码</button>
           </td>

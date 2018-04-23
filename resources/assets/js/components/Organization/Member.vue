@@ -11,7 +11,10 @@
           </div>
             <button @click="addMember()" class="button add-role-button" type="button" name="button">添加成员</button>
             <button @click="synchronizeMember()" class="button add-role-button" type="button" name="button">同步成员</button>
-            <button @click="deleteMember()" class="button" type="button" name="button">删除成员</button>
+            <!-- <button @click="deleteMember()" class="button" type="button" name="button">删除成员</button> -->
+            <div @click="deleteMember()" class="icon-button"><i class="far fa-trash-alt"></i></div>
+
+
         </div>
         <table class="table">
           <thead>

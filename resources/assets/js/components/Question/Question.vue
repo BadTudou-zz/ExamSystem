@@ -31,7 +31,8 @@
           <td><p  :title="getOptionsString(item.body)" class="question-limit-words">{{ getOptionsString(item.body) }}</p></td>
           <td>
             <div v-show="isShowEditQuestion" @click="editQuestion(index)" class="icon-button"><i class="fas fa-edit"></i></div>
-            <button v-show="isShowDeleteQuestion" @click="deleteQuestion(index)" class="delete" type="button" name="button">删除题目</button>
+            <!-- <button v-show="isShowDeleteQuestion" @click="deleteQuestion(index)" class="delete" type="button" name="button">删除题目</button> -->
+            <div v-show="isShowDeleteQuestion" @click="deleteQuestion(index)" class="icon-button"><i class="far fa-trash-alt"></i></div>
           </td>
         </tr>
       </tbody>

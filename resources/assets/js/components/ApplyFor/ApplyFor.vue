@@ -34,8 +34,8 @@
           <td>{{ item.resource_type }}</td>
           <td>{{ GLOBAL.toTime(item.updated_at.date) }}</td>
           <td>
-            <button v-show="isShowDeleteApplication" @click="deleteApplyFor(index)" class="delete is-small" type="button" name="button">删除</button>
-            <!-- <div v-show="isShowDeleteApplication" @click="deleteApplyFor(index)" class="icon-button"><i class="far fa-trash-alt"></i></div> -->
+            <!-- <button v-show="isShowDeleteApplication" @click="deleteApplyFor(index)" class="delete is-small" type="button" name="button">删除</button> -->
+            <div v-show="isShowDeleteApplication" @click="deleteApplyFor(index)" class="icon-button"><i class="far fa-trash-alt"></i></div>
             <div @click="editApplyFor(index)" class="icon-button"><i class="fas fa-edit"></i></div>
             <button v-show="isShowAccpetApplication" @click="acceptApplyFor(index)" class="button is-small" type="button" name="button">接受</button>
             <button v-show="isShowRejectApplication" @click="rejectApplyFor(index)" class="button is-small" type="button" name="button">拒绝</button>

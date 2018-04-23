@@ -31,7 +31,9 @@
           <td>{{ GLOBAL.toTime(item.created_at.date) }}</td>
           <td>{{ GLOBAL.toTime(item.updated_at.date) }}</td>
           <td>
-            <button v-show="isShowDeleteNotification" @click="deleteNotice(index)" class="delete" type="button">删除消息</button>
+            <div v-show="isShowDeleteNotification" @click="deleteNotice(index)" class="icon-button"><i class="far fa-trash-alt"></i></div>
+
+            <!-- <button v-show="isShowDeleteNotification" @click="deleteNotice(index)" class="delete" type="button">删除消息</button> -->
           </td>
         </tr>
       </tbody>

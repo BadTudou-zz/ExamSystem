@@ -38,7 +38,8 @@
           <td>{{ GLOBAL.toTime(item.created_at) }}</td>
           <td>{{ GLOBAL.toTime(item.updated_at) }}</td>
           <td>
-            <button  v-show="isShowDeleteOrganization" @click="deleteOrganization(index)" class="delete" type="button" name="button">删除组织</button>
+            <div v-show="isShowDeleteOrganization" @click="deleteOrganization(index)" class="icon-button"><i class="far fa-trash-alt"></i></div>
+            <!-- <button  v-show="isShowDeleteOrganization" @click="deleteOrganization(index)" class="delete" type="button" name="button">删除组织</button> -->
             <div @click="editOrganization(index)" class="icon-button"><i class="fas fa-edit"></i></div>
           </td>
           <td>
