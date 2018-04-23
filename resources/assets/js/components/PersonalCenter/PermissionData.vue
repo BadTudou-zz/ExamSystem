@@ -21,7 +21,7 @@
           <td>{{ item.id }}</td>
           <td>{{ item.name }}</td>
           <td>{{ item.display_name }}</td>
-          <td>><p class="limit-words">{{ item.description }}></p></td>
+          <td><p class="limit-words">{{ item.description }}</p></td>
           <td>{{ GLOBAL.toTime(item.created_at) }}</td>
           <td>{{ GLOBAL.toTime(item.updated_at) }}</td>
         </tr>

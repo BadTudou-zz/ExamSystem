@@ -9,7 +9,7 @@
       </div>
         <button v-show="isShowCreatePaper" @click="addExaminationPaper()" class="button add-examinationPaper-button" type="button" name="button">添加试卷</button>
     </div>
-    <p v-if="!examinationPaperDatas" class="empty-message-prompt">暂无试卷</p>
+    <p v-if="!examinationPaperData" class="empty-message-prompt">暂无试卷</p>
     <table v-else class="table is-bordered is-striped is-hoverable is-fullwidths">
       <thead>
         <tr>

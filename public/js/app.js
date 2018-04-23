@@ -70107,7 +70107,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "empty-message-prompt"
   }, [_vm._v("暂无权限")]) : _c('table', {
     staticClass: "table is-bordered is-striped is-hoverable is-fullwidths"
-  }, [_c('thead', [_c('tr', [_c('th', [_vm._v("ID")]), _vm._v(" "), _c('th', [_vm._v("权限名")]), _vm._v(" "), _c('th', [_vm._v("别名")]), _vm._v(" "), _c('th', [_vm._v("描述")]), _vm._v(" "), _c('th', [_vm._v("创建时间")]), _vm._v(" "), _c('th', [_vm._v("更新时间")]), _vm._v(" "), _c('th', {
+  }, [_c('thead', [_c('tr', [_c('th', [_vm._v("ID")]), _vm._v(" "), _c('th', [_vm._v("权限名")]), _vm._v(" "), _c('th', [_vm._v("别名")]), _vm._v(" "), _c('th', [_vm._v("描述")]), _vm._v(" "), _c('th', [_vm._v("更新时间")]), _vm._v(" "), _c('th', {
     directives: [{
       name: "show",
       rawName: "v-show",
@@ -70117,7 +70117,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_vm._v("操作")])])]), _vm._v(" "), _c('tbody', _vm._l((_vm.permissionData), function(item, index) {
     return _c('tr', [_c('td', [_vm._v(_vm._s(item.id))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.name))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.display_name))]), _vm._v(" "), _c('td', [_c('p', {
       staticClass: "limit-words"
-    }, [_vm._v(_vm._s(item.description))])]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.GLOBAL.toTime(item.created_at)))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.GLOBAL.toTime(item.updated_at)))]), _vm._v(" "), _c('td', [_c('button', {
+    }, [_vm._v(_vm._s(item.description))])]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.GLOBAL.toTime(item.updated_at)))]), _vm._v(" "), _c('td', [_c('button', {
       directives: [{
         name: "show",
         rawName: "v-show",
@@ -75891,7 +75891,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.addExaminationPaper()
       }
     }
-  }, [_vm._v("添加试卷")])]), _vm._v(" "), (!_vm.examinationPaperDatas) ? _c('p', {
+  }, [_vm._v("添加试卷")])]), _vm._v(" "), (!_vm.examinationPaperData) ? _c('p', {
     staticClass: "empty-message-prompt"
   }, [_vm._v("暂无试卷")]) : _c('table', {
     staticClass: "table is-bordered is-striped is-hoverable is-fullwidths"
@@ -79843,9 +79843,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_vm._v("暂无权限")]) : _c('table', {
     staticClass: "table"
   }, [_vm._m(0), _vm._v(" "), _c('tbody', _vm._l((_vm.permissionData), function(item, index) {
-    return _c('tr', [_c('td', [_vm._v(_vm._s(item.id))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.name))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.display_name))]), _vm._v(" "), _c('td', [_vm._v(">"), _c('p', {
+    return _c('tr', [_c('td', [_vm._v(_vm._s(item.id))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.name))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.display_name))]), _vm._v(" "), _c('td', [_c('p', {
       staticClass: "limit-words"
-    }, [_vm._v(_vm._s(item.description) + ">")])]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.GLOBAL.toTime(item.created_at)))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.GLOBAL.toTime(item.updated_at)))])])
+    }, [_vm._v(_vm._s(item.description))])]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.GLOBAL.toTime(item.created_at)))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.GLOBAL.toTime(item.updated_at)))])])
   }))]), _vm._v(" "), _c('pagination', {
     attrs: {
       "pagination-data": _vm.paginationData
