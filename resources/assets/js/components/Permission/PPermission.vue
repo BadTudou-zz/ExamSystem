@@ -17,7 +17,7 @@
           <th>权限名</th>
           <th>别名</th>
           <th>描述</th>
-          <th>创建时间</th>
+          <!-- <th>创建时间</th> -->
           <th>更新时间</th>
           <th v-show="isShowDeletePermission">操作</th>
         </tr>
@@ -28,7 +28,7 @@
           <td>{{ item.name }}</td>
           <td>{{ item.display_name }}</td>
           <td><p class="limit-words">{{ item.description }}</p></td>
-          <td>{{ GLOBAL.toTime(item.created_at) }}</td>
+          <!-- <td>{{ GLOBAL.toTime(item.created_at) }}</td> -->
           <td>{{ GLOBAL.toTime(item.updated_at) }}</td>
           <td><button v-show="isShowDeletePermission" @click="deletePermission(index)" class="delete" type="button" name="button">删除权限</button></td>
         </tr>
