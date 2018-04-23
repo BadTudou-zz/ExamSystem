@@ -46,7 +46,7 @@
           <!-- <td>{{ GLOBAL.toTime(item.updated_at) }}</td> -->
           <td>
             <button v-show="isShowDeleteTeaching" @click="deleteTeaching(index)" class="delete" type="button" name="button">删除授课</button>
-            <div @click="editTeaching(index)" class="edit-button"><i class="fas fa-edit"></i></div>
+            <div @click="editTeaching(index)" class="icon-button"><i class="fas fa-edit"></i></div>
           </td>
           <td>
             <button @click="showUser(index)" class="button is-small" type="button" name="button">查看用户</button>

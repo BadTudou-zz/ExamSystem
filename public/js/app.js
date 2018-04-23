@@ -29939,6 +29939,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
 
 
 
@@ -48730,7 +48731,7 @@ exports.push([module.i, "\nlabel {\n  display: inline-block;\n  width: 100px;\n}
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(1)();
-exports.push([module.i, ".button {\n  border-radius: 2px;\n  font-size: .75rem;d\n}\n\n.search-input {\n  border-radius: 2px;\n  font-size: .75rem;\n}\n\n.delete {\n  height: 16px;\n  line-height: 16px;\n  max-height: 16px;\n  max-width: 16px;\n  min-height: 16px;\n  min-width: 16px;\n  width: 16px;\n  margin: 5px 10px 0 0;\n}\n.edit-icon {\n  cursor: pointer;\n  display: inline-block;\n  color: #cecece;\n}\n\n.search-button {\n  display: inline-block;\n  cursor: pointer;\n}\n/* 所有icon类的编辑button */\n.edit-button {\n  display: inline-block;\n  cursor: pointer;\n  color: #cecece;\n  margin: 0 10px;\n}\n/* 文字限制 */\n.limit-words {\n  display: inline-block;\n  width: 300px;\n  overflow: hidden;\n  text-overflow:ellipsis;\n  white-space: nowrap;\n}\ntable {\n  width: 100%;\n}\n/* 空消息提示 */\n.empty-message-prompt {\n  text-align: center;\n  margin-top: 70px;\n}\n", ""]);
+exports.push([module.i, ".button {\n  border-radius: 2px;\n  font-size: .75rem;d\n}\n\n.search-input {\n  border-radius: 2px;\n  font-size: .75rem;\n}\n\n.delete {\n  height: 16px;\n  line-height: 16px;\n  max-height: 16px;\n  max-width: 16px;\n  min-height: 16px;\n  min-width: 16px;\n  width: 16px;\n  margin: 5px 10px 0 0;\n}\n.edit-icon {\n  cursor: pointer;\n  display: inline-block;\n  color: #cecece;\n}\n\n.search-button {\n  display: inline-block;\n  cursor: pointer;\n}\n/* 所有icon类的编辑button */\n.icon-button {\n  display: inline-block;\n  cursor: pointer;\n  color: #cecece;\n  margin: 0 10px;\n}\n/* 文字限制 */\n.limit-words {\n  display: inline-block;\n  width: 300px;\n  overflow: hidden;\n  text-overflow:ellipsis;\n  white-space: nowrap;\n}\ntable {\n  width: 100%;\n}\n/* 空消息提示 */\n.empty-message-prompt {\n  text-align: center;\n  margin-top: 70px;\n}\n", ""]);
 
 /***/ }),
 /* 357 */
@@ -70603,7 +70604,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         value: (_vm.isShowEditQuestion),
         expression: "isShowEditQuestion"
       }],
-      staticClass: "edit-button",
+      staticClass: "icon-button",
       on: {
         "click": function($event) {
           _vm.editQuestion(index)
@@ -71499,7 +71500,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         value: (_vm.isShowEditCourse),
         expression: "isShowEditCourse"
       }],
-      staticClass: "edit-button",
+      staticClass: "icon-button",
       on: {
         "click": function($event) {
           _vm.editCourse(index)
@@ -71578,7 +71579,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         }
       }
     }), _vm._v(" "), _c('div', {
-      staticClass: "edit-button",
+      staticClass: "icon-button",
       on: {
         "click": function($event) {
           _vm.editQuestion(index)
@@ -72827,7 +72828,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         value: (_vm.isShowEditTest),
         expression: "isShowEditTest"
       }],
-      staticClass: "edit-button",
+      staticClass: "icon-button",
       on: {
         "click": function($event) {
           _vm.editTest(index)
@@ -74338,7 +74339,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         }
       }
     }, [_vm._v("删除组织")]), _vm._v(" "), _c('div', {
-      staticClass: "edit-button",
+      staticClass: "icon-button",
       on: {
         "click": function($event) {
           _vm.editOrganization(index)
@@ -75261,25 +75262,23 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_vm._v("暂无申请")]) : _c('table', {
     staticClass: "table is-bordered is-striped is-hoverable is-fullwidths"
   }, [_vm._m(0), _vm._v(" "), _c('tbody', _vm._l((_vm.applyForData), function(item, index) {
-    return _c('tr', [_c('td', [_vm._v(_vm._s(item.from))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.to))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.data))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.resource_type))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.GLOBAL.toTime(item.updated_at.date)))]), _vm._v(" "), _c('td', [_c('button', {
+    return _c('tr', [_c('td', [_vm._v(_vm._s(item.from))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.to))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.data))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.resource_type))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.GLOBAL.toTime(item.updated_at.date)))]), _vm._v(" "), _c('td', [_c('div', {
       directives: [{
         name: "show",
         rawName: "v-show",
         value: (_vm.isShowDeleteApplication),
         expression: "isShowDeleteApplication"
       }],
-      staticClass: "delete is-small",
-      attrs: {
-        "type": "button",
-        "name": "button"
-      },
+      staticClass: "icon-button",
       on: {
         "click": function($event) {
           _vm.deleteApplyFor(index)
         }
       }
-    }, [_vm._v("删除")]), _vm._v(" "), _c('div', {
-      staticClass: "edit-button",
+    }, [_c('i', {
+      staticClass: "far fa-trash-alt"
+    })]), _vm._v(" "), _c('div', {
+      staticClass: "icon-button",
       on: {
         "click": function($event) {
           _vm.editApplyFor(index)
@@ -75920,7 +75919,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         value: (_vm.isShowEditPaper),
         expression: "isShowEditPaper"
       }],
-      staticClass: "edit-button",
+      staticClass: "icon-button",
       on: {
         "click": function($event) {
           _vm.editExaminationPaper(index)
@@ -76461,7 +76460,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         value: (_vm.isShowEditLabel),
         expression: "isShowEditLabel"
       }],
-      staticClass: "edit-button",
+      staticClass: "icon-button",
       on: {
         "click": function($event) {
           _vm.editLabel(index)
@@ -76843,7 +76842,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         }
       }
     }, [_vm._v("删除授课")]), _vm._v(" "), _c('div', {
-      staticClass: "edit-button",
+      staticClass: "icon-button",
       on: {
         "click": function($event) {
           _vm.editTeaching(index)
@@ -77277,7 +77276,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         value: (_vm.isShowEditRole),
         expression: "isShowEditRole"
       }],
-      staticClass: "edit-button",
+      staticClass: "icon-button",
       on: {
         "click": function($event) {
           _vm.editRole(index)

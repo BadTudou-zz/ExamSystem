@@ -29,7 +29,7 @@
   cursor: pointer;
 }
 /* 所有icon类的编辑button */
-.edit-button {
+.icon-button {
   display: inline-block;
   cursor: pointer;
   color: #cecece;
