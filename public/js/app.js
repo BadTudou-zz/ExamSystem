@@ -30750,6 +30750,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 
 
@@ -31290,6 +31291,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__EditCourse___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__EditCourse__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Pagination_vue__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Pagination_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__Pagination_vue__);
+//
 //
 //
 //
@@ -31915,6 +31917,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__Score___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6__Score__);
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
+//
 //
 //
 //
@@ -32932,6 +32935,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
 
 
 
@@ -33633,12 +33637,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
-//
-//
 
 
 
@@ -34196,6 +34194,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__AddNotice___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__AddNotice__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Pagination_vue__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Pagination_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__Pagination_vue__);
+//
+//
 //
 //
 //
@@ -34878,6 +34878,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
 
 
 
@@ -35018,6 +35021,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Pagination___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__Pagination__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Member__ = __webpack_require__(391);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Member___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__Member__);
+//
 //
 //
 //
@@ -35693,6 +35697,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__AddPermission___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__AddPermission__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Pagination_vue__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Pagination_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__Pagination_vue__);
+//
 //
 //
 //
@@ -38723,6 +38728,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
 
 
 
@@ -39808,6 +39814,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 
 
@@ -39918,6 +39925,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Permission___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__Permission__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__EditRole__ = __webpack_require__(417);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__EditRole___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__EditRole__);
+//
 //
 //
 //
@@ -41522,6 +41530,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
 
 
 
@@ -42641,6 +42650,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
 
 
 
@@ -43196,6 +43206,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__editUser___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__editUser__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__ChangePassword__ = __webpack_require__(155);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__ChangePassword___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__ChangePassword__);
+//
 //
 //
 //
@@ -48731,7 +48742,7 @@ exports.push([module.i, "\nlabel {\n  display: inline-block;\n  width: 100px;\n}
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(1)();
-exports.push([module.i, ".button {\n  border-radius: 2px;\n  font-size: .75rem;d\n}\n\n.search-input {\n  border-radius: 2px;\n  font-size: .75rem;\n}\n\n.delete {\n  height: 16px;\n  line-height: 16px;\n  max-height: 16px;\n  max-width: 16px;\n  min-height: 16px;\n  min-width: 16px;\n  width: 16px;\n  margin: 5px 10px 0 0;\n}\n.edit-icon {\n  cursor: pointer;\n  display: inline-block;\n  color: #cecece;\n}\n\n.search-button {\n  display: inline-block;\n  cursor: pointer;\n}\n/* 所有icon类的编辑button */\n.icon-button {\n  display: inline-block;\n  cursor: pointer;\n  color: #cecece;\n  margin: 0 10px;\n}\n/* 文字限制 */\n.limit-words {\n  display: inline-block;\n  width: 300px;\n  overflow: hidden;\n  text-overflow:ellipsis;\n  white-space: nowrap;\n}\ntable {\n  width: 100%;\n}\n/* 空消息提示 */\n.empty-message-prompt {\n  text-align: center;\n  margin-top: 70px;\n}\n", ""]);
+exports.push([module.i, ".button {\n  border-radius: 2px;\n  font-size: .75rem;d\n}\n\n.search-input {\n  border-radius: 2px;\n  font-size: .75rem;\n}\n\n.delete {\n  height: 16px;\n  line-height: 16px;\n  max-height: 16px;\n  max-width: 16px;\n  min-height: 16px;\n  min-width: 16px;\n  width: 16px;\n  margin: 5px 10px 0 0;\n}\n.edit-icon {\n  cursor: pointer;\n  display: inline-block;\n  color: #cecece;\n}\n\n.search-button {\n  display: inline-block;\n  cursor: pointer;\n}\n/* 所有icon类的编辑button */\n.icon-button {\n  display: inline-block;\n  cursor: pointer;\n  color: #cecece;\n  margin: 0 3px;\n}\n/* 文字限制 */\n.limit-words {\n  display: inline-block;\n  width: 300px;\n  overflow: hidden;\n  text-overflow:ellipsis;\n  white-space: nowrap;\n}\ntable {\n  width: 100%;\n}\n/* 空消息提示 */\n.empty-message-prompt {\n  text-align: center;\n  margin-top: 70px;\n}\n/* delete icon */\n.fa-trash-alt {\n  color: #ef6f59;\n}\n.fa-edit {\n  color: #a6d499;\n}\n", ""]);
 
 /***/ }),
 /* 357 */
@@ -70118,24 +70129,22 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_vm._v("操作")])])]), _vm._v(" "), _c('tbody', _vm._l((_vm.permissionData), function(item, index) {
     return _c('tr', [_c('td', [_vm._v(_vm._s(item.id))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.name))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.display_name))]), _vm._v(" "), _c('td', [_c('p', {
       staticClass: "limit-words"
-    }, [_vm._v(_vm._s(item.description))])]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.GLOBAL.toTime(item.updated_at)))]), _vm._v(" "), _c('td', [_c('button', {
+    }, [_vm._v(_vm._s(item.description))])]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.GLOBAL.toTime(item.updated_at)))]), _vm._v(" "), _c('td', [_c('div', {
       directives: [{
         name: "show",
         rawName: "v-show",
         value: (_vm.isShowDeletePermission),
         expression: "isShowDeletePermission"
       }],
-      staticClass: "delete",
-      attrs: {
-        "type": "button",
-        "name": "button"
-      },
+      staticClass: "icon-button",
       on: {
         "click": function($event) {
           _vm.deletePermission(index)
         }
       }
-    }, [_vm._v("删除权限")])])])
+    }, [_c('i', {
+      staticClass: "far fa-trash-alt"
+    })])])])
   }))]), _vm._v(" "), _c('pagination', {
     directives: [{
       name: "show",
@@ -70423,18 +70432,16 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.synchronizeMember()
       }
     }
-  }, [_vm._v("同步成员")]), _vm._v(" "), _c('button', {
-    staticClass: "button",
-    attrs: {
-      "type": "button",
-      "name": "button"
-    },
+  }, [_vm._v("同步成员")]), _vm._v(" "), _c('div', {
+    staticClass: "icon-button",
     on: {
       "click": function($event) {
         _vm.deleteMember()
       }
     }
-  }, [_vm._v("删除成员")])]), _vm._v(" "), _c('table', {
+  }, [_c('i', {
+    staticClass: "far fa-trash-alt"
+  })])]), _vm._v(" "), _c('table', {
     staticClass: "table"
   }, [_vm._m(0), _vm._v(" "), _c('tbody', _vm._l((_vm.memberData), function(item, index) {
     return _c('tr', [_c('td', [_c('input', {
@@ -70612,24 +70619,22 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }, [_c('i', {
       staticClass: "fas fa-edit"
-    })]), _vm._v(" "), _c('button', {
+    })]), _vm._v(" "), _c('div', {
       directives: [{
         name: "show",
         rawName: "v-show",
         value: (_vm.isShowDeleteQuestion),
         expression: "isShowDeleteQuestion"
       }],
-      staticClass: "delete",
-      attrs: {
-        "type": "button",
-        "name": "button"
-      },
+      staticClass: "icon-button",
       on: {
         "click": function($event) {
           _vm.deleteQuestion(index)
         }
       }
-    }, [_vm._v("删除题目")])])])
+    }, [_c('i', {
+      staticClass: "far fa-trash-alt"
+    })])])])
   }))]), _vm._v(" "), _c('add-question', {
     ref: "addQuestion",
     on: {
@@ -71476,24 +71481,22 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_vm._m(0), _vm._v(" "), _c('tbody', _vm._l((_vm.courseData), function(item, index) {
     return _c('tr', [_c('td', [_vm._v(_vm._s(item.id))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.name))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.display_name))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.number))]), _vm._v(" "), _c('td', [_c('p', {
       staticClass: "limit-words"
-    }, [_vm._v(_vm._s(item.descripe))])]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.GLOBAL.toTime(item.created_at)))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.GLOBAL.toTime(item.updated_at)))]), _vm._v(" "), _c('td', [_c('button', {
+    }, [_vm._v(_vm._s(item.descripe))])]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.GLOBAL.toTime(item.created_at)))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.GLOBAL.toTime(item.updated_at)))]), _vm._v(" "), _c('td', [_c('div', {
       directives: [{
         name: "show",
         rawName: "v-show",
         value: (_vm.isShowDeleteCourse),
         expression: "isShowDeleteCourse"
       }],
-      staticClass: "delete",
-      attrs: {
-        "type": "button",
-        "name": "button"
-      },
+      staticClass: "icon-button",
       on: {
         "click": function($event) {
           _vm.deleteCourse(index)
         }
       }
-    }, [_vm._v("删除课程")]), _vm._v(" "), _c('div', {
+    }, [_c('i', {
+      staticClass: "far fa-trash-alt"
+    })]), _vm._v(" "), _c('div', {
       directives: [{
         name: "show",
         rawName: "v-show",
@@ -72631,18 +72634,16 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.synchronizePermission()
       }
     }
-  }, [_vm._v("同步权限")]), _vm._v(" "), _c('button', {
-    staticClass: "button",
-    attrs: {
-      "type": "button",
-      "name": "button"
-    },
+  }, [_vm._v("同步权限")]), _vm._v(" "), _c('div', {
+    staticClass: "icon-button",
     on: {
       "click": function($event) {
         _vm.deletePermission()
       }
     }
-  }, [_vm._v("删除权限")])]), _vm._v(" "), _c('table', {
+  }, [_c('i', {
+    staticClass: "far fa-trash-alt"
+  })])]), _vm._v(" "), _c('table', {
     staticClass: "table"
   }, [_vm._m(0), _vm._v(" "), _c('tbody', _vm._l((_vm.permissionData), function(item, index) {
     return _c('tr', [_c('td', [_c('input', {
@@ -72804,24 +72805,22 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_vm._v("暂无考试")]) : _c('table', {
     staticClass: "table is-bordered is-striped is-hoverable is-fullwidths"
   }, [_vm._m(0), _vm._v(" "), _c('tbody', _vm._l((_vm.testData), function(item, index) {
-    return _c('tr', [_c('td', [_vm._v(_vm._s(item.id))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.title))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.exam_type))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.score))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.min))]), _vm._v(" "), _c('td', [_vm._v(" " + _vm._s(item.description))]), _vm._v(" "), _c('td', [_c('button', {
+    return _c('tr', [_c('td', [_vm._v(_vm._s(item.id))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.title))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.exam_type))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.score))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.min))]), _vm._v(" "), _c('td', [_vm._v(" " + _vm._s(item.description))]), _vm._v(" "), _c('td', [_c('div', {
       directives: [{
         name: "show",
         rawName: "v-show",
         value: (_vm.isShowDeleteTest),
         expression: "isShowDeleteTest"
       }],
-      staticClass: "delete",
-      attrs: {
-        "type": "button",
-        "name": "button"
-      },
+      staticClass: "icon-button",
       on: {
         "click": function($event) {
           _vm.deleteTest(index)
         }
       }
-    }, [_vm._v("删除")]), _vm._v(" "), _c('div', {
+    }, [_c('i', {
+      staticClass: "far fa-trash-alt"
+    })]), _vm._v(" "), _c('div', {
       directives: [{
         name: "show",
         rawName: "v-show",
@@ -73359,23 +73358,22 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_vm._m(0), _vm._v(" "), _c('tbody', _vm._l((_vm.messageData), function(item, index) {
     return _c('tr', [_c('td', [_vm._v(_vm._s(item.from_name))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.to_name))]), _vm._v(" "), _c('td', [_c('p', {
       staticClass: "limit-words"
-    }, [_vm._v(_vm._s(item.data))])]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.GLOBAL.toTime(item.created_at.date)))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.GLOBAL.toTime(item.updated_at.date)))]), _vm._v(" "), _c('td', [_c('button', {
+    }, [_vm._v(_vm._s(item.data))])]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.GLOBAL.toTime(item.created_at.date)))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.GLOBAL.toTime(item.updated_at.date)))]), _vm._v(" "), _c('td', [_c('div', {
       directives: [{
         name: "show",
         rawName: "v-show",
         value: (_vm.isShowDeleteMessage),
         expression: "isShowDeleteMessage"
       }],
-      staticClass: "delete",
-      attrs: {
-        "type": "button"
-      },
+      staticClass: "icon-button",
       on: {
         "click": function($event) {
           _vm.deleteMessage(index)
         }
       }
-    }, [_vm._v("删除消息")])])])
+    }, [_c('i', {
+      staticClass: "far fa-trash-alt"
+    })])])])
   }))]), _vm._v(" "), _c('add-message', {
     ref: "addMessage",
     on: {
@@ -74103,23 +74101,22 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_vm._v("暂无用户")]) : _c('table', {
     staticClass: "table is-bordered is-striped is-hoverable is-fullwidths"
   }, [_vm._m(0), _vm._v(" "), _c('tbody', _vm._l((_vm.userData), function(item, index) {
-    return _c('tr', [_c('td', [_vm._v(_vm._s(item.id))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.name))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.email))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.toTime(item.created_at.date)))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.toTime(item.updated_at.date)))]), _vm._v(" "), _c('td', [_c('button', {
+    return _c('tr', [_c('td', [_vm._v(_vm._s(item.id))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.name))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.email))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.toTime(item.created_at.date)))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.toTime(item.updated_at.date)))]), _vm._v(" "), _c('td', [_c('div', {
       directives: [{
         name: "show",
         rawName: "v-show",
         value: (_vm.isShowDeleteUser),
         expression: "isShowDeleteUser"
       }],
-      staticClass: "delete",
-      attrs: {
-        "type": "button"
-      },
+      staticClass: "icon-button",
       on: {
         "click": function($event) {
           _vm.deleteUser(index)
         }
       }
-    }, [_vm._v("删除用户")]), _vm._v(" "), _c('button', {
+    }, [_c('i', {
+      staticClass: "far fa-trash-alt"
+    })]), _vm._v(" "), _c('button', {
       directives: [{
         name: "show",
         rawName: "v-show",
@@ -74321,24 +74318,22 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_vm._m(0), _vm._v(" "), _c('tbody', _vm._l((_vm.organizationData), function(item, index) {
     return _c('tr', [_c('td', [_vm._v(_vm._s(item.id))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.name))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.creator_id))]), _vm._v(" "), _c('td', [_c('p', {
       staticClass: "limit-words"
-    }, [_vm._v(_vm._s(item.describe))])]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.max))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.current))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.GLOBAL.toTime(item.created_at)))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.GLOBAL.toTime(item.updated_at)))]), _vm._v(" "), _c('td', [_c('button', {
+    }, [_vm._v(_vm._s(item.describe))])]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.max))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.current))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.GLOBAL.toTime(item.created_at)))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.GLOBAL.toTime(item.updated_at)))]), _vm._v(" "), _c('td', [_c('div', {
       directives: [{
         name: "show",
         rawName: "v-show",
         value: (_vm.isShowDeleteOrganization),
         expression: "isShowDeleteOrganization"
       }],
-      staticClass: "delete",
-      attrs: {
-        "type": "button",
-        "name": "button"
-      },
+      staticClass: "icon-button",
       on: {
         "click": function($event) {
           _vm.deleteOrganization(index)
         }
       }
-    }, [_vm._v("删除组织")]), _vm._v(" "), _c('div', {
+    }, [_c('i', {
+      staticClass: "far fa-trash-alt"
+    })]), _vm._v(" "), _c('div', {
       staticClass: "icon-button",
       on: {
         "click": function($event) {
@@ -74585,23 +74580,22 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_vm._m(0), _vm._v(" "), _c('tbody', [(!_vm.noticeData) ? _c('div') : _vm._l((_vm.noticeData), function(item, index) {
     return _c('tr', [_c('td', [_vm._v(_vm._s(item.from_name))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.to_name))]), _vm._v(" "), _c('td', [_c('p', {
       staticClass: "limit-words"
-    }, [_vm._v(_vm._s(item.data))])]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.GLOBAL.toTime(item.created_at.date)))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.GLOBAL.toTime(item.updated_at.date)))]), _vm._v(" "), _c('td', [_c('button', {
+    }, [_vm._v(_vm._s(item.data))])]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.GLOBAL.toTime(item.created_at.date)))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.GLOBAL.toTime(item.updated_at.date)))]), _vm._v(" "), _c('td', [_c('div', {
       directives: [{
         name: "show",
         rawName: "v-show",
         value: (_vm.isShowDeleteNotification),
         expression: "isShowDeleteNotification"
       }],
-      staticClass: "delete",
-      attrs: {
-        "type": "button"
-      },
+      staticClass: "icon-button",
       on: {
         "click": function($event) {
           _vm.deleteNotice(index)
         }
       }
-    }, [_vm._v("删除消息")])])])
+    }, [_c('i', {
+      staticClass: "far fa-trash-alt"
+    })])])])
   })], 2)]), _vm._v(" "), _c('add-notice', {
     ref: "addNotice",
     on: {
@@ -75895,24 +75889,22 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_vm._v("暂无试卷")]) : _c('table', {
     staticClass: "table is-bordered is-striped is-hoverable is-fullwidths"
   }, [_vm._m(0), _vm._v(" "), _c('tbody', _vm._l((_vm.examinationPaperData), function(item, index) {
-    return _c('tr', [_c('td', [_vm._v(_vm._s(item.id))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.title))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.score))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.min))]), _vm._v(" "), _c('td', [_c('p', [_vm._v(_vm._s(item.description))])]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.toTime(item.created_at)))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.toTime(item.updated_at)))]), _vm._v(" "), _c('td', [_c('button', {
+    return _c('tr', [_c('td', [_vm._v(_vm._s(item.id))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.title))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.score))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.min))]), _vm._v(" "), _c('td', [_c('p', [_vm._v(_vm._s(item.description))])]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.toTime(item.created_at)))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.toTime(item.updated_at)))]), _vm._v(" "), _c('td', [_c('div', {
       directives: [{
         name: "show",
         rawName: "v-show",
         value: (_vm.isShowDeletePaper),
         expression: "isShowDeletePaper"
       }],
-      staticClass: "delete",
-      attrs: {
-        "type": "button",
-        "name": "button"
-      },
+      staticClass: "icon-button",
       on: {
         "click": function($event) {
           _vm.deleteExaminationPaper(index)
         }
       }
-    }, [_vm._v("删除试卷")]), _vm._v(" "), _c('div', {
+    }, [_c('i', {
+      staticClass: "far fa-trash-alt"
+    })]), _vm._v(" "), _c('div', {
       directives: [{
         name: "show",
         rawName: "v-show",
@@ -76436,24 +76428,22 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_vm._v("暂无标签")]) : _c('table', {
     staticClass: "table is-bordered is-striped is-hoverable is-fullwidths"
   }, [_vm._m(0), _vm._v(" "), _c('tbody', _vm._l((_vm.labelData), function(item, index) {
-    return _c('tr', [_c('td', [_vm._v(_vm._s(item.id))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.title))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.commentabl_type))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.creator_id))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.GLOBAL.toTime(item.created_at)))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.GLOBAL.toTime(item.updated_at)))]), _vm._v(" "), _c('td', [_c('button', {
+    return _c('tr', [_c('td', [_vm._v(_vm._s(item.id))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.title))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.commentabl_type))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.creator_id))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.GLOBAL.toTime(item.created_at)))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.GLOBAL.toTime(item.updated_at)))]), _vm._v(" "), _c('td', [_c('div', {
       directives: [{
         name: "show",
         rawName: "v-show",
         value: (_vm.isShowDeleteLabel),
         expression: "isShowDeleteLabel"
       }],
-      staticClass: "delete",
-      attrs: {
-        "type": "button",
-        "name": "button"
-      },
+      staticClass: "icon-button",
       on: {
         "click": function($event) {
           _vm.deleteLabel(index)
         }
       }
-    }, [_vm._v("删除标签")]), _vm._v(" "), _c('div', {
+    }, [_c('i', {
+      staticClass: "far fa-trash-alt"
+    })]), _vm._v(" "), _c('div', {
       directives: [{
         name: "show",
         rawName: "v-show",
@@ -76824,24 +76814,22 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_vm._m(0), _vm._v(" "), _c('tbody', _vm._l((_vm.teachingData), function(item, index) {
     return _c('tr', [_c('td', [_vm._v(_vm._s(item.name))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.user_id))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.course_id))]), _vm._v(" "), _c('td', [_c('p', {
       staticClass: "limit-words"
-    }, [_vm._v(_vm._s(item.description))])]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.max))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.current))]), _vm._v(" "), _c('td', [_c('button', {
+    }, [_vm._v(_vm._s(item.description))])]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.max))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.current))]), _vm._v(" "), _c('td', [_c('div', {
       directives: [{
         name: "show",
         rawName: "v-show",
         value: (_vm.isShowDeleteTeaching),
         expression: "isShowDeleteTeaching"
       }],
-      staticClass: "delete",
-      attrs: {
-        "type": "button",
-        "name": "button"
-      },
+      staticClass: "icon-button",
       on: {
         "click": function($event) {
           _vm.deleteTeaching(index)
         }
       }
-    }, [_vm._v("删除授课")]), _vm._v(" "), _c('div', {
+    }, [_c('i', {
+      staticClass: "far fa-trash-alt"
+    })]), _vm._v(" "), _c('div', {
       staticClass: "icon-button",
       on: {
         "click": function($event) {
@@ -77252,24 +77240,22 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_vm._v("暂无角色")]) : _c('table', {
     staticClass: "table is-bordered is-striped is-hoverable is-fullwidths"
   }, [_vm._m(0), _vm._v(" "), _c('tbody', _vm._l((_vm.roleData), function(item, index) {
-    return _c('tr', [_c('td', [_vm._v(_vm._s(item.id))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.name))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.display_name))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.GLOBAL.toTime(item.created_at)))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.GLOBAL.toTime(item.updated_at)))]), _vm._v(" "), _c('td', [_c('button', {
+    return _c('tr', [_c('td', [_vm._v(_vm._s(item.id))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.name))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.display_name))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.GLOBAL.toTime(item.created_at)))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.GLOBAL.toTime(item.updated_at)))]), _vm._v(" "), _c('td', [_c('div', {
       directives: [{
         name: "show",
         rawName: "v-show",
         value: (_vm.isShowDeleteRole),
         expression: "isShowDeleteRole"
       }],
-      staticClass: "delete",
-      attrs: {
-        "type": "button",
-        "name": "button"
-      },
+      staticClass: "icon-button",
       on: {
         "click": function($event) {
           _vm.deleteRole(index)
         }
       }
-    }, [_vm._v("删除角色")]), _vm._v(" "), _c('div', {
+    }, [_c('i', {
+      staticClass: "far fa-trash-alt"
+    })]), _vm._v(" "), _c('div', {
       directives: [{
         name: "show",
         rawName: "v-show",
@@ -78357,18 +78343,16 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_vm._m(0), _vm._v(" "), _c('tbody', _vm._l((_vm.chapterData), function(item, index) {
     return _c('tr', [_c('td', [_vm._v(_vm._s(item.id))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.name))]), _vm._v(" "), _c('td', [_c('p', {
       staticClass: "limit-words"
-    }, [_vm._v(_vm._s(item.describe))])]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.computedQuestionType(item.question_type)))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.score))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.number))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.questions))]), _vm._v(" "), _c('td', [_c('button', {
-      staticClass: "delete",
-      attrs: {
-        "type": "button",
-        "name": "button"
-      },
+    }, [_vm._v(_vm._s(item.describe))])]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.computedQuestionType(item.question_type)))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.score))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.number))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.questions))]), _vm._v(" "), _c('td', [_c('div', {
+      staticClass: "icon-button",
       on: {
         "click": function($event) {
           _vm.deleteChapter(index)
         }
       }
-    }, [_vm._v("删除章节")]), _vm._v(" "), _c('button', {
+    }, [_c('i', {
+      staticClass: "far fa-trash-alt"
+    })]), _vm._v(" "), _c('button', {
       staticClass: "button",
       attrs: {
         "type": "button",

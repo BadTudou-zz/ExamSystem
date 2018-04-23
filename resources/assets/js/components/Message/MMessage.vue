@@ -9,13 +9,6 @@
       </div>
         <button v-show="isShowCreateMessage" @click="addMessage()" class="button add-role-button" type="button" name="button">添加消息</button>
     </div>
-    <!-- <div  v-for="(item,index) in messageData" class="message box">
-      <div class="notification">
-        <button v-show="isShowDeleteMessage" @click="deleteMessage(index)" class="delete"></button>
-        {{ item.data}}
-        <p>{{ GLOBAL.toTime(item.created_at.date) }}</p>
-      </div>
-    </div> -->
 
     <p v-if="!messageData" class="empty-message-prompt">暂无消息</p>
     <table v-else class="table is-bordered is-striped is-hoverable is-fullwidths">
@@ -39,7 +32,8 @@
           <td>{{ GLOBAL.toTime(item.created_at.date) }}</td>
           <td>{{ GLOBAL.toTime(item.updated_at.date) }}</td>
           <td>
-            <button v-show="isShowDeleteMessage" @click="deleteMessage(index)" class="delete" type="button">删除消息</button>
+            <div v-show="isShowDeleteMessage" @click="deleteMessage(index)" class="icon-button"><i class="far fa-trash-alt"></i></div>
+            <!-- <button v-show="isShowDeleteMessage" @click="deleteMessage(index)" class="delete" type="button">删除消息</button> -->
           </td>
         </tr>
       </tbody>

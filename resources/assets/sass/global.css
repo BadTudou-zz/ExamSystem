@@ -33,7 +33,7 @@
   display: inline-block;
   cursor: pointer;
   color: #cecece;
-  margin: 0 10px;
+  margin: 0 3px;
 }
 /* 文字限制 */
 .limit-words {
@@ -50,4 +50,11 @@ table {
 .empty-message-prompt {
   text-align: center;
   margin-top: 70px;
+}
+/* delete icon */
+.fa-trash-alt {
+  color: #ef6f59;
+}
+.fa-edit {
+  color: #a6d499;
 }

@@ -11,7 +11,7 @@
         </div>
         <button v-show="isShowCreateTest" @click="addTest()" class="button add-test-button" type="button" name="button">添加考试</button>
       </div>
-      
+
       <p v-if="!testData" class="empty-message-prompt">暂无考试</p>
       <table v-else class="table is-bordered is-striped is-hoverable is-fullwidths">
         <thead>
@@ -43,7 +43,8 @@
             <!-- <td>{{ GLOBAL.toTime(item.created_at) }}</td> -->
             <!-- <td>{{ GLOBAL.toTime(item.updated_at) }}</td> -->
             <td>
-              <button v-show="isShowDeleteTest" @click="deleteTest(index)" class="delete" type="button" name="button">删除</button>
+              <!-- <button v-show="isShowDeleteTest" @click="deleteTest(index)" class="delete" type="button" name="button">删除</button> -->
+              <div v-show="isShowDeleteTest" @click="deleteTest(index)" class="icon-button"><i class="far fa-trash-alt"></i></div>
               <div v-show="isShowEditTest" @click="editTest(index)" class="icon-button"><i class="fas fa-edit"></i></div>
               <button @click="startTest(index)" class="is-small button" type="button" name="button">开始考试</button>
               <button @click="stopTest(index)" class="is-small button" type="button" name="button">结束考试</button>

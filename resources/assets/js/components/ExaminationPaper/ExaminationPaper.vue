@@ -40,7 +40,8 @@
           <td>{{ toTime(item.created_at) }}</td>
           <td>{{ toTime(item.updated_at) }}</td>
           <td>
-            <button v-show="isShowDeletePaper" @click="deleteExaminationPaper(index)" class="delete" type="button" name="button">删除试卷</button>
+            <div v-show="isShowDeletePaper" @click="deleteExaminationPaper(index)" class="icon-button"><i class="far fa-trash-alt"></i></div>
+            <!-- <button v-show="isShowDeletePaper" @click="deleteExaminationPaper(index)" class="delete" type="button" name="button">删除试卷</button> -->
             <div v-show="isShowEditPaper" @click="editExaminationPaper(index)" class="icon-button"><i class="fas fa-edit"></i></div>
             <button @click="showAllQuestion(index)" class="button is-small" type="button" name="button">全部题目</button>
             <button @click="showAllScore(index)" class="button is-small" type="button" name="button">全部分数</button>

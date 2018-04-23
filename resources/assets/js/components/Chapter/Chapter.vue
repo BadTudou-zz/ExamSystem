@@ -37,7 +37,8 @@
                 <td>{{ item.number }}</td>
                 <td>{{ item.questions }}</td>
                 <td>
-                  <button @click="deleteChapter(index)" class="delete" type="button" name="button">删除章节</button>
+                  <!-- <button @click="deleteChapter(index)" class="delete" type="button" name="button">删除章节</button> -->
+                  <div @click="deleteChapter(index)" class="icon-button"><i class="far fa-trash-alt"></i></div>
                   <button @click="editChapter(index)"  class="button" type="button" name="button">编辑章节</button>
                 </td>
               </tr>

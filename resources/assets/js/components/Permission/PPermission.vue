@@ -30,7 +30,8 @@
           <td><p class="limit-words">{{ item.description }}</p></td>
           <!-- <td>{{ GLOBAL.toTime(item.created_at) }}</td> -->
           <td>{{ GLOBAL.toTime(item.updated_at) }}</td>
-          <td><button v-show="isShowDeletePermission" @click="deletePermission(index)" class="delete" type="button" name="button">删除权限</button></td>
+          <td><div v-show="isShowDeletePermission" @click="deletePermission(index)" class="icon-button"><i class="far fa-trash-alt"></i></div></td>
+        <!-- <td><button v-show="isShowDeletePermission" @click="deletePermission(index)" class="delete" type="button" name="button">删除权限</button></td> -->
         </tr>
       </tbody>
     </table>

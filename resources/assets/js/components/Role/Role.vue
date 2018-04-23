@@ -31,7 +31,8 @@
           <td>{{ GLOBAL.toTime(item.created_at) }}</td>
           <td>{{ GLOBAL.toTime(item.updated_at) }}</td>
           <td>
-            <button v-show="isShowDeleteRole" @click="deleteRole(index)" class="delete" type="button" name="button">删除角色</button>
+            <!-- <button v-show="isShowDeleteRole" @click="deleteRole(index)" class="delete" type="button" name="button">删除角色</button> -->
+            <div v-show="isShowDeleteRole" @click="deleteRole(index)" class="icon-button"><i class="far fa-trash-alt"></i></div>
             <div v-show="isShowEditRole" @click="editRole(index)" class="icon-button"><i class="fas fa-edit"></i></div>
           </td>
           <td><button @click="showPermission(index)" class="button" type="button" name="button">查看权限</button></td>
