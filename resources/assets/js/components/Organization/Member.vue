@@ -26,7 +26,7 @@
               <th>手机</th>
               <th>QQ</th>
               <th>创建时间</th>
-              <th>更新时间</th>
+              <!-- <th>更新时间</th> -->
             </tr>
           </thead>
           <tbody>
@@ -38,7 +38,7 @@
               <td>{{ item.phone }}</td>
               <td>{{ item.qq }}</td>
               <td>{{ GLOBAL.toTime(item.created_at) }}</td>
-              <td>{{ GLOBAL.toTime(item.updated_at) }}</td>
+              <!-- <td>{{ GLOBAL.toTime(item.updated_at) }}</td> -->
             </tr>
           </tbody>
         </table>

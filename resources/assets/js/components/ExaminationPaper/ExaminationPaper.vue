@@ -22,7 +22,7 @@
           <!-- <th>章节id</th> -->
           <!-- <th>Tags</th> -->
           <th>创建时间</th>
-          <th>更新时间</th>
+          <!-- <th>更新时间</th> -->
           <th>试卷操作</th>
           <th>章节操作</th>
         </tr>
@@ -38,7 +38,7 @@
           <!-- <td>{{ item.sections }}</td> -->
           <!-- <td>{{ item.tags }}</td> -->
           <td>{{ toTime(item.created_at) }}</td>
-          <td>{{ toTime(item.updated_at) }}</td>
+          <!-- <td>{{ toTime(item.updated_at) }}</td> -->
           <td>
             <div v-show="isShowDeletePaper" @click="deleteExaminationPaper(index)" class="icon-button"><i class="far fa-trash-alt"></i></div>
             <!-- <button v-show="isShowDeletePaper" @click="deleteExaminationPaper(index)" class="delete" type="button" name="button">删除试卷</button> -->

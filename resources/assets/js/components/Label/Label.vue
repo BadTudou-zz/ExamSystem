@@ -18,7 +18,7 @@
           <th>commentabl_type</th>
           <th>创建者ID</th>
           <th>创建时间</th>
-          <th>更新时间</th>
+          <!-- <th>更新时间</th> -->
           <th>操作</th>
         </tr>
       </thead>
@@ -29,7 +29,7 @@
           <td>{{ item.commentabl_type }}</td>
           <td>{{ item.creator_id }}</td>
           <td>{{ GLOBAL.toTime(item.created_at) }}</td>
-          <td>{{ GLOBAL.toTime(item.updated_at) }}</td>
+          <!-- <td>{{ GLOBAL.toTime(item.updated_at) }}</td> -->
           <td>
             <div v-show="isShowDeleteLabel" @click="deleteLabel(index)" class="icon-button"><i class="far fa-trash-alt"></i></div>
             <!-- <button v-show="isShowDeleteLabel" @click="deleteLabel(index)" class="delete" type="button" name="button">删除标签</button> -->
@@ -310,7 +310,7 @@ export default {
   watch: {
     data:function (value, oldValue) {
       const that = this;
-      that.permissionData = value.data;
+      that.labelData = value.data;
       that.paginationData = value.links;
     },
     allLabel: function (value, oldValue) {

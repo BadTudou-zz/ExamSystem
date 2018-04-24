@@ -17,7 +17,7 @@
           <th>用户名</th>
           <th>别名</th>
           <th>创建时间</th>
-          <th>更新时间</th>
+          <!-- <th>更新时间</th> -->
           <th>操作</th>
           <th>权限</th>
           <th>用户</th>
@@ -29,7 +29,7 @@
           <td>{{ item.name }}</td>
           <td>{{ item.display_name }}</td>
           <td>{{ GLOBAL.toTime(item.created_at) }}</td>
-          <td>{{ GLOBAL.toTime(item.updated_at) }}</td>
+          <!-- <td>{{ GLOBAL.toTime(item.updated_at) }}</td> -->
           <td>
             <!-- <button v-show="isShowDeleteRole" @click="deleteRole(index)" class="delete" type="button" name="button">删除角色</button> -->
             <div v-show="isShowDeleteRole" @click="deleteRole(index)" class="icon-button"><i class="far fa-trash-alt"></i></div>

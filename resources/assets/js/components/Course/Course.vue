@@ -19,7 +19,7 @@
           <th>课程数</th>
           <th>课程描述</th>
           <th>创建时间</th>
-          <th>更新时间</th>
+          <!-- <th>更新时间</th> -->
           <th>操作</th>
         </tr>
       </thead>
@@ -31,7 +31,7 @@
           <td>{{ item.number }}</td>
           <td><p class="limit-words">{{ item.descripe }}</p></td>
           <td>{{ GLOBAL.toTime(item.created_at) }}</td>
-          <td>{{ GLOBAL.toTime(item.updated_at) }}</td>
+          <!-- <td>{{ GLOBAL.toTime(item.updated_at) }}</td> -->
           <td>
             <div v-show="isShowDeleteCourse" @click="deleteCourse(index)" class="icon-button"><i class="far fa-trash-alt"></i></div>
             <!-- <button v-show="isShowDeleteCourse" @click="deleteCourse(index)" class="delete" type="button" name="button">删除课程</button> -->

@@ -21,10 +21,10 @@
         <label class="label">创建时间：</label>
         <span>{{ toTime(currentUserData.created_at) }}</span>
       </div>
-      <div class="label-box">
+      <!-- <div class="label-box">
         <label class="label">更新时间：</label>
         <span>{{ toTime(currentUserData.updated_at) }}</span>
-      </div>
+      </div> -->
     </div>
 
     <change-password ref="changePassword"
