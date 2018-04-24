@@ -56,10 +56,10 @@
               <td>{{ currentTeachingData.created_at }}</td>
             </tr>
 
-            <tr>
+            <!-- <tr>
               <td>更新时间</td>
               <td>{{ currentTeachingData.updated_at }}</td>
-            </tr>
+            </tr> -->
 
 
 

@@ -118,7 +118,7 @@ export default {
   watch: {
     data:function (value, oldValue) {
       const that = this;
-      that.permissionData = value.data;
+      that.userData = value.data;
       that.paginationData = value.links;
     },
     isShowModal: function (value, oldVale) {

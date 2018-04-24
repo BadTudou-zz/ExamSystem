@@ -18,7 +18,7 @@
           <th>用户名</th>
           <th>邮箱</th>
           <th>创建时间</th>
-          <th>更新时间</th>
+          <!-- <th>更新时间</th> -->
           <th>操作</th>
           <!-- <th>查看</th> -->
         </tr>
@@ -29,7 +29,7 @@
           <td>{{ item.name }}</td>
           <td>{{ item.email }}</td>
           <td>{{ toTime(item.created_at.date) }}</td>
-          <td>{{ toTime(item.updated_at.date) }}</td>
+          <!-- <td>{{ toTime(item.updated_at.date) }}</td> -->
           <td>
             <div v-show="isShowDeleteUser" @click="deleteUser(index)" class="icon-button"><i class="far fa-trash-alt"></i></div>
             <!-- <button v-show="isShowDeleteUser" @click="deleteUser(index)" class="delete" type="button">删除用户</button> -->

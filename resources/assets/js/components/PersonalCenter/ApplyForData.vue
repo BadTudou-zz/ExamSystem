@@ -13,7 +13,7 @@
           <!-- <th>resource_id</th> -->
           <!-- <th>resource_type</th> -->
           <th>data</th>
-          <th>更新时间</th>
+          <th>创建时间</th>
           <!-- <th>操作</th> -->
         </tr>
       </thead>
@@ -25,7 +25,7 @@
           <!-- <td>{{ item.resource_id }}</td> -->
           <!-- <td>{{ item.resource_type }}</td> -->
           <td>{{ item.data }}</td>
-          <td>{{ GLOBAL.toTime(item.updated_at.date) }}</td>
+          <td>{{ GLOBAL.toTime(item.created_at.date) }}</td>
           <!-- <td>
             <button @click="acceptApplyFor(index)" class="button" type="button" name="button">接受</button>
             <button @click="rejectApplyFor(index)" class="button" type="button" name="button">拒绝</button>

@@ -13,7 +13,7 @@
           <th>别名</th>
           <th>描述</th>
           <th>创建时间</th>
-          <th>更新时间</th>
+          <!-- <th>更新时间</th> -->
         </tr>
       </thead>
       <tbody>
@@ -23,7 +23,7 @@
           <td>{{ item.display_name }}</td>
           <td><p class="limit-words">{{ item.description }}</p></td>
           <td>{{ GLOBAL.toTime(item.created_at) }}</td>
-          <td>{{ GLOBAL.toTime(item.updated_at) }}</td>
+          <!-- <td>{{ GLOBAL.toTime(item.updated_at) }}</td> -->
         </tr>
       </tbody>
     </table>

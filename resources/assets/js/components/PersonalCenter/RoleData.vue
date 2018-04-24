@@ -12,7 +12,7 @@
           <th>用户名</th>
           <th>别名</th>
           <th>创建时间</th>
-          <th>更新时间</th>
+          <!-- <th>更新时间</th> -->
         </tr>
       </thead>
       <tbody>
@@ -21,7 +21,7 @@
           <td>{{ item.name }}</td>
           <td>{{ item.display_name }}</td>
           <td>{{ GLOBAL.toTime(item.created_at) }}</td>
-          <td>{{ GLOBAL.toTime(item.updated_at) }}</td>
+          <!-- <td>{{ GLOBAL.toTime(item.updated_at) }}</td> -->
         </tr>
       </tbody>
     </table>

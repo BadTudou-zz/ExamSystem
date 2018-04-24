@@ -18,7 +18,7 @@
           <th>接受者</th>
           <th>内容</th>
           <th>创建时间</th>
-          <th>更新时间</th>
+          <!-- <th>更新时间</th> -->
           <th>操作</th>
         </tr>
       </thead>
@@ -29,7 +29,7 @@
           <td>{{ item.to_name }}</td>
           <td><p class="limit-words">{{ item.data }}</p></td>
           <td>{{ GLOBAL.toTime(item.created_at.date) }}</td>
-          <td>{{ GLOBAL.toTime(item.updated_at.date) }}</td>
+          <!-- <td>{{ GLOBAL.toTime(item.updated_at.date) }}</td> -->
           <td>
             <div v-show="isShowDeleteNotification" @click="deleteNotice(index)" class="icon-button"><i class="far fa-trash-alt"></i></div>
 

@@ -22,7 +22,7 @@
           <th>最大容纳人数</th>
           <th>当前人数</th>
           <th>创建时间</th>
-          <th>更新时间</th>
+          <!-- <th>更新时间</th> -->
           <th>组织操作</th>
           <th>成员操作</th>
         </tr>
@@ -36,7 +36,7 @@
           <td>{{ item.max }}</td>
           <td>{{ item.current }}</td>
           <td>{{ GLOBAL.toTime(item.created_at) }}</td>
-          <td>{{ GLOBAL.toTime(item.updated_at) }}</td>
+          <!-- <td>{{ GLOBAL.toTime(item.updated_at) }}</td> -->
           <td>
             <div v-show="isShowDeleteOrganization" @click="deleteOrganization(index)" class="icon-button"><i class="far fa-trash-alt"></i></div>
             <!-- <button  v-show="isShowDeleteOrganization" @click="deleteOrganization(index)" class="delete" type="button" name="button">删除组织</button> -->

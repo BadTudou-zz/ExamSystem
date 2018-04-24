@@ -19,7 +19,7 @@
           <!-- <th>action</th> -->
           <!-- <th>resource_id</th> -->
           <th>resource_type</th>
-          <th>更新时间</th>
+          <th>创建时间</th>
           <th>操作</th>
         </tr>
       </thead>
@@ -32,7 +32,7 @@
           <!-- <td>{{ item.action }}</td> -->
           <!-- <td>{{ item.resource_id }}</td> -->
           <td>{{ item.resource_type }}</td>
-          <td>{{ GLOBAL.toTime(item.updated_at.date) }}</td>
+          <td>{{ GLOBAL.toTime(item.created_at.date) }}</td>
           <td>
             <!-- <button v-show="isShowDeleteApplication" @click="deleteApplyFor(index)" class="delete is-small" type="button" name="button">删除</button> -->
             <div v-show="isShowDeleteApplication" @click="deleteApplyFor(index)" class="icon-button"><i class="far fa-trash-alt"></i></div>
@@ -301,7 +301,7 @@ export default {
   watch: {
     data:function (value, oldValue) {
       const that = this;
-      that.permissionData = value.data;
+      that.applyForData = value.data;
       that.paginationData = value.links;
     },
     allApplyFor: function (value, oldValue) {
