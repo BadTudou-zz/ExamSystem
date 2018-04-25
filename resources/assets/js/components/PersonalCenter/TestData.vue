@@ -1,6 +1,6 @@
 <!-- 查看考试 -->
 <template lang="html">
-  <div>
+  <div class="box">
     <div  v-show="!isTesting">
       <h3 class="title">考试</h3>
 

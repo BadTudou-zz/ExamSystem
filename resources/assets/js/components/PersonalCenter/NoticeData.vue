@@ -1,6 +1,6 @@
 <!-- 查看通知 -->
 <template lang="html">
-  <div>
+  <div class="box">
     <h3 class="title">通知</h3>
 
     <p v-if="!noticeData" class="empty-message-prompt">暂无通知</p>
