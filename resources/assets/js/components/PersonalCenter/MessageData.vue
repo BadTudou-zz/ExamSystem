@@ -1,6 +1,6 @@
 <!-- 查看消息 -->
 <template lang="html">
-  <div>
+  <div class="box">
     <h3 class="title">消息</h3>
 
     <div>
