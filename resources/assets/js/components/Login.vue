@@ -14,7 +14,7 @@
 
       <button @click="login()" type="button" class="button" name="button">登录</button>
       <div class="operate-box">
-        <a>忘记密码</a><a @click="register()">注册</a>
+        <a @click="register()">注册</a>
       </div>
     </div>
 
