@@ -42,7 +42,7 @@ export default[
   // 考试
   { path: '/Test', component: require('./components/Test/Test.vue') },
 
-  { path: '/User', component: require('./components/User.vue') },
+  // { path: '/User', component: require('./components/User.vue') },
   // 个人中心
   // { path: '/PersonalCenter', component: require('./components/PersonalCenter/PersonalCenter.vue') },
   { path: '/PersonalData', component: require('./components/PersonalCenter/PersonalData.vue') },

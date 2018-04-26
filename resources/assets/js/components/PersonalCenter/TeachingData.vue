@@ -17,7 +17,7 @@
           <th>描述</th>
           <th>最大容量</th>
           <th>当前容量</th>
-          <th>更多</th>
+          <!-- <th>更多</th> -->
         </tr>
       </thead>
     <tbody>

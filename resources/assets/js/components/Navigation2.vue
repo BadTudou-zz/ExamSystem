@@ -47,13 +47,13 @@
             <router-link to="/testData"><i class="far fa-file-alt"></i><span>考试</span></router-link>
           </li>
           <li :class="{'is-active' : currentTag === 'courseData'}" @click="currentTag = 'courseData'">
-            <router-link to="/courseData"><i class="far fa-file-alt"></i><span>课程</span></router-link>
+            <router-link to="/courseData"><i class="fas fa-book"></i><span>课程</span></router-link>
           </li>
           <li :class="{'is-active' : currentTag === 'teachingData'}" @click="currentTag = 'teachingData'">
-            <router-link to="/teachingData"><i class="far fa-file-alt"></i><span>授课</span></router-link>
+            <router-link to="/teachingData"><i class="fas fa-graduation-cap"></i><span>授课</span></router-link>
           </li>
           <li v-show="isShowManagement" :class="{'is-active' : currentTag === 'setting'}" @click="currentTag = 'setting'">
-          <router-link to="/setting"><i class="far fa-file-alt"></i><span>管理</span></router-link>
+          <router-link to="/setting"><i class="fas fa-sliders-h"></i><span>管理</span></router-link>
           </li>
         </ul>
       </div>
