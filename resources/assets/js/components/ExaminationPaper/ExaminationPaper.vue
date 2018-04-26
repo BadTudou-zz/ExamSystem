@@ -1,6 +1,6 @@
 <!-- 查看试卷 -->
 <template lang="html">
-  <div class="box">
+  <div>
     <div>
       <div v-show="isShowSearchPaper" class="search-box">
         <input v-model="searchKey" class="input search-input" type="text" placeholder="请输入关键字">
@@ -44,7 +44,7 @@
             <!-- <button v-show="isShowDeletePaper" @click="deleteExaminationPaper(index)" class="delete" type="button" name="button">删除试卷</button> -->
             <div v-show="isShowEditPaper" @click="editExaminationPaper(index)" class="icon-button"><i class="fas fa-edit"></i></div>
             <button @click="showAllQuestion(index)" class="button is-small" type="button" name="button">全部题目</button>
-            <button @click="showAllScore(index)" class="button is-small" type="button" name="button">全部分数</button>
+            <button @click="showAllScore(index)" class="button is-small" type="button" name="button">题目分值查看</button>
           </td>
           <td>
             <button @click="showChapter(index)" class="button is-small" type="button" name="button">查看章节</button>

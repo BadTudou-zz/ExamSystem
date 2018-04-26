@@ -1,6 +1,6 @@
 <!-- 查看权限 -->
 <template lang="html">
-  <div class="box">
+  <div>
     <div>
       <div v-show="isShowSearchPermission" class="search-box">
         <input v-model="searchKey" class="input search-input" type="text" placeholder="请输入关键字">

@@ -1,6 +1,6 @@
 <!-- 查看通知 -->
 <template lang="html">
-  <div class="box">
+  <div>
     <div>
       <div v-show="isShowSearchNotification" class="search-box">
         <input v-model="searchKey" class="input search-input" type="text" placeholder="请输入关键字">
