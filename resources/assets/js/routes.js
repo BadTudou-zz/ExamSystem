@@ -1,5 +1,5 @@
 export default[
-  {path: '/', redirect: '/personalCenter'},
+  {path: '/', redirect: '/personalData'},
   // 主页
   { path: '/Home', component: require('./components/Home.vue') },
   // 登录
@@ -44,7 +44,8 @@ export default[
 
   { path: '/User', component: require('./components/User.vue') },
   // 个人中心
-  { path: '/PersonalCenter', component: require('./components/PersonalCenter/PersonalCenter.vue') },
+  // { path: '/PersonalCenter', component: require('./components/PersonalCenter/PersonalCenter.vue') },
+  { path: '/PersonalData', component: require('./components/PersonalCenter/PersonalData.vue') },
   // 【个人】 消息
   { path: '/MessageData', component: require('./components/PersonalCenter/MessageData.vue') },
   // 【个人】通知
@@ -59,6 +60,12 @@ export default[
   { path: '/PermissionData', component: require('./components/PersonalCenter/PermissionData.vue') },
   // 【个人】申请
   { path: '/ApplyForData', component: require('./components/PersonalCenter/ApplyForData.vue') },
-  // 【个人考试】
-  { path: '/TestData', component: require('./components/PersonalCenter/TestData.vue') }
+  // 【个人】 考试
+  { path: '/TestData', component: require('./components/PersonalCenter/TestData.vue') },
+  // 【个人】 课程
+  { path: '/CourseData', component: require('./components/PersonalCenter/CourseData.vue') },
+  // 【个人】 授课
+  { path: '/TeachingData', component: require('./components/PersonalCenter/TeachingData.vue') },
+  // 管理中心
+  { path: '/Setting', component: require('./components/Setting.vue') },
 ]

@@ -1,6 +1,6 @@
 <!-- 查看标签 -->
 <template lang="html">
-  <div class="box">
+  <div>
     <div>
       <div v-show="isShowSearchLabel" class="search-box">
         <input v-model="searchKey" class="input search-input" type="text" placeholder="请输入关键字">
@@ -106,6 +106,9 @@ export default {
     EditLabel,
     Pagination,
   },
+  props: [
+    'navigationTag'
+  ],
   methods: {
     showModal: function () {
       const that = this;
@@ -304,7 +307,6 @@ export default {
     },
   },
   created() {
-
     this.getLabel();
   },
   watch: {
@@ -316,7 +318,7 @@ export default {
     allLabel: function (value, oldValue) {
       const that = this;
       that.searchLabel(that.searchKey);
-    }
+    },
   }
 }
 </script>

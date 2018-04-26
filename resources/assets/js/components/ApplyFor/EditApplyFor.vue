@@ -164,7 +164,6 @@ export default {
           data: that.applyForData.data,
         }
       }).then(res => {
-        debugger
         alert('添加成功');
         that.$emit('getApplyFor');   //第一个参数名为调用的方法名，第二个参数为需要传递的参数
         that.switchModal();

@@ -1,6 +1,6 @@
 <!-- 查看考试 -->
 <template lang="html">
-  <div class="box">
+  <div>
 
     <div v-show="!isTesting">
       <div>
@@ -49,6 +49,7 @@
               <button @click="startTest(index)" class="is-small button" type="button" name="button">开始考试</button>
               <button @click="stopTest(index)" class="is-small button" type="button" name="button">结束考试</button>
               <button @click="gradingPapers(index)" class="is-small button" type="button" name="button">批改</button>
+              <!-- <button @click="analysis(index)" class="is-small button" type="button" name="button">分析</button> -->
             </td>
             <td>
               <button @click="participateUser(index)" class="is-small button" type="button" name="button">查看考试用户</button>
@@ -60,6 +61,10 @@
       <add-test ref="addTest"
                 v-on:getTest="getTest"
       ></add-test>
+
+      <analysis ref="analysis"
+                v-bind:exam-data="examData"
+      ></analysis>
 
       <edit-test ref="editTest"
                  v-on:getTest="getTest"
@@ -91,6 +96,7 @@ import AddTest from './AddTest'
 import EditTest from './EditTest'
 // import Testing from './Testing'
 import ParticipateUser from './ParticipateUser'
+import Analysis from './Analysis'
 
 export default {
   data() {
@@ -109,7 +115,7 @@ export default {
       currentTest: [],
       allTest: [],
       searchResult: [],
-
+      examData: null,
     }
   },
   components: {
@@ -118,6 +124,7 @@ export default {
     Pagination,
     // Testing,
     ParticipateUser,
+    Analysis,
   },
   methods: {
     showModal: function () {
@@ -265,6 +272,11 @@ export default {
       const that = this;
       that.$refs.addTest.switchModal();
     },
+    // analysis: function (index) {
+    //   const that = this;
+    //   that.examData = that.testData[index];
+    //   that.$refs.analysis.switchModal();
+    // },
     participateUser: function (index) {
       const that = this;
       let id = that.testData[index].id;

@@ -11,8 +11,8 @@
           <router-link title="个人消息" to="/mmessage"><i class="far fa-comment-alt top-nav"></i></router-link><span v-show="messageLength > 0" class="prompt"><span class="data-length">{{ messageLength }}</span></span>
           <router-link title="个人通知" to="/nnotice"><i class="fas fa-bullhorn top-nav"></i><span v-show="noticeLength > 0" class="prompt"><span class="data-length">{{ noticeLength }}</span></span></router-link> -->
 
-          <li :class="{'is-active' : currentTag === 'personalCenter'}" @click="currentTag = 'personalCenter'">
-            <router-link to="/personalCenter"><i class="far fa-user-circle"></i><span>个人</span></router-link>
+          <li :class="{'is-active' : currentTag === 'personalData'}" @click="currentTag = 'personalData'">
+            <router-link to="/personalData"><i class="far fa-user-circle"></i><span>个人</span></router-link>
           </li>
 
           <li :class="{'is-active' : currentTag === 'messageData'}" @click="currentTag = 'messageData'">
@@ -46,13 +46,22 @@
           <li :class="{'is-active' : currentTag === 'testData'}" @click="currentTag = 'testData'">
             <router-link to="/testData"><i class="far fa-file-alt"></i><span>考试</span></router-link>
           </li>
+          <li :class="{'is-active' : currentTag === 'courseData'}" @click="currentTag = 'courseData'">
+            <router-link to="/courseData"><i class="far fa-file-alt"></i><span>课程</span></router-link>
+          </li>
+          <li :class="{'is-active' : currentTag === 'teachingData'}" @click="currentTag = 'teachingData'">
+            <router-link to="/teachingData"><i class="far fa-file-alt"></i><span>授课</span></router-link>
+          </li>
+          <li v-show="isShowManagement" :class="{'is-active' : currentTag === 'setting'}" @click="currentTag = 'setting'">
+          <router-link to="/setting"><i class="far fa-file-alt"></i><span>管理</span></router-link>
+          </li>
         </ul>
       </div>
     </div>
 
     <div class="right-nav">
       <div class="operate">
-        <div class="top-nav-box">
+        <!-- <div class="top-nav-box">
           <router-link v-show="isShowUser" to="/uuser"><span>用户</span></router-link>
 
           <router-link v-show="isShowRole" to="/role"><span>角色</span></router-link>
@@ -79,7 +88,7 @@
 
           <router-link v-show="isShowApplication" to="/applyFor"><span>申请</span></router-link>
 
-        </div>
+        </div> -->
         <div @click="logOut()" class="exit">
           <i class="fas fa-sign-out-alt"></i>
           <span>退出</span>
@@ -241,6 +250,12 @@ export default {
     isShowExam() {
       // return true;
       return sessionStorage.getItem('permissions').includes('exam-index');
+    },
+    isShowManagement: function () {
+      let res = this.isShowExam    || this.isShowTag          || this.isShowApplication || this.isShowPaper        || this.isShowQuestion ||
+                this.isShowLecture || this.isShowOrganization || this.isShowCourse      || this.isShowNotification || this.isShowMessage ||
+                this.isShowUser    || this.isShowRole         || this.isShowPermission
+      return res;
     }
   },
   created() {
