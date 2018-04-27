@@ -94,6 +94,8 @@ Route::prefix('v1')->middleware(['auth:api'])->group(function () {
     Route::post('exams/{id}/finish', 'API\ExamController@finish');
     // 用户查看考试结果
     Route::get('exams/{id}/score', 'API\ExamController@score');
+    // 用户查看考试全部用户结果
+    Route::get('exams/{id}/scores', 'API\ExamController@scores');
     // 讲课
     Route::apiResource('lectures', 'API\LectureController');
     // 获取讲课的用户

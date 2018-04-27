@@ -16,9 +16,12 @@ use App\Http\Requests\Exam\DeleteUsers as DeleteUsersFromExam;
 use App\Http\Resources\ExamCollection;
 use App\Http\Resources\ExamResource;
 use App\Http\Resources\UserCollection;
+use App\Http\Resources\UserExamResource;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 use App\Jobs\CorrecExam;
+use App\Util\OrmUtil;
+
 use App\Exam;
 use App\User;
 
@@ -195,4 +198,19 @@ class ExamController extends Controller
        return response($exam->pivot);
     }
 
+    //查看全部分数
+    public function scores(UpdateExam $request, $id)
+    {
+        $exam = Exam::find($id);
+
+        if (!$exam->begin_at) {
+            return response()->json(['error'=>'考试未开始，不能查看！'], 400);
+        }
+
+        if (!$exam->finish_at) {
+            return response()->json(['error'=>'考试未结束，不能查看！'], 400);
+        }
+        $scores = $exam->users()->paginate();
+        return UserExamResource::collection($scores);
+    }
 }
