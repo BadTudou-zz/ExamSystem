@@ -27,6 +27,7 @@
     "echarts": "^4.0.4",
     "exports": "0.0.1",
     "js-base64": "^2.4.3",
+    "mint-ui": "^2.2.13",
     "moment": "^2.21.0",
     "v-charts": "^1.16.10",
     "vue-router": "^3.0.1",
