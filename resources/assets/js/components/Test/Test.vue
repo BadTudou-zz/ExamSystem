@@ -265,7 +265,11 @@ export default {
         // that.testData = [];
         // that.testData.push(res.data.data);
       }).catch(err => {
-        console.log(err)
+        console.log(err);
+        if (err.response.status === 401) {
+          alert('登录超时');
+          location.reload();
+        }
       })
     },
     addTest: function () {

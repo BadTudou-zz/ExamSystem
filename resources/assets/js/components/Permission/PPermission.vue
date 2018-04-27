@@ -114,8 +114,12 @@ export default {
       }).then(res => {
         that.permissionData = res.data.data;
         that.paginationData = res.data.links;
-      }).catch(err => {
+      }).catch(res => {
         console.log(err)
+        if (err.response.status === 401) {
+          alert('登录超时');
+          location.reload();
+        }
       })
     },
     // searchPermission: function () {

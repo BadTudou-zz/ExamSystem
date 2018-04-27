@@ -13,7 +13,6 @@ import Vuex from 'vuex';
 import global_css from '../../assets/sass/global.css';
 import VCharts from 'v-charts';
 
-
 require('./bootstrap');
 window.Vue = require('vue');
 
