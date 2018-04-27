@@ -7,7 +7,8 @@
         <div>
             <button @click="addPermission()" class="button add-permission-button" type="button" name="button">添加权限</button>
             <button @click="synchronizePermission()" class="button add-permission-button" type="button" name="button">同步权限</button>
-            <button @click="deletePermission()" class="button" type="button" name="button">删除权限</button>
+            <!-- <button @click="deletePermission()" class="button" type="button" name="button">删除权限</button> -->
+            <div @click="deletePermission()" class="icon-button"><i class="far fa-trash-alt"></i></div>
         </div>
         <table class="table">
           <thead>
@@ -23,7 +24,7 @@
               <td><input type="checkbox" v-bind:value="item.id" v-model="selectedPermission" class="permission-seleted"></td>
               <td>{{ item.id }}</td>
               <td>{{ item.name }}</td>
-              <td>{{ item.description }}</td>
+              <td><p class="limit-words">{{ item.description }}</p></td>
             </tr>
           </tbody>
         </table>

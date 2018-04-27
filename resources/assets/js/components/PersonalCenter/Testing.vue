@@ -343,7 +343,6 @@ export default {
       that.examId = value.id;
       that.examTime = value.min;
       that.testTitle = value.title;
-      debugger
     },
     paperId: function (value, oldValue) {
       const that = this;

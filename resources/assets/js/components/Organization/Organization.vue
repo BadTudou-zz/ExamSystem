@@ -1,6 +1,6 @@
 <!-- 查看组织 -->
 <template lang="html">
-  <div class="box">
+  <div>
     <div>
       <div v-show="isShowSearchOrganization" class="search-box">
         <input v-model="searchKey" class="input search-input" type="text" placeholder="请输入关键字">
@@ -10,7 +10,9 @@
       <button v-show="isShowCreateOrganization" @click="addOrganization()" class="button add-role-button" type="button" name="button">添加组织</button>
       <button class="button add-role-button" type="button" name="button">同步组织</button>
     </div>
-    <table class="table is-bordered is-striped is-hoverable is-fullwidths">
+
+    <p v-if="!organizationData" class="empty-message-prompt">暂无组织</p>
+    <table v-else class="table is-bordered is-striped is-hoverable is-fullwidths">
       <thead>
         <tr>
           <th>ID</th>
@@ -20,7 +22,7 @@
           <th>最大容纳人数</th>
           <th>当前人数</th>
           <th>创建时间</th>
-          <th>更新时间</th>
+          <!-- <th>更新时间</th> -->
           <th>组织操作</th>
           <th>成员操作</th>
         </tr>
@@ -30,14 +32,15 @@
           <td>{{ item.id }}</td>
           <td>{{ item.name }}</td>
           <td>{{ item.creator_id }}</td>
-          <td>{{ item.describe }}</td>
+          <td><p class="limit-words">{{ item.describe }}</p></td>
           <td>{{ item.max }}</td>
           <td>{{ item.current }}</td>
           <td>{{ GLOBAL.toTime(item.created_at) }}</td>
-          <td>{{ GLOBAL.toTime(item.updated_at) }}</td>
+          <!-- <td>{{ GLOBAL.toTime(item.updated_at) }}</td> -->
           <td>
-            <button  v-show="isShowDeleteOrganization" @click="deleteOrganization(index)" class="delete" type="button" name="button">删除组织</button>
-            <div @click="editOrganization(index)" class="edit-button"><i class="fas fa-edit"></i></div>
+            <div v-show="isShowDeleteOrganization" @click="deleteOrganization(index)" class="icon-button"><i class="far fa-trash-alt"></i></div>
+            <!-- <button  v-show="isShowDeleteOrganization" @click="deleteOrganization(index)" class="delete" type="button" name="button">删除组织</button> -->
+            <div @click="editOrganization(index)" class="icon-button"><i class="fas fa-edit"></i></div>
           </td>
           <td>
             <button @click="showMember(index)"  class="is-small button" type="button" name="button">查看成员</button>

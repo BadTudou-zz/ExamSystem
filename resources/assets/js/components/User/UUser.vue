@@ -1,6 +1,6 @@
 <!-- 查看用户 -->
 <template lang="html">
-  <div class="box">
+  <div>
     <div>
       <div class="search-box">
         <input v-model="searchKey" class="input search-input" type="text" placeholder="请输入关键字">
@@ -9,14 +9,16 @@
 
       </div>
     </div>
-    <table class="table is-bordered is-striped is-hoverable is-fullwidths">
+
+    <p v-if="!userData" class="empty-message-prompt">暂无用户</p>
+    <table v-else class="table is-bordered is-striped is-hoverable is-fullwidths">
       <thead>
         <tr>
           <th>ID</th>
           <th>用户名</th>
           <th>邮箱</th>
           <th>创建时间</th>
-          <th>更新时间</th>
+          <!-- <th>更新时间</th> -->
           <th>操作</th>
           <!-- <th>查看</th> -->
         </tr>
@@ -27,9 +29,10 @@
           <td>{{ item.name }}</td>
           <td>{{ item.email }}</td>
           <td>{{ toTime(item.created_at.date) }}</td>
-          <td>{{ toTime(item.updated_at.date) }}</td>
+          <!-- <td>{{ toTime(item.updated_at.date) }}</td> -->
           <td>
-            <button v-show="isShowDeleteUser" @click="deleteUser(index)" class="delete" type="button">删除用户</button>
+            <div v-show="isShowDeleteUser" @click="deleteUser(index)" class="icon-button"><i class="far fa-trash-alt"></i></div>
+            <!-- <button v-show="isShowDeleteUser" @click="deleteUser(index)" class="delete" type="button">删除用户</button> -->
             <button v-show="isShowEditUser" @click="editUser(index)" class="button is-small" type="button">更改用户名</button>
             <button v-show="isShowEditUser" @click="changePassword(index)" class="button is-small" type="button">更改密码</button>
           </td>

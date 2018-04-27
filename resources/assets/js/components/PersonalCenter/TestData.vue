@@ -1,9 +1,11 @@
 <!-- 查看考试 -->
 <template lang="html">
-  <div>
+  <div class="box">
     <div  v-show="!isTesting">
       <h3 class="title">考试</h3>
-      <table class="table">
+
+      <p v-if="!testData" class="empty-message-prompt">暂无考试</p>
+      <table v-else class="table">
         <thead>
           <tr>
             <th>序号</th>

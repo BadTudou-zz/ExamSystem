@@ -7,8 +7,8 @@
         <table class="table">
           <thead>
             <tr>
-              <th>序号</th>
-              <th>分数</th>
+              <th>题号</th>
+              <th>分值</th>
             </tr>
           </thead>
           <tbody>

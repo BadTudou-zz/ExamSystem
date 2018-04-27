@@ -1,6 +1,6 @@
 <!-- 查看试卷 -->
 <template lang="html">
-  <div class="box">
+  <div>
     <div>
       <div v-show="isShowSearchPaper" class="search-box">
         <input v-model="searchKey" class="input search-input" type="text" placeholder="请输入关键字">
@@ -9,7 +9,8 @@
       </div>
         <button v-show="isShowCreatePaper" @click="addExaminationPaper()" class="button add-examinationPaper-button" type="button" name="button">添加试卷</button>
     </div>
-    <table class="table is-bordered is-striped is-hoverable is-fullwidths">
+    <p v-if="!examinationPaperData" class="empty-message-prompt">暂无试卷</p>
+    <table v-else class="table is-bordered is-striped is-hoverable is-fullwidths">
       <thead>
         <tr>
           <th>序号</th>
@@ -21,7 +22,7 @@
           <!-- <th>章节id</th> -->
           <!-- <th>Tags</th> -->
           <th>创建时间</th>
-          <th>更新时间</th>
+          <!-- <th>更新时间</th> -->
           <th>试卷操作</th>
           <th>章节操作</th>
         </tr>
@@ -33,16 +34,17 @@
           <td>{{ item.title }}</td>
           <td>{{ item.score }}</td>
           <td>{{ item.min }}</td>
-          <td> {{ item.description }}</td>
+          <td><p>{{ item.description }}</p></td>
           <!-- <td>{{ item.sections }}</td> -->
           <!-- <td>{{ item.tags }}</td> -->
           <td>{{ toTime(item.created_at) }}</td>
-          <td>{{ toTime(item.updated_at) }}</td>
+          <!-- <td>{{ toTime(item.updated_at) }}</td> -->
           <td>
-            <button v-show="isShowDeletePaper" @click="deleteExaminationPaper(index)" class="delete" type="button" name="button">删除试卷</button>
-            <div v-show="isShowEditPaper" @click="editExaminationPaper(index)" class="edit-button"><i class="fas fa-edit"></i></div>
+            <div v-show="isShowDeletePaper" @click="deleteExaminationPaper(index)" class="icon-button"><i class="far fa-trash-alt"></i></div>
+            <!-- <button v-show="isShowDeletePaper" @click="deleteExaminationPaper(index)" class="delete" type="button" name="button">删除试卷</button> -->
+            <div v-show="isShowEditPaper" @click="editExaminationPaper(index)" class="icon-button"><i class="fas fa-edit"></i></div>
             <button @click="showAllQuestion(index)" class="button is-small" type="button" name="button">全部题目</button>
-            <button @click="showAllScore(index)" class="button is-small" type="button" name="button">全部分数</button>
+            <button @click="showAllScore(index)" class="button is-small" type="button" name="button">题目分值查看</button>
           </td>
           <td>
             <button @click="showChapter(index)" class="button is-small" type="button" name="button">查看章节</button>

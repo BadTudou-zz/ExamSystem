@@ -13,7 +13,8 @@
             </div>
               <button @click="addChapter()" class="button add-chapter-button" type="button" name="button">添加章节</button>
           </div>
-          <table class="table is-bordered is-striped is-hoverable is-fullwidths">
+          <p v-if="!chapterData" class="empty-message-prompt">暂无章节</p>
+          <table v-else class="table is-bordered is-striped is-hoverable is-fullwidths">
             <thead>
               <tr>
                 <th>ID</th>
@@ -30,13 +31,14 @@
               <tr v-for="(item,index) in chapterData">
                 <td>{{ item.id }}</td>
                 <td>{{ item.name }}</td>
-                <td>{{ item.describe }}</td>
+                <td><p class="limit-words">{{ item.describe }}</p></td>
                 <td>{{ computedQuestionType(item.question_type) }}</td>
                 <td>{{ item.score }}</td>
                 <td>{{ item.number }}</td>
                 <td>{{ item.questions }}</td>
                 <td>
-                  <button @click="deleteChapter(index)" class="delete" type="button" name="button">删除章节</button>
+                  <!-- <button @click="deleteChapter(index)" class="delete" type="button" name="button">删除章节</button> -->
+                  <div @click="deleteChapter(index)" class="icon-button"><i class="far fa-trash-alt"></i></div>
                   <button @click="editChapter(index)"  class="button" type="button" name="button">编辑章节</button>
                 </td>
               </tr>

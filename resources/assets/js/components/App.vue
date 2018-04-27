@@ -16,7 +16,7 @@ export default {
     return {
       isShowLogin: true,
       logOut: null,
-    };
+    }
   },
   components: {
     Login,
@@ -44,7 +44,7 @@ export default {
       if (value === 'logOut') {
         that.isShowLogin = true;
       }
-    }
+    },
   }
 }
 </script>

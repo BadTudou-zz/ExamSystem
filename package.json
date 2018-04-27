@@ -24,9 +24,11 @@
   "dependencies": {
     "async": "^2.6.0",
     "bulma": "^0.6.2",
+    "echarts": "^4.0.4",
     "exports": "0.0.1",
     "js-base64": "^2.4.3",
     "moment": "^2.21.0",
+    "v-charts": "^1.16.10",
     "vue-router": "^3.0.1",
     "vuex": "^3.0.1",
     "vux-loader": "^1.2.1"

@@ -11,7 +11,10 @@
           </div>
             <button @click="addMember()" class="button add-role-button" type="button" name="button">添加成员</button>
             <button @click="synchronizeMember()" class="button add-role-button" type="button" name="button">同步成员</button>
-            <button @click="deleteMember()" class="button" type="button" name="button">删除成员</button>
+            <!-- <button @click="deleteMember()" class="button" type="button" name="button">删除成员</button> -->
+            <div @click="deleteMember()" class="icon-button"><i class="far fa-trash-alt"></i></div>
+
+
         </div>
         <table class="table">
           <thead>
@@ -23,7 +26,7 @@
               <th>手机</th>
               <th>QQ</th>
               <th>创建时间</th>
-              <th>更新时间</th>
+              <!-- <th>更新时间</th> -->
             </tr>
           </thead>
           <tbody>
@@ -35,7 +38,7 @@
               <td>{{ item.phone }}</td>
               <td>{{ item.qq }}</td>
               <td>{{ GLOBAL.toTime(item.created_at) }}</td>
-              <td>{{ GLOBAL.toTime(item.updated_at) }}</td>
+              <!-- <td>{{ GLOBAL.toTime(item.updated_at) }}</td> -->
             </tr>
           </tbody>
         </table>

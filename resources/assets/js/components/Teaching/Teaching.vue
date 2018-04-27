@@ -1,6 +1,6 @@
 <!-- 查看授课 -->
 <template lang="html">
-  <div class="box">
+  <div>
     <div>
       <div v-show="isShowSearchTeaching" class="search-box">
         <input v-model="searchKey" class="input search-input" type="text" placeholder="请输入关键字">
@@ -10,7 +10,9 @@
         <button v-show="isShowCreateTeaching" @click="addTeaching()" class="button add-teaching-button" type="button" name="button">添加授课</button>
         <button class="button add-teaching-button" type="button" name="button">同步授课</button>
     </div>
-    <table class="table is-bordered is-striped is-hoverable is-fullwidths">
+
+    <p v-if="!teachingData" class="empty-message-prompt">暂无授课</p>
+    <table v-else class="table is-bordered is-striped is-hoverable is-fullwidths">
       <thead>
         <tr>
           <!-- <th>ID</th> -->
@@ -37,14 +39,15 @@
           <td>{{ item.course_id }}</td>
           <!-- <td>{{ item.allowable_teaching_ids }}</td>
           <td>{{ item.allowable_user_ids }}</td> -->
-          <td>{{ item.description }}</td>
+          <td><p class="limit-words">{{ item.description }}</p></td>
           <td>{{ item.max }}</td>
           <td>{{ item.current }}</td>
           <!-- <td>{{ GLOBAL.toTime(item.created_at) }}</td> -->
           <!-- <td>{{ GLOBAL.toTime(item.updated_at) }}</td> -->
           <td>
-            <button v-show="isShowDeleteTeaching" @click="deleteTeaching(index)" class="delete" type="button" name="button">删除授课</button>
-            <div @click="editTeaching(index)" class="edit-button"><i class="fas fa-edit"></i></div>
+            <!-- <button v-show="isShowDeleteTeaching" @click="deleteTeaching(index)" class="delete" type="button" name="button">删除授课</button> -->
+            <div v-show="isShowDeleteTeaching" @click="deleteTeaching(index)" class="icon-button"><i class="far fa-trash-alt"></i></div>
+            <div @click="editTeaching(index)" class="icon-button"><i class="fas fa-edit"></i></div>
           </td>
           <td>
             <button @click="showUser(index)" class="button is-small" type="button" name="button">查看用户</button>

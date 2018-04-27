@@ -1,6 +1,6 @@
 <!-- 查看角色 -->
 <template lang="html">
-  <div class="box">
+  <div>
     <div>
       <div v-show="isShowSearchRole" class="search-box">
         <input v-model="searchKey" class="input search-input" type="text" placeholder="请输入你要查找的角色ID">
@@ -8,14 +8,16 @@
       </div>
       <button v-show="isShowCreateRole" @click="addRole()" class="button add-role-button" type="button" name="button">添加角色</button>
     </div>
-    <table class="table is-bordered is-striped is-hoverable is-fullwidths">
+
+    <p v-if="!roleData" class="empty-message-prompt">暂无角色</p>
+    <table v-else class="table is-bordered is-striped is-hoverable is-fullwidths">
       <thead>
         <tr>
           <th>ID</th>
           <th>用户名</th>
           <th>别名</th>
           <th>创建时间</th>
-          <th>更新时间</th>
+          <!-- <th>更新时间</th> -->
           <th>操作</th>
           <th>权限</th>
           <th>用户</th>
@@ -27,10 +29,11 @@
           <td>{{ item.name }}</td>
           <td>{{ item.display_name }}</td>
           <td>{{ GLOBAL.toTime(item.created_at) }}</td>
-          <td>{{ GLOBAL.toTime(item.updated_at) }}</td>
+          <!-- <td>{{ GLOBAL.toTime(item.updated_at) }}</td> -->
           <td>
-            <button v-show="isShowDeleteRole" @click="deleteRole(index)" class="delete" type="button" name="button">删除角色</button>
-            <div v-show="isShowEditRole" @click="editRole(index)" class="edit-button"><i class="fas fa-edit"></i></div>
+            <!-- <button v-show="isShowDeleteRole" @click="deleteRole(index)" class="delete" type="button" name="button">删除角色</button> -->
+            <div v-show="isShowDeleteRole" @click="deleteRole(index)" class="icon-button"><i class="far fa-trash-alt"></i></div>
+            <div v-show="isShowEditRole" @click="editRole(index)" class="icon-button"><i class="fas fa-edit"></i></div>
           </td>
           <td><button @click="showPermission(index)" class="button" type="button" name="button">查看权限</button></td>
           <td><button @click="showUser(index)" class="button" type="button" name="button">查看用户</button></td>

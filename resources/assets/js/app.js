@@ -11,6 +11,8 @@ import VueRouter from 'vue-router';
 import routes from './routes';    // 路由配置文件
 import Vuex from 'vuex';
 import global_css from '../../assets/sass/global.css';
+import VCharts from 'v-charts';
+
 
 require('./bootstrap');
 window.Vue = require('vue');
@@ -20,7 +22,7 @@ Vue.prototype.GLOBAL = global_; //挂载到Vue实例上面
 // import VueResource from 'vue-resource';
 // Vue.use(VueResource);
 Vue.use(VueRouter);
-
+Vue.use(VCharts);
 
 // import 1 from './store/'; // vuex 数据存储所需对象
 
