@@ -1,6 +1,6 @@
 <!-- 查看课程 -->
 <template lang="html">
-  <div class="box">
+  <div>
     <div>
         <div v-show="isShowSearchCourse" class="search-box">
           <input v-model="searchKey" class="input search-input" type="text" placeholder="请输入课程">
@@ -9,7 +9,8 @@
         </div>
         <button v-show="isShowCreateCourse" @click="addCourse()" class="button add-course-button" type="button" name="button">添加课程</button>
     </div>
-    <table class="table is-bordered is-striped is-hoverable is-fullwidths">
+    <p v-if="!courseData" class="empty-message-prompt">暂无课程</p>
+    <table v-else class="table is-bordered is-striped is-hoverable is-fullwidths">
       <thead>
         <tr>
           <th>ID</th>
@@ -18,7 +19,7 @@
           <th>课程数</th>
           <th>课程描述</th>
           <th>创建时间</th>
-          <th>更新时间</th>
+          <!-- <th>更新时间</th> -->
           <th>操作</th>
         </tr>
       </thead>
@@ -28,12 +29,13 @@
           <td>{{ item.name }}</td>
           <td>{{ item.display_name }}</td>
           <td>{{ item.number }}</td>
-          <td>{{ item.descripe }}</td>
+          <td><p class="limit-words">{{ item.descripe }}</p></td>
           <td>{{ GLOBAL.toTime(item.created_at) }}</td>
-          <td>{{ GLOBAL.toTime(item.updated_at) }}</td>
+          <!-- <td>{{ GLOBAL.toTime(item.updated_at) }}</td> -->
           <td>
-            <button v-show="isShowDeleteCourse" @click="deleteCourse(index)" class="delete" type="button" name="button">删除课程</button>
-            <div v-show="isShowEditCourse" @click="editCourse(index)" class="edit-button"><i class="fas fa-edit"></i></div>
+            <div v-show="isShowDeleteCourse" @click="deleteCourse(index)" class="icon-button"><i class="far fa-trash-alt"></i></div>
+            <!-- <button v-show="isShowDeleteCourse" @click="deleteCourse(index)" class="delete" type="button" name="button">删除课程</button> -->
+            <div v-show="isShowEditCourse" @click="editCourse(index)" class="icon-button"><i class="fas fa-edit"></i></div>
           </td>
         </tr>
       </tbody>

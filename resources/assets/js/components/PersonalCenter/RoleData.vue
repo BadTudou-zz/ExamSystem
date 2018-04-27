@@ -3,14 +3,16 @@
   <div class="box">
     <h3 class="title">角色</h3>
 
-    <table v-if="roleData" class="table">
+    <p v-if="!roleData" class="empty-message-prompt">暂无角色</p>
+
+    <table v-else class="table">
       <thead>
         <tr>
           <th>ID</th>
           <th>用户名</th>
           <th>别名</th>
           <th>创建时间</th>
-          <th>更新时间</th>
+          <!-- <th>更新时间</th> -->
         </tr>
       </thead>
       <tbody>
@@ -19,13 +21,10 @@
           <td>{{ item.name }}</td>
           <td>{{ item.display_name }}</td>
           <td>{{ GLOBAL.toTime(item.created_at) }}</td>
-          <td>{{ GLOBAL.toTime(item.updated_at) }}</td>
+          <!-- <td>{{ GLOBAL.toTime(item.updated_at) }}</td> -->
         </tr>
       </tbody>
     </table>
-    <div v-else>
-      暂无角色数据
-    </div>
 
     <pagination v-bind:pagination-data="paginationData"
                 v-model="data"

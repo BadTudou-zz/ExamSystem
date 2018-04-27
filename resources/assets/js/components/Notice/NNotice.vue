@@ -1,6 +1,6 @@
 <!-- 查看通知 -->
 <template lang="html">
-  <div class="box">
+  <div>
     <div>
       <div v-show="isShowSearchNotification" class="search-box">
         <input v-model="searchKey" class="input search-input" type="text" placeholder="请输入关键字">
@@ -10,30 +10,34 @@
         <button v-show="isShowCreateNotification" @click="addNotice()" class="button add-role-button" type="button" name="button">添加通知</button>
     </div>
 
-    <!-- <table class="table is-bordered is-striped is-hoverable is-fullwidths">
+    <p v-if="!noticeData" class="empty-message-prompt">暂无通知</p>
+    <table v-else class="table is-bordered is-striped is-hoverable is-fullwidths">
       <thead>
         <tr>
           <th>发送者</th>
           <th>接受者</th>
           <th>内容</th>
           <th>创建时间</th>
-          <th>更新时间</th>
+          <!-- <th>更新时间</th> -->
           <th>操作</th>
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(item,index) in noticeData">
+        <div v-if="!noticeData"></div>
+        <tr v-else v-for="(item,index) in noticeData">
           <td>{{ item.from_name }}</td>
           <td>{{ item.to_name }}</td>
           <td><p class="limit-words">{{ item.data }}</p></td>
           <td>{{ GLOBAL.toTime(item.created_at.date) }}</td>
-          <td>{{ GLOBAL.toTime(item.updated_at.date) }}</td>
+          <!-- <td>{{ GLOBAL.toTime(item.updated_at.date) }}</td> -->
           <td>
-            <button v-show="isShowDeleteMessage" @click="deleteMessage(index)" class="delete" type="button">删除消息</button>
+            <div v-show="isShowDeleteNotification" @click="deleteNotice(index)" class="icon-button"><i class="far fa-trash-alt"></i></div>
+
+            <!-- <button v-show="isShowDeleteNotification" @click="deleteNotice(index)" class="delete" type="button">删除消息</button> -->
           </td>
         </tr>
       </tbody>
-    </table> -->
+    </table>
 
 
     <add-notice ref="addNotice"

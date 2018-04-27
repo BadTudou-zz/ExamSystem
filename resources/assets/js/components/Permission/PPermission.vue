@@ -1,6 +1,6 @@
 <!-- 查看权限 -->
 <template lang="html">
-  <div class="box">
+  <div>
     <div>
       <div v-show="isShowSearchPermission" class="search-box">
         <input v-model="searchKey" class="input search-input" type="text" placeholder="请输入关键字">
@@ -8,7 +8,9 @@
       </div>
         <button v-show="isShowCreatePermission" @click="addPermission()" class="button add-permission-button" type="button" name="button">添加权限</button>
     </div>
-    <table class="table is-bordered is-striped is-hoverable is-fullwidths">
+
+    <p v-if="!permissionData" class="empty-message-prompt">暂无权限</p>
+    <table v-else class="table is-bordered is-striped is-hoverable is-fullwidths">
       <thead>
         <tr>
           <th>ID</th>
@@ -16,7 +18,7 @@
           <th>别名</th>
           <th>描述</th>
           <th>创建时间</th>
-          <th>更新时间</th>
+          <!-- <th>更新时间</th> -->
           <th v-show="isShowDeletePermission">操作</th>
         </tr>
       </thead>
@@ -25,10 +27,11 @@
           <td>{{ item.id }}</td>
           <td>{{ item.name }}</td>
           <td>{{ item.display_name }}</td>
-          <td>{{ item.description }}</td>
+          <td><p class="limit-words">{{ item.description }}</p></td>
           <td>{{ GLOBAL.toTime(item.created_at) }}</td>
-          <td>{{ GLOBAL.toTime(item.updated_at) }}</td>
-          <td><button v-show="isShowDeletePermission" @click="deletePermission(index)" class="delete" type="button" name="button">删除权限</button></td>
+          <!-- <td>{{ GLOBAL.toTime(item.updated_at) }}</td> -->
+          <td><div v-show="isShowDeletePermission" @click="deletePermission(index)" class="icon-button"><i class="far fa-trash-alt"></i></div></td>
+        <!-- <td><button v-show="isShowDeletePermission" @click="deletePermission(index)" class="delete" type="button" name="button">删除权限</button></td> -->
         </tr>
       </tbody>
     </table>

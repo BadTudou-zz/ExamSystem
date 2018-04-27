@@ -3,7 +3,9 @@
   <div class="box">
     <h3 class="title">权限</h3>
 
-    <table v-if="permissionData" class="table">
+    <p v-if="!permissionData" class="empty-message-prompt">暂无权限</p>
+
+    <table v-else class="table">
       <thead>
         <tr>
           <th>ID</th>
@@ -11,7 +13,7 @@
           <th>别名</th>
           <th>描述</th>
           <th>创建时间</th>
-          <th>更新时间</th>
+          <!-- <th>更新时间</th> -->
         </tr>
       </thead>
       <tbody>
@@ -19,15 +21,13 @@
           <td>{{ item.id }}</td>
           <td>{{ item.name }}</td>
           <td>{{ item.display_name }}</td>
-          <td>{{ item.description }}</td>
+          <td><p class="limit-words">{{ item.description }}</p></td>
           <td>{{ GLOBAL.toTime(item.created_at) }}</td>
-          <td>{{ GLOBAL.toTime(item.updated_at) }}</td>
+          <!-- <td>{{ GLOBAL.toTime(item.updated_at) }}</td> -->
         </tr>
       </tbody>
     </table>
-    <div v-else>
-      暂无权限数据
-    </div>
+
 
     <pagination v-bind:pagination-data="paginationData"
                 v-model="data"

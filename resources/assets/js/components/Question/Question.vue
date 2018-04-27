@@ -1,6 +1,6 @@
 <!-- 查看题目 -->
 <template lang="html">
-  <div class="box">
+  <div>
     <div>
       <div v-show="isShowSearchQuestion" class="search-box">
         <input v-model="searchKey" class="input search-input" type="text" placeholder="请输入关键字">
@@ -10,7 +10,8 @@
         <button v-show="isShowCreateQuestion" @click="addQuestion()" class="button add-question-button" type="button" name="button">添加题目</button>
     </div>
 
-    <table class="table is-bordered is-striped is-hoverable is-fullwidths">
+    <p v-if="!questionData" class="empty-message-prompt">暂无题目</p>
+    <table v-else class="table is-bordered is-striped is-hoverable is-fullwidths">
       <thead>
         <tr>
           <th>序号</th>
@@ -29,8 +30,9 @@
           <td><p  :title="item.title" class="limit-words">{{ item.title }}</p></td>
           <td><p  :title="getOptionsString(item.body)" class="question-limit-words">{{ getOptionsString(item.body) }}</p></td>
           <td>
-            <div v-show="isShowEditQuestion" @click="editQuestion(index)" class="edit-button"><i class="fas fa-edit"></i></div>
-            <button v-show="isShowDeleteQuestion" @click="deleteQuestion(index)" class="delete" type="button" name="button">删除题目</button>
+            <div v-show="isShowEditQuestion" @click="editQuestion(index)" class="icon-button"><i class="fas fa-edit"></i></div>
+            <!-- <button v-show="isShowDeleteQuestion" @click="deleteQuestion(index)" class="delete" type="button" name="button">删除题目</button> -->
+            <div v-show="isShowDeleteQuestion" @click="deleteQuestion(index)" class="icon-button"><i class="far fa-trash-alt"></i></div>
           </td>
         </tr>
       </tbody>

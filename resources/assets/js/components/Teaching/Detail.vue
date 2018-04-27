@@ -41,7 +41,7 @@
             </tr>
             <tr>
               <td>描述</td>
-              <td>{{ currentTeachingData.describe }}</td>
+              <td><p class="limit-words">{{ currentTeachingData.describe }}</p></td>
             </tr>
             <tr>
               <td>最大容量</td>
@@ -56,10 +56,10 @@
               <td>{{ currentTeachingData.created_at }}</td>
             </tr>
 
-            <tr>
+            <!-- <tr>
               <td>更新时间</td>
               <td>{{ currentTeachingData.updated_at }}</td>
-            </tr>
+            </tr> -->
 
 
 

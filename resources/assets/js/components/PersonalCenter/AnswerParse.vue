@@ -41,8 +41,9 @@
             </div>
 
             <div class="parsing">
-              <p>你的答案：{{ examineeAnswer[item.id] }}</p>
-              <p>答案解析：{{ item.answer }}，{{ item.answer_comment }}</p>
+              <p v-bind:class="[item.answer === examineeAnswer[item.id] ? 'is-true' : 'is-false']">我的答案：{{ examineeAnswer[item.id] }}</p>
+              <p>参考答案：{{ item.answer }} </p>
+              <p>答案解析：{{ item.answer_comment }}</p>
             </div>
           </div>
 
@@ -429,5 +430,16 @@ export default {
 }
 .answer-index {
   margin: 0 12px 18px 0;
+}
+.parsing {
+  background-color: #d9f4ff;
+  padding: 20px 15px;
+  border-radius: 5px;
+}
+.is-false {
+  color: red;
+}
+.is-true {
+  color: green;
 }
 </style>
