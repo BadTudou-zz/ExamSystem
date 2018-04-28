@@ -2,7 +2,10 @@
 <template lang="html">
   <div>
 
-    <div v-show="!isTesting">
+    <analysis v-show="isShowAnalysis"
+              v-bind:exam-data="examData"
+    ></analysis>
+    <div v-show="!isShowAnalysis">
       <div>
         <div v-show="isShowSearchTest" class="search-box">
           <input v-model="searchKey" class="input search-input" type="text" placeholder="请输入关键字">
@@ -62,10 +65,6 @@
                 v-on:getTest="getTest"
       ></add-test>
 
-      <analysis ref="analysis"
-                v-bind:exam-data="examData"
-      ></analysis>
-
       <edit-test ref="editTest"
                  v-on:getTest="getTest"
                  v-bind:edit-data="editData"
@@ -76,12 +75,6 @@
                   v-model="data"
       ></pagination>
     </div>
-
-    <!-- <testing ref="testing"
-             v-show="isTesting"
-             v-bind:paper-id="paperId"
-             v-bind:exam-id="examId"
-    ></testing> -->
 
     <participate-user ref="participateUser"
                       v-bind:exam-id="examId"
@@ -110,7 +103,7 @@ export default {
       data: null,
       paperId: null,
       examId: null,
-      isTesting: false,  // 是否已经开始考试
+      isShowAnalysis: false,
       // get all test
       currentTest: [],
       allTest: [],
@@ -267,8 +260,8 @@ export default {
       }).catch(err => {
         console.log(err);
         if (err.response.status === 401) {
-          alert('登录超时');
-          location.reload();
+          // alert('登录超时');
+          // location.reload();
         }
       })
     },
@@ -276,11 +269,11 @@ export default {
       const that = this;
       that.$refs.addTest.switchModal();
     },
-    // analysis: function (index) {
-    //   const that = this;
-    //   that.examData = that.testData[index];
-    //   that.$refs.analysis.switchModal();
-    // },
+    analysis: function (index) {
+      const that = this;
+      that.isShowAnalysis = true;
+      that.examData = that.testData[index];
+    },
     participateUser: function (index) {
       const that = this;
       let id = that.testData[index].id;
@@ -298,7 +291,6 @@ export default {
       let id = that.testData[index].id;
       that.paperId = that.testData[index].paper_id;
       that.examId = id;
-      // that.isTesting = true;
       axios({
         method: 'post',
         url: `${this.GLOBAL.localDomain}/api/v1/exams/${id}/start`,
@@ -308,7 +300,6 @@ export default {
         }
       }).then(res => {
         alert('已开考');
-        // that.isTesting = true;
       }).catch(err => {
         let errMsg = err.response.data.error;
         if (errMsg) {
