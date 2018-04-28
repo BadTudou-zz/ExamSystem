@@ -2,10 +2,10 @@
 <template lang="html">
   <div>
 
-    <analysis v-show="isShowAnalysis"
+    <!-- <analysis v-show="isShowAnalysis"
               v-bind:exam-data="examData"
-    ></analysis>
-    <div v-show="!isShowAnalysis">
+    ></analysis> -->
+    <div>
       <div>
         <div v-show="isShowSearchTest" class="search-box">
           <input v-model="searchKey" class="input search-input" type="text" placeholder="请输入关键字">
@@ -89,7 +89,7 @@ import AddTest from './AddTest'
 import EditTest from './EditTest'
 // import Testing from './Testing'
 import ParticipateUser from './ParticipateUser'
-import Analysis from './Analysis'
+// import Analysis from './Analysis'
 
 export default {
   data() {
@@ -117,7 +117,7 @@ export default {
     Pagination,
     // Testing,
     ParticipateUser,
-    Analysis,
+    // Analysis,
   },
   methods: {
     showModal: function () {
