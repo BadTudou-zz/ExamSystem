@@ -13,7 +13,7 @@
           <li v-show="isShowManagement" :class="{'is-active' : currentTag === 'setting'}" @click="currentTag = 'setting'">
             <router-link to="/setting"><i class="fas fa-sliders-h"></i><span>管理</span></router-link>
           </li>
-          
+
           <li :class="{'is-active' : currentTag === 'personalData'}" @click="currentTag = 'personalData'">
             <router-link to="/personalData"><i class="far fa-user-circle"></i><span>个人</span></router-link>
           </li>
