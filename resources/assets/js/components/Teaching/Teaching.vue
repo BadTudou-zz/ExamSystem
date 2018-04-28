@@ -133,8 +133,8 @@ export default {
       }).catch(err => {
         console.log(err);
         if (err.response.status === 401) {
-          alert('登录超时');
-          location.reload();
+          // alert('登录超时');
+          // location.reload();
         }
       })
     },

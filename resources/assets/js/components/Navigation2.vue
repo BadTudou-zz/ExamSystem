@@ -10,7 +10,10 @@
           <router-link title="个人中心" to="/personalCenter"><i class="far fa-user top-nav"></i></router-link>
           <router-link title="个人消息" to="/mmessage"><i class="far fa-comment-alt top-nav"></i></router-link><span v-show="messageLength > 0" class="prompt"><span class="data-length">{{ messageLength }}</span></span>
           <router-link title="个人通知" to="/nnotice"><i class="fas fa-bullhorn top-nav"></i><span v-show="noticeLength > 0" class="prompt"><span class="data-length">{{ noticeLength }}</span></span></router-link> -->
-
+          <li v-show="isShowManagement" :class="{'is-active' : currentTag === 'setting'}" @click="currentTag = 'setting'">
+            <router-link to="/setting"><i class="fas fa-sliders-h"></i><span>管理</span></router-link>
+          </li>
+          
           <li :class="{'is-active' : currentTag === 'personalData'}" @click="currentTag = 'personalData'">
             <router-link to="/personalData"><i class="far fa-user-circle"></i><span>个人</span></router-link>
           </li>
@@ -51,9 +54,6 @@
           </li>
           <li :class="{'is-active' : currentTag === 'teachingData'}" @click="currentTag = 'teachingData'">
             <router-link to="/teachingData"><i class="fas fa-graduation-cap"></i><span>授课</span></router-link>
-          </li>
-          <li v-show="isShowManagement" :class="{'is-active' : currentTag === 'setting'}" @click="currentTag = 'setting'">
-          <router-link to="/setting"><i class="fas fa-sliders-h"></i><span>管理</span></router-link>
           </li>
         </ul>
       </div>
