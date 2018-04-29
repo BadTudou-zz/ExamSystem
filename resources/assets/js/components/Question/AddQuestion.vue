@@ -10,12 +10,12 @@
         <div class="box-item">
           <label>题目类型</label>
           <div class="select">
-            <select v-model="questionData.question_type">
-              <option value="SINGLE_CHOICE">单选</option>
-              <!-- <option value="MULTIPLE_CHOICE">多选</option>
-              <option disabled value="TRUE_FALSE">判断</option>
-              <option disabled value="FILL_IN">填空</option>
-              <option disabled value="SHORT_ANSWER">简答</option> -->
+            <select v-model="questionData.type_id">
+              <option value=1>单选</option>
+              <option value=2>多选</option>
+              <option value=3>判断</option>
+              <option value=4>填空</option>
+              <option value=5>简答</option>
             </select>
           </div>
         </div>
@@ -61,7 +61,7 @@
         <!-- 正确答案 -->
         <div class="box-item">
           <label>正确答案</label>
-          <div v-show="questionData.question_type ==='SINGLE_CHOICE'" class="select">
+          <div v-show="questionData.type_id ==='1'" class="select">
             <select v-model="questionData.answer">
               <option value='A'>A</option>
               <option value="B">B</option>
@@ -70,7 +70,7 @@
             </select>
           </div>
 
-          <div v-show="questionData.question_type ==='MULTIPLE_CHOICE'">
+          <div v-show="questionData.type_id ==='2'">
             <input v-model="questionData.answer" class="input" type="text" placeholder="请用英文逗号将多个答案隔开">
           </div>
         </div>
@@ -95,7 +95,7 @@ export default {
     return {
       isShowModal: false,
       questionData: {
-        question_type: 'SINGLE_CHOICE',
+        type_id: '1',
         level_type: 'EASY',
         title: null,
         body: null,
@@ -114,7 +114,7 @@ export default {
     },
     clearWords: function () {
       const that = this;
-      that.questionData.question_type = 'SINGLE_CHOICE';
+      that.questionData.type_id = 1;
       that.questionData.level_type = 'EASY';
       that.questionData.title = '';
       that.questionData.body = '';
@@ -128,7 +128,7 @@ export default {
       let answer_body = '';
       for (let i = 0; i < that.options.length; i++) {
         if (i !== that.options.length - 1) {
-          answer_body += that.options[i] + ' '
+          answer_body += that.options[i] + '!'
         }
         else {
           answer_body += that.options[i];
@@ -141,7 +141,7 @@ export default {
 
       let body = that.getAnswerOptions();
 
-      if (!that.questionData.question_type || !that.questionData.level_type || !that.questionData.title ||
+      if (!that.questionData.type_id || !that.questionData.level_type || !that.questionData.title ||
           !body || !that.questionData.answer || !that.questionData.answer_comment)
       {
         alert('请检查内容是否填写完整');
@@ -156,7 +156,7 @@ export default {
           'Authorization': sessionStorage.getItem('token'),
         },
         params: {
-          question_type: that.questionData.question_type,
+          type_id: that.questionData.type_id,
           level_type: that.questionData.level_type,
           title: that.questionData.title,
           body: body,

@@ -20,7 +20,7 @@
           <tbody>
             <tr v-for="(item,index) in questionData">
               <td>{{ item.id }}</td>
-              <td>{{ item.question_type }}</td>
+              <td>{{ item.type_id }}</td>
               <td>{{ item.tags }}</td>
               <td>{{ item.level_type }}</td>
               <td>{{ item.title }}</td>

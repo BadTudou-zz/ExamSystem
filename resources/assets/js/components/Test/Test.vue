@@ -1,6 +1,6 @@
 <!-- 查看考试 -->
 <template lang="html">
-  <div>
+  <div class="box">
 
     <!-- <analysis v-show="isShowAnalysis"
               v-bind:exam-data="examData"

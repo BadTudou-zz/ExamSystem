@@ -1,6 +1,6 @@
 <!-- 查看试卷 -->
 <template lang="html">
-  <div>
+  <div class="box">
     <div>
       <div v-show="isShowSearchPaper" class="search-box">
         <input v-model="searchKey" class="input search-input" type="text" placeholder="请输入关键字">

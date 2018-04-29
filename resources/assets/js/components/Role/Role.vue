@@ -1,6 +1,6 @@
 <!-- 查看角色 -->
 <template lang="html">
-  <div>
+  <div class="box">
     <div>
       <div v-show="isShowSearchRole" class="search-box">
         <input v-model="searchKey" class="input search-input" type="text" placeholder="请输入你要查找的角色ID">
