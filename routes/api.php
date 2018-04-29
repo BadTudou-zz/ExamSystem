@@ -11,7 +11,7 @@ Route::post('captchas', 'API\CaptchaController@store');
 // 导入excel
 
 Route::group(['prefix' => '/v1'], function () {
-    Route::post('questions/import', 'API\ExcelController@test');
+    Route::post('questions/import', 'API\ExcelController@import');
     Route::post('upload/lecture/video', 'API\VideoController@uploadVideo');
     Route::post('upload/lecture/insert/video', 'API\VideoController@insert');
     Route::post('upload/lecture/selectForUserid/video', 'API\VideoController@selectForUserid');
