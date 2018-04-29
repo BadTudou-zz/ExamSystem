@@ -28,7 +28,8 @@ class Store extends FormRequest
         return [
             'name' => 'required|unique:question_types|max:255',
             'title' => 'required|unique:question_types|max:255',
-            'delimiter' =>  'required|unique:question_types|max:10'
+            'delimiter' =>  'required|unique:question_types|max:10',
+            'is_multiple_choice' => 'required|boolean'
         ];
     }
 
