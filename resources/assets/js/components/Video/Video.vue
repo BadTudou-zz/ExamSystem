@@ -41,6 +41,13 @@
       </tbody>
     </table>
 
+
+    <!-- <div id="progress">
+        <div id="bar"></div>
+    </div>
+    <input type="file" name="pic" onchange="fire(this);" > -->
+
+
     <add-video ref="addVideo"
                 v-on:getVideo="getVideo"
     ></add-video>
@@ -76,6 +83,12 @@ export default {
       allVideo: [],
       searchResult: [],
 
+      clock: null,
+      postfix: null,
+      time: null,
+      filename: null,
+      userid: null,
+      cid: null,
     }
   },
   components: {
@@ -84,6 +97,77 @@ export default {
     Pagination,
   },
   methods: {
+    fire: function (file){
+      var name = file.value;
+      var pos = name.lastIndexOf('.');
+      myDate = new Date();
+
+      postfix = name.substring(pos+1);
+      time = myDate.getFullYear()+'-'+myDate.getMonth()+'-'+myDate.getDate()+'-'+Math.ceil(Math.random()*100000);
+      filename = time + '.' + postfix;
+      clock =  window.setInterval(sendfile,1000);
+    },
+    sendfile(userid,cid) {
+      // (function (){
+          const  LENGTH = 5*1024*1024; //每一次上传10M
+          // 开始截取位置
+          var sta = 0;
+          // 截取结束的位置。
+          var end = sta+LENGTH;
+          //标识上一块是否上传完毕。
+          var flag = false;
+          // 设置一个blob变量
+          var blob = null;
+          // 设置一个HTML5的文件对象。
+          var fd = null;
+          // 设置百分比
+          var percent = 0;
+
+          return (function (){
+
+              if(flag == true){
+                  return;
+              }
+              // 获取文件信息
+              var mov = document.getElementsByName('pic')[0].files[0];
+
+              // 如果sta>mov.size
+              if(sta>mov.size){
+                  clearInterval(clock);
+                  info(userid,cid);
+                  alert("上传成功")
+                  return ;
+              }
+
+              blob = mov.slice(sta,end);
+              fd = new FormData();
+              fd.append('part',blob);
+              up(fd);
+              sta = end;
+              end = sta+LENGTH;
+              flag = false;
+              percent =100*end/mov.size;
+              if (percent>100) {
+                  percent=100;
+              }
+              document.getElementById('bar').style.width = percent + '%';
+              document.getElementById('bar').innerHTML = parseInt(percent) + '%';
+          });
+      // })(userid,cid),
+    },
+    up(fd){
+        xhr = new XMLHttpRequest();
+        xhr.open('POST','api/v1/upload/lecture/video?filename='+filename,false);
+        xhr.send(fd);
+        // alert(xhr.responseText);
+        console.log(FormData);
+    },
+    info(userid,cid){
+        xhr = new XMLHttpRequest();
+        xhr.open('POST','api/v1/upload/lecture/insert?userid='+userid + "&cid=" + cid + "&filename="+filename,false);
+        xhr.send();
+    },
+
     showModal: function () {
       const that = this;
       that.isShowModal = !that.isShowModal;
