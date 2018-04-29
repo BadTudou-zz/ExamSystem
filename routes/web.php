@@ -65,3 +65,11 @@ Route::get('roles/{id}', function ($id) {
 Route::get('applications/{id}', function ($id) {
     return view('applications.show');
 });
+
+
+// test
+Route::get('/test', function () {
+    return view('test');
+});
+
+Route::get('/test1', 'TestController@test');

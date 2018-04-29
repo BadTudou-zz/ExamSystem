@@ -7,6 +7,15 @@ Route::post('register', 'API\UserController@register');
 // 验证码
 Route::post('captchas', 'API\CaptchaController@store');
 
+
+// 导入excel
+
+Route::group(['prefix' => '/v1'], function () {
+    Route::post('questions/import', 'API\ExcelController@test');
+    Route::post('upload/lecture/video', 'API\UploadFileController@uploadVideo');
+    Route::post('upload/lecture/insert', 'API\UploadFileController@insert');
+});
+
 Route::prefix('v1')->middleware(['auth:api'])->group(function () {
     // 用户
     Route::apiResource('users', 'API\UserController');
@@ -122,4 +131,6 @@ Route::prefix('v1')->middleware(['auth:api'])->group(function () {
     Route::post('applications/{application}/reject', 'API\ApplicationController@reject');
     // 标签
     Route::apiResource('tags', 'API\TagController');
+
+
 });
