@@ -14,6 +14,7 @@ use App\Http\Requests\Question\Update as UpdateQuestion;
 use App\Http\Requests\Question\Destroy as DestroyQuestion;
 use Validator;
 use App\Question;
+use App\QuestionType;
 
 
 class QuestionController extends Controller
@@ -25,12 +26,12 @@ class QuestionController extends Controller
 
     public function show(ShowQuestion $request, $id)
     {
-        $builder = Question::find($id);
+        $builder = Question::findOrFail($id);
         if ($request->get('includeType') == 'yes')
             {
                 $builder = $builder->with('Type');
             }
-        return new QuestionResource($builder->get());
+        return new QuestionResource($builder->get()->first());
     }
 
     public function store(StoreQuestion $request)
