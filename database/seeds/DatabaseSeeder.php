@@ -17,6 +17,7 @@ class DatabaseSeeder extends Seeder
             UsersTableSeeder::class,
             PermissionsTableSeeder::class,
             RolesTableSeeder::class,
+            QuestionTypeTableSeeder::class,
             InitSeeder::class,
         ]);
         Model::reguard();
