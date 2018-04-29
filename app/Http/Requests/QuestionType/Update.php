@@ -29,7 +29,7 @@ class Update extends FormRequest
         return [
             'name' => 'required|unique:question_types|max:255',
             'title' => 'required|unique:question_types|max:255',
-            'delimiter' =>  'required|unique:question_types|max:10'
+            'is_multiple_choice' =>  'required|boolean'
         ];
     }
 
@@ -38,10 +38,9 @@ class Update extends FormRequest
         return [
             'name.required' => '问题类型名称不能为空',
             'title.required'  => '问题类型显示名称不能为空',
-            'delimiter.required'  => '问题分隔符不能为空',
+            'is_multiple_choice.required'  => '问题答案是否可多选不能为空',
             'name.unique'  => '该问题类型名称已被使用',
-            'title.unique'  => '该问题类型显示名称已被使用',
-            'delimiter.unique'  => '该问题分隔符已被使用'
+            'title.unique'  => '该问题类型显示名称已被使用'
         ];
     }
 }
