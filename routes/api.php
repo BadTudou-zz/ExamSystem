@@ -14,6 +14,7 @@ Route::group(['prefix' => '/v1'], function () {
     Route::post('questions/import', 'API\ExcelController@test');
     Route::post('upload/lecture/video', 'API\UploadFileController@uploadVideo');
     Route::post('upload/lecture/insert', 'API\UploadFileController@insert');
+    Route::post('upload/lecture/selectForUserid', 'API\UploadFileController@selectForUserid');
 });
 
 Route::prefix('v1')->middleware(['auth:api'])->group(function () {
