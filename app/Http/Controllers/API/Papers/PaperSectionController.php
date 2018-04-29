@@ -26,7 +26,7 @@ class PaperSectionController extends Controller
 		return new PaperSectionCollection(PaperSection::whereIn('id', $sections)->paginate());
 	}
 
-	public function store(ShowPaperSection $request)
+	public function store(StorePaperSection $request)
 	{
 		$paper = Paper::findOrFail($request->paper);
 		if ($request->has('questions')) {
