@@ -19,7 +19,7 @@ class VideoController extends Controller
 
         // 获取文件名
         $filename = $_GET['filename'];
-        echo $filename;
+
         // 第一次如果文件不存在就把传过来的二进制数据移动到新的文件里面
         $path = public_path() . DIRECTORY_SEPARATOR . 'video' . DIRECTORY_SEPARATOR . $filename;
 

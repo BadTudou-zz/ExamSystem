@@ -11,7 +11,7 @@ Route::post('captchas', 'API\CaptchaController@store');
 //  导入+上传
 
 Route::group(['prefix' => '/v1'], function () {
-
+    Route::post('webrtc', 'TestController@webrtc');
 });
 
 Route::prefix('v1')->middleware(['auth:api'])->group(function () {

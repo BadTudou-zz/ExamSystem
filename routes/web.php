@@ -77,5 +77,10 @@ Route::get('/test', function () {
 Route::get('/test2', function () {
     return view('upload');
 });
+
+Route::get('/test3', function () {
+    return view('webrtc');
+});
 Route::get('/test1', 'TestController@test');
+Route::post('/webrtc', 'TestController@webrtc');
 

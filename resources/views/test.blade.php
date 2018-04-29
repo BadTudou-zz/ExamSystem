@@ -18,14 +18,13 @@
         var filename = null;
 
 
-<<<<<<< HEAD
+
 
         // 随便写的一个值，具体的userid和cid你从Storage取出来
 
         // 随便写的一个值，具体的userid和courseId你从Storage取出来
 
-=======
->>>>>>> 7af70b7613e503855b02cc56a0b96c5fc623be8d
+
         var userid = 1;
 
         var cid = 2;
@@ -68,14 +67,14 @@
             // 设置百分比
             var percent = 0;
 
-<<<<<<< HEAD
+
             return (function (){
-=======
+
             var res = (function (){
                 if(flag == true){
                     return;
                 }
->>>>>>> 7af70b7613e503855b02cc56a0b96c5fc623be8d
+
                 // 获取文件信息
                 var mov = document.getElementsByName('pic')[0].files[0];
                 // 如果sta>mov.size
@@ -120,6 +119,7 @@
             // alert(xhr.responseText);
             console.log(FormData);
         }
+
         function info(userid,cid){
             xhr.open('POST','api/v1/upload/lecture/insert/video?userid='+userid + "&cid=" + cid + "&filename="+filename
                 +"&kp=" + kp + "&videoName=" + videoName,false);
