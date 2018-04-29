@@ -87,8 +87,8 @@ export default {
       postfix: null,
       time: null,
       filename: null,
-      userid: null,
-      cid: null,
+      userid: '1',
+      cid: '1',
     }
   },
   components: {
@@ -97,11 +97,10 @@ export default {
     Pagination,
   },
   methods: {
+    // 分段上传
     up(fd){
       console.log('调用up');
-      // xhr = new XMLHttpRequest();
-      // xhr.open('POST','api/v1/upload/lecture/video?filename='+ this.filename,false);
-      // xhr.send(fd);
+      console.log(fd)
       axios({
         method: 'POST',
         url: `${this.GLOBAL.localDomain}/api/v1/upload/lecture/video`,
@@ -113,17 +112,14 @@ export default {
           filename: this.filename,
         }
       }).then(res => {
-        alert('up成功！')
+        // alert('up成功！')
       }).catch(err => {
-        alert('up失败');
+        // alert('up失败');
         console.log(err);
       })
     },
     info(userid,cid){
       console.log('调用info');
-      // xhr = new XMLHttpRequest();
-      // xhr.open('POST','api/v1/upload/lecture/insert?userid='+userid + "&cid=" + cid + "&filename="+ this.filename,false);
-      // xhr.send();
       axios({
         method: 'POST',
         url: `${this.GLOBAL.localDomain}/api/v1/upload/lecture/insert`,
@@ -144,6 +140,7 @@ export default {
       })
     },
     fire: function (file){
+      const that = this;
       console.log('调用fire');
       var name = file.target.value;
       var pos = name.lastIndexOf('.');
@@ -151,11 +148,16 @@ export default {
       var postfix = name.substring(pos+1);
       var time = myDate.getFullYear()+'-'+myDate.getMonth()+'-'+myDate.getDate()+'-'+Math.ceil(Math.random()*100000);
       this.filename = time + '.' + postfix;
-      this.clock =  window.setInterval(this.sendfile(),1000);
+      // this.clock =  setInterval(this.sendfile(),1000);
+
+      this.clock =  setInterval(() => {
+                        that.sendfile();
+                    }, 1000)
     },
-    sendfile(userid,cid) {
+    sendfile: function() {
       console.log('调用sendfile');
-      // (function (){
+      const that = this;
+      (function (){
           const  LENGTH = 5*1024*1024; //每一次上传10M
           // 开始截取位置
           var sta = 0;
@@ -170,38 +172,100 @@ export default {
           // 设置百分比
           var percent = 0;
 
+          (function (){
+              if(flag === true){
+                  return;
+              }
+              // 获取文件信息
+              var mov = document.getElementsByName('pic')[0].files[0];
 
+              // 如果sta>mov.size
+              if(sta > mov.size){
+                  clearInterval(clock);
+                  that.info(that.userid, that.cid);
+                  alert("上传成功");
+                  return ;
+              }
 
-          if(flag == true){
-              return;
-          }
-          // 获取文件信息
-          var mov = document.getElementsByName('pic')[0].files[0];
+              blob = mov.slice(sta,end);
 
-          // 如果sta>mov.size
-          if(sta>mov.size){
-              clearInterval(this.clock);
-              this.info(userid,cid);
-              alert("上传成功")
-              return ;
-          }
+              fd = new FormData();
 
-          blob = mov.slice(sta,end);
-          fd = new FormData();
-          fd.append('part',blob);
-          this.up(fd);
-          sta = end;
-          end = sta+LENGTH;
-          flag = false;
-          percent =100*end/mov.size;
-          if (percent>100) {
-              percent=100;
-          }
-          document.getElementById('bar').style.width = percent + '%';
-          document.getElementById('bar').innerHTML = parseInt(percent) + '%';
+              fd.append('part',blob);
 
-      // })(userid,cid),
+              that.up(fd);
+
+              sta = end;
+
+              end = sta+LENGTH;
+
+              flag = false;
+
+              percent =100*end/mov.size;
+
+              if (percent>100) {
+                  percent=100;
+              }
+
+              document.getElementById('bar').style.width = percent + '%';
+              document.getElementById('bar').innerHTML = parseInt(percent) + '%';
+          })();
+
+      })(that.serid, that.cid);
     },
+    ff: function () {
+
+    },
+    // sendfile(userid,cid) {
+    //   console.log('调用sendfile');
+    //   // (function (){
+    //       const  LENGTH = 5*1024*1024; //每一次上传10M
+    //       // 开始截取位置
+    //       var sta = 0;
+    //       // 截取结束的位置。
+    //       var end = sta+LENGTH;
+    //       //标识上一块是否上传完毕。
+    //       var flag = false;
+    //       // 设置一个blob变量
+    //       var blob = null;
+    //       // 设置一个HTML5的文件对象。
+    //       var fd = null;
+    //       // 设置百分比
+    //       var percent = 0;
+    //
+    //
+    //
+    //       if(flag == true){
+    //           return;
+    //       }
+    //       // 获取文件信息
+    //       var mov = document.getElementsByName('pic')[0].files[0];
+    //
+    //       // 如果sta>mov.size
+    //       if(sta>mov.size){
+    //           clearInterval(this.clock);
+    //           this.info(userid,cid);
+    //           alert("上传成功")
+    //           return ;
+    //       }
+    //
+    //       blob = mov.slice(sta,end);
+    //       fd = new FormData();
+    //       fd.append('part',blob);
+    //       this.up(fd);
+    //       sta = end;
+    //       end = sta+LENGTH;
+    //       flag = false;
+    //       percent =100*end/mov.size;
+    //       if (percent>100) {
+    //           percent=100;
+    //       }
+    //       document.getElementById('bar').style.width = percent + '%';
+    //       document.getElementById('bar').innerHTML = parseInt(percent) + '%';
+    //
+    //   // })(userid,cid),
+    // },
+    //
 
     showModal: function () {
       const that = this;
