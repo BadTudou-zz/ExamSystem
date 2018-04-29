@@ -60,6 +60,10 @@ Route::prefix('v1')->middleware(['auth:api'])->group(function () {
     Route::apiResource('courses', 'API\CourseController');
     // 题目
     Route::apiResource('questions', 'API\QuestionController');
+    // 题目类型
+    Route::apiResource('questionTypes', 'API\QuestionTypeController');
+    // 题目类型的全部题目
+    Route::get('questionTypes/{id}/questions', 'API\QuestionTypeController@questions')->name('questionTypes.questions');
     // 课程
     Route::apiResource('courses', 'API\CourseController');
     // 试卷
