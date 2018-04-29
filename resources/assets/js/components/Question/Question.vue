@@ -7,7 +7,8 @@
         <!-- <button disabled @click="searchQuestion()" class="button" type="button" name="button">查找题目</button> -->
         <div @click="searchQuestion()" class="search-button"><i class="fas fa-search"></i></div>
       </div>
-        <button v-show="isShowCreateQuestion" @click="addQuestion()" class="button add-question-button" type="button" name="button">添加题目</button>
+      <button v-show="isShowCreateQuestion" @click="addQuestion()" class="button add-question-button" type="button" name="button">添加题目</button>
+      <button @click="getQuestionType()" class="button add-question-button" type="button" name="button">查看现有题目类型</button>
     </div>
 
     <p v-if="!questionData" class="empty-message-prompt">暂无题目</p>
@@ -47,6 +48,8 @@
                    v-bind:edit-data="editData"
     ></edit-question>
 
+    <question-type ref="questionType"></question-type>
+
     <pagination v-show="searchResult.length === 0"
                 v-bind:pagination-data="paginationData"
                 v-model="data"
@@ -60,6 +63,8 @@ import AddQuestion from './AddQuestion'
 import EditQuestion from './EditQuestion'
 import SingleChoice from './SingleChoice'
 import MultipleChoice from './MultipleChoice'
+
+import QuestionType from '../QuestionType/QuestionType'
 
 export default {
   data() {
@@ -85,6 +90,7 @@ export default {
     Pagination,
     SingleChoice,
     MultipleChoice,
+    QuestionType,
   },
   methods: {
     showModal: function () {
@@ -137,6 +143,10 @@ export default {
           // location.reload();
         }
       })
+    },
+    getQuestionType: function () {
+      const that = this;
+      that.$refs.questionType.switchModal();
     },
     addQuestion: function () {
       const that = this;
