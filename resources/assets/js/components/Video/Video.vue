@@ -42,10 +42,10 @@
     </table>
 
 
-    <!-- <div id="progress">
+    <div id="progress">
         <div id="bar"></div>
     </div>
-    <input type="file" name="pic" onchange="fire(this);" > -->
+    <input type="file" name="pic" @change="fire($event)">
 
 
     <add-video ref="addVideo"
@@ -97,17 +97,64 @@ export default {
     Pagination,
   },
   methods: {
+    up(fd){
+      console.log('调用up');
+      // xhr = new XMLHttpRequest();
+      // xhr.open('POST','api/v1/upload/lecture/video?filename='+ this.filename,false);
+      // xhr.send(fd);
+      axios({
+        method: 'POST',
+        url: `${this.GLOBAL.localDomain}/api/v1/upload/lecture/video`,
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': sessionStorage.getItem('token'),
+        },
+        params: {
+          filename: this.filename,
+        }
+      }).then(res => {
+        alert('up成功！')
+      }).catch(err => {
+        alert('up失败');
+        console.log(err);
+      })
+    },
+    info(userid,cid){
+      console.log('调用info');
+      // xhr = new XMLHttpRequest();
+      // xhr.open('POST','api/v1/upload/lecture/insert?userid='+userid + "&cid=" + cid + "&filename="+ this.filename,false);
+      // xhr.send();
+      axios({
+        method: 'POST',
+        url: `${this.GLOBAL.localDomain}/api/v1/upload/lecture/insert`,
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': sessionStorage.getItem('token'),
+        },
+        params: {
+          userid: userid,
+          cid: cid,
+          filename: this.filename,
+        }
+      }).then(res => {
+        alert('info成功')
+      }).catch(err => {
+        alert('info失败');
+        console.log(err);
+      })
+    },
     fire: function (file){
-      var name = file.value;
+      console.log('调用fire');
+      var name = file.target.value;
       var pos = name.lastIndexOf('.');
-      myDate = new Date();
-
-      postfix = name.substring(pos+1);
-      time = myDate.getFullYear()+'-'+myDate.getMonth()+'-'+myDate.getDate()+'-'+Math.ceil(Math.random()*100000);
-      filename = time + '.' + postfix;
-      clock =  window.setInterval(sendfile,1000);
+      var myDate = new Date();
+      var postfix = name.substring(pos+1);
+      var time = myDate.getFullYear()+'-'+myDate.getMonth()+'-'+myDate.getDate()+'-'+Math.ceil(Math.random()*100000);
+      this.filename = time + '.' + postfix;
+      this.clock =  window.setInterval(this.sendfile(),1000);
     },
     sendfile(userid,cid) {
+      console.log('调用sendfile');
       // (function (){
           const  LENGTH = 5*1024*1024; //每一次上传10M
           // 开始截取位置
@@ -123,49 +170,37 @@ export default {
           // 设置百分比
           var percent = 0;
 
-          return (function (){
 
-              if(flag == true){
-                  return;
-              }
-              // 获取文件信息
-              var mov = document.getElementsByName('pic')[0].files[0];
 
-              // 如果sta>mov.size
-              if(sta>mov.size){
-                  clearInterval(clock);
-                  info(userid,cid);
-                  alert("上传成功")
-                  return ;
-              }
+          if(flag == true){
+              return;
+          }
+          // 获取文件信息
+          var mov = document.getElementsByName('pic')[0].files[0];
 
-              blob = mov.slice(sta,end);
-              fd = new FormData();
-              fd.append('part',blob);
-              up(fd);
-              sta = end;
-              end = sta+LENGTH;
-              flag = false;
-              percent =100*end/mov.size;
-              if (percent>100) {
-                  percent=100;
-              }
-              document.getElementById('bar').style.width = percent + '%';
-              document.getElementById('bar').innerHTML = parseInt(percent) + '%';
-          });
+          // 如果sta>mov.size
+          if(sta>mov.size){
+              clearInterval(this.clock);
+              this.info(userid,cid);
+              alert("上传成功")
+              return ;
+          }
+
+          blob = mov.slice(sta,end);
+          fd = new FormData();
+          fd.append('part',blob);
+          this.up(fd);
+          sta = end;
+          end = sta+LENGTH;
+          flag = false;
+          percent =100*end/mov.size;
+          if (percent>100) {
+              percent=100;
+          }
+          document.getElementById('bar').style.width = percent + '%';
+          document.getElementById('bar').innerHTML = parseInt(percent) + '%';
+
       // })(userid,cid),
-    },
-    up(fd){
-        xhr = new XMLHttpRequest();
-        xhr.open('POST','api/v1/upload/lecture/video?filename='+filename,false);
-        xhr.send(fd);
-        // alert(xhr.responseText);
-        console.log(FormData);
-    },
-    info(userid,cid){
-        xhr = new XMLHttpRequest();
-        xhr.open('POST','api/v1/upload/lecture/insert?userid='+userid + "&cid=" + cid + "&filename="+filename,false);
-        xhr.send();
     },
 
     showModal: function () {
