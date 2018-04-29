@@ -18,12 +18,11 @@
         var filename = null;
 
 
-<<<<<<< HEAD
 
         // 随便写的一个值，具体的userid和cid你从Storage取出来
-=======
+
         // 随便写的一个值，具体的userid和courseId你从Storage取出来
->>>>>>> 64b19a17d18a2db65db85d4d83ffc9c2e9f37151
+
         var userid = 1;
 
         var cid = 2;
@@ -67,10 +66,6 @@
             var percent = 0;
 
             return (function (){
-
-                if(flag == true){
-                    return;
-                }
                 // 获取文件信息
                 var mov = document.getElementsByName('pic')[0].files[0];
 
@@ -100,6 +95,7 @@
 
 
         function up(fd){
+
             xhr.open('POST','api/v1/upload/lecture/video?filename='+filename,false);
             xhr.send(fd);
             // alert(xhr.responseText);
@@ -132,6 +128,7 @@
     <div id="bar"></div>
 </div>
 <input type="file" name="pic" onchange="fire(this);" >
+
 
 </body>
 </html>
