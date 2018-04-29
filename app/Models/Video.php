@@ -16,7 +16,7 @@ class Video extends Model
     public  $timestamps  = false;
     protected $table = 'video';
     protected $fillable = [
-        'id', 'cid', 'userid','url',
+        'id', 'cid', 'userid','url','video_name','kp'
     ];
 
     /**

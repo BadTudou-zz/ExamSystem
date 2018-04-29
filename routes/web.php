@@ -14,7 +14,12 @@
 
 Auth::routes();
 
+
+
 Route::get('/home', 'HomeController@index')->name('home');
+
+Route::get('/home', 'HomeController@index')->name('home');
+
 
 //欢迎界面
 // Route::get('/', function() {
