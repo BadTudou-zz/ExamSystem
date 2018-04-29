@@ -18,8 +18,12 @@
         var filename = null;
 
 
+<<<<<<< HEAD
 
         // 随便写的一个值，具体的userid和cid你从Storage取出来
+=======
+        // 随便写的一个值，具体的userid和courseId你从Storage取出来
+>>>>>>> 64b19a17d18a2db65db85d4d83ffc9c2e9f37151
         var userid = 1;
 
         var cid = 2;
