@@ -13,6 +13,7 @@ import moment from 'moment'
   const token = sessionStorage.getItem('token');
   const userId = sessionStorage.getItem('userId');
   const permissions = sessionStorage.getItem('permissions');
+  const isShowLogin = true;
 
 
   // methods
@@ -132,6 +133,7 @@ import moment from 'moment'
     getNextData,
     computedParams,
     computedUserName,
+    isShowLogin,
   }
 </script>
 

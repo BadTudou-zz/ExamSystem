@@ -222,11 +222,11 @@ export default {
 
         that.paginationData = res.data.links;
       }).catch(err => {
-        // let httpCode = err.response.status;
-        // if (httpCode === 401) {
-        //   alert('登录超时，请重新登录!')
-        // }
-        console.log(err)
+        console.log(err);
+        if (err.response.status === 401) {
+          // alert('登录超时');
+          // location.reload();
+        }
       })
     },
     addApplyFor: function () {

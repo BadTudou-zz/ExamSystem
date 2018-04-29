@@ -41,6 +41,8 @@ export default[
   { path: '/Label', component: require('./components/Label/Label.vue') },
   // 考试
   { path: '/Test', component: require('./components/Test/Test.vue') },
+  // 视频
+  { path: '/Video', component: require('./components/Video/Video.vue') },
 
   // { path: '/User', component: require('./components/User.vue') },
   // 个人中心
