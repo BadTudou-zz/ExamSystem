@@ -21,7 +21,12 @@ class InitSeeder extends Seeder
 
         $allCourse  = Permission::where('name', 'course-index')->first();
         $allLecture = Permission::where('name', 'lecture-index')->first();
+
+        // 查看全部问题类型
+        $allQuestionType  = Permission::where('name', 'questionType-index')->first();
+        // 查看某个问题类型
+        $showQuestionType  = Permission::where('name', 'questionType-show')->first();
         $userRole = Role::where('name', 'user')->first();
-        $userRole->attachPermissions(array($allCourse, $allLecture));
+        $userRole->attachPermissions(array($allCourse, $allLecture, $allQuestionType, $showQuestionType));
     }
 }

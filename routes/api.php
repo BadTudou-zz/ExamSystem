@@ -7,6 +7,15 @@ Route::post('register', 'API\UserController@register');
 // 验证码
 Route::post('captchas', 'API\CaptchaController@store');
 
+
+// 导入excel
+
+Route::group(['prefix' => '/v1'], function () {
+    Route::post('questions/import', 'API\ExcelController@test');
+    Route::post('upload/lecture/video', 'API\UploadFileController@uploadVideo');
+    Route::post('upload/lecture/insert', 'API\UploadFileController@insert');
+});
+
 Route::prefix('v1')->middleware(['auth:api'])->group(function () {
     // 用户
     Route::apiResource('users', 'API\UserController');
@@ -60,6 +69,10 @@ Route::prefix('v1')->middleware(['auth:api'])->group(function () {
     Route::apiResource('courses', 'API\CourseController');
     // 题目
     Route::apiResource('questions', 'API\QuestionController');
+    // 题目类型
+    Route::apiResource('questionTypes', 'API\QuestionTypeController');
+    // 题目类型的全部题目
+    Route::get('questionTypes/{id}/questions', 'API\QuestionTypeController@questions')->name('questionTypes.questions');
     // 课程
     Route::apiResource('courses', 'API\CourseController');
     // 试卷

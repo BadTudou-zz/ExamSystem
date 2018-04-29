@@ -14,6 +14,9 @@
 
 Auth::routes();
 
+<<<<<<< HEAD
+Route::get('/home', 'HomeController@index')->name('home');
+=======
 //欢迎界面
 // Route::get('/', function() {
 // 	return view('welcome');
@@ -65,3 +68,12 @@ Route::get('roles/{id}', function ($id) {
 Route::get('applications/{id}', function ($id) {
     return view('applications.show');
 });
+
+
+// test
+Route::get('/test', function () {
+    return view('test');
+});
+
+Route::get('/test1', 'TestController@test');
+>>>>>>> master
