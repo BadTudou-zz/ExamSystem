@@ -176,7 +176,7 @@
             <router-link to="/teachingData"><i class="fas fa-graduation-cap"></i><span>授课</span></router-link>
           </li>
           <li :class="{'is-active' : currentTag === 'video'}" @click="currentTag = 'video'">
-            <router-link to="/video"><i class="fas fa-graduation-cap"></i><span>视屏</span></router-link>
+            <router-link to="/video"><i class="fas fa-graduation-cap"></i><span>视频</span></router-link>
           </li>
         </ul>
       </div>
