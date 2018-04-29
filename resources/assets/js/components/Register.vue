@@ -11,23 +11,23 @@
         <section class="modal-card-body">
           <div class="item-box">
             <span>用户名</span>
-            <input v-model="name" class="input" type="text">
+            <input v-model="loginData.name" class="input" type="text">
           </div>
           <div class="item-box">
             <span>邮箱</span>
-            <input v-model="email" class="input" type="text">
+            <input v-model="loginData.email" class="input" type="text">
           </div>
           <div class="item-box">
             <span>密码</span>
-            <input v-model="password" class="input" type="password">
+            <input v-model="loginData.password" class="input" type="password">
           </div>
           <div class="item-box">
             <span>确认密码</span>
-            <input v-model="c_password" class="input" type="password">
+            <input v-model="loginData.c_password" class="input" type="password">
           </div>
           <div class="item-box">
             <span>验证码</span>
-            <input v-model="captcha" class="input" type="text">
+            <input v-model="loginData.captcha" class="input" type="text">
           </div>
           <div class="code-box">
             <img class="verification-code" :src="captchaFigure" alt="">
@@ -49,11 +49,14 @@ export default {
     return {
       isShowModal: false,
       captchaFigure: null,
-      name: null,
-      email: null,
-      password: null,
-      c_password: null,
-      captcha: null,
+      registerData: {
+        name: null,
+        email: null,
+        password: null,
+        c_password: null,
+        captcha: null,
+      }
+
     };
   },
   components: {
@@ -62,6 +65,14 @@ export default {
     switchModal: function () {
       const that = this;
       that.isShowModal = !that.isShowModal;
+    },
+    clearWords: function () {
+      const that = this;
+      that.loginData.name = '';
+      that.loginData.email = '';
+      that.loginData.password = '';
+      that.loginData.c_password = '';
+      that.loginData.captcha = '';
     },
     getVerificationCode: function () {
       const that = this;
@@ -94,20 +105,17 @@ export default {
           'Content-type': 'application/json;charset=utf8',
         },
         data: {
-          name: that.name,
-          email: that.email,
-          password: that.password,
-          c_password: that.c_password,
-          captcha: that.captcha,
+          name: that.loginData.name,
+          email: that.loginData.email,
+          password: that.loginData.password,
+          c_password: that.loginData.c_password,
+          captcha: that.loginData.captcha,
         }
       }).then(res => {
         alert('注册成功');
+        that.clearWords();
         that.switchModal();
-        that.name = '';
-        that.email = '';
-        that.password = '';
-        that.c_password = '';
-        that.captcha = '';
+        that.$emit('input', that.loginData)
       }).catch(err => {
         alert('注册失败');
         this.getVerificationCode();
