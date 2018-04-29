@@ -14,9 +14,8 @@
 
 Auth::routes();
 
-<<<<<<< HEAD
 Route::get('/home', 'HomeController@index')->name('home');
-=======
+
 //欢迎界面
 // Route::get('/', function() {
 // 	return view('welcome');
@@ -76,4 +75,3 @@ Route::get('/test', function () {
 });
 
 Route::get('/test1', 'TestController@test');
->>>>>>> master
