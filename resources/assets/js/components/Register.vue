@@ -11,23 +11,23 @@
         <section class="modal-card-body">
           <div class="item-box">
             <span>用户名</span>
-            <input v-model="name" class="input" type="text">
+            <input v-model="registerData.name" class="input" type="text">
           </div>
           <div class="item-box">
             <span>邮箱</span>
-            <input v-model="email" class="input" type="text">
+            <input v-model="registerData.email" class="input" type="text">
           </div>
           <div class="item-box">
             <span>密码</span>
-            <input v-model="password" class="input" type="password">
+            <input v-model="registerData.password" class="input" type="password">
           </div>
           <div class="item-box">
             <span>确认密码</span>
-            <input v-model="c_password" class="input" type="password">
+            <input v-model="registerData.c_password" class="input" type="password">
           </div>
           <div class="item-box">
             <span>验证码</span>
-            <input v-model="captcha" class="input" type="text">
+            <input v-model="registerData.captcha" class="input" type="text">
           </div>
           <div class="code-box">
             <img class="verification-code" :src="captchaFigure" alt="">
@@ -49,11 +49,14 @@ export default {
     return {
       isShowModal: false,
       captchaFigure: null,
-      name: null,
-      email: null,
-      password: null,
-      c_password: null,
-      captcha: null,
+      registerData: {
+        name: '',
+        email: '',
+        password: '',
+        c_password: '',
+        captcha: '',
+      }
+
     };
   },
   components: {
@@ -62,6 +65,14 @@ export default {
     switchModal: function () {
       const that = this;
       that.isShowModal = !that.isShowModal;
+    },
+    clearWords: function () {
+      const that = this;
+      that.registerData.name = '';
+      that.registerData.email = '';
+      that.registerData.password = '';
+      that.registerData.c_password = '';
+      that.registerData.captcha = '';
     },
     getVerificationCode: function () {
       const that = this;
@@ -87,6 +98,7 @@ export default {
     },
     register: function (username, password) {
       const that = this;
+
       axios({
         method: 'post',
         url: `${this.GLOBAL.localDomain}/api/register`,
@@ -94,20 +106,18 @@ export default {
           'Content-type': 'application/json;charset=utf8',
         },
         data: {
-          name: that.name,
-          email: that.email,
-          password: that.password,
-          c_password: that.c_password,
-          captcha: that.captcha,
+          name: that.registerData.name,
+          email: that.registerData.email,
+          password: that.registerData.password,
+          c_password: that.registerData.c_password,
+          captcha: that.registerData.captcha,
         }
       }).then(res => {
-        alert('注册成功');
+        alert('注册成功，正在登录');
+        that.clearWords();
+
         that.switchModal();
-        that.name = '';
-        that.email = '';
-        that.password = '';
-        that.c_password = '';
-        that.captcha = '';
+        that.$emit('input', that.registerData)
       }).catch(err => {
         alert('注册失败');
         this.getVerificationCode();

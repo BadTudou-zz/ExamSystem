@@ -2,7 +2,7 @@
   <div id="app" class="login-wrapper">
 
     <div v-show="isShowLoginBox" class="login-box">
-      <input v-model="account" class="input form-control" placeholder="请输入你的账号/邮箱">
+      <input v-model="account" class="input form-control" placeholder="请输入你的邮箱">
       <input v-model="password" type="password" class="input form-control" placeholder="密码">
       <input v-model="captcha" class="input form-control" placeholder="请输入验证码">
 
@@ -18,7 +18,9 @@
     </div>
 
 
-    <register ref="register"></register>
+    <register ref="register"
+              v-model="registerData"
+    ></register>
 
     <login-loading ref="loginLoading"></login-loading>
   </div>
@@ -43,6 +45,7 @@ export default {
       permissions: [],
       url: '',
       isShowLoginBox: true,
+      registerData: null,
     };
   },
   components: {
@@ -182,6 +185,17 @@ export default {
       const that = this;
       that.$refs.loginLoading.switchModal();
       that.$emit('checkLoginState');   //第一个参数名为调用的方法名，第二个参数为需要传递的参数
+    },
+    registerData: function(value, oldValue) {
+      const that = this;
+
+      let email = value.email;
+      let password = value.password;
+
+      that.isShowLoginBox = false;
+      that.loadingModal();
+      
+      that.login(email, password)
     }
   }
 }
