@@ -27,7 +27,20 @@ class Update extends FormRequest
     public function rules()
     {
         return [
-            'email' => 'unique:users,email,'.$this->get('email')
+            'email' => 'unique:users,email,'.$this->get('email'),
+            'number' => 'unique:users,number,'.$this->get('number'),
+            'phone' => 'unique:users,phone,'.$this->get('phone'),
+            'qq' => 'unique:users,qq,'.$this->get('qq')
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'email.unique' => '该邮箱已被使用',
+            'number.unique'  => '该固定电话已被使用',
+            'phone.unique'  => '该移动电话已被使用',
+            'qq.unique'  => '该QQ已被使用',
         ];
     }
 }
