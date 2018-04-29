@@ -35,7 +35,7 @@ class QuestionTypeController extends Controller
     public function update(UpdateQuestionType $request, $id)
     {
         $questionType = QuestionType::findOrFail($id);
-        $questionType->update($request->except(['delimiter']));
+        $questionType->update($request->except(['delimiter', 'name']));
         return new QuestionTypeResource($questionType);
     }
 
