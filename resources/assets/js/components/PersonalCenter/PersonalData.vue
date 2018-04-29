@@ -28,6 +28,7 @@
       <!-- <ve-pie :data="chartData" :settings="chartSettings"></ve-pie> -->
     </div>
 
+
     <change-password ref="changePassword"
                      v-bind:edit-data="editData"
                      v-on:getUser="getUser"

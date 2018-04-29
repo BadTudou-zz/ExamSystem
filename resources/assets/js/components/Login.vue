@@ -2,7 +2,6 @@
   <div id="app" class="login-wrapper">
 
     <div v-show="isShowLoginBox" class="login-box">
-
       <input v-model="account" class="input form-control" placeholder="请输入你的账号/邮箱">
       <input v-model="password" type="password" class="input form-control" placeholder="密码">
       <input v-model="captcha" class="input form-control" placeholder="请输入验证码">
@@ -82,29 +81,10 @@ export default {
         that.loadingModal();
         sessionStorage.setItem("token",`Bearer ${token}`);
         sessionStorage.setItem('userId', userId);
-        that.$store.commit('setToken', token);
 
         let url = `${this.GLOBAL.localDomain}/api/v1/users/${that.userId}/permissions/`;
         that.getPermission(url);
       }).catch(err => {
-        // if (err.response) {
-        //   // The request was made and the server responded with a status code
-        //   // that falls out of the range of 2xx
-        //   console.log(err.response.data);
-        //   console.log(err.response.status);
-        //   console.log(err.response.headers);
-        // } else if (err.request) {
-        //   // The request was made but no response was received
-        //   // `err.request` is an instance of XMLHttpRequest in the browser and an instance of
-        //   // http.ClientRequest in node.js
-        //   console.log(err.request);
-        // } else {
-        //   // Something happened in setting up the request that triggered an err
-        //   console.log('err', err.message);
-        // }
-        // console.log(err.config);
-
-        // console.log(err)
         let errCode = err.response.status;  // http code
         let errMsg = err.response.data.message;
         if (errMsg) {
@@ -263,7 +243,7 @@ body {
       right: 10px;
       font-size: 12px;
       display: inline-block;
-      margin-left: 20px;
+      // margin-left: 20px;
       margin-top: 10px;
     }
   }

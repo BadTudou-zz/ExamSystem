@@ -6,10 +6,130 @@
           当前用户：{{userName}}
         </div>
         <ul>
-<!--
-          <router-link title="个人中心" to="/personalCenter"><i class="far fa-user top-nav"></i></router-link>
-          <router-link title="个人消息" to="/mmessage"><i class="far fa-comment-alt top-nav"></i></router-link><span v-show="messageLength > 0" class="prompt"><span class="data-length">{{ messageLength }}</span></span>
-          <router-link title="个人通知" to="/nnotice"><i class="fas fa-bullhorn top-nav"></i><span v-show="noticeLength > 0" class="prompt"><span class="data-length">{{ noticeLength }}</span></span></router-link> -->
+          <!-- <el-row class="tac">
+            <el-menu
+              default-active="2"
+              class="el-menu-vertical-demo"
+              @open="handleOpen"
+              @close="handleClose"
+              background-color="#1c3146"
+              text-color="#fff"
+              active-text-color="#ffd04b">
+
+              <el-menu-item index="6">
+                <i class="el-icon-menu"></i>
+                <router-link slot="title" to="/personalData">个人</router-link>
+              </el-menu-item>
+
+              <el-submenu index="7">
+                <template slot="title">
+                  <i class="el-icon-view"></i>
+                  <span>权限</span>
+                </template>
+                <el-menu-item-group>
+                  <template slot="title"></template>
+                  <el-menu-item index="7-1">角色</el-menu-item>
+                  <el-menu-item index="7-2">权限</el-menu-item>
+                  <el-menu-item index="7-3">组织</el-menu-item>
+                </el-menu-item-group>
+              </el-submenu>
+
+              <el-submenu index="8">
+                <template slot="title">
+                  <i class="el-icon-bell"></i>
+                  <span>消息</span>
+                </template>
+                <el-menu-item-group>
+                  <template slot="title"></template>
+                  <el-menu-item index="8-1">消息</el-menu-item>
+                  <el-menu-item index="8-2">通知</el-menu-item>
+                  <el-menu-item index="8-3">申请</el-menu-item>
+                </el-menu-item-group>
+              </el-submenu>
+
+              <el-submenu index="9">
+                <template slot="title">
+                  <i class="el-icon-menu"></i>
+                  <span>课程</span>
+                </template>
+                <el-menu-item-group>
+                  <template slot="title"></template>
+                  <el-menu-item index="9-1">选课</el-menu-item>
+                  <el-menu-item index="9-2">课程</el-menu-item>
+                  <el-menu-item index="9-3">授课</el-menu-item>
+                </el-menu-item-group>
+              </el-submenu>
+
+              <el-menu-item index="10">
+                <i class="el-icon-menu"></i>
+                <span slot="title">考试</span>
+              </el-menu-item>
+
+              <el-submenu index="1">
+                <template slot="title">
+                  <i class="el-icon-view"></i>
+                  <span>权限管理</span>
+                </template>
+                <el-menu-item-group>
+                  <template slot="title"></template>
+                  <el-menu-item index="1-1">用户</el-menu-item>
+                  <el-menu-item index="1-2">角色</el-menu-item>
+                  <el-menu-item index="1-3">权限</el-menu-item>
+                  <el-menu-item index="1-4">组织</el-menu-item>
+                </el-menu-item-group>
+              </el-submenu>
+
+              <el-submenu index="2">
+                <template slot="title">
+                  <i class="el-icon-bell"></i>
+                  <span>消息管理</span>
+                </template>
+                <el-menu-item-group>
+                  <template slot="title"></template>
+                  <el-menu-item index="2-1">消息</el-menu-item>
+                  <el-menu-item index="2-2">通知</el-menu-item>
+                  <el-menu-item index="2-3">申请</el-menu-item>
+                </el-menu-item-group>
+              </el-submenu>
+
+              <el-submenu index="3">
+                <template slot="title">
+                  <i class="el-icon-menu"></i>
+                  <span>课程管理</span>
+                </template>
+                <el-menu-item-group>
+                  <template slot="title"></template>
+                  <el-menu-item index="3-1">课程</el-menu-item>
+                  <el-menu-item index="3-2">授课</el-menu-item>
+                </el-menu-item-group>
+              </el-submenu>
+
+              <el-submenu index="4">
+                <template slot="title">
+                  <i class="el-icon-edit-outline"></i>
+                  <span>考试管理</span>
+                </template>
+                <el-menu-item-group>
+                  <template slot="title"></template>
+                  <el-menu-item index="4-1">题目</el-menu-item>
+                  <el-menu-item index="4-2">试卷</el-menu-item>
+                  <el-menu-item index="4-2">考试</el-menu-item>
+                </el-menu-item-group>
+              </el-submenu>
+
+              <el-submenu index="5">
+                <template slot="title">
+                  <i class="el-icon-more-outline"></i>
+                  <span>其他管理</span>
+                </template>
+                <el-menu-item-group>
+                  <template slot="title"></template>
+                  <el-menu-item index="5-1">标签</el-menu-item>
+                </el-menu-item-group>
+              </el-submenu>
+            </el-menu>
+        </el-row> -->
+
           <li v-show="isShowManagement" :class="{'is-active' : currentTag === 'setting'}" @click="currentTag = 'setting'">
             <router-link to="/setting"><i class="fas fa-sliders-h"></i><span>管理</span></router-link>
           </li>
@@ -54,6 +174,9 @@
           </li>
           <li :class="{'is-active' : currentTag === 'teachingData'}" @click="currentTag = 'teachingData'">
             <router-link to="/teachingData"><i class="fas fa-graduation-cap"></i><span>授课</span></router-link>
+          </li>
+          <li :class="{'is-active' : currentTag === 'video'}" @click="currentTag = 'video'">
+            <router-link to="/video"><i class="fas fa-graduation-cap"></i><span>视屏</span></router-link>
           </li>
         </ul>
       </div>
@@ -120,6 +243,12 @@ export default {
   components: {
   },
   methods: {
+    handleOpen(key, keyPath) {
+      console.log(key, keyPath);
+    },
+    handleClose(key, keyPath) {
+      console.log(key, keyPath);
+    },
     getUserDetail: function () {
       const that = this;
       axios({
@@ -281,7 +410,8 @@ export default {
   width: 17%;
   min-height: 800px;
   height: auto;
-  background-color: #2f4860;
+  /* background-color: #2f4860; */
+  background-color: #1c3146;
 }
 ul {
   padding-top: 30px;
@@ -289,7 +419,8 @@ ul {
 ul li {
   list-style: none;
   text-align: center;
-  color: #76929d;
+  /* color: #76929d; */
+  color: #fff;
   padding: 13px 0;
   cursor: pointer;
 }
@@ -302,15 +433,13 @@ ul li:hover {
   color: #fff;
 }
 a {
-  color: #76929d;
-}
-/* a:hover {
   color: #fff;
-} */
+}
 ul li {
   list-style: none;
   text-align: center;
-  color: #76929d;
+  /* color: #76929d; */
+  color: #fff;
   padding: 13px 0;
   cursor: pointer;
 }
@@ -334,7 +463,8 @@ ul li:hover {
 }
 ul li span {
   display: inline-block;
-  margin-left: 20px;
+  /* margin-left: 20px; */
+  width: 56px;
 }
 .head-portrait {
   height: 75px;
@@ -416,4 +546,8 @@ ul li span {
   position: relative;
   top: -30px;
 }
+.el-submenu {
+  padding: 0px;
+}
+
 </style>
