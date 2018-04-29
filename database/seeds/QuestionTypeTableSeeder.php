@@ -15,12 +15,14 @@ class QuestionTypeTableSeeder extends Seeder
         $names = ['SINGLE_CHOICE', 'MULTIPLE_CHOICE', 'TRUE_FALSE', 'FILL_IN', 'SHORT_ANSWER'];
         $titles = ['单选题', '多选题', '判断题', '填空题', '简答题'];
         $delimiters = ['!', '@', '#', '$', '%'];
+        $isMultipleChoices = [false, true, false, false, false];
 
         foreach ($names as $key => $name) {
             $questionType = new QuestionType();
             $questionType->name = $name;
             $questionType->title = $titles[$key];
             $questionType->delimiter = $delimiters[$key];
+            $questionType->is_multiple_choice = $isMultipleChoices[$key];
             $questionType->save();
         }
         
