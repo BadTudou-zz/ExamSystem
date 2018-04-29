@@ -32,6 +32,15 @@ Route::prefix('v1')->middleware(['auth:api'])->group(function () {
     Route::post('upload/lecture/update/document', 'API\DocumentController@update');
 
 
+    Route::post('preview/insert', 'API\PreviewController@insert');
+    Route::post('preview/publish', 'API\PreviewController@publish');
+    Route::post('preview/update', 'API\PreviewController@update');
+    Route::post('preview/delete', 'API\PreviewController@delete');
+    Route::post('preview/selectForUserid', 'API\PreviewController@selectForUserid');
+    Route::post('preview/selectForCid', 'API\PreviewController@selectForCid');
+    Route::post('preview/selectAll', 'API\PreviewController@selectAll');
+
+
 
 
 

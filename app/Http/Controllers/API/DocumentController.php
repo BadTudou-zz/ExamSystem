@@ -116,7 +116,7 @@ class DocumentController extends Controller
         $doc->doc_name = $docName;
         $doc->kp = $kp;
         if ($doc->save()) {
-            return json_encode(["status"=>0,"message"=>"删除成功！"]);
+            return json_encode(["status"=>0,"message"=>"更新成功！"]);
         }
     }
 }
