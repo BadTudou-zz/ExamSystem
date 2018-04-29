@@ -460,5 +460,60 @@ class PermissionsTableSeeder extends Seeder
         $destroyQuestionType->description  = 'Destroy A QuestionType';
         $destroyQuestionType->save();
 
+        // 新增课程视频
+        $destroyQuestionType = new Permission();
+        $destroyQuestionType->name         = 'add-video';
+        $destroyQuestionType->display_name = 'Add A Video Info';
+        $destroyQuestionType->description  = 'Add A Video Info';
+        $destroyQuestionType->save();
+
+        // 新增课程文档
+        $destroyQuestionType = new Permission();
+        $destroyQuestionType->name         = 'add-document';
+        $destroyQuestionType->display_name = 'Add A Document Info';
+        $destroyQuestionType->description  = 'Add A Document Info';
+        $destroyQuestionType->save();
+
+        // 获取视频材料
+        $destroyQuestionType = new Permission();
+        $destroyQuestionType->name         = 'show-video';
+        $destroyQuestionType->display_name = 'Show A Video Info';
+        $destroyQuestionType->description  = 'Show A Video Info';
+        $destroyQuestionType->save();
+
+        // 获取文档材料
+        $destroyQuestionType = new Permission();
+        $destroyQuestionType->name         = 'show-document';
+        $destroyQuestionType->display_name = 'Show A Document Info';
+        $destroyQuestionType->description  = 'Show A Document Info';
+        $destroyQuestionType->save();
+
+        // 删除视频材料
+        $destroyQuestionType = new Permission();
+        $destroyQuestionType->name         = 'destroy-video';
+        $destroyQuestionType->display_name = 'Destroy A Video Info';
+        $destroyQuestionType->description  = 'Destroy A Video Info';
+        $destroyQuestionType->save();
+
+        // 删除文档材料
+        $destroyQuestionType = new Permission();
+        $destroyQuestionType->name         = 'destroy-document';
+        $destroyQuestionType->display_name = 'Destroy A Document Info';
+        $destroyQuestionType->description  = 'Destroy A Document Info';
+        $destroyQuestionType->save();
+
+        // 编辑视频材料
+        $destroyQuestionType = new Permission();
+        $destroyQuestionType->name         = 'update-video';
+        $destroyQuestionType->display_name = 'Update A Video Info';
+        $destroyQuestionType->description  = 'Update A Video Info';
+        $destroyQuestionType->save();
+
+        // 编辑文档材料
+        $destroyQuestionType = new Permission();
+        $destroyQuestionType->name         = 'update-document';
+        $destroyQuestionType->display_name = 'Update A Document Info';
+        $destroyQuestionType->description  = 'Update A Document Info';
+        $destroyQuestionType->save();
     }
 }
