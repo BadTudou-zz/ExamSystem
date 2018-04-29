@@ -49,13 +49,14 @@ class UserController extends Controller
 
     public function show(ShowUser $request, $id)
     {
-        return new UserResource(User::find($id));
+        $user = User::findorFail($id);
+        return new UserResource($user);
     }
 
     public function update(UpdateUser $request, $id)
     {
         $user = User::find($id);
-        $user->update($request->except('password'));
+        $user->update($request->except(['email', 'password']));
         return new UserResource($user);
     }
 
