@@ -17,7 +17,9 @@ class CreatePaperSectionsTable extends Migration
             $table->increments('id');
             $table->string('name');
             $table->string('describe');
-            $table->enum('question_type', ['SINGLE_CHOICE', 'MULTIPLE_CHOICE', ' TRUE_FALSE', 'FILL_IN', 'SHORT_ANSWER']);;
+            $table->integer('question_type')->unsigned();;
+            $table->foreign('question_type')->references('id')->on('question_types')
+                ->onUpdate('cascade')->onDelete('cascade');
             $table->integer('score')->comment('分值');
             $table->integer('number')->comment('提数');
             $table->string('questions')->comment('题目')->nullable();

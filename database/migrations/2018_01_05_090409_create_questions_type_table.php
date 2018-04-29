@@ -18,6 +18,7 @@ class CreateQuestionsTypeTable extends Migration
             $table->string('name')->unique();
             $table->string('title')->unique();
             $table->string('delimiter')->unique();
+            $table->boolean('is_multiple_choice')->default(false);
             $table->timestamps();
         });
     }
