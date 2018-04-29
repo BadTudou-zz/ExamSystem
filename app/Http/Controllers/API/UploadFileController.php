@@ -39,4 +39,11 @@ class UploadFileController extends Controller
         $video->url = public_path() . DIRECTORY_SEPARATOR . 'video' . DIRECTORY_SEPARATOR . $filename;
         $video->save();
     }
+
+    public function selectForUserid(Request $request) {
+        $userid = $request->input('userid');
+        $video = new Video();
+        $data = $video->where("userid",$userid)->select();
+        dd($data);
+    }
 }
