@@ -1,19 +1,18 @@
-<!-- 查看题目 -->
+<!-- 查看题目类型 -->
 <template lang="html">
   <div class="box">
     <div>
       <div class="search-box">
         <input v-model="searchKey" class="input search-input" type="text" placeholder="请输入关键字">
-        <!-- <button disabled @click="searchQuestionType()" class="button" type="button" name="button">查找题目</button> -->
         <div @click="searchQuestionType()" class="search-button"><i class="fas fa-search"></i></div>
       </div>
-      <button @click="addQuestionType()" class="button add-questionType-button" type="button" name="button">添加题目</button>
+      <button @click="addQuestionType()" class="button add-questionType-button" type="button" name="button">添加题目类型</button>
 
-      <button @click="getQuestionType()" class="button add-questionType-button" type="button" name="button">全部问题类型</button>
-      <button @click="addQuestionType2()" class="button add-questionType-button" type="button" name="button">查看问题类型的全部问题</button>
+      <button @click="getQuestionType()" class="button add-questionType-button" type="button" name="button">全部题目类型</button>
+      <button @click="addQuestionType2()" class="button add-questionType-button" type="button" name="button">查看题目类型的全部题目</button>
     </div>
 
-    <p v-if="!questionTypeData" class="empty-message-prompt">暂无题目</p>
+    <p v-if="!questionTypeData" class="empty-message-prompt">暂无题目类型</p>
     <table v-else class="table is-bordered is-striped is-hoverable is-fullwidths">
       <thead>
         <tr>
@@ -35,10 +34,10 @@
           <td>{{ item.id }}</td>
           <td>{{ item.name }}</td>
           <td>{{ item.delimiter }}</td>
-          <td>{{ item.is_multiple_choice }}</td>
+          <td>{{ computedIsAllowMultiple(item.is_multiple_choice) }}</td>
           <td>
-            <div v-show="isShowEditQuestion" @click="editQuestion(index)" class="icon-button"><i class="fas fa-edit"></i></div>
-            <div v-show="isShowDeleteQuestion" @click="deleteQuestion(index)" class="icon-button"><i class="far fa-trash-alt"></i></div>
+            <div @click="editQuestionType(index)" class="icon-button"><i class="fas fa-edit"></i></div>
+            <div @click="deleteQuestionType(index)" class="icon-button"><i class="far fa-trash-alt"></i></div>
           </td>
         </tr>
       </tbody>
@@ -94,7 +93,7 @@ export default {
       const that = this;
       that.isShowModal = !that.isShowModal;
     },
-    // 全部问题类型
+    // 全部题目类型
     getQuestionType: function () {
       const that = this;
       axios({
@@ -115,7 +114,7 @@ export default {
         }
       })
     },
-    // 查看问题类型的全部问题
+    // 查看题目类型的全部题目
     addQuestionType2: function () {
       const that = this;
       axios({
@@ -136,16 +135,10 @@ export default {
         }
       })
     },
-    deleteQuestionType: function (index, questionTypeId) {
+    deleteQuestionType: function (index) {
       const that = this;
-      let id;
-      if (questionTypeId) {
-        id = questionTypeId;
-      }
-      else {
-        id = that.questionTypeData[index]['id'];
-      }
-      let prompt = confirm("确认删除该题目吗？");
+      let id = that.questionTypeData[index]['id'];
+      let prompt = confirm("确认删除该题目类型吗？");
       if (prompt) {
         axios({
           method: 'delete',
@@ -196,31 +189,6 @@ export default {
         that.editData = that.questionTypeData[index];
       }
       that.$refs.editQuestionType.switchModal();
-    },
-    searchQuestionType: function () {
-      const that = this;
-      let id = that.searchKey;
-      if (!that.searchKey) {
-        that.searchKey = '';
-        that.getQuestionType();
-        return;
-      }
-      axios({
-        method: 'get',
-        url: `${this.GLOBAL.localDomain}/api/v1/questionTypes/${id}`,
-        headers: {
-          'Accept': 'application/json',
-          'Authorization': sessionStorage.getItem('token'),
-        }
-      }).then(res => {
-        that.questionTypeData = [];
-        that.questionTypeData.push(res.data.data)
-        // that.questionTypeData = res.data.data;
-      }).catch(err => {
-        alert('查找出错');
-        that.getQuestionType();
-        console.log(err);
-      })
     },
     searchQuestionType: function () {
       const that = this;
@@ -292,6 +260,19 @@ export default {
         console.log(err);
       })
     },
+    computedIsAllowMultiple: function(value) {
+      const that = this;
+      let string = '';
+      switch (value) {
+        case false:
+          string = '禁止';
+          break;
+        case true:
+          string = '允许';
+          break;
+      }
+      return string;
+    }
   },
   computed: {
   },
