@@ -1,6 +1,6 @@
 <!-- 查看标签 -->
 <template lang="html">
-  <div class="box">
+  <div>
     <div>
       <div v-show="isShowSearchLabel" class="search-box">
         <input v-model="searchKey" class="input search-input" type="text" placeholder="请输入关键字">
@@ -9,7 +9,8 @@
       </div>
         <button @click="addLabel()" class="button add-label-button" type="button" name="button">添加标签</button>
     </div>
-    <table class="table is-bordered is-striped is-hoverable is-fullwidths">
+    <p v-if="labelData" class="empty-message-prompt">暂无标签</p>
+    <table v-else class="table is-bordered is-striped is-hoverable is-fullwidths">
       <thead>
         <tr>
           <th>ID</th>
@@ -17,7 +18,7 @@
           <th>commentabl_type</th>
           <th>创建者ID</th>
           <th>创建时间</th>
-          <th>更新时间</th>
+          <!-- <th>更新时间</th> -->
           <th>操作</th>
         </tr>
       </thead>
@@ -28,10 +29,11 @@
           <td>{{ item.commentabl_type }}</td>
           <td>{{ item.creator_id }}</td>
           <td>{{ GLOBAL.toTime(item.created_at) }}</td>
-          <td>{{ GLOBAL.toTime(item.updated_at) }}</td>
+          <!-- <td>{{ GLOBAL.toTime(item.updated_at) }}</td> -->
           <td>
-            <button v-show="isShowDeleteLabel" @click="deleteLabel(index)" class="delete" type="button" name="button">删除标签</button>
-            <div v-show="isShowEditLabel" @click="editLabel(index)" class="edit-button"><i class="fas fa-edit"></i></div>
+            <div v-show="isShowDeleteLabel" @click="deleteLabel(index)" class="icon-button"><i class="far fa-trash-alt"></i></div>
+            <!-- <button v-show="isShowDeleteLabel" @click="deleteLabel(index)" class="delete" type="button" name="button">删除标签</button> -->
+            <div v-show="isShowEditLabel" @click="editLabel(index)" class="icon-button"><i class="fas fa-edit"></i></div>
           </td>
         </tr>
       </tbody>
@@ -104,6 +106,9 @@ export default {
     EditLabel,
     Pagination,
   },
+  props: [
+    'navigationTag'
+  ],
   methods: {
     showModal: function () {
       const that = this;
@@ -237,7 +242,11 @@ export default {
         that.labelData = res.data.data;
         that.paginationData = res.data.links;
       }).catch(err => {
-        console.log(err)
+        console.log(err);
+        if (err.response.status === 401) {
+          // alert('登录超时');
+          // location.reload();
+        }
       })
     },
     addLabel: function () {
@@ -302,19 +311,18 @@ export default {
     },
   },
   created() {
-
     this.getLabel();
   },
   watch: {
     data:function (value, oldValue) {
       const that = this;
-      that.permissionData = value.data;
+      that.labelData = value.data;
       that.paginationData = value.links;
     },
     allLabel: function (value, oldValue) {
       const that = this;
       that.searchLabel(that.searchKey);
-    }
+    },
   }
 }
 </script>

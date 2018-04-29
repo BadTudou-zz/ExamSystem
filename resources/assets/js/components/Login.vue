@@ -2,7 +2,6 @@
   <div id="app" class="login-wrapper">
 
     <div v-show="isShowLoginBox" class="login-box">
-
       <input v-model="account" class="input form-control" placeholder="请输入你的账号/邮箱">
       <input v-model="password" type="password" class="input form-control" placeholder="密码">
       <input v-model="captcha" class="input form-control" placeholder="请输入验证码">
@@ -14,7 +13,7 @@
 
       <button @click="login()" type="button" class="button" name="button">登录</button>
       <div class="operate-box">
-        <a>忘记密码</a><a @click="register()">注册</a>
+        <a @click="register()">注册</a>
       </div>
     </div>
 
@@ -82,18 +81,16 @@ export default {
         that.loadingModal();
         sessionStorage.setItem("token",`Bearer ${token}`);
         sessionStorage.setItem('userId', userId);
-        that.$store.commit('setToken', token);
 
         let url = `${this.GLOBAL.localDomain}/api/v1/users/${that.userId}/permissions/`;
         that.getPermission(url);
-
       }).catch(err => {
-        let errorCode = err.response.status;  // http code
-        let errorMsg = err.response.data.message;
-        if (errorMsg) {
-          alert(errorMsg);
+        let errCode = err.response.status;  // http code
+        let errMsg = err.response.data.message;
+        if (errMsg) {
+          alert(errMsg);
         }
-        else if (errorCode === 401) {
+        else if (errCode === 401) {
           alert('密码错误');
           that.password = '';
         }
@@ -246,7 +243,7 @@ body {
       right: 10px;
       font-size: 12px;
       display: inline-block;
-      margin-left: 20px;
+      // margin-left: 20px;
       margin-top: 10px;
     }
   }

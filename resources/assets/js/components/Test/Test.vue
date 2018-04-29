@@ -1,8 +1,11 @@
 <!-- 查看考试 -->
 <template lang="html">
-  <div class="box">
+  <div>
 
-    <div v-show="!isTesting">
+    <!-- <analysis v-show="isShowAnalysis"
+              v-bind:exam-data="examData"
+    ></analysis> -->
+    <div>
       <div>
         <div v-show="isShowSearchTest" class="search-box">
           <input v-model="searchKey" class="input search-input" type="text" placeholder="请输入关键字">
@@ -11,7 +14,9 @@
         </div>
         <button v-show="isShowCreateTest" @click="addTest()" class="button add-test-button" type="button" name="button">添加考试</button>
       </div>
-      <table class="table is-bordered is-striped is-hoverable is-fullwidths">
+
+      <p v-if="!testData" class="empty-message-prompt">暂无考试</p>
+      <table v-else class="table is-bordered is-striped is-hoverable is-fullwidths">
         <thead>
           <tr>
             <th>序号</th>
@@ -21,8 +26,8 @@
             <th>类型</th>
             <th>分值</th>
             <th>时长(分钟)</th>
-            <th>描述</th>
-            <th>创建时间</th>
+            <th><p class="test-limit-words">描述</p></th>
+            <!-- <th>创建时间</th> -->
             <!-- <th>更新时间</th> -->
             <th>操作</th>
             <th>用户</th>
@@ -38,17 +43,19 @@
             <td>{{ item.score }}</td>
             <td>{{ item.min }}</td>
             <td> {{ item.description }}</td>
-            <td>{{ GLOBAL.toTime(item.created_at) }}</td>
+            <!-- <td>{{ GLOBAL.toTime(item.created_at) }}</td> -->
             <!-- <td>{{ GLOBAL.toTime(item.updated_at) }}</td> -->
             <td>
-              <button v-show="isShowDeleteTest" @click="deleteTest(index)" class="delete" type="button" name="button">删除</button>
-              <div v-show="isShowEditTest" @click="editTest(index)" class="edit-button"><i class="fas fa-edit"></i></div>
+              <!-- <button v-show="isShowDeleteTest" @click="deleteTest(index)" class="delete" type="button" name="button">删除</button> -->
+              <div v-show="isShowDeleteTest" @click="deleteTest(index)" class="icon-button"><i class="far fa-trash-alt"></i></div>
+              <div v-show="isShowEditTest" @click="editTest(index)" class="icon-button"><i class="fas fa-edit"></i></div>
               <button @click="startTest(index)" class="is-small button" type="button" name="button">开始考试</button>
               <button @click="stopTest(index)" class="is-small button" type="button" name="button">结束考试</button>
               <button @click="gradingPapers(index)" class="is-small button" type="button" name="button">批改</button>
+              <!-- <button @click="analysis(index)" class="is-small button" type="button" name="button">分析</button> -->
             </td>
             <td>
-              <button @click="participateUser(index)" class="is-small button" type="button" name="button">查看参与该考试的用户</button>
+              <button @click="participateUser(index)" class="is-small button" type="button" name="button">查看考试用户</button>
             </td>
           </tr>
         </tbody>
@@ -69,12 +76,6 @@
       ></pagination>
     </div>
 
-    <!-- <testing ref="testing"
-             v-show="isTesting"
-             v-bind:paper-id="paperId"
-             v-bind:exam-id="examId"
-    ></testing> -->
-
     <participate-user ref="participateUser"
                       v-bind:exam-id="examId"
     ></participate-user>
@@ -88,6 +89,7 @@ import AddTest from './AddTest'
 import EditTest from './EditTest'
 // import Testing from './Testing'
 import ParticipateUser from './ParticipateUser'
+// import Analysis from './Analysis'
 
 export default {
   data() {
@@ -101,12 +103,12 @@ export default {
       data: null,
       paperId: null,
       examId: null,
-      isTesting: false,  // 是否已经开始考试
+      isShowAnalysis: false,
       // get all test
       currentTest: [],
       allTest: [],
       searchResult: [],
-
+      examData: null,
     }
   },
   components: {
@@ -115,6 +117,7 @@ export default {
     Pagination,
     // Testing,
     ParticipateUser,
+    // Analysis,
   },
   methods: {
     showModal: function () {
@@ -255,12 +258,21 @@ export default {
         // that.testData = [];
         // that.testData.push(res.data.data);
       }).catch(err => {
-        console.log(err)
+        console.log(err);
+        if (err.response.status === 401) {
+          // alert('登录超时');
+          // location.reload();
+        }
       })
     },
     addTest: function () {
       const that = this;
       that.$refs.addTest.switchModal();
+    },
+    analysis: function (index) {
+      const that = this;
+      that.isShowAnalysis = true;
+      that.examData = that.testData[index];
     },
     participateUser: function (index) {
       const that = this;
@@ -279,7 +291,6 @@ export default {
       let id = that.testData[index].id;
       that.paperId = that.testData[index].paper_id;
       that.examId = id;
-      // that.isTesting = true;
       axios({
         method: 'post',
         url: `${this.GLOBAL.localDomain}/api/v1/exams/${id}/start`,
@@ -289,7 +300,6 @@ export default {
         }
       }).then(res => {
         alert('已开考');
-        // that.isTesting = true;
       }).catch(err => {
         let errMsg = err.response.data.error;
         if (errMsg) {
@@ -410,4 +420,12 @@ table {
     width: 130px;
   }
 }
+.test-limit-words {
+  display: inline-block;
+  width: 200px;
+  overflow: hidden;
+  text-overflow:ellipsis;
+  white-space: nowrap;
+}
+
 </style>

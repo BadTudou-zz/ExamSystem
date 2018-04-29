@@ -1,6 +1,6 @@
 <!-- 查看申请 -->
 <template lang="html">
-  <div class="box">
+  <div>
     <div>
       <div v-show="isShowSearchApplication" class="search-box">
         <input v-model="searchKey" class="input search-input" type="text" placeholder="请输入关键字">
@@ -9,7 +9,8 @@
       </div>
         <button v-show="isShowCreateApplication" @click="addApplyFor()" class="button add-applyFor-button is-small" type="button" name="button">添加申请</button>
     </div>
-    <table class="table is-bordered is-striped is-hoverable is-fullwidths">
+    <p v-if="!applyForData" class="empty-message-prompt">暂无申请</p>
+    <table v-else class="table is-bordered is-striped is-hoverable is-fullwidths">
       <thead>
         <tr>
           <th>申请人</th>
@@ -18,10 +19,11 @@
           <!-- <th>action</th> -->
           <!-- <th>resource_id</th> -->
           <th>resource_type</th>
-          <th>更新时间</th>
+          <th>创建时间</th>
           <th>操作</th>
         </tr>
       </thead>
+
       <tbody>
         <tr v-for="(item,index) in applyForData">
           <td>{{ item.from }}</td>
@@ -30,16 +32,18 @@
           <!-- <td>{{ item.action }}</td> -->
           <!-- <td>{{ item.resource_id }}</td> -->
           <td>{{ item.resource_type }}</td>
-          <td>{{ GLOBAL.toTime(item.updated_at.date) }}</td>
+          <td>{{ GLOBAL.toTime(item.created_at.date) }}</td>
           <td>
-            <button v-show="isShowDeleteApplication" @click="deleteApplyFor(index)" class="delete is-small" type="button" name="button">删除</button>
-            <div @click="editApplyFor(index)" class="edit-button"><i class="fas fa-edit"></i></div>
+            <!-- <button v-show="isShowDeleteApplication" @click="deleteApplyFor(index)" class="delete is-small" type="button" name="button">删除</button> -->
+            <div v-show="isShowDeleteApplication" @click="deleteApplyFor(index)" class="icon-button"><i class="far fa-trash-alt"></i></div>
+            <div @click="editApplyFor(index)" class="icon-button"><i class="fas fa-edit"></i></div>
             <button v-show="isShowAccpetApplication" @click="acceptApplyFor(index)" class="button is-small" type="button" name="button">接受</button>
             <button v-show="isShowRejectApplication" @click="rejectApplyFor(index)" class="button is-small" type="button" name="button">拒绝</button>
           </td>
         </tr>
       </tbody>
     </table>
+
 
     <add-apply-for ref="addApplyFor"
                    v-on:getApplyFor="getApplyFor"></add-apply-for>
@@ -218,7 +222,11 @@ export default {
 
         that.paginationData = res.data.links;
       }).catch(err => {
-        console.log(err)
+        console.log(err);
+        if (err.response.status === 401) {
+          // alert('登录超时');
+          // location.reload();
+        }
       })
     },
     addApplyFor: function () {
@@ -297,7 +305,7 @@ export default {
   watch: {
     data:function (value, oldValue) {
       const that = this;
-      that.permissionData = value.data;
+      that.applyForData = value.data;
       that.paginationData = value.links;
     },
     allApplyFor: function (value, oldValue) {

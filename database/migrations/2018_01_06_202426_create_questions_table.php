@@ -15,7 +15,9 @@ class CreateQuestionsTable extends Migration
     {
         Schema::create('questions', function (Blueprint $table) {
             $table->increments('id');
-            $table->enum('question_type', ['SINGLE_CHOICE', 'MULTIPLE_CHOICE', ' TRUE_FALSE', 'FILL_IN', 'SHORT_ANSWER']);
+            $table->integer('type_id')->unsigned();;
+            $table->foreign('type_id')->references('id')->on('question_types')
+                ->onUpdate('cascade')->onDelete('cascade');
             $table->string('tags')->default('0');
             $table->enum('level_type', ['EASY', 'MIDDLE', 'HARD']);
             $table->string('title');
