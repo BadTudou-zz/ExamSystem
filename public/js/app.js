@@ -32480,7 +32480,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 // const localDomain = 'http://localhost:8000';
-var localDomain = 'http://www.badtudou.com';
+var localDomain = 'http://exam.gg';
 var token = sessionStorage.getItem('token');
 var userId = sessionStorage.getItem('userId');
 var permissions = sessionStorage.getItem('permissions');
