@@ -10,12 +10,12 @@
         <div class="box-item">
           <label>题目类型</label>
           <div class="select">
-            <select v-model="currentQuestionData.question_type">
-              <option value="SINGLE_CHOICE">单选</option>
-              <!-- <option disabled value="MULTIPLE_CHOICE">多选</option>
-              <option disabled value="TRUE_FALSE">判断</option>
-              <option disabled value="FILL_IN">填空</option>
-              <option disabled value="SHORT_ANSWER">简答</option> -->
+            <select v-model="currentQuestionData.type_id">
+              <option value="1">单选</option>
+              <!-- <option disabled value="2">多选</option>
+              <option disabled value="3">判断</option>
+              <option disabled value="4">填空</option>
+              <option disabled value="5">简答</option> -->
             </select>
           </div>
         </div>
@@ -61,7 +61,7 @@
         <!-- 正确答案 -->
         <div class="box-item">
           <label>正确答案</label>
-          <div v-show="currentQuestionData.question_type ==='SINGLE_CHOICE'" class="select">
+          <div v-show="currentQuestionData.type_id === '1'" class="select">
             <select v-model="currentQuestionData.answer">
               <option value='A'>A</option>
               <option value="B">B</option>
@@ -70,7 +70,7 @@
             </select>
           </div>
 
-          <div v-show="currentQuestionData.question_type ==='MULTIPLE_CHOICE'">
+          <div v-show="currentQuestionData.type_id ==='2'">
             <input v-model="currentQuestionData.answer" class="input" type="text" placeholder="请用英文逗号将多个答案隔开">
           </div>
         </div>
@@ -94,7 +94,7 @@ export default {
   data() {
     return {
       currentQuestionData: {
-        question_type: null,
+        type_id: null,
         level_type: null,
         title: null,
         body: null,
@@ -118,7 +118,7 @@ export default {
     },
     clearWords: function () {
       const that = this;
-      that.currentQuestionData.question_type = 'SINGLE_CHOICE';
+      that.currentQuestionData.type_id = '1';
       that.currentQuestionData.level_type = 'EASY';
       that.currentQuestionData.title = '';
       that.currentQuestionData.body = '';
@@ -153,7 +153,7 @@ export default {
           'Authorization': sessionStorage.getItem('token'),
         },
         params: {
-          question_type: that.currentQuestionData.question_type,
+          type_id: that.currentQuestionData.type_id,
           level_type: that.currentQuestionData.level_type,
           title: that.currentQuestionData.title,
           body: body,
@@ -178,7 +178,7 @@ export default {
   watch: {
     editData: function (value, oldValue) {
       const that = this;
-      that.currentQuestionData.question_type = value.question_type;
+      that.currentQuestionData.type_id = value.type_id;
       that.currentQuestionData.level_type = value.level_type;
       that.currentQuestionData.title = value.title;
       that.currentQuestionData.answer = value.answer;

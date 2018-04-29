@@ -6,7 +6,7 @@
           当前用户：{{userName}}
         </div>
         <ul>
-          <!-- <el-row class="tac">
+          <el-row class="tac">
             <el-menu
               default-active="2"
               class="el-menu-vertical-demo"
@@ -16,10 +16,17 @@
               text-color="#fff"
               active-text-color="#ffd04b">
 
-              <el-menu-item index="6">
-                <i class="el-icon-menu"></i>
-                <router-link slot="title" to="/personalData">个人</router-link>
-              </el-menu-item>
+              <el-submenu index="0">
+                <template slot="title">
+                  <i class="el-icon-menu"></i>
+                  <span>个人中心</span>
+                </template>
+                <el-menu-item-group>
+                  <template slot="title"></template>
+                  <el-menu-item index="0-1"><router-link to="/personalData">个人信息</router-link></el-menu-item>
+                  <el-menu-item index="0-2"><router-link to="/testData">考试中心</router-link></el-menu-item>
+                </el-menu-item-group>
+              </el-submenu>
 
               <el-submenu index="7">
                 <template slot="title">
@@ -28,9 +35,9 @@
                 </template>
                 <el-menu-item-group>
                   <template slot="title"></template>
-                  <el-menu-item index="7-1">角色</el-menu-item>
-                  <el-menu-item index="7-2">权限</el-menu-item>
-                  <el-menu-item index="7-3">组织</el-menu-item>
+                  <el-menu-item index="7-1"><router-link to="/roleData">角色</router-link></el-menu-item>
+                  <el-menu-item index="7-2"><router-link to="/permissionData">权限</router-link></el-menu-item>
+                  <el-menu-item index="7-3"><router-link to="/organizationData">组织</router-link></el-menu-item>
                 </el-menu-item-group>
               </el-submenu>
 
@@ -41,9 +48,9 @@
                 </template>
                 <el-menu-item-group>
                   <template slot="title"></template>
-                  <el-menu-item index="8-1">消息</el-menu-item>
-                  <el-menu-item index="8-2">通知</el-menu-item>
-                  <el-menu-item index="8-3">申请</el-menu-item>
+                  <el-menu-item index="8-1"><router-link to="/messageData">消息</router-link></el-menu-item>
+                  <el-menu-item index="8-1"><router-link to="/noticeData">通知</router-link></el-menu-item>
+                  <el-menu-item index="8-1"><router-link to="/applyForData">申请</router-link></el-menu-item>
                 </el-menu-item-group>
               </el-submenu>
 
@@ -54,16 +61,11 @@
                 </template>
                 <el-menu-item-group>
                   <template slot="title"></template>
-                  <el-menu-item index="9-1">选课</el-menu-item>
-                  <el-menu-item index="9-2">课程</el-menu-item>
-                  <el-menu-item index="9-3">授课</el-menu-item>
+                  <el-menu-item index="9-1"><router-link to="/lectureData">选课</router-link></el-menu-item>
+                  <el-menu-item index="9-1"><router-link to="/courseData">课程</router-link></el-menu-item>
+                  <el-menu-item index="9-1"><router-link to="/teachingData">授课</router-link></el-menu-item>
                 </el-menu-item-group>
               </el-submenu>
-
-              <el-menu-item index="10">
-                <i class="el-icon-menu"></i>
-                <span slot="title">考试</span>
-              </el-menu-item>
 
               <el-submenu index="1">
                 <template slot="title">
@@ -72,10 +74,10 @@
                 </template>
                 <el-menu-item-group>
                   <template slot="title"></template>
-                  <el-menu-item index="1-1">用户</el-menu-item>
-                  <el-menu-item index="1-2">角色</el-menu-item>
-                  <el-menu-item index="1-3">权限</el-menu-item>
-                  <el-menu-item index="1-4">组织</el-menu-item>
+                  <el-menu-item index="1-1"><router-link to="/uuser">用户</router-link></el-menu-item>
+                  <el-menu-item index="1-2"><router-link to="/role">角色</router-link></el-menu-item>
+                  <el-menu-item index="1-3"><router-link to="/ppermission">权限</router-link></el-menu-item>
+                  <el-menu-item index="1-4"><router-link to="/organization">组织</router-link></el-menu-item>
                 </el-menu-item-group>
               </el-submenu>
 
@@ -86,9 +88,9 @@
                 </template>
                 <el-menu-item-group>
                   <template slot="title"></template>
-                  <el-menu-item index="2-1">消息</el-menu-item>
-                  <el-menu-item index="2-2">通知</el-menu-item>
-                  <el-menu-item index="2-3">申请</el-menu-item>
+                  <el-menu-item index="2-1"><router-link to="/mmessage">消息</router-link></el-menu-item>
+                  <el-menu-item index="2-2"><router-link to="/nnotice">通知</router-link></el-menu-item>
+                  <el-menu-item index="2-3"><router-link to="/applyFor">申请</router-link></el-menu-item>
                 </el-menu-item-group>
               </el-submenu>
 
@@ -99,8 +101,8 @@
                 </template>
                 <el-menu-item-group>
                   <template slot="title"></template>
-                  <el-menu-item index="3-1">课程</el-menu-item>
-                  <el-menu-item index="3-2">授课</el-menu-item>
+                  <el-menu-item index="3-1"><router-link to="/course">课程</router-link></el-menu-item>
+                  <el-menu-item index="3-2"><router-link to="/teaching">授课</router-link></el-menu-item>
                 </el-menu-item-group>
               </el-submenu>
 
@@ -111,9 +113,9 @@
                 </template>
                 <el-menu-item-group>
                   <template slot="title"></template>
-                  <el-menu-item index="4-1">题目</el-menu-item>
-                  <el-menu-item index="4-2">试卷</el-menu-item>
-                  <el-menu-item index="4-2">考试</el-menu-item>
+                  <el-menu-item index="4-1"><router-link to="/question">题目</router-link></el-menu-item>
+                  <el-menu-item index="4-2"><router-link to="/examinationPaper">试卷</router-link></el-menu-item>
+                  <el-menu-item index="4-3"><router-link to="/test">考试</router-link></el-menu-item>
                 </el-menu-item-group>
               </el-submenu>
 
@@ -124,13 +126,13 @@
                 </template>
                 <el-menu-item-group>
                   <template slot="title"></template>
-                  <el-menu-item index="5-1">标签</el-menu-item>
+                  <el-menu-item index="5-1"><router-link to="/label">标签</router-link></el-menu-item>
                 </el-menu-item-group>
               </el-submenu>
             </el-menu>
-        </el-row> -->
+        </el-row>
 
-          <li v-show="isShowManagement" :class="{'is-active' : currentTag === 'setting'}" @click="currentTag = 'setting'">
+          <!-- <li v-show="isShowManagement" :class="{'is-active' : currentTag === 'setting'}" @click="currentTag = 'setting'">
             <router-link to="/setting"><i class="fas fa-sliders-h"></i><span>管理</span></router-link>
           </li>
 
@@ -177,7 +179,7 @@
           </li>
           <li :class="{'is-active' : currentTag === 'video'}" @click="currentTag = 'video'">
             <router-link to="/video"><i class="fas fa-graduation-cap"></i><span>视频</span></router-link>
-          </li>
+          </li> -->
         </ul>
       </div>
     </div>
@@ -547,7 +549,7 @@ ul li span {
   top: -30px;
 }
 .el-submenu {
-  padding: 0px;
+  padding: 2px;
 }
 
 </style>

@@ -1,6 +1,6 @@
 <!-- 查看题目 -->
 <template lang="html">
-  <div>
+  <div class="box">
     <div>
       <div v-show="isShowSearchQuestion" class="search-box">
         <input v-model="searchKey" class="input search-input" type="text" placeholder="请输入关键字">
@@ -25,7 +25,7 @@
       <tbody>
         <tr v-for="(item,index) in questionData">
           <td>{{ item.id }}</td>
-          <td>{{ computedQuestionType(item.question_type) }}</td>
+          <td>{{ computedQuestionType(item.type_id) }}</td>
           <td>{{ computedLevelType(item.level_type) }}</td>
           <td><p  :title="item.title" class="limit-words">{{ item.title }}</p></td>
           <td><p  :title="getOptionsString(item.body)" class="question-limit-words">{{ getOptionsString(item.body) }}</p></td>
@@ -279,13 +279,23 @@ export default {
     },
     computedQuestionType: function (value) {
       const that = this;
+      // ['SINGLE_CHOICE', 'MULTIPLE_CHOICE', ' TRUE_FALSE', 'FILL_IN', 'SHORT_ANSWER']
       let questionType = '';
       switch (value) {
-        case 'SINGLE_CHOICE':
+        case 1:
           questionType = '单选';
           break;
-        case 'MULTIPLE_CHOICE':
+        case 2:
           questionType = '多选';
+          break;
+        case 3:
+          questionType = '判断';
+          break;
+        case 4:
+          questionType = '填空';
+          break;
+        case '5':
+          questionType = '简答';
           break;
       }
       return questionType;
