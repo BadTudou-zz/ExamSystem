@@ -14,13 +14,13 @@
 
 Auth::routes();
 
-<<<<<<< HEAD
+
 
 Route::get('/home', 'HomeController@index')->name('home');
-=======
+
 Route::get('/home', 'HomeController@index')->name('home');
 
->>>>>>> 64b19a17d18a2db65db85d4d83ffc9c2e9f37151
+
 //欢迎界面
 // Route::get('/', function() {
 // 	return view('welcome');
