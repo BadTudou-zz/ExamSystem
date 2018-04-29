@@ -113,6 +113,7 @@
                 </template>
                 <el-menu-item-group>
                   <template slot="title"></template>
+                  <el-menu-item index="4-1"><router-link to="/questionType">题目类型</router-link></el-menu-item>
                   <el-menu-item index="4-1"><router-link to="/question">题目</router-link></el-menu-item>
                   <el-menu-item index="4-2"><router-link to="/examinationPaper">试卷</router-link></el-menu-item>
                   <el-menu-item index="4-3"><router-link to="/test">考试</router-link></el-menu-item>
@@ -246,10 +247,10 @@ export default {
   },
   methods: {
     handleOpen(key, keyPath) {
-      console.log(key, keyPath);
+      // console.log(key, keyPath);
     },
     handleClose(key, keyPath) {
-      console.log(key, keyPath);
+      // console.log(key, keyPath);
     },
     getUserDetail: function () {
       const that = this;
