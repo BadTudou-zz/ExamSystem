@@ -1,13 +1,23 @@
 <!-- 查看题目 -->
 <template lang="html">
-  <div>
+  <div class="box">
     <div>
       <div v-show="isShowSearchQuestion" class="search-box">
         <input v-model="searchKey" class="input search-input" type="text" placeholder="请输入关键字">
         <!-- <button disabled @click="searchQuestion()" class="button" type="button" name="button">查找题目</button> -->
         <div @click="searchQuestion()" class="search-button"><i class="fas fa-search"></i></div>
       </div>
-        <button v-show="isShowCreateQuestion" @click="addQuestion()" class="button add-question-button" type="button" name="button">添加题目</button>
+
+      <!-- <div>
+        <label>问题类型</label>
+        <div class="select">
+          <select v-for="(item, index) questionDataType" v-model="selectedQuestionDataType">
+            <option value=1>单选</option>
+          </select>
+        </div>
+      </div> -->
+
+      <button v-show="isShowCreateQuestion" @click="addQuestion()" class="button add-question-button" type="button" name="button">添加题目</button>
     </div>
 
     <p v-if="!questionData" class="empty-message-prompt">暂无题目</p>
@@ -25,7 +35,7 @@
       <tbody>
         <tr v-for="(item,index) in questionData">
           <td>{{ item.id }}</td>
-          <td>{{ computedQuestionType(item.question_type) }}</td>
+          <td>{{ computedQuestionType(item.type_id) }}</td>
           <td>{{ computedLevelType(item.level_type) }}</td>
           <td><p  :title="item.title" class="limit-words">{{ item.title }}</p></td>
           <td><p  :title="getOptionsString(item.body)" class="question-limit-words">{{ getOptionsString(item.body) }}</p></td>
@@ -47,6 +57,8 @@
                    v-bind:edit-data="editData"
     ></edit-question>
 
+    <question-type ref="questionType"></question-type>
+
     <pagination v-show="searchResult.length === 0"
                 v-bind:pagination-data="paginationData"
                 v-model="data"
@@ -60,6 +72,8 @@ import AddQuestion from './AddQuestion'
 import EditQuestion from './EditQuestion'
 import SingleChoice from './SingleChoice'
 import MultipleChoice from './MultipleChoice'
+
+import QuestionType from '../QuestionType/QuestionType'
 
 export default {
   data() {
@@ -76,7 +90,8 @@ export default {
        currentQuestion: [],
        allQuestion: [],
        searchResult: [],
-
+       questionDataType: [],
+       selectedQuestionDataType: '',
     }
   },
   components: {
@@ -85,6 +100,7 @@ export default {
     Pagination,
     SingleChoice,
     MultipleChoice,
+    QuestionType,
   },
   methods: {
     showModal: function () {
@@ -138,6 +154,10 @@ export default {
         }
       })
     },
+    getQuestionType: function () {
+      const that = this;
+      that.$refs.questionType.switchModal();
+    },
     addQuestion: function () {
       const that = this;
       that.$refs.addQuestion.switchModal();
@@ -152,31 +172,31 @@ export default {
       }
       that.$refs.editQuestion.switchModal();
     },
-    searchQuestion: function () {
-      const that = this;
-      let id = that.searchKey;
-      if (!that.searchKey) {
-        that.searchKey = '';
-        that.getQuestion();
-        return;
-      }
-      axios({
-        method: 'get',
-        url: `${this.GLOBAL.localDomain}/api/v1/questions/${id}`,
-        headers: {
-          'Accept': 'application/json',
-          'Authorization': sessionStorage.getItem('token'),
-        }
-      }).then(res => {
-        that.questionData = [];
-        that.questionData.push(res.data.data)
-        // that.questionData = res.data.data;
-      }).catch(err => {
-        alert('查找出错');
-        that.getQuestion();
-        console.log(err);
-      })
-    },
+    // searchQuestion: function () {
+    //   const that = this;
+    //   let id = that.searchKey;
+    //   if (!that.searchKey) {
+    //     that.searchKey = '';
+    //     that.getQuestion();
+    //     return;
+    //   }
+    //   axios({
+    //     method: 'get',
+    //     url: `${this.GLOBAL.localDomain}/api/v1/questions/${id}`,
+    //     headers: {
+    //       'Accept': 'application/json',
+    //       'Authorization': sessionStorage.getItem('token'),
+    //     }
+    //   }).then(res => {
+    //     that.questionData = [];
+    //     that.questionData.push(res.data.data)
+    //     // that.questionData = res.data.data;
+    //   }).catch(err => {
+    //     alert('查找出错');
+    //     that.getQuestion();
+    //     console.log(err);
+    //   })
+    // },
     searchQuestion: function () {
       const that = this;
       // 如果没有搜索值
@@ -279,13 +299,23 @@ export default {
     },
     computedQuestionType: function (value) {
       const that = this;
+      // ['SINGLE_CHOICE', 'MULTIPLE_CHOICE', ' TRUE_FALSE', 'FILL_IN', 'SHORT_ANSWER']
       let questionType = '';
       switch (value) {
-        case 'SINGLE_CHOICE':
+        case 1:
           questionType = '单选';
           break;
-        case 'MULTIPLE_CHOICE':
+        case 2:
           questionType = '多选';
+          break;
+        case 3:
+          questionType = '判断';
+          break;
+        case 4:
+          questionType = '填空';
+          break;
+        case '5':
+          questionType = '简答';
           break;
       }
       return questionType;

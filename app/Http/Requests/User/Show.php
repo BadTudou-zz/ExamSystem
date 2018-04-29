@@ -14,7 +14,8 @@ class Show extends FormRequest
      */
     public function authorize()
     {
-        return Auth::user()->can('user-index') || (Auth::user()->id == $this->route('user'));
+        $user = Auth::user();
+        return $user->can('user-index') || ($user->id == $this->route('user'));
     }
 
     /**

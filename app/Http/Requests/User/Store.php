@@ -24,7 +24,7 @@ class Store extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required',
+            'name' => 'required|unique:users',
             'email' => 'required|email|unique:users',
             'captcha' => 'required',
             'password' => 'required',
@@ -36,6 +36,7 @@ class Store extends FormRequest
     {
         return [
             'name.required' => '用户名不能为空',
+            'name.unique'  => '该用户名已被使用',
             'email.required'  => '注册邮箱不能为空',
             'email.email'  => '注册邮箱格式有误',
             'email.unique'  => '该邮箱已被注册',
