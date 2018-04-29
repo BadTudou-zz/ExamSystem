@@ -12,9 +12,19 @@ Route::post('captchas', 'API\CaptchaController@store');
 
 Route::group(['prefix' => '/v1'], function () {
     Route::post('questions/import', 'API\ExcelController@test');
-    Route::post('upload/lecture/video', 'API\UploadFileController@uploadVideo');
-    Route::post('upload/lecture/insert', 'API\UploadFileController@insert');
-    Route::post('upload/lecture/selectForUserid', 'API\UploadFileController@selectForUserid');
+    Route::post('upload/lecture/video', 'API\VideoController@uploadVideo');
+    Route::post('upload/lecture/insert/video', 'API\VideoController@insert');
+    Route::post('upload/lecture/selectForUserid/video', 'API\VideoController@selectForUserid');
+    Route::post('upload/lecture/selectForCid/video', 'API\VideoController@selectForCid');
+    Route::post('upload/lecture/delete/video', 'API\VideoController@delete');
+    Route::post('upload/lecture/update/video', 'API\VideoController@update');
+
+    Route::post('upload/lecture/document', 'API\DocumentController@uploadVideo');
+    Route::post('upload/lecture/insert/document', 'API\DocumentController@insert');
+    Route::post('upload/lecture/selectForUserid/document', 'API\DocumentController@selectForUserid');
+    Route::post('upload/lecture/selectForCid/document', 'API\DocumentController@selectForCid');
+    Route::post('upload/lecture/delete/document', 'API\DocumentController@delete');
+    Route::post('upload/lecture/update/document', 'API\DocumentController@update');
 });
 
 Route::prefix('v1')->middleware(['auth:api'])->group(function () {

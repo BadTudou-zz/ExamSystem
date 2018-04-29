@@ -18,16 +18,27 @@
         var filename = null;
 
 
+<<<<<<< HEAD
+
+        // 随便写的一个值，具体的userid和cid你从Storage取出来
+=======
         // 随便写的一个值，具体的userid和courseId你从Storage取出来
+>>>>>>> 64b19a17d18a2db65db85d4d83ffc9c2e9f37151
         var userid = 1;
 
         var cid = 2;
+
+        // 视频名称和所属知识点，由用户填写，加两个input框
+        var videoName = "测试视频";
+
+        var kp = "知识点是xxxx";
 
         function fire(file){
 
             var name = file.event;
 
             var pos = name.lastIndexOf('.');
+
 
             postfix = name.substring(pos+1);
 
@@ -67,7 +78,7 @@
                 if(sta>mov.size){
                     clearInterval(clock);
                     info(userid,cid);
-                    alert("上传成功")
+                    alert("上传成功");
                     return ;
                 }
 
@@ -95,7 +106,8 @@
             console.log(FormData);
         }
         function info(userid,cid){
-            xhr.open('POST','api/v1/upload/lecture/insert?userid='+userid + "&cid=" + cid + "&filename="+filename,false);
+            xhr.open('POST','api/v1/upload/lecture/insert/video?userid='+userid + "&cid=" + cid + "&filename="+filename
+                +"&kp=" + kp + "&videoName=" + videoName,false);
             xhr.send();
         }
 
