@@ -5,7 +5,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Video extends Model
+class Document extends Model
 {
 
     /**
@@ -14,9 +14,9 @@ class Video extends Model
      * @var array
      */
     public  $timestamps  = false;
-    protected $table = 'video';
+    protected $table = 'document';
     protected $fillable = [
-        'id', 'cid', 'userid','url','video_name','kp'
+        'id', 'cid', 'userid','url','doc_name','kp'
     ];
 
     /**
