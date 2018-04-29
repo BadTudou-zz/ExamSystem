@@ -8,81 +8,33 @@
       </header>
       <section class="modal-card-body">
         <div class="box-item">
-          <label>题目类型</label>
+          <label>名称</label>
+          <input v-model="questionTypeData.name" class="input" type="text" placeholder="请输入英文名称">
+        </div>
+
+        <div class="box-item">
+          <label>显示名称</label>
+          <input v-model="questionTypeData.title" class="input" type="text" placeholder="请输入中文名称">
+        </div>
+
+        <div class="box-item">
+          <label>分隔符</label>
+          <input v-model="questionTypeData.delimiter" class="input" type="text">
+        </div>
+
+        <div class="box-item">
+          <label>是否允许多选</label>
           <div class="select">
-            <select v-model="currentQuestionData.type_id">
-              <option value="1">单选</option>
-              <!-- <option disabled value="2">多选</option>
-              <option disabled value="3">判断</option>
-              <option disabled value="4">填空</option>
-              <option disabled value="5">简答</option> -->
+            <select v-model="questionTypeData.level_type">
+              <option value="false">禁止</option>
+              <option value="true">允许</option>
             </select>
           </div>
-        </div>
-        <div class="box-item">
-          <label>题目难度</label>
-          <div class="select">
-            <select v-model="currentQuestionData.level_type">
-              <option value="EASY">简单</option>
-              <option value="HARD">困难</option>
-            </select>
-          </div>
-        </div>
-
-        <div class="box-item">
-          <label>题目</label>
-          <input v-model="currentQuestionData.title" class="input" type="text">
-        </div>
-
-
-        <!-- 单选、多选 -->
-        <div class="box-item">
-          <label>所给选项</label>
-          <div class="options-box">
-            <label>A.</label>
-            <input v-model="options[0]" class="input" type="text">
-          </div>
-          <div class="options-box">
-            <label>B.</label>
-            <input v-model="options[1]" class="input" type="text">
-          </div>
-          <div class="options-box">
-            <label>C.</label>
-            <input v-model="options[2]" class="input" type="text">
-          </div>
-          <div class="options-box">
-            <label>D.</label>
-            <input v-model="options[3]" class="input" type="text">
-          </div>
-        </div>
-
-
-
-        <!-- 正确答案 -->
-        <div class="box-item">
-          <label>正确答案</label>
-          <div v-show="currentQuestionData.type_id === '1'" class="select">
-            <select v-model="currentQuestionData.answer">
-              <option value='A'>A</option>
-              <option value="B">B</option>
-              <option value="C">C</option>
-              <option value="D">D</option>
-            </select>
-          </div>
-
-          <div v-show="currentQuestionData.type_id ==='2'">
-            <input v-model="currentQuestionData.answer" class="input" type="text" placeholder="请用英文逗号将多个答案隔开">
-          </div>
-        </div>
-
-        <div class="box-item">
-          <label>答案备注</label>
-          <textarea v-model="currentQuestionData.answer_comment" class="textarea" type="text"></textarea>
         </div>
 
       </section>
      <footer class="modal-card-foot">
-        <button @click="editQuestion()" class="button is-success">确认</button>
+        <button @click="editQuestionType()" class="button is-success">确认</button>
         <button @click="switchModal()" class="button">取消</button>
       </footer>
     </div>
@@ -93,24 +45,20 @@
 export default {
   data() {
     return {
-      currentQuestionData: {
-        type_id: null,
-        level_type: null,
-        title: null,
-        body: null,
-        answer: null,
-        answer_comment: null,
-      },
       isShowModal: false,
-      options: [],
+      questionTypeData: {
+        name: '',
+        title: '',
+        delimite: '',
+        is_multiple_choice: '',
+      },
     }
   },
-  props: [
-    'editData',
-  ],
   components: {
-
   },
+  props: [
+    'editData'
+  ],
   methods: {
     switchModal: function () {
       const that = this;
@@ -118,53 +66,40 @@ export default {
     },
     clearWords: function () {
       const that = this;
-      that.currentQuestionData.type_id = '1';
-      that.currentQuestionData.level_type = 'EASY';
-      that.currentQuestionData.title = '';
-      that.currentQuestionData.body = '';
-      that.currentQuestionData.answer = '';
-      that.currentQuestionData.answer_comment = '';
+      that.questionTypeData.name = '';
+      that.questionTypeData.title = '';
+      that.questionTypeData.delimite = '';
+      that.questionTypeData.is_multiple_choice = '';
 
-      that.options = [];
     },
-    getAnswerOptions: function () {
+    editQuestionType: function () {
       const that = this;
-      let answer_body = '';
-      for (let i = 0; i < that.options.length; i++) {
-        if (i !== that.options.length - 1) {
-          answer_body += that.options[i] + ' '
-        }
-        else {
-          answer_body += that.options[i];
-        }
+
+      if (!that.questionTypeData.name || !that.questionTypeData.title || !that.questionTypeData.delimiter || !that.questionTypeData.is_multiple_choice)
+      {
+        alert('请检查内容是否填写完整');
+        return;
       }
-      return answer_body;
-    },
-    editQuestion: function () {
-      const that = this;
-      let id = that.editData.id;
-      let body = that.getAnswerOptions();
 
       axios({
-        method: 'put',
-        url: `${this.GLOBAL.localDomain}/api/v1/questions/${id}`,
+        method: 'patch',
+        url: `${this.GLOBAL.localDomain}/api/v1/questionTypes/`,
         headers: {
           'Accept': 'application/json',
           'Authorization': sessionStorage.getItem('token'),
         },
         params: {
-          type_id: that.currentQuestionData.type_id,
-          level_type: that.currentQuestionData.level_type,
-          title: that.currentQuestionData.title,
-          body: body,
-          answer: that.currentQuestionData.answer,
-          answer_comment: that.currentQuestionData.answer_comment
+          name: that.questionTypeData.name,
+          title: that.questionTypeData.title,
+          delimiter: that.questionTypeData.delimiter,
+          answer: that.questionTypeData.answer,
+          is_multiple_choice: that.questionTypeData.is_multiple_choice,
         }
       }).then(res => {
         alert('编辑成功');
-        that.$emit('getQuestion');   //第一个参数名为调用的方法名，第二个参数为需要传递的参数
-        that.switchModal();
+        that.$emit('getQuestionType');   //第一个参数名为调用的方法名，第二个参数为需要传递的参数
         that.clearWords();
+        that.switchModal();
       }).catch(err => {
         alert('编辑失败');
         console.log(err);
@@ -172,34 +107,21 @@ export default {
       })
     }
   },
-  creatad() {
+  created() {
 
   },
   watch: {
     editData: function (value, oldValue) {
       const that = this;
-      that.currentQuestionData.type_id = value.type_id;
-      that.currentQuestionData.level_type = value.level_type;
-      that.currentQuestionData.title = value.title;
-      that.currentQuestionData.answer = value.answer;
-      that.currentQuestionData.answer_comment = value.answer_comment;
-
-      that.currentQuestionData.body = value.body;
-      that.options = value.body.split(' ');
+      that.questionTypeData.name = value.name;
+      that.questionTypeData.title = value.title;
+      that.questionTypeData.delimiter = value.delimiter;
+      that.questionTypeData.is_multiple_choice = value.is_multiple_choice;
     }
   }
 }
 </script>
 
+
 <style scoped>
-.options-box {
-  margin: 20px 0 15px 0;
-}
-.options-box label {
-  display: inline-block;
-  width: 30px;
-}
-.options-box input {
-  width: 500px;
-}
 </style>

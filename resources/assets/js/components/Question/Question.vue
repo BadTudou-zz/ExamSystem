@@ -7,8 +7,17 @@
         <!-- <button disabled @click="searchQuestion()" class="button" type="button" name="button">查找题目</button> -->
         <div @click="searchQuestion()" class="search-button"><i class="fas fa-search"></i></div>
       </div>
+
+      <!-- <div>
+        <label>问题类型</label>
+        <div class="select">
+          <select v-for="(item, index) questionDataType" v-model="selectedQuestionDataType">
+            <option value=1>单选</option>
+          </select>
+        </div>
+      </div> -->
+
       <button v-show="isShowCreateQuestion" @click="addQuestion()" class="button add-question-button" type="button" name="button">添加题目</button>
-      <button @click="getQuestionType()" class="button add-question-button" type="button" name="button">查看现有题目类型</button>
     </div>
 
     <p v-if="!questionData" class="empty-message-prompt">暂无题目</p>
@@ -81,7 +90,8 @@ export default {
        currentQuestion: [],
        allQuestion: [],
        searchResult: [],
-
+       questionDataType: [],
+       selectedQuestionDataType: '',
     }
   },
   components: {
@@ -162,31 +172,31 @@ export default {
       }
       that.$refs.editQuestion.switchModal();
     },
-    searchQuestion: function () {
-      const that = this;
-      let id = that.searchKey;
-      if (!that.searchKey) {
-        that.searchKey = '';
-        that.getQuestion();
-        return;
-      }
-      axios({
-        method: 'get',
-        url: `${this.GLOBAL.localDomain}/api/v1/questions/${id}`,
-        headers: {
-          'Accept': 'application/json',
-          'Authorization': sessionStorage.getItem('token'),
-        }
-      }).then(res => {
-        that.questionData = [];
-        that.questionData.push(res.data.data)
-        // that.questionData = res.data.data;
-      }).catch(err => {
-        alert('查找出错');
-        that.getQuestion();
-        console.log(err);
-      })
-    },
+    // searchQuestion: function () {
+    //   const that = this;
+    //   let id = that.searchKey;
+    //   if (!that.searchKey) {
+    //     that.searchKey = '';
+    //     that.getQuestion();
+    //     return;
+    //   }
+    //   axios({
+    //     method: 'get',
+    //     url: `${this.GLOBAL.localDomain}/api/v1/questions/${id}`,
+    //     headers: {
+    //       'Accept': 'application/json',
+    //       'Authorization': sessionStorage.getItem('token'),
+    //     }
+    //   }).then(res => {
+    //     that.questionData = [];
+    //     that.questionData.push(res.data.data)
+    //     // that.questionData = res.data.data;
+    //   }).catch(err => {
+    //     alert('查找出错');
+    //     that.getQuestion();
+    //     console.log(err);
+    //   })
+    // },
     searchQuestion: function () {
       const that = this;
       // 如果没有搜索值
