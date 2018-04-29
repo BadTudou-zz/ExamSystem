@@ -6,7 +6,7 @@ use App\Models\Document;
 use App\Models\Video;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use PhpParser\Comment\Doc;
+use Illuminate\Support\Facades\Auth;
 
 
 class DocumentController extends Controller
@@ -32,6 +32,12 @@ class DocumentController extends Controller
 
     public function insert(Request $request){
 
+        $user  = Auth::user();
+
+        if (!($user->hasRole('teacher') || $user->hasRole("admin"))) {
+            return response()->json(['message' => 'unauthorized '],401);
+        }
+
         $userid = $request->input('userid');
         $cid = $request->input('cid');
         $filename = $request->input('filename');
@@ -47,18 +53,40 @@ class DocumentController extends Controller
     }
 
     public function selectForUserid(Request $request) {
+
+        $user  = Auth::user();
+
+        if (!($user->hasRole('teacher') || $user->hasRole("admin"))) {
+            return response()->json(['message' => 'unauthorized '],401);
+        }
+
         $userid = $request->input('userid');
         $doc = new Document();
         $data = $doc->where("userid",$userid)->get()->toJson();
         return $data;
     }
     public function selectForCid(Request $request) {
+
+        $user  = Auth::user();
+
+        if (!($user->hasRole('teacher') || $user->hasRole("admin"))) {
+            return response()->json(['message' => 'unauthorized '],401);
+        }
+
         $cid = $request->input('cid');
         $doc = new Document();
         $data = $doc->where("cid",$cid)->get()->toJson();
         return $data;
     }
     public function delete(Request $request) {
+
+        $user  = Auth::user();
+
+        if (!($user->hasRole('teacher') || $user->hasRole("admin"))) {
+            return response()->json(['message' => 'unauthorized '],401);
+        }
+
+
         $id = $request->input('id');
         $doc = Document::find($id);
         if ($doc->delete()){
@@ -73,6 +101,14 @@ class DocumentController extends Controller
     }
 
     public function update(Request $request) {
+
+        $user  = Auth::user();
+
+        if (!($user->hasRole('teacher') || $user->hasRole("admin"))) {
+            return response()->json(['message' => 'unauthorized '],401);
+        }
+
+
         $id = $request->input('id');
         $docName = $request->input('docName');
         $kp = $request->input('kp');
