@@ -25,7 +25,7 @@
 
         function fire(file){
 
-            var name = file.value;
+            var name = file.event;
 
             var pos = name.lastIndexOf('.');
 
