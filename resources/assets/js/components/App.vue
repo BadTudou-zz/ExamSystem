@@ -16,7 +16,7 @@ export default {
     return {
       isShowLogin: true,
       logOut: null,
-    };
+    }
   },
   components: {
     Login,
@@ -34,6 +34,8 @@ export default {
         that.isShowLogin = true;
       }
     }
+  },
+  computed: {
   },
   created() {
     this.checkLoginState();

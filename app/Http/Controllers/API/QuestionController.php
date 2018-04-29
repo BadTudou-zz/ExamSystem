@@ -25,7 +25,12 @@ class QuestionController extends Controller
 
     public function show(ShowQuestion $request, $id)
     {
-        return new QuestionResource(Question::findOrFail($id));
+        $builder = Question::find($id);
+        if ($request->get('includeType') == 'yes')
+            {
+                $builder = $builder->with('Type');
+            }
+        return new QuestionResource($builder->get());
     }
 
     public function store(StoreQuestion $request)

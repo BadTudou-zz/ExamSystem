@@ -3,80 +3,215 @@
     <div class="left-nav">
       <div>
         <div class="head-portrait">
-          <!-- <i class="far fa-heart"></i> -->
           当前用户：{{userName}}
         </div>
         <ul>
-          <!-- <li><i class="fas fa-home"></i><span>主页</span></li> -->
-          <li :class="{'is-active' : currentTag === 'uuser'}" v-show="isShowUser" @click="currentTag = 'uuser'">
-            <router-link @click="currentTag = 'uuser'" to="/uuser"><i class="far fa-user-circle"></i><span>用户</span></router-link>
+          <!-- <el-row class="tac">
+            <el-menu
+              default-active="2"
+              class="el-menu-vertical-demo"
+              @open="handleOpen"
+              @close="handleClose"
+              background-color="#1c3146"
+              text-color="#fff"
+              active-text-color="#ffd04b">
+
+              <el-menu-item index="6">
+                <i class="el-icon-menu"></i>
+                <router-link slot="title" to="/personalData">个人</router-link>
+              </el-menu-item>
+
+              <el-submenu index="7">
+                <template slot="title">
+                  <i class="el-icon-view"></i>
+                  <span>权限</span>
+                </template>
+                <el-menu-item-group>
+                  <template slot="title"></template>
+                  <el-menu-item index="7-1">角色</el-menu-item>
+                  <el-menu-item index="7-2">权限</el-menu-item>
+                  <el-menu-item index="7-3">组织</el-menu-item>
+                </el-menu-item-group>
+              </el-submenu>
+
+              <el-submenu index="8">
+                <template slot="title">
+                  <i class="el-icon-bell"></i>
+                  <span>消息</span>
+                </template>
+                <el-menu-item-group>
+                  <template slot="title"></template>
+                  <el-menu-item index="8-1">消息</el-menu-item>
+                  <el-menu-item index="8-2">通知</el-menu-item>
+                  <el-menu-item index="8-3">申请</el-menu-item>
+                </el-menu-item-group>
+              </el-submenu>
+
+              <el-submenu index="9">
+                <template slot="title">
+                  <i class="el-icon-menu"></i>
+                  <span>课程</span>
+                </template>
+                <el-menu-item-group>
+                  <template slot="title"></template>
+                  <el-menu-item index="9-1">选课</el-menu-item>
+                  <el-menu-item index="9-2">课程</el-menu-item>
+                  <el-menu-item index="9-3">授课</el-menu-item>
+                </el-menu-item-group>
+              </el-submenu>
+
+              <el-menu-item index="10">
+                <i class="el-icon-menu"></i>
+                <span slot="title">考试</span>
+              </el-menu-item>
+
+              <el-submenu index="1">
+                <template slot="title">
+                  <i class="el-icon-view"></i>
+                  <span>权限管理</span>
+                </template>
+                <el-menu-item-group>
+                  <template slot="title"></template>
+                  <el-menu-item index="1-1">用户</el-menu-item>
+                  <el-menu-item index="1-2">角色</el-menu-item>
+                  <el-menu-item index="1-3">权限</el-menu-item>
+                  <el-menu-item index="1-4">组织</el-menu-item>
+                </el-menu-item-group>
+              </el-submenu>
+
+              <el-submenu index="2">
+                <template slot="title">
+                  <i class="el-icon-bell"></i>
+                  <span>消息管理</span>
+                </template>
+                <el-menu-item-group>
+                  <template slot="title"></template>
+                  <el-menu-item index="2-1">消息</el-menu-item>
+                  <el-menu-item index="2-2">通知</el-menu-item>
+                  <el-menu-item index="2-3">申请</el-menu-item>
+                </el-menu-item-group>
+              </el-submenu>
+
+              <el-submenu index="3">
+                <template slot="title">
+                  <i class="el-icon-menu"></i>
+                  <span>课程管理</span>
+                </template>
+                <el-menu-item-group>
+                  <template slot="title"></template>
+                  <el-menu-item index="3-1">课程</el-menu-item>
+                  <el-menu-item index="3-2">授课</el-menu-item>
+                </el-menu-item-group>
+              </el-submenu>
+
+              <el-submenu index="4">
+                <template slot="title">
+                  <i class="el-icon-edit-outline"></i>
+                  <span>考试管理</span>
+                </template>
+                <el-menu-item-group>
+                  <template slot="title"></template>
+                  <el-menu-item index="4-1">题目</el-menu-item>
+                  <el-menu-item index="4-2">试卷</el-menu-item>
+                  <el-menu-item index="4-2">考试</el-menu-item>
+                </el-menu-item-group>
+              </el-submenu>
+
+              <el-submenu index="5">
+                <template slot="title">
+                  <i class="el-icon-more-outline"></i>
+                  <span>其他管理</span>
+                </template>
+                <el-menu-item-group>
+                  <template slot="title"></template>
+                  <el-menu-item index="5-1">标签</el-menu-item>
+                </el-menu-item-group>
+              </el-submenu>
+            </el-menu>
+        </el-row> -->
+
+          <li v-show="isShowManagement" :class="{'is-active' : currentTag === 'setting'}" @click="currentTag = 'setting'">
+            <router-link to="/setting"><i class="fas fa-sliders-h"></i><span>管理</span></router-link>
           </li>
 
-          <li v-show="isShowRole" :class="{'is-active' : currentTag === 'role'}" @click="currentTag = 'role'">
-            <router-link to="/role"><i class="fas fa-users"></i><span>角色</span></router-link>
+          <li :class="{'is-active' : currentTag === 'personalData'}" @click="currentTag = 'personalData'">
+            <router-link to="/personalData"><i class="far fa-user-circle"></i><span>个人</span></router-link>
           </li>
 
-          <li v-show="isShowPermission" :class="{'is-active' : currentTag === 'permission'}" @click="currentTag = 'permission'">
-            <router-link to="/ppermission"><i class="fas fa-key"></i><span>权限</span></router-link>
+          <li :class="{'is-active' : currentTag === 'messageData'}" @click="currentTag = 'messageData'">
+            <router-link to="/messageData"><i class="far fa-comments"></i><span>消息</span></router-link>
           </li>
 
-          <li v-show="isShowMessage" :class="{'is-active' : currentTag === 'mmessage'}"  @click="currentTag = 'mmessage'">
-            <router-link to="/mmessage"><i class="far fa-comments"></i><span>消息</span></router-link>
+          <li :class="{'is-active' : currentTag === 'noticeData'}" @click="currentTag = 'noticeData'">
+            <router-link to="/noticeData"><i class="far fa-bell"></i><span>通知</span></router-link>
           </li>
 
-          <li v-show="isShowNotification" :class="{'is-active' : currentTag === 'nnotice'}"  @click="currentTag = 'nnotice'">
-            <router-link to="/nnotice"><i class="far fa-bell"></i><span>通知</span></router-link>
+          <li :class="{'is-active' : currentTag === 'lectureData'}" @click="currentTag = 'lectureData'">
+            <router-link to="/lectureData"><i class="fas fa-align-left"></i><span>选课</span></router-link>
           </li>
 
-          <li v-show="isShowOrganization" :class="{'is-active' : currentTag === 'organization'}" @click="currentTag = 'organization'">
-            <router-link to="/organization"><i class="fas fa-braille"></i><span>组织</span></router-link>
+          <li :class="{'is-active' : currentTag === 'organizationData'}" @click="currentTag = 'organizationData'">
+            <router-link to="/organizationData"><i class="fas fa-braille"></i><span>组织</span></router-link>
           </li>
 
-          <li :class="{'is-active' : currentTag === 'course'}" @click="currentTag = 'course'">
-            <router-link to="/course"><i class="fas fa-newspaper"></i><span>课程</span></router-link>
+          <li :class="{'is-active' : currentTag === 'roleData'}" @click="currentTag = 'roleData'">
+            <router-link to="/roleData"><i class="fas fa-users"></i><span>角色</span></router-link>
           </li>
 
-
-          <li :class="{'is-active' : currentTag === 'teaching'}" @click="currentTag = 'teaching'">
-            <router-link to="/teaching"><i class="fas fa-book"></i><span>授课</span></router-link>
+          <li :class="{'is-active' : currentTag === 'permissionData'}" @click="currentTag = 'permissionData'">
+            <router-link to="/permissionData"><i class="fas fa-key"></i><span>权限</span></router-link>
           </li>
 
-          <li v-show="isShowExam" :class="{'is-active' : currentTag === 'test'}" @click="currentTag = 'test'">
-            <router-link to="/test"><i class="far fa-file-alt"></i><span>考试</span></router-link>
+          <li :class="{'is-active' : currentTag === 'applyForData'}" @click="currentTag = 'applyForData'">
+            <router-link to="/applyForData"><i class="fab fa-adn"></i><span>申请</span></router-link>
           </li>
 
-          <li v-show="isShowPaper" :class="{'is-active' : currentTag === 'examinationPaper'}" @click="currentTag = 'examinationPaper'">
-            <router-link to="/examinationPaper"><i class="fas fa-paperclip"></i><span>试卷</span></router-link>
+          <li :class="{'is-active' : currentTag === 'testData'}" @click="currentTag = 'testData'">
+            <router-link to="/testData"><i class="far fa-file-alt"></i><span>考试</span></router-link>
           </li>
-
-          <li v-show="isShowQuestion" :class="{'is-active' : currentTag === 'question'}" @click="currentTag = 'question'">
-            <router-link to="/question"><i class="fas fa-list-ol"></i><span>题目</span></router-link>
+          <li :class="{'is-active' : currentTag === 'courseData'}" @click="currentTag = 'courseData'">
+            <router-link to="/courseData"><i class="fas fa-book"></i><span>课程</span></router-link>
           </li>
-
-          <li is-show="isShowTag" :class="{'is-active' : currentTag === 'label'}" @click="currentTag = 'label'">
-            <router-link to="/label"><i class="fas fa-tags"></i><span>标签</span></router-link>
+          <li :class="{'is-active' : currentTag === 'teachingData'}" @click="currentTag = 'teachingData'">
+            <router-link to="/teachingData"><i class="fas fa-graduation-cap"></i><span>授课</span></router-link>
           </li>
-
-          <li v-show="isShowApplication" :class="{'is-active' : currentTag === 'applyFor'}" @click="currentTag = 'applyFor'">
-            <router-link to="/applyFor"><i class="fab fa-adn"></i><span>申请</span></router-link>
+          <li :class="{'is-active' : currentTag === 'video'}" @click="currentTag = 'video'">
+            <router-link to="/video"><i class="fas fa-graduation-cap"></i><span>视频</span></router-link>
           </li>
-
-          <!-- <li>
-            <i class="fas fa-align-left"></i>
-            <router-link to="/others"><span>其他</span></router-link>
-          </li> -->
-
         </ul>
       </div>
     </div>
 
     <div class="right-nav">
       <div class="operate">
-        <div class="notice">
-          <router-link title="个人中心" to="/personalCenter"><i class="far fa-user"></i></router-link>
-          <router-link title="个人消息" to="/mmessage"><i class="far fa-comment-alt"></i></router-link><span v-show="messageLength > 0" class="prompt"><span class="data-length">{{ messageLength }}</span></span>
-          <router-link title="个人通知" to="/nnotice"><i class="fas fa-bullhorn"></i><span v-show="noticeLength > 0" class="prompt"><span class="data-length">{{ noticeLength }}</span></span></router-link>
-        </div>
+        <!-- <div class="top-nav-box">
+          <router-link v-show="isShowUser" to="/uuser"><span>用户</span></router-link>
+
+          <router-link v-show="isShowRole" to="/role"><span>角色</span></router-link>
+
+          <router-link v-show="isShowPermission" to="/ppermission"><span>权限</span></router-link>
+
+          <router-link v-show="isShowMessage" to="/mmessage"><span>消息</span></router-link>
+
+          <router-link v-show="isShowNotification" to="/nnotice"><span>通知</span></router-link>
+
+          <router-link v-show="isShowOrganization" to="/organization"><span>组织</span></router-link>
+
+          <router-link to="/course"><span>课程</span></router-link>
+
+          <router-link to="/teaching"><span>授课</span></router-link>
+
+          <router-link v-show="isShowExam"  to="/test"><span>考试</span></router-link>
+
+          <router-link v-show="isShowPaper" to="/examinationPaper"><span>试卷</span></router-link>
+
+          <router-link v-show="isShowQuestion" to="/question"><span>题目</span></router-link>
+
+          <router-link is-show="isShowTag" to="/label"><span>标签</span></router-link>
+
+          <router-link v-show="isShowApplication" to="/applyFor"><span>申请</span></router-link>
+
+        </div> -->
         <div @click="logOut()" class="exit">
           <i class="fas fa-sign-out-alt"></i>
           <span>退出</span>
@@ -108,6 +243,12 @@ export default {
   components: {
   },
   methods: {
+    handleOpen(key, keyPath) {
+      console.log(key, keyPath);
+    },
+    handleClose(key, keyPath) {
+      console.log(key, keyPath);
+    },
     getUserDetail: function () {
       const that = this;
       axios({
@@ -186,7 +327,7 @@ export default {
     },
     // 3.【用户】
     isShowUser() {
-      // return true;
+      // return false;
       return sessionStorage.getItem('permissions').includes('user-index');
     },
     // 4.【消息】
@@ -238,6 +379,12 @@ export default {
     isShowExam() {
       // return true;
       return sessionStorage.getItem('permissions').includes('exam-index');
+    },
+    isShowManagement: function () {
+      let res = this.isShowExam    || this.isShowTag          || this.isShowApplication || this.isShowPaper        || this.isShowQuestion ||
+                this.isShowLecture || this.isShowOrganization || this.isShowCourse      || this.isShowNotification || this.isShowMessage ||
+                this.isShowUser    || this.isShowRole         || this.isShowPermission
+      return res;
     }
   },
   created() {
@@ -263,7 +410,8 @@ export default {
   width: 17%;
   min-height: 800px;
   height: auto;
-  background-color: #2f4860;
+  /* background-color: #2f4860; */
+  background-color: #1c3146;
 }
 ul {
   padding-top: 30px;
@@ -271,7 +419,8 @@ ul {
 ul li {
   list-style: none;
   text-align: center;
-  color: #76929d;
+  /* color: #76929d; */
+  color: #fff;
   padding: 13px 0;
   cursor: pointer;
 }
@@ -284,15 +433,13 @@ ul li:hover {
   color: #fff;
 }
 a {
-  color: #76929d;
-}
-a:hover {
   color: #fff;
 }
 ul li {
   list-style: none;
   text-align: center;
-  color: #76929d;
+  /* color: #76929d; */
+  color: #fff;
   padding: 13px 0;
   cursor: pointer;
 }
@@ -316,7 +463,8 @@ ul li:hover {
 }
 ul li span {
   display: inline-block;
-  margin-left: 20px;
+  /* margin-left: 20px; */
+  width: 56px;
 }
 .head-portrait {
   height: 75px;
@@ -343,12 +491,18 @@ ul li span {
   border-bottom: 1px solid #dedede;
   background-color: #fff;
 }
-.notice {
-  font-size: 17px;
+.top-nav-box {
+  font-size: 16px;
   height: 76px;
   line-height: 76px;
   float: left;
   margin: 0;
+  color: #acb9b8;
+}
+.top-nav-box span {
+  color: #acb9b8;
+  font-size: 15px;
+  margin: 0 15px 0 17px;
 }
 .exit {
   float: right;
@@ -361,16 +515,17 @@ ul li span {
   height: 76px;
   line-height: 76px;
 }
-.fa-user,
-.fa-comment-alt,
-.fa-bullhorn {
+.top-nav {
   display: inline-block;
-  margin: 0 15px;
+  margin: 0 5px;
   cursor: pointer;
-  color: #aeb8b8;
+  color: #acb9b8;
+}
+.top-nav span {
+  color: #acb9b8;
 }
 .fa-sign-out-alt {
-  font-size: 17px;
+  font-size: 16px;
   cursor: pointer;
   color: #aeb8b8;
 }
@@ -391,4 +546,8 @@ ul li span {
   position: relative;
   top: -30px;
 }
+.el-submenu {
+  padding: 0px;
+}
+
 </style>

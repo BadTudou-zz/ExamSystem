@@ -425,5 +425,40 @@ class PermissionsTableSeeder extends Seeder
         $destroyExam->description  = 'Destroy A Exam';
         $destroyExam->save();
 
+        // 全部问题类型
+        $indexQuestionType = new Permission();
+        $indexQuestionType->name         = 'questionType-index';
+        $indexQuestionType->display_name = 'All QuestionType';
+        $indexQuestionType->description  = 'All QuestionType';
+        $indexQuestionType->save();
+
+        // 查看问题类型
+        $showQuestionType = new Permission();
+        $showQuestionType->name         = 'questionType-show';
+        $showQuestionType->display_name = 'Show A QuestionType';
+        $showQuestionType->description  = 'Show A QuestionType';
+        $showQuestionType->save();
+
+        // 添加问题类型
+        $storeQuestionType = new Permission();
+        $storeQuestionType->name         = 'questionType-store';
+        $storeQuestionType->display_name = 'Store A QuestionType';
+        $storeQuestionType->description  = 'Store A QuestionType';
+        $storeQuestionType->save();
+
+        // 编辑问题类型
+        $updateQuestionType = new Permission();
+        $updateQuestionType->name         = 'questionType-update';
+        $updateQuestionType->display_name = 'Update A QuestionType';
+        $updateQuestionType->description  = 'Update A QuestionType';
+        $updateQuestionType->save();
+
+        // 删除问题类型
+        $destroyQuestionType = new Permission();
+        $destroyQuestionType->name         = 'questionType-destroy';
+        $destroyQuestionType->display_name = 'Destroy A QuestionType';
+        $destroyQuestionType->description  = 'Destroy A QuestionType';
+        $destroyQuestionType->save();
+
     }
 }

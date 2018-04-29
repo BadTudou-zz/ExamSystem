@@ -18,7 +18,6 @@ class UserExamResource extends Resource
             'id' => $this->id,
             'name' => $this->name,
             'email' => $this->email,
-            'exam_id' => $this->exam_id,
             'answers' => $this->pivot->answers,
             'score' => $this->pivot->score,
             'begin_at' => $this->pivot->begin_at,

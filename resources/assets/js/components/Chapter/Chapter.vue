@@ -7,13 +7,14 @@
         <div class="box chapter-box">
           <div>
             <div class="search-box">
-              <input v-model="searchKey" class="input search-input" type="text" placeholder="请输入章节">
+              <input v-model="searchKey" class="input search-input" type="text" placeholder="请输入关键字">
               <!-- <button disabled @click="searchChapter()" class="button" type="button" name="button">查找章节</button> -->
               <div @click="searchChapter()" class="search-button"><i class="fas fa-search"></i></div>
             </div>
               <button @click="addChapter()" class="button add-chapter-button" type="button" name="button">添加章节</button>
           </div>
-          <table class="table is-bordered is-striped is-hoverable is-fullwidths">
+          <p v-if="!chapterData" class="empty-message-prompt">暂无章节</p>
+          <table v-else class="table is-bordered is-striped is-hoverable is-fullwidths">
             <thead>
               <tr>
                 <th>ID</th>
@@ -30,13 +31,14 @@
               <tr v-for="(item,index) in chapterData">
                 <td>{{ item.id }}</td>
                 <td>{{ item.name }}</td>
-                <td>{{ item.describe }}</td>
+                <td><p class="limit-words">{{ item.describe }}</p></td>
                 <td>{{ computedQuestionType(item.question_type) }}</td>
                 <td>{{ item.score }}</td>
                 <td>{{ item.number }}</td>
                 <td>{{ item.questions }}</td>
                 <td>
-                  <button @click="deleteChapter(index)" class="delete" type="button" name="button">删除章节</button>
+                  <!-- <button @click="deleteChapter(index)" class="delete" type="button" name="button">删除章节</button> -->
+                  <div @click="deleteChapter(index)" class="icon-button"><i class="far fa-trash-alt"></i></div>
                   <button @click="editChapter(index)"  class="button" type="button" name="button">编辑章节</button>
                 </td>
               </tr>
@@ -123,7 +125,11 @@ export default {
         that.chapterData = res.data.data;
         that.paginationData = res.data.links;
       }).catch(err => {
-        console.log(err)
+        console.log(err);
+        if (err.response.status === 401) {
+          // alert('登录超时');
+          // location.reload();
+        }
       })
     },
     // searchChapter: function () {
@@ -172,7 +178,8 @@ export default {
       }
       // 如果有搜索值并且还未获取全部数据
       else {
-        let url = `${this.GLOBAL.localDomain}/api/v1/sections/`;
+        // let url = `${this.GLOBAL.localDomain}/api/v1/sections/`;
+        let url = `${this.GLOBAL.localDomain}/api/v1/papers/${that.examinationPaperId}/sections/`;
         that.getAllChapter(url);
       }
     },

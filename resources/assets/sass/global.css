@@ -28,17 +28,33 @@
   display: inline-block;
   cursor: pointer;
 }
-.edit-button {
+/* 所有icon类的编辑button */
+.icon-button {
   display: inline-block;
   cursor: pointer;
   color: #cecece;
-  margin: 0 10px;
+  margin: 0 3px;
 }
-
+/* 文字限制 */
 .limit-words {
   display: inline-block;
   width: 300px;
   overflow: hidden;
   text-overflow:ellipsis;
   white-space: nowrap;
+}
+table {
+  width: 100%;
+}
+/* 空消息提示 */
+.empty-message-prompt {
+  text-align: center;
+  margin-top: 70px;
+}
+/* delete icon */
+.fa-trash-alt {
+  color: #ef6f59;
+}
+.fa-edit {
+  color: #a6d499;
 }

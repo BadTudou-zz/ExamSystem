@@ -3,7 +3,9 @@
   <div class="box">
     <h3 class="title">组织</h3>
 
-    <table v-if="organizationData" class="table">
+
+    <p v-if="!organizationData" class="empty-message-prompt">暂无组织</p>
+    <table v-else class="table">
       <thead>
         <tr>
           <th>ID</th>
@@ -13,7 +15,7 @@
           <th>最大容量</th>
           <th>当前容量</th>
           <th>创建时间</th>
-          <th>更新时间</th>
+          <!-- <th>更新时间</th> -->
         </tr>
       </thead>
       <tbody>
@@ -21,17 +23,14 @@
           <td>{{ item.id }}</td>
           <td>{{ item.name }}</td>
           <td>{{ item.creator_id }}</td>
-          <td>{{ item.description }}</td>
+          <td><p class="limit-words">{{ item.description }}</p></td>
           <td>{{ item.max }}</td>
           <td>{{ item.current }}</td>
           <td>{{ GLOBAL.toTime(item.created_at) }}</td>
-          <td>{{ GLOBAL.toTime(item.updated_at) }}</td>
+          <!-- <td>{{ GLOBAL.toTime(item.updated_at) }}</td> -->
         </tr>
       </tbody>
     </table>
-    <div v-else>
-      暂无组织数据
-    </div>
 
     <pagination v-bind:pagination-data="paginationData"
                 v-model="data"
