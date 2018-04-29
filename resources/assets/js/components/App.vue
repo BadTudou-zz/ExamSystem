@@ -35,6 +35,8 @@ export default {
       }
     }
   },
+  computed: {
+  },
   created() {
     this.checkLoginState();
   },
@@ -44,7 +46,7 @@ export default {
       if (value === 'logOut') {
         that.isShowLogin = true;
       }
-    },
+    }
   }
 }
 </script>

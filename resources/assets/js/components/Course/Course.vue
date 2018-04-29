@@ -132,7 +132,11 @@ export default {
         that.paginationData = res.data.links;
         //
       }).catch(err => {
-        console.log(err)
+        console.log(err);
+        if (err.response.status === 401) {
+          // alert('登录超时');
+          // location.reload();
+        }
       })
     },
     searchCourse: function () {

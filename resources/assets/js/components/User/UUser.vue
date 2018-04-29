@@ -128,10 +128,15 @@ export default {
           'Authorization': sessionStorage.getItem('token'),
         }
       }).then(res => {
+        // debugger
         that.userData = res.data.data;
         that.paginationData = res.data.links;
       }).catch(err => {
         console.log(err)
+        if (err.response.status === 401) {
+          // alert('登录超时');
+          // location.reload();
+        }
       })
     },
     // 查找用户

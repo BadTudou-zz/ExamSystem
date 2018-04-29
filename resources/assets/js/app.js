@@ -6,16 +6,19 @@
  */
 
 // 引入全局变量
+import Vue from 'vue';
 import global_ from './components/Global'//引用文件
 import VueRouter from 'vue-router';
 import routes from './routes';    // 路由配置文件
-import Vuex from 'vuex';
 import global_css from '../../assets/sass/global.css';
 import VCharts from 'v-charts';
 
+import ElementUI from 'element-ui';
+import 'element-ui/lib/theme-chalk/index.css';
+Vue.use(ElementUI);
 
 require('./bootstrap');
-window.Vue = require('vue');
+// window.Vue = require('vue');
 
 Vue.prototype.GLOBAL = global_; //挂载到Vue实例上面
 
@@ -23,8 +26,6 @@ Vue.prototype.GLOBAL = global_; //挂载到Vue实例上面
 // Vue.use(VueResource);
 Vue.use(VueRouter);
 Vue.use(VCharts);
-
-// import 1 from './store/'; // vuex 数据存储所需对象
 
 
 /**
@@ -48,32 +49,32 @@ const router = new VueRouter({
     routes
 });
 
-// 实例化store
-let store = new Vuex.Store({
-  // state 全局使用的数据
-  state: {
-    // permissionIdList: [1,2,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52],
-    permissionIdList: [],
-    userData: null,
-    token: '',
-  },
-  mutations: {
-    setToken: function (state, token) {
-      state.token = token;
-    },
-    setUserData: function (state, userData) {
-      state.userData = userData;
-    },
-    setPermissionIdList: function (state, permissionIdList) {
-      state.permissionIdList = permissionIdList;
-    }
-  },
-  actions: {  // 新增代码
-  }
-})
+// // 实例化store
+// let store = new Vuex.Store({
+//   // state 全局使用的数据
+//   state: {
+//     // permissionIdList: [1,2,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52],
+//     permissionIdList: [],
+//     userData: null,
+//     token: '',
+//   },
+//   mutations: {
+//     setToken: function (state, token) {
+//       state.token = token;
+//     },
+//     setUserData: function (state, userData) {
+//       state.userData = userData;
+//     },
+//     setPermissionIdList: function (state, permissionIdList) {
+//       state.permissionIdList = permissionIdList;
+//     }
+//   },
+//   actions: {  // 新增代码
+//   }
+// })
 
 // 实例化 Vue
 var vm = new Vue({
-    store,
+    // store,
     router
 }).$mount('#app');
