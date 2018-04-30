@@ -103,6 +103,7 @@
                   <template slot="title"></template>
                   <el-menu-item v-show="isShowCourse" index="3-1"><router-link to="/course">课程</router-link></el-menu-item>
                   <el-menu-item v-show="isShowLecture" index="3-2"><router-link to="/teaching">授课</router-link></el-menu-item>
+                  <el-menu-item index="3-3"><router-link to="/video">视频</router-link></el-menu-item>
                 </el-menu-item-group>
               </el-submenu>
 

@@ -1,12 +1,12 @@
 <template lang="html">
     <div class="">
       <img class="banner" src="../../img/banner1.jpg" alt="">
-      <navigation2 v-model="logOut"></navigation2>
+      <navigation v-model="logOut"></navigation>
     </div>
 </template>
 
 <script>
-import Navigation2 from './Navigation2'
+import Navigation from './Navigation'
 export default {
   data() {
     return {
@@ -19,7 +19,7 @@ export default {
     };
   },
   components: {
-    Navigation2,
+    Navigation,
   },
   methods: {
   },
