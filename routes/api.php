@@ -12,15 +12,20 @@ Route::post('captchas', 'API\CaptchaController@store');
 
 Route::group(['prefix' => '/v1'], function () {
     Route::post('webrtc', 'TestController@webrtc');
+//    Route::post('upload/lecture/insert/video', 'API\VideoController@insert');
 });
 
 Route::prefix('v1')->middleware(['auth:api'])->group(function () {
 
     Route::post('questions/import', 'API\ExcelController@import');
+
+
+
     Route::post('upload/lecture/video', 'API\VideoController@uploadVideo');
     Route::post('upload/lecture/insert/video', 'API\VideoController@insert');
     Route::post('upload/lecture/selectForUserid/video', 'API\VideoController@selectForUserid');
     Route::post('upload/lecture/selectForCid/video', 'API\VideoController@selectForCid');
+    Route::post('upload/lecture/selectAll/video', 'API\VideoController@selectAll');
     Route::post('upload/lecture/delete/video', 'API\VideoController@delete');
     Route::post('upload/lecture/update/video', 'API\VideoController@update');
 
@@ -28,6 +33,7 @@ Route::prefix('v1')->middleware(['auth:api'])->group(function () {
     Route::post('upload/lecture/insert/document', 'API\DocumentController@insert');
     Route::post('upload/lecture/selectForUserid/document', 'API\DocumentController@selectForUserid');
     Route::post('upload/lecture/selectForCid/document', 'API\DocumentController@selectForCid');
+    Route::post('upload/lecture/selectAll/document', 'API\DocumentController@selectAll');
     Route::post('upload/lecture/delete/document', 'API\DocumentController@delete');
     Route::post('upload/lecture/update/document', 'API\DocumentController@update');
 
@@ -109,6 +115,8 @@ Route::prefix('v1')->middleware(['auth:api'])->group(function () {
     Route::get('papers/{id}/questions', 'API\PaperController@questions');
     // 试卷-分数
     Route::get('papers/{id}/scores', 'API\PaperController@scores');
+    // 试卷-自动选择题目
+    Route::post('papers/{id}/maker', 'API\PaperController@maker');
     // 试卷章节
     Route::namespace('API\Papers')->group(function (){
             Route::apiResource('papers/{paper}/sections', 'PaperSectionController');

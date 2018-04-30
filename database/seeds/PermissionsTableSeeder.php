@@ -515,5 +515,61 @@ class PermissionsTableSeeder extends Seeder
         $destroyQuestionType->display_name = 'Update A Document Info';
         $destroyQuestionType->description  = 'Update A Document Info';
         $destroyQuestionType->save();
+
+        // 新增预习
+
+        $destroyQuestionType = new Permission();
+        $destroyQuestionType->name         = 'insert-preview';
+        $destroyQuestionType->display_name = '新增预习内容';
+        $destroyQuestionType->description  = '新增预习内容';
+        $destroyQuestionType->save();
+
+        // 发布预习
+
+        $destroyQuestionType = new Permission();
+        $destroyQuestionType->name         = 'publish-preview';
+        $destroyQuestionType->display_name = '发布预习内容';
+        $destroyQuestionType->description  = '发布预习内容';
+        $destroyQuestionType->save();
+
+        // 更新预习
+
+        $destroyQuestionType = new Permission();
+        $destroyQuestionType->name         = 'update-preview';
+        $destroyQuestionType->display_name = '更新预习内容';
+        $destroyQuestionType->description  = '更新预习内容';
+        $destroyQuestionType->save();
+
+        // 删除预习
+
+        $destroyQuestionType = new Permission();
+        $destroyQuestionType->name         = 'delete-preview';
+        $destroyQuestionType->display_name = '删除预习内容';
+        $destroyQuestionType->description  = '删除预习内容';
+        $destroyQuestionType->save();
+
+        // 根据userid查询预习
+
+        $destroyQuestionType = new Permission();
+        $destroyQuestionType->name         = 'select-for-userid';
+        $destroyQuestionType->display_name = '根据userid查询预习';
+        $destroyQuestionType->description  = '根据userid查询预习';
+        $destroyQuestionType->save();
+
+        // 根据cid查询预习
+
+        $destroyQuestionType = new Permission();
+        $destroyQuestionType->name         = 'select-for-cid';
+        $destroyQuestionType->display_name = '根据课程id查询预习';
+        $destroyQuestionType->description  = '根据课程id查询预习';
+        $destroyQuestionType->save();
+
+        // 查询全部预习
+
+        $destroyQuestionType = new Permission();
+        $destroyQuestionType->name         = 'select-all';
+        $destroyQuestionType->display_name = '查询全部预习';
+        $destroyQuestionType->description  = '查询全部预习';
+        $destroyQuestionType->save();
     }
 }
