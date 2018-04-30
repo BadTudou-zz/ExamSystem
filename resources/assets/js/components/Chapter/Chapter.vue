@@ -31,7 +31,7 @@
               <tr v-for="(item,index) in chapterData">
                 <td>{{ item.id }}</td>
                 <td>{{ item.name }}</td>
-                <td><p class="limit-words">{{ item.describe }}</p></td>
+                <td><p class="chapter-limit-words">{{ item.describe }}</p></td>
                 <td>{{ computedQuestionType(item.question_type) }}</td>
                 <td>{{ item.score }}</td>
                 <td>{{ item.number }}</td>
@@ -305,10 +305,14 @@ table {
 .add-chapter-button {
   margin-left: 20px;
 }
-.chapter-box {
-  width: 1300px;
-}
 .chapter-content {
-  width: 1300px;
+  width: 1200px;
+}
+.chapter-limit-words {
+  display: inline-block;
+  width: 140px;
+  overflow: hidden;
+  text-overflow:ellipsis;
+  white-space: nowrap;
 }
 </style>

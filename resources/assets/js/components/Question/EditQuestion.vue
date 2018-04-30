@@ -24,6 +24,7 @@
           <div class="select">
             <select v-model="currentQuestionData.level_type">
               <option value="EASY">简单</option>
+              <option value="MIDDLE">中等</option>
               <option value="HARD">困难</option>
             </select>
           </div>

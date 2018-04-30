@@ -57,8 +57,6 @@
                    v-bind:edit-data="editData"
     ></edit-question>
 
-    <question-type ref="questionType"></question-type>
-
     <pagination v-show="searchResult.length === 0"
                 v-bind:pagination-data="paginationData"
                 v-model="data"
@@ -267,8 +265,12 @@ export default {
         console.log(err);
       })
     },
+    // getAllQuestionType: function () {
+    //   const that = this;
+    // },
     getOptionsString: function (value) {
       const that = this;
+
       let arr = value.split(' ');
       let alphabet = ['A','B','C','D','E','F','G','H','I'];
       let str = '';
@@ -290,6 +292,9 @@ export default {
       switch (value) {
         case 'EASY':
           levelType = '容易';
+          break;
+        case 'MIDDLE':
+          levelType = '中等';
           break;
         case 'HARD':
           levelType = '困难';
@@ -314,7 +319,7 @@ export default {
         case 4:
           questionType = '填空';
           break;
-        case '5':
+        case 5:
           questionType = '简答';
           break;
       }
