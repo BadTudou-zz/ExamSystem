@@ -89,6 +89,8 @@ export default {
       filename: null,
       userid: '1',
       cid: '1',
+      end: null,
+      sta: 0,
     }
   },
   components: {
@@ -99,27 +101,26 @@ export default {
   methods: {
     // 分段上传
     up(fd){
-      console.log('调用up');
-      console.log(fd)
       axios({
         method: 'POST',
         url: `${this.GLOBAL.localDomain}/api/v1/upload/lecture/video`,
+        data: fd,
         headers: {
           'Accept': 'application/json',
           'Authorization': sessionStorage.getItem('token'),
         },
         params: {
           filename: this.filename,
-        }
+        },
       }).then(res => {
         // alert('up成功！')
       }).catch(err => {
-        // alert('up失败');
+        alert('上传失败');
+        return;
         console.log(err);
       })
     },
     info(userid,cid){
-      console.log('调用info');
       axios({
         method: 'POST',
         url: `${this.GLOBAL.localDomain}/api/v1/upload/lecture/insert`,
@@ -133,15 +134,14 @@ export default {
           filename: this.filename,
         }
       }).then(res => {
-        alert('info成功')
+        // alert('info成功')
       }).catch(err => {
-        alert('info失败');
+        // alert('info失败');
         console.log(err);
       })
     },
     fire: function (file){
       const that = this;
-      console.log('调用fire');
       var name = file.target.value;
       var pos = name.lastIndexOf('.');
       var myDate = new Date();
@@ -155,14 +155,14 @@ export default {
                     }, 1000)
     },
     sendfile: function() {
-      console.log('调用sendfile');
       const that = this;
       (function (){
           const  LENGTH = 5*1024*1024; //每一次上传10M
           // 开始截取位置
-          var sta = 0;
+          //
           // 截取结束的位置。
-          var end = sta+LENGTH;
+          that.end = that.sta + LENGTH;
+
           //标识上一块是否上传完毕。
           var flag = false;
           // 设置一个blob变量
@@ -180,14 +180,14 @@ export default {
               var mov = document.getElementsByName('pic')[0].files[0];
 
               // 如果sta>mov.size
-              if(sta > mov.size){
-                  clearInterval(clock);
+              if(that.sta > mov.size){
+                  clearInterval(that.clock);
                   that.info(that.userid, that.cid);
                   alert("上传成功");
                   return ;
               }
 
-              blob = mov.slice(sta,end);
+              blob = mov.slice(that.sta, that.end);
 
               fd = new FormData();
 
@@ -195,78 +195,23 @@ export default {
 
               that.up(fd);
 
-              sta = end;
+              that.sta = that.end;
 
-              end = sta+LENGTH;
+              that.end = that.sta + LENGTH;
 
               flag = false;
 
-              percent =100*end/mov.size;
+              percent = 100 * that.end / mov.size;
 
               if (percent>100) {
                   percent=100;
               }
-
               document.getElementById('bar').style.width = percent + '%';
               document.getElementById('bar').innerHTML = parseInt(percent) + '%';
-          })();
+          })(that.sta, that.end);
 
-      })(that.serid, that.cid);
+      })(that.userid, that.cid);
     },
-    ff: function () {
-
-    },
-    // sendfile(userid,cid) {
-    //   console.log('调用sendfile');
-    //   // (function (){
-    //       const  LENGTH = 5*1024*1024; //每一次上传10M
-    //       // 开始截取位置
-    //       var sta = 0;
-    //       // 截取结束的位置。
-    //       var end = sta+LENGTH;
-    //       //标识上一块是否上传完毕。
-    //       var flag = false;
-    //       // 设置一个blob变量
-    //       var blob = null;
-    //       // 设置一个HTML5的文件对象。
-    //       var fd = null;
-    //       // 设置百分比
-    //       var percent = 0;
-    //
-    //
-    //
-    //       if(flag == true){
-    //           return;
-    //       }
-    //       // 获取文件信息
-    //       var mov = document.getElementsByName('pic')[0].files[0];
-    //
-    //       // 如果sta>mov.size
-    //       if(sta>mov.size){
-    //           clearInterval(this.clock);
-    //           this.info(userid,cid);
-    //           alert("上传成功")
-    //           return ;
-    //       }
-    //
-    //       blob = mov.slice(sta,end);
-    //       fd = new FormData();
-    //       fd.append('part',blob);
-    //       this.up(fd);
-    //       sta = end;
-    //       end = sta+LENGTH;
-    //       flag = false;
-    //       percent =100*end/mov.size;
-    //       if (percent>100) {
-    //           percent=100;
-    //       }
-    //       document.getElementById('bar').style.width = percent + '%';
-    //       document.getElementById('bar').innerHTML = parseInt(percent) + '%';
-    //
-    //   // })(userid,cid),
-    // },
-    //
-
     showModal: function () {
       const that = this;
       that.isShowModal = !that.isShowModal;

@@ -26,8 +26,8 @@
           <label>是否允许多选</label>
           <div class="select">
             <select v-model="questionTypeData.level_type">
-              <option value="false">禁止</option>
-              <option value="true">允许</option>
+              <option value=0>禁止</option>
+              <option value=1>允许</option>
             </select>
           </div>
         </div>
@@ -50,7 +50,7 @@ export default {
         name: '',
         title: '',
         delimite: '',
-        is_multiple_choice: 'false',
+        is_multiple_choice: 0,
       },
     }
   },
@@ -76,20 +76,20 @@ export default {
         alert('请检查内容是否填写完整');
         return;
       }
+      debugger
 
       axios({
         method: 'post',
-        url: `${this.GLOBAL.localDomain}/api/v1/questionTypes/`,
+        url: `${this.GLOBAL.localDomain}/api/v1/questionTypes`,
         headers: {
           'Accept': 'application/json',
           'Authorization': sessionStorage.getItem('token'),
         },
-        params: {
+        body: {
           name: that.questionTypeData.name,
           title: that.questionTypeData.title,
           delimiter: that.questionTypeData.delimiter,
-          answer: that.questionTypeData.answer,
-          is_multiple_choice: false,
+          is_multiple_choice: that.questionTypeData.is_multiple_choice,
         }
       }).then(res => {
         alert('添加成功');
@@ -97,6 +97,7 @@ export default {
         that.clearWords();
         that.switchModal();
       }).catch(err => {
+        debugger
         alert('添加失败');
         console.log(err);
         that.clearWords();
