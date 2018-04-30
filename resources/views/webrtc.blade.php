@@ -26,7 +26,7 @@
     var video = document.getElementById('video');
     var  canvas = document.getElementById('canvas');
     var  img = document.getElementById('img');
-    const  photographTime = 10000; // 单位毫秒
+    const  photographTime = 1; // 单位毫秒
     // window对象路径 兼容手机
     vendorUrl = window.URL || window.webkitURL;
 
