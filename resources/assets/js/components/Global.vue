@@ -10,7 +10,7 @@ import moment from 'moment'
 
   // const localDomain = 'http://localhost:8000';
   // const localDomain = 'http://127.0.0.1:8000';
-  const localDomain = 'http://www.badtudou.com';
+  const localDomain = 'https://www.badtudou.com';
   const token = sessionStorage.getItem('token');
   const userId = sessionStorage.getItem('userId');
   const permissions = sessionStorage.getItem('permissions');

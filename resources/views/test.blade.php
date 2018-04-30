@@ -1,58 +1,25 @@
-<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Document</title>
     <script type="text/javascript">
-
         var xhr = new XMLHttpRequest();
-
         var clock = null;
-
         var postfix = null;
-
         var myDate = new Date();
-
         var time = null;
-
         var filename = null;
-
-
-<<<<<<< HEAD
-
         // 随便写的一个值，具体的userid和cid你从Storage取出来
-
-        // 随便写的一个值，具体的userid和courseId你从Storage取出来
-
-=======
->>>>>>> 7af70b7613e503855b02cc56a0b96c5fc623be8d
         var userid = 1;
-
         var cid = 2;
-
-        // 视频名称和所属知识点，由用户填写，加两个input框
-        var videoName = "测试视频";
-
-        var kp = "知识点是xxxx";
-
         function fire(file){
-
             var name = file.value;
-
             var pos = name.lastIndexOf('.');
-
-
             postfix = name.substring(pos+1);
-
             time = myDate.getFullYear()+'-'+myDate.getMonth()+'-'+myDate.getDate()+'-'+Math.ceil(Math.random()*100000);
-
             filename = time + '.' + postfix;
-
             clock =  window.setInterval(sendfile,1000);
-
         }
-
-
         var sendfile = (function (){
             const  LENGTH = 5*1024*1024; //每一次上传10M
             // 开始截取位置
@@ -67,66 +34,51 @@
             var fd = null;
             // 设置百分比
             var percent = 0;
-
-<<<<<<< HEAD
             return (function (){
-=======
-            var res = (function (){
                 if(flag == true){
                     return;
                 }
->>>>>>> 7af70b7613e503855b02cc56a0b96c5fc623be8d
                 // 获取文件信息
                 var mov = document.getElementsByName('pic')[0].files[0];
+
                 // 如果sta>mov.size
                 if(sta>mov.size){
                     clearInterval(clock);
                     info(userid,cid);
-                    alert("上传成功");
+                    alert("上传成功")
                     return ;
                 }
-
                 blob = mov.slice(sta,end);
 
                 fd = new FormData();
-
                 fd.append('part',blob);
-
-
                 up(fd);
-
                 sta = end;
+                console.log('sta: ' + sta + '  ' + 'end: ' + end);
 
-                end = sta + LENGTH;
+                end = sta+LENGTH;
+                console.log('sta: ' + sta + '  ' + 'end: ' + end);
 
                 flag = false;
-
                 percent =100*end/mov.size;
-
                 if (percent>100) {
                     percent=100;
                 }
+                console.log('-------------')
                 document.getElementById('bar').style.width = percent + '%';
                 document.getElementById('bar').innerHTML = parseInt(percent) + '%';
             });
-            return res;
         })(userid,cid);
-
-
         function up(fd){
-
             xhr.open('POST','api/v1/upload/lecture/video?filename='+filename,false);
             xhr.send(fd);
             // alert(xhr.responseText);
             console.log(FormData);
         }
         function info(userid,cid){
-            xhr.open('POST','api/v1/upload/lecture/insert/video?userid='+userid + "&cid=" + cid + "&filename="+filename
-                +"&kp=" + kp + "&videoName=" + videoName,false);
+            xhr.open('POST','api/v1/upload/lecture/insert?userid='+userid + "&cid=" + cid + "&filename="+filename,false);
             xhr.send();
         }
-
-
     </script>
     <style type="text/css">
         #progress{
@@ -147,7 +99,6 @@
     <div id="bar"></div>
 </div>
 <input type="file" name="pic" onchange="fire(this);" >
-
 
 </body>
 </html>

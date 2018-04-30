@@ -5,18 +5,21 @@ namespace App\Http\Controllers\API;
 use App\Models\Video;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-
+use Illuminate\Support\Facades\Auth;
 
 class VideoController extends Controller
 {
+
+
     public function uploadVideo () {
+
         /*
         接收文件并合并
         */
 
         // 获取文件名
         $filename = $_GET['filename'];
-        echo $filename;
+
         // 第一次如果文件不存在就把传过来的二进制数据移动到新的文件里面
         $path = public_path() . DIRECTORY_SEPARATOR . 'video' . DIRECTORY_SEPARATOR . $filename;
 
@@ -29,6 +32,12 @@ class VideoController extends Controller
     }
 
     public function insert(Request $request){
+
+        $user  = Auth::user();
+
+        if (!($user->hasRole('teacher') || $user->hasRole("admin"))) {
+            return response()->json(['message' => 'unauthorized '],401);
+        }
 
         $userid = $request->input('userid');
         $cid = $request->input('cid');
@@ -45,18 +54,44 @@ class VideoController extends Controller
     }
 
     public function selectForUserid(Request $request) {
+
+        $user  = Auth::user();
+
+        if (!($user->hasRole('teacher') || $user->hasRole("admin"))) {
+            return response()->json(['message' => 'unauthorized '],401);
+        }
+
+        $user = Auth::user();
+        dd($user);
+        $flag = $user->hasRole('admin');
+        dd($flag);
         $userid = $request->input('userid');
         $video = new Video();
         $data = $video->where("userid",$userid)->get()->toJson();
         return $data;
     }
     public function selectForCid(Request $request) {
+
+        $user  = Auth::user();
+
+        if (!($user->hasRole('teacher') || $user->hasRole("admin"))) {
+            return response()->json(['message' => 'unauthorized '],401);
+        }
+
         $cid = $request->input('cid');
         $video = new Video();
         $data = $video->where("cid",$cid)->get()->toJson();
         return $data;
     }
     public function delete(Request $request) {
+
+        $user  = Auth::user();
+
+        if (!($user->hasRole('teacher') || $user->hasRole("admin"))) {
+            return response()->json(['message' => 'unauthorized '],401);
+        }
+
+
         $id = $request->input('id');
         $video = Video::find($id);
         if ($video->delete()){
@@ -71,6 +106,13 @@ class VideoController extends Controller
     }
 
     public function update(Request $request) {
+
+        $user  = Auth::user();
+
+        if (!($user->hasRole('teacher') || $user->hasRole("admin"))) {
+            return response()->json(['message' => 'unauthorized '],401);
+        }
+
         $id = $request->input('id');
         $videoName = $request->input('videoName');
         $kp = $request->input('kp');
@@ -81,4 +123,6 @@ class VideoController extends Controller
             return json_encode(["status"=>0,"message"=>"删除成功！"]);
         }
     }
+
+
 }
