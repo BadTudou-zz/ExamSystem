@@ -129,7 +129,6 @@ export default {
           'Authorization': sessionStorage.getItem('token'),
         }
       }).then(res => {
-        // debugger
         that.userData = res.data.data;
         that.paginationData = res.data.links;
       }).catch(err => {

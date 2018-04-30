@@ -23,7 +23,8 @@
           <!-- name:"SINGLE_CHOICE"title:"单选题" -->
           <!-- updated_at:"2018-04-29 19:33:03" -->
           <th>序号</th>
-          <th>类型名</th>
+          <th>名称</th>
+          <th>显示名称</th>
           <th>分隔符</th>
           <th>是否允许多选</th>
           <th>操作</th>
@@ -33,6 +34,7 @@
         <tr v-for="(item,index) in questionTypeData">
           <td>{{ item.id }}</td>
           <td>{{ item.name }}</td>
+          <td>{{ item.title }}</td>
           <td>{{ item.delimiter }}</td>
           <td>{{ computedIsAllowMultiple(item.is_multiple_choice) }}</td>
           <td>
