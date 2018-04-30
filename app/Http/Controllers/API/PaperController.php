@@ -10,6 +10,7 @@ use App\Http\Requests\Paper\Show as ShowPaper;
 use App\Http\Requests\Paper\Store as StorePaper;
 use App\Http\Requests\Paper\Update as UpdatePaper;
 use App\Http\Requests\Paper\Destroy as DestroyPaper;
+use App\Http\Requests\Paper\PaperMakeQuestions;
 use App\Http\Resources\PaperResource;
 use App\Http\Resources\PaperCollection;
 use App\Http\Resources\QuestionResource;
@@ -17,7 +18,7 @@ use App\Http\Resources\QuestionCollection;
 use App\Paper;
 use App\Util\OrmUtil;
 use Validator;
-
+use App\Jobs\MakeQuestionsForPaper;
 
 class PaperController extends Controller
 {
@@ -69,5 +70,11 @@ class PaperController extends Controller
     public function destroy(DestroyPaper $request, $id)
     {
         Paper::findOrFail($id)->delete();
+    }
+
+    public function maker(PaperMakeQuestions $request, $id)
+    {
+        $data = $request->only(['id', 'number', 'types']);
+        MakeQuestionsForPaper::dispatch(array_merge($data, ['id' => $id]));
     }
 }
