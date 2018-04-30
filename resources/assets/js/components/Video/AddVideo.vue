@@ -9,19 +9,11 @@
       <section class="modal-card-body">
         <div class="box-item">
           <label>视频名称</label>
-          <input v-model="videoData.name" class="input" type="text">
+          <input v-model="videoData.videoName" class="input" type="text">
         </div>
         <div class="box-item">
-          <label>显示名称</label>
-          <input v-model="videoData.display_name" class="input" type="text">
-        </div>
-        <div class="box-item">
-          <label>详情描述</label>
-          <input v-model="videoData.descripe" class="input" type="text" placeholder="请输入视频名">
-        </div>
-        <div class="box-item">
-          <label>数量</label>
-          <input v-model="videoData.number" class="input" type="text">
+          <label>知识点</label>
+          <input v-model="videoData.kp" class="input" type="text">
         </div>
       </section>
       <footer class="modal-card-foot">
@@ -38,10 +30,8 @@ export default {
     return {
       isShowModal: false,
       videoData: {
-        name: null,
-        display_name: null,
-        descripe: null,
-        number: null,
+        videoName: '',
+        kp: '',
       },
     }
   },
