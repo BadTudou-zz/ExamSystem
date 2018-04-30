@@ -1,80 +1,44 @@
 <!-- 查看视频 -->
 <template lang="html">
-  <div class="box">
-    <div>
+  <div class="modal" :class="{'is-active' : isShowModal}">
+    <div class="modal-background"></div>
+    <div class="modal-content">
+      <div class="box">
+
         <div v-show="isShowSearchVideo" class="search-box">
           <input v-model="searchKey" class="input search-input" type="text" placeholder="请输入视频">
-          <!-- <button class="button" type="button" name="button">查找视频</button> -->
-          <div @click="searchVideo()" class="search-button"><i class="fas fa-search"></i></div>
+          <div class="search-button"><i class="fas fa-search"></i></div>
         </div>
-        <button v-show="isShowCreateVideo" @click="addVideo()" class="button add-video-button" type="button" name="button">添加视频</button>
+        <button v-show="isShowCreateVideo"  class="button add-video-button" type="button" name="button">添加视频</button>
+
+      </div>
     </div>
-    <p v-if="!videoData" class="empty-message-prompt">暂无视频</p>
-    <table v-else class="table is-bordered is-striped is-hoverable is-fullwidths">
-      <thead>
-        <tr>
-          <th>ID</th>
-          <th>视频名</th>
-          <th>视频别名</th>
-          <th>视频数</th>
-          <th>视频描述</th>
-          <th>创建时间</th>
-          <!-- <th>更新时间</th> -->
-          <th>操作</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="(item,index) in videoData">
-          <td>{{ item.id }}</td>
-          <td>{{ item.name }}</td>
-          <td>{{ item.display_name }}</td>
-          <td>{{ item.number }}</td>
-          <td><p class="limit-words">{{ item.descripe }}</p></td>
-          <td>{{ GLOBAL.toTime(item.created_at) }}</td>
-          <!-- <td>{{ GLOBAL.toTime(item.updated_at) }}</td> -->
-          <td>
-            <div v-show="isShowDeleteVideo" @click="deleteVideo(index)" class="icon-button"><i class="far fa-trash-alt"></i></div>
-            <!-- <button v-show="isShowDeleteVideo" @click="deleteVideo(index)" class="delete" type="button" name="button">删除视频</button> -->
-            <div v-show="isShowEditVideo" @click="editVideo(index)" class="icon-button"><i class="fas fa-edit"></i></div>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-
-
-    <div id="progress">
-        <div id="bar"></div>
-    </div>
-    <input type="file" name="pic" @change="fire($event)">
-
-
-    <add-video ref="addVideo"
-                v-on:getVideo="getVideo"
-    ></add-video>
-
-    <edit-video ref="editVideo"
-                 v-on:getVideo="getVideo"
-                 v-bind:edit-data="editData"
-    ></edit-video>
-
-    <pagination v-show="searchResult.length === 0"
-                v-bind:pagination-data="paginationData"
-                v-model="data"
-    ></pagination>
+    <button class="modal-close is-large" aria-label="close"></button>
   </div>
+
+  <!-- <add-video></add-video> -->
+
+  <!-- <edit-video ref="editVideo"
+               v-on:getVideo="getVideo"
+               v-bind:edit-data="editData"
+  ></edit-video> -->
+
+  <!-- <pagination v-show="searchResult.length === 0"
+              v-bind:pagination-data="paginationData"
+              v-model="data"
+  ></pagination> -->
 </template>
 
 <script>
 import AddVideo from './AddVideo'
-import EditVideo from './EditVideo'
-import Pagination from './../Pagination.vue'
+// import EditVideo from './EditVideo'
+// import Pagination from './../Pagination.vue'
 
 export default {
   data() {
     return {
       isShowModal: false,
       videoData: null,
-      editData: null,
       paginationData: null,
       data: null,
       searchKey: '',
@@ -95,10 +59,17 @@ export default {
   },
   components: {
     AddVideo,
-    EditVideo,
-    Pagination,
+    // EditVideo,
+    // Pagination,
   },
+  props: [
+    'editData'
+  ],
   methods: {
+    switchModal: function () {
+      const that = this;
+      that.isShowModal = !that.isShowModal;
+    },
     // 分段上传
     up(fd){
       axios({
@@ -163,7 +134,6 @@ export default {
 
           // 截取结束的位置。
           that.end = that.sta + LENGTH;
-
           //标识上一块是否上传完毕。
           var flag = false;
           // 设置一个blob变量
@@ -172,7 +142,6 @@ export default {
           var fd = null;
           // 设置百分比
           var percent = 0;
-
           (function (){
               if(flag === true){
                   return;
@@ -233,7 +202,7 @@ export default {
       if (prompt) {
         axios({
           method: 'delete',
-          url: `${this.GLOBAL.localDomain}/api/v1/courses/${id}`,
+          url: `${this.GLOBAL.localDomain}/api/v1/videos/${id}`,
           headers: {
             'Accept': 'application/json',
             'Authorization': sessionStorage.getItem('token'),
@@ -251,7 +220,7 @@ export default {
       const that = this;
       axios({
         method: 'get',
-        url: `${this.GLOBAL.localDomain}/api/v1/courses`,
+        url: `${this.GLOBAL.localDomain}/api/v1/videos`,
         headers: {
           'Accept': 'application/json',
           'Authorization': sessionStorage.getItem('token'),
@@ -297,7 +266,7 @@ export default {
       }
       // 如果有搜索值并且还未获取全部数据
       else {
-        let url = `${this.GLOBAL.localDomain}/api/v1/courses/`;
+        let url = `${this.GLOBAL.localDomain}/api/v1/videos/`;
         that.getAllVideo(url);
       }
     },
@@ -362,14 +331,13 @@ export default {
     this.getVideo();
   },
   watch: {
-    data:function (value, oldValue) {
+    // data:function (value, oldValue) {
+    //   const that = this;
+    //   that.videoData = value.data;
+    //   that.paginationData = value.links;
+    // },
+    editData: function (value, oldValue) {
       const that = this;
-      that.videoData = value.data;
-      that.paginationData = value.links;
-    },
-    allVideo: function (value, oldValue) {
-      const that = this;
-      that.searchVideo(that.searchKey);
     }
   }
 }
@@ -402,5 +370,8 @@ table {
     display: inline-block;
     width: 130px;
   }
+}
+.modal-content {
+  width: 1200px;
 }
 </style>
