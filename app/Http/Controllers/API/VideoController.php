@@ -44,6 +44,8 @@ class VideoController extends Controller
         $filename = $request->input('filename');
         $videoName = $request->input('videoName');
         $kp = $request->input('kp');
+
+
         $video = new Video();
         $video->userid = $userid;
         $video->cid = $cid;
@@ -61,10 +63,7 @@ class VideoController extends Controller
             return response()->json(['message' => 'unauthorized '],401);
         }
 
-        $user = Auth::user();
-        dd($user);
-        $flag = $user->hasRole('admin');
-        dd($flag);
+
         $userid = $request->input('userid');
         $video = new Video();
         $data = $video->where("userid",$userid)->get()->toJson();
@@ -122,6 +121,18 @@ class VideoController extends Controller
         if ($video->save()) {
             return json_encode(["status"=>0,"message"=>"删除成功！"]);
         }
+    }
+
+    public function selectAll(Request $request){
+        $user  = Auth::user();
+
+        if (!$user->hasRole("admin")) {
+            return response()->json(['message' => 'unauthorized '],401);
+        }
+
+        $preview = new Video();
+        $data = $preview->get()->toJson();
+        return $data;
     }
 
 
