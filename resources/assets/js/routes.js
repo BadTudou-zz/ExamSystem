@@ -28,7 +28,7 @@ export default[
   // 题目
   { path: '/Question', component: require('./components/Question/Question.vue') },
   // 题目类型
-  { path: '/QuestionType', component: require('./components/QuestionType/QuestionType.vue') },
+  // { path: '/QuestionType', component: require('./components/QuestionType/QuestionType.vue') },
   // 试卷
   { path: '/ExaminationPaper', component: require('./components/ExaminationPaper/ExaminationPaper.vue') },
   // 章节
