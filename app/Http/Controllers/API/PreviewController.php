@@ -55,10 +55,9 @@ class PreviewController extends Controller
         }
 
 
-        $oid = $request->input('oid');
+
         $id = $request->input('id');
         $preview = Preview::find($id);
-        $preview->oid = $oid;
         $preview->is_publish = 1;
         if ($preview->save()){
             return json_encode(["status"=>0,"message"=>"发布成功！"]);
@@ -97,10 +96,8 @@ class PreviewController extends Controller
         $content = $request->input('content');
         $endTime = $request->input('endTime');
         $isPublish = $request->input('isPublish');
-        $oid = $request->input('oid');
         $id = $request->input('id');
         $preview = Preview::find($id);
-        $preview->oid = $oid;
         $preview->is_publish = $isPublish;
         $preview->name = $previewName;
         $preview->content = $content;
