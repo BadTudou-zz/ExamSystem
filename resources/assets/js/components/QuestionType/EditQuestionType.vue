@@ -25,7 +25,7 @@
         <div class="box-item">
           <label>是否允许多选</label>
           <div class="select">
-            <select v-model="questionTypeData.level_type">
+            <select v-model="questionTypeData.is_multiple_choice">
               <option value=0>禁止</option>
               <option value=1>允许</option>
             </select>
@@ -82,7 +82,7 @@ export default {
 
       axios({
         method: 'patch',
-        url: `${this.GLOBAL.localDomain}/api/v1/questionTypes/`,
+        url: `${this.GLOBAL.localDomain}/api/v1/questionTypes`,
         headers: {
           'Accept': 'application/json',
           'Authorization': sessionStorage.getItem('token'),
