@@ -92,6 +92,8 @@ Route::prefix('v1')->middleware(['auth:api'])->group(function () {
     Route::get('papers/{id}/questions', 'API\PaperController@questions');
     // 试卷-分数
     Route::get('papers/{id}/scores', 'API\PaperController@scores');
+    // 试卷-自动选择题目
+    Route::post('papers/{id}/maker', 'API\PaperController@maker');
     // 试卷章节
     Route::namespace('API\Papers')->group(function (){
             Route::apiResource('papers/{paper}/sections', 'PaperSectionController');
