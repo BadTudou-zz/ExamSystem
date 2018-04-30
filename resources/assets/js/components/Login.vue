@@ -188,14 +188,17 @@ export default {
     },
     registerData: function(value, oldValue) {
       const that = this;
-
-      let email = value.email;
-      let password = value.password;
-
+      let token = value.token;
+      let userId = value.user.id;
+      debugger
       that.isShowLoginBox = false;
       that.loadingModal();
-      
-      that.login(email, password)
+      sessionStorage.setItem("token",`Bearer ${token}`);
+      sessionStorage.setItem('userId', userId);
+
+      let url = `${this.GLOBAL.localDomain}/api/v1/users/${that.userId}/permissions/`;
+      that.getPermission(url);
+
     }
   }
 }
