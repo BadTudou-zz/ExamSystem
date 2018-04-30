@@ -147,7 +147,7 @@ export default {
       var pos = name.lastIndexOf('.');
       var myDate = new Date();
       var postfix = name.substring(pos+1);
-      var time = myDate.getFullYear()+'-'+myDate.getMonth()+'-'+myDate.getDate()+'-'+Math.ceil(Math.random()*100000);
+      var time = myDate.getFullYear() + '-' + (myDate.getMonth() + 1) + '-'+ myDate.getDate() + '-' + Math.ceil(Math.random() * 100000);
       this.filename = time + '.' + postfix;
       // this.clock =  setInterval(this.sendfile(),1000);
 
