@@ -65,7 +65,6 @@
                     percent=100;
                 }
                 console.log('-------------')
-                debugger
                 document.getElementById('bar').style.width = percent + '%';
                 document.getElementById('bar').innerHTML = parseInt(percent) + '%';
             });

@@ -103,6 +103,7 @@ export default {
     up(fd){
       axios({
         method: 'POST',
+        // url: `${this.GLOBAL.localDomain}/api/v1/upload/lecture/video?filename='+filename,`,
         url: `${this.GLOBAL.localDomain}/api/v1/upload/lecture/video`,
         data: fd,
         headers: {
@@ -157,9 +158,9 @@ export default {
     sendfile: function() {
       const that = this;
       (function (){
-          const  LENGTH = 5*1024*1024; //每一次上传10M
+          const  LENGTH = 5 * 1024 * 1024; //每一次上传10M
           // 开始截取位置
-          //
+
           // 截取结束的位置。
           that.end = that.sta + LENGTH;
 

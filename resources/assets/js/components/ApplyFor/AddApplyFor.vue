@@ -153,7 +153,7 @@ export default {
           'Accept': 'application/json',
           'Authorization': sessionStorage.getItem('token'),
         },
-        body: {
+        params: {
           to: that.applyForData.to,
           action: 'create',
           resource_id: that.applyForData.resource_id,
