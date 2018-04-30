@@ -119,4 +119,16 @@ class DocumentController extends Controller
             return json_encode(["status"=>0,"message"=>"更新成功！"]);
         }
     }
+    public function selectAll(Request $request){
+        $user  = Auth::user();
+
+        if (!$user->hasRole("admin")) {
+            return response()->json(['message' => 'unauthorized '],401);
+        }
+
+        $preview = new Document();
+        $data = $preview->get()->toJson();
+        return $data;
+    }
+
 }
