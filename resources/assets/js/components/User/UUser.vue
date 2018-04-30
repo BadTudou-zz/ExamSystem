@@ -17,10 +17,12 @@
           <th>ID</th>
           <th>用户名</th>
           <th>邮箱</th>
-          <th>创建时间</th>
+          <th>固话</th>
+          <th>手机</th>
+          <th>QQ</th>
+          <!-- <th>创建时间</th> -->
           <!-- <th>更新时间</th> -->
           <th>操作</th>
-          <!-- <th>查看</th> -->
         </tr>
       </thead>
       <tbody>
@@ -28,17 +30,16 @@
           <td>{{ item.id }}</td>
           <td>{{ item.name }}</td>
           <td>{{ item.email }}</td>
-          <td>{{ toTime(item.created_at.date) }}</td>
+          <td>{{ item.number }}</td>
+          <td>{{ item.phone }}</td>
+          <td>{{ item.qq }}</td>
+          <!-- <td>{{ toTime(item.created_at.date) }}</td> -->
           <!-- <td>{{ toTime(item.updated_at.date) }}</td> -->
           <td>
             <div v-show="isShowDeleteUser" @click="deleteUser(index)" class="icon-button"><i class="far fa-trash-alt"></i></div>
-            <!-- <button v-show="isShowDeleteUser" @click="deleteUser(index)" class="delete" type="button">删除用户</button> -->
-            <button v-show="isShowEditUser" @click="editUser(index)" class="button is-small" type="button">更改用户名</button>
+            <div  v-show="isShowEditUser" @click="editUser(index)" class="icon-button"><i class="fas fa-edit"></i></div>
             <button v-show="isShowEditUser" @click="changePassword(index)" class="button is-small" type="button">更改密码</button>
           </td>
-          <!-- <td>
-            <v-view></v-view>
-          </td> -->
         </tr>
       </tbody>
     </table>
@@ -128,7 +129,6 @@ export default {
           'Authorization': sessionStorage.getItem('token'),
         }
       }).then(res => {
-        // debugger
         that.userData = res.data.data;
         that.paginationData = res.data.links;
       }).catch(err => {

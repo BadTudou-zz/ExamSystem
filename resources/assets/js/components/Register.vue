@@ -115,9 +115,9 @@ export default {
       }).then(res => {
         alert('注册成功，正在登录');
         that.clearWords();
-
         that.switchModal();
-        that.$emit('input', that.registerData)
+
+        that.$emit('input', res.data.data);
       }).catch(err => {
         alert('注册失败');
         this.getVerificationCode();
@@ -125,10 +125,14 @@ export default {
     },
   },
   watch: {
-
+    isShowModal: function(value, oldValue) {
+      const that = this;
+      if (value) {
+        this.getVerificationCode();
+      }
+    }
   },
   created() {
-    this.getVerificationCode();
   }
 }
 </script>
