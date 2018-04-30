@@ -5,13 +5,11 @@
     <div class="modal-content">
       <div class="box">
 
-  <!--
-            <div v-show="isShowSearchVideo" class="search-box">
-              <input v-model="searchKey" class="input search-input" type="text" placeholder="请输入课程">
-              <div class="search-button"><i class="fas fa-search"></i></div>
-            </div>
-            <button v-show="isShowCreateVideo"  class="button add-video-button" type="button" name="button">添加课程</button> -->
-
+        <div v-show="isShowSearchVideo" class="search-box">
+          <input v-model="searchKey" class="input search-input" type="text" placeholder="请输入视频">
+          <div class="search-button"><i class="fas fa-search"></i></div>
+        </div>
+        <button v-show="isShowCreateVideo"  class="button add-video-button" type="button" name="button">添加视频</button>
 
       </div>
     </div>

@@ -1,6 +1,6 @@
 <template lang="html">
-  <div id="app" class="login-wrapper">
 
+  <div id="app" class="login-wrapper">
     <div v-show="isShowLoginBox" class="login-box">
       <input v-model="account" class="input form-control" placeholder="请输入你的邮箱">
       <input v-model="password" type="password" class="input form-control" placeholder="密码">
@@ -16,7 +16,6 @@
         <a @click="register()">注册</a>
       </div>
     </div>
-
 
     <register ref="register"
               v-model="registerData"
@@ -190,13 +189,13 @@ export default {
       const that = this;
       let token = value.token;
       let userId = value.user.id;
-      debugger
+
       that.isShowLoginBox = false;
       that.loadingModal();
       sessionStorage.setItem("token",`Bearer ${token}`);
       sessionStorage.setItem('userId', userId);
 
-      let url = `${this.GLOBAL.localDomain}/api/v1/users/${that.userId}/permissions/`;
+      let url = `${this.GLOBAL.localDomain}/api/v1/users/${userId}/permissions/`;
       that.getPermission(url);
 
     }
