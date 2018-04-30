@@ -3,7 +3,7 @@
     <div class="modal-background"></div>
     <div class="modal-card">
       <header class="modal-card-head">
-        <p class="modal-card-title">添加题目</p>
+        <p class="modal-card-title">添加题目类型</p>
         <button @click="switchModal()" class="delete" aria-label="close"></button>
       </header>
       <section class="modal-card-body">
@@ -66,7 +66,7 @@ export default {
       that.questionTypeData.name = '';
       that.questionTypeData.title = '';
       that.questionTypeData.delimite = '';
-      that.questionTypeData.is_multiple_choice = 'false';
+      that.questionTypeData.is_multiple_choice = '';
     },
     addQuestionType: function () {
       const that = this;
@@ -76,7 +76,6 @@ export default {
         alert('请检查内容是否填写完整');
         return;
       }
-      debugger
 
       axios({
         method: 'post',
@@ -85,11 +84,11 @@ export default {
           'Accept': 'application/json',
           'Authorization': sessionStorage.getItem('token'),
         },
-        body: {
-          name: that.questionTypeData.name,
-          title: that.questionTypeData.title,
-          delimiter: that.questionTypeData.delimiter,
-          is_multiple_choice: that.questionTypeData.is_multiple_choice,
+        params: {
+          'name': that.questionTypeData.name,
+          'title': that.questionTypeData.title,
+          'delimiter': that.questionTypeData.delimiter,
+          'is_multiple_choice': that.questionTypeData.is_multiple_choice,
         }
       }).then(res => {
         alert('添加成功');
@@ -97,7 +96,6 @@ export default {
         that.clearWords();
         that.switchModal();
       }).catch(err => {
-        debugger
         alert('添加失败');
         console.log(err);
         that.clearWords();

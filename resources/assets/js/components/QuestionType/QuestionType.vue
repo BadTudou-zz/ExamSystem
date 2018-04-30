@@ -138,7 +138,7 @@ export default {
     deleteQuestionType: function (index) {
       const that = this;
       let id = that.questionTypeData[index]['id'];
-      let prompt = confirm("确认删除该题目类型吗？");
+      let prompt = confirm("确认删除该类型吗？");
       if (prompt) {
         axios({
           method: 'delete',
