@@ -516,26 +516,84 @@ class PermissionsTableSeeder extends Seeder
         $destroyQuestionType->description  = 'Update A Document Info';
         $destroyQuestionType->save();
 
+        // 新增课程视频
+        $destroyQuestionType = new Permission();
+        $destroyQuestionType->name         = 'video-store';
+        $destroyQuestionType->display_name = '上传一个视频材料并插入数据库';
+        $destroyQuestionType->description  = '上传一个视频材料并插入数据库';
+        $destroyQuestionType->save();
+
+        // 新增课程文档
+        $destroyQuestionType = new Permission();
+        $destroyQuestionType->name         = 'document-store';
+        $destroyQuestionType->display_name = '上传一个文档材料并插入数据库';
+        $destroyQuestionType->description  = '上传一个文档材料并插入数据库';
+        $destroyQuestionType->save();
+
+        // 获取全部视频材料
+        $destroyQuestionType = new Permission();
+        $destroyQuestionType->name         = 'video-index';
+        $destroyQuestionType->display_name = '查询全部视频材料';
+        $destroyQuestionType->description  = '查询全部视频材料';
+        $destroyQuestionType->save();
+
+
+        // 获取文档材料
+        $destroyQuestionType = new Permission();
+        $destroyQuestionType->name         = 'document-index';
+        $destroyQuestionType->display_name = '查询全部文档材料';
+        $destroyQuestionType->description  = '查询全部文档材料';
+        $destroyQuestionType->save();
+
+        // 删除视频材料
+        $destroyQuestionType = new Permission();
+        $destroyQuestionType->name         = 'video-destroy';
+        $destroyQuestionType->display_name = '删除视频材料';
+        $destroyQuestionType->description  = '删除视频材料';
+        $destroyQuestionType->save();
+
+        // 删除文档材料
+        $destroyQuestionType = new Permission();
+        $destroyQuestionType->name         = 'document-destroy';
+        $destroyQuestionType->display_name = '删除文档材料';
+        $destroyQuestionType->description  = '删除文档材料';
+        $destroyQuestionType->save();
+
+        // 编辑视频材料
+        $destroyQuestionType = new Permission();
+        $destroyQuestionType->name         = 'video-update';
+        $destroyQuestionType->display_name = '更新视频材料';
+        $destroyQuestionType->description  = '更新视频材料';
+        $destroyQuestionType->save();
+
+        // 编辑文档材料
+        $destroyQuestionType = new Permission();
+        $destroyQuestionType->name         = 'document-update';
+        $destroyQuestionType->display_name = '更新文档材料';
+        $destroyQuestionType->description  = '更新文档材料';
+        $destroyQuestionType->save();
+
         // 新增预习
 
         $destroyQuestionType = new Permission();
-        $destroyQuestionType->name         = 'insert-preview';
+        $destroyQuestionType->name         = 'preview-store';
         $destroyQuestionType->display_name = '新增预习内容';
         $destroyQuestionType->description  = '新增预习内容';
         $destroyQuestionType->save();
 
-        // 发布预习
 
+        // 发布预习
         $destroyQuestionType = new Permission();
-        $destroyQuestionType->name         = 'publish-preview';
+        $destroyQuestionType->name         = 'preview-publish';
         $destroyQuestionType->display_name = '发布预习内容';
         $destroyQuestionType->description  = '发布预习内容';
         $destroyQuestionType->save();
 
+
         // 更新预习
 
         $destroyQuestionType = new Permission();
-        $destroyQuestionType->name         = 'update-preview';
+        $destroyQuestionType->name         = 'preview-update';
         $destroyQuestionType->display_name = '更新预习内容';
         $destroyQuestionType->description  = '更新预习内容';
         $destroyQuestionType->save();
@@ -543,31 +601,17 @@ class PermissionsTableSeeder extends Seeder
         // 删除预习
 
         $destroyQuestionType = new Permission();
-        $destroyQuestionType->name         = 'delete-preview';
+        $destroyQuestionType->name         = 'preview-destory';
         $destroyQuestionType->display_name = '删除预习内容';
         $destroyQuestionType->description  = '删除预习内容';
         $destroyQuestionType->save();
 
-        // 根据userid查询预习
 
-        $destroyQuestionType = new Permission();
-        $destroyQuestionType->name         = 'select-for-userid';
-        $destroyQuestionType->display_name = '根据userid查询预习';
-        $destroyQuestionType->description  = '根据userid查询预习';
-        $destroyQuestionType->save();
-
-        // 根据cid查询预习
-
-        $destroyQuestionType = new Permission();
-        $destroyQuestionType->name         = 'select-for-cid';
-        $destroyQuestionType->display_name = '根据课程id查询预习';
-        $destroyQuestionType->description  = '根据课程id查询预习';
-        $destroyQuestionType->save();
 
         // 查询全部预习
 
         $destroyQuestionType = new Permission();
-        $destroyQuestionType->name         = 'select-all';
+        $destroyQuestionType->name         = 'preview-index';
         $destroyQuestionType->display_name = '查询全部预习';
         $destroyQuestionType->description  = '查询全部预习';
         $destroyQuestionType->save();
@@ -587,6 +631,32 @@ class PermissionsTableSeeder extends Seeder
         $destroyQuestionType->name         = 'import-teacher';
         $destroyQuestionType->display_name = '批量导入教师用户数据';
         $destroyQuestionType->description  = '批量导入教师用户数据';
+        $destroyQuestionType->save();
+
+
+        // 新增讨论话题
+
+        $destroyQuestionType = new Permission();
+        $destroyQuestionType->name         = 'discuss-store';
+        $destroyQuestionType->display_name = '发布讨论话题';
+        $destroyQuestionType->description  = '发布讨论话题';
+        $destroyQuestionType->save();
+
+
+        // 修改讨论话题
+
+        $destroyQuestionType = new Permission();
+        $destroyQuestionType->name         = 'discuss-destory';
+        $destroyQuestionType->display_name = '删除讨论话题';
+        $destroyQuestionType->description  = '删除讨论话题';
+        $destroyQuestionType->save();
+
+        // 删除讨论话题
+
+        $destroyQuestionType = new Permission();
+        $destroyQuestionType->name         = 'discuss-update';
+        $destroyQuestionType->display_name = '修改讨论话题';
+        $destroyQuestionType->description  = '修改讨论话题';
         $destroyQuestionType->save();
     }
 }

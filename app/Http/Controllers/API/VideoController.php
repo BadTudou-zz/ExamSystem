@@ -51,7 +51,7 @@ class VideoController extends Controller
         $video->cid = $cid;
         $video->video_name = $videoName;
         $video->kp = $kp;
-        $video->url = public_path() . DIRECTORY_SEPARATOR . 'video' . DIRECTORY_SEPARATOR . $filename;
+        $video->url = DIRECTORY_SEPARATOR . 'video' . DIRECTORY_SEPARATOR . $filename;
         $video->save();
     }
 
