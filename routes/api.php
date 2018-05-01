@@ -13,6 +13,9 @@ Route::post('captchas', 'API\CaptchaController@store');
 Route::group(['prefix' => '/v1'], function () {
     Route::post('webrtc', 'TestController@webrtc');
 
+    Route::post('discuss/publishDiscuss', 'API\DiscussController@publishDiscuss');
+    Route::post('discuss/updateDiscuss', 'API\DiscussController@updateDiscuss');
+    Route::post('discuss/deleteDiscuss', 'API\DiscussController@deleteDiscuss');
 
 
 
@@ -44,7 +47,7 @@ Route::prefix('v1')->middleware(['auth:api'])->group(function () {
     Route::post('preview/insert', 'API\PreviewController@insert');
     Route::post('preview/publish', 'API\PreviewController@publish');
     Route::post('preview/update', 'API\PreviewController@update');
-    Route::post('preview/delete', 'API\PreviewController@delete');
+    Route::post('preview/delete', 'API\PreviewController@delete'); 
     Route::post('preview/selectForUserid', 'API\PreviewController@selectForUserid');
     Route::post('preview/selectForCid', 'API\PreviewController@selectForCid');
     Route::post('preview/selectAll', 'API\PreviewController@selectAll');

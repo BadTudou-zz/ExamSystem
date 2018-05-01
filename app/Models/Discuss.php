@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Comment extends Model
+class Discuss extends Model
 {
     /**
      * The attributes that are mass assignable.
@@ -12,9 +12,9 @@ class Comment extends Model
      * @var array
      */
     public  $timestamps  = true;
-    protected $table = 'comments';
+    protected $table = 'discuss';
     protected $fillable = [
-        'id', 'body', 'discuss_id','user_id','created_at','updated_at'
+        'id', 'l_id', 'title','content','userid','updated_at','created_at'
     ];
 
     /**
