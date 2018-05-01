@@ -13,7 +13,9 @@ Route::post('captchas', 'API\CaptchaController@store');
 Route::group(['prefix' => '/v1'], function () {
     Route::post('webrtc', 'TestController@webrtc');
 
-
+    Route::post('discuss/publishDiscuss', 'API\DiscussController@publishDiscuss');
+    Route::post('discuss/updateDiscuss', 'API\DiscussController@updateDiscuss');
+    Route::post('discuss/deleteDiscuss', 'API\DiscussController@deleteDiscuss');
 
 
 });
