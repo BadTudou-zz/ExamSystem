@@ -48,7 +48,7 @@ class DocumentController extends Controller
         $doc->cid = $cid;
         $doc->doc_name = $docName;
         $doc->kp = $kp;
-        $doc->url = public_path() . DIRECTORY_SEPARATOR . 'document' . DIRECTORY_SEPARATOR . $filename;
+        $doc->url = DIRECTORY_SEPARATOR . 'document' . DIRECTORY_SEPARATOR . $filename;
         $doc->save();
     }
 

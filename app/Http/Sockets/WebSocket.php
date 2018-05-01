@@ -49,10 +49,10 @@ class WebSocket extends BaseSocketListener
                 return $this->sendData($from, 'server', '参数格式错误', null, 422);
             }
 
-            // 身份验证
-            if (! $this->auth($from, $data)){
-                return $this->sendData($from, self::AUTHENTICATION, '认证失败', null, 401);
-            }
+            // // 身份验证
+            // if (! $this->auth($from, $data)){
+            //     return $this->sendData($from, self::AUTHENTICATION, '认证失败', null, 401);
+            // }
 
             // // 签名验证
             // if (! $this->checkoutSign($from, $msg)) {
@@ -223,7 +223,6 @@ class WebSocket extends BaseSocketListener
         if (! $client) {
             return ;
         }
-
         if (isset($params->data->channel) && isset($params->data->body)) {
             $this->broadcast($params->data->channel, $params->data->body);
         }
