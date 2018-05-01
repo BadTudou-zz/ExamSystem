@@ -76,6 +76,7 @@ export default {
       currentVideo: [],
       allVideo: [],
       searchResult: [],
+      editData: null,
     }
   },
   components: {
@@ -237,9 +238,12 @@ export default {
     },
   },
   created() {
-    this.getVideo();
   },
   watch: {
+    isShowModal: function () {
+      const that = this;
+      that.getVideo();
+    }
   }
 }
 </script>
