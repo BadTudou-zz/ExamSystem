@@ -30,7 +30,7 @@
 </template>
 
 <script>
-import AddVideo from './AddVideo'
+// import AddVideo from './AddVideo'
 // import EditVideo from './EditVideo'
 // import Pagination from './../Pagination.vue'
 
@@ -58,7 +58,7 @@ export default {
     }
   },
   components: {
-    AddVideo,
+    // AddVideo,
     // EditVideo,
     // Pagination,
   },
