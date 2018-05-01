@@ -23,7 +23,7 @@
 
 参数:
 userid ===  用户id
-cid    ===  课程id
+cid    ===  授课id
 filename === 文件名称（js生成唯一表示名称）
 videoName ==== 视频名称（由用户输入）
 kp	 ====  知识点（由用户输入）
@@ -41,7 +41,7 @@ userid  ==== 用户id
 接口:upload/lecture/selectForCid/video
 
 参数:
-cid  ==== 课程id
+cid  ==== 授课id
 
 5: 根据视频id删除视频和数据库信息
 
@@ -68,7 +68,7 @@ kp   ==== 修改后的知识点
 
 参数:
 userid ===  用户id
-cid    ===  课程id
+cid    ===  授课id
 filename === 文件名称（js生成唯一表示名称）
 videoName ==== 文档名称（由用户输入）
 kp	 ====  知识点（由用户输入）
@@ -88,7 +88,7 @@ userid  ==== 用户id
 
 
 参数:
-cid  ==== 课程id
+cid  ==== 授课id
 
 10: 根据视频id删除文档和数据库信息
 
@@ -115,7 +115,7 @@ kp   ==== 修改后的知识点
 
 参数：
 previewName === 预习名称
-cid === 课程id
+cid === 授课id
 userid === 用户id
 desc === 预习秒杀
 content === 预习内容
@@ -139,7 +139,7 @@ id ==== 预习id
 
 previewName ===== 修改后的预习名称
 
-cid ==== 修改后的课程id（可以重新选择该预习放到其他课程下面）
+cid ==== 修改后的授课id（可以重新选择该预习放到其他授课下面）
 
 desc ====  修改后的预习描述
 
@@ -165,7 +165,7 @@ userid ====  用户id
 
 参数：
 
-cid ===  课程id
+cid ===  授课id
 
 17：查询全部预习数据接口
 
@@ -184,3 +184,54 @@ cid ===  课程id
 接口：upload/lecture/selectAll/document
 
 参数：无
+
+
+20:上传导入学生用户数据
+
+接口：questions/import/student
+
+参数：document ===  文件对象
+
+实例：
+HTML 代码：
+<input type="file" id="file">
+JS   代码：
+//准备FormData对象
+var formData = new FormData(),
+uploadFile = document.getElementById('file');
+
+//将文件放入FormData对象中
+formData.append('document', uploadFile.files[0]);  // files[0] 代表选择的是一个文件。请不要设置 input file里面的multiple 多文件上传
+
+// 开始上传
+axios({
+    url:'xxx/questions/import/student',
+    method:'post',
+    data:formData,
+    headers{这里该加的验证都要加}
+}).then((res)=>{console.log(res)})
+
+21:上传导入教师用户数据
+
+接口：questions/import/student
+
+参数：document ===  文件对象
+
+实例：
+HTML 代码：
+<input type="file" id="file">
+JS   代码：
+//准备FormData对象
+var formData = new FormData(),
+uploadFile = document.getElementById('file');
+
+//将文件放入FormData对象中
+formData.append('document', uploadFile.files[0]);  // files[0] 代表选择的是一个文件。请不要设置 input file里面的multiple 多文件上传
+
+// 开始上传
+axios({
+    url:'xxx/questions/import/teacher',
+    method:'post',
+    data:formData,
+    headers{这里该加的验证都要加}
+}).then((res)=>{console.log(res)})

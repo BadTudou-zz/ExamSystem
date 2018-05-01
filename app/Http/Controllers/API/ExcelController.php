@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\QuestionType;
+use App\Role;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -16,7 +17,7 @@ class ExcelController extends Controller
 {
         public function import () {
 
-            $filePath = $this->upload($_FILES);
+            $filePath = $this->upload($_FILES,"questions");
             Excel::load($filePath, function($reader) {
                 $allType = QuestionType::get(["name","id"])->toArray();
                 $newType = [];
@@ -44,7 +45,69 @@ class ExcelController extends Controller
             });
         }
 
-        protected  function upload ($files){
+        public function importStudent() {
+            $filePath = $this->upload($_FILES,"student");
+
+//            $filePath = public_path() . DIRECTORY_SEPARATOR ."students" . "/" .  "student.xlsx";
+            Excel::load($filePath, function($reader) {
+                $roleid = Role::where("name","student")->first()->id;
+                $reader = $reader->getSheet(0);
+                //获取表中的数据
+                $data = $reader->toArray();
+                $roleUser = [];
+                for ($i = 1;$i<count($data);$i ++){
+                    $user = new User();
+                    $user->name = $data[$i][0];
+                    $user->email = $data[$i][1];
+                    $user->number = $data[$i][2];
+                    $user->phone = $data[$i][3];
+                    $user->qq  = $data[$i][4];
+                    $user->password  = bcrypt($data[$i][5]);
+                    $user->created_at = (date('Y-m-d H:i:s', time()));
+                    $user->updated_at = (date('Y-m-d H:i:s', time()));
+                    $user->save();
+                    $roleUser[$i]["user_id"] = $user->id;
+                    $roleUser[$i]['role_id'] = $roleid;
+                }
+                DB::table("role_user")->insert(
+                    $roleUser
+                );
+
+            });
+        }
+    public function importTeacher() {
+        $filePath = $this->upload($_FILES,"teacher");
+
+//            $filePath = public_path() . DIRECTORY_SEPARATOR ."students" . "/" .  "student.xlsx";
+        Excel::load($filePath, function($reader) {
+            $roleid = Role::where("name","teacher")->first()->id;
+            $reader = $reader->getSheet(0);
+            //获取表中的数据
+            $data = $reader->toArray();
+            $roleUser = [];
+            for ($i = 1;$i<count($data);$i ++){
+                $user = new User();
+                $user->name = $data[$i][0];
+                $user->email = $data[$i][1];
+                $user->number = $data[$i][2];
+                $user->phone = $data[$i][3];
+                $user->qq  = $data[$i][4];
+                $user->password  = bcrypt($data[$i][5]);
+                $user->created_at = (date('Y-m-d H:i:s', time()));
+                $user->updated_at = (date('Y-m-d H:i:s', time()));
+                $user->save();
+                $roleUser[$i]["user_id"] = $user->id;
+                $roleUser[$i]['role_id'] = $roleid;
+            }
+            DB::table("role_user")->insert(
+                $roleUser
+            );
+
+        });
+    }
+
+
+        protected  function upload ($files,$folders){
             // 把当前上传文档的时间精确到秒作为文件名重新赋值给上传文件作为它的新的文件名
             $date = date('Y-m-dHis',time());
             // 以.来截取文件的后缀名
@@ -54,7 +117,7 @@ class ExcelController extends Controller
             // 给上传的文档重新命名
             $files["document"]["name"] = $album_picture_name;
             //定义上传文件存储位置
-            $path =  public_path() . DIRECTORY_SEPARATOR . 'questions' . DIRECTORY_SEPARATOR .  $files["document"]["name"];
+            $path =  public_path() . DIRECTORY_SEPARATOR .$folders . DIRECTORY_SEPARATOR .  $files["document"]["name"];
 
             // 移动文件到自己建的文件夹下
             if(move_uploaded_file($files["document"]["tmp_name"], $path)){
@@ -63,4 +126,7 @@ class ExcelController extends Controller
             }
             return false;
         }
+
+
+
 }
