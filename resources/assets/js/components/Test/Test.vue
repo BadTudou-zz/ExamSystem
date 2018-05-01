@@ -87,9 +87,7 @@
 import Pagination from './../Pagination.vue'
 import AddTest from './AddTest'
 import EditTest from './EditTest'
-// import Testing from './Testing'
 import ParticipateUser from './ParticipateUser'
-// import Analysis from './Analysis'
 
 export default {
   data() {
@@ -115,9 +113,7 @@ export default {
     AddTest,
     EditTest,
     Pagination,
-    // Testing,
     ParticipateUser,
-    // Analysis,
   },
   methods: {
     showModal: function () {

@@ -1,13 +1,8 @@
-<!-- 查看考试(进行) -->
+<!-- 查看考试(进行) 测试文件-->
 <template lang="html">
   <div>
 
-    <div v-if="isLoading">
-      <p class="wait-time">题目加载中，请稍等{{ loadingTime }}秒</p>
-      <img class="loading" src="../../../img/loading.gif" alt="">
-    </div>
-
-    <div v-else>
+    <div>
       <h1>{{ testTitle }}</h1>
       <button @click="submitAnswer()" class="button is-info finish-exam" type="button" name="button">完成考试</button>
       <div class="countdown">
@@ -24,9 +19,10 @@
           <!-- 单选 -->
           <div v-show="item.type_id === 1" class="testing box">
             <div class="question-title">
-              <span class="question-index"> {{ index + 1 }}</span>
+              <!-- <span class="question-index"> {{ index + 1 }}</span> -->
+              <span class="question-index"> id:{{ item.id }}</span>
               <span class="question-type">单选题</span>
-              <span class="question-difficulty">难度：{{item.level_type}} </span>
+              <span class="question-difficulty">{{item.level_type}} </span>
             </div>
             <div class="triangle-topright">
 
@@ -40,18 +36,115 @@
 
                 <!-- <input type="checkbox" v-bind:value="item.id" v-model="selectedUser" class="user-seleted"> -->
                 <div class="">
-                  <input class="answer-index" v-model="answer[index]" value="A" type="radio">{{ getOptionsString(item.body)[0] }}
+                  <input class="answer-index" v-model="answer[item.id]" value="A" type="radio">{{ getOptionsString(item.body)[0] }}
                 </div>
                 <div class="">
-                  <input class="answer-index" v-model="answer[index]" value="B" type="radio">{{ getOptionsString(item.body)[1] }}
+                  <input class="answer-index" v-model="answer[item.id]" value="B" type="radio">{{ getOptionsString(item.body)[1] }}
                 </div>
                 <div class="">
-                  <input class="answer-index" v-model="answer[index]" value="C" type="radio">{{ getOptionsString(item.body)[2] }}
+                  <input class="answer-index" v-model="answer[item.id]" value="C" type="radio">{{ getOptionsString(item.body)[2] }}
                 </div>
                 <div class="">
-                  <input class="answer-index" v-model="answer[index]" value="D" type="radio">{{ getOptionsString(item.body)[3] }}
+                  <input class="answer-index" v-model="answer[item.id]" value="D" type="radio">{{ getOptionsString(item.body)[3] }}
                 </div>
               </label>
+            </div>
+          </div>
+
+          <!-- 多选 -->
+          <div v-show="item.type_id === 2" class="testing box">
+            <div class="question-title">
+              <!-- <span class="question-index"> {{ index + 1 }}</span> -->
+              <span class="question-index"> id:{{ item.id }}</span>
+              <span class="question-type">多选题</span>
+              <span class="question-difficulty">{{item.level_type}} </span>
+            </div>
+            <div class="triangle-topright">
+
+            </div>
+            <div class="test">
+              <div class="question">题目：{{ item.title }}</div>
+            </div>
+            <div class="answer">
+              <label class="checkbox">
+                <div class="">
+                  <input class="answer-index" v-model="answer[item.id]" value="A" type="checkbox">{{ getOptionsString(item.body)[0] }}
+                </div>
+                <div class="">
+                  <input class="answer-index" v-model="answer[item.id]" value="B" type="checkbox">{{ getOptionsString(item.body)[1] }}
+                </div>
+                <div class="">
+                  <input class="answer-index" v-model="answer[item.id]" value="C" type="checkbox">{{ getOptionsString(item.body)[2] }}
+                </div>
+                <div class="">
+                  <input class="answer-index" v-model="answer[item.id]" value="D" type="checkbox">{{ getOptionsString(item.body)[3] }}
+                </div>
+              </label>
+            </div>
+          </div>
+
+          <!-- 判断 -->
+          <div v-show="item.type_id === 3" class="testing box">
+            <div class="question-title">
+              <!-- <span class="question-index"> {{ index + 1 }}</span> -->
+              <span class="question-index"> id:{{ item.id }}</span>
+              <span class="question-type">判断题</span>
+              <span class="question-difficulty">{{item.level_type}} </span>
+            </div>
+            <div class="triangle-topright">
+
+            </div>
+            <div class="test">
+              <div class="question">题目：{{ item.title }}</div>
+            </div>
+            <div class="answer">
+              <label class="checkbox">
+                <div class="">
+                  <input class="answer-index" v-model="answer[item.id]" value=1 type="checkbox">正确
+                </div>
+                <div class="">
+                  <input class="answer-index" v-model="answer[item.id]" value=0 type="checkbox">错误
+                </div>
+              </label>
+            </div>
+          </div>
+
+
+          <!-- 填空 -->
+          <div v-show="item.type_id === 3" class="testing box">
+            <div class="question-title">
+              <!-- <span class="question-index"> {{ index + 1 }}</span> -->
+              <span class="question-index"> id:{{ item.id }}</span>
+              <span class="question-type">填空题</span>
+              <span class="question-difficulty">{{item.level_type}} </span>
+            </div>
+            <div class="triangle-topright">
+
+            </div>
+            <div class="test">
+              <div class="question">题目：{{ item.title }}</div>
+            </div>
+            <div class="answer">
+              作答框：<input v-model="answer[item.id]" class="answer-input input" type="text">
+            </div>
+          </div>
+
+          <!-- 简答 -->
+          <div v-show="item.type_id === 3" class="testing box">
+            <div class="question-title">
+              <!-- <span class="question-index"> {{ index + 1 }}</span> -->
+              <span class="question-index"> id:{{ item.id }}</span>
+              <span class="question-type">简答题</span>
+              <span class="question-difficulty">{{item.level_type}} </span>
+            </div>
+            <div class="triangle-topright">
+
+            </div>
+            <div class="test">
+              <div class="question">题目：{{ item.title }}</div>
+            </div>
+            <div class="answer">
+              作答框：<textarea v-model="answer[item.id]" class="answer-textarea textarea" name="name" rows="8" cols="80"></textarea>
             </div>
           </div>
 
@@ -354,9 +447,39 @@ export default {
       }
       return uniqData;
     },
+    computedSeparator: function (value) {
+      const that = this;
+      // 单选题! 多选题@ 判断题# 填空题$ 简答题%
+      let separator = '';
+
+      // 单选
+      if (value.includes('!')) {
+        separator = '!';
+      }
+      // 多选
+      else if (value.includes('@')) {
+        separator = '@';
+      }
+      // 判断
+      else if (value.includes('#')) {
+        separator = '#';
+      }
+      // 填空
+      else if (value.includes('$')) {
+        separator = '$';
+      }
+      // 填空
+      else if (value.includes('%')) {
+        separator = '%';
+      }
+
+      return separator;
+    },
     getOptionsString: function (value) {
       const that = this;
-      let arr = value.split(' ');
+      let separator = that.computedSeparator(value);
+
+      let arr = value.split(separator);
       let alphabet = ['A','B','C','D','E','F','G','H','I'];
       let str = '';
       for (let i = 0; i < arr.length; i++) {
@@ -367,10 +490,10 @@ export default {
     // ?? 多选的答案格式
     computedAnswerJson: function () {
       const that = this;
-      if (that.answer.length !== that.questionData.length) {
-        alert('请检查是否全部作答');
-        return;
-      }
+      // if (that.answer.length !== that.questionData.length) {
+      //   alert('请检查是否全部作答');
+      //   return;
+      // }
 
       let json = {};
       for (let i = 0; i < that.questionData.length; i++) {
@@ -407,12 +530,19 @@ export default {
           return 0;
         }
       }
-    }
+    },
+    expansionAnswerArray: function () {
+      const that = this;
+      let value = that.questionData;
+      for (let i = 0; i < value.length; i++) {
+        that.answer[value[i]['id']] = [];
+      }
+    },
   },
   computed: {
   },
   created() {
-
+    this.expansionAnswerArray();
   },
   watch: {
     currentTestData: function (value, oldValue) {
@@ -471,6 +601,16 @@ export default {
       const that = this;
       that.testRemainingTime = value * 60; //
       that.countdown();
+    },
+    answer: function (value, oldValue) {
+      const that = this;
+      console.log(that.computedAnswerJson())
+    },
+    questionData: function (value, oldValue) {
+      const that = this;
+      if (value.length === 0) return;
+      that.expansionAnswerArray();
+
     }
   }
 }
@@ -503,9 +643,6 @@ export default {
   height: 50px;
   margin: 0 auto;
   display: block;
-}
-.finish- {
-  margin-left: 20px;
 }
 .multiple-choice {
   width: 200px;
@@ -576,4 +713,8 @@ h1 {
   font-size: 25px;
   text-align: center;
 }
+.answer-input {
+  width: 450px;
+}
+
 </style>
