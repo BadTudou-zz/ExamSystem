@@ -15,10 +15,12 @@ class WebSocket extends BaseSocketListener
      * @var \SplObjectStorage
      */
     protected $clients = [];
+    protected $channels = [];
     const AUTHENTICATION = 'authentication'; //认证
     const SUBSCRIBE = 'subscribe'; //订阅
     const UNSUBSCRIBE = 'unsubscribe'; //退订
     const PUBLISH = 'publish'; //发布
+    const BROADCAST = 'broadcast';
     /**
      * Socket constructor.
      */
@@ -66,19 +68,13 @@ class WebSocket extends BaseSocketListener
                     $this->subscribe($from, $data);
                     break;
 
-                //     $data =  json_decode($msg);
-                //     if ($data->scene == 'paid_result') {
-                //         $this->subscribeRealtimePaidResult($client, $msg);
-                //     } else {
-                //         $this->subscribe($client, $msg);
-                //     }
-                //     break;
-                // case 'notify':
-                //     $data =  json_decode($msg);
-                //     if ($data->sign == config('socket.secret_key')) {
-                //         $this->notifychannel($msg);
-                //     }
-                //     break;
+                case self::UNSUBSCRIBE:
+                    $this->unsubscribe($from, $data);
+                    break;
+
+                case self::PUBLISH:
+                    $this->publish($from, $data);
+                    break;
 
                 default:
                     $this->sendData($from, 'server', '不支持的请求', null, 400);
@@ -98,7 +94,12 @@ class WebSocket extends BaseSocketListener
      */
     public function onClose(ConnectionInterface $conn)
     {
-        $this->clients->detach($conn);
+        $client = $this->getClientByConn($conn);
+        if (! $client) {
+            return ;
+        }
+
+        $this->deleteClient($client);
     }
 
     /**
@@ -107,7 +108,12 @@ class WebSocket extends BaseSocketListener
      */
     public function onError(ConnectionInterface $conn, \Exception $e)
     {
-        $conn->close();
+        $client = $this->getClientByConn($conn);
+        if (! $client) {
+            return ;
+        }
+
+        $this->deleteClient($client);
     }
 
     // 发送数据
@@ -153,13 +159,25 @@ class WebSocket extends BaseSocketListener
     
     }
 
+
     // 订阅
     protected function subscribe($conn, $params)
     {
         $client = $this->verifyClient($conn);
+        if (! $client) {
+            return ;
+        }
+
         if (isset($params->data->channel)) {
             if (! in_array($params->data->channel, $client->channel)) {
                 array_push($client->channel, $params->data->channel);
+
+                // 将订阅的用户信息加入频道
+                if (! array_key_exists($params->data->channel, $this->channels)) {
+                    $this->channels[$params->data->channel] = [$client->user];
+                } else {
+                    array_push($this->channels[$params->data->channel], $client->user);
+                }
             }
             return $this->sendData($conn, self::SUBSCRIBE, '订阅频道成功', $client->channel, 200);
         } else {
@@ -168,21 +186,67 @@ class WebSocket extends BaseSocketListener
     }
 
     // 退订
-    protected function unsubscribe()
+    protected function unsubscribe($conn, $params)
     {
+        $client = $this->verifyClient($conn);
+        if (! $client) {
+            return ;
+        }
+        
+        if (isset($params->data->channel)) {
+            $key = array_search($params->data->channel, $client->channel);
+            if ($key !== FALSE) {
+                unset($client->channel[$key]);
+
+                // 将订阅的用户信息从频道移除
+                if (array_key_exists($params->data->channel, $this->channels)) {
+                    $userKey = array_search($client->user, $this->channels[$params->data->channel]);
+                    if ($userKey !== FALSE) {
+                        unset($this->channels[$params->data->channel][$userKey]);
+                    }
+                }
+                return $this->sendData($conn, self::UNSUBSCRIBE, '退订频道成功', $client->channel, 200);
+            } else {
+                return $this->sendData($conn, self::UNSUBSCRIBE, '退订频道失败', $client->channel, 400);
+            }
+            
+        } else {
+            return $this->sendData($conn, self::UNSUBSCRIBE, '退订频道失败', $client->channel, 400);
+        }
 
     }
 
     // 发布
-    protected function publish()
+    protected function publish($conn, $params)
     {
+        $client = $this->verifyClient($conn);
+        if (! $client) {
+            return ;
+        }
 
+        if (isset($params->data->channel) && isset($params->data->body)) {
+            $this->broadcast($params->data->channel, $params->data->body);
+        }
+    }
+
+
+    // 广播
+    protected function broadcast($channel, $data)
+    {
+        if ( array_key_exists($channel, $this->channels)){
+            foreach ($this->channels[$channel] as $user) {
+                if ($client = $this->getClientByUser($user)){
+                    $this->sendData($client->conn, self::BROADCAST, '广播', $data, 200, $channel);
+                }
+
+            }
+        }
     }
 
      // 添加客户端
     public function addClient($user, $conn)
     {
-        $client = (object)['user' => $user, 'client' => (object)$conn, 'channel' => []];
+        $client = (object)['user' => $user, 'conn' => (object)$conn, 'channel' => []];
 
         if ($oldClient = $this->getClientByConn($conn)) {
             $this->deleteClient($oldClient);
@@ -196,7 +260,7 @@ class WebSocket extends BaseSocketListener
     protected function getClientByConn($conn)
     {
         foreach ($this->clients as $client) {
-            if ($client->client == $conn) {
+            if ($client->conn == $conn) {
                 return $client;
             }
         }
@@ -206,6 +270,15 @@ class WebSocket extends BaseSocketListener
     // 删除客户端
     protected function deleteClient($client)
     {
+        // 将该客户端从订阅列表中移除
+        foreach ($client->channel as $channel) {
+            if (array_key_exists($channel, $this->channels)) {
+                $userKey = array_search($client->user, $this->channels[$channel]);
+                if ($userKey !== FALSE) {
+                    unset($this->channels[$channel][$userKey]);
+                }
+            }
+        }
         $this->clients->detach($client);
     }
 
