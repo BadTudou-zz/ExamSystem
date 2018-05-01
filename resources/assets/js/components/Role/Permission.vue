@@ -65,6 +65,11 @@ export default {
       data: null,
       roleId: null,
       selectedPermission: [],
+
+      // url: '',
+      // currentPermission: [],
+      // allPermission: [],
+      // isLoading: true,
     }
   },
   components: {
@@ -80,6 +85,14 @@ export default {
       const that = this;
       that.isShowModal = !that.isShowModal;
     },
+    getJsonLength: function (json) {
+      const that = this;
+      let jsonLength = 0;
+      for (let i in json) {
+          jsonLength++;
+      }
+      return jsonLength;
+    },
     getPermission: function () {
       const that = this;
       let id = that.roleId;
@@ -92,6 +105,7 @@ export default {
         }
       }).then(res => {
         that.permissionData = res.data.data;
+
         that.paginationData = res.data.links;
       }).catch(err => {
         console.log(err)
@@ -141,7 +155,7 @@ export default {
       const that = this;
       that.roleId = value.id;
       that.getPermission();
-    }
+    },
   }
 }
 </script>
@@ -163,4 +177,5 @@ table {
 .permission-content {
   width: 1300px;
 }
+
 </style>
