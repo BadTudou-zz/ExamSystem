@@ -3,29 +3,24 @@
     <div class="modal-background"></div>
     <div class="modal-card">
       <header class="modal-card-head">
-        <p class="modal-card-title">编辑视频</p>
+        <p class="modal-card-title">添加视频</p>
         <button @click="switchModal()" class="delete" aria-label="close"></button>
       </header>
+
       <section class="modal-card-body">
-        <div class="box-item">
+
+        <div class="video-item-box">
           <label>视频名称</label>
-          <input v-model="videoData.name" class="input" type="text" placeholder="请输入视频名">
+          <input v-model="videoData.videoName" class="input" type="text">
         </div>
-        <div class="box-item">
-          <label>显示名称</label>
-          <input v-model="videoData.display_name" class="input" type="text" placeholder="请输入视频名">
-        </div>
-        <div class="box-item">
-          <label>显示描述</label>
-          <input v-model="videoData.descripe" class="input" type="text" placeholder="请输入视频名">
-        </div>
-        <div class="box-item">
-          <label>数量</label>
-          <input v-model="videoData.number" class="input" type="text">
+        <div class="video-item-box">
+          <label>知识点</label>
+          <input v-model="videoData.kp" class="input" type="text">
         </div>
       </section>
+
       <footer class="modal-card-foot">
-        <button @click="editVideo()" class="button is-success">确认</button>
+        <button @click="editVideoInfo()" class="button is-success">确认</button>
         <button  @click="switchModal()" class="button">取消</button>
       </footer>
     </div>
@@ -38,17 +33,16 @@ export default {
     return {
       isShowModal: false,
       videoData: {
-        name: '',
-        display_name: '',
-        descripe: '',
-        number: '',
+        videoName: '',
+        kp: '',
       },
+      cid: null,
     }
   },
   components: {
   },
   props: [
-    'editData',
+    'editData'
   ],
   methods: {
     switchModal: function () {
@@ -62,49 +56,45 @@ export default {
       that.videoData.descripe = '';
       that.videoData.number = '';
     },
-    editVideo: function (index) {
+    editVideoInfo: function () {
       const that = this;
-      let id = that.editData.id;
+
       axios({
-        method: 'put',
-        url: `${this.GLOBAL.localDomain}/api/v1/courses/${id}`,
+        method: 'POST',
+        url: `${this.GLOBAL.localDomain}/api/v1/upload/lecture/update/video`,
         headers: {
           'Accept': 'application/json',
           'Authorization': sessionStorage.getItem('token'),
         },
-        params: {
-          name: that.videoData.name,
-          display_name: that.videoData.display_name,
-          descripe: that.videoData.descripe,  // ?? 拼写错误
-          number: that.videoData.number
-        }
+        body: {
+          id: that.editData.id, // 视频id
+          videoName: that.videoData.videoName,  // 修改后的视频名称
+          kp:  that.videoData.videoName, // 修改后的知识点
+        },
       }).then(res => {
-        alert('编辑成功');
-        that.$emit('getVideo');   //第一个参数名为调用的方法名，第二个参数为需要传递的参数
-        that.clearWords();
-        that.switchModal();
+        alert('编辑成功')
       }).catch(err => {
-        alert('编辑失败');
+        alert('编辑失败')
         console.log(err);
-        that.clearWords();
       })
-    }
+    },
   },
   created() {
-
   },
   watch: {
-    editData: function (value, oldValue) {
-      const that = this;
-      // that.videoData = value;
-      that.videoData.name = value.name;
-      that.videoData.display_name = value.display_name;
-      that.videoData.descripe = value.descripe;
-      that.videoData.number = value.number;
-    }
   }
 }
 </script>
 
-<style>
+<style scoped>
+.progress {
+  margin: 15px 0 20px 0;
+}
+.video-item-box {
+  margin: 25px 0
+}
+.video-item-box input {
+  display: inline-block;
+  width: 300px;
+}
 </style>
