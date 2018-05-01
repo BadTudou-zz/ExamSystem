@@ -92,10 +92,6 @@ export default {
       const that = this;
       that.isShowModal = !that.isShowModal;
     },
-    showModal: function () {
-      const that = this;
-      that.isShowModal = !that.isShowModal;
-    },
     addVideoInfo: function() {
       const that = this;
       that.$refs.addVideoInfo.switchModal();
@@ -112,10 +108,13 @@ export default {
       if (prompt) {
         axios({
           method: 'delete',
-          url: `${this.GLOBAL.localDomain}/api/v1/videos/${id}`,
+          url: `${this.GLOBAL.localDomain}/api/v1/upload/lecture/delete/video`,
           headers: {
             'Accept': 'application/json',
             'Authorization': sessionStorage.getItem('token'),
+          },
+          params: {
+            id: that.videoData[index]['id']
           }
         }).then(res => {
           alert('删除成功');
@@ -126,26 +125,45 @@ export default {
         })
       }
     },
+    // 通过授课ID获取视频信息
     getVideoForCid: function() {
       const that = this;
-      // axios({
-      //   method: 'get',
-      //   url: `${this.GLOBAL.localDomain}/api/v1/videos`,
-      //   headers: {
-      //     'Accept': 'application/json',
-      //     'Authorization': sessionStorage.getItem('token'),
-      //   }
-      // }).then(res => {
-      //   that.videoData = res.data.data;
-      //   that.paginationData = res.data.links;
-      //   //
-      // }).catch(err => {
-      //   console.log(err);
-      //   if (err.response.status === 401) {
-      //     // alert('登录超时');
-      //     // location.reload();
-      //   }
-      // })
+      axios({
+        method: 'get',
+        url: `${this.GLOBAL.localDomain}/api/v1/upload/lecture/selectForUserid/video`,
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': sessionStorage.getItem('token'),
+        },
+        params: {
+          cid: that.cid,
+        }
+      }).then(res => {
+        // that.videoData = res.data.data;
+        // that.paginationData = res.data.links;
+      }).catch(err => {
+        console.log(err);
+      })
+    },
+    // 通过user获取视频信息
+    getVideoForUserId: function() {
+      const that = this;
+      axios({
+        method: 'get',
+        url: `${this.GLOBAL.localDomain}/api/v1/upload/lecture/selectForCid/video`,
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': sessionStorage.getItem('token'),
+        },
+        params: {
+          userId: sessionStorage.getItem('userId')
+        }
+      }).then(res => {
+        // that.videoData = res.data.data;
+        // that.paginationData = res.data.links;
+      }).catch(err => {
+        console.log(err);
+      })
     },
     getVideo: function() {
       const that = this;
@@ -263,7 +281,7 @@ export default {
   watch: {
     isShowModal: function () {
       const that = this;
-      that.getVideo();
+      that.getVideoForUserId();
     }
   }
 }
