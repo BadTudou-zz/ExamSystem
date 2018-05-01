@@ -28,7 +28,7 @@ export default[
   // 题目
   { path: '/Question', component: require('./components/Question/Question.vue') },
   // 题目类型
-  { path: '/QuestionType', component: require('./components/QuestionType/QuestionType.vue') },
+  // { path: '/QuestionType', component: require('./components/QuestionType/QuestionType.vue') },
   // 试卷
   { path: '/ExaminationPaper', component: require('./components/ExaminationPaper/ExaminationPaper.vue') },
   // 章节
@@ -44,7 +44,7 @@ export default[
   // 考试
   { path: '/Test', component: require('./components/Test/Test.vue') },
   // 视频
-  { path: '/Video', component: require('./components/Video/Video.vue') },
+  { path: '/VideoInfo', component: require('./components/VideoInfo/VideoInfo.vue') },
 
   // { path: '/User', component: require('./components/User.vue') },
   // 个人中心

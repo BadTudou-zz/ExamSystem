@@ -4,20 +4,26 @@
     <div>
       <div v-show="isShowSearchQuestion" class="search-box">
         <input v-model="searchKey" class="input search-input" type="text" placeholder="请输入关键字">
-        <!-- <button disabled @click="searchQuestion()" class="button" type="button" name="button">查找题目</button> -->
         <div @click="searchQuestion()" class="search-button"><i class="fas fa-search"></i></div>
       </div>
 
-      <!-- <div>
-        <label>问题类型</label>
-        <div class="select">
-          <select v-for="(item, index) questionDataType" v-model="selectedQuestionDataType">
-            <option value=1>单选</option>
+      <button v-show="isShowCreateQuestion" @click="addQuestion()" class="button add-question-button" type="button" name="button">添加题目</button>
+
+      <button @click="showAllQuestionType()" class="button" type="button" name="button">查看所有问题类型</button>
+
+      <label class="question-type-label">根据类型筛选题目：</label>
+      <div class="control">
+        <div class="select is-small">
+          <select v-model="selectedQuesitonType">
+            <option value="allType">全部类型</option>
+            <option v-for="(item,index) in questionTypeData"
+                    v-bind:value="item.id">
+                    {{item.title}}
+            </option>
           </select>
         </div>
-      </div> -->
+      </div>
 
-      <button v-show="isShowCreateQuestion" @click="addQuestion()" class="button add-question-button" type="button" name="button">添加题目</button>
     </div>
 
     <p v-if="!questionData" class="empty-message-prompt">暂无题目</p>
@@ -57,12 +63,12 @@
                    v-bind:edit-data="editData"
     ></edit-question>
 
-    <question-type ref="questionType"></question-type>
-
     <pagination v-show="searchResult.length === 0"
                 v-bind:pagination-data="paginationData"
                 v-model="data"
     ></pagination>
+
+    <question-type ref="questionType"></question-type>
   </div>
 </template>
 
@@ -70,8 +76,6 @@
 import Pagination from './../Pagination'
 import AddQuestion from './AddQuestion'
 import EditQuestion from './EditQuestion'
-import SingleChoice from './SingleChoice'
-import MultipleChoice from './MultipleChoice'
 
 import QuestionType from '../QuestionType/QuestionType'
 
@@ -92,14 +96,14 @@ export default {
        searchResult: [],
        questionDataType: [],
        selectedQuestionDataType: '',
+       questionTypeData: [],  // 问题类型
+       selectedQuesitonType: 'allType',  // 选中的问题类型
     }
   },
   components: {
     AddQuestion,
     EditQuestion,
     Pagination,
-    SingleChoice,
-    MultipleChoice,
     QuestionType,
   },
   methods: {
@@ -153,6 +157,10 @@ export default {
           // location.reload();
         }
       })
+    },
+    showAllQuestionType: function () {
+      const that = this;
+      that.$refs.questionType.switchModal();
     },
     getQuestionType: function () {
       const that = this;
@@ -267,8 +275,44 @@ export default {
         console.log(err);
       })
     },
+    // 获取某一类型的全部题目
+    getAllQuestionType: function () {
+      const that = this;
+      let quesitonTypeId = that.selectedQuesitonType;
+      axios({
+        method: 'get',
+        url: `${this.GLOBAL.localDomain}/api/v1/questionTypes/2/questions/`,
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': sessionStorage.getItem('token'),
+        }
+      }).then(res => {
+        that.questionData = res.data.data;
+        // that.paginationData = res.data.links;
+      }).catch(err => {
+        console.log(err);
+      })
+    },
+    // 全部题目类型
+    getQuestionType: function () {
+      const that = this;
+      axios({
+        method: 'get',
+        url: `${this.GLOBAL.localDomain}/api/v1/questionTypes`,
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': sessionStorage.getItem('token'),
+        }
+      }).then(res => {
+        that.questionTypeData = res.data.data;
+        // that.paginationData = res.data.links;
+      }).catch(err => {
+        console.log(err);
+      })
+    },
     getOptionsString: function (value) {
       const that = this;
+
       let arr = value.split(' ');
       let alphabet = ['A','B','C','D','E','F','G','H','I'];
       let str = '';
@@ -290,6 +334,9 @@ export default {
       switch (value) {
         case 'EASY':
           levelType = '容易';
+          break;
+        case 'MIDDLE':
+          levelType = '中等';
           break;
         case 'HARD':
           levelType = '困难';
@@ -314,7 +361,7 @@ export default {
         case 4:
           questionType = '填空';
           break;
-        case '5':
+        case 5:
           questionType = '简答';
           break;
       }
@@ -341,6 +388,7 @@ export default {
   },
   created() {
     this.getQuestion();
+    this.getQuestionType();
   },
   watch: {
     data:function (value, oldValue) {
@@ -351,6 +399,15 @@ export default {
     allQuestion: function (value, oldValue) {
       const that = this;
       that.searchQuestion(that.searchKey);
+    },
+    selectedQuesitonType: function (value, oldValue) {
+      const that = this;
+      if (value === 'allType') {
+        that.getQuestion();
+      }
+      else {
+        that.getAllQuestionType();
+      }
     }
   }
 }
@@ -423,5 +480,13 @@ export default {
   text-overflow:ellipsis;
   white-space: nowrap;
 }
-
+.question-type-label {
+  display: inline-block;
+  font-size: 14px;
+  width: 130px;
+  margin-left: 70px;
+}
+.control {
+  display: inline-block;
+}
 </style>

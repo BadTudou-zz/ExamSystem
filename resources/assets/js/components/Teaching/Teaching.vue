@@ -15,42 +15,31 @@
     <table v-else class="table is-bordered is-striped is-hoverable is-fullwidths">
       <thead>
         <tr>
-          <!-- <th>ID</th> -->
           <th>授课名</th>
-          <th>用户ID</th>
-          <th>课程ID</th>
-          <!-- <th>允许组织的ID</th>
-          <th>允许用户的ID</th> -->
           <th>描述</th>
           <th>最大容量</th>
           <th>当前容量</th>
-          <!-- <th>创建时间</th> -->
-          <!-- <th>更新时间</th> -->
           <th>授课操作</th>
           <th>用户操作</th>
+          <th>视频操作</th>
           <th>更多</th>
         </tr>
       </thead>
     <tbody>
         <tr v-for="(item,index) in teachingData">
-          <!-- <td>{{ item.id }}</td> -->
           <td>{{ item.name }}</td>
-          <td>{{ item.user_id }}</td>
-          <td>{{ item.course_id }}</td>
-          <!-- <td>{{ item.allowable_teaching_ids }}</td>
-          <td>{{ item.allowable_user_ids }}</td> -->
           <td><p class="limit-words">{{ item.description }}</p></td>
           <td>{{ item.max }}</td>
           <td>{{ item.current }}</td>
-          <!-- <td>{{ GLOBAL.toTime(item.created_at) }}</td> -->
-          <!-- <td>{{ GLOBAL.toTime(item.updated_at) }}</td> -->
           <td>
-            <!-- <button v-show="isShowDeleteTeaching" @click="deleteTeaching(index)" class="delete" type="button" name="button">删除授课</button> -->
             <div v-show="isShowDeleteTeaching" @click="deleteTeaching(index)" class="icon-button"><i class="far fa-trash-alt"></i></div>
             <div @click="editTeaching(index)" class="icon-button"><i class="fas fa-edit"></i></div>
           </td>
           <td>
             <button @click="showUser(index)" class="button is-small" type="button" name="button">查看用户</button>
+          </td>
+          <td>
+            <button @click="showVideoInfo(index)" class="button is-small" type="button" name="button">查看视频</button>
           </td>
           <td>
             <button @click="showDetail(index)" class="button is-small" type="button" name="button">查看详情</button>
@@ -80,6 +69,11 @@
                 v-bind:pagination-data="paginationData"
                 v-model="data"
     ></pagination>
+
+    <!-- <video-info ref="videoInfo"
+                v-on:getTeaching="getTeaching"
+    ></video-info> -->
+
   </div>
 </template>
 
@@ -89,6 +83,7 @@ import EditTeaching from './EditTeaching'
 import Pagination from './../Pagination'
 import User from './User'
 import Detail from './Detail'
+// import VideoInfo from '../VideoInfo/VideoInfo'
 
 export default {
   data() {
@@ -112,6 +107,7 @@ export default {
     Pagination,
     User,
     Detail,
+    // VideoInfo,
   },
   methods: {
     showModal: function () {
@@ -264,6 +260,11 @@ export default {
       const that = this;
       that.currentTeachingData = that.teachingData[index];
       that.$refs.user.switchModal();
+    },
+    showVideoInfo: function (index) {
+      const that = this;
+      that.currentTeachingData = that.teachingData[index];
+      that.$refs.videoInfo.switchModal();
     },
     showDetail: function (index) {
       const that = this;

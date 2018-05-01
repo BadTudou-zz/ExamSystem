@@ -25,9 +25,9 @@
         <div class="box-item">
           <label>是否允许多选</label>
           <div class="select">
-            <select v-model="questionTypeData.level_type">
-              <option value=0>禁止</option>
-              <option value=1>允许</option>
+            <select v-model="questionTypeData.is_multiple_choice">
+              <option value=false>禁止</option>
+              <option value=true>允许</option>
             </select>
           </div>
         </div>
@@ -68,6 +68,23 @@ export default {
       that.questionTypeData.delimite = '';
       that.questionTypeData.is_multiple_choice = '';
     },
+    typeConversion: function (value) {
+      const that = this;
+      let res;
+      if (value ===  'true') {
+        res = 1;
+      }
+      else if (value ===  true) {
+        res = 1;
+      }
+      else if (value ===  'false') {
+        res = 0;
+      }
+      else if (valeu === false) {
+        res = 0;
+      }
+      return res;
+    },
     addQuestionType: function () {
       const that = this;
 
@@ -88,7 +105,7 @@ export default {
           'name': that.questionTypeData.name,
           'title': that.questionTypeData.title,
           'delimiter': that.questionTypeData.delimiter,
-          'is_multiple_choice': that.questionTypeData.is_multiple_choice,
+          'is_multiple_choice': that.typeConversion(that.questionTypeData.is_multiple_choice),
         }
       }).then(res => {
         alert('添加成功');
