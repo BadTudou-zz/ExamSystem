@@ -18,6 +18,7 @@ Route::group(['prefix' => '/v1'], function () {
     Route::post('discuss/deleteDiscuss', 'API\DiscussController@deleteDiscuss');
 
 
+
 });
 
 Route::prefix('v1')->middleware(['auth:api'])->group(function () {
