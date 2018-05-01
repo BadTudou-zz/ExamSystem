@@ -12,7 +12,10 @@ Route::post('captchas', 'API\CaptchaController@store');
 
 Route::group(['prefix' => '/v1'], function () {
     Route::post('webrtc', 'TestController@webrtc');
-//    Route::post('upload/lecture/insert/video', 'API\VideoController@insert');
+
+
+
+
 });
 
 Route::prefix('v1')->middleware(['auth:api'])->group(function () {
@@ -45,6 +48,10 @@ Route::prefix('v1')->middleware(['auth:api'])->group(function () {
     Route::post('preview/selectForUserid', 'API\PreviewController@selectForUserid');
     Route::post('preview/selectForCid', 'API\PreviewController@selectForCid');
     Route::post('preview/selectAll', 'API\PreviewController@selectAll');
+
+
+    Route::post('questions/import/student', 'API\ExcelController@importStudent');
+    Route::post('questions/import/teacher', 'API\ExcelController@teacher');
 
 
 

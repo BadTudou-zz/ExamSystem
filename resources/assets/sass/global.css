@@ -58,3 +58,14 @@ table {
 .fa-edit {
   color: #a6d499;
 }
+
+.small-loading {
+  width: 50px;
+  height: 50px;
+  margin: 0 auto;
+  display: block;
+}
+.loading-text {
+  margin: 20px 0;
+  text-align: center;
+}

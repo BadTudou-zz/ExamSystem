@@ -39,7 +39,7 @@
             <button @click="showUser(index)" class="button is-small" type="button" name="button">查看用户</button>
           </td>
           <td>
-            <button @click="showVideoInfo(index)" class="button is-small" type="button" name="button">查看视频</button>
+            <button disabled @click="showVideoInfo(index)" class="button is-small" type="button" name="button">查看视频</button>
           </td>
           <td>
             <button @click="showDetail(index)" class="button is-small" type="button" name="button">查看详情</button>
@@ -70,9 +70,10 @@
                 v-model="data"
     ></pagination>
 
-    <!-- <video-info ref="videoInfo"
+    <video-info ref="videoInfo"
+                v-bind:current-teaching-data="currentTeachingData"
                 v-on:getTeaching="getTeaching"
-    ></video-info> -->
+    ></video-info>
 
   </div>
 </template>
@@ -83,7 +84,7 @@ import EditTeaching from './EditTeaching'
 import Pagination from './../Pagination'
 import User from './User'
 import Detail from './Detail'
-// import VideoInfo from '../VideoInfo/VideoInfo'
+import VideoInfo from '../VideoInfo/VideoInfo'
 
 export default {
   data() {
@@ -107,7 +108,7 @@ export default {
     Pagination,
     User,
     Detail,
-    // VideoInfo,
+    VideoInfo,
   },
   methods: {
     showModal: function () {
