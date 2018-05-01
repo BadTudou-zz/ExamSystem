@@ -81,6 +81,9 @@ Route::get('/test2', function () {
 Route::get('/test3', function () {
     return view('webrtc');
 });
+
+Route::get('/test4', function () {
+    return view('webrtcServer');
+});
 Route::get('/test1', 'TestController@test');
 Route::post('/webrtc', 'TestController@webrtc');
-
