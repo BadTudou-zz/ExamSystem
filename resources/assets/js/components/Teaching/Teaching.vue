@@ -39,7 +39,7 @@
             <button @click="showUser(index)" class="button is-small" type="button" name="button">查看用户</button>
           </td>
           <td>
-            <button @click="showVideoInfo(index)" class="button is-small" type="button" name="button">查看视频</button>
+            <button disabled @click="showVideoInfo(index)" class="button is-small" type="button" name="button">查看视频</button>
           </td>
           <td>
             <button @click="showDetail(index)" class="button is-small" type="button" name="button">查看详情</button>
