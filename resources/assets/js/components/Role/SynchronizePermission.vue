@@ -9,7 +9,14 @@
       <section class="modal-card-body">
         <div class="box-item">
           <div class="all-permission">
-            <table class="table">
+
+
+            <div v-if="isLoading">
+              <img class="small-loading" src="../../../img/loading.gif" alt="">
+              <p class="loading-text">数据加载中，请稍后...</p>
+            </div>
+
+            <table v-else class="table">
               <thead>
                 <tr>
                   <th>是否选中</th>
@@ -54,6 +61,10 @@ export default {
       paginationData: null,
       data: null,
       //
+      url: '',
+      currentPermission: [],
+      allPermission: [],
+      isLoading: true,
     }
   },
   components: {
@@ -110,28 +121,69 @@ export default {
         console.log(err)
       })
     },
+    getAllPermission: function (url) {
+      const that = this;
+      let urlPath = url ? url : that.url
+
+      axios({
+        method: 'get',
+        url: urlPath,
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': sessionStorage.getItem('token'),
+        }
+      }).then(res => {
+        that.url = res.data.links.next;
+
+        let len = res.data.data.length ? res.data.data.length : that.getJsonLength(res.data.data);
+
+        // data数据结构不一致 可能是数组/也可能是json
+        if (res.data.data.length) {
+          for (let i = 0; i < len; i++) {
+            that.currentPermission.push(res.data.data[i]);
+          }
+        }
+        else if (that.getJsonLength(res.data.data)) {
+          for (let i in res.data.data) {
+            that.currentPermission.push(res.data.data[i]);
+          }
+        }
+
+        if (that.url) {
+          that.getAllPermission(that.url);
+        }
+        else {
+          that.allPermission = that.currentPermission;
+        }
+      }).catch(err => {
+
+        console.log(err);
+      })
+    },
   },
   created() {
-    // this.clearWords();
-    // this.getPermission();
+
   },
   watch: {
+    isShowModal: function () {
+      const that = this;
+
+      that.url = `${this.GLOBAL.localDomain}/api/v1/roles/${that.roleId}/permissions`;
+      that.getAllPermission(this.url);
+      that.getPermission();
+    },
     data:function (value, oldValue) {
       const that = this;
       that.permissionData = value.data;
       that.paginationData = value.links;
     },
-    selectedPermission: function(value, oldValue) {
+    allPermission: function (value, oldValue) {
       const that = this;
-      console.log(value)
-    },
-    isShowModal: function (value, oldVale) {
-      const that = this;
-      if (value) {
-        this.clearWords();
-        this.getPermission();
+      for (let i = 0; i < value.length; i++) {
+        that.selectedPermission.push(parseInt(value[i]['id']))
       }
-    },
+      that.isLoading = false;
+    }
   }
 }
 </script>
