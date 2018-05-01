@@ -3,24 +3,24 @@
     <div class="modal-background"></div>
     <div class="modal-card">
       <header class="modal-card-head">
-        <p class="modal-card-title">添加文件</p>
+        <p class="modal-card-title">编辑视频</p>
         <button @click="switchModal()" class="delete" aria-label="close"></button>
       </header>
 
       <section class="modal-card-body">
 
-        <div class="file-item-box">
-          <label>文件名称</label>
-          <input v-model="fileData.fileName" class="input" type="text">
+        <div class="video-item-box">
+          <label>视频名称</label>
+          <input v-model="videoData.video_name" class="input" type="text">
         </div>
-        <div class="file-item-box">
+        <div class="video-item-box">
           <label>知识点</label>
-          <input v-model="fileData.kp" class="input" type="text">
+          <input v-model="videoData.kp" class="input" type="text">
         </div>
       </section>
 
       <footer class="modal-card-foot">
-        <button @click="editFileInfo()" class="button is-success">确认</button>
+        <button @click="editVideoInfo()" class="button is-success">确认</button>
         <button  @click="switchModal()" class="button">取消</button>
       </footer>
     </div>
@@ -33,8 +33,9 @@ export default {
   data() {
     return {
       isShowModal: false,
-      fileData: {
-        fileName: '',
+      videoData: {
+        id: '',
+        video_name: '',
         kp: '',
       },
       cid: null,
@@ -52,30 +53,32 @@ export default {
     },
     clearWords: function () {
       const that = this;
-      that.fileData.name = '';
-      that.fileData.display_name = '';
-      that.fileData.descripe = '';
-      that.fileData.number = '';
+      that.videoData.id = '';
+      that.videoData.video_name = '';
+      that.videoData.kp = '';
     },
-    editFileInfo: function () {
+    editVideoInfo: function () {
       const that = this;
 
       axios({
         method: 'POST',
-        url: `${this.GLOBAL.localDomain}/api/v1/upload/lecture/update/file`,
+        url: `${this.GLOBAL.localDomain}/api/v1/upload/lecture/update/video`,
         headers: {
           'Accept': 'application/json',
           'Authorization': sessionStorage.getItem('token'),
         },
-        body: {
-          id: that.editData.id, // 文件id
-          fileName: that.fileData.fileName,  // 修改后的文件名称
-          kp:  that.fileData.fileName, // 修改后的知识点
+        params: {
+          id: that.videoData.id, // 视频id
+          videoName: that.videoData.video_name,  // 修改后的视频名称
+          kp:  that.videoData.kp, // 修改后的知识点
         },
       }).then(res => {
-        alert('编辑成功')
+        alert('编辑成功');
+        that.$emit('getVideoForCid');   //第一个参数名为调用的方法名，第二个参数为需要传递的参数
+        that.switchModal();
+        that.clearWords();
       }).catch(err => {
-        alert('编辑失败')
+        alert('编辑失败');
         console.log(err);
       })
     },
@@ -83,6 +86,12 @@ export default {
   created() {
   },
   watch: {
+    editData: function (value, oldValue) {
+      const that = this;
+      that.videoData.id = value.id;
+      that.videoData.video_name = value.video_name;
+      that.videoData.kp = value.kp;
+    }
   }
 }
 </script>
@@ -91,10 +100,10 @@ export default {
 .progress {
   margin: 15px 0 20px 0;
 }
-.file-item-box {
+.video-item-box {
   margin: 25px 0
 }
-.file-item-box input {
+.video-item-box input {
   display: inline-block;
   width: 300px;
 }

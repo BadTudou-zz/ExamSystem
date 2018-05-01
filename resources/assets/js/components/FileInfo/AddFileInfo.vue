@@ -3,7 +3,7 @@
     <div class="modal-background"></div>
     <div class="modal-card">
       <header class="modal-card-head">
-        <p class="modal-card-title">添加文件</p>
+        <p class="modal-card-title">添加视频</p>
         <button @click="switchModal()" class="delete" aria-label="close"></button>
       </header>
 
@@ -17,7 +17,7 @@
                 <span class="file-icon">
                   <i class="fas fa-upload"></i>
                 </span>
-                <span class="file-label">选择文件</span>
+                <span class="file-label">选择视频</span>
               </span>
               <span class="file-name">{{ filename }}</span>
             </label>
@@ -25,17 +25,17 @@
           <progress v-show="progressNumber" class="progress is-info" v-bind:value="progressWidth" max="100">{{ progressNumber }}</progress>
         </div>
 
-        <div class="file-item-box">
-          <label>文件名称</label>
-          <input v-model="fileData.fileName" class="input" type="text">
+        <div class="video-item-box">
+          <label>视频名称</label>
+          <input v-model="videoData.videoName" class="input" type="text">
         </div>
-        <div class="file-item-box">
+        <div class="video-item-box">
           <label>知识点</label>
-          <input v-model="fileData.kp" class="input" type="text">
+          <input v-model="videoData.kp" class="input" type="text">
         </div>
       </section>
       <footer class="modal-card-foot">
-        <button @click="addFileInfo()" class="button is-success">确认</button>
+        <button @click="addVideoInfo()" class="button is-success">确认</button>
         <button  @click="switchModal()" class="button">取消</button>
       </footer>
     </div>
@@ -47,8 +47,8 @@ export default {
   data() {
     return {
       isShowModal: false,
-      fileData: {
-        fileName: '',
+      videoData: {
+        videoName: '',
         kp: '',
       },
       clock: null,
@@ -76,15 +76,15 @@ export default {
     },
     clearWords: function () {
       const that = this;
-      that.fileData.name = '';
-      that.fileData.display_name = '';
-      that.fileData.descripe = '';
-      that.fileData.number = '';
+      that.videoData.name = '';
+      that.videoData.display_name = '';
+      that.videoData.descripe = '';
+      that.videoData.number = '';
     },
-    addFileInfo: function () {
+    addVideoInfo: function () {
       const that = this;
       if (!that.isUploadedSuccess) {
-        alert('请先上传文件');
+        alert('请先上传视频');
         return;
       }
       that.userId = sessionStorage.getItem('userId')
@@ -93,7 +93,7 @@ export default {
 
       axios({
         method: 'POST',
-        url: `${this.GLOBAL.localDomain}/api/v1/upload/lecture/insert/file`,
+        url: `${this.GLOBAL.localDomain}/api/v1/upload/lecture/insert/video`,
         headers: {
           'Accept': 'application/json',
           'Authorization': sessionStorage.getItem('token'),
@@ -102,7 +102,7 @@ export default {
           userid: that.userId,
           cid: that.cid,  // 授课Id
           filename: this.filename,  // 文件名称（js生成唯一表示名称）
-          fileName: that.fileName,  // 文件名称（由用户输入）
+          videoName: that.videoName,  // 视频名称（由用户输入）
           kp: that.kp,  // 知识点（由用户输入）
         },
       }).then(res => {
@@ -117,7 +117,7 @@ export default {
     up(fd){
       axios({
         method: 'POST',
-        url: `${this.GLOBAL.localDomain}/api/v1/upload/lecture/file`,
+        url: `${this.GLOBAL.localDomain}/api/v1/upload/lecture/video`,
         data: fd,
         headers: {
           'Accept': 'application/json',
@@ -237,10 +237,10 @@ export default {
 .progress {
   margin: 15px 0 20px 0;
 }
-.file-item-box {
+.video-item-box {
   margin: 25px 0
 }
-.file-item-box input {
+.video-item-box input {
   display: inline-block;
   width: 300px;
 }
