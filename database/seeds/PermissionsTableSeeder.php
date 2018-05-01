@@ -571,5 +571,22 @@ class PermissionsTableSeeder extends Seeder
         $destroyQuestionType->display_name = '查询全部预习';
         $destroyQuestionType->description  = '查询全部预习';
         $destroyQuestionType->save();
+
+
+        // 上传导入学生用户数据
+
+        $destroyQuestionType = new Permission();
+        $destroyQuestionType->name         = 'import-student';
+        $destroyQuestionType->display_name = '批量导入学生用户数据';
+        $destroyQuestionType->description  = '批量导入学生用户数据';
+        $destroyQuestionType->save();
+
+        // 上传导入教师用户数据
+
+        $destroyQuestionType = new Permission();
+        $destroyQuestionType->name         = 'import-teacher';
+        $destroyQuestionType->display_name = '批量导入教师用户数据';
+        $destroyQuestionType->description  = '批量导入教师用户数据';
+        $destroyQuestionType->save();
     }
 }
