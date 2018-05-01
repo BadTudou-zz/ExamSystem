@@ -1,62 +1,62 @@
 <!-- 查看题目类型 -->
 <template lang="html">
-  <div class="box">
-    <div>
-      <div class="search-box">
-        <input v-model="searchKey" class="input search-input" type="text" placeholder="请输入关键字">
-        <div @click="searchQuestionType()" class="search-button"><i class="fas fa-search"></i></div>
+  <div class="modal" :class="{'is-active' : isShowModal}">
+    <div class="modal-background"></div>
+    <div class="modal-content">
+      <div class="box">
+        <div>
+          <div class="search-box">
+            <input v-model="searchKey" class="input search-input" type="text" placeholder="请输入关键字">
+            <div @click="searchQuestionType()" class="search-button"><i class="fas fa-search"></i></div>
+          </div>
+          <button @click="addQuestionType()" class="button add-questionType-button" type="button" name="button">添加题目类型</button>
+        </div>
+
+        <p v-if="!questionTypeData" class="empty-message-prompt">暂无题目类型</p>
+        <table v-else class="table is-bordered is-striped is-hoverable is-fullwidths">
+          <thead>
+            <tr>
+              <th>序号</th>
+              <th>名称</th>
+              <th>显示名称</th>
+              <th>分隔符</th>
+              <th>是否允许多选</th>
+              <th>操作</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="(item,index) in questionTypeData">
+              <td>{{ item.id }}</td>
+              <td>{{ item.name }}</td>
+              <td>{{ item.title }}</td>
+              <td>{{ item.delimiter }}</td>
+              <td>{{ computedIsAllowMultiple(item.is_multiple_choice) }}</td>
+              <td>
+                <div @click="editQuestionType(index)" class="icon-button"><i class="fas fa-edit"></i></div>
+                <div @click="deleteQuestionType(index)" class="icon-button"><i class="far fa-trash-alt"></i></div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <add-question-type ref="addQuestionType"
+                      v-on:getQuestionType="getQuestionType"
+        ></add-question-type>
+
+        <edit-question-type ref="editQuestionType"
+                       v-on:getQuestionType="getQuestionType"
+                       v-bind:edit-data="editData"
+        ></edit-question-type>
+
+        <pagination v-show="searchResult.length === 0"
+                    v-bind:pagination-data="paginationData"
+                    v-model="data"
+        ></pagination>
       </div>
-      <button @click="addQuestionType()" class="button add-questionType-button" type="button" name="button">添加题目类型</button>
-
-      <button @click="getQuestionType()" class="button add-questionType-button" type="button" name="button">全部题目类型</button>
-      <button @click="addQuestionType2()" class="button add-questionType-button" type="button" name="button">查看题目类型的全部题目</button>
     </div>
-
-    <p v-if="!questionTypeData" class="empty-message-prompt">暂无题目类型</p>
-    <table v-else class="table is-bordered is-striped is-hoverable is-fullwidths">
-      <thead>
-        <tr>
-          <!-- created_at:"2018-04-29 19:24:25" -->
-          <!-- delimiter:"!" -->
-          <!-- id:1 -->
-          <!-- is_multiple_choice:true -->
-          <!-- name:"SINGLE_CHOICE"title:"单选题" -->
-          <!-- updated_at:"2018-04-29 19:33:03" -->
-          <th>序号</th>
-          <th>类型名</th>
-          <th>分隔符</th>
-          <th>是否允许多选</th>
-          <th>操作</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="(item,index) in questionTypeData">
-          <td>{{ item.id }}</td>
-          <td>{{ item.name }}</td>
-          <td>{{ item.delimiter }}</td>
-          <td>{{ computedIsAllowMultiple(item.is_multiple_choice) }}</td>
-          <td>
-            <div @click="editQuestionType(index)" class="icon-button"><i class="fas fa-edit"></i></div>
-            <div @click="deleteQuestionType(index)" class="icon-button"><i class="far fa-trash-alt"></i></div>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-
-    <add-question-type ref="addQuestionType"
-                  v-on:getQuestionType="getQuestionType"
-    ></add-question-type>
-
-    <edit-question-type ref="editQuestionType"
-                   v-on:getQuestionType="getQuestionType"
-                   v-bind:edit-data="editData"
-    ></edit-question-type>
-
-    <pagination v-show="searchResult.length === 0"
-                v-bind:pagination-data="paginationData"
-                v-model="data"
-    ></pagination>
+    <button @click="switchModal()" class="modal-close is-large" aria-label="close"></button>
   </div>
+
 </template>
 
 <script>
@@ -89,7 +89,7 @@ export default {
     Pagination,
   },
   methods: {
-    showModal: function () {
+    switchModal: function () {
       const that = this;
       that.isShowModal = !that.isShowModal;
     },
@@ -99,27 +99,6 @@ export default {
       axios({
         method: 'get',
         url: `${this.GLOBAL.localDomain}/api/v1/questionTypes`,
-        headers: {
-          'Accept': 'application/json',
-          'Authorization': sessionStorage.getItem('token'),
-        }
-      }).then(res => {
-        that.questionTypeData = res.data.data;
-        that.paginationData = res.data.links;
-      }).catch(err => {
-        console.log(err);
-        if (err.response.status === 401) {
-          // alert('登录超时');
-          // location.reload();
-        }
-      })
-    },
-    // 查看题目类型的全部题目
-    addQuestionType2: function () {
-      const that = this;
-      axios({
-        method: 'get',
-        url: `${this.GLOBAL.localDomain}/api/v1/questionTypes/2/questions/`,
         headers: {
           'Accept': 'application/json',
           'Authorization': sessionStorage.getItem('token'),
@@ -277,7 +256,6 @@ export default {
   computed: {
   },
   created() {
-    this.getQuestionType();
   },
   watch: {
     data:function (value, oldValue) {
@@ -288,6 +266,12 @@ export default {
     allQuestionType: function (value, oldValue) {
       const that = this;
       that.searchQuestionType(that.searchKey);
+    },
+    isShowModal: function (value, oldValue) {
+      const that = this;
+      if (value) {
+        that.getQuestionType();  
+      }
     }
   }
 }
@@ -360,5 +344,7 @@ export default {
   text-overflow:ellipsis;
   white-space: nowrap;
 }
-
+.modal-content {
+  width: 1200px;
+}
 </style>

@@ -24,7 +24,7 @@
                 <el-menu-item-group>
                   <template slot="title"></template>
                   <el-menu-item index="0-1"><router-link to="/personalData">个人信息</router-link></el-menu-item>
-                  <el-menu-item index="0-2"><router-link to="/testData">考试中心</router-link></el-menu-item>
+                  <el-menu-item disabled index="0-2"><router-link to="/">考试中心</router-link></el-menu-item>
                 </el-menu-item-group>
               </el-submenu>
 
@@ -103,7 +103,7 @@
                   <template slot="title"></template>
                   <el-menu-item v-show="isShowCourse" index="3-1"><router-link to="/course">课程</router-link></el-menu-item>
                   <el-menu-item v-show="isShowLecture" index="3-2"><router-link to="/teaching">授课</router-link></el-menu-item>
-                  <el-menu-item index="3-3"><router-link to="/video">视频</router-link></el-menu-item>
+                  <!-- <el-menu-item index="3-3"><router-link to="/video">视频</router-link></el-menu-item> -->
                 </el-menu-item-group>
               </el-submenu>
 
@@ -114,7 +114,6 @@
                 </template>
                 <el-menu-item-group>
                   <template slot="title"></template>
-                  <el-menu-item index="4-1"><router-link to="/questionType">题目类型</router-link></el-menu-item>
                   <el-menu-item v-show="isShowQuestion" index="4-1"><router-link to="/question">题目</router-link></el-menu-item>
                   <el-menu-item v-show="isShowPaper" index="4-2"><router-link to="/examinationPaper">试卷</router-link></el-menu-item>
                   <el-menu-item v-show="isShowExam" index="4-3"><router-link to="/test">考试</router-link></el-menu-item>

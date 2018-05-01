@@ -18,9 +18,11 @@
       </div>
 
       <div v-for="(item,index) in questionData">
-        <!-- 单选 -->
+
         <div class="testing">
-          <div v-show="item.question_type === 'SINGLE_CHOICE'" class="testing box">
+
+          <!-- 单选 -->
+          <div v-show="item.type_id === 1" class="testing box">
             <div class="question-title">
               <span class="question-index"> {{ index + 1 }}</span>
               <span class="question-type">单选题</span>
@@ -35,6 +37,8 @@
             </div>
             <div class="answer">
               <label class="checkbox">
+
+                <!-- <input type="checkbox" v-bind:value="item.id" v-model="selectedUser" class="user-seleted"> -->
                 <div class="">
                   <input class="answer-index" v-model="answer[index]" value="A" type="radio">{{ getOptionsString(item.body)[0] }}
                 </div>
@@ -50,6 +54,7 @@
               </label>
             </div>
           </div>
+
 
         </div>
       </div>
@@ -67,44 +72,117 @@ export default {
   data() {
     return {
        questionData: [],
-//        questionData: [
-//         {
-//             "id": 2,
-//             "question_type": "SINGLE_CHOICE",
-//             "tag_id": "0",
-//             "level_type": "EASY",
-//             "title": "1+1等于多少23234？",
-//             "body": "1.2 \n2. 3\n3. 4",
-//             "answer": "1",
-//             "answer_comment": "没有",
-//             "created_at": "2018-01-27 04:54:50",
-//             "updated_at": "2018-01-27 04:59:21"
-//         },
-//         {
-//             "id": 3,
-//             "question_type": "SINGLE_CHOICE",
-//             "tag_id": "0",
-//             "level_type": "EASY",
-//             "title": "1+1等于多少23234？",
-//             "body": "1.2 \n2. 3\n3. 4",
-//             "answer": "1",
-//             "answer_comment": "没有",
-//             "created_at": "2018-01-27 04:58:32",
-//             "updated_at": "2018-01-27 04:58:32"
-//         },
-//         {
-//             "id": 4,
-//             "question_type": "SINGLE_CHOICE",
-//             "tag_id": "0",
-//             "level_type": "EASY",
-//             "title": "1+1等于多少？",
-//             "body": "1.2 \n2. 3\n3. 4",
-//             "answer": "1",
-//             "answer_comment": "没有",
-//             "created_at": "2018-01-27 05:06:28",
-//             "updated_at": "2018-01-27 05:06:28"
-//         }
-//     ],
+       questionData: [{
+            "id": 2,
+            "type_id": 1,
+            "tags": "0",
+            "level_type": "EASY",
+            "title": "2+2=???",
+            "body": "1!2!3!4",
+            "answer": "D",
+            "answer_comment": "ddddddd",
+            "created_at": "2018-04-29 19:31:06",
+            "updated_at": "2018-04-29 19:31:06"
+        }, {
+            "id": 3,
+            "type_id": 1,
+            "tags": "0",
+            "level_type": "EASY",
+            "title": "1+1=?",
+            "body": "1!2!3!4",
+            "answer": "B",
+            "answer_comment": "22",
+            "created_at": "2018-04-29 19:36:51",
+            "updated_at": "2018-04-29 19:36:51"
+        }, {
+            "id": 4,
+            "type_id": 1,
+            "tags": "0",
+            "level_type": "EASY",
+            "title": "1+1\u7b49\u4e8e\u591a\u5c11\uff1f",
+            "body": "1!2!3!4",
+            "answer": "1",
+            "answer_comment": "\u6ca1\u6709",
+            "created_at": "2018-04-29 19:44:35",
+            "updated_at": "2018-04-29 19:44:35"
+        }, {
+            "id": 5,
+            "type_id": 1,
+            "tags": "0",
+            "level_type": "MIDDLE",
+            "title": "1+1\u7b49\u4e8e\u591a\u5c11\uff1f",
+            "body": "1!2!3!4",
+            "answer": "1",
+            "answer_comment": "\u6ca1\u6709",
+            "created_at": "2018-04-29 19:44:35",
+            "updated_at": "2018-04-29 19:44:35"
+        }, {
+            "id": 6,
+            "type_id": 1,
+            "tags": "0",
+            "level_type": "HARD",
+            "title": "1+1\u7b49\u4e8e\u591a\u5c11\uff1f",
+            "body": "1!2!3!4",
+            "answer": "1",
+            "answer_comment": "\u6ca1\u6709",
+            "created_at": "2018-04-29 19:44:35",
+            "updated_at": "2018-04-29 19:44:35"
+        }, {
+            "id": 7,
+            "type_id": 3,
+            "tags": "0",
+            "level_type": "EASY",
+            "title": "1+1\u7b49\u4e8e\u591a\u5c11\uff1f",
+            "body": "1#2#3#4",
+            "answer": "1",
+            "answer_comment": "\u6ca1\u6709",
+            "created_at": "2018-04-29 20:05:54",
+            "updated_at": "2018-04-29 20:05:54"
+        }, {
+            "id": 8,
+            "type_id": 4,
+            "tags": "0",
+            "level_type": "MIDDLE",
+            "title": "1+1\u7b49\u4e8e\u591a\u5c11\uff1f",
+            "body": "1$2$3$4",
+            "answer": "1",
+            "answer_comment": "\u6ca1\u6709",
+            "created_at": "2018-04-29 20:05:54",
+            "updated_at": "2018-04-29 20:05:54"
+        }, {
+            "id": 9,
+            "type_id": 2,
+            "tags": "0",
+            "level_type": "HARD",
+            "title": "1+1\u7b49\u4e8e\u591a\u5c11\uff1f",
+            "body": "1@2@3@4",
+            "answer": "1",
+            "answer_comment": "\u6ca1\u6709",
+            "created_at": "2018-04-29 20:05:54",
+            "updated_at": "2018-04-29 20:05:54"
+        }, {
+            "id": 10,
+            "type_id": 1,
+            "tags": "0",
+            "level_type": "HARD",
+            "title": "1+1\u7b49\u4e8e\u591a\u5c11\uff1f",
+            "body": "1!2!3!4",
+            "answer": "xxx",
+            "answer_comment": "xxx",
+            "created_at": "2018-04-29 20:05:54",
+            "updated_at": "2018-04-29 20:05:54"
+        }, {
+            "id": 11,
+            "type_id": 5,
+            "tags": "0",
+            "level_type": "HARD",
+            "title": "1+1\u7b49\u4e8e\u591a\u5c11\uff1f",
+            "body": "1%2%3%4",
+            "answer": "xxx",
+            "answer_comment": "xxx",
+            "created_at": "2018-04-29 20:05:54",
+            "updated_at": "2018-04-29 20:05:54"
+        }],
        chapterIds: [],
        isLoading: true,
        singleChoiceAnswer: null,

@@ -27,17 +27,17 @@
           <label>题目类型</label>
           <div class="select">
             <select v-model="chapterData.question_type">
-              <option value="SINGLE_CHOICE">单选</option>
-              <!-- <option value="MULTIPLE_CHOICE">多选</option>
-              <option value="TRUE_FALSE">判断</option>
-              <option value="FILL_IN">填空</option>
-              <option value="SHORT_ANSWER">简答</option> -->
+              <option value=0>单选</option>
+              <option value=1>多选</option>
+              <option value=2>判断</option>
+              <option value=3>填空</option>
+              <option value=4>简答</option>
             </select>
           </div>
         </div>
         <div class="box-item">
           <label>涉及到的题目</label>
-          <!-- <inpust v-model="questionsString" class="input" type="text" placeholder="请用英文逗号将多个题目id分开"> -->
+
           <div class="all-question">
 
             <table class="table">
@@ -89,7 +89,7 @@ export default {
         score: null,
         number: null,
         describe: null,
-        question_type: 'SINGLE_CHOICE',
+        question_type: 0,
         scores: {},
       },
       questions: '',  // 涉及的题目

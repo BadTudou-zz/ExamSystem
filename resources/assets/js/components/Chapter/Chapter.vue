@@ -31,7 +31,7 @@
               <tr v-for="(item,index) in chapterData">
                 <td>{{ item.id }}</td>
                 <td>{{ item.name }}</td>
-                <td><p class="limit-words">{{ item.describe }}</p></td>
+                <td><p class="chapter-limit-words">{{ item.describe }}</p></td>
                 <td>{{ computedQuestionType(item.question_type) }}</td>
                 <td>{{ item.score }}</td>
                 <td>{{ item.number }}</td>
@@ -246,21 +246,23 @@ export default {
     computedQuestionType: function (value) {
       const that = this;
 
+      // 1.SINGLE_CHOICE, 2.MULTIPLE_CHOICE, 3.TRUE_FALSE, 4.FILL_IN, 5.SHORT_ANSWER
+
       let questionType = '';
       switch (value) {
-        case 'SINGLE_CHOICE':
+        case 0:
           questionType = '单选';
           break;
-        case 'MULTIPLE_CHOICE':
+        case 1:
           questionType = '多选';
           break;
-        case 'TRUE_FALSE':
+        case 2:
           questionType = '判断';
           break;
-        case 'FILL_IN':
+        case 3:
           questionType = '填空';
           break;
-        case 'SHORT_ANSWER':
+        case 4:
           questionType = '简答';
           break;
       }
@@ -305,10 +307,14 @@ table {
 .add-chapter-button {
   margin-left: 20px;
 }
-.chapter-box {
-  width: 1300px;
-}
 .chapter-content {
-  width: 1300px;
+  width: 1200px;
+}
+.chapter-limit-words {
+  display: inline-block;
+  width: 140px;
+  overflow: hidden;
+  text-overflow:ellipsis;
+  white-space: nowrap;
 }
 </style>

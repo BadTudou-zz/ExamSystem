@@ -21,10 +21,10 @@
         </div>
         <div class="box-item">
           <label>题目难度</label>
-          <!-- ?? 枚举值有哪些 -->
           <div class="select">
             <select v-model="questionData.level_type">
               <option value="EASY">简单</option>
+              <option value="MIDDLE">简单</option>
               <option value="HARD">困难</option>
             </select>
           </div>
@@ -55,7 +55,6 @@
             <input v-model="options[3]" class="input" type="text">
           </div>
         </div>
-
 
 
         <!-- 正确答案 -->
