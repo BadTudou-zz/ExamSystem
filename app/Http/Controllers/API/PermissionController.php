@@ -10,6 +10,7 @@ use App\Http\Requests\Permission\Index as IndexPermission;
 use App\Http\Requests\Permission\Store as StorePermission;
 use App\Http\Requests\Permission\Show as ShowPermission;
 use App\Http\Requests\Permission\Destroy as DestroyPermission;
+use App\Http\Requests\Permission\Update as UpdatePermission;
 use App\Http\Resources\PermissionResource;
 use Illuminate\Support\Facades\Auth;
 use Validator;
@@ -24,7 +25,14 @@ class PermissionController extends Controller
     public function store(StorePermission $request)
     {
         $permission = Permission::create($request->all());
-        return $permission;
+        return new PermissionResource($permission);
+    }
+
+    public function update(UpdatePermission $request)
+    {
+        $permission = Permission::findOrFail($id);
+        $permission->update($request->except(['name']));
+        return new PermissionResource($permission);
     }
 
     public function show(ShowPermission $request, $id)

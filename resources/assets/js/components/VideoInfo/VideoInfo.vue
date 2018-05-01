@@ -6,9 +6,23 @@
       <div class="box">
 
         <div class="search-box">
-          <input v-model="searchKey" class="input search-input" type="text" placeholder="请输入视频">
+          <div class="field">
+            <div class="control">
+              <div class="select is-small">
+                <select  v-model="searchType" @change="changeSeachType(index)">
+                  <option value="">请查找类型</option>
+                  <option value="fuzzy-search">模糊查找</option>
+                  <option value="user-id-search">根据用户ID查找</option>
+                  <option value="lecture-id-search">根据授课ID查找</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <input v-model="searchKey" class="input search-input" type="text" placeholder="">
           <div class="search-button"><i class="fas fa-search"></i></div>
         </div>
+
         <button @click="addVideoInfo()" class="button add-video-button" type="button" name="button">添加视频</button>
 
         <p v-if="!videoData" class="empty-message-prompt">暂无视频</p>
@@ -43,7 +57,7 @@
 
       </div>
     </div>
-    <button class="modal-close is-large" aria-label="close"></button>
+    <button @click="switchModal()" class="modal-close is-large" aria-label="close"></button>
 
 
     <add-video-info ref="addVideoInfo"
@@ -77,6 +91,7 @@ export default {
       allVideo: [],
       searchResult: [],
       editData: null,
+      searchType: '',
     }
   },
   components: {
@@ -89,10 +104,6 @@ export default {
   ],
   methods: {
     switchModal: function () {
-      const that = this;
-      that.isShowModal = !that.isShowModal;
-    },
-    showModal: function () {
       const that = this;
       that.isShowModal = !that.isShowModal;
     },
@@ -112,10 +123,13 @@ export default {
       if (prompt) {
         axios({
           method: 'delete',
-          url: `${this.GLOBAL.localDomain}/api/v1/videos/${id}`,
+          url: `${this.GLOBAL.localDomain}/api/v1/upload/lecture/delete/video`,
           headers: {
             'Accept': 'application/json',
             'Authorization': sessionStorage.getItem('token'),
+          },
+          params: {
+            id: that.videoData[index]['id']
           }
         }).then(res => {
           alert('删除成功');
@@ -126,25 +140,44 @@ export default {
         })
       }
     },
+    // 通过授课ID获取视频信息
     getVideoForCid: function() {
       const that = this;
       // axios({
       //   method: 'get',
-      //   url: `${this.GLOBAL.localDomain}/api/v1/videos`,
+      //   url: `${this.GLOBAL.localDomain}/api/v1/upload/lecture/selectForUserid/video`,
       //   headers: {
       //     'Accept': 'application/json',
       //     'Authorization': sessionStorage.getItem('token'),
+      //   },
+      //   params: {
+      //     cid: that.cid,
       //   }
       // }).then(res => {
-      //   that.videoData = res.data.data;
-      //   that.paginationData = res.data.links;
-      //   //
+      //   // that.videoData = res.data.data;
+      //   // that.paginationData = res.data.links;
       // }).catch(err => {
       //   console.log(err);
-      //   if (err.response.status === 401) {
-      //     // alert('登录超时');
-      //     // location.reload();
+      // })
+    },
+    // 通过user获取视频信息
+    getVideoForUserId: function() {
+      const that = this;
+      // axios({
+      //   method: 'get',
+      //   url: `${this.GLOBAL.localDomain}/api/v1/upload/lecture/selectForCid/video`,
+      //   headers: {
+      //     'Accept': 'application/json',
+      //     'Authorization': sessionStorage.getItem('token'),
+      //   },
+      //   params: {
+      //     userId: sessionStorage.getItem('userId')
       //   }
+      // }).then(res => {
+      //   // that.videoData = res.data.data;
+      //   // that.paginationData = res.data.links;
+      // }).catch(err => {
+      //   console.log(err);
       // })
     },
     getVideo: function() {
@@ -238,7 +271,23 @@ export default {
         console.log(err);
       })
     },
-
+    changeSeachType: function () {
+      const that = this;
+      let searchType = that.searchType;
+      switch (searchType) {
+        case '':
+          break;
+        case 'fuzzy-search':
+          that.getVideo();
+          break;
+        case 'user-id-search':
+          that.getVideoForUserId();
+          break;
+        case 'lecture-id-search':
+          that.getVideoForCid();
+          break;
+      }
+    }
   },
   computed: {
     isShowCreateVideo() {
@@ -263,7 +312,7 @@ export default {
   watch: {
     isShowModal: function () {
       const that = this;
-      that.getVideo();
+      that.getVideoForUserId();
     }
   }
 }
@@ -279,6 +328,7 @@ table {
   margin-right: 10px;
 }
 .search-box {
+  width: 400px;
   padding-right: 20px;
   display: inline-block;
   border-right: 1px solid #dedede;
@@ -299,5 +349,8 @@ table {
 }
 .modal-content {
   width: 1200px;
+}
+.field {
+  display: inline-block;
 }
 </style>

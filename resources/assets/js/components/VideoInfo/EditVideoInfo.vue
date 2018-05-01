@@ -24,6 +24,7 @@
         <button  @click="switchModal()" class="button">取消</button>
       </footer>
     </div>
+    
   </div>
 </template>
 
