@@ -57,7 +57,7 @@
 
       </div>
     </div>
-    <button class="modal-close is-large" aria-label="close"></button>
+    <button @click="switchModal()" class="modal-close is-large" aria-label="close"></button>
 
 
     <add-video-info ref="addVideoInfo"
@@ -143,42 +143,42 @@ export default {
     // 通过授课ID获取视频信息
     getVideoForCid: function() {
       const that = this;
-      axios({
-        method: 'get',
-        url: `${this.GLOBAL.localDomain}/api/v1/upload/lecture/selectForUserid/video`,
-        headers: {
-          'Accept': 'application/json',
-          'Authorization': sessionStorage.getItem('token'),
-        },
-        params: {
-          cid: that.cid,
-        }
-      }).then(res => {
-        // that.videoData = res.data.data;
-        // that.paginationData = res.data.links;
-      }).catch(err => {
-        console.log(err);
-      })
+      // axios({
+      //   method: 'get',
+      //   url: `${this.GLOBAL.localDomain}/api/v1/upload/lecture/selectForUserid/video`,
+      //   headers: {
+      //     'Accept': 'application/json',
+      //     'Authorization': sessionStorage.getItem('token'),
+      //   },
+      //   params: {
+      //     cid: that.cid,
+      //   }
+      // }).then(res => {
+      //   // that.videoData = res.data.data;
+      //   // that.paginationData = res.data.links;
+      // }).catch(err => {
+      //   console.log(err);
+      // })
     },
     // 通过user获取视频信息
     getVideoForUserId: function() {
       const that = this;
-      axios({
-        method: 'get',
-        url: `${this.GLOBAL.localDomain}/api/v1/upload/lecture/selectForCid/video`,
-        headers: {
-          'Accept': 'application/json',
-          'Authorization': sessionStorage.getItem('token'),
-        },
-        params: {
-          userId: sessionStorage.getItem('userId')
-        }
-      }).then(res => {
-        // that.videoData = res.data.data;
-        // that.paginationData = res.data.links;
-      }).catch(err => {
-        console.log(err);
-      })
+      // axios({
+      //   method: 'get',
+      //   url: `${this.GLOBAL.localDomain}/api/v1/upload/lecture/selectForCid/video`,
+      //   headers: {
+      //     'Accept': 'application/json',
+      //     'Authorization': sessionStorage.getItem('token'),
+      //   },
+      //   params: {
+      //     userId: sessionStorage.getItem('userId')
+      //   }
+      // }).then(res => {
+      //   // that.videoData = res.data.data;
+      //   // that.paginationData = res.data.links;
+      // }).catch(err => {
+      //   console.log(err);
+      // })
     },
     getVideo: function() {
       const that = this;
