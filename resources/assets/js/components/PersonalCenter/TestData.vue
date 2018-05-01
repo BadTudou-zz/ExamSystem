@@ -1,7 +1,7 @@
 <!-- 查看考试 -->
 <template lang="html">
   <div class="box">
-    <div  v-show="!isTesting">
+    <!-- <div  v-show="!isTesting">
       <h3 class="title">考试</h3>
 
       <p v-if="!testData" class="empty-message-prompt">暂无考试</p>
@@ -31,7 +31,7 @@
                   v-model="data"
       ></pagination>
 
-    </div>
+    </div> -->
 
     <!-- <testing ref="testing"
              v-show="isTesting"
@@ -41,7 +41,10 @@
              v-bind:exam-time="examTime"
     ></testing>     -->
 
-    <testing ref="testing"
+
+    <testing-test></testing-test>
+
+    <!-- <testing ref="testing"
                  v-show="isTesting"
                  v-on:switchTesting="switchTesting"
                  v-bind:current-test-data="currentTestData"
@@ -49,12 +52,13 @@
 
     <score ref="score"
            v-bind:selected-test-data="selectedTestData"
-    ></score>
+    ></score> -->
   </div>
 </template>
 
 <script>
-import Testing from './Testing'
+// import Testing from './Testing'
+import TestingTest from './TestingTest'
 import Pagination from './../Pagination.vue'
 import Score from './Score'
 export default {
@@ -79,7 +83,8 @@ export default {
   },
   components: {
     Pagination,
-    Testing,
+    TestingTest,
+    // Testing,
     Score,
   },
   methods: {
