@@ -6,9 +6,23 @@
       <div class="box">
 
         <div class="search-box">
-          <input v-model="searchKey" class="input search-input" type="text" placeholder="请输入视频">
+          <div class="field">
+            <div class="control">
+              <div class="select is-small">
+                <select  v-model="searchType" @change="changeSeachType(index)">
+                  <option value="">请查找类型</option>
+                  <option value="fuzzy-search">模糊查找</option>
+                  <option value="user-id-search">根据用户ID查找</option>
+                  <option value="lecture-id-search">根据授课ID查找</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <input v-model="searchKey" class="input search-input" type="text" placeholder="">
           <div class="search-button"><i class="fas fa-search"></i></div>
         </div>
+
         <button @click="addVideoInfo()" class="button add-video-button" type="button" name="button">添加视频</button>
 
         <p v-if="!videoData" class="empty-message-prompt">暂无视频</p>
@@ -77,6 +91,7 @@ export default {
       allVideo: [],
       searchResult: [],
       editData: null,
+      searchType: '',
     }
   },
   components: {
@@ -256,7 +271,23 @@ export default {
         console.log(err);
       })
     },
-
+    changeSeachType: function () {
+      const that = this;
+      let searchType = that.searchType;
+      switch (searchType) {
+        case '':
+          break;
+        case 'fuzzy-search':
+          that.getVideo();
+          break;
+        case 'user-id-search':
+          that.getVideoForUserId();
+          break;
+        case 'lecture-id-search':
+          that.getVideoForCid();
+          break;
+      }
+    }
   },
   computed: {
     isShowCreateVideo() {
@@ -297,6 +328,7 @@ table {
   margin-right: 10px;
 }
 .search-box {
+  width: 400px;
   padding-right: 20px;
   display: inline-block;
   border-right: 1px solid #dedede;
@@ -317,5 +349,8 @@ table {
 }
 .modal-content {
   width: 1200px;
+}
+.field {
+  display: inline-block;
 }
 </style>
