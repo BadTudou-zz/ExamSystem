@@ -34,8 +34,8 @@ class ExamController extends Controller
             return ExamResource::collection(Exam::where('type', 'PRACTICE')->paginate());
         } 
 
-        if ($type == 'OFFICIAL') {
-            return ExamResource::collection(Exam::where('type', 'OFFICIAL')->paginate());
+        if ($type == 'EXAM') {
+            return ExamResource::collection(Exam::where('type', 'EXAM')->paginate());
         } 
 
     	return  ExamResource::collection(Exam::paginate());
