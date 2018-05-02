@@ -55,7 +55,10 @@ Route::group(['prefix' => '/v1'], function () {
     Route::post('discuss/selectDiscussForUserid', 'API\DiscussController@selectDiscussForUserid');
     Route::post('discuss/selectDiscussForLid', 'API\DiscussController@selectDiscussForLid');
     Route::post('discuss/selectDiscussAll', 'API\DiscussController@selectDiscussAll');
+
     Route::post('discuss/selectDiscussAndReply', 'API\DiscussController@selectDiscussAndReply');
+
+
     Route::post('discuss/replyDiscuss', 'API\DiscussController@replyDiscuss');
     Route::post('discuss/deleteReply', 'API\DiscussController@deleteReply');
     Route::post('discuss/selectReplyForUserid', 'API\DiscussController@selectReplyForUserid');
@@ -100,6 +103,23 @@ Route::prefix('v1')->middleware(['auth:api'])->group(function () {
 
     Route::post('questions/import/student', 'API\ExcelController@importStudent');
     Route::post('questions/import/teacher', 'API\ExcelController@teacher');
+
+
+    Route::post('discuss/publishDiscuss', 'API\DiscussController@publishDiscuss');
+    Route::post('discuss/updateDiscuss', 'API\DiscussController@updateDiscuss');
+    Route::post('discuss/deleteDiscuss', 'API\DiscussController@deleteDiscuss');
+    Route::post('discuss/selectDiscussForUserid', 'API\DiscussController@selectDiscussForUserid');
+    Route::post('discuss/selectDiscussForLid', 'API\DiscussController@selectDiscussForLid');
+    Route::post('discuss/selectDiscussAll', 'API\DiscussController@selectDiscussAll');
+
+    Route::post('discuss/selectDiscussAndReply', 'API\DiscussController@selectDiscussAndReply');
+
+
+    Route::post('discuss/replyDiscuss', 'API\DiscussController@replyDiscuss');
+    Route::post('discuss/deleteReply', 'API\DiscussController@deleteReply');
+    Route::post('discuss/selectReplyForUserid', 'API\DiscussController@selectReplyForUserid');
+    Route::post('discuss/selectReplyForLid', 'API\DiscussController@selectReplyForLid');
+    Route::post('discuss/selectReplyAll', 'API\DiscussController@selectReplyAll');
 
 
 
