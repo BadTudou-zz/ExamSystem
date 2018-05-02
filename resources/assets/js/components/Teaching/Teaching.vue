@@ -22,6 +22,7 @@
           <th>授课操作</th>
           <th>用户操作</th>
           <th>视频操作</th>
+          <th>文件操作</th>
           <th>更多</th>
         </tr>
       </thead>
@@ -40,6 +41,9 @@
           </td>
           <td>
             <button @click="showVideoInfo(index)" class="button is-small" type="button" name="button">查看视频</button>
+          </td>
+          <td>
+            <button @click="showFileInfo(index)" class="button is-small" type="button" name="button">查看文件</button>
           </td>
           <td>
             <button @click="showDetail(index)" class="button is-small" type="button" name="button">查看详情</button>
@@ -75,6 +79,11 @@
                 v-on:getTeaching="getTeaching"
     ></video-info>
 
+    <file-info ref="fileInfo"
+               v-bind:current-teaching-data="currentTeachingData"
+               v-on:getTeaching="getTeaching"
+    ></file-info>
+
   </div>
 </template>
 
@@ -85,6 +94,7 @@ import Pagination from './../Pagination'
 import User from './User'
 import Detail from './Detail'
 import VideoInfo from '../VideoInfo/VideoInfo'
+import FileInfo from '../FileInfo/FileInfo'
 
 export default {
   data() {
@@ -109,6 +119,7 @@ export default {
     User,
     Detail,
     VideoInfo,
+    FileInfo,
   },
   methods: {
     showModal: function () {
@@ -266,6 +277,11 @@ export default {
       const that = this;
       that.currentTeachingData = that.teachingData[index];
       that.$refs.videoInfo.switchModal();
+    },
+    showFileInfo: function (index) {
+      const that = this;
+      that.currentTeachingData = that.teachingData[index];
+      that.$refs.fileInfo.switchModal();
     },
     showDetail: function (index) {
       const that = this;

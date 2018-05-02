@@ -23,16 +23,16 @@
           <div class="search-button"><i class="fas fa-search"></i></div>
         </div>
 
-        <button @click="addVideoInfo()" class="button add-video-button" type="button" name="button">添加视频</button>
+        <button @click="addFileInfo()" class="button add-file-button" type="button" name="button">添加视频</button>
 
-        <p v-if="!videoData" class="empty-message-prompt">暂无视频</p>
+        <p v-if="!fileData" class="empty-message-prompt">暂无视频</p>
         <table v-else class="table is-bordered is-striped is-hoverable is-fullwidths">
           <thead>
             <!-- "id": 15,
             "userid": 1,
             "cid": 1,
-            "url": "\/usr\/share\/nginx\/html\/ExamSystem\/public\/video\/123.mp4",
-            "video_name": "\u6d4b\u8bd5\u89c6\u9891",
+            "url": "\/usr\/share\/nginx\/html\/ExamSystem\/public\/file\/123.mp4",
+            "file_name": "\u6d4b\u8bd5\u89c6\u9891",
             "kp": "\u77e5\u8bc6\u70b9\u662fxxxx" -->
             <tr>
               <th>序号</th>
@@ -45,16 +45,16 @@
             </tr>
           </thead>
         <tbody>
-            <tr v-for="(item,index) in videoData">
+            <tr v-for="(item,index) in fileData">
               <td>{{ item.id }}</td>
               <td>{{ item.userId }}</td>
               <td>{{ item.cid }}</td>
               <td>{{ GLOBAL.localDomain + item.url }}</td>
-              <td>{{ item.video_name }}</td>
+              <td>{{ item.file_name }}</td>
               <td>{{ item.kp }}</td>
               <td>
-                <div @click="deleteVideo(index)" class="icon-button"><i class="far fa-trash-alt"></i></div>
-                <div @click="editVideoInfo(index)" class="icon-button"><i class="fas fa-edit"></i></div>
+                <div @click="deleteFile(index)" class="icon-button"><i class="far fa-trash-alt"></i></div>
+                <div @click="editFileInfo(index)" class="icon-button"><i class="fas fa-edit"></i></div>
               </td>
             </tr>
           </tbody>
@@ -65,41 +65,41 @@
     <button @click="switchModal()" class="modal-close is-large" aria-label="close"></button>
 
 
-    <add-video-info ref="addVideoInfo"
-                    v-on:getVideo="getVideo"
-                    v-bind:current-video-data="currentVideoData"></add-video-info>
+    <add-file-info ref="addFileInfo"
+                    v-on:getFile="getFile"
+                    v-bind:current-file-data="currentFileData"></add-file-info>
 
-    <edit-video-info ref="editVideoInfo"
-                     v-on:getVideoForCid="getVideoForCid"
+    <edit-file-info ref="editFileInfo"
+                     v-on:getFileForCid="getFileForCid"
                      v-bind:edit-data="editData"
-    ></edit-video-info>
+    ></edit-file-info>
 
   </div>
 
 </template>
 
 <script>
-import AddVideoInfo from './AddVideoInfo'
-import EditVideoInfo from './EditVideoInfo'
+import AddFileInfo from './AddFileInfo'
+import EditFileInfo from './EditFileInfo'
 
 export default {
   data() {
     return {
       isShowModal: false,
-      videoData: null,
+      fileData: null,
       searchKey: '',
-      // get all video
-      currentVideo: [],
-      allVideo: [],
+      // get all file
+      currentFile: [],
+      allFile: [],
       searchResult: [],
       editData: null,
       searchType: '',
-      currentVideoData: null,
+      currentFileData: null,
     }
   },
   components: {
-    AddVideoInfo,
-    EditVideoInfo,
+    AddFileInfo,
+    EditFileInfo,
   },
   props: [
     'currentTeachingData'
@@ -109,33 +109,33 @@ export default {
       const that = this;
       that.isShowModal = !that.isShowModal;
     },
-    addVideoInfo: function() {
+    addFileInfo: function() {
       const that = this;
-      that.$refs.addVideoInfo.switchModal();
+      that.$refs.addFileInfo.switchModal();
     },
-    editVideoInfo: function (index) {
+    editFileInfo: function (index) {
       const that = this;
-      that.editData = that.videoData[index];
-      that.$refs.editVideoInfo.switchModal();
+      that.editData = that.fileData[index];
+      that.$refs.editFileInfo.switchModal();
     },
-    deleteVideo: function (index) {
+    deleteFile: function (index) {
       const that = this;
-      let id = that.videoData[index]['id'];
+      let id = that.fileData[index]['id'];
       let prompt = confirm("确认删除该视频吗？");
       if (prompt) {
         axios({
           method: 'post',
-          url: `${this.GLOBAL.localDomain}/api/v1/upload/lecture/delete/video`,
+          url: `${this.GLOBAL.localDomain}/api/v1/upload/lecture/delete/file`,
           headers: {
             'Accept': 'application/json',
             'Authorization': sessionStorage.getItem('token'),
           },
           params: {
-            id: that.videoData[index]['id']
+            id: that.fileData[index]['id']
           }
         }).then(res => {
           alert('删除成功');
-          that.getVideo()
+          that.getFile()
         }).catch(err => {
           alert('删除失败')
           console.log(err)
@@ -143,12 +143,12 @@ export default {
       }
     },
     // 通过授课ID获取视频信息
-    getVideoForCid: function() {
+    getFileForCid: function() {
       const that = this;
       let cid = that.currentTeachingData.id;
       axios({
         method: 'post',
-        url: `${this.GLOBAL.localDomain}/api/v1/upload/lecture/selectForCid/video`,
+        url: `${this.GLOBAL.localDomain}/api/v1/upload/lecture/selectForCid/file`,
         headers: {
           'Accept': 'application/json',
           'Authorization': sessionStorage.getItem('token'),
@@ -157,17 +157,17 @@ export default {
           'cid': cid
         },
       }).then(res => {
-        that.videoData = res.data;
+        that.fileData = res.data;
       }).catch(err => {
         console.log(err);
       })
     },
     // 通过user获取视频信息
-    getVideoForUserId: function() {
+    getFileForUserId: function() {
       const that = this;
       axios({
         method: 'post',
-        url: `${this.GLOBAL.localDomain}/api/v1/upload/lecture/selectForUserid/video`,
+        url: `${this.GLOBAL.localDomain}/api/v1/upload/lecture/selectForUserid/file`,
         headers: {
           'Accept': 'application/json',
           'Authorization': sessionStorage.getItem('token'),
@@ -176,41 +176,41 @@ export default {
           userId: sessionStorage.getItem('userId')
         }
       }).then(res => {
-        that.videoData = res.data.data;
+        that.fileData = res.data.data;
         // that.paginationData = res.data.links;
       }).catch(err => {
         console.log(err);
       })
     },
-    getVideo: function() {
+    getFile: function() {
       const that = this;
       // axios({
       //   method: 'post',
-      //   url: `${this.GLOBAL.localDomain}/api/v1/videos`,
+      //   url: `${this.GLOBAL.localDomain}/api/v1/files`,
       //   headers: {
       //     'Accept': 'application/json',
       //     'Authorization': sessionStorage.getItem('token'),
       //   }
       // }).then(res => {
-      //   that.videoData = res.data.data;
+      //   that.fileData = res.data.data;
       //   that.paginationData = res.data.links;
       //   //
       // }).catch(err => {
       //   console.log(err);
       // })
     },
-    searchVideo: function () {
+    searchFile: function () {
       const that = this;
       // 如果没有搜索值
       if (!that.searchKey) {
-        that.getVideo();
+        that.getFile();
         that.searchResult = [];
         return;
       }
       // 如果已经获取全部数据
-      else if (that.allVideo.length > 0) {
-        let allData  = that.allVideo;
-        let len = that.allVideo.length;
+      else if (that.allFile.length > 0) {
+        let allData  = that.allFile;
+        let len = that.allFile.length;
         let res = [];
 
         for (let i = 0; i < len; i++) {
@@ -224,15 +224,15 @@ export default {
           }
         }
         that.searchResult = res;
-        that.videoData = res;
+        that.fileData = res;
       }
       // 如果有搜索值并且还未获取全部数据
       else {
-        let url = `${this.GLOBAL.localDomain}/api/v1/videos/`;
-        that.getAllVideo(url);
+        let url = `${this.GLOBAL.localDomain}/api/v1/files/`;
+        that.getAllFile(url);
       }
     },
-    getAllVideo: function (url) {
+    getAllFile: function (url) {
       const that = this;
       let urlPath = url ? url : that.url
       axios({
@@ -250,20 +250,20 @@ export default {
         // data数据结构不一致 可能是数组/也可能是json
         if (res.data.data.length) {
           for (let i = 0; i < len; i++) {
-            that.currentVideo.push(res.data.data[i]);
+            that.currentFile.push(res.data.data[i]);
           }
         }
         else if (that.getJsonLength(res.data.data)) {
           for (let i in res.data.data) {
-            that.currentVideo.push(res.data.data[i]);
+            that.currentFile.push(res.data.data[i]);
           }
         }
 
         if (that.url) {
-          that.getAllVideo(that.url);
+          that.getAllFile(that.url);
         }
         else {
-          that.allVideo = that.currentVideo;
+          that.allFile = that.currentFile;
         }
       }).catch(err => {
         console.log(err);
@@ -276,33 +276,33 @@ export default {
         case '':
           break;
         case 'fuzzy-search':
-          that.getVideo();
+          that.getFile();
           break;
         case 'user-id-search':
-          that.getVideoForUserId();
+          that.getFileForUserId();
           break;
         case 'lecture-id-search':
-          that.getVideoForCid();
+          that.getFileForCid();
           break;
       }
     }
   },
   computed: {
-    isShowCreateVideo() {
+    isShowCreateFile() {
       return true;
-      // return sessionStorage.getItem('permissions').includes('video-store');
+      // return sessionStorage.getItem('permissions').includes('file-store');
     },
-    isShowSearchVideo() {
+    isShowSearchFile() {
       return true;
-      // return sessionStorage.getItem('permissions').includes('video-show');
+      // return sessionStorage.getItem('permissions').includes('file-show');
     },
-    isShowEditVideoInfo() {
+    isShowEditFileInfo() {
       return true;
-      // return sessionStorage.getItem('permissions').includes('video-update');
+      // return sessionStorage.getItem('permissions').includes('file-update');
     },
-    isShowDeleteVideo() {
+    isShowDeleteFile() {
       return true;
-      // return sessionStorage.getItem('permissions').includes('video-destroy');
+      // return sessionStorage.getItem('permissions').includes('file-destroy');
     },
   },
   created() {
@@ -310,11 +310,11 @@ export default {
   watch: {
     isShowModal: function (value, oldValue) {
       const that = this;
-      that.getVideoForUserId();
+      that.getFileForUserId();
     },
     currentTeachingData: function (value, oldValue) {
       const that = this;
-      that.getVideoForCid();
+      that.getFileForCid();
     }
   }
 }
@@ -335,7 +335,7 @@ table {
   display: inline-block;
   border-right: 1px solid #dedede;
 }
-.add-video-button {
+.add-file-button {
   margin-left: 20px;
 }
 .box-item {

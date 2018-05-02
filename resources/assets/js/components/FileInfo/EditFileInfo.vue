@@ -9,18 +9,18 @@
 
       <section class="modal-card-body">
 
-        <div class="video-item-box">
+        <div class="file-item-box">
           <label>视频名称</label>
-          <input v-model="videoData.video_name" class="input" type="text">
+          <input v-model="fileData.file_name" class="input" type="text">
         </div>
-        <div class="video-item-box">
+        <div class="file-item-box">
           <label>知识点</label>
-          <input v-model="videoData.kp" class="input" type="text">
+          <input v-model="fileData.kp" class="input" type="text">
         </div>
       </section>
 
       <footer class="modal-card-foot">
-        <button @click="editVideoInfo()" class="button is-success">确认</button>
+        <button @click="editFileInfo()" class="button is-success">确认</button>
         <button  @click="switchModal()" class="button">取消</button>
       </footer>
     </div>
@@ -33,9 +33,9 @@ export default {
   data() {
     return {
       isShowModal: false,
-      videoData: {
+      fileData: {
         id: '',
-        video_name: '',
+        file_name: '',
         kp: '',
       },
       cid: null,
@@ -53,28 +53,28 @@ export default {
     },
     clearWords: function () {
       const that = this;
-      that.videoData.id = '';
-      that.videoData.video_name = '';
-      that.videoData.kp = '';
+      that.fileData.id = '';
+      that.fileData.file_name = '';
+      that.fileData.kp = '';
     },
-    editVideoInfo: function () {
+    editFileInfo: function () {
       const that = this;
 
       axios({
         method: 'POST',
-        url: `${this.GLOBAL.localDomain}/api/v1/upload/lecture/update/video`,
+        url: `${this.GLOBAL.localDomain}/api/v1/upload/lecture/update/file`,
         headers: {
           'Accept': 'application/json',
           'Authorization': sessionStorage.getItem('token'),
         },
         params: {
-          id: that.videoData.id, // 视频id
-          videoName: that.videoData.video_name,  // 修改后的视频名称
-          kp:  that.videoData.kp, // 修改后的知识点
+          id: that.fileData.id, // 视频id
+          fileName: that.fileData.file_name,  // 修改后的视频名称
+          kp:  that.fileData.kp, // 修改后的知识点
         },
       }).then(res => {
         alert('编辑成功');
-        that.$emit('getVideoForCid');   //第一个参数名为调用的方法名，第二个参数为需要传递的参数
+        that.$emit('getFileForCid');   //第一个参数名为调用的方法名，第二个参数为需要传递的参数
         that.switchModal();
         that.clearWords();
       }).catch(err => {
@@ -88,9 +88,9 @@ export default {
   watch: {
     editData: function (value, oldValue) {
       const that = this;
-      that.videoData.id = value.id;
-      that.videoData.video_name = value.video_name;
-      that.videoData.kp = value.kp;
+      that.fileData.id = value.id;
+      that.fileData.file_name = value.file_name;
+      that.fileData.kp = value.kp;
     }
   }
 }
@@ -100,10 +100,10 @@ export default {
 .progress {
   margin: 15px 0 20px 0;
 }
-.video-item-box {
+.file-item-box {
   margin: 25px 0
 }
-.video-item-box input {
+.file-item-box input {
   display: inline-block;
   width: 300px;
 }
