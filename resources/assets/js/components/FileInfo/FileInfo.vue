@@ -125,7 +125,7 @@ export default {
       if (prompt) {
         axios({
           method: 'post',
-          url: `${this.GLOBAL.localDomain}/api/v1/upload/lecture/delete/file`,
+          url: `${this.GLOBAL.localDomain}/api/v1/upload/lecture/delete/document`,
           headers: {
             'Accept': 'application/json',
             'Authorization': sessionStorage.getItem('token'),
@@ -148,7 +148,7 @@ export default {
       let cid = that.currentTeachingData.id;
       axios({
         method: 'post',
-        url: `${this.GLOBAL.localDomain}/api/v1/upload/lecture/selectForCid/file`,
+        url: `${this.GLOBAL.localDomain}/api/v1/upload/lecture/selectForCid/document`,
         headers: {
           'Accept': 'application/json',
           'Authorization': sessionStorage.getItem('token'),
@@ -167,7 +167,7 @@ export default {
       const that = this;
       axios({
         method: 'post',
-        url: `${this.GLOBAL.localDomain}/api/v1/upload/lecture/selectForUserid/file`,
+        url: `${this.GLOBAL.localDomain}/api/v1/upload/lecture/selectForCid/document`,
         headers: {
           'Accept': 'application/json',
           'Authorization': sessionStorage.getItem('token'),
@@ -184,20 +184,19 @@ export default {
     },
     getFile: function() {
       const that = this;
-      // axios({
-      //   method: 'post',
-      //   url: `${this.GLOBAL.localDomain}/api/v1/files`,
-      //   headers: {
-      //     'Accept': 'application/json',
-      //     'Authorization': sessionStorage.getItem('token'),
-      //   }
-      // }).then(res => {
-      //   that.fileData = res.data.data;
-      //   that.paginationData = res.data.links;
-      //   //
-      // }).catch(err => {
-      //   console.log(err);
-      // })
+      axios({
+        method: 'post',
+        url: `${this.GLOBAL.localDomain}/api/v1/upload/lecture/selectAll/document`,
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': sessionStorage.getItem('token'),
+        }
+      }).then(res => {
+        that.fileData = res.data.data;
+        // that.paginationData = res.data.links;
+      }).catch(err => {
+        console.log(err);
+      })
     },
     searchFile: function () {
       const that = this;

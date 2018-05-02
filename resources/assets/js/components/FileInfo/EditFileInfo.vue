@@ -60,27 +60,27 @@ export default {
     editFileInfo: function () {
       const that = this;
 
-      axios({
-        method: 'POST',
-        url: `${this.GLOBAL.localDomain}/api/v1/upload/lecture/update/file`,
-        headers: {
-          'Accept': 'application/json',
-          'Authorization': sessionStorage.getItem('token'),
-        },
-        params: {
-          id: that.fileData.id, // 文件id
-          fileName: that.fileData.file_name,  // 修改后的文件名称
-          kp:  that.fileData.kp, // 修改后的知识点
-        },
-      }).then(res => {
-        alert('编辑成功');
-        that.$emit('getFileForCid');   //第一个参数名为调用的方法名，第二个参数为需要传递的参数
-        that.switchModal();
-        that.clearWords();
-      }).catch(err => {
-        alert('编辑失败');
-        console.log(err);
-      })
+      // axios({
+      //   method: 'POST',
+      //   url: `${this.GLOBAL.localDomain}/api/v1/upload/lecture/update/file`,
+      //   headers: {
+      //     'Accept': 'application/json',
+      //     'Authorization': sessionStorage.getItem('token'),
+      //   },
+      //   params: {
+      //     id: that.fileData.id, // 文件id
+      //     fileName: that.fileData.file_name,  // 修改后的文件名称
+      //     kp:  that.fileData.kp, // 修改后的知识点
+      //   },
+      // }).then(res => {
+      //   alert('编辑成功');
+      //   that.$emit('getFileForCid');   //第一个参数名为调用的方法名，第二个参数为需要传递的参数
+      //   that.switchModal();
+      //   that.clearWords();
+      // }).catch(err => {
+      //   alert('编辑失败');
+      //   console.log(err);
+      // })
     },
   },
   created() {
