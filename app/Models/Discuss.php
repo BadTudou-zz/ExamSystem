@@ -25,4 +25,9 @@ class Discuss extends Model
     protected $hidden = [
 
     ];
+
+    public function replys()
+    {
+        return $this->hasMany('App\Models\Comment', 'discuss_id');
+    }
 }

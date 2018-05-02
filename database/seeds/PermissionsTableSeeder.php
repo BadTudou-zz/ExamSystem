@@ -640,6 +640,13 @@ class PermissionsTableSeeder extends Seeder
         $destroyQuestionType->description  = '批量导入教师用户数据';
         $destroyQuestionType->save();
 
+        // 上传问题
+
+        $destroyQuestionType = new Permission();
+        $destroyQuestionType->name         = 'import-question';
+        $destroyQuestionType->display_name = '教师批量导入问题数据';
+        $destroyQuestionType->description  = '教师批量导入问题数据';
+        $destroyQuestionType->save();
 
         // 新增讨论话题
 
@@ -665,5 +672,86 @@ class PermissionsTableSeeder extends Seeder
         $destroyQuestionType->display_name = '修改讨论话题';
         $destroyQuestionType->description  = '修改讨论话题';
         $destroyQuestionType->save();
+
+
+        // 查询当前用户发布的讨论话题
+
+        $destroyQuestionType = new Permission();
+        $destroyQuestionType->name         = 'discuss-userid-show';
+        $destroyQuestionType->display_name = '查询当前用户发布的讨论话题';
+        $destroyQuestionType->description  = '查询当前用户发布的讨论话题';
+        $destroyQuestionType->save();
+
+        // 查询当前课程的讨论话题
+
+        $destroyQuestionType = new Permission();
+        $destroyQuestionType->name         = 'discuss-lid-show';
+        $destroyQuestionType->display_name = '查询当前课程的讨论话题';
+        $destroyQuestionType->description  = '查询当前课程的讨论话题';
+        $destroyQuestionType->save();
+
+        // 查询所有的讨论话题
+
+        $destroyQuestionType = new Permission();
+        $destroyQuestionType->name         = 'discuss-index';
+        $destroyQuestionType->display_name = '查询所有的讨论话题';
+        $destroyQuestionType->description  = '查询所有的讨论话题';
+        $destroyQuestionType->save();
+
+        // 查询某个话题下的回复和讨论话题
+
+        $destroyQuestionType = new Permission();
+        $destroyQuestionType->name         = 'discuss-reply-show';
+        $destroyQuestionType->display_name = '查询某个话题下的回复和讨论话题';
+        $destroyQuestionType->description  = '查询某个话题下的回复和讨论话题';
+        $destroyQuestionType->save();
+
+        // 回复某个讨论话题
+
+        $destroyQuestionType = new Permission();
+        $destroyQuestionType->name         = 'discuss-reply-store';
+        $destroyQuestionType->display_name = '回复某个讨论话题';
+        $destroyQuestionType->description  = '回复某个讨论话题';
+        $destroyQuestionType->save();
+
+        // 删除某个讨论话题的回复
+
+        $destroyQuestionType = new Permission();
+        $destroyQuestionType->name         = 'discuss-reply-destory';
+        $destroyQuestionType->display_name = '删除某个讨论话题的回复';
+        $destroyQuestionType->description  = '删除某个讨论话题的回复';
+        $destroyQuestionType->save();
+
+        // 查询当前用户某个话题的回复
+
+        $destroyQuestionType = new Permission();
+        $destroyQuestionType->name         = 'reply-userid-show';
+        $destroyQuestionType->display_name = '查询当前用户某个话题的回复';
+        $destroyQuestionType->description  = '查询当前用户某个话题的回复';
+        $destroyQuestionType->save();
+
+        // 查询当前用户某个课程的回复
+
+        $destroyQuestionType = new Permission();
+        $destroyQuestionType->name         = 'reply-userid-show';
+        $destroyQuestionType->display_name = '查询当前用户某个课程的回复';
+        $destroyQuestionType->description  = '查询当前用户某个课程的回复';
+        $destroyQuestionType->save();
+
+        // 查询所有用户的回复
+        $destroyQuestionType = new Permission();
+        $destroyQuestionType->name         = 'reply-userid-show';
+        $destroyQuestionType->display_name = '查询所有用户的回复';
+        $destroyQuestionType->description  = '查询所有用户的回复';
+        $destroyQuestionType->save();
+
+
+
+
+
+
+
     }
+
+
 }
