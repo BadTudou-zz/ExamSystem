@@ -169,7 +169,7 @@ export default {
       const that = this;
       axios({
         method: 'post',
-        url: `${this.GLOBAL.localDomain}/api/v1/upload/lecture/selectForCid/document`,
+        url: `${this.GLOBAL.localDomain}/api/v1/upload/lecture/selectForUserid/document`,
         headers: {
           'Accept': 'application/json',
           'Authorization': sessionStorage.getItem('token'),
@@ -309,13 +309,9 @@ export default {
   created() {
   },
   watch: {
-    isShowModal: function (value, oldValue) {
-      const that = this;
-      that.getFileForUserId();
-    },
     currentTeachingData: function (value, oldValue) {
       const that = this;
-      that.getFileForCid();
+      that.getFile();
     }
   }
 }

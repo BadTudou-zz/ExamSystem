@@ -99,13 +99,6 @@ export default {
           'Authorization': sessionStorage.getItem('token'),
         },
         body: {
-          //
-          // userid === 用户id
-          // cid === 授课id
-          // filename === 文件名称（js生成唯一表示名称）
-          // videoName ==== 文档名称（由用户输入）
-          // kp ==== 知识点（由用户输入）
-
           userid: that.userId,
           cid: that.cid,  // 授课Id
           filename: this.filename,  // 文件名称（js生成唯一表示名称）
