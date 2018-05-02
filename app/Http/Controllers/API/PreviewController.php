@@ -34,7 +34,7 @@ class PreviewController extends Controller
 
         $preview->userid = $userid;
         $preview->cid = $cid;
-        $preview->name = $previewName;
+        $preview->preview_name = $previewName;
         $preview->desc = $desc;
         $preview->content = $content;
         $preview->end_time = $endTime;
@@ -99,7 +99,7 @@ class PreviewController extends Controller
         $id = $request->input('id');
         $preview = Preview::find($id);
         $preview->is_publish = $isPublish;
-        $preview->name = $previewName;
+        $preview->preview_name = $previewName;
         $preview->content = $content;
         $preview->end_time = $endTime;
         $preview->cid = $cid;

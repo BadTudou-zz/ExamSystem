@@ -16,7 +16,7 @@ class Preview extends Model
     public  $timestamps  = false;
     protected $table = 'preview';
     protected $fillable = [
-        'id', 'cid', 'userid','desc','end_time','is_publish','name','content',
+        'id', 'cid', 'userid','desc','end_time','is_publish','preview_name','content',
     ];
 
     /**
