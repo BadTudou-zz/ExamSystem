@@ -9,8 +9,8 @@
           <div class="field">
             <div class="control">
               <div class="select is-small">
-                <select  v-model="searchType" @change="changeSeachType(index)">
-                  <option value="">请查找类型</option>
+                <select  v-model="searchType" @change="changeSeachType()">
+                  <option value="">请选择查找类型</option>
                   <option value="fuzzy-search">模糊查找</option>
                   <option value="user-id-search">根据用户ID查找</option>
                   <option value="lecture-id-search">根据授课ID查找</option>
@@ -23,15 +23,23 @@
           <div class="search-button"><i class="fas fa-search"></i></div>
         </div>
 
-        <button @click="addVideoInfo()" class="button add-video-button" type="button" name="button">添加视频</button>
+        <button v-show="isShowCreateVideo" @click="addVideoInfo()" class="button add-video-button" type="button" name="button">添加视频</button>
 
         <p v-if="!videoData" class="empty-message-prompt">暂无视频</p>
         <table v-else class="table is-bordered is-striped is-hoverable is-fullwidths">
           <thead>
+            <!-- "id": 15,
+            "userid": 1,
+            "cid": 1,
+            "url": "\/usr\/share\/nginx\/html\/ExamSystem\/public\/video\/123.mp4",
+            "video_name": "\u6d4b\u8bd5\u89c6\u9891",
+            "kp": "\u77e5\u8bc6\u70b9\u662fxxxx" -->
             <tr>
               <th>序号</th>
+              <th>用户ID</th>
+              <th>授课ID</th>
+              <th>URL</th>
               <th>视频名</th>
-              <th>文件名</th>
               <th>知识点</th>
               <th>操作</th>
             </tr>
@@ -39,33 +47,32 @@
         <tbody>
             <tr v-for="(item,index) in videoData">
               <td>{{ item.id }}</td>
-              <td>{{ item.videoName }}</td>
-              <td>{{ item.filename }}</td>
+              <td>{{ item.userId }}</td>
+              <td>{{ item.cid }}</td>
+              <td>{{ GLOBAL.localDomain + item.url }}</td>
+              <td>{{ item.video_name }}</td>
               <td>{{ item.kp }}</td>
               <td>
-                <div @click="deleteVideo(index)" class="icon-button"><i class="far fa-trash-alt"></i></div>
+                <div v-show="isShowDeleteVideo" @click="deleteVideo(index)" class="icon-button"><i class="far fa-trash-alt"></i></div>
                 <div @click="editVideoInfo(index)" class="icon-button"><i class="fas fa-edit"></i></div>
               </td>
             </tr>
           </tbody>
         </table>
 
-        <pagination v-show="searchResult.length === 0"
-                    v-bind:pagination-data="paginationData"
-                    v-model="data"
-        ></pagination>
-
       </div>
     </div>
     <button @click="switchModal()" class="modal-close is-large" aria-label="close"></button>
 
 
-    <add-video-info ref="addVideoInfo"
+    <add-video-info v-if="isShowCreateVideo"
+                    ref="addVideoInfo"
                     v-on:getVideo="getVideo"
                     v-bind:current-video-data="currentVideoData"></add-video-info>
 
-    <edit-video-info ref="editVideoInfo"
-                     v-on:getVideo="getVideo"
+    <edit-video-info v-if="isShowEditVideo"
+                     ref="editVideoInfo"
+                     v-on:getVideoForCid="getVideoForCid"
                      v-bind:edit-data="editData"
     ></edit-video-info>
 
@@ -76,15 +83,12 @@
 <script>
 import AddVideoInfo from './AddVideoInfo'
 import EditVideoInfo from './EditVideoInfo'
-import Pagination from './../Pagination.vue'
 
 export default {
   data() {
     return {
       isShowModal: false,
       videoData: null,
-      paginationData: null,
-      data: null,
       searchKey: '',
       // get all video
       currentVideo: [],
@@ -92,15 +96,15 @@ export default {
       searchResult: [],
       editData: null,
       searchType: '',
+      currentVideoData: null,
     }
   },
   components: {
     AddVideoInfo,
     EditVideoInfo,
-    Pagination,
   },
   props: [
-    'currentVideoData'
+    'currentTeachingData'
   ],
   methods: {
     switchModal: function () {
@@ -122,7 +126,7 @@ export default {
       let prompt = confirm("确认删除该视频吗？");
       if (prompt) {
         axios({
-          method: 'delete',
+          method: 'post',
           url: `${this.GLOBAL.localDomain}/api/v1/upload/lecture/delete/video`,
           headers: {
             'Accept': 'application/json',
@@ -143,47 +147,47 @@ export default {
     // 通过授课ID获取视频信息
     getVideoForCid: function() {
       const that = this;
-      // axios({
-      //   method: 'get',
-      //   url: `${this.GLOBAL.localDomain}/api/v1/upload/lecture/selectForUserid/video`,
-      //   headers: {
-      //     'Accept': 'application/json',
-      //     'Authorization': sessionStorage.getItem('token'),
-      //   },
-      //   params: {
-      //     cid: that.cid,
-      //   }
-      // }).then(res => {
-      //   // that.videoData = res.data.data;
-      //   // that.paginationData = res.data.links;
-      // }).catch(err => {
-      //   console.log(err);
-      // })
+      let cid = that.currentTeachingData.id;
+      axios({
+        method: 'post',
+        url: `${this.GLOBAL.localDomain}/api/v1/upload/lecture/selectForCid/video`,
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': sessionStorage.getItem('token'),
+        },
+        params: {
+          'cid': cid
+        },
+      }).then(res => {
+        that.videoData = res.data;
+      }).catch(err => {
+        console.log(err);
+      })
     },
     // 通过user获取视频信息
     getVideoForUserId: function() {
       const that = this;
-      // axios({
-      //   method: 'get',
-      //   url: `${this.GLOBAL.localDomain}/api/v1/upload/lecture/selectForCid/video`,
-      //   headers: {
-      //     'Accept': 'application/json',
-      //     'Authorization': sessionStorage.getItem('token'),
-      //   },
-      //   params: {
-      //     userId: sessionStorage.getItem('userId')
-      //   }
-      // }).then(res => {
-      //   // that.videoData = res.data.data;
-      //   // that.paginationData = res.data.links;
-      // }).catch(err => {
-      //   console.log(err);
-      // })
+      axios({
+        method: 'post',
+        url: `${this.GLOBAL.localDomain}/api/v1/upload/lecture/selectForUserid/video`,
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': sessionStorage.getItem('token'),
+        },
+        params: {
+          userId: sessionStorage.getItem('userId')
+        }
+      }).then(res => {
+        that.videoData = res.data.data;
+        // that.paginationData = res.data.links;
+      }).catch(err => {
+        console.log(err);
+      })
     },
     getVideo: function() {
       const that = this;
       // axios({
-      //   method: 'get',
+      //   method: 'post',
       //   url: `${this.GLOBAL.localDomain}/api/v1/videos`,
       //   headers: {
       //     'Accept': 'application/json',
@@ -195,10 +199,6 @@ export default {
       //   //
       // }).catch(err => {
       //   console.log(err);
-      //   if (err.response.status === 401) {
-      //     // alert('登录超时');
-      //     // location.reload();
-      //   }
       // })
     },
     searchVideo: function () {
@@ -238,7 +238,7 @@ export default {
       const that = this;
       let urlPath = url ? url : that.url
       axios({
-        method: 'get',
+        method: 'post',
         url: urlPath,
         headers: {
           'Accept': 'application/json',
@@ -291,28 +291,32 @@ export default {
   },
   computed: {
     isShowCreateVideo() {
-      return true;
-      // return sessionStorage.getItem('permissions').includes('video-store');
+      // return true;
+      return sessionStorage.getItem('permissions').includes('video-store');
     },
-    isShowSearchVideo() {
-      return true;
-      // return sessionStorage.getItem('permissions').includes('video-show');
-    },
-    isShowEditVideoInfo() {
-      return true;
-      // return sessionStorage.getItem('permissions').includes('video-update');
+    // isShowSearchVideo() {
+    //   // return true;
+    //   return sessionStorage.getItem('permissions').includes('question-show');
+    // },
+    isShowEditVideo() {
+      // return true;
+      return sessionStorage.getItem('permissions').includes('video-update');
     },
     isShowDeleteVideo() {
-      return true;
-      // return sessionStorage.getItem('permissions').includes('video-destroy');
-    },
+      // return true;
+      return sessionStorage.getItem('permissions').includes('video-destroy');
+    }
   },
   created() {
   },
   watch: {
-    isShowModal: function () {
+    isShowModal: function (value, oldValue) {
       const that = this;
       that.getVideoForUserId();
+    },
+    currentTeachingData: function (value, oldValue) {
+      const that = this;
+      that.getVideoForCid();
     }
   }
 }

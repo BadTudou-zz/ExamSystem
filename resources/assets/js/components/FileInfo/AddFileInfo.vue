@@ -27,7 +27,7 @@
 
         <div class="file-item-box">
           <label>文件名称</label>
-          <input v-model="fileData.fileName" class="input" type="text">
+          <input v-model="fileData.documentName" class="input" type="text">
         </div>
         <div class="file-item-box">
           <label>知识点</label>
@@ -48,7 +48,7 @@ export default {
     return {
       isShowModal: false,
       fileData: {
-        fileName: '',
+        documentName: '',
         kp: '',
       },
       clock: null,
@@ -93,16 +93,23 @@ export default {
 
       axios({
         method: 'POST',
-        url: `${this.GLOBAL.localDomain}/api/v1/upload/lecture/insert/file`,
+        url: `${this.GLOBAL.localDomain}/api/v1/upload/lecture/insert/document`,
         headers: {
           'Accept': 'application/json',
           'Authorization': sessionStorage.getItem('token'),
         },
         body: {
+          //
+          // userid === 用户id
+          // cid === 授课id
+          // filename === 文件名称（js生成唯一表示名称）
+          // videoName ==== 文档名称（由用户输入）
+          // kp ==== 知识点（由用户输入）
+
           userid: that.userId,
           cid: that.cid,  // 授课Id
           filename: this.filename,  // 文件名称（js生成唯一表示名称）
-          fileName: that.fileName,  // 文件名称（由用户输入）
+          documentName: that.documentName,  // 文档名称（由用户输入）
           kp: that.kp,  // 知识点（由用户输入）
         },
       }).then(res => {
@@ -117,7 +124,7 @@ export default {
     up(fd){
       axios({
         method: 'POST',
-        url: `${this.GLOBAL.localDomain}/api/v1/upload/lecture/file`,
+        url: `${this.GLOBAL.localDomain}/api/v1/upload/lecture/document`,
         data: fd,
         headers: {
           'Accept': 'application/json',

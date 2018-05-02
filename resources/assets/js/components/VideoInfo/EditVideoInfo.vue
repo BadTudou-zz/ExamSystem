@@ -3,7 +3,7 @@
     <div class="modal-background"></div>
     <div class="modal-card">
       <header class="modal-card-head">
-        <p class="modal-card-title">添加视频</p>
+        <p class="modal-card-title">编辑视频</p>
         <button @click="switchModal()" class="delete" aria-label="close"></button>
       </header>
 
@@ -11,7 +11,7 @@
 
         <div class="video-item-box">
           <label>视频名称</label>
-          <input v-model="videoData.videoName" class="input" type="text">
+          <input v-model="videoData.video_name" class="input" type="text">
         </div>
         <div class="video-item-box">
           <label>知识点</label>
@@ -24,7 +24,7 @@
         <button  @click="switchModal()" class="button">取消</button>
       </footer>
     </div>
-    
+
   </div>
 </template>
 
@@ -34,7 +34,8 @@ export default {
     return {
       isShowModal: false,
       videoData: {
-        videoName: '',
+        id: '',
+        video_name: '',
         kp: '',
       },
       cid: null,
@@ -52,10 +53,9 @@ export default {
     },
     clearWords: function () {
       const that = this;
-      that.videoData.name = '';
-      that.videoData.display_name = '';
-      that.videoData.descripe = '';
-      that.videoData.number = '';
+      that.videoData.id = '';
+      that.videoData.video_name = '';
+      that.videoData.kp = '';
     },
     editVideoInfo: function () {
       const that = this;
@@ -67,15 +67,18 @@ export default {
           'Accept': 'application/json',
           'Authorization': sessionStorage.getItem('token'),
         },
-        body: {
-          id: that.editData.id, // 视频id
-          videoName: that.videoData.videoName,  // 修改后的视频名称
-          kp:  that.videoData.videoName, // 修改后的知识点
+        params: {
+          id: that.videoData.id, // 视频id
+          videoName: that.videoData.video_name,  // 修改后的视频名称
+          kp:  that.videoData.kp, // 修改后的知识点
         },
       }).then(res => {
-        alert('编辑成功')
+        alert('编辑成功');
+        that.$emit('getVideoForCid');   //第一个参数名为调用的方法名，第二个参数为需要传递的参数
+        that.switchModal();
+        that.clearWords();
       }).catch(err => {
-        alert('编辑失败')
+        alert('编辑失败');
         console.log(err);
       })
     },
@@ -83,6 +86,12 @@ export default {
   created() {
   },
   watch: {
+    editData: function (value, oldValue) {
+      const that = this;
+      that.videoData.id = value.id;
+      that.videoData.video_name = value.video_name;
+      that.videoData.kp = value.kp;
+    }
   }
 }
 </script>

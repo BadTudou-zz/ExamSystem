@@ -3,15 +3,14 @@
     <div class="modal-background"></div>
     <div class="modal-card">
       <header class="modal-card-head">
-        <p class="modal-card-title">添加文件</p>
+        <p class="modal-card-title">编辑文件</p>
         <button @click="switchModal()" class="delete" aria-label="close"></button>
       </header>
 
       <section class="modal-card-body">
-
         <div class="file-item-box">
           <label>文件名称</label>
-          <input v-model="fileData.fileName" class="input" type="text">
+          <input v-model="fileData.doc_name" class="input" type="text">
         </div>
         <div class="file-item-box">
           <label>知识点</label>
@@ -34,7 +33,8 @@ export default {
     return {
       isShowModal: false,
       fileData: {
-        fileName: '',
+        id: '',
+        doc_name: '',
         kp: '',
       },
       cid: null,
@@ -52,30 +52,32 @@ export default {
     },
     clearWords: function () {
       const that = this;
-      that.fileData.name = '';
-      that.fileData.display_name = '';
-      that.fileData.descripe = '';
-      that.fileData.number = '';
+      that.fileData.id = '';
+      that.fileData.doc_name = '';
+      that.fileData.kp = '';
     },
     editFileInfo: function () {
       const that = this;
 
       axios({
         method: 'POST',
-        url: `${this.GLOBAL.localDomain}/api/v1/upload/lecture/update/file`,
+        url: `${this.GLOBAL.localDomain}/api/v1/upload/lecture/update/document`,
         headers: {
           'Accept': 'application/json',
           'Authorization': sessionStorage.getItem('token'),
         },
-        body: {
-          id: that.editData.id, // 文件id
-          fileName: that.fileData.fileName,  // 修改后的文件名称
-          kp:  that.fileData.fileName, // 修改后的知识点
+        params: {
+          id: that.fileData.id, // 文件id
+          docName: that.fileData.doc_name,  // 修改后的文件名称
+          kp:  that.fileData.kp, // 修改后的知识点
         },
       }).then(res => {
-        alert('编辑成功')
+        alert('编辑成功');
+        that.$emit('getFileForCid');   //第一个参数名为调用的方法名，第二个参数为需要传递的参数
+        that.switchModal();
+        that.clearWords();
       }).catch(err => {
-        alert('编辑失败')
+        alert('编辑失败');
         console.log(err);
       })
     },
@@ -83,6 +85,12 @@ export default {
   created() {
   },
   watch: {
+    editData: function (value, oldValue) {
+      const that = this;
+      that.fileData.id = value.id;
+      that.fileData.doc_name = value.doc_name;
+      that.fileData.kp = value.kp;
+    }
   }
 }
 </script>

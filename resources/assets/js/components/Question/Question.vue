@@ -9,7 +9,7 @@
 
       <button v-show="isShowCreateQuestion" @click="addQuestion()" class="button add-question-button" type="button" name="button">添加题目</button>
 
-      <button @click="showAllQuestionType()" class="button" type="button" name="button">查看所有问题类型</button>
+      <button v-show="isShowQuestionType"  @click="showAllQuestionType()" class="button" type="button" name="button">查看所有问题类型</button>
 
       <label class="question-type-label">根据类型筛选题目：</label>
       <div class="control">
@@ -68,7 +68,7 @@
                 v-model="data"
     ></pagination>
 
-    <question-type ref="questionType"></question-type>
+    <question-type v-if="isShowQuestionType" ref="questionType"></question-type>
   </div>
 </template>
 
@@ -384,6 +384,12 @@ export default {
     isShowDeleteQuestion() {
       // return true;
       return sessionStorage.getItem('permissions').includes('question-destroy');
+    },
+
+    // 问题类型
+    isShowQuestionType() {
+      // return true;
+      return sessionStorage.getItem('permissions').includes('questionType-index');
     },
   },
   created() {

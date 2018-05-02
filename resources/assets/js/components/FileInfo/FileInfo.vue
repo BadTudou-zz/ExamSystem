@@ -1,4 +1,4 @@
-<!-- 查看视频 -->
+<!-- 查看文件 -->
 <template lang="html">
   <div class="modal" :class="{'is-active' : isShowModal}">
     <div class="modal-background"></div>
@@ -6,17 +6,39 @@
       <div class="box">
 
         <div class="search-box">
-          <input v-model="searchKey" class="input search-input" type="text" placeholder="请输入视频">
+          <div class="field">
+            <div class="control">
+              <div class="select is-small">
+                <select  v-model="searchType" @change="changeSeachType()">
+                  <option value="">请选择查找类型</option>
+                  <option value="fuzzy-search">模糊查找</option>
+                  <option value="user-id-search">根据用户ID查找</option>
+                  <option value="lecture-id-search">根据授课ID查找</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <input v-model="searchKey" class="input search-input" type="text" placeholder="">
           <div class="search-button"><i class="fas fa-search"></i></div>
         </div>
-        <button @click="addFileInfo()" class="button add-file-button" type="button" name="button">添加视频</button>
 
-        <p v-if="!fileData" class="empty-message-prompt">暂无视频</p>
+        <button v-show="isShowCreateDocument" @click="addFileInfo()" class="button add-file-button" type="button" name="button">添加文件</button>
+
+        <p v-if="!fileData" class="empty-message-prompt">暂无文件</p>
         <table v-else class="table is-bordered is-striped is-hoverable is-fullwidths">
           <thead>
+            <!-- "id": 15,
+            "userid": 1,
+            "cid": 1,
+            "url": "\/usr\/share\/nginx\/html\/ExamSystem\/public\/file\/123.mp4",
+            "file_name": "\u6d4b\u8bd5\u89c6\u9891",
+            "kp": "\u77e5\u8bc6\u70b9\u662fxxxx" -->
             <tr>
               <th>序号</th>
-              <th>视频名</th>
+              <th>用户ID</th>
+              <th>授课ID</th>
+              <th>URL</th>
               <th>文件名</th>
               <th>知识点</th>
               <th>操作</th>
@@ -25,34 +47,33 @@
         <tbody>
             <tr v-for="(item,index) in fileData">
               <td>{{ item.id }}</td>
-              <td>{{ item.fileName }}</td>
-              <td>{{ item.filename }}</td>
+              <td>{{ item.userId }}</td>
+              <td>{{ item.cid }}</td>
+              <td>{{ GLOBAL.localDomain + item.url }}</td>
+              <td>{{ item.file_name }}</td>
               <td>{{ item.kp }}</td>
               <td>
-                <div @click="deleteFile(index)" class="icon-button"><i class="far fa-trash-alt"></i></div>
-                <div @click="editFileInfo(index)" class="icon-button"><i class="fas fa-edit"></i></div>
+                <div v-show="isShowDeleteDocument" @click="deleteFile(index)" class="icon-button"><i class="far fa-trash-alt"></i></div>
+                <div v-show="isShowEditDocument" @click="editFileInfo(index)" class="icon-button"><i class="fas fa-edit"></i></div>
               </td>
             </tr>
           </tbody>
         </table>
 
-        <pagination v-show="searchResult.length === 0"
-                    v-bind:pagination-data="paginationData"
-                    v-model="data"
-        ></pagination>
-
       </div>
     </div>
-    <button class="modal-close is-large" aria-label="close"></button>
+    <button @click="switchModal()" class="modal-close is-large" aria-label="close"></button>
 
 
-    <add-file-info ref="addFileInfo"
-                    v-on:getFile="getFile"
-                    v-bind:current-file-data="currentFileData"></add-file-info>
+    <add-file-info v-if="isShowCreateDocument"
+                   ref="addFileInfo"
+                   v-on:getFile="getFile"
+                   v-bind:current-file-data="currentFileData"></add-file-info>
 
-    <edit-file-info ref="editFileInfo"
-                     v-on:getFile="getFile"
-                     v-bind:edit-data="editData"
+    <edit-file-info v-if="isShowEditDocument"
+                    ref="editFileInfo"
+                    v-on:getFileForCid="getFileForCid"
+                    v-bind:edit-data="editData"
     ></edit-file-info>
 
   </div>
@@ -62,30 +83,28 @@
 <script>
 import AddFileInfo from './AddFileInfo'
 import EditFileInfo from './EditFileInfo'
-import Pagination from './../Pagination.vue'
 
 export default {
   data() {
     return {
       isShowModal: false,
       fileData: null,
-      paginationData: null,
-      data: null,
       searchKey: '',
       // get all file
       currentFile: [],
       allFile: [],
       searchResult: [],
       editData: null,
+      searchType: '',
+      currentFileData: null,
     }
   },
   components: {
     AddFileInfo,
     EditFileInfo,
-    Pagination,
   },
   props: [
-    'currentFileData'
+    'currentTeachingData'
   ],
   methods: {
     switchModal: function () {
@@ -104,11 +123,11 @@ export default {
     deleteFile: function (index) {
       const that = this;
       let id = that.fileData[index]['id'];
-      let prompt = confirm("确认删除该视频吗？");
+      let prompt = confirm("确认删除该文件吗？");
       if (prompt) {
         axios({
-          method: 'delete',
-          url: `${this.GLOBAL.localDomain}/api/v1/upload/lecture/delete/file`,
+          method: 'post',
+          url: `${this.GLOBAL.localDomain}/api/v1/upload/lecture/delete/document`,
           headers: {
             'Accept': 'application/json',
             'Authorization': sessionStorage.getItem('token'),
@@ -125,32 +144,32 @@ export default {
         })
       }
     },
-    // 通过授课ID获取视频信息
+    // 通过授课ID获取文件信息
     getFileForCid: function() {
       const that = this;
+      let cid = that.currentTeachingData.id;
       axios({
-        method: 'get',
-        url: `${this.GLOBAL.localDomain}/api/v1/upload/lecture/selectForUserid/file`,
+        method: 'post',
+        url: `${this.GLOBAL.localDomain}/api/v1/upload/lecture/selectForCid/document`,
         headers: {
           'Accept': 'application/json',
           'Authorization': sessionStorage.getItem('token'),
         },
         params: {
-          cid: that.cid,
-        }
+          'cid': cid
+        },
       }).then(res => {
-        // that.fileData = res.data.data;
-        // that.paginationData = res.data.links;
+        that.fileData = res.data;
       }).catch(err => {
         console.log(err);
       })
     },
-    // 通过user获取视频信息
+    // 通过user获取文件信息
     getFileForUserId: function() {
       const that = this;
       axios({
-        method: 'get',
-        url: `${this.GLOBAL.localDomain}/api/v1/upload/lecture/selectForCid/file`,
+        method: 'post',
+        url: `${this.GLOBAL.localDomain}/api/v1/upload/lecture/selectForCid/document`,
         headers: {
           'Accept': 'application/json',
           'Authorization': sessionStorage.getItem('token'),
@@ -159,7 +178,7 @@ export default {
           userId: sessionStorage.getItem('userId')
         }
       }).then(res => {
-        // that.fileData = res.data.data;
+        that.fileData = res.data.data;
         // that.paginationData = res.data.links;
       }).catch(err => {
         console.log(err);
@@ -167,24 +186,19 @@ export default {
     },
     getFile: function() {
       const that = this;
-      // axios({
-      //   method: 'get',
-      //   url: `${this.GLOBAL.localDomain}/api/v1/files`,
-      //   headers: {
-      //     'Accept': 'application/json',
-      //     'Authorization': sessionStorage.getItem('token'),
-      //   }
-      // }).then(res => {
-      //   that.fileData = res.data.data;
-      //   that.paginationData = res.data.links;
-      //   //
-      // }).catch(err => {
-      //   console.log(err);
-      //   if (err.response.status === 401) {
-      //     // alert('登录超时');
-      //     // location.reload();
-      //   }
-      // })
+      axios({
+        method: 'post',
+        url: `${this.GLOBAL.localDomain}/api/v1/upload/lecture/selectAll/document`,
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': sessionStorage.getItem('token'),
+        }
+      }).then(res => {
+        that.fileData = res.data.data;
+        // that.paginationData = res.data.links;
+      }).catch(err => {
+        console.log(err);
+      })
     },
     searchFile: function () {
       const that = this;
@@ -223,7 +237,7 @@ export default {
       const that = this;
       let urlPath = url ? url : that.url
       axios({
-        method: 'get',
+        method: 'post',
         url: urlPath,
         headers: {
           'Accept': 'application/json',
@@ -256,32 +270,52 @@ export default {
         console.log(err);
       })
     },
-
+    changeSeachType: function () {
+      const that = this;
+      let searchType = that.searchType;
+      switch (searchType) {
+        case '':
+          break;
+        case 'fuzzy-search':
+          that.getFile();
+          break;
+        case 'user-id-search':
+          that.getFileForUserId();
+          break;
+        case 'lecture-id-search':
+          that.getFileForCid();
+          break;
+      }
+    }
   },
   computed: {
-    isShowCreateFile() {
-      return true;
-      // return sessionStorage.getItem('permissions').includes('file-store');
+    isShowCreateDocument() {
+      // return true;
+      return sessionStorage.getItem('permissions').includes('document-store');
     },
-    isShowSearchFile() {
-      return true;
-      // return sessionStorage.getItem('permissions').includes('file-show');
+    // isShowSearchDocument() {
+    //   // return true;
+    //   return sessionStorage.getItem('permissions').includes('question-show');
+    // },
+    isShowEditDocument() {
+      // return true;
+      return sessionStorage.getItem('permissions').includes('document-update');
     },
-    isShowEditFileInfo() {
-      return true;
-      // return sessionStorage.getItem('permissions').includes('file-update');
-    },
-    isShowDeleteFile() {
-      return true;
-      // return sessionStorage.getItem('permissions').includes('file-destroy');
-    },
+    isShowDeleteDocument() {
+      // return true;
+      return sessionStorage.getItem('permissions').includes('document-destroy');
+    }
   },
   created() {
   },
   watch: {
-    isShowModal: function () {
+    isShowModal: function (value, oldValue) {
       const that = this;
       that.getFileForUserId();
+    },
+    currentTeachingData: function (value, oldValue) {
+      const that = this;
+      that.getFileForCid();
     }
   }
 }
@@ -297,6 +331,7 @@ table {
   margin-right: 10px;
 }
 .search-box {
+  width: 400px;
   padding-right: 20px;
   display: inline-block;
   border-right: 1px solid #dedede;
@@ -317,5 +352,8 @@ table {
 }
 .modal-content {
   width: 1200px;
+}
+.field {
+  display: inline-block;
 }
 </style>
