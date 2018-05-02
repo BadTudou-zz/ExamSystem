@@ -22,7 +22,7 @@ class CreatExamsTable extends Migration
             $table->integer('paper_id')->unsigned();
             $table->foreign('paper_id')->references('id')->on('papers')
                 ->onUpdate('cascade')->onDelete('cascade');
-            $table->enum('exam_type', ['OPEN']);
+            $table->enum('exam_type', ['PRACTICE', 'OFFICIAL']);
             $table->integer('score')->comment('分值');
             $table->integer('min')->comment('时长');
             $table->string('describe')->comment('描述');
