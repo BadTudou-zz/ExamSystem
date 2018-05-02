@@ -3,7 +3,7 @@
     <div class="modal-background"></div>
     <div class="modal-card">
       <header class="modal-card-head">
-        <p class="modal-card-title">添加视频</p>
+        <p class="modal-card-title">添加文件</p>
         <button @click="switchModal()" class="delete" aria-label="close"></button>
       </header>
 
@@ -17,7 +17,7 @@
                 <span class="file-icon">
                   <i class="fas fa-upload"></i>
                 </span>
-                <span class="file-label">选择视频</span>
+                <span class="file-label">选择文件</span>
               </span>
               <span class="file-name">{{ filename }}</span>
             </label>
@@ -26,7 +26,7 @@
         </div>
 
         <div class="file-item-box">
-          <label>视频名称</label>
+          <label>文件名称</label>
           <input v-model="fileData.fileName" class="input" type="text">
         </div>
         <div class="file-item-box">
@@ -84,7 +84,7 @@ export default {
     addFileInfo: function () {
       const that = this;
       if (!that.isUploadedSuccess) {
-        alert('请先上传视频');
+        alert('请先上传文件');
         return;
       }
       that.userId = sessionStorage.getItem('userId')
@@ -102,7 +102,7 @@ export default {
           userid: that.userId,
           cid: that.cid,  // 授课Id
           filename: this.filename,  // 文件名称（js生成唯一表示名称）
-          fileName: that.fileName,  // 视频名称（由用户输入）
+          fileName: that.fileName,  // 文件名称（由用户输入）
           kp: that.kp,  // 知识点（由用户输入）
         },
       }).then(res => {

@@ -3,14 +3,14 @@
     <div class="modal-background"></div>
     <div class="modal-card">
       <header class="modal-card-head">
-        <p class="modal-card-title">编辑视频</p>
+        <p class="modal-card-title">编辑文件</p>
         <button @click="switchModal()" class="delete" aria-label="close"></button>
       </header>
 
       <section class="modal-card-body">
 
         <div class="file-item-box">
-          <label>视频名称</label>
+          <label>文件名称</label>
           <input v-model="fileData.file_name" class="input" type="text">
         </div>
         <div class="file-item-box">
@@ -68,8 +68,8 @@ export default {
           'Authorization': sessionStorage.getItem('token'),
         },
         params: {
-          id: that.fileData.id, // 视频id
-          fileName: that.fileData.file_name,  // 修改后的视频名称
+          id: that.fileData.id, // 文件id
+          fileName: that.fileData.file_name,  // 修改后的文件名称
           kp:  that.fileData.kp, // 修改后的知识点
         },
       }).then(res => {

@@ -1,4 +1,4 @@
-<!-- 查看视频 -->
+<!-- 查看文件 -->
 <template lang="html">
   <div class="modal" :class="{'is-active' : isShowModal}">
     <div class="modal-background"></div>
@@ -23,9 +23,9 @@
           <div class="search-button"><i class="fas fa-search"></i></div>
         </div>
 
-        <button @click="addFileInfo()" class="button add-file-button" type="button" name="button">添加视频</button>
+        <button @click="addFileInfo()" class="button add-file-button" type="button" name="button">添加文件</button>
 
-        <p v-if="!fileData" class="empty-message-prompt">暂无视频</p>
+        <p v-if="!fileData" class="empty-message-prompt">暂无文件</p>
         <table v-else class="table is-bordered is-striped is-hoverable is-fullwidths">
           <thead>
             <!-- "id": 15,
@@ -39,7 +39,7 @@
               <th>用户ID</th>
               <th>授课ID</th>
               <th>URL</th>
-              <th>视频名</th>
+              <th>文件名</th>
               <th>知识点</th>
               <th>操作</th>
             </tr>
@@ -121,7 +121,7 @@ export default {
     deleteFile: function (index) {
       const that = this;
       let id = that.fileData[index]['id'];
-      let prompt = confirm("确认删除该视频吗？");
+      let prompt = confirm("确认删除该文件吗？");
       if (prompt) {
         axios({
           method: 'post',
@@ -142,7 +142,7 @@ export default {
         })
       }
     },
-    // 通过授课ID获取视频信息
+    // 通过授课ID获取文件信息
     getFileForCid: function() {
       const that = this;
       let cid = that.currentTeachingData.id;
@@ -162,7 +162,7 @@ export default {
         console.log(err);
       })
     },
-    // 通过user获取视频信息
+    // 通过user获取文件信息
     getFileForUserId: function() {
       const that = this;
       axios({
