@@ -178,7 +178,7 @@ class DiscussController extends Controller
         $data = $comments->where("user_id",$userid)->get()->toJson();
         return $data;
     }
-    public function selectReplyForLid(Request $request) {
+    public function selectReplyForDid(Request $request) {
         $user  = Auth::user();
 
         if (!($user->hasRole("admin") || $user->hasRole("teacher") || $user->hasRole("student")) ) {

@@ -62,7 +62,7 @@ Route::group(['prefix' => '/v1'], function () {
     Route::post('discuss/replyDiscuss', 'API\DiscussController@replyDiscuss');
     Route::post('discuss/deleteReply', 'API\DiscussController@deleteReply');
     Route::post('discuss/selectReplyForUserid', 'API\DiscussController@selectReplyForUserid');
-    Route::post('discuss/selectReplyForLid', 'API\DiscussController@selectReplyForLid');
+    Route::post('discuss/selectReplyForDid', 'API\DiscussController@selectReplyForLid');
     Route::post('discuss/selectReplyAll', 'API\DiscussController@selectReplyAll');
 
 
@@ -118,7 +118,7 @@ Route::prefix('v1')->middleware(['auth:api'])->group(function () {
     Route::post('discuss/replyDiscuss', 'API\DiscussController@replyDiscuss');
     Route::post('discuss/deleteReply', 'API\DiscussController@deleteReply');
     Route::post('discuss/selectReplyForUserid', 'API\DiscussController@selectReplyForUserid');
-    Route::post('discuss/selectReplyForLid', 'API\DiscussController@selectReplyForLid');
+    Route::post('discuss/selectReplyForDid', 'API\DiscussController@selectReplyForLid');
     Route::post('discuss/selectReplyAll', 'API\DiscussController@selectReplyAll');
 
 
