@@ -8,13 +8,43 @@
       </header>
 
       <section class="modal-card-body">
+<!-- 
+        that.previewData.previewName = value.previewName, // 修改后的预习名称
+        that.previewData.cid = value.cid,  // 修改后的授课id（可以重新选择该预习放到其他授课下面）
+        that.previewData.desc = value.desc,  // 修改后的预习描述
+        that.previewData.content = value.content,  // 修改后的预习内容
+        that.previewData.endTime = value.endTime,  // 修改后的预习结束时间
+        that.previewData.isPublish = value.isPublish,  // 修改是否发布 （1代表已经发布，0代表不发布）
+        that.previewData.id = value.id  // 要更新的预习id -->
 
         <div class="preview-item-box">
           <label>预习名称</label>
           <input v-model="previewData.preview_name" class="input" type="text">
         </div>
+
         <div class="preview-item-box">
-          <label>知识点</label>
+          <label>授课id</label>
+          <input v-model="previewData.preview_name" class="input" type="text">
+        </div>
+
+
+        <div class="preview-item-box">
+          <label>描述</label>
+          <input v-model="previewData.preview_name" class="input" type="text">
+        </div>
+
+        <div class="preview-item-box">
+          <label>内容</label>
+          <input v-model="previewData.kp" class="input" type="text">
+        </div>
+
+        <div class="preview-item-box">
+          <label>结束时间</label>
+          <input v-model="previewData.kp" class="input" type="text">
+        </div>
+
+        <div class="preview-item-box">
+          <label>修改是否发布</label>
           <input v-model="previewData.kp" class="input" type="text">
         </div>
       </section>
@@ -53,24 +83,37 @@ export default {
     },
     clearWords: function () {
       const that = this;
+      that.previewData.previewName = '';
+      that.previewData.cid = '';
+      that.previewData.desc = '';
+      that.previewData.content = '';
+      that.previewData.endTime = '';
+      that.previewData.isPublish = '';
       that.previewData.id = '';
-      that.previewData.preview_name = '';
-      that.previewData.kp = '';
     },
     editPreview: function () {
       const that = this;
 
       axios({
         method: 'POST',
-        url: `${this.GLOBAL.localDomain}/api/v1/upload/lecture/update/preview`,
+        url: `${this.GLOBAL.localDomain}/api/v1/preview/update`,
         headers: {
           'Accept': 'application/json',
           'Authorization': sessionStorage.getItem('token'),
         },
         params: {
-          id: that.previewData.id, // 预习id
-          previewName: that.previewData.preview_name,  // 修改后的预习名称
-          kp:  that.previewData.kp, // 修改后的知识点
+          // id: that.previewData.id, // 预习id
+          // previewName: that.previewData.preview_name,  // 修改后的预习名称
+          // kp:  that.previewData.kp, // 修改后的知识点
+
+          previewName: that.previewName, // 修改后的预习名称
+          cid: that.cid,  // 修改后的授课id（可以重新选择该预习放到其他授课下面）
+          desc: that.desc,  // 修改后的预习描述
+          content: that.content,  // 修改后的预习内容
+          endTime: that.endTime,  // 修改后的预习结束时间
+          isPublish: that.isPublish,  // 修改是否发布 （1代表已经发布，0代表不发布）
+          id: that.id  // 要更新的预习id
+
         },
       }).then(res => {
         alert('编辑成功');
@@ -88,9 +131,16 @@ export default {
   watch: {
     editData: function (value, oldValue) {
       const that = this;
-      that.previewData.id = value.id;
-      that.previewData.preview_name = value.preview_name;
-      that.previewData.kp = value.kp;
+      // that.previewData.id = value.id;
+      // that.previewData.preview_name = value.preview_name;
+      // that.previewData.kp = value.kp;
+      that.previewData.previewName = value.previewName, // 修改后的预习名称
+      that.previewData.cid = value.cid,  // 修改后的授课id（可以重新选择该预习放到其他授课下面）
+      that.previewData.desc = value.desc,  // 修改后的预习描述
+      that.previewData.content = value.content,  // 修改后的预习内容
+      that.previewData.endTime = value.endTime,  // 修改后的预习结束时间
+      that.previewData.isPublish = value.isPublish,  // 修改是否发布 （1代表已经发布，0代表不发布）
+      that.previewData.id = value.id  // 要更新的预习id
     }
   }
 }

@@ -150,7 +150,7 @@ export default {
       let cid = that.currentTeachingData.id;
       axios({
         method: 'post',
-        url: `${this.GLOBAL.localDomain}/api/v1/upload/lecture/selectForCid/preview`,
+        url: `${this.GLOBAL.localDomain}/api/v1/preview/selectForUserid`,
         headers: {
           'Accept': 'application/json',
           'Authorization': sessionStorage.getItem('token'),
@@ -169,7 +169,7 @@ export default {
       const that = this;
       axios({
         method: 'post',
-        url: `${this.GLOBAL.localDomain}/api/v1/upload/lecture/selectForUserid/preview`,
+        url: `${this.GLOBAL.localDomain}/api/v1/preview/selectForCid`,
         headers: {
           'Accept': 'application/json',
           'Authorization': sessionStorage.getItem('token'),
@@ -186,20 +186,20 @@ export default {
     },
     getPreview: function() {
       const that = this;
-      // axios({
-      //   method: 'post',
-      //   url: `${this.GLOBAL.localDomain}/api/v1/previews`,
-      //   headers: {
-      //     'Accept': 'application/json',
-      //     'Authorization': sessionStorage.getItem('token'),
-      //   }
-      // }).then(res => {
-      //   that.previewData = res.data.data;
-      //   that.paginationData = res.data.links;
-      //   //
-      // }).catch(err => {
-      //   console.log(err);
-      // })
+      axios({
+        method: 'post',
+        url: `${this.GLOBAL.localDomain}/api/v1/preview/selectAll`,
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': sessionStorage.getItem('token'),
+        }
+      }).then(res => {
+        that.previewData = res.data.data;
+        that.paginationData = res.data.links;
+        //
+      }).catch(err => {
+        console.log(err);
+      })
     },
     searchPreview: function () {
       const that = this;
