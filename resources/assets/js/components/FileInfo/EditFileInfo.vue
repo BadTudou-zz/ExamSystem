@@ -8,10 +8,9 @@
       </header>
 
       <section class="modal-card-body">
-
         <div class="file-item-box">
           <label>文件名称</label>
-          <input v-model="fileData.file_name" class="input" type="text">
+          <input v-model="fileData.doc_name" class="input" type="text">
         </div>
         <div class="file-item-box">
           <label>知识点</label>
@@ -35,7 +34,7 @@ export default {
       isShowModal: false,
       fileData: {
         id: '',
-        file_name: '',
+        doc_name: '',
         kp: '',
       },
       cid: null,
@@ -54,33 +53,33 @@ export default {
     clearWords: function () {
       const that = this;
       that.fileData.id = '';
-      that.fileData.file_name = '';
+      that.fileData.doc_name = '';
       that.fileData.kp = '';
     },
     editFileInfo: function () {
       const that = this;
 
-      // axios({
-      //   method: 'POST',
-      //   url: `${this.GLOBAL.localDomain}/api/v1/upload/lecture/update/file`,
-      //   headers: {
-      //     'Accept': 'application/json',
-      //     'Authorization': sessionStorage.getItem('token'),
-      //   },
-      //   params: {
-      //     id: that.fileData.id, // 文件id
-      //     fileName: that.fileData.file_name,  // 修改后的文件名称
-      //     kp:  that.fileData.kp, // 修改后的知识点
-      //   },
-      // }).then(res => {
-      //   alert('编辑成功');
-      //   that.$emit('getFileForCid');   //第一个参数名为调用的方法名，第二个参数为需要传递的参数
-      //   that.switchModal();
-      //   that.clearWords();
-      // }).catch(err => {
-      //   alert('编辑失败');
-      //   console.log(err);
-      // })
+      axios({
+        method: 'POST',
+        url: `${this.GLOBAL.localDomain}/api/v1/upload/lecture/update/document`,
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': sessionStorage.getItem('token'),
+        },
+        params: {
+          id: that.fileData.id, // 文件id
+          doc_name: that.fileData.doc_name,  // 修改后的文件名称
+          kp:  that.fileData.kp, // 修改后的知识点
+        },
+      }).then(res => {
+        alert('编辑成功');
+        that.$emit('getFileForCid');   //第一个参数名为调用的方法名，第二个参数为需要传递的参数
+        that.switchModal();
+        that.clearWords();
+      }).catch(err => {
+        alert('编辑失败');
+        console.log(err);
+      })
     },
   },
   created() {
@@ -89,7 +88,7 @@ export default {
     editData: function (value, oldValue) {
       const that = this;
       that.fileData.id = value.id;
-      that.fileData.file_name = value.file_name;
+      that.fileData.doc_name = value.doc_name;
       that.fileData.kp = value.kp;
     }
   }
