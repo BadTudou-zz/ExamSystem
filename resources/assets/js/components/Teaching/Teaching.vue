@@ -20,10 +20,7 @@
           <th>最大容量</th>
           <th>当前容量</th>
           <th>授课操作</th>
-          <th>用户操作</th>
-          <th>视频操作</th>
-          <th>文件操作</th>
-          <th>更多</th>
+          <th>其他操作</th>
         </tr>
       </thead>
     <tbody>
@@ -35,18 +32,13 @@
           <td>
             <div v-show="isShowDeleteTeaching" @click="deleteTeaching(index)" class="icon-button"><i class="far fa-trash-alt"></i></div>
             <div @click="editTeaching(index)" class="icon-button"><i class="fas fa-edit"></i></div>
-          </td>
-          <td>
-            <button @click="showUser(index)" class="button is-small" type="button" name="button">查看用户</button>
-          </td>
-          <td>
-            <button @click="showVideoInfo(index)" class="button is-small" type="button" name="button">查看视频</button>
-          </td>
-          <td>
-            <button @click="showFileInfo(index)" class="button is-small" type="button" name="button">查看文件</button>
-          </td>
-          <td>
             <button @click="showDetail(index)" class="button is-small" type="button" name="button">查看详情</button>
+          </td>
+          <td>
+            <button @click="showUser(index)" class="button is-small" type="button" name="button">用户</button>
+            <button @click="showPreview(index)" class="button is-small" type="button" name="button">预习</button>
+            <button @click="showVideoInfo(index)" class="button is-small" type="button" name="button">视频</button>
+            <button @click="showFileInfo(index)" class="button is-small" type="button" name="button">文件</button>
           </td>
         </tr>
       </tbody>
@@ -84,6 +76,11 @@
                v-on:getTeaching="getTeaching"
     ></file-info>
 
+    <preview ref="preview"
+             v-bind:current-teaching-data="currentTeachingData"
+             v-on:getTeaching="getTeaching"
+    ></preview>
+
   </div>
 </template>
 
@@ -95,6 +92,7 @@ import User from './User'
 import Detail from './Detail'
 import VideoInfo from '../VideoInfo/VideoInfo'
 import FileInfo from '../FileInfo/FileInfo'
+import Preview from '../Preview/Preview'
 
 export default {
   data() {
@@ -120,6 +118,7 @@ export default {
     Detail,
     VideoInfo,
     FileInfo,
+    Preview,
   },
   methods: {
     showModal: function () {
@@ -287,6 +286,11 @@ export default {
       const that = this;
       that.currentTeachingData = that.teachingData[index];
       that.$refs.detail.switchModal();
+    },
+    showPreview: function (index) {
+      const that = this;
+      that.currentTeachingData = that.teachingData[index];
+      that.$refs.preview.switchModal();
     }
   },
   computed: {
