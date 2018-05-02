@@ -68,7 +68,7 @@ export default {
         },
         params: {
           id: that.fileData.id, // 文件id
-          doc_name: that.fileData.doc_name,  // 修改后的文件名称
+          docName: that.fileData.doc_name,  // 修改后的文件名称
           kp:  that.fileData.kp, // 修改后的知识点
         },
       }).then(res => {
