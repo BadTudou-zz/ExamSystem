@@ -23,7 +23,7 @@
           <div class="search-button"><i class="fas fa-search"></i></div>
         </div>
 
-        <button @click="addVideoInfo()" class="button add-video-button" type="button" name="button">添加视频</button>
+        <button v-show="isShowCreateVideo" @click="addVideoInfo()" class="button add-video-button" type="button" name="button">添加视频</button>
 
         <p v-if="!videoData" class="empty-message-prompt">暂无视频</p>
         <table v-else class="table is-bordered is-striped is-hoverable is-fullwidths">
@@ -53,7 +53,7 @@
               <td>{{ item.video_name }}</td>
               <td>{{ item.kp }}</td>
               <td>
-                <div @click="deleteVideo(index)" class="icon-button"><i class="far fa-trash-alt"></i></div>
+                <div v-show="isShowDeleteVideo" @click="deleteVideo(index)" class="icon-button"><i class="far fa-trash-alt"></i></div>
                 <div @click="editVideoInfo(index)" class="icon-button"><i class="fas fa-edit"></i></div>
               </td>
             </tr>
@@ -65,11 +65,13 @@
     <button @click="switchModal()" class="modal-close is-large" aria-label="close"></button>
 
 
-    <add-video-info ref="addVideoInfo"
+    <add-video-info v-if="isShowCreateVideo"
+                    ref="addVideoInfo"
                     v-on:getVideo="getVideo"
                     v-bind:current-video-data="currentVideoData"></add-video-info>
 
-    <edit-video-info ref="editVideoInfo"
+    <edit-video-info v-if="isShowEditVideo"
+                     ref="editVideoInfo"
                      v-on:getVideoForCid="getVideoForCid"
                      v-bind:edit-data="editData"
     ></edit-video-info>
@@ -289,21 +291,21 @@ export default {
   },
   computed: {
     isShowCreateVideo() {
-      return true;
-      // return sessionStorage.getItem('permissions').includes('video-store');
+      // return true;
+      return sessionStorage.getItem('permissions').includes('video-store');
     },
-    isShowSearchVideo() {
-      return true;
-      // return sessionStorage.getItem('permissions').includes('video-show');
-    },
-    isShowEditVideoInfo() {
-      return true;
-      // return sessionStorage.getItem('permissions').includes('video-update');
+    // isShowSearchVideo() {
+    //   // return true;
+    //   return sessionStorage.getItem('permissions').includes('question-show');
+    // },
+    isShowEditVideo() {
+      // return true;
+      return sessionStorage.getItem('permissions').includes('video-update');
     },
     isShowDeleteVideo() {
-      return true;
-      // return sessionStorage.getItem('permissions').includes('video-destroy');
-    },
+      // return true;
+      return sessionStorage.getItem('permissions').includes('video-destroy');
+    }
   },
   created() {
   },

@@ -103,7 +103,7 @@ export default {
 }
 span {
   display: inline-block;
-  height: 36px;
-  line-height: 36px;
+  height: 27px;
+  line-height: 27px;
 }
 </style>

@@ -23,7 +23,7 @@
           <div class="search-button"><i class="fas fa-search"></i></div>
         </div>
 
-        <button @click="addFileInfo()" class="button add-file-button" type="button" name="button">添加文件</button>
+        <button v-show="isShowCreateDocument" @click="addFileInfo()" class="button add-file-button" type="button" name="button">添加文件</button>
 
         <p v-if="!fileData" class="empty-message-prompt">暂无文件</p>
         <table v-else class="table is-bordered is-striped is-hoverable is-fullwidths">
@@ -53,8 +53,8 @@
               <td>{{ item.file_name }}</td>
               <td>{{ item.kp }}</td>
               <td>
-                <div @click="deleteFile(index)" class="icon-button"><i class="far fa-trash-alt"></i></div>
-                <div @click="editFileInfo(index)" class="icon-button"><i class="fas fa-edit"></i></div>
+                <div v-show="isShowDeleteDocument" @click="deleteFile(index)" class="icon-button"><i class="far fa-trash-alt"></i></div>
+                <div v-show="isShowEditDocument" @click="editFileInfo(index)" class="icon-button"><i class="fas fa-edit"></i></div>
               </td>
             </tr>
           </tbody>
@@ -65,13 +65,15 @@
     <button @click="switchModal()" class="modal-close is-large" aria-label="close"></button>
 
 
-    <add-file-info ref="addFileInfo"
-                    v-on:getFile="getFile"
-                    v-bind:current-file-data="currentFileData"></add-file-info>
+    <add-file-info v-if="isShowCreateDocument"
+                   ref="addFileInfo"
+                   v-on:getFile="getFile"
+                   v-bind:current-file-data="currentFileData"></add-file-info>
 
-    <edit-file-info ref="editFileInfo"
-                     v-on:getFileForCid="getFileForCid"
-                     v-bind:edit-data="editData"
+    <edit-file-info v-if="isShowEditDocument"
+                    ref="editFileInfo"
+                    v-on:getFileForCid="getFileForCid"
+                    v-bind:edit-data="editData"
     ></edit-file-info>
 
   </div>
@@ -287,22 +289,22 @@ export default {
     }
   },
   computed: {
-    isShowCreateFile() {
-      return true;
-      // return sessionStorage.getItem('permissions').includes('file-store');
+    isShowCreateDocument() {
+      // return true;
+      return sessionStorage.getItem('permissions').includes('document-store');
     },
-    isShowSearchFile() {
-      return true;
-      // return sessionStorage.getItem('permissions').includes('file-show');
+    // isShowSearchDocument() {
+    //   // return true;
+    //   return sessionStorage.getItem('permissions').includes('question-show');
+    // },
+    isShowEditDocument() {
+      // return true;
+      return sessionStorage.getItem('permissions').includes('document-update');
     },
-    isShowEditFileInfo() {
-      return true;
-      // return sessionStorage.getItem('permissions').includes('file-update');
-    },
-    isShowDeleteFile() {
-      return true;
-      // return sessionStorage.getItem('permissions').includes('file-destroy');
-    },
+    isShowDeleteDocument() {
+      // return true;
+      return sessionStorage.getItem('permissions').includes('document-destroy');
+    }
   },
   created() {
   },

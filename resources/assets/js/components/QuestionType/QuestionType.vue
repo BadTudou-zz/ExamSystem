@@ -5,11 +5,11 @@
     <div class="modal-content">
       <div class="box">
         <div>
-          <div class="search-box">
+          <div v-show="isShowSearchQuestionType" class="search-box">
             <input v-model="searchKey" class="input search-input" type="text" placeholder="请输入关键字">
             <div @click="searchQuestionType()" class="search-button"><i class="fas fa-search"></i></div>
           </div>
-          <button @click="addQuestionType()" class="button add-questionType-button" type="button" name="button">添加题目类型</button>
+          <button v-show="isShowCreateQuestionType" @click="addQuestionType()" class="button add-questionType-button" type="button" name="button">添加题目类型</button>
         </div>
 
         <p v-if="!questionTypeData" class="empty-message-prompt">暂无题目类型</p>
@@ -32,20 +32,22 @@
               <td>{{ item.delimiter }}</td>
               <td>{{ computedIsAllowMultiple(item.is_multiple_choice) }}</td>
               <td>
-                <div @click="editQuestionType(index)" class="icon-button"><i class="fas fa-edit"></i></div>
-                <div @click="deleteQuestionType(index)" class="icon-button"><i class="far fa-trash-alt"></i></div>
+                <div v-show="isShowEditQuestionType" @click="editQuestionType(index)" class="icon-button"><i class="fas fa-edit"></i></div>
+                <div v-show="isShowDeleteQuestionType" @click="deleteQuestionType(index)" class="icon-button"><i class="far fa-trash-alt"></i></div>
               </td>
             </tr>
           </tbody>
         </table>
 
-        <add-question-type ref="addQuestionType"
-                      v-on:getQuestionType="getQuestionType"
+        <add-question-type v-if="isShowCreateQuestionType"
+                           ref="addQuestionType"
+                           v-on:getQuestionType="getQuestionType"
         ></add-question-type>
 
-        <edit-question-type ref="editQuestionType"
-                       v-on:getQuestionType="getQuestionType"
-                       v-bind:edit-data="editData"
+        <edit-question-type v-if="isShowEditQuestionType"
+                            ref="editQuestionType"
+                            v-on:getQuestionType="getQuestionType"
+                            v-bind:edit-data="editData"
         ></edit-question-type>
 
         <pagination v-show="searchResult.length === 0"
@@ -254,6 +256,22 @@ export default {
     }
   },
   computed: {
+    isShowCreateQuestionType() {
+      // return true;
+      return sessionStorage.getItem('permissions').includes('questionType-store');
+    },
+    isShowSearchQuestionType() {
+      // return true;
+      return sessionStorage.getItem('permissions').includes('questionType-show');
+    },
+    isShowEditQuestionType() {
+      // return true;
+      return sessionStorage.getItem('permissions').includes('questionType-update');
+    },
+    isShowDeleteQuestionType() {
+      // return true;
+      return sessionStorage.getItem('permissions').includes('questionType-destroy');
+    },
   },
   created() {
   },
@@ -270,7 +288,7 @@ export default {
     isShowModal: function (value, oldValue) {
       const that = this;
       if (value) {
-        that.getQuestionType();  
+        that.getQuestionType();
       }
     }
   }
