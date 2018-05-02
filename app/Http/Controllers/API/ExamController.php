@@ -29,7 +29,16 @@ class ExamController extends Controller
 {
     public function index(IndexExam $request)
     {
-    	return new ExamCollection(Exam::paginate());
+        $type = $request->get('type', null);
+        if ($type == 'PRACTICE') {
+            return ExamResource::collection(Exam::where('type', 'PRACTICE')->paginate());
+        } 
+
+        if ($type == 'OFFICIAL') {
+            return ExamResource::collection(Exam::where('type', 'OFFICIAL')->paginate());
+        } 
+
+    	return  ExamResource::collection(Exam::paginate());
     }
 
     public function show(ShowExam $request, $id)
