@@ -13,6 +13,42 @@ Route::post('captchas', 'API\CaptchaController@store');
 Route::group(['prefix' => '/v1'], function () {
     Route::post('webrtc', 'TestController@webrtc');
 
+
+
+    Route::post('questions/import', 'API\ExcelController@import');
+
+
+
+    Route::post('upload/lecture/video', 'API\VideoController@uploadVideo');
+    Route::post('upload/lecture/insert/video', 'API\VideoController@insert');
+    Route::post('upload/lecture/selectForUserid/video', 'API\VideoController@selectForUserid');
+    Route::post('upload/lecture/selectForCid/video', 'API\VideoController@selectForCid');
+    Route::post('upload/lecture/selectAll/video', 'API\VideoController@selectAll');
+    Route::post('upload/lecture/delete/video', 'API\VideoController@delete');
+    Route::post('upload/lecture/update/video', 'API\VideoController@update');
+
+    Route::post('upload/lecture/document', 'API\DocumentController@uploadVideo');
+    Route::post('upload/lecture/insert/document', 'API\DocumentController@insert');
+    Route::post('upload/lecture/selectForUserid/document', 'API\DocumentController@selectForUserid');
+    Route::post('upload/lecture/selectForCid/document', 'API\DocumentController@selectForCid');
+    Route::post('upload/lecture/selectAll/document', 'API\DocumentController@selectAll');
+    Route::post('upload/lecture/delete/document', 'API\DocumentController@delete');
+    Route::post('upload/lecture/update/document', 'API\DocumentController@update');
+
+
+    Route::post('preview/insert', 'API\PreviewController@insert');
+    Route::post('preview/publish', 'API\PreviewController@publish');
+    Route::post('preview/update', 'API\PreviewController@update');
+    Route::post('preview/delete', 'API\PreviewController@delete');
+    Route::post('preview/selectForUserid', 'API\PreviewController@selectForUserid');
+    Route::post('preview/selectForCid', 'API\PreviewController@selectForCid');
+    Route::post('preview/selectAll', 'API\PreviewController@selectAll');
+
+
+    Route::post('questions/import/student', 'API\ExcelController@importStudent');
+    Route::post('questions/import/teacher', 'API\ExcelController@teacher');
+
+
     Route::post('discuss/publishDiscuss', 'API\DiscussController@publishDiscuss');
     Route::post('discuss/updateDiscuss', 'API\DiscussController@updateDiscuss');
     Route::post('discuss/deleteDiscuss', 'API\DiscussController@deleteDiscuss');

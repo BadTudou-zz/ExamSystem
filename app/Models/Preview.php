@@ -14,9 +14,9 @@ class Preview extends Model
      * @var array
      */
     public  $timestamps  = false;
-    protected $table = 'proview';
+    protected $table = 'preview';
     protected $fillable = [
-        'id', 'cid', 'userid','desc','end_time','is_publish','name','publish_type','content',
+        'id', 'cid', 'userid','desc','end_time','is_publish','name','content',
     ];
 
     /**
