@@ -640,6 +640,13 @@ class PermissionsTableSeeder extends Seeder
         $destroyQuestionType->description  = '批量导入教师用户数据';
         $destroyQuestionType->save();
 
+        // 上传问题
+
+        $destroyQuestionType = new Permission();
+        $destroyQuestionType->name         = 'import-question';
+        $destroyQuestionType->display_name = '教师批量导入问题数据';
+        $destroyQuestionType->description  = '教师批量导入问题数据';
+        $destroyQuestionType->save();
 
         // 新增讨论话题
 
