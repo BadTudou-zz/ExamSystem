@@ -23,37 +23,36 @@
           <div class="search-button"><i class="fas fa-search"></i></div>
         </div>
 
-        <button v-show="isShowCreatePreview" @click="addPreview()" class="button add-preview-button" type="button" name="button">添加预习</button>
+        <button @click="addPreview()" class="button add-preview-button" type="button" name="button">添加预习</button>
 
         <p v-if="!previewData" class="empty-message-prompt">暂无预习</p>
         <table v-else class="table is-bordered is-striped is-hoverable is-fullwidths">
           <thead>
-            <!-- "id": 15,
-            "userid": 1,
-            "cid": 1,
-            "url": "\/usr\/share\/nginx\/html\/ExamSystem\/public\/preview\/123.mp4",
-            "preview_name": "\u6d4b\u8bd5\u89c6\u9891",
-            "kp": "\u77e5\u8bc6\u70b9\u662fxxxx" -->
             <tr>
               <th>序号</th>
+              <th>预习名称</th>
               <th>用户ID</th>
               <th>授课ID</th>
-              <th>URL</th>
-              <th>预习名</th>
-              <th>知识点</th>
+              <th>描述</th>
+              <th>截止时间</th>
+              <th>发布状态</th>
+              <th>内容</th>
               <th>操作</th>
             </tr>
           </thead>
         <tbody>
             <tr v-for="(item,index) in previewData">
               <td>{{ item.id }}</td>
-              <td>{{ item.userId }}</td>
-              <td>{{ item.cid }}</td>
-              <td>{{ GLOBAL.localDomain + item.url }}</td>
               <td>{{ item.preview_name }}</td>
-              <td>{{ item.kp }}</td>
+              <td>{{ item.userid }}</td>
+              <td>{{ item.cid }}</td>
+              <td>{{ item.desc }}</td>
+              <td>{{ GLOBAL.toTime(item.end_time) }}</td>
+              <td>{{ computedPublishStatus(item.is_publish) }}</td>
+              <td>{{ item.content }}</td>
               <td>
-                <div v-show="isShowDeletePreview" @click="deletePreview(index)" class="icon-button"><i class="far fa-trash-alt"></i></div>
+                <button @click="publishPreview(index)" class="button is-small" type="button" name="button">发布预习</button>
+                <div @click="deletePreview(index)" class="icon-button"><i class="far fa-trash-alt"></i></div>
                 <div @click="editPreview(index)" class="icon-button"><i class="fas fa-edit"></i></div>
               </td>
             </tr>
@@ -65,15 +64,13 @@
     <button @click="switchModal()" class="modal-close is-large" aria-label="close"></button>
 
 
-    <add-preview v-if="isShowCreatePreview"
-                    ref="addPreview"
-                    v-on:getPreview="getPreview"
-                    v-bind:current-preview-data="currentPreviewData"></add-preview>
+    <add-preview ref="addPreview"
+                 v-on:getPreview="getPreview"
+                 v-bind:current-teaching-data="currentTeachingData"></add-preview>
 
-    <edit-preview v-if="isShowEditPreview"
-                     ref="editPreview"
-                     v-on:getPreviewForCid="getPreviewForCid"
-                     v-bind:edit-data="editData"
+    <edit-preview ref="editPreview"
+                  v-on:getPreview="getPreview"
+                  v-bind:edit-data="editData"
     ></edit-preview>
 
   </div>
@@ -96,7 +93,6 @@ export default {
       searchResult: [],
       editData: null,
       searchType: '',
-      currentPreviewData: null,
     }
   },
   components: {
@@ -127,13 +123,13 @@ export default {
       if (prompt) {
         axios({
           method: 'post',
-          url: `${this.GLOBAL.localDomain}/api/v1/upload/lecture/delete/preview`,
+          url: `${this.GLOBAL.localDomain}/api/v1/preview/delete`,
           headers: {
             'Accept': 'application/json',
             'Authorization': sessionStorage.getItem('token'),
           },
           params: {
-            id: that.previewData[index]['id']
+            id: id,
           }
         }).then(res => {
           alert('删除成功');
@@ -194,9 +190,7 @@ export default {
           'Authorization': sessionStorage.getItem('token'),
         }
       }).then(res => {
-        that.previewData = res.data.data;
-        that.paginationData = res.data.links;
-        //
+        that.previewData = res.data;
       }).catch(err => {
         console.log(err);
       })
@@ -287,6 +281,40 @@ export default {
           that.getPreviewForCid();
           break;
       }
+    },
+    publishPreview: function (index) {
+      const that = this;
+      let previewId = that.previewData[index]['id']
+      axios({
+        method: 'post',
+        url: `${this.GLOBAL.localDomain}/api/v1/preview/publish`,
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': sessionStorage.getItem('token'),
+        },
+        params: {
+          id: previewId,
+        }
+      }).then(res => {
+        that.getPreview();
+        alert('发布成功');
+      }).catch(err => {
+        alert('发布失败');
+        console.log(err);
+      })
+    },
+    computedPublishStatus: function (value) {
+      const that = this;
+      let status = '';
+      switch (value) {
+        case 0:
+          status = '未发布';
+          break;
+        case 1:
+          status = '已发布';
+          break;
+      }
+      return status;
     }
   },
   computed: {
@@ -312,12 +340,12 @@ export default {
   watch: {
     isShowModal: function (value, oldValue) {
       const that = this;
-      that.getPreviewForUserId();
+      that.getPreview();
     },
-    currentTeachingData: function (value, oldValue) {
-      const that = this;
-      that.getPreviewForCid();
-    }
+    // currentTeachingData: function (value, oldValue) {
+    //   const that = this;
+    //   that.getPreview();
+    // }
   }
 }
 </script>

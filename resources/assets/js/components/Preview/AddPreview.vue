@@ -9,30 +9,26 @@
 
       <section class="modal-card-body">
 
-        <div>
-          <div class="file has-name is-fullwidth">
-            <label class="file-label">
-              <input v-on:change="fire($event)" class="file-input" type="file" name="pic">
-              <span class="file-cta">
-                <span class="file-icon">
-                  <i class="fas fa-upload"></i>
-                </span>
-                <span class="file-label">选择预习</span>
-              </span>
-              <span class="file-name">{{ filename }}</span>
-            </label>
-          </div>
-          <progress v-show="progressNumber" class="progress is-info" v-bind:value="progressWidth" max="100">{{ progressNumber }}</progress>
+        <div class="preview-item-box">
+          <label>名称</label>
+          <input v-model="previewData.previewName" class="input" type="text">
         </div>
 
         <div class="preview-item-box">
-          <label>预习名称</label>
-          <input v-model="previewData.previewName" class="input" type="text">
+          <label>描述</label>
+          <input v-model="previewData.desc" class="input" type="text">
         </div>
+
         <div class="preview-item-box">
-          <label>知识点</label>
-          <input v-model="previewData.kp" class="input" type="text">
+          <label>内容</label>
+          <input v-model="previewData.content" class="input" type="text">
         </div>
+
+        <div class="preview-item-box">
+          <label>预习结束时间</label>
+          <input v-model="previewData.endTime" class="input" type="date">
+        </div>
+
       </section>
       <footer class="modal-card-foot">
         <button @click="addPreview()" class="button is-success">确认</button>
@@ -49,7 +45,11 @@ export default {
       isShowModal: false,
       previewData: {
         previewName: '',
-        kp: '',
+        cid: '',
+        userid: '',
+        desc: '',
+        content: '',
+        endTime: ''
       },
       clock: null,
       postfix: null,
@@ -76,159 +76,59 @@ export default {
     },
     clearWords: function () {
       const that = this;
-      that.previewData.name = '';
-      that.previewData.display_name = '';
-      that.previewData.descripe = '';
-      that.previewData.number = '';
+      that.previewData.previewName = '';
+      that.previewData.cid = '';
+      that.previewData.userid = '';
+      that.previewData.desc = '';
+      that.previewData.content = '';
+      that.previewData.endTime = '';
     },
     addPreview: function () {
       const that = this;
-      if (!that.isUploadedSuccess) {
-        alert('请先上传预习');
-        return;
-      }
+
       that.userId = sessionStorage.getItem('userId')
       let teachingId = that.currentTeachingData.id;
       that.cid = teachingId;  // 授课ID
+      let a = that.previewData.endTime;
+      let time = this.GLOBAL.toServerTime(that.previewData.endTime);
+      debugger
 
       axios({
         method: 'POST',
-        url: `${this.GLOBAL.localDomain}/api/v1/upload/lecture/insert/preview`,
+        // url: `${this.GLOBAL.localDomain}/api/v1/upload/lecture/insert/preview`,
+        url: `${this.GLOBAL.localDomain}/api/v1/preview/insert`,
         headers: {
           'Accept': 'application/json',
           'Authorization': sessionStorage.getItem('token'),
         },
-        body: {
-          userid: that.userId,
-          cid: that.cid,  // 授课Id
-          filename: this.filename,  // 文件名称（js生成唯一表示名称）
-          previewName: that.previewName,  // 预习名称（由用户输入）
-          kp: that.kp,  // 知识点（由用户输入）
+        params: {
+          previewName: that.previewData.previewName,
+          cid: that.previewData.cid,  // 授课Id
+          userid: this.previewData.userid,  // 文件名称（js生成唯一表示名称）
+          desc: that.previewData.desc,  // 预习名称（由用户输入）
+          content: that.previewData.content,  // 知识点（由用户输入）
+          endTime: this.GLOBAL.toServerTime(that.previewData.endTime),
         },
       }).then(res => {
-        alert('添加成功')
+        alert('添加成功');
+        that.clearWords();
+        that.$emit('getPreview');   //第一个参数名为调用的方法名，第二个参数为需要传递的参数
+        that.switchModal();
       }).catch(err => {
         alert('添加失败');
         return;
         console.log(err);
       })
     },
-    // 分段上传
-    up(fd){
-      axios({
-        method: 'POST',
-        url: `${this.GLOBAL.localDomain}/api/v1/upload/lecture/preview`,
-        data: fd,
-        headers: {
-          'Accept': 'application/json',
-          'Authorization': sessionStorage.getItem('token'),
-        },
-        params: {
-          filename: this.filename,
-        },
-      }).then(res => {
-        // alert('up成功！')
-      }).catch(err => {
-        alert('上传失败');
-        return;
-        console.log(err);
-      })
-    },
-    info(userid,cid){
-      axios({
-        method: 'POST',
-        url: `${this.GLOBAL.localDomain}/api/v1/upload/lecture/insert`,
-        headers: {
-          'Accept': 'application/json',
-          'Authorization': sessionStorage.getItem('token'),
-        },
-        params: {
-          userid: userid,
-          cid: cid,
-          filename: this.filename,
-        }
-      }).then(res => {
-        // alert('info成功')
-      }).catch(err => {
-        // alert('info失败');
-        console.log(err);
-      })
-    },
-    fire: function (file){
-      const that = this;
-      var name = file.target.value;
-      var pos = name.lastIndexOf('.');
-      var myDate = new Date();
-      var postfix = name.substring(pos+1);
-      var time = myDate.getFullYear() + '-' + (myDate.getMonth() + 1) + '-'+ myDate.getDate() + '-' + Math.ceil(Math.random() * 100000);
-      this.filename = time + '.' + postfix;
-      // this.clock =  setInterval(this.sendfile(),1000);
-
-      this.clock =  setInterval(() => {
-                        that.sendfile();
-                    }, 1000)
-    },
-    sendfile: function() {
-      const that = this;
-      (function (){
-          const  LENGTH = 5 * 1024 * 1024; //每一次上传10M
-          // 开始截取位置
-
-          // 截取结束的位置。
-          that.end = that.sta + LENGTH;
-          //标识上一块是否上传完毕。
-          var flag = false;
-          // 设置一个blob变量
-          var blob = null;
-          // 设置一个HTML5的文件对象。
-          var fd = null;
-          // 设置百分比
-          var percent = 0;
-          (function (){
-              if(flag === true){
-                  return;
-              }
-              // 获取文件信息
-              var mov = document.getElementsByName('pic')[0].files[0];
-
-              // 如果sta>mov.size
-              if(that.sta > mov.size){
-                  clearInterval(that.clock);
-                  that.info(that.userid, that.cid);
-                  that.isUploadedSuccess = true;
-                  alert("上传成功");
-                  return ;
-              }
-
-              blob = mov.slice(that.sta, that.end);
-
-              fd = new FormData();
-
-              fd.append('part',blob);
-
-              that.up(fd);
-
-              that.sta = that.end;
-
-              that.end = that.sta + LENGTH;
-
-              flag = false;
-
-              percent = 100 * that.end / mov.size;
-
-              if (percent>100) {
-                  percent=100;
-              }
-              that.progressWidth = percent;
-              that.progressNumber = parseInt(percent) + '%';``
-          })(that.sta, that.end);
-
-      })(that.userid, that.cid);
-    },
   },
   created() {
   },
   watch: {
+    currentTeachingData: function (value, oldValue) {
+      const that = this;
+      that.previewData.cid = value.id;
+      that.previewData.userid = sessionStorage.getItem('userId');
+    }
   }
 }
 </script>
