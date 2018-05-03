@@ -118,6 +118,7 @@ export default {
         }
       }).then(res => {
         alert('评论成功');
+        that.commentData = '';
         that.getReply()
       }).catch(err => {
         alert('评论失败')
@@ -126,7 +127,6 @@ export default {
     },
     deleteReply: function (index) {
       const that = this;
-      console.log('删除')
       let id = that.replyData[index]['id'];
       let prompt = confirm("确认删除该讨论吗？");
       if (prompt) {
@@ -290,40 +290,6 @@ export default {
           break;
       }
     },
-    publishReply: function (index) {
-      const that = this;
-      let replyId = that.replyData[index]['id']
-      axios({
-        method: 'post',
-        url: `${this.GLOBAL.localDomain}/api/v1/reply/publish`,
-        headers: {
-          'Accept': 'application/json',
-          'Authorization': sessionStorage.getItem('token'),
-        },
-        params: {
-          id: replyId,
-        }
-      }).then(res => {
-        that.getReply();
-        alert('发布成功');
-      }).catch(err => {
-        alert('发布失败');
-        console.log(err);
-      })
-    },
-    computedPublishStatus: function (value) {
-      const that = this;
-      let status = '';
-      switch (value) {
-        case 0:
-          status = '未发布';
-          break;
-        case 1:
-          status = '已发布';
-          break;
-      }
-      return status;
-    }
   },
   computed: {
   },
