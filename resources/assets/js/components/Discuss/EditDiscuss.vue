@@ -16,7 +16,7 @@
 
         <div class="discuss-item-box">
           <label>内容</label>
-          <input v-model="discussData.content" class="input" type="text">
+          <textarea v-model="discussData.content" class="textarea" name="name" rows="8" cols="80"></textarea>
         </div>
 
         <!-- <div class="discuss-item-box">
