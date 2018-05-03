@@ -205,6 +205,18 @@ class UserController extends Controller
     }
 
     /**
+     * login api
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function logout(Request $request)
+    {   
+        $user = Auth::user();
+        // 删除之前的令牌
+        $user->tokens()->delete();
+    }
+
+    /**
      * Register api
      *
      * @return \Illuminate\Http\Response
