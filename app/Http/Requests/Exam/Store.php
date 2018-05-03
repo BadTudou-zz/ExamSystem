@@ -28,7 +28,7 @@ class Store extends FormRequest
         return [
             'title' => 'required|max:120',
             'paper_id' => 'required|exists:papers,id',
-            'exam_type' => 'required|in:OPEN',
+            'exam_type' => 'required|in:PRACTICE,EXAM',
             'describe' => 'required|max:255',
             'score' => '',
             'min' => '',
