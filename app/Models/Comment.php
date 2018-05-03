@@ -25,4 +25,9 @@ class Comment extends Model
     protected $hidden = [
 
     ];
+
+    public function user()
+    {
+        return $this->hasMany('App\User', 'id','user_id');
+    }
 }
