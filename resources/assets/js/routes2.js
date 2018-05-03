@@ -34,6 +34,7 @@ import TeachingData from './components/PersonalCenter/TeachingData.vue'
 import Setting from './components/Setting.vue'
 import VideoMonitoring from './components/SurveillanceVideo/VideoMonitoring.vue'
 import Practice from './components/Practice/Practice.vue'
+import Upload from './components/Upload/Upload.vue'
 
 export default [
   {
@@ -296,4 +297,12 @@ export default [
       requireAuth: true
     }
   },
+  {
+    path: '/Upload',
+    name: '上传',
+    component: Upload,
+    meta: {
+      requireAuth: true
+    }
+  }
 ]
