@@ -11,14 +11,16 @@
             </p> -->
           </figure>
           <div class="media-content">
-            <div class="content">
+            <div class="content" v-if="discussData">
               <p>
-                <strong>{{ discussData.user_name }}</strong>
+                <strong>发布者：{{ discussData.user[0]['name'] }}</strong>
                 <br>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis porta eros lacus, nec ultricies elit blandit non. Suspendisse pellentesque mauris sit amet dolor blandit rutrum. Nunc in tempus turpis.
-                {{ discussData.body }}
+                讨论标题：{{ discussData.title }}
                 <br>
-                <small><a @click="deleteReply()">Delete</a> · <a>Reply</a> · {{ discussData.created_at }}</small>
+                讨论内容
+                {{ discussData.content }}
+                <br>
+                <small><a @click="deleteReply()">Delete</a> · {{ discussData.created_at }}</small>
               </p>
             </div>
 
@@ -29,14 +31,13 @@
                 </p> -->
               </figure>
               <div class="media-content">
-                <div v-for="(item, index) in replyData" class="content">
+                <div v-for="(item, index) in replyData" class="content reply-box">
                   <p>
-                    <strong>{{ item.user_name }} </strong>
+                    <strong>{{index + 1}}楼： {{ item.user[0]['name'] }} </strong>
                     <br>
-                    Sed convallis scelerisque mauris, non pulvinar nunc mattis vel. Maecenas varius felis sit amet magna vestibulum euismod malesuada cursus libero. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Phasellus lacinia non nisl id feugiat.
                     {{ item.body }}
                     <br>
-                    <small><a @click="deleteReply(index)">Delete</a> · <a>Reply</a> · {{ item.created_at }}</small>
+                    <small><a @click="deleteReply(index)">Delete</a> · {{ item.created_at }}</small>
                   </p>
                 </div>
               </div>
@@ -52,12 +53,12 @@
           <div class="media-content">
             <div class="field">
               <p class="control">
-                <textarea class="textarea" placeholder="Add a comment..."></textarea>
+                <textarea v-model="commentData" class="textarea" placeholder="Add a comment..."></textarea>
               </p>
             </div>
             <div class="field">
               <p class="control">
-                <button @click="postComment" class="button">发布评论</button>
+                <button @click="postComment()" class="button">发布评论</button>
               </p>
             </div>
           </div>
@@ -84,6 +85,7 @@ export default {
       allReply: [],
       searchResult: [],
       searchType: '',
+      commentData: '',
     }
   },
   components: {
@@ -100,56 +102,52 @@ export default {
       const that = this;
 
       let discuss_id = that.editData['id'];
-      let userid = sessionStorage.getItem('userid');
+      let userid = sessionStorage.getItem('userId');
 
-
-      let prompt = confirm("确认删除该讨论吗？");
-      // if (prompt) {
-      //   axios({
-      //     method: 'post',
-      //     url: `${this.GLOBAL.localDomain}/api/v1/discuss/replyDiscuss`,
-      //     headers: {
-      //       'Accept': 'application/json',
-      //       'Authorization': sessionStorage.getItem('token'),
-      //     },
-      //     params: {
-      //       userid:  // 回复的用户
-      //       discuss_id :  // 回复的主题id
-      //       body: // 回复的具体内容(这里用富文本)
-      //     }
-      //   }).then(res => {
-      //     alert('删除成功');
-      //     that.getReply()
-      //   }).catch(err => {
-      //     alert('删除失败')
-      //     console.log(err)
-      //   })
-      // }
+      axios({
+        method: 'post',
+        url: `${this.GLOBAL.localDomain}/api/v1/discuss/replyDiscuss`,
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': sessionStorage.getItem('token'),
+        },
+        params: {
+          userid:  userid,// 回复的用户
+          discuss_id :  discuss_id,// 回复的主题id
+          body: that.commentData,// 回复的具体内容(这里用富文本)
+        }
+      }).then(res => {
+        alert('评论成功');
+        that.getReply()
+      }).catch(err => {
+        alert('评论失败')
+        console.log(err)
+      })
     },
     deleteReply: function (index) {
       const that = this;
       console.log('删除')
-      // let id = that.replyData[index]['id'];
-      // let prompt = confirm("确认删除该讨论吗？");
-      // if (prompt) {
-      //   axios({
-      //     method: 'post',
-      //     url: `${this.GLOBAL.localDomain}/api/v1/discuss/deleteReply`,
-      //     headers: {
-      //       'Accept': 'application/json',
-      //       'Authorization': sessionStorage.getItem('token'),
-      //     },
-      //     params: {
-      //       id: id,
-      //     }
-      //   }).then(res => {
-      //     alert('删除成功');
-      //     that.getReply()
-      //   }).catch(err => {
-      //     alert('删除失败')
-      //     console.log(err)
-      //   })
-      // }
+      let id = that.replyData[index]['id'];
+      let prompt = confirm("确认删除该讨论吗？");
+      if (prompt) {
+        axios({
+          method: 'post',
+          url: `${this.GLOBAL.localDomain}/api/v1/discuss/deleteReply`,
+          headers: {
+            'Accept': 'application/json',
+            'Authorization': sessionStorage.getItem('token'),
+          },
+          params: {
+            id: id,
+          }
+        }).then(res => {
+          alert('删除成功');
+          that.getReply()
+        }).catch(err => {
+          alert('删除失败')
+          console.log(err)
+        })
+      }
     },
     // 通过discuss_id获取讨论信息
     getReplyForCid: function() {
@@ -167,7 +165,6 @@ export default {
         },
       }).then(res => {
         that.replyData = res.data;
-        debugger
       }).catch(err => {
         console.log(err);
       })
@@ -335,7 +332,9 @@ export default {
   watch: {
     isShowModal: function (value, oldValue) {
       const that = this;
-      that.getReplyForCid();
+      if (value) {
+        that.getReplyForCid();
+      }
     },
     editData: function (value, oldValue) {
       const that = this;
@@ -348,5 +347,8 @@ export default {
 <style lang="scss" scoped>
 .modal-content {
   width: 1200px;
+}
+.reply-box {
+  border-bottom: 1px solid #dedede;
 }
 </style>
