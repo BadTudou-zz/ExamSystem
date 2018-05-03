@@ -1,3 +1,4 @@
+
 export default[
   {path: '/', redirect: '/personalData'},
   // 主页
@@ -72,4 +73,10 @@ export default[
   { path: '/TeachingData', component: require('./components/PersonalCenter/TeachingData.vue') },
   // 管理中心
   { path: '/Setting', component: require('./components/Setting.vue') },
+  // webrtc
+  // { path: '/webrtc', component: require('./components/SurveillanceVideo/webrtc.vue') },
+  // webrtc
+  { path: '/VideoMonitoring', component: require('./components/SurveillanceVideo/VideoMonitoring.vue') },
+  // 管理中心
+  // { path: '/Setting', component: require('./components/SurveillanceVideo/Setting.vue') },
 ]
