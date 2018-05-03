@@ -164,7 +164,7 @@ class DiscussController extends Controller
 
         $comment = new Comment();
         $comment->discuss_id = $discuss_id;
-        $comment->userid = $userid;
+        $comment->user_id = $userid;
         $comment->body = $body;
         if ($comment->save()){
             return json_encode(["status"=>0,"message"=>"回复主题主题成功..."]);
