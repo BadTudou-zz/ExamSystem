@@ -24,7 +24,7 @@ class PaperController extends Controller
 {
     public function index(IndexPaper $request)
     {
-        return new PaperCollection(Paper::Tags($request->get('tags'))->paginate());
+        return new PaperCollection(Paper::SearchTags($request->get('tags'))->paginate());
     }
 
     public function store(StorePaper $request)
