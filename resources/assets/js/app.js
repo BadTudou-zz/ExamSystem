@@ -9,7 +9,7 @@
 import Vue from 'vue';
 import global_ from './components/Global'//引用文件
 import VueRouter from 'vue-router';
-import routes from './routes';    // 路由配置文件
+import routes from './routes2';    // 路由配置文件
 import global_css from '../../assets/sass/global.css';
 import VCharts from 'v-charts';
 import axios from 'axios'
@@ -109,6 +109,26 @@ axios.interceptors.response.use(function (response) {
   message.error(err.message);
   return Promise.reject(err);
 });
+
+// routes.beforeEach((to, from, next) => {
+//   if (to.meta.requireAuth) {  // 判断该路由是否需要登录权限
+//     if (store.state.token) {  // 通过vuex state获取当前的token是否存在
+//       next();
+//     }
+//     else {
+//       next({
+//         path: '/login',
+//         query: {redirect: to.fullPath}  // 将跳转的路由path作为参数，登录成功后跳转到该路由
+//       })
+//     }
+//   }
+//   else {
+//     next();
+//   }
+// }
+
+
+
 // // 实例化store
 // let store = new Vuex.Store({
 //   // state 全局使用的数据

@@ -24,7 +24,8 @@
                 <el-menu-item-group>
                   <template slot="title"></template>
                   <el-menu-item index="0-1"><router-link to="/personalData">个人信息</router-link></el-menu-item>
-                  <el-menu-item disabled index="0-2"><router-link to="/">考试中心</router-link></el-menu-item>
+                  <el-menu-item disabled index="0-2"><router-link to="/">题目练习</router-link></el-menu-item>
+                  <el-menu-item disabled index="0-3"><router-link to="/">考试测评</router-link></el-menu-item>
                 </el-menu-item-group>
               </el-submenu>
 
@@ -110,13 +111,14 @@
               <el-submenu index="4" v-show="isShowQuestion || isShowPaper || isShowExam">
                 <template slot="title">
                   <i class="el-icon-edit-outline"></i>
-                  <span>考试管理</span>
+                  <span>测评管理</span>
                 </template>
                 <el-menu-item-group>
                   <template slot="title"></template>
                   <el-menu-item v-show="isShowQuestion" index="4-1"><router-link to="/question">题目</router-link></el-menu-item>
                   <el-menu-item v-show="isShowPaper" index="4-2"><router-link to="/examinationPaper">试卷</router-link></el-menu-item>
                   <el-menu-item v-show="isShowExam" index="4-3"><router-link to="/test">考试</router-link></el-menu-item>
+                  <!-- <el-menu-item index="4-4"><router-link to="/practice">练习</router-link></el-menu-item> -->
                 </el-menu-item-group>
               </el-submenu>
 
