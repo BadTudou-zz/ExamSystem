@@ -31,7 +31,7 @@ class Update extends FormRequest
         return [
             'title' => 'max:120',
             'paper_id' => 'exists:papers,id',
-            'exam_type' => 'in:OPEN',
+            'exam_type' => 'in:PRACTICE,EXAM',
             'describe' => 'max:255',
             'score' => '',
             'min' => '',

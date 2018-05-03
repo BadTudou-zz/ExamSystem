@@ -43,7 +43,7 @@ class Paper extends Model
         return Tag::whereIn('id', explode(",", $this->tags))->get();
     }
 
-    public function scopeTags($query, $tag)
+    public function scopeSearchTags($query, $tag)
     {
         return $tag ? $query->where('tags', $tag) : $query;
     }
