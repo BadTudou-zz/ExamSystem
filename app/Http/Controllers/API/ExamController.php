@@ -92,12 +92,14 @@ class ExamController extends Controller
     {
         $user = Auth::user();
         $exam = $user->exams()->where('exam_id', $id)->first();
-        if (!$exam->begin_at || !$exam->start_at) {
-            return response()->json(['error'=>'考试还未开始，请耐心等待！'], 400);
-        }
+        if ($exam->type == 'EXAM') {
+            if (!$exam->begin_at || !$exam->start_at) {
+                return response()->json(['error'=>'考试还未开始，请耐心等待！'], 400);
+            }
 
-        if ($exam->finish_at) {
-            return response()->json(['error'=>'考试已经结束，不能提交答案！'], 400);
+            if ($exam->finish_at) {
+                return response()->json(['error'=>'考试已经结束，不能提交答案！'], 400);
+            }
         }
         $answersSaved = json_decode($exam->pivot->answers);
         $answersNew = json_decode($request->answers);
@@ -133,13 +135,14 @@ class ExamController extends Controller
     {
         $user = Auth::user();
         $exam = $user->exams()->where('exam_id', $id)->first();
+        if ($exam->type == 'EXAM') {
+            if (!$exam->start_at) {
+                return response()->json(['error'=>'考试还未开始，请耐心等待！'], 400);
+            }
 
-        if (!$exam->start_at) {
-            return response()->json(['error'=>'考试还未开始，请耐心等待！'], 400);
-        }
-
-        if ($exam->finish_at) {
-            return response()->json(['error'=>'考试已经结束，不能参加！'], 400);
+            if ($exam->finish_at) {
+                return response()->json(['error'=>'考试已经结束，不能参加！'], 400);
+            }
         }
 
         if (!$exam->pivot->begin_at) {
@@ -156,13 +159,14 @@ class ExamController extends Controller
     {
         $user = Auth::user();
         $exam = $user->exams()->where('exam_id', $id)->first();
+        if ($exam->type == 'EXAM') {
+            if (!$exam->begin_at) {
+                return response()->json(['error'=>'考试还未开始，不能结束！'], 400);
+            }
 
-        if (!$exam->begin_at) {
-            return response()->json(['error'=>'考试还未开始，不能结束！'], 400);
-        }
-
-        if ($exam->finish_at) {
-            return response()->json(['error'=>'考试已经结束，不能重复结束！'], 400);
+            if ($exam->finish_at) {
+                return response()->json(['error'=>'考试已经结束，不能重复结束！'], 400);
+            }
         }
 
         if (!$exam->pivot->finish_at) {
@@ -180,15 +184,53 @@ class ExamController extends Controller
     {
         $exam = Exam::find($id);
 
-        if (!$exam->begin_at) {
-            return response()->json(['error'=>'考试未开始，不能批改！'], 400);
-        }
+        if ($exam->type == 'EXAM') {
+            if (!$exam->begin_at) {
+                return response()->json(['error'=>'考试未开始，不能批改！'], 400);
+            }
 
-        if (!$exam->finish_at) {
-            return response()->json(['error'=>'考试未结束，不能批改！'], 400);
+            if (!$exam->finish_at) {
+                return response()->json(['error'=>'考试未结束，不能批改！'], 400);
+            }
         }
 
         CorrecExam::dispatch($exam);
+    }
+
+    public function check(BeginExam $request, $id)
+    {
+        $user = Auth::user();
+        $exam = $user->exams()->where('exam_id', $id)->first();
+
+
+        if ($exam->type == 'EXAM') {
+            return response()->json(['error'=>'正式考试，无法自动评测！'], 400);
+        }
+
+        $questions = $exam->paper->questions();
+        $scores = $exam->paper->scores();
+        $answers = json_decode($exam->pivot->answers);
+        $result = [];
+        $score = 0;
+        foreach ($answers as $key => $answer) {
+            $question =  $questions->first(function ($item) use($key) {
+                    return $item->id == $key;
+            });
+            if($question->answer == trim($answer)){
+                $score += $scores[$key];
+                array_push($result, [$key => ['status' => true, 'content' => $answer, 'answer' => $question->answer]]);
+            } else {
+                array_push($result, [$key => ['status' => false, 'content' => $answer, 'answer' => $question->answer]]);
+            }
+
+        }
+        $exam->pivot->result = json_encode($result);
+        $exam->pivot->score = $score;
+        $exam->pivot->correct_at = Carbon::now();
+        $exam->pivot->touch();
+        $exam->pivot->save();
+
+        return $exam;
     }
 
     //查看分数
@@ -197,12 +239,14 @@ class ExamController extends Controller
         $user = Auth::user();
         $exam = $user->exams()->where('exam_id', $id)->first();
 
-        if (!$exam->begin_at) {
-            return response()->json(['error'=>'考试未开始，不能查看！'], 400);
-        }
+        if ($exam->type == 'EXAM') {
+            if (!$exam->begin_at) {
+                return response()->json(['error'=>'考试未开始，不能查看！'], 400);
+            }
 
-        if (!$exam->finish_at) {
-            return response()->json(['error'=>'考试未结束，不能查看！'], 400);
+            if (!$exam->finish_at) {
+                return response()->json(['error'=>'考试未结束，不能查看！'], 400);
+            }
         }
        return response($exam->pivot);
     }
