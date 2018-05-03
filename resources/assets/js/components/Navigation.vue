@@ -128,6 +128,7 @@
                 <el-menu-item-group>
                   <template slot="title"></template>
                   <el-menu-item v-show="isShowTag" index="5-1"><router-link to="/label">标签</router-link></el-menu-item>
+                  <!-- <el-menu-item v-show="isShowTag" index="5-2"><router-link to="/webrtc">webrtc</router-link></el-menu-item> -->
                 </el-menu-item-group>
               </el-submenu>
             </el-menu>

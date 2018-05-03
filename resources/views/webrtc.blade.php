@@ -23,7 +23,7 @@
 
 
 <script>
-    // websocket 
+    // websocket
     //const WebSocket = require('ws');
 
     const ws = new WebSocket('wss://www.badtudou.com:8080');
@@ -65,12 +65,12 @@
         ws.send(JSON.stringify(jsonData));
     }
 
-    
+
 
      ws.onopen = function (data) {
         authentication();
         console.log('申请认证');
-       
+
     };
 
     ws.onmessage = function(event) {

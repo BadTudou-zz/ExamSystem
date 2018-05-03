@@ -72,4 +72,8 @@ export default[
   { path: '/TeachingData', component: require('./components/PersonalCenter/TeachingData.vue') },
   // 管理中心
   { path: '/Setting', component: require('./components/Setting.vue') },
+  // webrtc
+  // { path: '/webrtc', component: require('./components/SurveillanceVideo/webrtc.vue') },
+  // 管理中心
+  // { path: '/Setting', component: require('./components/SurveillanceVideo/Setting.vue') },
 ]
