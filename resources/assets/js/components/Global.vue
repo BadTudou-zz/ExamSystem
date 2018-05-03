@@ -22,6 +22,10 @@ import moment from 'moment'
     return moment(time).format('YYYY-MM-DD');
   };
 
+  const toServerTime = function (time) {
+    return moment(time).format('YYYY-MM-DD hh:mm:ss');
+  };
+
   const getData = function (url, list) {
     const that = this;
     let sumDataList = [];
@@ -130,6 +134,7 @@ import moment from 'moment'
 
     // methods
     toTime,
+    toServerTime,
     getData,
     getNextData,
     computedParams,

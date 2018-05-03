@@ -34,7 +34,7 @@ class PreviewController extends Controller
 
         $preview->userid = $userid;
         $preview->cid = $cid;
-        $preview->name = $previewName;
+        $preview->preview_name = $previewName;
         $preview->desc = $desc;
         $preview->content = $content;
         $preview->end_time = $endTime;
@@ -99,7 +99,7 @@ class PreviewController extends Controller
         $id = $request->input('id');
         $preview = Preview::find($id);
         $preview->is_publish = $isPublish;
-        $preview->name = $previewName;
+        $preview->preview_name = $previewName;
         $preview->content = $content;
         $preview->end_time = $endTime;
         $preview->cid = $cid;
@@ -121,7 +121,7 @@ class PreviewController extends Controller
 
         $cid = $request->input('cid');
         $doc = new Preview();
-        $data = $doc->where("cid",$cid)->get()->toJson();
+        $data = $doc->where("cid",$cid)->where("is_publish",1)->get()->toJson();
         return $data;
     }
 
@@ -136,7 +136,7 @@ class PreviewController extends Controller
 
         $userid = $request->input('userid');
         $preview = new Preview();
-        $data = $preview->where("userid",$userid)->get()->toJson();
+        $data = $preview->where("userid",$userid)->where("is_publish",1)->get()->toJson();
         return $data;
     }
 

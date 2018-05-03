@@ -39,6 +39,7 @@
             <button @click="showPreview(index)" class="button is-small" type="button" name="button">预习</button>
             <button @click="showVideoInfo(index)" class="button is-small" type="button" name="button">视频</button>
             <button @click="showFileInfo(index)" class="button is-small" type="button" name="button">文件</button>
+            <button @click="showDiscuss(index)" class="button is-small" type="button" name="button">讨论</button>
           </td>
         </tr>
       </tbody>
@@ -81,6 +82,12 @@
              v-on:getTeaching="getTeaching"
     ></preview>
 
+    <discuss ref="discuss"
+             v-bind:current-teaching-data="currentTeachingData"
+             v-on:getTeaching="getTeaching"
+    ></discuss>
+
+
   </div>
 </template>
 
@@ -93,6 +100,7 @@ import Detail from './Detail'
 import VideoInfo from '../VideoInfo/VideoInfo'
 import FileInfo from '../FileInfo/FileInfo'
 import Preview from '../Preview/Preview'
+import Discuss from '../Discuss/Discuss'
 
 export default {
   data() {
@@ -119,6 +127,7 @@ export default {
     VideoInfo,
     FileInfo,
     Preview,
+    Discuss,
   },
   methods: {
     showModal: function () {
@@ -291,6 +300,11 @@ export default {
       const that = this;
       that.currentTeachingData = that.teachingData[index];
       that.$refs.preview.switchModal();
+    },
+    showDiscuss: function (index) {
+      const that = this;
+      that.currentTeachingData = that.teachingData[index];
+      that.$refs.discuss.switchModal();
     }
   },
   computed: {
