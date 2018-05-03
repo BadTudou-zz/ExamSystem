@@ -12,14 +12,6 @@
           <input v-model="practiceData.title" class="input" type="text" >
         </div>
         <div class="box-item">
-          <label>类型</label>
-          <div class="select">
-            <select v-model="practiceData.exam_type">
-              <option value="OPEN">开卷</option>
-            </select>
-          </div>
-        </div>
-        <div class="box-item">
           <label>描述</label>
           <input v-model="practiceData.describe" class="input" type="text">
         </div>
@@ -75,7 +67,6 @@ export default {
       isShowModal: false,
       practiceData: {
         title: '',
-        exam_type: '',
         describe: '',
         score: '',
         min: '',
@@ -99,7 +90,6 @@ export default {
     clearWords: function () {
       const that = this;
       that.practiceData.title =  '';
-      that.practiceData.exam_type =  '';
       that.practiceData.describe =  '';
       that.practiceData.score =  '';
       that.practiceData.min =  '';
@@ -109,6 +99,10 @@ export default {
     editPractice: function (index) {
       const that = this;
       let id = that.editData.id;
+      if (!that.practiceData.title || !that.practiceData.describe || !that.practiceData.score ||
+          !that.practiceData.min   || !that.practiceData.begin_at || !that.selectedExaminationPaper) {
+        alert('请确认内容是否填写完整')
+      }
       axios({
         method: 'put',
         url: `${this.GLOBAL.localDomain}/api/v1/exams/${id}`,
@@ -118,7 +112,7 @@ export default {
         },
         params: {
           title: that.practiceData.title,
-          exam_type: that.practiceData.exam_type,
+          exam_type: 'PRACTICE',
           describe: that.practiceData.describe,
           score: that.practiceData.score,
           min: that.practiceData.min,
@@ -161,7 +155,6 @@ export default {
       that.getExaminationPaper();
 
       that.practiceData.title = value.title;
-      that.practiceData.exam_type = value.exam_type;
       that.practiceData.describe = value.describe;
       that.practiceData.score = value.score;
       that.practiceData.min = value.min;

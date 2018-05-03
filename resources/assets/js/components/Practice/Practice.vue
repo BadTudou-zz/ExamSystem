@@ -141,30 +141,30 @@ export default {
         })
       }
     },
-    searchPractice: function () {
-      const that = this;
-      let id = that.searchKey;
-      if (!id) {
-        that.searchKey = '';
-        that.getPractice();
-        return;
-      }
-      axios({
-        method: 'get',
-        url: `${this.GLOBAL.localDomain}/api/v1/exams/${id}`,
-        headers: {
-          'Accept': 'application/json',
-          'Authorization': sessionStorage.getItem('token'),
-        }
-      }).then(res => {
-        // that.practiceData = res.data.data
-        that.practiceData = [];
-        that.practiceData.push(res.data.data);
-      }).catch(err => {
-        alert('查找失败，已加载全部数据')
-        console.log(err)
-      })
-    },
+    // searchPractice: function () {
+    //   const that = this;
+    //   let id = that.searchKey;
+    //   if (!id) {
+    //     that.searchKey = '';
+    //     that.getPractice();
+    //     return;
+    //   }
+    //   axios({
+    //     method: 'get',
+    //     url: `${this.GLOBAL.localDomain}/api/v1/exams/${id}`,
+    //     headers: {
+    //       'Accept': 'application/json',
+    //       'Authorization': sessionStorage.getItem('token'),
+    //     }
+    //   }).then(res => {
+    //     // that.practiceData = res.data.data
+    //     that.practiceData = [];
+    //     that.practiceData.push(res.data.data);
+    //   }).catch(err => {
+    //     alert('查找失败，已加载全部数据')
+    //     console.log(err)
+    //   })
+    // },
     searchPractice: function () {
       const that = this;
       // 如果没有搜索值
@@ -194,7 +194,7 @@ export default {
       }
       // 如果有搜索值并且还未获取全部数据
       else {
-        let url = `${this.GLOBAL.localDomain}/api/v1/exams/`;
+        let url = `${this.GLOBAL.localDomain}/api/v1/exams`;
         that.getAllPractice(url);
       }
     },
@@ -207,6 +207,9 @@ export default {
         headers: {
           'Accept': 'application/json',
           'Authorization': sessionStorage.getItem('token'),
+        },
+        params: {
+          type: 'PRACTICE'
         }
       }).then(res => {
         that.url = res.data.links.next;
@@ -239,10 +242,13 @@ export default {
       const that = this;
       axios({
         method: 'get',
-        url: `${this.GLOBAL.localDomain}/api/v1/exams/`,
+        url: `${this.GLOBAL.localDomain}/api/v1/exams`,
         headers: {
           'Accept': 'application/json',
           'Authorization': sessionStorage.getItem('token'),
+        },
+        params: {
+          type: 'PRACTICE'
         }
       }).then(res => {
         if (res.data.data.length !== 0) {

@@ -118,7 +118,7 @@
                   <el-menu-item v-show="isShowQuestion" index="4-1"><router-link to="/question">题目</router-link></el-menu-item>
                   <el-menu-item v-show="isShowPaper" index="4-2"><router-link to="/examinationPaper">试卷</router-link></el-menu-item>
                   <el-menu-item v-show="isShowExam" index="4-3"><router-link to="/test">考试</router-link></el-menu-item>
-                  <!-- <el-menu-item index="4-4"><router-link to="/practice">练习</router-link></el-menu-item> -->
+                  <el-menu-item index="4-4"><router-link to="/practice">练习</router-link></el-menu-item>
                 </el-menu-item-group>
               </el-submenu>
 

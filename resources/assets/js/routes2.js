@@ -33,6 +33,7 @@ import CourseData from './components/PersonalCenter/CourseData.vue'
 import TeachingData from './components/PersonalCenter/TeachingData.vue'
 import Setting from './components/Setting.vue'
 import VideoMonitoring from './components/SurveillanceVideo/VideoMonitoring.vue'
+import Practice from './components/Practice/Practice.vue'
 
 export default [
   {
@@ -286,5 +287,13 @@ export default [
     meta: {
       requireAuth: true
     }
-  }
+  },
+  {
+    path: '/Practice',
+    name: '练习',
+    component: Practice,
+    meta: {
+      requireAuth: true
+    }
+  },
 ]
