@@ -90,7 +90,11 @@ class DiscussController extends Controller
 
         $discuss = new Discuss();
 
-        $data = $discuss->where("userid",$userid)->get()->toJson();
+        $data = $discuss->where("userid",$userid)->get();
+        foreach ($data as $value){
+            ($value->user[0]->name);
+        }
+        $data = $data->toJson();
         return $data;
     }
 
@@ -106,7 +110,11 @@ class DiscussController extends Controller
 
         $discuss = new Discuss();
 
-        $data = $discuss->where("l_id",$lid)->get()->toJson();
+        $data = $discuss->where("l_id",$lid)->get();
+        foreach ($data as $value){
+            ($value->user[0]->name);
+        }
+        $data = $data->toJson();
         return $data;
     }
 
@@ -117,7 +125,11 @@ class DiscussController extends Controller
             return response()->json(['message' => 'unauthorized '],401);
         }
         $discuss = new Discuss();
-        $data = $discuss->get()->toJson();
+        $data = $discuss->get();
+        foreach ($data as $value){
+            ($value->user[0]->name);
+        }
+        $data = $data->toJson();
         return $data;
     }
 
@@ -129,7 +141,12 @@ class DiscussController extends Controller
         }
         $discuss_id = $request->input("discuss_id");
         $discuss = Discuss::find($discuss_id);
+
+        foreach ($discuss->replys as $value) {
+            ($value->user);
+        }
         $discuss->replys;
+        $discuss->user;
         return $discuss->toJson();
 
     }
@@ -147,7 +164,7 @@ class DiscussController extends Controller
 
         $comment = new Comment();
         $comment->discuss_id = $discuss_id;
-        $comment->userid = $userid;
+        $comment->user_id = $userid;
         $comment->body = $body;
         if ($comment->save()){
             return json_encode(["status"=>0,"message"=>"回复主题主题成功..."]);
@@ -175,7 +192,11 @@ class DiscussController extends Controller
         }
         $userid = $request->input("userid");
         $comments = new Comment();
-        $data = $comments->where("user_id",$userid)->get()->toJson();
+        $data = $comments->where("user_id",$userid)->get();
+        foreach ($data as $value) {
+            $value->user;
+        }
+        $data = $data->toJson();
         return $data;
     }
     public function selectReplyForDid(Request $request) {
@@ -186,7 +207,12 @@ class DiscussController extends Controller
         }
         $discuss_id = $request->input("discuss_id");
         $comments = new Comment();
-        $data = $comments->where("discuss_id",$discuss_id)->get()->toJson();
+        $data = $comments->where("discuss_id",$discuss_id)->get();
+
+        foreach ($data as $value) {
+            ($value->user[0]->name);
+        }
+        $data = $data->toJson();
         return $data;
     }
 
@@ -197,7 +223,11 @@ class DiscussController extends Controller
             return response()->json(['message' => 'unauthorized '],401);
         }
         $comment = new Comment();
-        $data = $comment->get()->toJson();
+        $data = $comment->get();
+        foreach ($data as $value) {
+            $value->user;
+        }
+        $data = $data->toJson();
         return $data;
     }
 

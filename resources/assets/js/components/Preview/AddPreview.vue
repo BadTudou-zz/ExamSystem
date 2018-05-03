@@ -91,7 +91,6 @@ export default {
       that.cid = teachingId;  // 授课ID
       let a = that.previewData.endTime;
       let time = this.GLOBAL.toServerTime(that.previewData.endTime);
-      debugger
 
       axios({
         method: 'POST',

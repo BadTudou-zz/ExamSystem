@@ -42,6 +42,7 @@
               <td>{{ item.content }}</td>
               <td>
                 <button disabled @click="publishDiscuss(index)" class="button is-small" type="button" name="button">发布讨论</button>
+                <button @click="reply(index)" class="button is-small" type="button" name="button">查看讨论</button>
                 <div @click="deleteDiscuss(index)" class="icon-button"><i class="far fa-trash-alt"></i></div>
                 <div @click="editDiscuss(index)" class="icon-button"><i class="fas fa-edit"></i></div>
               </td>
@@ -63,6 +64,11 @@
                   v-bind:edit-data="editData"
     ></edit-discuss>
 
+    <reply ref="reply"
+           v-on:getDiscuss="getDiscuss"
+           v-bind:edit-data="editData"
+    ></reply>
+
   </div>
 
 </template>
@@ -70,6 +76,7 @@
 <script>
 import AddDiscuss from './AddDiscuss'
 import EditDiscuss from './EditDiscuss'
+import Reply from './Reply'
 
 export default {
   data() {
@@ -88,6 +95,7 @@ export default {
   components: {
     AddDiscuss,
     EditDiscuss,
+    Reply,
   },
   props: [
     'currentTeachingData'
@@ -96,6 +104,11 @@ export default {
     switchModal: function () {
       const that = this;
       that.isShowModal = !that.isShowModal;
+    },
+    reply: function (index) {
+      const that = this;
+      that.editData = that.discussData[index];
+      that.$refs.reply.switchModal();
     },
     addDiscuss: function() {
       const that = this;
@@ -323,7 +336,7 @@ export default {
 }
 </script>
 
-// <style lang="scss" scoped>
+<style lang="scss" scoped>
 table {
   margin: 35px auto 0 auto;
 }
