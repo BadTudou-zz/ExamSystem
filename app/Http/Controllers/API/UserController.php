@@ -169,11 +169,11 @@ class UserController extends Controller
         $type = $request->get('type', null);
         $exams = $user->exams();
         if ($type == 'PRACTICE') {
-            $exams = $user->exams()->where('type', 'PRACTICE')->get();
+            $exams = $user->exams()->where('exam_type', 'PRACTICE')->get();
         } 
 
         if ($type == 'EXAM') {
-            $exams = $user->exams()->where('type', 'EXAM')->get();
+            $exams = $user->exams()->where('exam_type', 'EXAM')->get();
         } 
         
         return ExamResource::collection(OrmUtil::paginate($exams));

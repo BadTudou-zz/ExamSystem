@@ -31,11 +31,11 @@ class ExamController extends Controller
     {
         $type = $request->get('type', null);
         if ($type == 'PRACTICE') {
-            return ExamResource::collection(Exam::where('type', 'PRACTICE')->paginate());
+            return ExamResource::collection(Exam::where('exam_type', 'PRACTICE')->paginate());
         } 
 
         if ($type == 'EXAM') {
-            return ExamResource::collection(Exam::where('type', 'EXAM')->paginate());
+            return ExamResource::collection(Exam::where('exam_type', 'EXAM')->paginate());
         } 
 
     	return  ExamResource::collection(Exam::paginate());
