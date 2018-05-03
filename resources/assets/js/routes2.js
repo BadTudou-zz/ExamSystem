@@ -1,3 +1,60 @@
+import Home from './components/Home.vue'
+import login from './components/Login.vue'
+import UUser from './components/User/UUser.vue'
+import View from './components/User/View.vue'
+import Role from './components/Role/Role.vue'
+import Permission from './components/Role/Permission.vue'
+import PPermission from './components/Permission/PPermission.vue'
+import MMessage from './components/Message/MMessage.vue'
+import Organization from './components/Organization/Organization.vue'
+import Course from './components/Course/Course.vue'
+import Teaching from './components/Teaching/Teaching.vue'
+import CourseAndTeaching from './components/CourseAndTeaching.vue'
+import Question from './components/Question/Question.vue'
+import ExaminationPaper from './components/ExaminationPaper/ExaminationPaper.vue'
+import Chapter from './components/Chapter/Chapter.vue'
+import TestAndPaperAndQuesiton from './components/TestAndPaperAndQuesiton.vue'
+import Others from './components/Others.vue'
+import ApplyFor from './components/ApplyFor/ApplyFor.vue'
+import Label from './components/Label/Label.vue'
+import Test from './components/Test/Test.vue'
+import VideoInfo from './components/VideoInfo/VideoInfo.vue'
+import PersonalData from './components/PersonalCenter/PersonalData.vue'
+import MessageData from './components/PersonalCenter/MessageData.vue'
+import NoticeData from './components/PersonalCenter/NoticeData.vue'
+import LectureData from './components/PersonalCenter/LectureData.vue'
+import OrganizationData from './components/PersonalCenter/OrganizationData.vue'
+import RoleData from './components/PersonalCenter/RoleData.vue'
+import PermissionData from './components/PersonalCenter/PermissionData.vue'
+import ApplyForData from './components/PersonalCenter/ApplyForData.vue'
+import TestData from './components/PersonalCenter/TestData.vue'
+import CourseData from './components/PersonalCenter/CourseData.vue'
+import TeachingData from './components/PersonalCenter/TeachingData.vue'
+import Setting from './components/Setting.vue'
+import VideoMonitoring from './components/SurveillanceVideo/VideoMonitoring.vue'
+
+const routes = [
+  {
+    path: '/',
+    name: '/',
+    // component: Index
+    redirect: '/personalData',
+  },
+  {
+    path: '/repository',
+    name: 'repository',
+    meta: {
+      requireAuth: true,  // 添加该字段，表示进入这个路由是需要登录的
+    },
+    component: Repository
+  },
+  {
+    path: '/login',
+    name: 'login',
+    component: Login
+  }
+];
+
 export default[
   {path: '/', redirect: '/personalData'},
   // 主页
