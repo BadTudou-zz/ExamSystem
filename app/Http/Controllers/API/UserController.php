@@ -200,7 +200,7 @@ class UserController extends Controller
             $data['user'] = $user;
             return response()->json(['data' => $data], $this->successStatus);
         } else {
-            return response()->json(['error'=>'Unauthorised'], 401);
+            return response()->json(['error'=>'用户邮箱或密码有误'], 422);
         }
     }
 
