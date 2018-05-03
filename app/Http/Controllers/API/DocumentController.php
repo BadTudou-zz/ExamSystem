@@ -62,7 +62,11 @@ class DocumentController extends Controller
 
         $userid = $request->input('userid');
         $doc = new Document();
-        $data = $doc->where("userid",$userid)->get()->toJson();
+        $data = $doc->where("userid",$userid)->get();
+        foreach ($data as $value) {
+            $value->user;
+        }
+        $data = $data->toJson();
         return $data;
     }
     public function selectForCid(Request $request) {
@@ -75,7 +79,11 @@ class DocumentController extends Controller
 
         $cid = $request->input('cid');
         $doc = new Document();
-        $data = $doc->where("cid",$cid)->get()->toJson();
+        $data = $doc->where("cid",$cid)->get();
+        foreach ($data as $value) {
+            $value->user;
+        }
+        $data = $data->toJson();
         return $data;
     }
     public function delete(Request $request) {
@@ -127,7 +135,11 @@ class DocumentController extends Controller
         }
 
         $preview = new Document();
-        $data = $preview->get()->toJson();
+        $data = $preview->get();
+        foreach ($data as $value) {
+            $value->user;
+        }
+        $data = $data->toJson();
         return $data;
     }
 

@@ -121,7 +121,11 @@ class PreviewController extends Controller
 
         $cid = $request->input('cid');
         $doc = new Preview();
-        $data = $doc->where("cid",$cid)->where("is_publish",1)->get()->toJson();
+        $data = $doc->where("cid",$cid)->where("is_publish",1)->get();
+        foreach ($data as $value) {
+            $value->user;
+        }
+        $data = $data->toJson();
         return $data;
     }
 
@@ -136,7 +140,11 @@ class PreviewController extends Controller
 
         $userid = $request->input('userid');
         $preview = new Preview();
-        $data = $preview->where("userid",$userid)->where("is_publish",1)->get()->toJson();
+        $data = $preview->where("userid",$userid)->where("is_publish",1)->get();
+        foreach ($data as $value) {
+            $value->user;
+        }
+        $data = $data->toJson();
         return $data;
     }
 
@@ -149,7 +157,11 @@ class PreviewController extends Controller
         }
 
         $preview = new Preview();
-        $data = $preview->get()->toJson();
+        $data = $preview->get();
+        foreach ($data as $value) {
+            $value->user;
+        }
+        $data = $data->toJson();
         return $data;
     }
 
