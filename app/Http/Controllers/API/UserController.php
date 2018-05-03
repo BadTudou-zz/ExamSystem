@@ -62,11 +62,12 @@ class UserController extends Controller
 
     public function updatePassword(UpdateUserPassword $request, $id)
     {
-        $user = User::find($id);
+        $user = $request->user();
         if ( Hash::check($request->get('password'), $user->password) ) {
             $user->update(['password' => Hash::make(trim($request->get('newPassword')))]) ;
+            $user->tokens()->delete();
         } else {
-            return response()->json(['error'=>' password error'], 401);
+            return response()->json(['error'=>'原密码错误'], 422);
         }
     }
 
@@ -199,8 +200,20 @@ class UserController extends Controller
             $data['user'] = $user;
             return response()->json(['data' => $data], $this->successStatus);
         } else {
-            return response()->json(['error'=>'Unauthorised'], 401);
+            return response()->json(['error'=>'用户邮箱或密码有误'], 422);
         }
+    }
+
+    /**
+     * login api
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function logout(Request $request)
+    {   
+        $user = Auth::user();
+        // 删除之前的令牌
+        $user->tokens()->delete();
     }
 
     /**
