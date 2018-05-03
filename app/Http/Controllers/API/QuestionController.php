@@ -21,7 +21,7 @@ class QuestionController extends Controller
 {
     public function index(IndexQuestion $request)
     {
-        return new QuestionCollection(Question::Tags($request->get('tags'))->paginate());
+        return new QuestionCollection(Question::SearchTags($request->get('tags'))->paginate());
     }
 
     public function show(ShowQuestion $request, $id)
