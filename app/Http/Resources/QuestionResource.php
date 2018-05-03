@@ -25,6 +25,7 @@ class QuestionResource extends Resource
             'title' => $this->title,
             'body' => explode($type->delimiter, $this->body),
             'answer' => explode($type->delimiter, $this->answer),
+            'tags' => $this->tags,
             'answer_comment' => $this->answer_comment,
             'created_at' => $this->created_at->toDateTimeString(),
             'updated_at' => $this->updated_at->toDateTimeString()

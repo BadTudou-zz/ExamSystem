@@ -24,7 +24,7 @@ class PaperController extends Controller
 {
     public function index(IndexPaper $request)
     {
-        return new PaperCollection(Paper::paginate());
+        return new PaperCollection(Paper::Tags($request->get('tags'))->paginate());
     }
 
     public function store(StorePaper $request)
@@ -34,6 +34,10 @@ class PaperController extends Controller
                 'creator_id' => Auth::user()->id
             ]
         );
+        if ($request->has('tags')) {
+            $request['tags'] = implode(",", $request->tags);
+        }
+
         if ($request->has('sections')) {
                 $request['sections'] = implode(",", $request->sections);
         }
@@ -62,6 +66,9 @@ class PaperController extends Controller
         $paper = Paper::findOrFail($id);
         if ($request->has('sections')) {
                 $request['sections'] = implode(",", $request->sections);
+        }
+        if ($request->has('tags')) {
+            $request['tags'] = implode(",", $request->tags);
         }
         $paper->update($request->all());
         return new PaperResource($paper);
