@@ -30,4 +30,10 @@ class Discuss extends Model
     {
         return $this->hasMany('App\Models\Comment', 'discuss_id');
     }
+
+    public function user()
+    {
+        return $this->hasMany('App\User', 'id','userid');
+    }
+
 }
