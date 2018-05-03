@@ -62,11 +62,12 @@ class UserController extends Controller
 
     public function updatePassword(UpdateUserPassword $request, $id)
     {
-        $user = User::find($id);
+        $user = $request->user();
         if ( Hash::check($request->get('password'), $user->password) ) {
             $user->update(['password' => Hash::make(trim($request->get('newPassword')))]) ;
+            $user->tokens()->delete();
         } else {
-            return response()->json(['error'=>' password error'], 401);
+            return response()->json(['error'=>'原密码错误'], 422);
         }
     }
 
