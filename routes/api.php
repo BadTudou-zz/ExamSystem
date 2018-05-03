@@ -119,7 +119,7 @@ Route::prefix('v1')->middleware(['auth:api'])->group(function () {
     Route::post('discuss/replyDiscuss', 'API\DiscussController@replyDiscuss');
     Route::post('discuss/deleteReply', 'API\DiscussController@deleteReply');
     Route::post('discuss/selectReplyForUserid', 'API\DiscussController@selectReplyForUserid');
-    Route::post('discuss/selectReplyForDid', 'API\DiscussController@selectReplyForLid');
+    Route::post('discuss/selectReplyForDid', 'API\DiscussController@selectReplyForDid');
     Route::post('discuss/selectReplyAll', 'API\DiscussController@selectReplyAll');
 
 
@@ -213,6 +213,8 @@ Route::prefix('v1')->middleware(['auth:api'])->group(function () {
     Route::post('exams/{id}/stop', 'API\ExamController@stop');
     // 考试批改
     Route::post('exams/{id}/correct', 'API\ExamController@correct');
+    // 考试评测
+    Route::get('exams/{id}/check', 'API\ExamController@check');
     // 用户开始考试
     Route::post('exams/{id}/begin', 'API\ExamController@begin');
     // 用户结束考试
