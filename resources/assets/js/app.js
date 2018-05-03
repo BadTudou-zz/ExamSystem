@@ -9,9 +9,10 @@
 import Vue from 'vue';
 import global_ from './components/Global'//引用文件
 import VueRouter from 'vue-router';
-import routes from './routes';    // 路由配置文件
+import routes from './routes2';    // 路由配置文件
 import global_css from '../../assets/sass/global.css';
 import VCharts from 'v-charts';
+import axios from 'axios'
 
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
@@ -39,15 +40,94 @@ Vue.component('login', require('./components/Login.vue'));
 Vue.component('register', require('./components/Register.vue'));
 Vue.component('app', require('./components/App.vue'));
 
-
-// const app = new Vue({
-//     el: '#app'
-// });
-
 // 实例化路由
 const router = new VueRouter({
-    routes
+  routes
+})
+
+axios.interceptors.response.use(function (response) {
+  return response;
+}, function (err) {
+  if (err && err.response) {
+    switch (err.response.status) {
+      case 400:
+        err.message = '请求错误(400)' ;
+        alert(err.message);
+        break;
+      case 401:
+        err.message = '未授权，请重新登录(401)';
+        alert(err.message);
+        break;
+      case 403:
+        err.message = '拒绝访问(403)';
+        alert(err.message);
+        break;
+      case 404:
+        err.message = '请求出错(404)';
+        alert(err.message);
+        break;
+      case 408:
+        err.message = '请求超时(408)';
+        alert(err.message);
+        break;
+      case 422:
+        alert(err.response.data.message)
+        break;
+      case 500:
+        err.message = '服务器错误(500)';
+        alert(err.message);
+        break;
+      case 501:
+        err.message = '服务未实现(501)';
+        alert(err.message);
+        break;
+      case 502:
+        err.message = '网络错误(502)';
+        alert(err.message);
+        break;
+      case 503:
+        err.message = '服务不可用(503)';
+        alert(err.message);
+        break;
+      case 504:
+        err.message = '网络超时(504)';
+        alert(err.message);
+        break;
+      case 505:
+        err.message = 'HTTP版本不受支持(505)';
+        alert(err.message);
+        break;
+      default:
+        err.message = `连接出错(${err.response.status})!`
+        alert(err.message);
+    }
+  }
+  else {
+    alert('连接服务器失败!')
+    err.message = '连接服务器失败!'
+  }
+  message.error(err.message);
+  return Promise.reject(err);
 });
+
+// routes.beforeEach((to, from, next) => {
+//   if (to.meta.requireAuth) {  // 判断该路由是否需要登录权限
+//     if (store.state.token) {  // 通过vuex state获取当前的token是否存在
+//       next();
+//     }
+//     else {
+//       next({
+//         path: '/login',
+//         query: {redirect: to.fullPath}  // 将跳转的路由path作为参数，登录成功后跳转到该路由
+//       })
+//     }
+//   }
+//   else {
+//     next();
+//   }
+// }
+
+
 
 // // 实例化store
 // let store = new Vuex.Store({

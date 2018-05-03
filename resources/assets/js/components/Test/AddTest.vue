@@ -11,14 +11,14 @@
           <label>考试标题</label>
           <input v-model="testData.title" class="input" type="text">
         </div>
-        <div class="box-item">
+        <!-- <div class="box-item">
           <label>类型</label>
           <div class="select">
             <select v-model="testData.exam_type">
               <option value="OPEN">开卷</option>
             </select>
           </div>
-        </div>
+        </div> -->
         <div class="box-item">
           <label>描述</label>
           <input v-model="testData.describe" class="input" type="text">
@@ -76,7 +76,6 @@ export default {
       isShowModal: false,
       testData: {
         title: '',
-        exam_type: 'OPEN',
         describe: '',
         score: '',
         min: '',
@@ -97,7 +96,6 @@ export default {
     clearWords: function () {
       const that = this;
       that.testData.title =  '';
-      that.testData.exam_type =  '';
       that.testData.describe =  '';
       that.testData.score =  '';
       that.testData.min =  '';
@@ -106,16 +104,20 @@ export default {
     },
     addTest: function () {
       const that = this;
+      if (!that.testData.title || !that.testData.describe || !that.testData.score ||
+          !that.testData.min   || !that.testData.begin_at || !that.selectedExaminationPaper) {
+        alert('请确认内容是否填写完整')
+      }
       axios({
         method: 'post',
-        url: `${this.GLOBAL.localDomain}/api/v1/exams/`,
+        url: `${this.GLOBAL.localDomain}/api/v1/exams`,
         headers: {
           'Accept': 'application/json',
           'Authorization': sessionStorage.getItem('token'),
         },
         params: {
           title: that.testData.title,
-          exam_type: that.testData.exam_type,
+          exam_type: 'EXAM',
           describe: that.testData.describe,
           score: that.testData.score,
           min: that.testData.min,
