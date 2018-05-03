@@ -29,7 +29,7 @@ class Store extends FormRequest
             'level_type' => 'required|in:EASY,MIDDLE,HARD',
             'title' => 'required',
             'body'  => 'required',
-            'answer' => 'max:120',
+            'answer' => 'required|max:120',
             'answer_comment' =>'max:250',
             'tags'     => 'array|exists:tags,id'
         ];
@@ -41,6 +41,7 @@ class Store extends FormRequest
             'type_id.exists' => '问题类型必须为有效值',
             'level_type.required'  => '问题等级不能为空，必须是【EASY,MIDDLE,HARD】之一',
             'title.required'  => '问题名称不能为空',
+            'answer.required' => '问题答案不能为空'
         ];
     }
 }

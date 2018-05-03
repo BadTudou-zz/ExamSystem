@@ -37,4 +37,14 @@ class Paper extends Model
         }
         return $sectionArray;
     }
+
+    public function Tags()
+    {
+        return Tag::whereIn('id', explode(",", $this->tags))->get();
+    }
+
+    public function scopeTags($query, $tag)
+    {
+        return $tag ? $query->where('tags', $tag) : $query;
+    }
 }

@@ -21,7 +21,7 @@ class QuestionController extends Controller
 {
     public function index(IndexQuestion $request)
     {
-        return new QuestionCollection(Question::paginate());
+        return new QuestionCollection(Question::Tags($request->get('tags'))->paginate());
     }
 
     public function show(ShowQuestion $request, $id)
@@ -36,6 +36,9 @@ class QuestionController extends Controller
 
     public function store(StoreQuestion $request)
     {
+        if ($request->has('tags')) {
+            $request['tags'] = implode(",", $request->tags);
+        }
         $question = Question::create($request->all());
         return new QuestionResource($question);
     }
@@ -43,6 +46,9 @@ class QuestionController extends Controller
     public function update(UpdateQuestion $request, $id)
     {
         $question = Question::findOrFail($id);
+        if ($request->has('tags')) {
+            $request['tags'] = implode(",", $request->tags);
+        }
         $question->update($request->all());
         return new QuestionResource($question);
     }
