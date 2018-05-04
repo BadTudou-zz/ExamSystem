@@ -14,6 +14,18 @@
         <label class="label">用户名：</label>
         <input class="input" v-model:name="userData.name">
       </div>
+      <div class="label-box">
+        <label class="label">固话</label>
+        <input class="input" v-model:number="userData.number">
+      </div>
+      <div class="label-box">
+        <label class="label">手机</label>
+        <input class="input" v-model:phone="userData.phone">
+      </div>
+      <div class="label-box">
+        <label class="label">QQ：</label>
+        <input class="input" v-model:qq="userData.qq">
+      </div>
 
     </section>
     <footer class="modal-card-foot">
@@ -59,6 +71,9 @@ export default {
         },
         data: {
           name: that.userData.name,
+          number: that.userData.number,
+          phone: that.userData.phone,
+          qq: that.userData.qq,
           // password: that.userData.password
         }
       }).then(res => {
@@ -78,6 +93,9 @@ export default {
     editData: function (value, oldValue) {
       const that = this;
       that.userData.name = value.name;
+      that.userData.phone = value.phone;
+      that.userData.number = value.number;
+      that.userData.qq = value.qq;
     }
   }
 }
