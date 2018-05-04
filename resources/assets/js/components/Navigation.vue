@@ -365,6 +365,9 @@ ul li:hover {
 }
 a {
   color: #fff;
+  width: 100%;
+  height: 100%;
+  display: inline-block;
 }
 ul li {
   list-style: none;
