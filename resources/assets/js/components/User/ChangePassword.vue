@@ -68,6 +68,7 @@ export default {
         }
       }).then(res => {
         alert('修改成功！')
+        sessionStorage.removeItem("token");
         that.$emit('getUser');   //第一个参数名为调用的方法名，第二个参数为需要传递的参数
         that.switchModal();
         that.clearWords();
