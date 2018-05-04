@@ -103,7 +103,7 @@ Route::prefix('v1')->middleware(['auth:api'])->group(function () {
 
 
     Route::post('questions/import/student', 'API\ExcelController@importStudent');
-    Route::post('questions/import/teacher', 'API\ExcelController@teacher');
+    Route::post('questions/import/teacher', 'API\ExcelController@importTeacher');
 
 
     Route::post('discuss/publishDiscuss', 'API\DiscussController@publishDiscuss');
