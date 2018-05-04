@@ -4,8 +4,28 @@
     <h3 class="title">消息</h3>
 
     <div>
-      <p v-if="!messageData" class="empty-message-prompt">暂无消息</p>
-      <div v-else v-for="(item,index) in messageData" class="message box">
+      <div class="tabs is-centered is-boxed">
+        <ul>
+
+          <li v-bind:class="{'is-active': currentTag === 'reveived1'}">
+            <a>
+              <span @click="currentTag = 'reveived1'">收到的消息</span>
+            </a>
+          </li>
+
+          <li v-bind:class="{'is-active': currentTag === 'reveived0'}">
+            <a>
+              <span @click="currentTag = 'reveived0'">发送的消息</span>
+            </a>
+          </li>
+
+        </ul>
+      </div>
+
+    </div>
+    <div v-show="currentTag === 'reveived1'">
+      <p v-if="!reveivedMessageData || reveivedMessageData.length === 0" class="empty-message-prompt">暂未收到消息</p>
+      <div v-else v-for="(item,index) in reveivedMessageData" class="message box">
         <div class="message">
           <p class="message-data">{{ item.data }}</p>
 
@@ -15,8 +35,25 @@
           </div>
         </div>
       </div>
-      <pagination v-bind:pagination-data="paginationData"
-                  v-model="data"
+      <pagination v-bind:pagination-data="paginationData1"
+                  v-model="data1"
+      ></pagination>
+    </div>
+
+    <div v-show="currentTag === 'reveived0'">
+      <p v-if="!sendMessageData || sendMessageData.length === 0" class="empty-message-prompt">暂未发送消息</p>
+      <div v-else v-for="(item,index) in sendMessageData" class="message box">
+        <div class="message">
+          <p class="message-data">{{ item.data }}</p>
+
+          <div class="message-detail">
+            <p>来自：{{ item.from_name }}</p>
+            <p>发送时间：{{ GLOBAL.toTime(item.created_at.date) }}</p>
+          </div>
+        </div>
+      </div>
+      <pagination v-bind:pagination-data="paginationData2"
+                  v-model="data2"
       ></pagination>
     </div>
 
@@ -29,11 +66,15 @@ import Pagination from './../Pagination.vue'
 export default {
   data() {
     return {
-      messageData: [],
+      reveivedMessageData: [],
+      sendMessageData: [],
       isShowModal: false,
-      paginationData: null,
-      data: null,
+      paginationData1: null,
+      data1: null,
+      paginationData2: null,
+      data2: null,
       searchKey: null,
+      currentTag: 'reveived0',
     }
   },
   components: {
@@ -44,18 +85,42 @@ export default {
       const that = this;
       that.isShowModal = !that.isShowModal;
     },
-    getMessage: function () {
+    // 收到的消息
+    getReveivedMessage: function () {
       const that = this;
       axios({
         method: 'get',
-        url: `${this.GLOBAL.localDomain}/api/v1/users/${sessionStorage.getItem('userId')}/messages/`,
+        url: `${this.GLOBAL.localDomain}/api/v1/users/${sessionStorage.getItem('userId')}/messages`,
         headers: {
           'Accept': 'application/json',
           'Authorization': sessionStorage.getItem('token'),
+        },
+        params: {
+          reveived: 1,
         }
       }).then(res => {
-        that.messageData = res.data.data;
-        that.paginationData = res.data.links;
+        that.reveivedMessageData = res.data.data;
+        that.paginationData1 = res.data.links;
+      }).catch(err => {
+        console.log(err)
+      })
+    },
+    // 发送的消息
+    getSendMessage: function () {
+      const that = this;
+      axios({
+        method: 'get',
+        url: `${this.GLOBAL.localDomain}/api/v1/users/${sessionStorage.getItem('userId')}/messages`,
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': sessionStorage.getItem('token'),
+        },
+        params: {
+          reveived: 0,
+        }
+      }).then(res => {
+        that.sendMessageData = res.data.data;
+        that.paginationData2 = res.data.links;
       }).catch(err => {
         console.log(err)
       })
@@ -64,13 +129,27 @@ export default {
   computed: {
   },
   created() {
-    this.getMessage();
+    this.getReveivedMessage();
   },
   watch: {
-    data:function (value, oldValue) {
+    data1:function (value, oldValue) {
       const that = this;
-      that.messageData = value.data;
-      that.paginationData = value.links;
+      that.reveivedMessageData = value.data;
+      that.paginationData1 = value.links;
+    },
+    data2:function (value, oldValue) {
+      const that = this;
+      that.sendMessageData = value.data;
+      that.paginationData2 = value.links;
+    },
+    currentTag: function (value, oldValue) {
+      const that = this;
+      if (value === 'reveived0') {
+        that.getSendMessage();
+      }
+      else {
+        that.getReveivedMessage();
+      }
     }
   }
 }
