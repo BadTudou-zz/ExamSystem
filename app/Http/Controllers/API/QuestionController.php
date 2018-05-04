@@ -36,9 +36,7 @@ class QuestionController extends Controller
 
     public function store(StoreQuestion $request)
     {
-        if ($request->has('tags')) {
-            $request['tags'] = implode(",", $request->tags);
-        }
+        $request['tags'] = implode(",", $request->get('tags', []));
         $question = Question::create($request->all());
         return new QuestionResource($question);
     }
@@ -46,9 +44,7 @@ class QuestionController extends Controller
     public function update(UpdateQuestion $request, $id)
     {
         $question = Question::findOrFail($id);
-        if ($request->has('tags')) {
-            $request['tags'] = implode(",", $request->tags);
-        }
+        $request['tags'] = implode(",", $request->get('tags', []));
         $question->update($request->all());
         return new QuestionResource($question);
     }
