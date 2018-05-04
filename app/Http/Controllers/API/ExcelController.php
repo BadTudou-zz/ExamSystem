@@ -29,6 +29,9 @@ class ExcelController extends Controller
                 $data = $reader->toArray();
                 $questions = [];
                 for ($i = 1;$i<count($data);$i ++){
+                    if (empty($data[$i][0])){
+                        break;
+                    }
                     $questions[$i]['type_id'] = array_search($data[$i][0], $newType);
                     $questions[$i]['level_type'] = $data[$i][1];
                     $questions[$i]['title'] = $data[$i][2];
@@ -54,8 +57,13 @@ class ExcelController extends Controller
                 $reader = $reader->getSheet(0);
                 //获取表中的数据
                 $data = $reader->toArray();
+
                 $roleUser = [];
                 for ($i = 1;$i<count($data);$i ++){
+
+                    if (empty($data[$i][0])){
+                        break;
+                    }
                     $user = new User();
                     $user->name = $data[$i][0];
                     $user->email = $data[$i][1];
@@ -86,6 +94,9 @@ class ExcelController extends Controller
             $data = $reader->toArray();
             $roleUser = [];
             for ($i = 1;$i<count($data);$i ++){
+                if (empty($data[$i][0])){
+                    break;
+                }
                 $user = new User();
                 $user->name = $data[$i][0];
                 $user->email = $data[$i][1];
