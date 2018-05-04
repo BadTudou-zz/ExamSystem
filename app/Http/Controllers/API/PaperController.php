@@ -34,9 +34,7 @@ class PaperController extends Controller
                 'creator_id' => Auth::user()->id
             ]
         );
-        if ($request->has('tags')) {
-            $request['tags'] = implode(",", $request->tags);
-        }
+        $request['tags'] = implode(",", $request->get('tags', []));
 
         if ($request->has('sections')) {
                 $request['sections'] = implode(",", $request->sections);
@@ -67,9 +65,7 @@ class PaperController extends Controller
         if ($request->has('sections')) {
                 $request['sections'] = implode(",", $request->sections);
         }
-        if ($request->has('tags')) {
-            $request['tags'] = implode(",", $request->tags);
-        }
+        $request['tags'] = implode(",", $request->get('tags', []));
         $paper->update($request->all());
         return new PaperResource($paper);
     }

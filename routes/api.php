@@ -103,7 +103,7 @@ Route::prefix('v1')->middleware(['auth:api'])->group(function () {
 
 
     Route::post('questions/import/student', 'API\ExcelController@importStudent');
-    Route::post('questions/import/teacher', 'API\ExcelController@teacher');
+    Route::post('questions/import/teacher', 'API\ExcelController@importTeacher');
 
 
     Route::post('discuss/publishDiscuss', 'API\DiscussController@publishDiscuss');
@@ -214,7 +214,7 @@ Route::prefix('v1')->middleware(['auth:api'])->group(function () {
     // 考试批改
     Route::post('exams/{id}/correct', 'API\ExamController@correct');
     // 考试评测
-    Route::get('exams/{id}/check', 'API\ExamController@check');
+    Route::post('exams/{id}/check', 'API\ExamController@check');
     // 用户开始考试
     Route::post('exams/{id}/begin', 'API\ExamController@begin');
     // 用户结束考试
