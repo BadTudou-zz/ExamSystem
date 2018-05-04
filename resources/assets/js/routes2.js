@@ -31,12 +31,15 @@ import ApplyForData from './components/PersonalCenter/ApplyForData.vue'
 import TestData from './components/PersonalCenter/TestData.vue'
 import CourseData from './components/PersonalCenter/CourseData.vue'
 import TeachingData from './components/PersonalCenter/TeachingData.vue'
+import TestingTest from './components/PersonalCenter/TestingTest.vue'
+
 import Setting from './components/Setting.vue'
 import VideoMonitoring from './components/SurveillanceVideo/VideoMonitoring.vue'
 import webrtc from './components/SurveillanceVideo/webrtc.vue'
 import webrtcServer from './components/SurveillanceVideo/webrtcServer.vue'
 import Practice from './components/Practice/Practice.vue'
 import Upload from './components/Upload/Upload.vue'
+
 
 export default [
   {
@@ -314,9 +317,9 @@ export default [
     }
   },
   {
-    path: '/Upload',
-    name: '上传',
-    component: Upload,
+    path: '/TestingTest',
+    name: '测试考试',
+    component: TestingTest,
     meta: {
       requireAuth: true
     }

@@ -24,8 +24,8 @@
                 <el-menu-item-group>
                   <template slot="title"></template>
                   <el-menu-item index="0-1"><router-link to="/personalData">个人信息</router-link></el-menu-item>
-                  <el-menu-item disabled index="0-2"><router-link to="/">题目练习</router-link></el-menu-item>
-                  <el-menu-item disabled index="0-3"><router-link to="/">考试测评</router-link></el-menu-item>
+                  <el-menu-item index="0-2"><router-link to="/">题目练习</router-link></el-menu-item>
+                  <el-menu-item index="0-3"><router-link to="/testingTest">考试测评</router-link></el-menu-item>
                 </el-menu-item-group>
               </el-submenu>
 
