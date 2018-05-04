@@ -35,6 +35,15 @@
           <input v-model="questionData.title" class="input" type="text">
         </div>
 
+
+        <div class="box-item">
+          <label>标签</label>
+          <label class="checkbox">
+            <input type="checkbox">
+            Remember me
+          </label>
+        </div>
+
         <!-- 单选 -->
         <div v-show="parseInt(questionData.type_id) === 1">
           <div class="box-item">
@@ -221,44 +230,44 @@ export default {
       let type_id = parseInt(that.questionData.type_id);
       let level_type = that.questionData.level_type;
       let title = that.questionData.title;
-      body=  body;  // 答案选项： 仅针对单选多选
+      body =  body;  // 答案选项： 仅针对单选多选
       let answer = that.questionData.answer;
       let answer_comment = that.questionData.answer_comment;
-      debugger
 
+      // debugger
 
-      // if (!that.questionData.type_id || !that.questionData.level_type || !that.questionData.title ||
-      //     !body || !that.questionData.answer || !that.questionData.answer_comment)
-      // {
-      //   alert('请检查内容是否填写完整');
-      //   return;
-      // }
-      //
-      // axios({
-      //   method: 'post',
-      //   url: `${this.GLOBAL.localDomain}/api/v1/questions/`,
-      //   headers: {
-      //     'Accept': 'application/json',
-      //     'Authorization': sessionStorage.getItem('token'),
-      //   },
-      //   params: {
-      //     type_id: that.questionData.type_id,
-      //     level_type: that.questionData.level_type,
-      //     title: that.questionData.title,
-      //     body: body,
-      //     answer: that.questionData.answer,
-      //     answer_comment: that.questionData.answer_comment,
-      //   }
-      // }).then(res => {
-      //   alert('添加成功');
-      //   that.$emit('getQuestion');   //第一个参数名为调用的方法名，第二个参数为需要传递的参数
-      //   that.clearWords();
-      //   that.switchModal();
-      // }).catch(err => {
-      //   alert('添加失败');
-      //   console.log(err);
-      //   that.clearWords();
-      // })
+      if (!that.questionData.type_id || !that.questionData.level_type || !that.questionData.title ||
+          !body || !that.questionData.answer || !that.questionData.answer_comment)
+      {
+        alert('请检查内容是否填写完整');
+        return;
+      }
+
+      axios({
+        method: 'post',
+        url: `${this.GLOBAL.localDomain}/api/v1/questions/`,
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': sessionStorage.getItem('token'),
+        },
+        params: {
+          type_id: that.questionData.type_id,
+          level_type: that.questionData.level_type,
+          title: that.questionData.title,
+          body: body,
+          answer: that.questionData.answer,
+          answer_comment: that.questionData.answer_comment,
+        }
+      }).then(res => {
+        alert('添加成功');
+        that.$emit('getQuestion');   //第一个参数名为调用的方法名，第二个参数为需要传递的参数
+        that.clearWords();
+        that.switchModal();
+      }).catch(err => {
+        alert('添加失败');
+        console.log(err);
+        that.clearWords();
+      })
     }
   },
   created() {
