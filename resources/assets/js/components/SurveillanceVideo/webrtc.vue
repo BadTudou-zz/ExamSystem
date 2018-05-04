@@ -10,7 +10,7 @@
 <script>
 // websocket
 // const WebSocket = require('ws');
-import WebSocket from 'ws'
+// import WebSocket from 'ws'
 // import WebSocket from 'websocket'
 
 const ws = new WebSocket('wss://www.badtudou.com:8080');
