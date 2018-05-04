@@ -7,6 +7,7 @@
         <div @click="searchRole()" class="search-button"><i class="fas fa-search"></i></div>
       </div>
       <button v-show="isShowCreateRole" @click="addRole()" class="button add-role-button" type="button" name="button">添加角色</button>
+      <button v-show="isShowCreateRole" @click="uploadRole()" class="button add-role-button" type="button" name="button">从Excel导入角色</button>
     </div>
 
     <p v-if="!roleData" class="empty-message-prompt">暂无角色</p>
@@ -62,6 +63,10 @@
     <permission  ref="permission"
                  v-bind:current-role-data="currentRoleData"
     ></permission>
+
+    <upload-role ref="uploadRole"
+                 v-on:getRole="getRole"
+    ></upload-role>
   </div>
 </template>
 
@@ -71,6 +76,7 @@ import AddRole from './AddRole'
 import User from './User'
 import Permission from './Permission'
 import EditRole from './EditRole'
+import uploadRole from './uploadRole'
 
 export default {
   data() {
@@ -94,6 +100,7 @@ export default {
     User,
     Permission,
     EditRole,
+    uploadRole,
   },
   methods: {
     switchModal: function () {
@@ -252,6 +259,10 @@ export default {
       that.currentRoleData = that.roleData[index];
       that.$refs.user.switchModal();
     },
+    uploadRole: function () {
+      const that = this;
+      that.$refs.uploadRole.switchModal();
+    }
   },
   computed: {
     isShowCreateRole() {

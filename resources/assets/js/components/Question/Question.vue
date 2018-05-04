@@ -7,9 +7,8 @@
         <div @click="searchQuestion()" class="search-button"><i class="fas fa-search"></i></div>
       </div>
 
-      <button v-show="isShowCreateQuestion" @click="addQuestion()" class="button add-question-button" type="button" name="button">添加题目</button>
-
-      <button v-show="isShowQuestionType"  @click="showAllQuestionType()" class="button" type="button" name="button">查看所有问题类型</button>
+      <button v-show="isShowCreateQuestion" @click="addQuestion()" class="button add-question-button" type="button" name="button">手动添加题目</button>
+      <button v-show="isShowCreateQuestion" @click="uploadQuestion()" class="button add-question-button" type="button" name="button">从Excel批量导入题目</button>
 
       <label class="question-type-label">根据类型筛选题目：</label>
       <div class="control">
@@ -23,6 +22,7 @@
           </select>
         </div>
       </div>
+      <button @click="showAllQuestionType()" class="button" type="button" name="button">查看所有问题类型</button>
 
     </div>
 
@@ -68,7 +68,13 @@
                 v-model="data"
     ></pagination>
 
-    <question-type v-if="isShowQuestionType" ref="questionType"></question-type>
+    <question-type v-if="isShowQuestionType"
+                   ref="questionType"
+    ></question-type>
+
+    <upload-question ref="uploadQuestion"
+    ></upload-question>
+
   </div>
 </template>
 
@@ -76,8 +82,8 @@
 import Pagination from './../Pagination'
 import AddQuestion from './AddQuestion'
 import EditQuestion from './EditQuestion'
-
 import QuestionType from '../QuestionType/QuestionType'
+import UploadQuestion from './UploadQuestion'
 
 export default {
   data() {
@@ -105,6 +111,7 @@ export default {
     EditQuestion,
     Pagination,
     QuestionType,
+    UploadQuestion,
   },
   methods: {
     showModal: function () {
@@ -169,6 +176,10 @@ export default {
     addQuestion: function () {
       const that = this;
       that.$refs.addQuestion.switchModal();
+    },
+    uploadQuestion: function () {
+      const that = this;
+      that.$refs.uploadQuestion.switchModal();
     },
     editQuestion: function (index, editData) {
       const that = this;
