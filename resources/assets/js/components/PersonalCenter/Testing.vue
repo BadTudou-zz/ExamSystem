@@ -95,7 +95,7 @@
 
 
           <!-- 判断 -->
-          <!-- <div v-show="item.type_id === 3" class="testing box">
+          <div v-show="item.type_id === 3" class="testing box">
             <div class="question-title">
               <span class="question-index"> {{ item.id }}</span>
               <span class="question-type">判断题</span>
@@ -109,9 +109,54 @@
             </div>
 
             <div class="answer">
+              <div class="control">
+                <label class="radio">
+                  <input v-model="answer[item.id]" value=true type="radio">正确
+                </label>
+                <label class="radio">
+                  <input v-model="answer[item.id]" value=false type="radio">错误
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <!-- 填空 -->
+          <div v-show="item.type_id === 4" class="testing box">
+            <div class="question-title">
+              <span class="question-index"> {{ item.id }}</span>
+              <span class="question-type">判断题</span>
+              <span class="question-difficulty">难度：{{item.level_type}} </span>
+            </div>
+            <div class="triangle-topright">
 
             </div>
-          </div> -->
+            <div class="test">
+              <div class="question">题目：{{ item.title }}</div>
+            </div>
+
+            <div class="answer">
+              <input v-model="answer[item.id]" class="input" type="text" name="answer">
+            </div>
+          </div>
+
+          <!-- 简答 -->
+          <div v-show="item.type_id === 5" class="testing box">
+            <div class="question-title">
+              <span class="question-index"> {{ item.id }}</span>
+              <span class="question-type">判断题</span>
+              <span class="question-difficulty">难度：{{item.level_type}} </span>
+            </div>
+            <div class="triangle-topright">
+
+            </div>
+            <div class="test">
+              <div class="question">题目：{{ item.title }}</div>
+            </div>
+
+            <div class="answer">
+              <textarea v-model="answer[item.id]" class="textarea" type="text"></textarea>
+            </div>
+          </div>
 
         </div>
       </div>
@@ -238,29 +283,29 @@ export default {
       let id = that.examId;
       let answers = that.computedAnswerJson();
 
-      // axios({
-      //   method: 'post',
-      //   url: `${this.GLOBAL.localDomain}/api/v1/exams/${id}/answer/`,
-      //   headers: {
-      //     'Accept': 'application/json',
-      //     'Authorization': sessionStorage.getItem('token'),
-      //   },
-      //   params: {
-      //     'answers': answers
-      //   }
-      // }).then(res => {
-      //   console.log('答案提交成功');
-      //   that.finish();
-      // }).catch(err => {
-      //   let errMsg = err.response.data.error;
-      //   if (errMsg) {
-      //     console.log(errMsg);
-      //   }
-      //   else {
-      //     console.log('答案提交失败');
-      //   }
-      //   console.log(err)
-      // })
+      axios({
+        method: 'post',
+        url: `${this.GLOBAL.localDomain}/api/v1/exams/${id}/answer/`,
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': sessionStorage.getItem('token'),
+        },
+        params: {
+          'answers': answers
+        }
+      }).then(res => {
+        console.log('答案提交成功');
+        that.finish();
+      }).catch(err => {
+        let errMsg = err.response.data.error;
+        if (errMsg) {
+          console.log(errMsg);
+        }
+        else {
+          console.log('答案提交失败');
+        }
+        console.log(err)
+      })
     },
     // 完成考试
     finish: function () {
@@ -326,7 +371,7 @@ export default {
         let id = that.questionData[i].id;
         // if (that.answer[id].length > 1) {
         if (that.answer[id] instanceof Array) {
-          that.answer[id] = that.answer[id].join(',')
+          that.answer[id] = that.answer[id].join('')
         }
         json[id] = that.answer[id];
       }

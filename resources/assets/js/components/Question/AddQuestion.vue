@@ -38,10 +38,13 @@
 
         <div class="box-item">
           <label>标签</label>
-          <label class="checkbox">
-            <input type="checkbox">
-            Remember me
-          </label>
+          <!-- <label v-for="item in labelData" class="checkbox">
+            <input v-model="selectedLabel" v-bind:value="item.id" type="checkbox">{{ item.title }}
+          </label> -->
+
+          <div v-for="item in labelData" class="control">
+            <label class="radio"><input v-model="selectedLabel"  v-bind:value="item.id" type="radio">{{ item.title }}</label>
+          </div>
         </div>
 
         <!-- 单选 -->
@@ -121,10 +124,10 @@
             <label>正确答案</label>
             <div class="control">
               <label class="radio">
-                <input v-model="questionData.answer" value=true type="radio" name="answer">正确
+                <input v-model="questionData.answer" value=true type="radio">正确
               </label>
               <label class="radio">
-                <input v-model="questionData.answer" value=false type="radio" name="answer">错误
+                <input v-model="questionData.answer" value=false type="radio">错误
               </label>
             </div>
           </div>
@@ -175,14 +178,16 @@ export default {
         level_type: 'EASY',
         title: '',
         body: '',
-        answer: '',
+        answer: [],
         answer_comment: '',
       },
       options: [],
       questionTypeData: {
         1: '!',
         2: '@'
-      }
+      },
+      labelData: [],
+      selectedLabel: '',
     }
   },
   components: {
@@ -198,8 +203,9 @@ export default {
       that.questionData.level_type = 'EASY';
       that.questionData.title = '';
       that.questionData.body = '';
-      that.questionData.answer = '';
+      that.questionData.answer = [];
       that.questionData.answer_comment = '';
+      that.selectedLabel = '';
 
       that.options = [];
     },
@@ -208,7 +214,7 @@ export default {
       let answer_body = '';
       for (let i = 0; i < that.options.length; i++) {
         if (i !== that.options.length - 1) {
-          answer_body += that.options[i] + '!'
+          answer_body += that.options[i] + ','
         }
         else {
           answer_body += that.options[i];
@@ -216,15 +222,45 @@ export default {
       }
       return answer_body;
     },
+    getLabel: function () {
+      const that = this;
+      axios({
+        method: 'get',
+        url: `${this.GLOBAL.localDomain}/api/v1/tags`,
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': sessionStorage.getItem('token'),
+        }
+      }).then(res => {
+        that.labelData = res.data.data;
+        // that.paginationData = res.data.links;
+      }).catch(err => {
+        console.log(err);
+        if (err.response.status === 401) {
+          // alert('登录超时');
+          // location.reload();
+        }
+      })
+    },
     addQuestion: function () {
       const that = this;
 
       let body;
-      if (parseInt(that.questionData.type_id) === 1 || parseInt(that.questionData.type_id) === 2) {
-        body = that.getAnswerOptions();
+      // 单选或者多选
+      if (parseInt(that.questionData.type_id) === 1) {
+        body = that.getAnswerOptions();  // 选项
+      }
+      // 多选
+      else if (parseInt(that.questionData.type_id) === 2) {
+        if (that.questionData.answer.length < 2) {
+          alert('请至少选择两个答案')
+          return;
+        }
+        body = that.getAnswerOptions();  // 选项
+        that.questionData.answer = that.questionData.answer.join('')
       }
       else {
-        body = '';
+        body = '/';
       }
 
       let type_id = parseInt(that.questionData.type_id);
@@ -237,7 +273,7 @@ export default {
       // debugger
 
       if (!that.questionData.type_id || !that.questionData.level_type || !that.questionData.title ||
-          !body || !that.questionData.answer || !that.questionData.answer_comment)
+          !that.questionData.answer || !that.questionData.answer_comment)
       {
         alert('请检查内容是否填写完整');
         return;
@@ -257,6 +293,7 @@ export default {
           body: body,
           answer: that.questionData.answer,
           answer_comment: that.questionData.answer_comment,
+          'tags[0]': that.selectedLabel,
         }
       }).then(res => {
         alert('添加成功');
@@ -278,6 +315,12 @@ export default {
       const that = this;
       if (value === '2') {
         that.questionData.answer = [];
+      }
+    },
+    isShowModal: function (value, oldValue) {
+      const that = this;
+      if (value) {
+        that.getLabel();
       }
     }
   }
@@ -305,5 +348,8 @@ input {
 .multiple-choice input {
   display: inline-block;
     width: 18px;
+}
+.control {
+  display: inline-block;
 }
 </style>
