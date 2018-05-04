@@ -24,8 +24,8 @@
                 <el-menu-item-group>
                   <template slot="title"></template>
                   <el-menu-item index="0-1"><router-link to="/personalData">个人信息</router-link></el-menu-item>
-                  <el-menu-item disabled index="0-2"><router-link to="/">题目练习</router-link></el-menu-item>
-                  <el-menu-item disabled index="0-3"><router-link to="/">考试测评</router-link></el-menu-item>
+                  <el-menu-item index="0-2"><router-link to="/practiceData">题目练习</router-link></el-menu-item>
+                  <el-menu-item index="0-3"><router-link to="/testData">考试测评</router-link></el-menu-item>
                 </el-menu-item-group>
               </el-submenu>
 
@@ -36,7 +36,7 @@
                 </template>
                 <el-menu-item-group>
                   <template slot="title"></template>
-                  <el-menu-item index="7-1"><router-link to="/roleData">角色</router-link></el-menu-item>
+                  <!-- <el-menu-item index="7-1"><router-link to="/roleData">角色</router-link></el-menu-item> -->
                   <el-menu-item index="7-2"><router-link to="/permissionData">权限</router-link></el-menu-item>
                   <el-menu-item index="7-3"><router-link to="/organizationData">组织</router-link></el-menu-item>
                 </el-menu-item-group>
@@ -130,9 +130,9 @@
                 <el-menu-item-group>
                   <template slot="title"></template>
                   <el-menu-item v-show="isShowTag" index="5-1"><router-link to="/label">标签</router-link></el-menu-item>
-                  <el-menu-item index="5-2"><router-link to="/upload">上传</router-link></el-menu-item>
-                  <el-menu-item index="5-3"><router-link to="/videoMonitoring">视频监控</router-link></el-menu-item>
-                  <!-- <el-menu-item index="5-2"><router-link to="/webrtc">webrtc</router-link></el-menu-item> -->
+                  <!-- <el-menu-item index="5-3"><router-link to="/videoMonitoring">视频监控</router-link></el-menu-item> -->
+                  <!-- <el-menu-item index="5-2"><router-link to="/webrtc">webrtc</router-link></el-menu-item>
+                  <el-menu-item index="5-2"><router-link to="/webrtcServer">webrtcSever</router-link></el-menu-item> -->
                 </el-menu-item-group>
               </el-submenu>
             </el-menu>
@@ -365,6 +365,9 @@ ul li:hover {
 }
 a {
   color: #fff;
+  width: 100%;
+  height: 100%;
+  display: inline-block;
 }
 ul li {
   list-style: none;

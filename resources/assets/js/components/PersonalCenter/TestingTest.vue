@@ -1,9 +1,13 @@
 <!-- 查看考试(进行) 测试文件-->
 <template lang="html">
-  <div>
-
+  <div class="box">
     <div>
       <h1>{{ testTitle }}</h1>
+
+      <video class="box video-box" id="video" width="400" height="300"></video>
+      <canvas class="hidden" id='canvas' width='400' height='300'></canvas>
+      <img class="hidden" id='img' src=''>
+
       <button @click="submitAnswer()" class="button is-info finish-exam" type="button" name="button">完成考试</button>
       <div class="countdown">
         <!-- <i class="far fa-clock"></i> -->
@@ -158,6 +162,9 @@
 </template>
 
 <script>
+
+// const ws = new WebSocket('wss://www.badtudou.com:8080')
+
 import SingleChoice from '../Question/SingleChoice'
 import moment from 'moment'
 
@@ -538,11 +545,111 @@ export default {
         that.answer[value[i]['id']] = [];
       }
     },
+    // 视频监控
+    // 认证
+    authentication () {
+      // debugger
+      this.sendData("authentication", sessionStorage.getItem('token'), null);
+    },
+    // 订阅
+    subscribe (channel) {
+      // debugger
+      var data = {"channel":channel};
+      this.sendData("subscribe", null, data);
+    },
+    // 退订
+    unsubscribe (channel) {
+      // debugger
+      var data = {"channel":channel};
+      this.sendData("unsubscribe", null, data);
+    },
+    // 发布
+    publish (channel, data) {
+      // debugger
+      var data = {
+        "channel":channel,
+        "body":data
+      };
+      this.sendData("publish", null, data);
+    },
+    // 发送数据
+    sendData(action, toekn, data) {
+      // debugger
+      var jsonData = {
+        "action": action,
+        "token": sessionStorage.getItem('token'),
+        "data" : data
+      };
+      let jsonString = JSON.stringify(jsonData);
+      // debugger
+      ws.send(jsonString);
+    },
+    photograph () {
+      // debugger
+      //绘制canvas图形
+      canvas.getContext('2d').drawImage(video, 0, 0, 400, 300);
+      // debuggers
+
+      //把canvas图像转为img图片
+      //img.src = canvas.toDataURL("image/png");
+      let base64Data = canvas.toDataURL("image/png", 0.5);
+      this.publish(1, base64Data);
+      // var xhr = new XMLHttpRequest();
+      // form = new  FormData();
+      // form.append('postdata',base64Data);
+      // xhr.open('POST','https://exam.gg/api/v1/webrtc',false);
+      // xhr.send(form);
+    }
   },
   computed: {
   },
   created() {
     this.expansionAnswerArray();
+    ws.onopen = function (data) {
+      debugger
+      this.authentication();
+      console.log('申请认证');
+    };
+    ws.onmessage = function(event) {
+      // debugger
+      console.log(event);
+      var resultJson = JSON.parse(event.data);
+      switch(resultJson.action) {
+        case 'authentication':
+        if (resultJson.statusCode == 200) {
+          console.log('认证成功');
+        }
+        break;
+      }
+    };
+    this.video = document.getElementById('video');
+    this.canvas = document.getElementById('canvas');
+    this.img = document.getElementById('img');
+    const  photographTime = 50; // 单位毫秒
+    // window对象路径 兼容手机
+    var vendorUrl = window.URL || window.webkitURL;
+
+    //媒体对象
+    navigator.getMedia = navigator.getUserMedia ||
+        navagator.webkitGetUserMedia ||
+        navigator.mozGetUserMedia ||
+        navigator.msGetUserMedia;
+
+    navigator.getMedia({
+        video: true, //使用摄像头对象
+        audio: false  //不适用音频
+    }, function(strem){
+        // debugger
+        console.log(strem);
+        video.src = vendorUrl.createObjectURL(strem);
+        // debugger
+        video.play();
+    }, function(error) {
+        //error.code
+        console.log(error);
+    });
+    let clock = setInterval(this.photograph,photographTime);
+
   },
   watch: {
     currentTestData: function (value, oldValue) {
@@ -610,8 +717,10 @@ export default {
       const that = this;
       if (value.length === 0) return;
       that.expansionAnswerArray();
+    },
 
-    }
+
+
   }
 }
 </script>
@@ -716,5 +825,14 @@ h1 {
 .answer-input {
   width: 450px;
 }
-
+.video-box {
+  width: 99px;
+  height: 75px;
+  display: inline-block;
+  padding: 0;
+  border: none;
+}
+.hidden {
+  display: none;
+}
 </style>

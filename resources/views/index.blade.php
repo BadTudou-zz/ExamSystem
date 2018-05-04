@@ -19,5 +19,7 @@
 
      <!-- Font Awesome -->
     <script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
+    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
+    
     <script src="{{ mix('js/app.js') }}"></script>
 </html>

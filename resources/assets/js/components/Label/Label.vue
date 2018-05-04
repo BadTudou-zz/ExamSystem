@@ -9,7 +9,7 @@
       </div>
         <button @click="addLabel()" class="button add-label-button" type="button" name="button">添加标签</button>
     </div>
-    <p v-if="labelData" class="empty-message-prompt">暂无标签</p>
+    <p v-if="!labelData || labelData.length === 0" class="empty-message-prompt">暂无标签</p>
     <table v-else class="table is-bordered is-striped is-hoverable is-fullwidths">
       <thead>
         <tr>

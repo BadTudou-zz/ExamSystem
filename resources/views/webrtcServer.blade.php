@@ -23,7 +23,7 @@
 
 
 <script>
-    // websocket 
+    // websocket
     //const WebSocket = require('ws');
     var  img = document.getElementById('img');
     const ws = new WebSocket('ws://www.badtudou.com:8080');
@@ -66,12 +66,12 @@
     }
 
 
-    
+
 
      ws.onopen = function (data) {
         authentication();
         console.log('申请认证');
-       
+
     };
 
     ws.onmessage = function(event) {
