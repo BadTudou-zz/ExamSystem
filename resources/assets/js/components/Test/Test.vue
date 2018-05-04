@@ -56,6 +56,7 @@
             </td>
             <td>
               <button @click="participateUser(index)" class="is-small button" type="button" name="button">查看考试用户</button>
+              <button @click="monitor(index)" class="is-small button" type="button" name="button">查看监控</button>
             </td>
           </tr>
         </tbody>
@@ -80,6 +81,9 @@
                       v-bind:exam-id="examId"
     ></participate-user>
 
+    <monitor ref="monitor"
+             v-bind:edit-data="editData"
+    ></monitor>
   </div>
 </template>
 
@@ -88,6 +92,7 @@ import Pagination from './../Pagination.vue'
 import AddTest from './AddTest'
 import EditTest from './EditTest'
 import ParticipateUser from './ParticipateUser'
+import Monitor from '../SurveillanceVideo/Monitor'
 
 export default {
   data() {
@@ -114,6 +119,7 @@ export default {
     EditTest,
     Pagination,
     ParticipateUser,
+    Monitor,
   },
   methods: {
     showModal: function () {
@@ -266,6 +272,11 @@ export default {
           // location.reload();
         }
       })
+    },
+    monitor: function (index) {
+      const that = this;
+      that.editData = that.testData[index];
+      that.$refs.monitor.switchModal();
     },
     addTest: function () {
       const that = this;
