@@ -1,7 +1,7 @@
 <!-- 查看考试 -->
 <template lang="html">
   <div class="box">
-    <!-- <div  v-show="!isTesting">
+    <div  v-show="!isTesting">
       <h3 class="title">考试</h3>
 
       <p v-if="!testData" class="empty-message-prompt">暂无考试</p>
@@ -31,34 +31,23 @@
                   v-model="data"
       ></pagination>
 
-    </div> -->
+    </div>
 
-    <!-- <testing ref="testing"
+
+    <testing ref="testing"
              v-show="isTesting"
              v-on:switchTesting="switchTesting"
-             v-bind:paper-id="paperId"
-             v-bind:exam-id="examId"
-             v-bind:exam-time="examTime"
-    ></testing>     -->
-
-
-    <testing-test></testing-test>
-
-    <!-- <testing ref="testing"
-                 v-show="isTesting"
-                 v-on:switchTesting="switchTesting"
-                 v-bind:current-test-data="currentTestData"
+             v-bind:current-test-data="currentTestData"
     ></testing>
 
     <score ref="score"
            v-bind:selected-test-data="selectedTestData"
-    ></score> -->
+    ></score>
   </div>
 </template>
 
 <script>
-// import Testing from './Testing'
-import TestingTest from './TestingTest'
+import Testing from './Testing'
 import Pagination from './../Pagination.vue'
 import Score from './Score'
 export default {
@@ -74,8 +63,8 @@ export default {
       data: null,
       //
       isTesting: false,  // 是否已经开始考试
-      // paperId: null,  // 试卷ID
-      // examId: null, // 考试ID testID
+      paperId: null,  // 试卷ID
+      examId: null, // 考试ID testID
       examTime: null,
       selectedTestData: null,  // 当前选中的考试
       currentTestData: null,
@@ -83,8 +72,7 @@ export default {
   },
   components: {
     Pagination,
-    TestingTest,
-    // Testing,
+    Testing,
     Score,
   },
   methods: {
@@ -105,6 +93,9 @@ export default {
         headers: {
           'Accept': 'application/json',
           'Authorization': sessionStorage.getItem('token'),
+        },
+        params: {
+          type: 'EXAM'
         }
       }).then(res => {
         if (res.data.data.length !== 0) {
@@ -139,6 +130,7 @@ export default {
       }).catch(err => {
         // that.switchTesting();
         // that.currentTestData = that.testData[index];
+        // debugger
         let errMsg = err.response.data.error;
         if (errMsg) {
           alert(errMsg);
