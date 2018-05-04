@@ -51,7 +51,6 @@ export default {
     },
     // 认证
     authentication: function () {
-      debugger
       this.sendData("authentication", this.token, null);
     },
     // 订阅
@@ -66,7 +65,6 @@ export default {
     },
     // 发布
     publish (channel, data) {
-      // debugger
       var data = {
         "channel":channel,
         "body":data
@@ -85,7 +83,7 @@ export default {
     getUser: function () {
       const that = this;
       let id = that.editData.id;
-      debugger
+
       axios({
         method: 'get',
         url: `${this.GLOBAL.localDomain}/api/v1/exams/${id}/users`,
@@ -95,7 +93,6 @@ export default {
         }
       }).then(res => {
         that.userData = res.data.data;
-        debugger
         that.paginationData = res.data.links;
       }).catch(err => {
         console.log(err)
@@ -111,30 +108,12 @@ export default {
   },
   created() {
     this.token = sessionStorage.getItem('token');
-    // this.onOpen();
+
+
     ws.onopen = function (data) {
-     this.authentication();
-     console.log('申请认证');
-   }
-   ws.onmessage = function(event) {
-     console.log(event);
-     var resultJson = JSON.parse(event.data);
-     switch(resultJson.action) {
-       case 'authentication':
-         if (resultJson.statusCode == 200) {
-             console.log('认证成功');
-             subscribe(1);
-         }
-       break;
-       case 'subscribe':
-         console.log('订阅');
-         break;
-       case 'broadcast':
-         console.log('收到广播');
-         img.src = resultJson.data;
-         break;
-     }
-   }
+    this.authentication();
+      console.log('申请认证');
+    }();
   },
   watch: {
     isShowModal: function (value, oldValue) {
@@ -145,12 +124,34 @@ export default {
     },
     userData: function (value, oldValue) {
       const that = this;
-      // if (userData) {
-      //   for (let i = 0; i < value.length; i++) {
-      //     that.onMessage(value[i])
-      //   }
-      // }
+      let userId;
+      if (value) {
+        for (let i = 0; i < value.length; i++) {
+          userId = value[i]['id'];
 
+          ws.onmessage = function(event) {
+            debugger
+            console.log(event);
+            var resultJson = JSON.parse(event.data);
+            switch(resultJson.action) {
+              case 'authentication':
+                if (resultJson.statusCode == 200) {
+                  debugger
+                    console.log('认证成功');
+                    subscribe(userId);
+                }
+              break;
+              case 'subscribe':
+                console.log('订阅');
+                break;
+              case 'broadcast':
+                console.log('收到广播');
+                img.src = resultJson.data;
+                break;
+            }
+          }(this);
+        }
+      }
     }
   }
 }

@@ -69,9 +69,9 @@ export default {
   },
   created() {
     ws.onopen = function (data) {
-      authentication();
+      this.authentication();
       console.log('申请认证');
-    };
+    }();
     ws.onmessage = function(event) {
       console.log(event);
       var resultJson = JSON.parse(event.data);
@@ -90,7 +90,7 @@ export default {
           img.src=resultJson.data;
           break;
       }
-   }
+   }();
   },
   watch: {
   }
