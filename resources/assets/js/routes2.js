@@ -25,7 +25,7 @@ import MessageData from './components/PersonalCenter/MessageData.vue'
 import NoticeData from './components/PersonalCenter/NoticeData.vue'
 import LectureData from './components/PersonalCenter/LectureData.vue'
 import OrganizationData from './components/PersonalCenter/OrganizationData.vue'
-import RoleData from './components/PersonalCenter/RoleData.vue'
+// import RoleData from './components/PersonalCenter/RoleData.vue'
 import PermissionData from './components/PersonalCenter/PermissionData.vue'
 import ApplyForData from './components/PersonalCenter/ApplyForData.vue'
 import TestData from './components/PersonalCenter/TestData.vue'
@@ -252,13 +252,13 @@ export default [
       requireAuth: true
     }
   },
-  {
-    path: '/RoleData',
-    component: RoleData,
-    meta: {
-      requireAuth: true
-    }
-  },
+  // {
+  //   path: '/RoleData',
+  //   component: RoleData,
+  //   meta: {
+  //     requireAuth: true
+  //   }
+  // },
   {
     path: '/PermissionData',
     component: PermissionData,

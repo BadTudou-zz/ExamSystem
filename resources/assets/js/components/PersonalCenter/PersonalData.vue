@@ -8,6 +8,7 @@
         <span>{{ currentUserData.id }}</span>
         <a @click="changePassword()" class="button is-link is-outlined change-password is-small">更改密码</a>
         <a @click="ChangeUserInfo()" class="button is-link is-outlined change-password is-small">更改用户信息</a>
+        <a @click="roleInfo()" class="button is-link is-outlined change-password is-small">查看角色信息</a>
       </div>
       <div class="label-box">
         <label class="label">用户名：</label>
@@ -39,6 +40,8 @@
                       v-bind:edit-data="editData"
                       v-on:getUser="getUser"
     ></change-user-info>
+
+    <role-detail ref="roleDetail"></role-detail>
   </div>
 </template>
 
@@ -46,6 +49,7 @@
 import ChangePassword from '../User/ChangePassword'
 import ChangeUserInfo from './ChangeUserInfo'
 import moment from 'moment'
+import RoleDetail from './RoleDetail'
 
 export default {
   data() {
@@ -65,6 +69,7 @@ export default {
   components: {
     ChangePassword,
     ChangeUserInfo,
+    RoleDetail,
   },
   methods: {
     toTime: function (time) {
@@ -101,6 +106,11 @@ export default {
       that.editData = that.userData;
       that.$refs.ChangeUserInfo.switchModal();
     },
+    roleInfo: function () {
+      const that = this;
+      that.$refs.roleDetail.switchModal();
+    }
+
   },
   computed: {
   },

@@ -28,7 +28,7 @@
 // import WebSocket from 'ws'
 // import WebSocket from 'websocket'
 
-const ws = new WebSocket('wss://www.badtudou.com:8080');
+// const ws = new WebSocket('wss://www.badtudou.com:8080');
 
 
 export default {

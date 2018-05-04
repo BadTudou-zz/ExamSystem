@@ -36,7 +36,7 @@
                 </template>
                 <el-menu-item-group>
                   <template slot="title"></template>
-                  <el-menu-item index="7-1"><router-link to="/roleData">角色</router-link></el-menu-item>
+                  <!-- <el-menu-item index="7-1"><router-link to="/roleData">角色</router-link></el-menu-item> -->
                   <el-menu-item index="7-2"><router-link to="/permissionData">权限</router-link></el-menu-item>
                   <el-menu-item index="7-3"><router-link to="/organizationData">组织</router-link></el-menu-item>
                 </el-menu-item-group>
