@@ -24,7 +24,7 @@
           <div class="select">
             <select v-model="questionData.level_type">
               <option value="EASY">简单</option>
-              <option value="MIDDLE">简单</option>
+              <option value="MIDDLE">中等</option>
               <option value="HARD">困难</option>
             </select>
           </div>
@@ -35,44 +35,112 @@
           <input v-model="questionData.title" class="input" type="text">
         </div>
 
-        <!-- 单选、多选 -->
-        <div class="box-item">
-          <label>所给选项</label>
-          <div class="options-box">
-            <label>A.</label>
-            <input v-model="options[0]" class="input" type="text">
+        <!-- 单选 -->
+        <div v-show="parseInt(questionData.type_id) === 1">
+          <div class="box-item">
+            <label>所给选项</label>
+            <div class="options-box">
+              <label>A.</label>
+              <input v-model="options[0]" class="input" type="text">
+            </div>
+            <div class="options-box">
+              <label>B.</label>
+              <input v-model="options[1]" class="input" type="text">
+            </div>
+            <div class="options-box">
+              <label>C.</label>
+              <input v-model="options[2]" class="input" type="text">
+            </div>
+            <div class="options-box">
+              <label>D.</label>
+              <input v-model="options[3]" class="input" type="text">
+            </div>
           </div>
-          <div class="options-box">
-            <label>B.</label>
-            <input v-model="options[1]" class="input" type="text">
+
+
+          <!-- 正确答案 -->
+          <div class="box-item">
+            <label>正确答案</label>
+            <div class="control">
+              <label class="radio single-choice"><input value="A" v-model="questionData.answer" type="radio" name="answer">A</label>
+              <label class="radio single-choice"><input value="B" v-model="questionData.answer" type="radio" name="answer">B</label>
+              <label class="radio single-choice"><input value="C" v-model="questionData.answer" type="radio" name="answer">C</label>
+              <label class="radio single-choice"><input value="D" v-model="questionData.answer" type="radio" name="answer">D</label>
+            </div>
           </div>
-          <div class="options-box">
-            <label>C.</label>
-            <input v-model="options[2]" class="input" type="text">
+        </div>
+
+        <!-- 多选 -->
+        <div v-show="parseInt(questionData.type_id) === 2">
+          <div class="box-item">
+            <label>所给选项</label>
+            <div class="options-box">
+              <label>A.</label>
+              <input v-model="options[0]" class="input" type="text">
+            </div>
+            <div class="options-box">
+              <label>B.</label>
+              <input v-model="options[1]" class="input" type="text">
+            </div>
+            <div class="options-box">
+              <label>C.</label>
+              <input v-model="options[2]" class="input" type="text">
+            </div>
+            <div class="options-box">
+              <label>D.</label>
+              <input v-model="options[3]" class="input" type="text">
+            </div>
           </div>
-          <div class="options-box">
-            <label>D.</label>
-            <input v-model="options[3]" class="input" type="text">
+
+
+          <!-- 正确答案 -->
+          <div class="box-item">
+            <label>正确答案</label>
+            <label class="checkbox multiple-choice">
+              <input v-model="questionData.answer" value="A" type="checkbox">A
+              <input v-model="questionData.answer" value="B" type="checkbox">B
+              <input v-model="questionData.answer" value="C" type="checkbox">C
+              <input v-model="questionData.answer" value="D" type="checkbox">D
+            </label>
+          </div>
+        </div>
+
+        <!-- 判断 -->
+        <div v-show="parseInt(questionData.type_id) === 3">
+          <!-- 正确答案 -->
+          <div class="box-item">
+            <label>正确答案</label>
+            <div class="control">
+              <label class="radio">
+                <input v-model="questionData.answer" value=true type="radio" name="answer">正确
+              </label>
+              <label class="radio">
+                <input v-model="questionData.answer" value=false type="radio" name="answer">错误
+              </label>
+            </div>
           </div>
         </div>
 
 
-        <!-- 正确答案 -->
-        <div class="box-item">
-          <label>正确答案</label>
-          <div v-show="questionData.type_id ==='1'" class="select">
-            <select v-model="questionData.answer">
-              <option value='A'>A</option>
-              <option value="B">B</option>
-              <option value="C">C</option>
-              <option value="D">D</option>
-            </select>
-          </div>
-
-          <div v-show="questionData.type_id ==='2'">
-            <input v-model="questionData.answer" class="input" type="text" placeholder="请用英文逗号将多个答案隔开">
+        <!-- 填空 -->
+        <div v-show="parseInt(questionData.type_id) === 4">
+          <!-- 正确答案 -->
+          <div class="box-item">
+            <label>正确答案</label>
+            <input v-model="questionData.answer" class="input" type="text" name="answer">
           </div>
         </div>
+
+        <!--简答-->
+        <div v-show="parseInt(questionData.type_id) === 5">
+          <!-- 正确答案 -->
+          <div class="box-item">
+            <label>正确答案</label>
+            <!-- <input v-model="questionData.answer" class="input" type="text" name="answer"> -->
+            <textarea v-model="questionData.answer" class="textarea" name="name" rows="8" cols="80"></textarea>
+          </div>
+        </div>
+
 
         <div class="box-item">
           <label>答案解析</label>
@@ -94,14 +162,18 @@ export default {
     return {
       isShowModal: false,
       questionData: {
-        type_id: '1',
+        type_id: 1,
         level_type: 'EASY',
-        title: null,
-        body: null,
-        answer: null,
-        answer_comment: null,
+        title: '',
+        body: '',
+        answer: '',
+        answer_comment: '',
       },
       options: [],
+      questionTypeData: {
+        1: '!',
+        2: '@'
+      }
     }
   },
   components: {
@@ -138,46 +210,67 @@ export default {
     addQuestion: function () {
       const that = this;
 
-      let body = that.getAnswerOptions();
-
-      if (!that.questionData.type_id || !that.questionData.level_type || !that.questionData.title ||
-          !body || !that.questionData.answer || !that.questionData.answer_comment)
-      {
-        alert('请检查内容是否填写完整');
-        return;
+      let body;
+      if (parseInt(that.questionData.type_id) === 1 || parseInt(that.questionData.type_id) === 2) {
+        body = that.getAnswerOptions();
+      }
+      else {
+        body = '';
       }
 
-      axios({
-        method: 'post',
-        url: `${this.GLOBAL.localDomain}/api/v1/questions/`,
-        headers: {
-          'Accept': 'application/json',
-          'Authorization': sessionStorage.getItem('token'),
-        },
-        params: {
-          type_id: that.questionData.type_id,
-          level_type: that.questionData.level_type,
-          title: that.questionData.title,
-          body: body,
-          answer: that.questionData.answer,
-          answer_comment: that.questionData.answer_comment,
-        }
-      }).then(res => {
-        alert('添加成功');
-        that.$emit('getQuestion');   //第一个参数名为调用的方法名，第二个参数为需要传递的参数
-        that.clearWords();
-        that.switchModal();
-      }).catch(err => {
-        alert('添加失败');
-        console.log(err);
-        that.clearWords();
-      })
+      let type_id = parseInt(that.questionData.type_id);
+      let level_type = that.questionData.level_type;
+      let title = that.questionData.title;
+      body=  body;  // 答案选项： 仅针对单选多选
+      let answer = that.questionData.answer;
+      let answer_comment = that.questionData.answer_comment;
+      debugger
+
+
+      // if (!that.questionData.type_id || !that.questionData.level_type || !that.questionData.title ||
+      //     !body || !that.questionData.answer || !that.questionData.answer_comment)
+      // {
+      //   alert('请检查内容是否填写完整');
+      //   return;
+      // }
+      //
+      // axios({
+      //   method: 'post',
+      //   url: `${this.GLOBAL.localDomain}/api/v1/questions/`,
+      //   headers: {
+      //     'Accept': 'application/json',
+      //     'Authorization': sessionStorage.getItem('token'),
+      //   },
+      //   params: {
+      //     type_id: that.questionData.type_id,
+      //     level_type: that.questionData.level_type,
+      //     title: that.questionData.title,
+      //     body: body,
+      //     answer: that.questionData.answer,
+      //     answer_comment: that.questionData.answer_comment,
+      //   }
+      // }).then(res => {
+      //   alert('添加成功');
+      //   that.$emit('getQuestion');   //第一个参数名为调用的方法名，第二个参数为需要传递的参数
+      //   that.clearWords();
+      //   that.switchModal();
+      // }).catch(err => {
+      //   alert('添加失败');
+      //   console.log(err);
+      //   that.clearWords();
+      // })
     }
   },
   created() {
 
   },
   watch: {
+    'questionData.type_id': function (value, oldValue) {
+      const that = this;
+      if (value === '2') {
+        that.questionData.answer = [];
+      }
+    }
   }
 }
 </script>
@@ -193,5 +286,15 @@ export default {
 }
 .options-box input {
   width: 500px;
+}
+.single-choice {
+  widows: 60px;
+}
+input {
+  width: 60px;
+}
+.multiple-choice input {
+  display: inline-block;
+    width: 18px;
 }
 </style>
