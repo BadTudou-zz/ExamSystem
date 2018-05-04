@@ -26,7 +26,7 @@ class QuestionController extends Controller
 
     public function show(ShowQuestion $request, $id)
     {
-        $builder = Question::findOrFail($id);
+        $builder = Question::where('id', $id);
         if ($request->get('includeType') == 'yes')
             {
                 $builder = $builder->with('Type');
