@@ -27,20 +27,24 @@ export default {
   methods: {
     // 认证
     authentication () {
+      // debugger
       this.sendData("authentication", token, null);
     },
     // 订阅
     subscribe (channel) {
+      // debugger
       var data = {"channel":channel};
       this.sendData("subscribe", null, data);
     },
     // 退订
     unsubscribe (channel) {
+      // debugger
       var data = {"channel":channel};
       this.sendData("unsubscribe", null, data);
     },
     // 发布
     publish (channel, data) {
+      // debugger
       var data = {
         "channel":channel,
         "body":data
@@ -48,17 +52,22 @@ export default {
       this.sendData("publish", null, data);
     },
     // 发送数据
-    sendData(action, toekn, data){
+    sendData(action, toekn, data) {
+      // debugger
       var jsonData = {
         "action": action,
         "token": token,
         "data" : data
       };
-      ws.send(JSON.stringify(jsonData));
+      let jsonString = JSON.stringify(jsonData);
+      // debugger
+      ws.send(jsonString);
     },
     photograph () {
+      // debugger
       //绘制canvas图形
       canvas.getContext('2d').drawImage(video, 0, 0, 400, 300);
+      // debuggers
 
       //把canvas图像转为img图片
       //img.src = canvas.toDataURL("image/png");
@@ -73,10 +82,12 @@ export default {
   },
   created() {
     ws.onopen = function (data) {
+      // debugger
       this.authentication();
       console.log('申请认证');
     };
     ws.onmessage = function(event) {
+      // debugger
       console.log(event);
       var resultJson = JSON.parse(event.data);
       switch(resultJson.action) {
@@ -87,9 +98,9 @@ export default {
         break;
       }
     };
-    var video = document.getElementById('video');
-    var  canvas = document.getElementById('canvas');
-    var  img = document.getElementById('img');
+    this.video = document.getElementById('video');
+    this.canvas = document.getElementById('canvas');
+    this.img = document.getElementById('img');
     const  photographTime = 50; // 单位毫秒
     // window对象路径 兼容手机
     var vendorUrl = window.URL || window.webkitURL;
@@ -104,8 +115,10 @@ export default {
         video: true, //使用摄像头对象
         audio: false  //不适用音频
     }, function(strem){
+        // debugger
         console.log(strem);
         video.src = vendorUrl.createObjectURL(strem);
+        // debugger
         video.play();
     }, function(error) {
         //error.code
@@ -121,7 +134,7 @@ export default {
 
 <style scoped>
 .booth {
-    width:400px;
+    width: 380px;
 
     background:#ccc;
     border: 10px solid #ddd;
