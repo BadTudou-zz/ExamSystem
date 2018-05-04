@@ -48,7 +48,6 @@ class MakeQuestionsForPaper implements ShouldQueue
         $sections = $paper->sections ? explode(",", $paper->sections) : [];
 
         foreach ($types as $typeId => $type) {
-            logger($type->score);
             $questionNumber =  $type->number;
             $questions = $this->makeQuestionByTypeAndNumber($typeId, $questionNumber);
 
