@@ -26,16 +26,16 @@
             <div class="answer">
               <label class="checkbox">
                 <div class="">
-                  <input class="answer-index" v-model="answer[index]" value="A" type="radio">{{ getOptionsString(item.body)[0] }}
+                  <input class="answer-index" v-model="answer[index]" value="A" type="radio">{{ item.body[0] }}
                 </div>
                 <div class="">
-                  <input class="answer-index" v-model="answer[index]" value="B" type="radio">{{ getOptionsString(item.body)[1] }}
+                  <input class="answer-index" v-model="answer[index]" value="B" type="radio">{{ item.body[1] }}
                 </div>
                 <div class="">
-                  <input class="answer-index" v-model="answer[index]" value="C" type="radio">{{ getOptionsString(item.body)[2] }}
+                  <input class="answer-index" v-model="answer[index]" value="C" type="radio">{{ item.body[2] }}
                 </div>
                 <div class="">
-                  <input class="answer-index" v-model="answer[index]" value="D" type="radio">{{ getOptionsString(item.body)[3] }}
+                  <input class="answer-index" v-model="answer[index]" value="D" type="radio">{{ item.body[3] }}
                 </div>
               </label>
             </div>

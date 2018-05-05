@@ -3,7 +3,7 @@
   <div class="modal" :class="{'is-active' : isShowModal}">
     <div class="modal-background"></div>
     <div class="modal-content">
-      <div class="box">
+      <div v-if="!isWatching" class="box">
 
         <div class="search-box">
           <div class="field">
@@ -25,7 +25,7 @@
 
         <button v-show="isShowCreateVideo" @click="addVideoInfo()" class="button add-video-button" type="button" name="button">添加视频</button>
 
-        <p v-if="!videoData" class="empty-message-prompt">暂无视频</p>
+        <p v-if="!videoData || videoData.length === 0" class="empty-message-prompt">暂无视频</p>
         <table v-else class="table is-bordered is-striped is-hoverable is-fullwidths">
           <thead>
             <!-- "id": 15,
@@ -55,11 +55,20 @@
               <td>
                 <div v-show="isShowDeleteVideo" @click="deleteVideo(index)" class="icon-button"><i class="far fa-trash-alt"></i></div>
                 <div @click="editVideoInfo(index)" class="icon-button"><i class="fas fa-edit"></i></div>
+                <button @click="showVideo(index)" class="button is-small" type="button" name="button">观看视频</button>
               </td>
             </tr>
           </tbody>
         </table>
 
+      </div>
+
+      <div v-else class="box video-show">
+        <video width="700" height="450" controls autoplay>
+          <source v-show="currentVideoType === 'mp4'"  :src="currentVideoData.url" type="video/mp4">
+          <source v-show="currentVideoType === 'ogg'"  :src="currentVideoData.url" type="video/ogg">
+          <source v-show="currentVideoType === 'webm'" :src="currentVideoData.url" type="video/webm">
+        </video>
       </div>
     </div>
     <button @click="switchModal()" class="modal-close is-large" aria-label="close"></button>
@@ -97,6 +106,8 @@ export default {
       editData: null,
       searchType: '',
       currentVideoData: null,
+      isWatching: false,
+      currentVideoType: '',
     }
   },
   components: {
@@ -178,7 +189,7 @@ export default {
           userId: sessionStorage.getItem('userId')
         }
       }).then(res => {
-        that.videoData = res.data.data;
+        that.videoData = res.data;
         // that.paginationData = res.data.links;
       }).catch(err => {
         console.log(err);
@@ -186,20 +197,21 @@ export default {
     },
     getVideo: function() {
       const that = this;
-      // axios({
-      //   method: 'post',
-      //   url: `${this.GLOBAL.localDomain}/api/v1/videos`,
-      //   headers: {
-      //     'Accept': 'application/json',
-      //     'Authorization': sessionStorage.getItem('token'),
-      //   }
-      // }).then(res => {
-      //   that.videoData = res.data.data;
-      //   that.paginationData = res.data.links;
-      //   //
-      // }).catch(err => {
-      //   console.log(err);
-      // })
+      axios({
+        method: 'post',
+        url: `${this.GLOBAL.localDomain}/api/v1/upload/lecture/selectAll/video`,
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': sessionStorage.getItem('token'),
+        }
+      }).then(res => {
+        that.videoData = res.data;
+
+        that.paginationData = res.data.links;
+        //
+      }).catch(err => {
+        console.log(err);
+      })
     },
     searchVideo: function () {
       const that = this;
@@ -247,17 +259,17 @@ export default {
       }).then(res => {
         that.url = res.data.links.next;
 
-        let len = res.data.data.length ? res.data.data.length : that.getJsonLength(res.data.data);
+        let len = res.data.length ? res.data.length : that.getJsonLength(res.data);
 
         // data数据结构不一致 可能是数组/也可能是json
-        if (res.data.data.length) {
+        if (res.data.length) {
           for (let i = 0; i < len; i++) {
-            that.currentVideo.push(res.data.data[i]);
+            that.currentVideo.push(res.data[i]);
           }
         }
-        else if (that.getJsonLength(res.data.data)) {
-          for (let i in res.data.data) {
-            that.currentVideo.push(res.data.data[i]);
+        else if (that.getJsonLength(res.data)) {
+          for (let i in res.data) {
+            that.currentVideo.push(res.data[i]);
           }
         }
 
@@ -287,6 +299,19 @@ export default {
           that.getVideoForCid();
           break;
       }
+    },
+    showVideo: function (index) {
+      const that = this;
+
+      that.currentVideoData = that.videoData[index];
+      that.isWatching = true;
+
+    },
+    getVideoType: function() {
+      const that = this;
+      let url = that.currentVideoData.url;
+      this.currentVideoType = url.split('.')[1];
+      return type;
     }
   },
   computed: {
@@ -312,11 +337,15 @@ export default {
   watch: {
     isShowModal: function (value, oldValue) {
       const that = this;
-      that.getVideoForUserId();
+      if (value) {
+        that.isWatching = false;
+        that.getVideo();
+      }
+
     },
     currentTeachingData: function (value, oldValue) {
       const that = this;
-      that.getVideoForCid();
+      that.getVideo();
     }
   }
 }
@@ -356,5 +385,9 @@ table {
 }
 .field {
   display: inline-block;
+}
+video {
+  margin: 0 auto;
+  display: block;
 }
 </style>

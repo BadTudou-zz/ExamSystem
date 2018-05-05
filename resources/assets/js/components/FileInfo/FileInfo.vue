@@ -28,12 +28,6 @@
         <p v-if="!fileData" class="empty-message-prompt">暂无文件</p>
         <table v-else class="table is-bordered is-striped is-hoverable is-fullwidths">
           <thead>
-            <!-- "id": 15,
-            "userid": 1,
-            "cid": 1,
-            "url": "\/usr\/share\/nginx\/html\/ExamSystem\/public\/file\/123.mp4",
-            "file_name": "\u6d4b\u8bd5\u89c6\u9891",
-            "kp": "\u77e5\u8bc6\u70b9\u662fxxxx" -->
             <tr>
               <th>序号</th>
               <th>用户ID</th>
@@ -50,11 +44,12 @@
               <td>{{ item.userId }}</td>
               <td>{{ item.cid }}</td>
               <td>{{ GLOBAL.localDomain + item.url }}</td>
-              <td>{{ item.file_name }}</td>
+              <td>{{ item.doc_name }}</td>
               <td>{{ item.kp }}</td>
               <td>
                 <div v-show="isShowDeleteDocument" @click="deleteFile(index)" class="icon-button"><i class="far fa-trash-alt"></i></div>
                 <div v-show="isShowEditDocument" @click="editFileInfo(index)" class="icon-button"><i class="fas fa-edit"></i></div>
+                <button class="button is-small" type="button" name="button"><a v-bind:href="item.url">下载文件</a></button>
               </td>
             </tr>
           </tbody>
@@ -178,7 +173,7 @@ export default {
           userId: sessionStorage.getItem('userId')
         }
       }).then(res => {
-        that.fileData = res.data.data;
+        that.fileData = res.data;
         // that.paginationData = res.data.links;
       }).catch(err => {
         console.log(err);
@@ -194,7 +189,7 @@ export default {
           'Authorization': sessionStorage.getItem('token'),
         }
       }).then(res => {
-        that.fileData = res.data.data;
+        that.fileData = res.data;
         // that.paginationData = res.data.links;
       }).catch(err => {
         console.log(err);
@@ -246,17 +241,17 @@ export default {
       }).then(res => {
         that.url = res.data.links.next;
 
-        let len = res.data.data.length ? res.data.data.length : that.getJsonLength(res.data.data);
+        let len = res.data.length ? res.data.length : that.getJsonLength(res.data);
 
         // data数据结构不一致 可能是数组/也可能是json
-        if (res.data.data.length) {
+        if (res.data.length) {
           for (let i = 0; i < len; i++) {
-            that.currentFile.push(res.data.data[i]);
+            that.currentFile.push(res.data[i]);
           }
         }
-        else if (that.getJsonLength(res.data.data)) {
-          for (let i in res.data.data) {
-            that.currentFile.push(res.data.data[i]);
+        else if (that.getJsonLength(res.data)) {
+          for (let i in res.data) {
+            that.currentFile.push(res.data[i]);
           }
         }
 
