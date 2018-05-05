@@ -115,8 +115,10 @@ class ApplicationController extends Controller
         // 将用户加入组织
         $users = User::findOrFail($application->notifiable_id);
         $organization->users()->syncWithoutDetaching($users);
+        $toUser = User::findOrFail($application->notifiable_id);
         // 发送通知
-        $user->notify(new SystemNotification((object)['to' => $application->notifiable_id, 'data' => "已成功加入组织 {$organization->name} "]));
+        $user->notify(new PrivateMessage((object)['id' => $application->notifiable_id, 'from_name' => $user->name, 'to_name' => $toUser->name, 'data' => "已成功加入组织 {$organization->name}" ]));
+
         $application->delete();
     }
 
@@ -134,8 +136,10 @@ class ApplicationController extends Controller
         // 将用户加入课程
         $users = User::findOrFail($application->notifiable_id);
         $lectrue->users()->syncWithoutDetaching($users);
+
+        $toUser = User::findOrFail($application->notifiable_id);
         // 发送通知
-        $user->notify(new SystemNotification((object)['to' => $application->notifiable_id, 'data' => "已成功加入课程 {$lectrue->name} "]));
+        $user->notify(new PrivateMessage((object)['id' => $application->notifiable_id, 'from_name' => $user->name, 'to_name' => $toUser->name, 'data' => "已成功加入课程 {$lectrue->name} "]));
         $application->delete();
     }
 
@@ -150,8 +154,27 @@ class ApplicationController extends Controller
             return response()->json(['error'=>'This action is unauthorized.'], 403);
         }
         
+        $toUser = User::findOrFail($application->notifiable_id);
+
         // 发送通知
-        $user->notify(new SystemNotification((object)['to' => $application->notifiable_id, 'data' => "加入组织 {$organization->name} 被拒绝"]));
+        $user->notify(new PrivateMessage((object)['id' => $application->notifiable_id, 'from_name' => $user->name, 'to_name' => $toUser->name, 'data' => "加入组织 {$organization->name} 被拒绝"]));
+        
         $application->delete();
     }
+<<<<<<< HEAD
+=======
+
+    public function rejectLectureApplication($application, $user)
+    {
+        $data = json_decode($application->data);
+
+        $lecture = Lecture::findOrFail($data->resource_id);
+        
+        $toUser = User::findOrFail($application->notifiable_id);
+
+        // 发送通知
+        $user->notify(new PrivateMessage((object)['id' => $application->notifiable_id, 'from_name' => $user->name, 'to_name' => $toUser->name, 'data' => "加入授课 {$organization->name} 被拒绝"]));
+        $application->delete();
+    }
+>>>>>>> c8f816bc04fe25a1c9edd69789f058720f4e1201
 }
