@@ -161,8 +161,6 @@ class ApplicationController extends Controller
         
         $application->delete();
     }
-<<<<<<< HEAD
-=======
 
     public function rejectLectureApplication($application, $user)
     {
@@ -176,5 +174,4 @@ class ApplicationController extends Controller
         $user->notify(new PrivateMessage((object)['id' => $application->notifiable_id, 'from_name' => $user->name, 'to_name' => $toUser->name, 'data' => "加入授课 {$organization->name} 被拒绝"]));
         $application->delete();
     }
->>>>>>> c8f816bc04fe25a1c9edd69789f058720f4e1201
 }
