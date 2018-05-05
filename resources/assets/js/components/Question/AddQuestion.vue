@@ -234,17 +234,24 @@ export default {
         }
       })
     },
-    getAnswerOptions: function () {
+    getSeparate: function () {
       const that = this;
-      let answer_body = '';
-      let typeId = that.questionData.type_id;
+      let typeId = parseInt(that.questionData.type_id);
+      //
       let separate;
       for (let i = 0; i < that.questionTypeData.length; i++) {
         if (typeId === that.questionTypeData[i]['id']) {
           separate = that.questionTypeData[i]['delimiter'];
         }
       }
-      // debugger
+      //
+      return separate;
+    },
+    getAnswerOptions: function () {
+      const that = this;
+      let answer_body = '';
+      let separate = that.getSeparate();
+      //
       for (let i = 0; i < that.options.length; i++) {
         if (i !== that.options.length - 1) {
           answer_body += that.options[i] + separate;
@@ -309,6 +316,7 @@ export default {
           !that.questionData.answer || !that.questionData.answer_comment)
       {
         alert('请检查内容是否填写完整');
+        that.questionData.answer = [];
         return;
       }
 

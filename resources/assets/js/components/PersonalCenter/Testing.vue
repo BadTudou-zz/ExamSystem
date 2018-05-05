@@ -367,7 +367,7 @@ export default {
       //   str += alphabet[i] + '.' + arr[i] + '\n';
       // }
       // return str.split('\n');
-      // debugger
+      // 
       return value.split(',')
 
     },

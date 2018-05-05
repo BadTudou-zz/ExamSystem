@@ -218,15 +218,21 @@ export default {
 
       that.options = [];
     },
-    getAnswerOptions: function () {
+    getSeparate: function () {
       const that = this;
-      
+      let typeId = parseInt(that.editData.type_id);
       let separate;
       for (let i = 0; i < that.questionTypeData.length; i++) {
-        if (value.type_id === that.questionTypeData[i]['id']) {
+        if (typeId === that.questionTypeData[i]['id']) {
           separate = that.questionTypeData[i]['delimiter'];
         }
       }
+
+      return separate;
+    },
+    getAnswerOptions: function () {
+      const that = this;
+      let separate = that.getSeparate();
 
       let answer_body = '';
       for (let i = 0; i < that.options.length; i++) {
@@ -335,17 +341,14 @@ export default {
         }
       }).then(res => {
         that.questionTypeData = res.data.data;
+
       }).catch(err => {
         console.log(err);
-        if (err.response.status === 401) {
-          // alert('登录超时');
-          // location.reload();
-        }
       })
     },
   },
   created() {
-
+      this.getQuestionType();
   },
   watch: {
     'editQuestionData.type_id': function (value, oldValue) {
@@ -358,17 +361,12 @@ export default {
       const that = this;
       if (value) {
         that.getLabel();
-        that.getQuestionType();
       }
     },
     editData: function (value, oldValue) {
       const that = this;
-      let separate;
-      for (let i = 0; i < that.questionTypeData.length; i++) {
-        if (value.type_id === that.questionTypeData[i]['id']) {
-          separate = that.questionTypeData[i]['delimiter'];
-        }
-      }
+      let separate = that.getSeparate();
+      //
       that.editQuestionData.type_id =  value.type_id;
       that.editQuestionData.level_type =  value.level_type;
       that.editQuestionData.title =  value.title;
@@ -379,11 +377,15 @@ export default {
       if (value.type_id === 1) {
         that.options =  value.body.split(separate);
         that.editQuestionData.answer = value.answer;
+
+
       }
       // 多选
       else if (value.type_id === 2) {
         that.options =  value.body.split(separate);
         that.editQuestionData.answer = value.answer.split('');
+
+
       }
       else {
         that.editQuestionData.answer =  value.answer;
