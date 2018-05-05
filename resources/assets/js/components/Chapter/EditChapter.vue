@@ -16,7 +16,7 @@
           <input v-model="currentChapterData.score" class="input" type="number">
         </div>
         <div class="box-item">
-          <label>章节数</label>
+          <label>题目数</label>
           <input v-model="currentChapterData.number" class="input" type="number">
         </div>
         <div class="box-item">
@@ -28,11 +28,11 @@
             <label>题目类型</label>
             <div class="select">
               <select v-model="currentChapterData.question_type">
-                <option value="SINGLE_CHOICE">单选</option>
-                <!-- <option value="MULTIPLE_CHOICE">多选</option>
-                <option value="TRUE_FALSE">判断</option>
-                <option value="FILL_IN">填空</option>
-                <option value="SHORT_ANSWER">简答</option> -->
+                <option value=0>单选</option>
+                <option value=1>多选</option>
+                <option value=2>判断</option>
+                <option value=3>填空</option>
+                <option value=4>简答</option>
               </select>
             </div>
           </div>
@@ -56,7 +56,7 @@
                 <tr v-for="(item,index) in questionData">
                   <td v-show="item.question_type === currentChapterData.question_type"><input type="checkbox" v-bind:value="item.id" v-model="selectedQuesiton" class="question-seleted"></td>
                   <td v-show="item.question_type === currentChapterData.question_type">{{ item.id }}</td>
-                  <td v-show="item.question_type === currentChapterData.question_type">{{ item.question_type }}</td>
+                  <td v-show="item.question_type === currentChapterData.question_type">{{ item.type_id }}</td>
                   <td v-show="item.question_type === currentChapterData.question_type">{{ item.title }}</td>
                   <td v-show="item.question_type === currentChapterData.question_type"><input v-model="questionScore[item.id]" type="number" class="input number-input"></input></td>
                 </tr>

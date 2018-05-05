@@ -588,7 +588,7 @@ export default {
       // debugger
       //绘制canvas图形
       canvas.getContext('2d').drawImage(video, 0, 0, 400, 300);
-      // debuggers
+      // debugger
 
       //把canvas图像转为img图片
       //img.src = canvas.toDataURL("image/png");
@@ -606,7 +606,7 @@ export default {
   created() {
     this.expansionAnswerArray();
     ws.onopen = function (data) {
-      debugger
+      // debugger
       this.authentication();
       console.log('申请认证');
     };

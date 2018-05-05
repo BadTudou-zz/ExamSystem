@@ -89,6 +89,7 @@ export default {
       }
       that.userId = sessionStorage.getItem('userId')
       let teachingId = that.currentTeachingData.id;
+
       that.cid = teachingId;  // 授课ID
 
       axios({
@@ -98,7 +99,7 @@ export default {
           'Accept': 'application/json',
           'Authorization': sessionStorage.getItem('token'),
         },
-        body: {
+        params: {
           userid: that.userId,
           cid: that.cid,  // 授课Id
           filename: this.filename,  // 文件名称（js生成唯一表示名称）
@@ -129,7 +130,7 @@ export default {
       }).then(res => {
         // alert('up成功！')
       }).catch(err => {
-        alert('上传失败');
+        // alert('上传失败');
         return;
         console.log(err);
       })
@@ -190,7 +191,6 @@ export default {
               }
               // 获取文件信息
               var mov = document.getElementsByName('pic')[0].files[0];
-
               // 如果sta>mov.size
               if(that.sta > mov.size){
                   clearInterval(that.clock);
@@ -229,6 +229,9 @@ export default {
   created() {
   },
   watch: {
+    // currentTeachingData: function (value, oldValue) {
+    //   const that = this;
+    // }
   }
 }
 </script>

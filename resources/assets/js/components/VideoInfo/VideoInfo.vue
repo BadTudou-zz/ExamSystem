@@ -68,7 +68,7 @@
     <add-video-info v-if="isShowCreateVideo"
                     ref="addVideoInfo"
                     v-on:getVideo="getVideo"
-                    v-bind:current-video-data="currentVideoData"></add-video-info>
+                    v-bind:current-teaching-data="currentTeachingData"></add-video-info>
 
     <edit-video-info v-if="isShowEditVideo"
                      ref="editVideoInfo"

@@ -102,8 +102,8 @@ export default {
           userid: that.userId,
           cid: that.cid,  // 授课Id
           filename: this.filename,  // 文件名称（js生成唯一表示名称）
-          documentName: that.documentName,  // 文档名称（由用户输入）
-          kp: that.kp,  // 知识点（由用户输入）
+          documentName: that.fileData.documentName, // 文档名称（由用户输入）
+          kp: that.fileData.kp,  // 知识点（由用户输入）
         },
       }).then(res => {
         alert('添加成功')
@@ -129,7 +129,7 @@ export default {
       }).then(res => {
         // alert('up成功！')
       }).catch(err => {
-        alert('上传失败');
+        // alert('上传失败');
         return;
         console.log(err);
       })
@@ -157,6 +157,8 @@ export default {
     fire: function (file){
       const that = this;
       var name = file.target.value;
+      that.mov = file.target.files[0];
+      // debugger
       var pos = name.lastIndexOf('.');
       var myDate = new Date();
       var postfix = name.substring(pos+1);
@@ -189,8 +191,10 @@ export default {
                   return;
               }
               // 获取文件信息
-              var mov = document.getElementsByName('pic')[0].files[0];
+              // var mov = document.getElementsByName('pic')[0].files[0];
+              var mov = that.mov;
 
+              // debugger
               // 如果sta>mov.size
               if(that.sta > mov.size){
                   clearInterval(that.clock);

@@ -10,6 +10,7 @@
             <div @click="searchQuestionType()" class="search-button"><i class="fas fa-search"></i></div>
           </div>
           <button v-show="isShowCreateQuestionType" @click="addQuestionType()" class="button add-questionType-button" type="button" name="button">添加题目类型</button>
+          <button @click="automaticTestPaper()" class="button add-questionType-button" type="button" name="button">自动生成试卷</button>
         </div>
 
         <p v-if="!questionTypeData" class="empty-message-prompt">暂无题目类型</p>
@@ -39,6 +40,9 @@
           </tbody>
         </table>
 
+        <automatic-test-paper ref="automaticTestPaper"
+                              v-on:getQuestionType="getQuestionType"></automatic-test-paper>
+
         <add-question-type v-if="isShowCreateQuestionType"
                            ref="addQuestionType"
                            v-on:getQuestionType="getQuestionType"
@@ -65,6 +69,7 @@
 import Pagination from './../Pagination'
 import AddQuestionType from './AddQuestionType'
 import EditQuestionType from './EditQuestionType'
+import AutomaticTestPaper from './AutomaticTestPaper'
 
 
 export default {
@@ -89,6 +94,7 @@ export default {
     AddQuestionType,
     EditQuestionType,
     Pagination,
+    AutomaticTestPaper,
   },
   methods: {
     switchModal: function () {
@@ -160,6 +166,10 @@ export default {
     addQuestionType: function () {
       const that = this;
       that.$refs.addQuestionType.switchModal();
+    },
+    automaticTestPaper: function () {
+      const that = this;
+      that.$refs.automaticTestPaper.switchModal();
     },
     editQuestionType: function (index, editData) {
       const that = this;

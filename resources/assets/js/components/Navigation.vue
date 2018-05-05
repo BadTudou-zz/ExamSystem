@@ -131,8 +131,8 @@
                   <template slot="title"></template>
                   <el-menu-item v-show="isShowTag" index="5-1"><router-link to="/label">标签</router-link></el-menu-item>
                   <!-- <el-menu-item index="5-3"><router-link to="/videoMonitoring">视频监控</router-link></el-menu-item> -->
-                  <!-- <el-menu-item index="5-2"><router-link to="/webrtc">webrtc</router-link></el-menu-item>
-                  <el-menu-item index="5-2"><router-link to="/webrtcServer">webrtcSever</router-link></el-menu-item> -->
+                  <el-menu-item index="5-2"><router-link to="/webrtc">webrtc</router-link></el-menu-item>
+                  <el-menu-item index="5-3"><router-link to="/webrtcServer">webrtcSever</router-link></el-menu-item>
                 </el-menu-item-group>
               </el-submenu>
             </el-menu>
@@ -198,6 +198,17 @@ export default {
     logOut: function () {
       const that = this;
       console.log('退出登录');
+      axios({
+        method: 'post',
+        url: `${this.GLOBAL.localDomain}/api/logout`,
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': this.token,
+        }
+      }).then(res => {
+      }).catch(err => {
+        console.log(err)
+      })
       that.$emit('input', 'logOut');
       sessionStorage.removeItem("token");
       sessionStorage.removeItem("permissions");

@@ -68,7 +68,7 @@
     <add-file-info v-if="isShowCreateDocument"
                    ref="addFileInfo"
                    v-on:getFile="getFile"
-                   v-bind:current-file-data="currentFileData"></add-file-info>
+                   v-bind:current-teaching-data="currentTeachingData"></add-file-info>
 
     <edit-file-info v-if="isShowEditDocument"
                     ref="editFileInfo"
