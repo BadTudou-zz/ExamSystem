@@ -42,9 +42,26 @@
             <input v-model="selectedLabel" v-bind:value="item.id" type="checkbox">{{ item.title }}
           </label> -->
 
-          <div v-for="item in labelData" class="control">
+          <!-- <div v-for="item in labelData" class="control">
             <label class="radio"><input v-model="selectedLabel"  v-bind:value="item.id" type="radio">{{ item.title }}</label>
-          </div>
+          </div> -->
+
+          <table class="table">
+            <thead>
+              <tr>
+                <th>是否选中</th>
+                <th>标签名</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="(item,index) in labelData">
+                <td>
+                  <input type="checkbox" v-bind:value="item.id" v-model="selectedLabel" class="question-seleted">
+                </td>
+                <td>{{ item.title }}</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
 
         <!-- 单选 -->
@@ -187,7 +204,7 @@ export default {
         2: '@'
       },
       labelData: [],
-      selectedLabel: '',
+      selectedLabel: [],
     }
   },
   components: {
@@ -205,7 +222,7 @@ export default {
       that.questionData.body = '';
       that.questionData.answer = [];
       that.questionData.answer_comment = '';
-      that.selectedLabel = '';
+      that.selectedLabel = [];
 
       that.options = [];
     },
@@ -279,9 +296,10 @@ export default {
         return;
       }
 
+      let tag = this.GLOBAL.computedParams(that.selectedLabel, 'tags');
       axios({
         method: 'post',
-        url: `${this.GLOBAL.localDomain}/api/v1/questions/`,
+        url: `${this.GLOBAL.localDomain}/api/v1/questions?${tag}`,
         headers: {
           'Accept': 'application/json',
           'Authorization': sessionStorage.getItem('token'),
@@ -293,7 +311,6 @@ export default {
           body: body,
           answer: that.questionData.answer,
           answer_comment: that.questionData.answer_comment,
-          'tags[0]': that.selectedLabel,
         }
       }).then(res => {
         alert('添加成功');
