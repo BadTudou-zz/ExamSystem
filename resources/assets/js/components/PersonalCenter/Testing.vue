@@ -172,8 +172,6 @@
 </template>
 
 <script>
-const ws = new WebSocket('wss://www.badtudou.com:8080')
-
 import SingleChoice from '../Question/SingleChoice'
 import moment from 'moment'
 import Webrtc from '../SurveillanceVideo/webrtc'
@@ -383,7 +381,6 @@ export default {
         }
         json[id] = that.answer[id];
       }
-      debugger
       return json;
     },
     waitTime: function () {

@@ -89,6 +89,7 @@ export default {
       }
       that.userId = sessionStorage.getItem('userId')
       let teachingId = that.currentTeachingData.id;
+
       that.cid = teachingId;  // 授课ID
 
       axios({
@@ -229,6 +230,9 @@ export default {
   created() {
   },
   watch: {
+    // currentTeachingData: function (value, oldValue) {
+    //   const that = this;
+    // }
   }
 }
 </script>
