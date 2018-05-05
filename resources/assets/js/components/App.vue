@@ -19,7 +19,7 @@ export default {
     }
   },
   components: {
-    Login,
+    Login,ugger
     HomePage,
   },
   methods: {
@@ -38,6 +38,8 @@ export default {
   computed: {
   },
   created() {
+    // debugger
+    // this.isShowLogin = true;
     this.checkLoginState();
   },
   watch: {

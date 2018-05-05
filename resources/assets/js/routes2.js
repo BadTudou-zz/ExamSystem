@@ -40,6 +40,7 @@ import VideoMonitoring from './components/SurveillanceVideo/VideoMonitoring.vue'
 // import webrtcServer from './components/SurveillanceVideo/webrtcServer.vue'
 import Practice from './components/Practice/Practice.vue'
 import Upload from './components/Upload/Upload.vue'
+import Main from './components/App.vue'
 
 
 export default [
@@ -56,6 +57,10 @@ export default [
       requireAuth: true // 添加该字段，表示进入这个路由是需要登录的
     },
     component: Home
+  },
+  {
+    path: '/Main',
+    component: Main,
   },
   {
     path: '/login',
