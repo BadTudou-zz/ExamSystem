@@ -25,7 +25,6 @@ export default {
   methods: {
     // 认证
     authentication () {
-      // debugger
       this.sendData("authentication", this.token, null);
     },
     // 订阅
@@ -65,7 +64,7 @@ export default {
       // debugger
       //绘制canvas图形
       canvas.getContext('2d').drawImage(video, 0, 0, 400, 300);
-      // debuggers
+      // debugger
 
       //把canvas图像转为img图片
       //img.src = canvas.toDataURL("image/png");
@@ -76,15 +75,19 @@ export default {
       // form.append('postdata',base64Data);
       // xhr.open('POST','https://exam.gg/api/v1/webrtc',false);
       // xhr.send(form);
+    },
+    onopen: function () {
+      const that = this;
+      ws.onopen = function (data) {
+        // debugger
+        that.authentication();
+        console.log('申请认证');
+      }();
     }
   },
   created() {
     this.token = sessionStorage.getItem('token');
-    ws.onopen = function (data) {
-      // debugger
-      this.authentication();
-      console.log('申请认证');
-    };
+    this.onopen();
     ws.onmessage = function(event) {
       // debugger
       console.log(event);
