@@ -606,7 +606,7 @@ export default {
   created() {
     this.expansionAnswerArray();
     ws.onopen = function (data) {
-      debugger
+      // debugger
       this.authentication();
       console.log('申请认证');
     };
