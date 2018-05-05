@@ -219,6 +219,15 @@ export default {
   created() {
   },
   watch: {
+    isShowModal: function (value, oldValue) {
+      const that = this;
+      if (value) {
+          //
+      }
+      else {
+        that.clearWords();
+      }
+    }
   }
 }
 </script>

@@ -108,7 +108,6 @@ export default {
           kp: that.videoData.kp,  // 知识点（由用户输入）
         },
       }).then(res => {
-        debugger
         alert('添加成功')
         that.clearWords();
         that.$emit('getTeaching');   //第一个参数名为调用的方法名，第二个参数为需要传递的参数
@@ -215,9 +214,15 @@ export default {
   created() {
   },
   watch: {
-    // currentTeachingData: function (value, oldValue) {
-    //   const that = this;
-    // }
+    isShowModal: function (value, oldValue) {
+      const that = this;
+      if (value) {
+          //
+      }
+      else {
+        that.clearWords();
+      }
+    }
   }
 }
 </script>
