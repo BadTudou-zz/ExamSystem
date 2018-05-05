@@ -35,7 +35,7 @@ import TeachingData from './components/PersonalCenter/TeachingData.vue'
 import TestingTest from './components/PersonalCenter/TestingTest.vue'
 
 import Setting from './components/Setting.vue'
-import VideoMonitoring from './components/SurveillanceVideo/VideoMonitoring.vue'
+// import VideoMonitoring from './components/SurveillanceVideo/VideoMonitoring.vue'
 import webrtc from './components/SurveillanceVideo/webrtc.vue'
 // import webrtcServer from './components/SurveillanceVideo/webrtcServer.vue'
 import Practice from './components/Practice/Practice.vue'
@@ -314,13 +314,13 @@ export default [
       requireAuth: true
     }
   },
-  {
-    path: '/VideoMonitoring',
-    component: VideoMonitoring,
-    meta: {
-      requireAuth: true
-    }
-  },
+  // {
+  //   path: '/VideoMonitoring',
+  //   component: VideoMonitoring,
+  //   meta: {
+  //     requireAuth: true
+  //   }
+  // },
   {
     path: '/Practice',
     name: '练习',
