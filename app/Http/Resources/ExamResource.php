@@ -14,6 +14,5 @@ class ExamResource extends Resource
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
     }
 }

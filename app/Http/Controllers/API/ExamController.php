@@ -17,6 +17,7 @@ use App\Http\Resources\ExamCollection;
 use App\Http\Resources\ExamResource;
 use App\Http\Resources\UserCollection;
 use App\Http\Resources\UserExamResource;
+use App\Http\Resources\ExamCheckResource;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 use App\Jobs\CorrecExam;
@@ -207,6 +208,10 @@ class ExamController extends Controller
             return response()->json(['error'=>'正式考试，无法自动评测！'], 400);
         }
 
+        if ($exam->pivot->results) {
+            return new ExamCheckResource($exam);
+        }
+
         $questions = $exam->paper->questions();
         $scores = $exam->paper->scores();
         $answers = json_decode($exam->pivot->answers);
@@ -224,13 +229,13 @@ class ExamController extends Controller
             }
 
         }
-        $exam->pivot->result = json_encode($result);
+        $exam->pivot->results = json_encode($result);
         $exam->pivot->score = $score;
         $exam->pivot->correct_at = Carbon::now();
         $exam->pivot->touch();
         $exam->pivot->save();
 
-        return $exam;
+        return new ExamCheckResource($exam);
     }
 
     //查看分数
