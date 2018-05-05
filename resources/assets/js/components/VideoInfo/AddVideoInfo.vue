@@ -35,7 +35,7 @@
         </div>
       </section>
       <footer class="modal-card-foot">
-        <button @click="addVideoInfo()" class="button is-success">确认</button>
+        <button @click="addVideoInfo()" class="button is-success">确认添加</button>
         <button  @click="switchModal()" class="button">取消</button>
       </footer>
     </div>
@@ -76,10 +76,11 @@ export default {
     },
     clearWords: function () {
       const that = this;
-      that.videoData.name = '';
-      that.videoData.display_name = '';
-      that.videoData.descripe = '';
-      that.videoData.number = '';
+      that.videoData.videoName = '';
+      that.videoData.kp = '';
+      that.isUploadedSuccess = false;
+      that.progressNumber = '';
+      that.progressWidth = '';
     },
     addVideoInfo: function () {
       const that = this;
@@ -94,22 +95,27 @@ export default {
 
       axios({
         method: 'POST',
-        url: `${this.GLOBAL.localDomain}/api/v1/upload/lecture/insert/video`,
+        url: `https://www.badtudou.com/api/v1/upload/lecture/insert/video`,
         headers: {
           'Accept': 'application/json',
           'Authorization': sessionStorage.getItem('token'),
         },
-        body: {
+        params: {
           userid: that.userId,
           cid: that.cid,  // 授课Id
           filename: this.filename,  // 文件名称（js生成唯一表示名称）
-          videoName: that.videoName,  // 视频名称（由用户输入）
-          kp: that.kp,  // 知识点（由用户输入）
+          videoName: that.videoData.videoName,  // 视频名称（由用户输入）
+          kp: that.videoData.kp,  // 知识点（由用户输入）
         },
       }).then(res => {
         alert('添加成功')
+        that.clearWords();
+        that.$emit('getTeaching');   //第一个参数名为调用的方法名，第二个参数为需要传递的参数
+        that.switchModal();
       }).catch(err => {
         alert('添加失败');
+        that.clearWords();
+        console.log(${this.GLOBAL.localDomain});
         return;
         console.log(err);
       })
@@ -132,26 +138,6 @@ export default {
       }).catch(err => {
         // alert('上传失败');
         return;
-        console.log(err);
-      })
-    },
-    info(userid,cid){
-      axios({
-        method: 'POST',
-        url: `${this.GLOBAL.localDomain}/api/v1/upload/lecture/insert`,
-        headers: {
-          'Accept': 'application/json',
-          'Authorization': sessionStorage.getItem('token'),
-        },
-        params: {
-          userid: userid,
-          cid: cid,
-          filename: this.filename,
-        }
-      }).then(res => {
-        // alert('info成功')
-      }).catch(err => {
-        // alert('info失败');
         console.log(err);
       })
     },
@@ -191,11 +177,10 @@ export default {
               }
               // 获取文件信息
               var mov = document.getElementsByName('pic')[0].files[0];
-              debugger
               // 如果sta>mov.size
               if(that.sta > mov.size){
                   clearInterval(that.clock);
-                  that.info(that.userid, that.cid);
+                  // that.info(that.userid, that.cid);
                   that.isUploadedSuccess = true;
                   alert("上传成功");
                   return ;
@@ -230,9 +215,15 @@ export default {
   created() {
   },
   watch: {
-    // currentTeachingData: function (value, oldValue) {
-    //   const that = this;
-    // }
+    isShowModal: function (value, oldValue) {
+      const that = this;
+      if (value) {
+          //
+      }
+      else {
+        that.clearWords();
+      }
+    }
   }
 }
 </script>

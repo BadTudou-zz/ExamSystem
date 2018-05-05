@@ -84,7 +84,7 @@ Route::prefix('v1')->middleware(['auth:api'])->group(function () {
     Route::post('upload/lecture/delete/video', 'API\VideoController@delete');
     Route::post('upload/lecture/update/video', 'API\VideoController@update');
 
-    Route::post('upload/lecture/document', 'API\DocumentController@uploadVideo');
+    Route::post('upload/lecture/document', 'API\DocumentController@uploadDoc');
     Route::post('upload/lecture/insert/document', 'API\DocumentController@insert');
     Route::post('upload/lecture/selectForUserid/document', 'API\DocumentController@selectForUserid');
     Route::post('upload/lecture/selectForCid/document', 'API\DocumentController@selectForCid');

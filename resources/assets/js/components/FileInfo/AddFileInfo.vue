@@ -27,7 +27,7 @@
 
         <div class="file-item-box">
           <label>文件名称</label>
-          <input v-model="fileData.documentName" class="input" type="text">
+          <input v-model="fileData.docName" class="input" type="text">
         </div>
         <div class="file-item-box">
           <label>知识点</label>
@@ -35,8 +35,8 @@
         </div>
       </section>
       <footer class="modal-card-foot">
-        <button @click="addFileInfo()" class="button is-success">确认</button>
-        <button  @click="switchModal()" class="button">取消</button>
+      <button @click="addFileInfo()" class="button is-success">确认添加</button>
+        <button @click="switchModal()" class="button">取消</button>
       </footer>
     </div>
   </div>
@@ -48,7 +48,7 @@ export default {
     return {
       isShowModal: false,
       fileData: {
-        documentName: '',
+        docName: '',
         kp: '',
       },
       clock: null,
@@ -80,6 +80,9 @@ export default {
       that.fileData.display_name = '';
       that.fileData.descripe = '';
       that.fileData.number = '';
+      that.isUploadedSuccess = false;
+      that.progressNumber = '';
+      that.progressWidth = '';
     },
     addFileInfo: function () {
       const that = this;
@@ -98,15 +101,18 @@ export default {
           'Accept': 'application/json',
           'Authorization': sessionStorage.getItem('token'),
         },
-        body: {
+        params: {
           userid: that.userId,
           cid: that.cid,  // 授课Id
           filename: this.filename,  // 文件名称（js生成唯一表示名称）
-          documentName: that.fileData.documentName, // 文档名称（由用户输入）
+          docName: that.fileData.docName, // 文档名称（由用户输入）
           kp: that.fileData.kp,  // 知识点（由用户输入）
         },
       }).then(res => {
         alert('添加成功')
+        that.clearWords();
+        that.$emit('getTeaching');   //第一个参数名为调用的方法名，第二个参数为需要传递的参数
+        that.switchModal();
       }).catch(err => {
         alert('添加失败');
         return;
@@ -134,31 +140,11 @@ export default {
         console.log(err);
       })
     },
-    info(userid,cid){
-      axios({
-        method: 'POST',
-        url: `${this.GLOBAL.localDomain}/api/v1/upload/lecture/insert`,
-        headers: {
-          'Accept': 'application/json',
-          'Authorization': sessionStorage.getItem('token'),
-        },
-        params: {
-          userid: userid,
-          cid: cid,
-          filename: this.filename,
-        }
-      }).then(res => {
-        // alert('info成功')
-      }).catch(err => {
-        // alert('info失败');
-        console.log(err);
-      })
-    },
     fire: function (file){
       const that = this;
       var name = file.target.value;
       that.mov = file.target.files[0];
-      debugger
+      //  
       var pos = name.lastIndexOf('.');
       var myDate = new Date();
       var postfix = name.substring(pos+1);
@@ -194,11 +180,11 @@ export default {
               // var mov = document.getElementsByName('pic')[0].files[0];
               var mov = that.mov;
 
-              debugger
+              //  
               // 如果sta>mov.size
               if(that.sta > mov.size){
                   clearInterval(that.clock);
-                  that.info(that.userid, that.cid);
+                  // that.info(that.userid, that.cid);
                   that.isUploadedSuccess = true;
                   alert("上传成功");
                   return ;
@@ -233,6 +219,15 @@ export default {
   created() {
   },
   watch: {
+    isShowModal: function (value, oldValue) {
+      const that = this;
+      if (value) {
+          //
+      }
+      else {
+        that.clearWords();
+      }
+    }
   }
 }
 </script>

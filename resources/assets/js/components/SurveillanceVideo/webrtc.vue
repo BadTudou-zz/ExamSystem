@@ -29,19 +29,19 @@ export default {
     },
     // 订阅
     subscribe (channel) {
-      // debugger
+      //  
       var data = {"channel":channel};
       this.sendData("subscribe", null, data);
     },
     // 退订
     unsubscribe (channel) {
-      // debugger
+      //  
       var data = {"channel":channel};
       this.sendData("unsubscribe", null, data);
     },
     // 发布
     publish (channel, data) {
-      // debugger
+      //  
       var data = {
         "channel":channel,
         "body":data
@@ -50,21 +50,21 @@ export default {
     },
     // 发送数据
     sendData(action, toekn, data) {
-      // debugger
+      //  
       var jsonData = {
         "action": action,
         "token": this.token,
         "data" : data
       };
       let jsonString = JSON.stringify(jsonData);
-      // debugger
+      //  
       ws.send(jsonString);
     },
     photograph () {
-      // debugger
+      //  
       //绘制canvas图形
       canvas.getContext('2d').drawImage(video, 0, 0, 400, 300);
-      // debugger
+      //  
 
       //把canvas图像转为img图片
       //img.src = canvas.toDataURL("image/png");
@@ -79,7 +79,7 @@ export default {
     onopen: function () {
       const that = this;
       ws.onopen = function (data) {
-        // debugger
+        //  
         that.authentication();
         console.log('申请认证');
       }();
@@ -89,7 +89,7 @@ export default {
     this.token = sessionStorage.getItem('token');
     this.onopen();
     ws.onmessage = function(event) {
-      // debugger
+      //  
       console.log(event);
       var resultJson = JSON.parse(event.data);
       switch(resultJson.action) {
@@ -117,10 +117,10 @@ export default {
         video: true, //使用摄像头对象
         audio: false  //不适用音频
     }, function(strem){
-        // debugger
+        //  
         console.log(strem);
         video.src = vendorUrl.createObjectURL(strem);
-        // debugger
+        //  
         video.play();
     }, function(error) {
         //error.code
