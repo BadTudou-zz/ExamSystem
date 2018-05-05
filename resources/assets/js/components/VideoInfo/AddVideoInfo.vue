@@ -115,7 +115,6 @@ export default {
       }).catch(err => {
         alert('添加失败');
         that.clearWords();
-        console.log(${this.GLOBAL.localDomain});
         return;
         console.log(err);
       })
