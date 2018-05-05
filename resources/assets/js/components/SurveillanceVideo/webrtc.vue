@@ -1,8 +1,8 @@
 <template>
   <div class="booth">
-      <video id="video" width="400" height="300"></video>
-      <canvas id='canvas' width='400' height='300'></canvas>
-      <img id='img' src=''>
+      <video id="video" width="200" height="200"></video>
+      <canvas class="hidden" id='canvas' width='200' height='200'></canvas>
+      <img class="hidden" id='img' src=''>
   </div>
 
 </template>
@@ -13,13 +13,11 @@
 // import WebSocket from 'ws'
 // import WebSocket from 'websocket'
 
-const ws = new WebSocket('wss://www.badtudou.com:8080');
-const token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6IjU5MzE5YjY2NjBiYmFlNTZlYzhjOTJlMDFkY2QwYmE4YzNlNTRjNzE5MWIxNDkzZDNlNzQxOWYwMTIyZGY2NWI5NmUyN2MzNDgxYmViMDQ0In0.eyJhdWQiOiIxIiwianRpIjoiNTkzMTliNjY2MGJiYWU1NmVjOGM5MmUwMWRjZDBiYThjM2U1NGM3MTkxYjE0OTNkM2U3NDE5ZjAxMjJkZjY1Yjk2ZTI3YzM0ODFiZWIwNDQiLCJpYXQiOjE1MjUxODkyNjAsIm5iZiI6MTUyNTE4OTI2MCwiZXhwIjoxNTU2NzI1MjYwLCJzdWIiOiIzIiwic2NvcGVzIjpbXX0.fWKHped8kzl9yU1JxjsdqjW6aTO-oiU2BBwX3v_oGCk4PYTjscr0UqjshUIO7P_HbM3FJyokBGZ-Chn19PhzCaNR_0UQRZQ6ahtLSxXSL5r1HTfAyXLyyWwBjwFgWGDfyHxnn7px97UJ8jrnP-A2atTtfRhWxhac5BQpfIqhv3XfqVmo-E-zSzhoRWD0rzj-7YeC2dki02vAMM6fT2xB1mAVE1rmxjKstMZy9lx2686iOLx2LSNgVoRjzO_7nHK1kmF0NxKWd3zzaM7zJPocHZDMbR3N6oq3aFYzZulHmEy3HHyNBtqbbq_q8cSFhPt9VKHzhhx8NuYFhB3LASZM6rgKjZLOSucAMiJUqeJ7l7_DecQPwLQsiZd8_btHmIS3F6rLjH6IjKPk6XWQ25vsHH9QabTjSFgWh_nbwPxMMru9L0RcKRuqX9ncdLGoLt8f9z-sGGiTqZmSmbsrYACWB5xf1ac8kMug-FxuwMwle-xrDZiST93QCP6D53oUB2c5I9ettofBMb_WDM0uF4h_VCkak3bCx5kKt_eDOuKlAZbHLQbQs27ruwPHAMu7nwfSf7c9rm9JTtvbggbYNHuLIgo26GP5lLqoT3am2S90QRRpRY8E8ysHXzpNdzz2Xo2FkLIr9qVfN_ZTFz1_dwZz4xEiXGH_VnK4uEB-1g4fVtc';
-
-
+const ws = new WebSocket('ws://www.badtudou.com:8080');
 export default {
   data() {
     return {
+      token: '',
     };
   },
   components: {
@@ -27,8 +25,7 @@ export default {
   methods: {
     // 认证
     authentication () {
-      // debugger
-      this.sendData("authentication", token, null);
+      this.sendData("authentication", this.token, null);
     },
     // 订阅
     subscribe (channel) {
@@ -56,7 +53,7 @@ export default {
       // debugger
       var jsonData = {
         "action": action,
-        "token": token,
+        "token": this.token,
         "data" : data
       };
       let jsonString = JSON.stringify(jsonData);
@@ -67,7 +64,7 @@ export default {
       // debugger
       //绘制canvas图形
       canvas.getContext('2d').drawImage(video, 0, 0, 400, 300);
-      // debuggers
+      // debugger
 
       //把canvas图像转为img图片
       //img.src = canvas.toDataURL("image/png");
@@ -78,14 +75,19 @@ export default {
       // form.append('postdata',base64Data);
       // xhr.open('POST','https://exam.gg/api/v1/webrtc',false);
       // xhr.send(form);
+    },
+    onopen: function () {
+      const that = this;
+      ws.onopen = function (data) {
+        // debugger
+        that.authentication();
+        console.log('申请认证');
+      }();
     }
   },
   created() {
-    ws.onopen = function (data) {
-      // debugger
-      this.authentication();
-      console.log('申请认证');
-    };
+    this.token = sessionStorage.getItem('token');
+    this.onopen();
     ws.onmessage = function(event) {
       // debugger
       console.log(event);
@@ -134,10 +136,13 @@ export default {
 
 <style scoped>
 .booth {
-    width: 380px;
+    width: 200px;
 
     background:#ccc;
     border: 10px solid #ddd;
     margin: 0 auto;
+}
+.hidden {
+  display: none;
 }
 </style>

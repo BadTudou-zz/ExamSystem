@@ -38,6 +38,8 @@ export default {
   computed: {
   },
   created() {
+    // debugger
+    // this.isShowLogin = true;
     this.checkLoginState();
   },
   watch: {

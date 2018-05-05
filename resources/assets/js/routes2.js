@@ -25,6 +25,7 @@ import MessageData from './components/PersonalCenter/MessageData.vue'
 import NoticeData from './components/PersonalCenter/NoticeData.vue'
 import LectureData from './components/PersonalCenter/LectureData.vue'
 import OrganizationData from './components/PersonalCenter/OrganizationData.vue'
+import PracticeData from './components/PersonalCenter/PracticeData.vue'
 // import RoleData from './components/PersonalCenter/RoleData.vue'
 import PermissionData from './components/PersonalCenter/PermissionData.vue'
 import ApplyForData from './components/PersonalCenter/ApplyForData.vue'
@@ -34,11 +35,12 @@ import TeachingData from './components/PersonalCenter/TeachingData.vue'
 import TestingTest from './components/PersonalCenter/TestingTest.vue'
 
 import Setting from './components/Setting.vue'
-import VideoMonitoring from './components/SurveillanceVideo/VideoMonitoring.vue'
-// import webrtc from './components/SurveillanceVideo/webrtc.vue'
+// import VideoMonitoring from './components/SurveillanceVideo/VideoMonitoring.vue'
+import webrtc from './components/SurveillanceVideo/webrtc.vue'
 // import webrtcServer from './components/SurveillanceVideo/webrtcServer.vue'
 import Practice from './components/Practice/Practice.vue'
 import Upload from './components/Upload/Upload.vue'
+// import Main from './components/App.vue'
 
 
 export default [
@@ -56,6 +58,10 @@ export default [
     },
     component: Home
   },
+  // {
+  //   path: '/Main',
+  //   component: Main,
+  // },
   {
     path: '/login',
     component: login,
@@ -203,13 +209,13 @@ export default [
       requireAuth: true
     }
   },
-  // {
-  //   path: '/webrtc',
-  //   component: webrtc,
-  //   meta: {
-  //     requireAuth: true
-  //   }
-  // },
+  {
+    path: '/webrtc',
+    component: webrtc,
+    meta: {
+      requireAuth: true
+    }
+  },
   // {
   //   path: '/webrtcServer',
   //   component: webrtcServer,
@@ -281,6 +287,13 @@ export default [
     }
   },
   {
+    path: '/PracticeData',
+    component: PracticeData,
+    meta: {
+      requireAuth: true
+    }
+  },
+  {
     path: '/CourseData',
     component: CourseData,
     meta: {
@@ -301,13 +314,13 @@ export default [
       requireAuth: true
     }
   },
-  {
-    path: '/VideoMonitoring',
-    component: VideoMonitoring,
-    meta: {
-      requireAuth: true
-    }
-  },
+  // {
+  //   path: '/VideoMonitoring',
+  //   component: VideoMonitoring,
+  //   meta: {
+  //     requireAuth: true
+  //   }
+  // },
   {
     path: '/Practice',
     name: '练习',

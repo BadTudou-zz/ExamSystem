@@ -10,9 +10,14 @@
     <div v-else>
       <h1>{{ testTitle }}</h1>
 
-      <video class="box video-box" id="video" width="400" height="300"></video>
-      <canvas class="hidden" id='canvas' width='400' height='300'></canvas>
-      <img class="hidden" id='img' src=''>
+      <!-- <div v-if="!isLoading">
+        <video class="box video-box" id="video" width="400" height="300"></video>
+        <canvas class="hidden" id='canvas' width='400' height='300'></canvas>
+        <img class="hidden" id='img' src=''>
+        <webrtc></webrtc>
+      </div> -->
+
+      <webrtc v-if="isShowWebrtc"></webrtc>
 
       <button @click="submitAnswer()" class="button is-info finish-exam" type="button" name="button">完成考试</button>
       <div class="countdown">
@@ -29,7 +34,8 @@
           <!-- 单选 -->
           <div v-show="item.type_id === 1" class="testing box">
             <div class="question-title">
-              <span class="question-index"> {{ index + 1 }}</span>
+              <!-- <span class="question-index"> {{ index + 1 }}</span> -->
+              <span class="question-index"> {{ item.id }}</span>
               <span class="question-type">单选题</span>
               <span class="question-difficulty">难度：{{item.level_type}} </span>
             </div>
@@ -45,21 +51,117 @@
 
                 <!-- <input type="checkbox" v-bind:value="item.id" v-model="selectedUser" class="user-seleted"> -->
                 <div class="">
-                  <input class="answer-index" v-model="answer[index]" value="A" type="radio">{{ getOptionsString(item.body)[0] }}
+                  <input class="answer-index" v-model="answer[item.id]" value="A" type="radio">{{ getOptionsString(item.body)[0] }}
                 </div>
                 <div class="">
-                  <input class="answer-index" v-model="answer[index]" value="B" type="radio">{{ getOptionsString(item.body)[1] }}
+                  <input class="answer-index" v-model="answer[item.id]" value="B" type="radio">{{ getOptionsString(item.body)[1] }}
                 </div>
                 <div class="">
-                  <input class="answer-index" v-model="answer[index]" value="C" type="radio">{{ getOptionsString(item.body)[2] }}
+                  <input class="answer-index" v-model="answer[item.id]" value="C" type="radio">{{ getOptionsString(item.body)[2] }}
                 </div>
                 <div class="">
-                  <input class="answer-index" v-model="answer[index]" value="D" type="radio">{{ getOptionsString(item.body)[3] }}
+                  <input class="answer-index" v-model="answer[item.id]" value="D" type="radio">{{ getOptionsString(item.body)[3] }}
                 </div>
               </label>
             </div>
           </div>
 
+          <!-- 多选 -->
+          <div v-show="item.type_id === 2" class="testing box">
+            <div class="question-title">
+              <span class="question-index"> {{ item.id }}</span>
+              <span class="question-type">多选题</span>
+              <span class="question-difficulty">难度：{{item.level_type}} </span>
+            </div>
+            <div class="triangle-topright">
+
+            </div>
+            <div class="test">
+              <div class="question">题目：{{ item.title }}</div>
+            </div>
+
+            <div class="answer">
+              <label class="checkbox">
+                <div class="">
+                  <input class="answer-index" v-model="answer[item.id]" value="A" type="checkbox">{{ getOptionsString(item.body)[0] }}
+                </div>
+                <div class="">
+                  <input class="answer-index" v-model="answer[item.id]" value="B" type="checkbox">{{ getOptionsString(item.body)[1] }}
+                </div>
+                <div class="">
+                  <input class="answer-index" v-model="answer[item.id]" value="C" type="checkbox">{{ getOptionsString(item.body)[2] }}
+                </div>
+                <div class="">
+                  <input class="answer-index" v-model="answer[item.id]" value="D" type="checkbox">{{ getOptionsString(item.body)[3] }}
+                </div>
+              </label>
+            </div>
+          </div>
+
+
+          <!-- 判断 -->
+          <div v-show="item.type_id === 3" class="testing box">
+            <div class="question-title">
+              <span class="question-index"> {{ item.id }}</span>
+              <span class="question-type">判断题</span>
+              <span class="question-difficulty">难度：{{item.level_type}} </span>
+            </div>
+            <div class="triangle-topright">
+
+            </div>
+            <div class="test">
+              <div class="question">题目：{{ item.title }}</div>
+            </div>
+
+            <div class="answer">
+              <div class="control">
+                <label class="radio">
+                  <input v-model="answer[item.id]" value=true type="radio">正确
+                </label>
+                <label class="radio">
+                  <input v-model="answer[item.id]" value=false type="radio">错误
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <!-- 填空 -->
+          <div v-show="item.type_id === 4" class="testing box">
+            <div class="question-title">
+              <span class="question-index"> {{ item.id }}</span>
+              <span class="question-type">判断题</span>
+              <span class="question-difficulty">难度：{{item.level_type}} </span>
+            </div>
+            <div class="triangle-topright">
+
+            </div>
+            <div class="test">
+              <div class="question">题目：{{ item.title }}</div>
+            </div>
+
+            <div class="answer">
+              <input v-model="answer[item.id]" class="input" type="text" name="answer">
+            </div>
+          </div>
+
+          <!-- 简答 -->
+          <div v-show="item.type_id === 5" class="testing box">
+            <div class="question-title">
+              <span class="question-index"> {{ item.id }}</span>
+              <span class="question-type">判断题</span>
+              <span class="question-difficulty">难度：{{item.level_type}} </span>
+            </div>
+            <div class="triangle-topright">
+
+            </div>
+            <div class="test">
+              <div class="question">题目：{{ item.title }}</div>
+            </div>
+
+            <div class="answer">
+              <textarea v-model="answer[item.id]" class="textarea" type="text"></textarea>
+            </div>
+          </div>
 
         </div>
       </div>
@@ -70,15 +172,15 @@
 </template>
 
 <script>
-// const ws = new WebSocket('wss://www.badtudou.com:8080')
-
 import SingleChoice from '../Question/SingleChoice'
 import moment from 'moment'
+import Webrtc from '../SurveillanceVideo/webrtc'
 
 export default {
   data() {
     return {
        questionData: [],
+       questionDataLength: null,
        chapterIds: [],
        isLoading: true,
        singleChoiceAnswer: null,
@@ -94,10 +196,12 @@ export default {
        paperId: null,
        examId: null,
        examTime: null,
+       isShowWebrtc: false,
     }
   },
   components: {
     SingleChoice,
+    Webrtc,
   },
   props: [
     'currentTestData',
@@ -162,9 +266,10 @@ export default {
         headers: {
           'Accept': 'application/json',
           'Authorization': sessionStorage.getItem('token'),
-        }
+        },
       }).then(res => {
         let currentQuestionData = res.data.data;
+
         that.temporaryQuestionData.push(currentQuestionData);
       }).catch(err => {
         // alert('查找出错');
@@ -183,6 +288,7 @@ export default {
       const that = this;
       let id = that.examId;
       let answers = that.computedAnswerJson();
+
       axios({
         method: 'post',
         url: `${this.GLOBAL.localDomain}/api/v1/exams/${id}/answer/`,
@@ -252,7 +358,9 @@ export default {
     },
     getOptionsString: function (value) {
       const that = this;
-      let arr = value.split(' ');
+
+      // let arr = value.split(' ');
+      let arr = value;
       let alphabet = ['A','B','C','D','E','F','G','H','I'];
       let str = '';
       for (let i = 0; i < arr.length; i++) {
@@ -260,17 +368,18 @@ export default {
       }
       return str.split('\n');
     },
-    // ?? 多选的答案格式
     computedAnswerJson: function () {
       const that = this;
-      if (that.answer.length !== that.questionData.length) {
-        alert('请检查是否全部作答');
-        return;
-      }
 
       let json = {};
+      let a = that.answer;
       for (let i = 0; i < that.questionData.length; i++) {
-        json[that.questionData[i].id] = that.answer[i];
+        let id = that.questionData[i].id;
+        // if (that.answer[id].length > 1) {
+        if (that.answer[id] instanceof Array) {
+          that.answer[id] = that.answer[id].sort().join('')
+        }
+        json[id] = that.answer[id];
       }
       return json;
     },
@@ -304,115 +413,13 @@ export default {
         }
       }
     },
-    // 视频监控
-    // 认证
-    authentication () {
-      // debugger
-      this.sendData("authentication", sessionStorage.getItem('token'), null);
-    },
-    // 订阅
-    subscribe (channel) {
-      // debugger
-      var data = {"channel":channel};
-      this.sendData("subscribe", null, data);
-    },
-    // 退订
-    unsubscribe (channel) {
-      // debugger
-      var data = {"channel":channel};
-      this.sendData("unsubscribe", null, data);
-    },
-    //
-    //  发布
-    publish (channel, data) {
-      // debugger
-      var data = {
-        "channel":channel,
-        "body":data
-      };
-      this.sendData("publish", null, data);
-    },
-    // 发送数据
-    sendData(action, toekn, data) {
-      // debugger
-      var jsonData = {
-        "action": action,
-        "token": sessionStorage.getItem('token'),
-        "data" : data
-      };
-      let jsonString = JSON.stringify(jsonData);
-      // debugger
-      ws.send(jsonString);
-    },
-    photograph () {
-      // debugger
-      //绘制canvas图形
-      canvas.getContext('2d').drawImage(video, 0, 0, 400, 300);
-      // debuggers
-
-      //把canvas图像转为img图片
-      //img.src = canvas.toDataURL("image/png");
-      let base64Data = canvas.toDataURL("image/png", 0.5);
-      this.publish(1, base64Data);
-      // var xhr = new XMLHttpRequest();
-      // form = new  FormData();
-      // form.append('postdata',base64Data);
-      // xhr.open('POST','https://exam.gg/api/v1/webrtc',false);
-      // xhr.send(form);
-    }
   },
   computed: {
   },
   created() {
-    // ws.onopen = function (data) {
-    //   debugger
-    //   this.authentication();
-    //   console.log('申请认证');
-    // };
-    // ws.onmessage = function(event) {
-    //   // debugger
-    //   console.log(event);
-    //   var resultJson = JSON.parse(event.data);
-    //   switch(resultJson.action) {
-    //     case 'authentication':
-    //     if (resultJson.statusCode == 200) {
-    //       console.log('认证成功');
-    //     }
-    //     break;
-    //   }
-    // };
-    // this.video = document.getElementById('video');
-    // this.canvas = document.getElementById('canvas');
-    // this.img = document.getElementById('img');
-    // const  photographTime = 50; // 单位毫秒
-    // // window对象路径 兼容手机
-    // var vendorUrl = window.URL || window.webkitURL;
-    //
-    // //媒体对象
-    // navigator.getMedia = navigator.getUserMedia ||
-    //     navagator.webkitGetUserMedia ||
-    //     navigator.mozGetUserMedia ||
-    //     navigator.msGetUserMedia;
-    //
-    // navigator.getMedia({
-    //     video: true, //使用摄像头对象
-    //     audio: false  //不适用音频
-    // }, function(strem){
-    //     // debugger
-    //     console.log(strem);
-    //     video.src = vendorUrl.createObjectURL(strem);
-    //     // debugger
-    //     video.play();
-    // }, function(error) {
-    //     //error.code
-    //     console.log(error);
-    // });
-    // let clock = setInterval(this.photograph,photographTime);
-
   },
   watch: {
     currentTestData: function (value, oldValue) {
-      // debugger
       const that = this;
       that.paperId = value.paper_id;
       that.examId = value.id;
@@ -420,21 +427,18 @@ export default {
       that.testTitle = value.title;
     },
     paperId: function (value, oldValue) {
-
-      // debugger
       const that = this;
       that.getChapterIds(value);
       that.clearQuestionIds();
     },
     chapterIds: async function (value, oldValue) {
-      // debugger
-      const that = this;x
+      const that = this;
       console.log('获取章节ID')
       console.log(value)
       for (let i = 0; i < value.length; i++) {
         let response = await that.getQuestionIds(value[i])
       }
-      // debugger
+
       that.waitTime();
       // 10s等待
       setTimeout(function(){
@@ -465,11 +469,22 @@ export default {
     },
     questionData: function (value, oldValue) {
       const that = this;
+      that.questionDataLength = value.length;
       that.isLoading = false;
+      that.isShowWebrtc = true;
+    },
+    questionDataLength: function (value, oldValue) {
+      const that = this;
+      if (value !== oldValue) {
+        for (let i = 0; i < that.questionData.length; i++) {
+          let id = that.questionData[i]['id'];
+          that.answer[id] = [];
+        }
+      }
     },
     examTime: function (value, oldValue) {
       const that = this;
-      that.testRemainingTime = value * 60; //
+      that.testRemainingTime = value * 60;
       that.countdown();
     }
   }
@@ -576,14 +591,9 @@ h1 {
   font-size: 25px;
   text-align: center;
 }
-.video-box {
-  width: 99px;
-  height: 75px;
-  display: inline-block;
-  padding: 0;
-  border: none;
+vide {
+  width: 200px;
+  height: 200px;
 }
-.hidden {
-  display: none;
-}
+
 </style>

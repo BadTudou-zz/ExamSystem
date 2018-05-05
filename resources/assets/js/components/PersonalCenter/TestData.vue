@@ -3,8 +3,7 @@
   <div class="box">
     <div  v-show="!isTesting">
       <h3 class="title">考试</h3>
-
-      <p v-if="!testData" class="empty-message-prompt">暂无考试</p>
+      <p v-if="!testData || testData.length === 0 " class="empty-message-prompt">暂无考试</p>
       <table v-else class="table">
         <thead>
           <tr>
@@ -50,6 +49,8 @@
 import Testing from './Testing'
 import Pagination from './../Pagination.vue'
 import Score from './Score'
+
+
 export default {
   data() {
     return {
@@ -130,7 +131,7 @@ export default {
       }).catch(err => {
         // that.switchTesting();
         // that.currentTestData = that.testData[index];
-        // debugger
+
         let errMsg = err.response.data.error;
         if (errMsg) {
           alert(errMsg);

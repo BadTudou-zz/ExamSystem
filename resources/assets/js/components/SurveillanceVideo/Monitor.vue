@@ -130,13 +130,11 @@ export default {
           userId = value[i]['id'];
 
           ws.onmessage = function(event) {
-            debugger
             console.log(event);
             var resultJson = JSON.parse(event.data);
             switch(resultJson.action) {
               case 'authentication':
                 if (resultJson.statusCode == 200) {
-                  debugger
                     console.log('认证成功');
                     subscribe(userId);
                 }

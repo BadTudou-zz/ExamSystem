@@ -81,9 +81,9 @@
                       v-bind:exam-id="examId"
     ></participate-user>
 
-    <monitor ref="monitor"
+    <!-- <monitor ref="monitor"
              v-bind:edit-data="editData"
-    ></monitor>
+    ></monitor> -->
   </div>
 </template>
 
@@ -92,7 +92,7 @@ import Pagination from './../Pagination.vue'
 import AddTest from './AddTest'
 import EditTest from './EditTest'
 import ParticipateUser from './ParticipateUser'
-import Monitor from '../SurveillanceVideo/Monitor'
+// import Monitor from '../SurveillanceVideo/Monitor'
 
 export default {
   data() {
@@ -119,7 +119,7 @@ export default {
     EditTest,
     Pagination,
     ParticipateUser,
-    Monitor,
+    // Monitor,
   },
   methods: {
     showModal: function () {

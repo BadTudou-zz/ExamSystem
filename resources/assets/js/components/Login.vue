@@ -88,6 +88,7 @@ export default {
         let url = `${this.GLOBAL.localDomain}/api/v1/users/${that.userId}/permissions/`;
         that.getPermission(url);
       }).catch(err => {
+        that.getVerificationCode();
         let errCode = err.response.status;  // http code
         let errMsg = err.response.data.message;
         if (errMsg) {
@@ -98,7 +99,6 @@ export default {
           that.password = '';
         }
         that.captcha = '';
-        that.getVerificationCode();
       })
     },
     getVerificationCode: function () {
