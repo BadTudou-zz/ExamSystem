@@ -191,12 +191,9 @@ export default {
         answer_comment: '',
       },
       options: [],
-      questionTypeData: {
-        1: '!',
-        2: '@'
-      },
       labelData: [],
       selectedLabel: [],
+      questionTypeData: [],
     }
   },
   components: {
@@ -218,12 +215,34 @@ export default {
 
       that.options = [];
     },
+    getQuestionType: function () {
+      const that = this;
+      axios({
+        method: 'get',
+        url: `${this.GLOBAL.localDomain}/api/v1/questionTypes`,
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': sessionStorage.getItem('token'),
+        }
+      }).then(res => {
+        that.questionTypeData = res.data.data;
+      }).catch(err => {
+        console.log(err);
+        if (err.response.status === 401) {
+          // alert('登录超时');
+          // location.reload();
+        }
+      })
+    },
     getAnswerOptions: function () {
       const that = this;
       let answer_body = '';
+      let typeId = that.questionData.type_id;
+
+      let separate = that.questionTypeData[typeId - 1]['delimiter'];
       for (let i = 0; i < that.options.length; i++) {
         if (i !== that.options.length - 1) {
-          answer_body += that.options[i] + ','
+          answer_body += that.options[i] + separate;
         }
         else {
           answer_body += that.options[i];
@@ -329,6 +348,7 @@ export default {
       const that = this;
       if (value) {
         that.getLabel();
+        that.getQuestionType();
       }
     }
   }
