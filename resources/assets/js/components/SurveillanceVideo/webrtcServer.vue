@@ -42,7 +42,7 @@ export default {
     },
     // 发布
     publish (channel, data) {
-      // debugger
+      //  
       var data = {
         "channel":channel,
         "body":data
@@ -51,14 +51,14 @@ export default {
     },
     // 发送数据
     sendData(action, toekn, data) {
-      // debugger
+      //  
       var jsonData = {
         "action": action,
         "token": this.token,
         "data" : data
       };
       let jsonString = JSON.stringify(jsonData);
-      // debugger
+      //  
       if (ws.readyState === 1) {
         ws.send(jsonString);
       }

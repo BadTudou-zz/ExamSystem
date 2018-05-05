@@ -287,7 +287,7 @@ export default {
       let answer = that.questionData.answer;
       let answer_comment = that.questionData.answer_comment;
 
-      // debugger
+      //  
 
       if (!that.questionData.type_id || !that.questionData.level_type || !that.questionData.title ||
           !that.questionData.answer || !that.questionData.answer_comment)

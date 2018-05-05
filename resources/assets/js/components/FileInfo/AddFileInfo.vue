@@ -144,7 +144,7 @@ export default {
       const that = this;
       var name = file.target.value;
       that.mov = file.target.files[0];
-      // debugger
+      //  
       var pos = name.lastIndexOf('.');
       var myDate = new Date();
       var postfix = name.substring(pos+1);
@@ -180,7 +180,7 @@ export default {
               // var mov = document.getElementsByName('pic')[0].files[0];
               var mov = that.mov;
 
-              // debugger
+              //  
               // 如果sta>mov.size
               if(that.sta > mov.size){
                   clearInterval(that.clock);
