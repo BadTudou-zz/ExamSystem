@@ -36,7 +36,7 @@ import TestingTest from './components/PersonalCenter/TestingTest.vue'
 
 import Setting from './components/Setting.vue'
 import VideoMonitoring from './components/SurveillanceVideo/VideoMonitoring.vue'
-// import webrtc from './components/SurveillanceVideo/webrtc.vue'
+import webrtc from './components/SurveillanceVideo/webrtc.vue'
 // import webrtcServer from './components/SurveillanceVideo/webrtcServer.vue'
 import Practice from './components/Practice/Practice.vue'
 import Upload from './components/Upload/Upload.vue'
@@ -209,13 +209,13 @@ export default [
       requireAuth: true
     }
   },
-  // {
-  //   path: '/webrtc',
-  //   component: webrtc,
-  //   meta: {
-  //     requireAuth: true
-  //   }
-  // },
+  {
+    path: '/webrtc',
+    component: webrtc,
+    meta: {
+      requireAuth: true
+    }
+  },
   // {
   //   path: '/webrtcServer',
   //   component: webrtcServer,

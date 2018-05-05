@@ -3,7 +3,6 @@
   <div class="box">
     <div  v-show="!isTesting">
       <h3 class="title">考试</h3>
-
       <p v-if="!testData || testData.length === 0 " class="empty-message-prompt">暂无考试</p>
       <table v-else class="table">
         <thead>
@@ -50,6 +49,8 @@
 import Testing from './Testing'
 import Pagination from './../Pagination.vue'
 import Score from './Score'
+
+
 export default {
   data() {
     return {

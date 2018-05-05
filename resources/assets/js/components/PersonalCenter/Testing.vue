@@ -14,7 +14,10 @@
         <video class="box video-box" id="video" width="400" height="300"></video>
         <canvas class="hidden" id='canvas' width='400' height='300'></canvas>
         <img class="hidden" id='img' src=''>
+        <webrtc></webrtc>
       </div> -->
+
+      <webrtc v-if="isShowWebrtc"></webrtc>
 
       <button @click="submitAnswer()" class="button is-info finish-exam" type="button" name="button">完成考试</button>
       <div class="countdown">
@@ -169,10 +172,11 @@
 </template>
 
 <script>
-// const ws = new WebSocket('wss://www.badtudou.com:8080')
+const ws = new WebSocket('wss://www.badtudou.com:8080')
 
 import SingleChoice from '../Question/SingleChoice'
 import moment from 'moment'
+import Webrtc from '../SurveillanceVideo/webrtc'
 
 export default {
   data() {
@@ -194,10 +198,12 @@ export default {
        paperId: null,
        examId: null,
        examTime: null,
+       isShowWebrtc: false,
     }
   },
   components: {
     SingleChoice,
+    Webrtc,
   },
   props: [
     'currentTestData',
@@ -410,108 +416,10 @@ export default {
         }
       }
     },
-    // 视频监控
-    // 认证
-    // authentication () {
-    //
-    //   this.sendData("authentication", sessionStorage.getItem('token'), null);
-    // },
-    // // 订阅
-    // subscribe (channel) {
-    //
-    //   var data = {"channel":channel};
-    //   this.sendData("subscribe", null, data);
-    // },
-    // // 退订
-    // unsubscribe (channel) {
-    //
-    //   var data = {"channel":channel};
-    //   this.sendData("unsubscribe", null, data);
-    // },
-    // //
-    // //  发布
-    // publish (channel, data) {
-    //
-    //   var data = {
-    //     "channel":channel,
-    //     "body":data
-    //   };
-    //   this.sendData("publish", null, data);
-    // },
-    // // 发送数据
-    // sendData(action, toekn, data) {
-    //
-    //   var jsonData = {
-    //     "action": action,
-    //     "token": sessionStorage.getItem('token'),
-    //     "data" : data
-    //   };
-    //   let jsonString = JSON.stringify(jsonData);
-    //
-    //   ws.send(jsonString);
-    // },
-    // photograph () {
-    //
-    //   //绘制canvas图形
-    //   canvas.getContext('2d').drawImage(video, 0, 0, 400, 300);
-    //   //把canvas图像转为img图片
-    //   //img.src = canvas.toDataURL("image/png");
-    //   let base64Data = canvas.toDataURL("image/png", 0.5);
-    //   this.publish(1, base64Data);
-    //   // var xhr = new XMLHttpRequest();
-    //   // form = new  FormData();
-    //   // form.append('postdata',base64Datacd );
-    //   // xhr.open('POST','https://exam.gg/api/v1/webrtc',false);
-    //   // xhr.send(form);
-    // }
   },
   computed: {
   },
   created() {
-    // ws.onopen = function (data) {
-    //   this.authentication();
-    //   console.log('申请认证');
-    // };
-    // ws.onmessage = function(event) {
-    //
-    //   console.log(event);
-    //   var resultJson = JSON.parse(event.data);
-    //   switch(resultJson.action) {
-    //     case 'authentication':
-    //     if (resultJson.statusCode == 200) {
-    //       console.log('认证成功');
-    //     }
-    //     break;
-    //   }
-    // };
-    // this.video = document.getElementById('video');
-    // this.canvas = document.getElementById('canvas');
-    // this.img = document.getElementById('img');
-    // const  photographTime = 50; // 单位毫秒
-    // // window对象路径 兼容手机
-    // var vendorUrl = window.URL || window.webkitURL;
-    //
-    // //媒体对象
-    // navigator.getMedia = navigator.getUserMedia ||
-    //     navagator.webkitGetUserMedia ||
-    //     navigator.mozGetUserMedia ||
-    //     navigator.msGetUserMedia;
-    //
-    // navigator.getMedia({
-    //     video: true, //使用摄像头对象
-    //     audio: false  //不适用音频
-    // }, function(strem){
-    //
-    //     console.log(strem);
-    //     video.src = vendorUrl.createObjectURL(strem);
-    //
-    //     video.play();
-    // }, function(error) {
-    //     //error.code
-    //     console.log(error);
-    // });
-    // let clock = setInterval(this.photograph,photographTime);
-
   },
   watch: {
     currentTestData: function (value, oldValue) {
@@ -566,6 +474,7 @@ export default {
       const that = this;
       that.questionDataLength = value.length;
       that.isLoading = false;
+      that.isShowWebrtc = true;
     },
     questionDataLength: function (value, oldValue) {
       const that = this;
@@ -685,14 +594,9 @@ h1 {
   font-size: 25px;
   text-align: center;
 }
-.video-box {
-  width: 99px;
-  height: 75px;
-  display: inline-block;
-  padding: 0;
-  border: none;
+vide {
+  width: 200px;
+  height: 200px;
 }
-.hidden {
-  display: none;
-}
+
 </style>
