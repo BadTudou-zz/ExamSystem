@@ -92,10 +92,14 @@ export default {
       //
       console.log(event);
       var resultJson = JSON.parse(event.data);
+      debugger
       switch(resultJson.action) {
         case 'authentication':
         if (resultJson.statusCode == 200) {
           console.log('认证成功');
+        }
+        else {
+          //
         }
         break;
       }

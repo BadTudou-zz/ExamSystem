@@ -269,6 +269,7 @@ export default {
           return;
         }
         body = that.getAnswerOptions();  // 选项
+
         that.editQuestionData.answer = that.editQuestionData.answer.join('')
       }
       else {
@@ -294,7 +295,7 @@ export default {
       // let tag = this.GLOBAL.computedParams(that.selectedLabel, 'tags');
       axios({
         method: 'put',
-        url: `${this.GLOBAL.localDomain}/api/v1/questions`,
+        url: `${this.GLOBAL.localDomain}/api/v1/questions/${that.editData.id}`,
         headers: {
           'Accept': 'application/json',
           'Authorization': sessionStorage.getItem('token'),
@@ -336,23 +337,28 @@ export default {
       }
     },
     editData: function (value, oldValue) {
-      debugger
       const that = this;
+
       that.editQuestionData.type_id =  value.type_id;
       that.editQuestionData.level_type =  value.level_type;
       that.editQuestionData.title =  value.title;
-
-      if (value.type_id === 1 || value.type_id === 2) {  // 选项
-        that.options =  value.body.split(',');
-      }
-      else {
-        that.editQuestionData.body = '/';
-      }
-
-      that.editQuestionData.answer =  value.answer;
       that.editQuestionData.answer_comment =  value.answer_comment;
       that.editQuestionData.tags = value.tags;
-      debugger
+
+      // 单选 body
+      if (value.type_id === 1) {
+        that.options =  value.body.split(',');
+        that.editQuestionData.answer = value.answer;
+      }
+      // 多选
+      else if (value.type_id === 2) {
+        that.options =  value.body.split(',');
+        that.editQuestionData.answer = value.answer.split('');
+      }
+      else {
+        that.editQuestionData.answer =  value.answer;
+        that.editQuestionData.body = '/';
+      }
     }
   }
 }
