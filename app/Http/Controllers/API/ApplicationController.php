@@ -53,27 +53,27 @@ class ApplicationController extends Controller
     {
         $user = Auth::user();
         $application = Notification::find($id);
-        return $this->acceptApplication($application);
+        return $this->acceptApplication($application, $user);
     }
 
     public function reject(RejectApplication $request, $id)
     {
         $user = Auth::user();
         $application = Notification::find($id);
-        return $this->rejectApplication($application);
+        return $this->rejectApplication($application, $user);
     }
 
-    protected function acceptApplication($application)
+    protected function acceptApplication($application, $user)
     {
         $data = json_decode($application->data);
 
         switch ($data->resource_type) {
             case 'Organization':
-                return $this->acceptOrganizationApplication($application);
+                return $this->acceptOrganizationApplication($application, $user);
                 break;
 
             case 'Lecture':
-                return $this->acceptLectureApplication($application);
+                return $this->acceptLectureApplication($application, $user);
                 break;
             
             default:
@@ -82,17 +82,17 @@ class ApplicationController extends Controller
         }
     }
 
-    protected function rejectApplication($application)
+    protected function rejectApplication($application, $user)
     {
         $data = json_decode($application->data);
 
         switch ($data->resource_type) {
             case 'Organization':
-                return $this->rejectOrganizationApplication($application);
+                return $this->rejectOrganizationApplication($application, $user);
                 break;
 
             case 'Lecture':
-                return $this->acceptLectureApplication($application);
+                return $this->rejectLectureApplication($application, $user);
                 break;
             
             default:
@@ -101,16 +101,12 @@ class ApplicationController extends Controller
         }
     }
 
-    public function acceptOrganizationApplication($application)
+    public function acceptOrganizationApplication($application, $user)
     {
         $data = json_decode($application->data);
 
-        $user = Auth::user();
         $organization = Organization::findOrFail($data->resource_id);
         // 检测当前用户的权限
-        if ($organization->creator_id != $user->id) {
-            return response()->json(['error'=>'This action is unauthorized.'], 403);
-        }
         
         // 将用户加入组织
         $users = User::findOrFail($application->notifiable_id);
@@ -120,16 +116,11 @@ class ApplicationController extends Controller
         $application->delete();
     }
 
-    public function acceptLectureApplication($application)
+    public function acceptLectureApplication($application, $user)
     {
         $data = json_decode($application->data);
 
-        $user = Auth::user();
         $lectrue = Lecture::findOrFail($data->resource_id);
-        // 检测当前用户的权限
-        if ($lectrue->user_id != $user->id) {
-            return response()->json(['error'=>'This action is unauthorized.'], 403);
-        }
         
         // 将用户加入课程
         $users = User::findOrFail($application->notifiable_id);
@@ -139,19 +130,25 @@ class ApplicationController extends Controller
         $application->delete();
     }
 
-    public function rejectOrganizationApplication($application)
+    public function rejectOrganizationApplication($application, $user)
     {
         $data = json_decode($application->data);
 
-        $user = Auth::user();
         $organization = Organization::findOrFail($data->resource_id);
-        // 检测当前用户的权限
-        if ($organization->creator_id != $user->id) {
-            return response()->json(['error'=>'This action is unauthorized.'], 403);
-        }
         
         // 发送通知
         $user->notify(new SystemNotification((object)['to' => $application->notifiable_id, 'data' => "加入组织 {$organization->name} 被拒绝"]));
+        $application->delete();
+    }
+
+    public function rejectLectureApplication($application, $user)
+    {
+        $data = json_decode($application->data);
+
+        $lecture = Lecture::findOrFail($data->resource_id);
+        
+        // 发送通知
+        $user->notify(new SystemNotification((object)['to' => $application->notifiable_id, 'data' => "加入授课 {$organization->name} 被拒绝"]));
         $application->delete();
     }
 }
