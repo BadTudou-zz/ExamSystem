@@ -360,13 +360,16 @@ export default {
       const that = this;
 
       // let arr = value.split(' ');
-      let arr = value;
-      let alphabet = ['A','B','C','D','E','F','G','H','I'];
-      let str = '';
-      for (let i = 0; i < arr.length; i++) {
-        str += alphabet[i] + '.' + arr[i] + '\n';
-      }
-      return str.split('\n');
+      // let arr = value;
+      // let alphabet = ['A','B','C','D','E','F','G','H','I'];
+      // let str = '';
+      // for (let i = 0; i < arr.length; i++) {
+      //   str += alphabet[i] + '.' + arr[i] + '\n';
+      // }
+      // return str.split('\n');
+
+      return value.split(',');
+
     },
     computedAnswerJson: function () {
       const that = this;
