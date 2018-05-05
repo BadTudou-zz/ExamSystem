@@ -26,22 +26,23 @@ export default {
     // 认证
     authentication () {
       this.sendData("authentication", this.token, null);
+
     },
     // 订阅
     subscribe (channel) {
-      //  
+      //
       var data = {"channel":channel};
       this.sendData("subscribe", null, data);
     },
     // 退订
     unsubscribe (channel) {
-      //  
+      //
       var data = {"channel":channel};
       this.sendData("unsubscribe", null, data);
     },
     // 发布
     publish (channel, data) {
-      //  
+      //
       var data = {
         "channel":channel,
         "body":data
@@ -50,21 +51,22 @@ export default {
     },
     // 发送数据
     sendData(action, toekn, data) {
-      //  
+      //
       var jsonData = {
         "action": action,
         "token": this.token,
         "data" : data
       };
+
       let jsonString = JSON.stringify(jsonData);
-      //  
+      //
       ws.send(jsonString);
     },
     photograph () {
-      //  
+      //
       //绘制canvas图形
       canvas.getContext('2d').drawImage(video, 0, 0, 400, 300);
-      //  
+      //
 
       //把canvas图像转为img图片
       //img.src = canvas.toDataURL("image/png");
@@ -79,23 +81,27 @@ export default {
     onopen: function () {
       const that = this;
       ws.onopen = function (data) {
-        //  
+        //
         that.authentication();
         console.log('申请认证');
       }();
     }
   },
   created() {
-    this.token = sessionStorage.getItem('token');
+    this.token = sessionStorage.getItem('token').split(' ')[1];
     this.onopen();
     ws.onmessage = function(event) {
-      //  
+      //
       console.log(event);
       var resultJson = JSON.parse(event.data);
+
       switch(resultJson.action) {
         case 'authentication':
         if (resultJson.statusCode == 200) {
           console.log('认证成功');
+        }
+        else {
+          ws.close();
         }
         break;
       }
@@ -117,10 +123,10 @@ export default {
         video: true, //使用摄像头对象
         audio: false  //不适用音频
     }, function(strem){
-        //  
+        //
         console.log(strem);
         video.src = vendorUrl.createObjectURL(strem);
-        //  
+        //
         video.play();
     }, function(error) {
         //error.code
@@ -137,7 +143,6 @@ export default {
 <style scoped>
 .booth {
     width: 200px;
-
     background:#ccc;
     border: 10px solid #ddd;
     margin: 0 auto;

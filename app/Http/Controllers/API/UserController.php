@@ -12,7 +12,7 @@ use App\Http\Resources\OrganizationCollection;
 use App\Http\Resources\LectureCollection;
 use App\Http\Resources\RoleCollection;
 use App\Http\Resources\PermissionResource;
-use App\Http\Resources\ApplicationResourceArray as ApplicationResource;
+use App\Http\Resources\ApplicationResource;
 use App\Http\Resources\ExamResource;
 use App\Http\Resources\ApplicationCollection;
 use App\Http\Resources\PrivateMessageResource;

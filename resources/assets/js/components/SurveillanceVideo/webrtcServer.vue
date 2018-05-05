@@ -2,8 +2,8 @@
   <div class="booth">
 
       <video id="video" width="400" height="300"></video>
-      <canvas id='canvas' width='400' height='300'></canvas>
-      <img id='img' src=''>
+      <canvas class="hidden" id='canvas' width='400' height='300'></canvas>
+      <img class="hidden" id='img' src=''>
   </div>
 
 </template>
@@ -42,7 +42,7 @@ export default {
     },
     // 发布
     publish (channel, data) {
-      //  
+      //
       var data = {
         "channel":channel,
         "body":data
@@ -51,14 +51,14 @@ export default {
     },
     // 发送数据
     sendData(action, toekn, data) {
-      //  
+      //
       var jsonData = {
         "action": action,
         "token": this.token,
         "data" : data
       };
       let jsonString = JSON.stringify(jsonData);
-      //  
+      //
       if (ws.readyState === 1) {
         ws.send(jsonString);
       }
@@ -106,5 +106,8 @@ export default {
     background:#ccc;
     border: 10px solid #ddd;
     margin: 0 auto;
+}
+.hidden {
+  display: none;
 }
 </style>

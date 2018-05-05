@@ -38,14 +38,6 @@
 
         <div class="box-item">
           <label>标签</label>
-          <!-- <label v-for="item in labelData" class="checkbox">
-            <input v-model="selectedLabel" v-bind:value="item.id" type="checkbox">{{ item.title }}
-          </label> -->
-
-          <!-- <div v-for="item in labelData" class="control">
-            <label class="radio"><input v-model="selectedLabel"  v-bind:value="item.id" type="radio">{{ item.title }}</label>
-          </div> -->
-
           <table class="table">
             <thead>
               <tr>
@@ -56,7 +48,7 @@
             <tbody>
               <tr v-for="(item,index) in labelData">
                 <td>
-                  <input type="checkbox" v-bind:value="item.id" v-model="selectedLabel" class="question-seleted">
+                  <input type="radio" v-bind:value="item.id" v-model="selectedLabel" class="question-seleted">
                 </td>
                 <td>{{ item.title }}</td>
               </tr>
@@ -199,12 +191,9 @@ export default {
         answer_comment: '',
       },
       options: [],
-      questionTypeData: {
-        1: '!',
-        2: '@'
-      },
       labelData: [],
       selectedLabel: [],
+      questionTypeData: [],
     }
   },
   components: {
@@ -226,12 +215,46 @@ export default {
 
       that.options = [];
     },
+    getQuestionType: function () {
+      const that = this;
+      axios({
+        method: 'get',
+        url: `${this.GLOBAL.localDomain}/api/v1/questionTypes`,
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': sessionStorage.getItem('token'),
+        }
+      }).then(res => {
+        that.questionTypeData = res.data.data;
+      }).catch(err => {
+        console.log(err);
+        if (err.response.status === 401) {
+          // alert('登录超时');
+          // location.reload();
+        }
+      })
+    },
+    getSeparate: function () {
+      const that = this;
+      let typeId = parseInt(that.questionData.type_id);
+      //
+      let separate;
+      for (let i = 0; i < that.questionTypeData.length; i++) {
+        if (typeId === that.questionTypeData[i]['id']) {
+          separate = that.questionTypeData[i]['delimiter'];
+        }
+      }
+      //
+      return separate;
+    },
     getAnswerOptions: function () {
       const that = this;
       let answer_body = '';
+      let separate = that.getSeparate();
+      //
       for (let i = 0; i < that.options.length; i++) {
         if (i !== that.options.length - 1) {
-          answer_body += that.options[i] + ','
+          answer_body += that.options[i] + separate;
         }
         else {
           answer_body += that.options[i];
@@ -287,12 +310,13 @@ export default {
       let answer = that.questionData.answer;
       let answer_comment = that.questionData.answer_comment;
 
-      //  
+      //
 
       if (!that.questionData.type_id || !that.questionData.level_type || !that.questionData.title ||
           !that.questionData.answer || !that.questionData.answer_comment)
       {
         alert('请检查内容是否填写完整');
+        that.questionData.answer = [];
         return;
       }
 
@@ -320,7 +344,6 @@ export default {
       }).catch(err => {
         alert('添加失败');
         console.log(err);
-        that.clearWords();
       })
     }
   },
@@ -338,6 +361,7 @@ export default {
       const that = this;
       if (value) {
         that.getLabel();
+        that.getQuestionType();
       }
     }
   }
