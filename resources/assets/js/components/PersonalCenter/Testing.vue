@@ -10,9 +10,11 @@
     <div v-else>
       <h1>{{ testTitle }}</h1>
 
-      <video class="box video-box" id="video" width="400" height="300"></video>
-      <canvas class="hidden" id='canvas' width='400' height='300'></canvas>
-      <img class="hidden" id='img' src=''>
+      <!-- <div v-if="!isLoading">
+        <video class="box video-box" id="video" width="400" height="300"></video>
+        <canvas class="hidden" id='canvas' width='400' height='300'></canvas>
+        <img class="hidden" id='img' src=''>
+      </div> -->
 
       <button @click="submitAnswer()" class="button is-info finish-exam" type="button" name="button">完成考试</button>
       <div class="countdown">
@@ -410,58 +412,58 @@ export default {
     },
     // 视频监控
     // 认证
-    authentication () {
-
-      this.sendData("authentication", sessionStorage.getItem('token'), null);
-    },
-    // 订阅
-    subscribe (channel) {
-
-      var data = {"channel":channel};
-      this.sendData("subscribe", null, data);
-    },
-    // 退订
-    unsubscribe (channel) {
-
-      var data = {"channel":channel};
-      this.sendData("unsubscribe", null, data);
-    },
+    // authentication () {
     //
-    //  发布
-    publish (channel, data) {
-
-      var data = {
-        "channel":channel,
-        "body":data
-      };
-      this.sendData("publish", null, data);
-    },
-    // 发送数据
-    sendData(action, toekn, data) {
-
-      var jsonData = {
-        "action": action,
-        "token": sessionStorage.getItem('token'),
-        "data" : data
-      };
-      let jsonString = JSON.stringify(jsonData);
-
-      ws.send(jsonString);
-    },
-    photograph () {
-
-      //绘制canvas图形
-      canvas.getContext('2d').drawImage(video, 0, 0, 400, 300);
-      //把canvas图像转为img图片
-      //img.src = canvas.toDataURL("image/png");
-      let base64Data = canvas.toDataURL("image/png", 0.5);
-      this.publish(1, base64Data);
-      // var xhr = new XMLHttpRequest();
-      // form = new  FormData();
-      // form.append('postdata',base64Data);
-      // xhr.open('POST','https://exam.gg/api/v1/webrtc',false);
-      // xhr.send(form);
-    }
+    //   this.sendData("authentication", sessionStorage.getItem('token'), null);
+    // },
+    // // 订阅
+    // subscribe (channel) {
+    //
+    //   var data = {"channel":channel};
+    //   this.sendData("subscribe", null, data);
+    // },
+    // // 退订
+    // unsubscribe (channel) {
+    //
+    //   var data = {"channel":channel};
+    //   this.sendData("unsubscribe", null, data);
+    // },
+    // //
+    // //  发布
+    // publish (channel, data) {
+    //
+    //   var data = {
+    //     "channel":channel,
+    //     "body":data
+    //   };
+    //   this.sendData("publish", null, data);
+    // },
+    // // 发送数据
+    // sendData(action, toekn, data) {
+    //
+    //   var jsonData = {
+    //     "action": action,
+    //     "token": sessionStorage.getItem('token'),
+    //     "data" : data
+    //   };
+    //   let jsonString = JSON.stringify(jsonData);
+    //
+    //   ws.send(jsonString);
+    // },
+    // photograph () {
+    //
+    //   //绘制canvas图形
+    //   canvas.getContext('2d').drawImage(video, 0, 0, 400, 300);
+    //   //把canvas图像转为img图片
+    //   //img.src = canvas.toDataURL("image/png");
+    //   let base64Data = canvas.toDataURL("image/png", 0.5);
+    //   this.publish(1, base64Data);
+    //   // var xhr = new XMLHttpRequest();
+    //   // form = new  FormData();
+    //   // form.append('postdata',base64Datacd );
+    //   // xhr.open('POST','https://exam.gg/api/v1/webrtc',false);
+    //   // xhr.send(form);
+    // }
   },
   computed: {
   },
