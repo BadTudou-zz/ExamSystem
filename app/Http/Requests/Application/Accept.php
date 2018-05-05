@@ -17,6 +17,7 @@ class Accept extends FormRequest
     {
         $user = Auth::user();
         $application = Application::findOrFail($this->route('application'));
+
         return $user->can('application-accept') || $user->id == json_decode($application->data)->notifiable_id || $user->id == $application->notifiable_id;
     }
 
