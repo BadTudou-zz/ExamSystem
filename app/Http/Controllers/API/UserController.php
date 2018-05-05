@@ -156,7 +156,6 @@ class UserController extends Controller
         else {
             $user = Auth::user();
             $messages = Notification::where('type', SystemNotification::class)
-            ->where('notifiable_id', $user->id)
             ->paginate();
 
             return  SystemNotificationResource::collection($messages);
