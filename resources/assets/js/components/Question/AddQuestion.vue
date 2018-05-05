@@ -38,14 +38,6 @@
 
         <div class="box-item">
           <label>标签</label>
-          <!-- <label v-for="item in labelData" class="checkbox">
-            <input v-model="selectedLabel" v-bind:value="item.id" type="checkbox">{{ item.title }}
-          </label> -->
-
-          <!-- <div v-for="item in labelData" class="control">
-            <label class="radio"><input v-model="selectedLabel"  v-bind:value="item.id" type="radio">{{ item.title }}</label>
-          </div> -->
-
           <table class="table">
             <thead>
               <tr>
@@ -56,7 +48,7 @@
             <tbody>
               <tr v-for="(item,index) in labelData">
                 <td>
-                  <input type="checkbox" v-bind:value="item.id" v-model="selectedLabel" class="question-seleted">
+                  <input type="radio" v-bind:value="item.id" v-model="selectedLabel" class="question-seleted">
                 </td>
                 <td>{{ item.title }}</td>
               </tr>
@@ -287,7 +279,7 @@ export default {
       let answer = that.questionData.answer;
       let answer_comment = that.questionData.answer_comment;
 
-      //  
+      //
 
       if (!that.questionData.type_id || !that.questionData.level_type || !that.questionData.title ||
           !that.questionData.answer || !that.questionData.answer_comment)
@@ -320,7 +312,6 @@ export default {
       }).catch(err => {
         alert('添加失败');
         console.log(err);
-        that.clearWords();
       })
     }
   },

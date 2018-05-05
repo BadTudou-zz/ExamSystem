@@ -111,7 +111,7 @@ export default {
       }).then(res => {
         alert('添加成功')
         that.clearWords();
-        that.$emit('getTeaching');   //第一个参数名为调用的方法名，第二个参数为需要传递的参数
+        that.$emit('getFile');   //第一个参数名为调用的方法名，第二个参数为需要传递的参数
         that.switchModal();
       }).catch(err => {
         alert('添加失败');
@@ -144,7 +144,7 @@ export default {
       const that = this;
       var name = file.target.value;
       that.mov = file.target.files[0];
-      //  
+      //
       var pos = name.lastIndexOf('.');
       var myDate = new Date();
       var postfix = name.substring(pos+1);
@@ -180,7 +180,7 @@ export default {
               // var mov = document.getElementsByName('pic')[0].files[0];
               var mov = that.mov;
 
-              //  
+              //
               // 如果sta>mov.size
               if(that.sta > mov.size){
                   clearInterval(that.clock);

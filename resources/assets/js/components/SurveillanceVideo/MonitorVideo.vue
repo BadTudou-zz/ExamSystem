@@ -3,12 +3,8 @@
   <div class="modal" v-bind:class="{'is-active': isShowModal}">
     <div class="modal-background"></div>
     <div class="modal-content user-content box">
-      <div class="booth">
 
-          <video id="video" width="400" height="300"></video>
-          <canvas id='canvas' width='400' height='300'></canvas>
-          <img id='img' src=''>
-      </div>
+      <webtrc-server></webtrc-server>
 
     </div>
     <button @click="switchModal()" class="modal-close is-large" aria-label="close"></button>
@@ -17,7 +13,7 @@
 </template>
 
 <script>
-
+import webtrcServer from './webrtcServer'
 export default {
   data() {
     return {
@@ -27,26 +23,21 @@ export default {
     }
   },
   components: {
+    webtrcServer,
   },
   props: [
     'editData'
   ],
   methods: {
+    switchModal: function () {
+      const that = this;
+      that.isShowModal = !that.isShowModal;
+    },
   },
   created() {
     this.token = sessionStorage.getItem('token');
   },
   watch: {
-    switchModal: function () {
-      const that = this;
-      that.isShowModal = !that.isShowModal;
-    },
-    isShowModal: function (value, oldValue) {
-      const that = this;
-      if (value) {
-        that.getUser();
-      }
-    },
     editData: function (value, oldValue) {
       const that = this;
     }
