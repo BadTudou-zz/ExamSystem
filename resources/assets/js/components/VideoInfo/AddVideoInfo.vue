@@ -95,7 +95,7 @@ export default {
 
       axios({
         method: 'POST',
-        url: `https://www.badtudou.com/api/v1/upload/lecture/insert/video`,
+        url: `http://www.badtudou.com/api/v1/upload/lecture/insert/video`,
         headers: {
           'Accept': 'application/json',
           'Authorization': sessionStorage.getItem('token'),
