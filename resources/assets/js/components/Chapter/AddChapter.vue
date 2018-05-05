@@ -16,7 +16,7 @@
           <input v-model="chapterData.score" class="input" type="number">
         </div>
         <div class="box-item">
-          <label>章节数</label>
+          <label>题目数</label>
           <input v-model="chapterData.number" class="input" type="number">
         </div>
         <div class="box-item">
