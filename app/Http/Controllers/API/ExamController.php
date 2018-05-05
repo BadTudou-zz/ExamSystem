@@ -224,7 +224,7 @@ class ExamController extends Controller
             }
 
         }
-        $exam->pivot->result = json_encode($result);
+        $exam->pivot->results = json_encode($result);
         $exam->pivot->score = $score;
         $exam->pivot->correct_at = Carbon::now();
         $exam->pivot->touch();

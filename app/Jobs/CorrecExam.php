@@ -36,7 +36,7 @@ class CorrecExam implements ShouldQueue
         $scores = $this->exam->paper->scores();
         foreach ($this->exam->users as $key => $user) {
             $answers = json_decode($user->pivot->answers);
-            $result = [];
+            $results = [];
             $score = 0;
             foreach ($answers as $key => $answer) {
                $question =  $questions->first(function ($item) use($key) {
@@ -44,13 +44,13 @@ class CorrecExam implements ShouldQueue
                 });
                if($question->answer == trim($answer)){
                     $score += $scores[$key];
-                    array_push($result, [$key => ['status' => true, 'content' => $answer, 'answer' => $question->answer]]);
+                    array_push($results, [$key => ['status' => true, 'content' => $answer, 'answer' => $question->answer]]);
                } else {
-                    array_push($result, [$key => ['status' => false, 'content' => $answer, 'answer' => $question->answer]]);
+                    array_push($results, [$key => ['status' => false, 'content' => $answer, 'answer' => $question->answer]]);
                }
 
             }
-            $user->pivot->result = json_encode($result);
+            $user->pivot->results = json_encode($results);
             $user->pivot->score = $score;
             $user->pivot->correct_at = Carbon::now();
             $user->pivot->touch();
