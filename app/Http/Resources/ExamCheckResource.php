@@ -20,8 +20,9 @@ class ExamCheckResource extends Resource
             'begin_at' => $this->pivot->begin_at,
             'finish_at' => $this->pivot->finish_at,
             'correct_at' => $this->pivot->correct_at,
+            'paper' => $this->paper,
+            'questions' => $this->paper->questions(),
             'score' => $this->pivot->score,
-            'answers' => json_decode($this->pivot->answers),
             'results' => json_decode($this->pivot->results)
         ];
     }
