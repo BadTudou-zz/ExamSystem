@@ -51,16 +51,16 @@
 
                 <!-- <input type="checkbox" v-bind:value="item.id" v-model="selectedUser" class="user-seleted"> -->
                 <div class="">
-                  <input class="answer-index" v-model="answer[item.id]" value="A" type="radio">{{ getOptionsString(item.body)[0] }}
+                  <input class="answer-index" v-model="answer[item.id]" value="A" type="radio">{{ item.body[0] }}
                 </div>
                 <div class="">
-                  <input class="answer-index" v-model="answer[item.id]" value="B" type="radio">{{ getOptionsString(item.body)[1] }}
+                  <input class="answer-index" v-model="answer[item.id]" value="B" type="radio">{{ item.body[1] }}
                 </div>
                 <div class="">
-                  <input class="answer-index" v-model="answer[item.id]" value="C" type="radio">{{ getOptionsString(item.body)[2] }}
+                  <input class="answer-index" v-model="answer[item.id]" value="C" type="radio">{{ item.body[2] }}
                 </div>
                 <div class="">
-                  <input class="answer-index" v-model="answer[item.id]" value="D" type="radio">{{ getOptionsString(item.body)[3] }}
+                  <input class="answer-index" v-model="answer[item.id]" value="D" type="radio">{{ item.body[3] }}
                 </div>
               </label>
             </div>
@@ -83,16 +83,16 @@
             <div class="answer">
               <label class="checkbox">
                 <div class="">
-                  <input class="answer-index" v-model="answer[item.id]" value="A" type="checkbox">{{ getOptionsString(item.body)[0] }}
+                  <input class="answer-index" v-model="answer[item.id]" value="A" type="checkbox">{{ item.body[0] }}
                 </div>
                 <div class="">
-                  <input class="answer-index" v-model="answer[item.id]" value="B" type="checkbox">{{ getOptionsString(item.body)[1] }}
+                  <input class="answer-index" v-model="answer[item.id]" value="B" type="checkbox">{{ item.body[1] }}
                 </div>
                 <div class="">
-                  <input class="answer-index" v-model="answer[item.id]" value="C" type="checkbox">{{ getOptionsString(item.body)[2] }}
+                  <input class="answer-index" v-model="answer[item.id]" value="C" type="checkbox">{{ item.body[2] }}
                 </div>
                 <div class="">
-                  <input class="answer-index" v-model="answer[item.id]" value="D" type="checkbox">{{ getOptionsString(item.body)[3] }}
+                  <input class="answer-index" v-model="answer[item.id]" value="D" type="checkbox">{{ item.body[3] }}
                 </div>
               </label>
             </div>
@@ -367,8 +367,8 @@ export default {
       //   str += alphabet[i] + '.' + arr[i] + '\n';
       // }
       // return str.split('\n');
-
-      return value.split(',');
+      // debugger
+      return value.split(',')
 
     },
     computedAnswerJson: function () {
