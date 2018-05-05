@@ -26,7 +26,7 @@
             <th>类型</th>
             <th>分值</th>
             <th>时长(分钟)</th>
-            <th><p class="test-limit-words">描述</p></th>
+            <!-- <th><p class="test-limit-words">描述</p></th> -->
             <!-- <th>创建时间</th> -->
             <!-- <th>更新时间</th> -->
             <th>操作</th>
@@ -42,7 +42,7 @@
             <td>{{ item.exam_type }}</td>
             <td>{{ item.score }}</td>
             <td>{{ item.min }}</td>
-            <td> {{ item.description }}</td>
+            <!-- <td> {{ item.description }}</td> -->
             <!-- <td>{{ GLOBAL.toTime(item.created_at) }}</td> -->
             <!-- <td>{{ GLOBAL.toTime(item.updated_at) }}</td> -->
             <td>
