@@ -371,7 +371,7 @@ export default {
         let id = that.questionData[i].id;
         // if (that.answer[id].length > 1) {
         if (that.answer[id] instanceof Array) {
-          that.answer[id] = that.answer[id].join('')
+          that.answer[id] = that.answer[id].sort().join('')
         }
         json[id] = that.answer[id];
       }
