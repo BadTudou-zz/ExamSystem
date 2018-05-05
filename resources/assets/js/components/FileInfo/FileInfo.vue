@@ -49,7 +49,7 @@
               <td>
                 <div v-show="isShowDeleteDocument" @click="deleteFile(index)" class="icon-button"><i class="far fa-trash-alt"></i></div>
                 <div v-show="isShowEditDocument" @click="editFileInfo(index)" class="icon-button"><i class="fas fa-edit"></i></div>
-                <button class="button is-small" type="button" name="button"><a v-bind:href="item.url">下载文件</a></button>
+                <button class="button is-small" type="button" name="button"><a v-bind:href="item.url" download="w3logo">下载文件</a></button>
               </td>
             </tr>
           </tbody>
