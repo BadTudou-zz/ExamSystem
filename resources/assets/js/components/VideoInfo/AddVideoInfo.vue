@@ -95,7 +95,7 @@ export default {
 
       axios({
         method: 'POST',
-        url: `${this.GLOBAL.localDomain}/api/v1/upload/lecture/insert/video`,
+        url: `https://www.badtudou.com/api/v1/upload/lecture/insert/video`,
         headers: {
           'Accept': 'application/json',
           'Authorization': sessionStorage.getItem('token'),
@@ -115,6 +115,7 @@ export default {
       }).catch(err => {
         alert('添加失败');
         that.clearWords();
+        console.log(${this.GLOBAL.localDomain});
         return;
         console.log(err);
       })
