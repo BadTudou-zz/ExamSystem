@@ -238,8 +238,13 @@ export default {
       const that = this;
       let answer_body = '';
       let typeId = that.questionData.type_id;
-
-      let separate = that.questionTypeData[typeId - 1]['delimiter'];
+      let separate;
+      for (let i = 0; i < that.questionTypeData.length; i++) {
+        if (typeId === that.questionTypeData[i]['id']) {
+          separate = that.questionTypeData[i]['delimiter'];
+        }
+      }
+      // debugger
       for (let i = 0; i < that.options.length; i++) {
         if (i !== that.options.length - 1) {
           answer_body += that.options[i] + separate;

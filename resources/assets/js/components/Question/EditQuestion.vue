@@ -192,10 +192,7 @@ export default {
         tags: '',
       },
       options: [],
-      questionTypeData: {
-        1: '!',
-        2: '@'
-      },
+      questionTypeData: [],
       labelData: [],
     }
   },
@@ -223,10 +220,18 @@ export default {
     },
     getAnswerOptions: function () {
       const that = this;
+      
+      let separate;
+      for (let i = 0; i < that.questionTypeData.length; i++) {
+        if (value.type_id === that.questionTypeData[i]['id']) {
+          separate = that.questionTypeData[i]['delimiter'];
+        }
+      }
+
       let answer_body = '';
       for (let i = 0; i < that.options.length; i++) {
         if (i !== that.options.length - 1) {
-          answer_body += that.options[i] + ','
+          answer_body += that.options[i] + separate
         }
         else {
           answer_body += that.options[i];
@@ -318,7 +323,26 @@ export default {
         alert('编辑失败');
         console.log(err);
       })
-    }
+    },
+    getQuestionType: function () {
+      const that = this;
+      axios({
+        method: 'get',
+        url: `${this.GLOBAL.localDomain}/api/v1/questionTypes`,
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': sessionStorage.getItem('token'),
+        }
+      }).then(res => {
+        that.questionTypeData = res.data.data;
+      }).catch(err => {
+        console.log(err);
+        if (err.response.status === 401) {
+          // alert('登录超时');
+          // location.reload();
+        }
+      })
+    },
   },
   created() {
 
@@ -334,11 +358,17 @@ export default {
       const that = this;
       if (value) {
         that.getLabel();
+        that.getQuestionType();
       }
     },
     editData: function (value, oldValue) {
       const that = this;
-
+      let separate;
+      for (let i = 0; i < that.questionTypeData.length; i++) {
+        if (value.type_id === that.questionTypeData[i]['id']) {
+          separate = that.questionTypeData[i]['delimiter'];
+        }
+      }
       that.editQuestionData.type_id =  value.type_id;
       that.editQuestionData.level_type =  value.level_type;
       that.editQuestionData.title =  value.title;
@@ -347,12 +377,12 @@ export default {
 
       // 单选 body
       if (value.type_id === 1) {
-        that.options =  value.body.split(',');
+        that.options =  value.body.split(separate);
         that.editQuestionData.answer = value.answer;
       }
       // 多选
       else if (value.type_id === 2) {
-        that.options =  value.body.split(',');
+        that.options =  value.body.split(separate);
         that.editQuestionData.answer = value.answer.split('');
       }
       else {
