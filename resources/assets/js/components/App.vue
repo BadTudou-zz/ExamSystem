@@ -19,7 +19,7 @@ export default {
     }
   },
   components: {
-    Login,ugger
+    Login,
     HomePage,
   },
   methods: {

@@ -40,7 +40,7 @@ import VideoMonitoring from './components/SurveillanceVideo/VideoMonitoring.vue'
 // import webrtcServer from './components/SurveillanceVideo/webrtcServer.vue'
 import Practice from './components/Practice/Practice.vue'
 import Upload from './components/Upload/Upload.vue'
-import Main from './components/App.vue'
+// import Main from './components/App.vue'
 
 
 export default [
@@ -58,10 +58,10 @@ export default [
     },
     component: Home
   },
-  {
-    path: '/Main',
-    component: Main,
-  },
+  // {
+  //   path: '/Main',
+  //   component: Main,
+  // },
   {
     path: '/login',
     component: login,

@@ -198,6 +198,17 @@ export default {
     logOut: function () {
       const that = this;
       console.log('退出登录');
+      axios({
+        method: 'post',
+        url: `${this.GLOBAL.localDomain}/api/logout`,
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': this.token,
+        }
+      }).then(res => {
+      }).catch(err => {
+        console.log(err)
+      })
       that.$emit('input', 'logOut');
       sessionStorage.removeItem("token");
       sessionStorage.removeItem("permissions");
