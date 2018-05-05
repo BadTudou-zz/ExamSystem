@@ -26,6 +26,7 @@ export default {
     // 认证
     authentication () {
       this.sendData("authentication", this.token, null);
+
     },
     // 订阅
     subscribe (channel) {
@@ -56,6 +57,7 @@ export default {
         "token": this.token,
         "data" : data
       };
+
       let jsonString = JSON.stringify(jsonData);
       //
       ws.send(jsonString);
@@ -86,7 +88,7 @@ export default {
     }
   },
   created() {
-    this.token = sessionStorage.getItem('token');
+    this.token = sessionStorage.getItem('token').split(' ')[1];
     this.onopen();
     ws.onmessage = function(event) {
       //
