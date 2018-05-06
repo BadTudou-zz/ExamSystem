@@ -36,7 +36,7 @@ export default {
   data() {
     return {
       token: '',
-      currentUserId: '',
+      isShowModal: false,
     };
   },
   components: {
