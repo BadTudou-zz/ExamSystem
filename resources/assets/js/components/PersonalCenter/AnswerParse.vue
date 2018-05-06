@@ -373,7 +373,7 @@ export default {
       }).then(res => {
         this.anserParseData = res.data.data.results;
         that.parseJson  = that.getParseJson(this.anserParseData);
-        debugger
+         
         that.questionData = res.data.data.questions;
       }).catch(err => {
         alert('获取解析失败');

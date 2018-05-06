@@ -56,12 +56,12 @@ export default {
     },
     // 认证
     authentication () {
-      // debugger
+      //  
       this.sendData("authentication", this.token, null);
     },
     // 订阅
     subscribe (channel) {
-      // debugger
+      //  
       let data = {"channel":channel};
 
       this.sendData("subscribe", null, data);
@@ -120,7 +120,7 @@ export default {
 
     // ws.onmessage = function(event) {
     //   const that = this;
-    //   debugger
+    //    
     //   console.log(event);
     //   var resultJson = JSON.parse(event.data);
     //   switch(resultJson.action) {
@@ -155,7 +155,7 @@ export default {
               "data" : data,
             };
             var jsonString = JSON.stringify(jsonData);
-            debugger
+             
             //
             if (ws.readyState === 1) {
               ws.send(jsonString);
@@ -177,7 +177,7 @@ export default {
   },
   watch: {
     // currentUserId: function (value, oldValue) {
-    //   debugger
+    //    
     //   const that = this;
     //   that.subscribe(value);
     // },
