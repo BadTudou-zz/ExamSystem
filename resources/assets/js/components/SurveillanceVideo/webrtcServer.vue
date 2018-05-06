@@ -13,6 +13,7 @@
 
           <!-- <video id="video" width="400" height="300"></video>
           <canvas class="hidden" id='canvas' width='400' height='300'></canvas> -->
+          {{imgSrc}}
           <img id='img' width="400" height="300" :src="imgSrc" >
           <!-- <img id='img' width="400" height="300" src={{imgUrl}} > -->
         </div>
@@ -169,7 +170,7 @@ export default {
           console.log('订阅');
           break;
         case 'broadcast':
-          console.log('收到广播');
+          console.log('收到广播'+resultJson.data);
           this.imgSrc = resultJson.data;
           break;
       }
