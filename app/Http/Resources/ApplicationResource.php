@@ -24,8 +24,8 @@ class ApplicationResource extends Resource
             'resource_id' => json_decode($this->data)->resource_id,
             'resource_type' => json_decode($this->data)->resource_type,
             'data' => json_decode($this->data)->data,
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
+            'created_at' => $this->created_at->toDateTimeString(),
+            'updated_at' => $this->updated_at->toDateTimeString()
         ];
     }
 }
