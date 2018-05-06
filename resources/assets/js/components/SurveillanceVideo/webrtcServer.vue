@@ -152,7 +152,7 @@ export default {
               "token": sessionStorage.getItem('token').split(' ')[1],
               "data" : data,
             };
-            let jsonString = JSON.stringify(jsonData);
+            var jsonString = JSON.stringify(jsonData);
             debugger
             //
             if (ws.readyState === 1) {
@@ -167,7 +167,7 @@ export default {
           break;
         case 'broadcast':
           console.log('收到广播');
-          img.src=resultJson.data.message;
+          img.src=resultJson.data.data;
           break;
       }
     };

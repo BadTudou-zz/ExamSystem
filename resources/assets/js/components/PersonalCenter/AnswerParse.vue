@@ -363,6 +363,8 @@ export default {
         }
       }).then(res => {
         this.anserParseData = res.data.data.results;
+        let a  = that.getParseJson(this.anserParseData);
+        debugger
         that.questionData = res.data.data.questions;
       }).catch(err => {
         alert('获取解析失败');
@@ -417,6 +419,19 @@ export default {
       }
       return separate;
     },
+    getParseJson: function (res) {
+        let json = {};
+        for (let i = 0; i < res.length; i++) {
+            for (let j in res[i]) {
+                // console.log(j);
+                // console.log(res[i][j])
+                let key = j;
+                let value = res[i][j];
+                json[key] = value;
+            }
+        }
+        return json;
+    }
   },
   computed: {
   },
