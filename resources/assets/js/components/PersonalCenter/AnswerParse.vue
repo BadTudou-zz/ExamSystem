@@ -146,7 +146,7 @@
             <div class="parsing">
               <p>我的答案：{{ computedAnswerStatus(parseJson[item.id].status) }}，{{ parseJson[item.id].content }}</p>
               <p>参考答案：{{ parseJson[item.id].answer }} </p>
-              <p>解析：{{ items2[index].answer_comment }}</p>
+              <p>解析：{{ item[index].answer_comment }}</p>
             </div>
 
           </div>

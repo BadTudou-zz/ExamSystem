@@ -12,7 +12,8 @@
         <div class="booth">
           <!-- <video id="video" width="400" height="300"></video>
           <canvas class="hidden" id='canvas' width='400' height='300'></canvas> -->
-          <img id='img' width="400" height="300" src={{ imgSrc }} >
+          <img id='img' width="400" height="300" :src="imgSrc" >
+          <!-- <img id='img' width="400" height="300" src={{imgUrl}} > -->
         </div>
 
       </section>
