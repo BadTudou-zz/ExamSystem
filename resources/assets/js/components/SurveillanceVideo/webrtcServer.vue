@@ -13,7 +13,7 @@
 
           <!-- <video id="video" width="400" height="300"></video>
           <canvas class="hidden" id='canvas' width='400' height='300'></canvas> -->
-          <img id='img' width="400" height="300" :src="imgSrc" >
+          <img id='img' width="400" height="300" v-bind:src="imgSrc" >
           <!-- <img id='img' width="400" height="300" src={{imgUrl}} > -->
 
       </section>
@@ -141,6 +141,7 @@ export default {
     //   }
     // },
     ws.onmessage = function(event) {
+      const that = this;
       console.log(event);
       var resultJson = JSON.parse(event.data);
       switch(resultJson.action) {
@@ -169,7 +170,7 @@ export default {
           break;
         case 'broadcast':
           console.log('收到广播'+resultJson.data);
-          this.imgSrc = resultJson.data;
+          that.imgSrc = resultJson.data;
           break;
       }
     };
