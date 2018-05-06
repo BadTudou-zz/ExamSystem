@@ -9,14 +9,12 @@
         <button @click="closeModal()" class="delete" aria-label="close"></button>
       </header>
       <section class="modal-card-body">
-        <div class="booth">
+        base64数据：{{imgSrc}}
 
           <!-- <video id="video" width="400" height="300"></video>
           <canvas class="hidden" id='canvas' width='400' height='300'></canvas> -->
-          {{imgSrc}}
           <img id='img' width="400" height="300" :src="imgSrc" >
           <!-- <img id='img' width="400" height="300" src={{imgUrl}} > -->
-        </div>
 
       </section>
       <footer class="modal-card-foot">
