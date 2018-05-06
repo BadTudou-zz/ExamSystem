@@ -150,8 +150,9 @@ class ExamController extends Controller
             $exam->pivot->begin_at = Carbon::now();
             $exam->pivot->touch();
             $exam->pivot->save();
-        } else {
-            return response()->json(['error'=>'你已经开始考试，不能重复提交！'], 400);
+        } 
+        if ($exam->pivot->finish_at) {
+            return response()->json(['error'=>'你已经结束考试，不能重复提交！'], 400);
         }
     }
 
