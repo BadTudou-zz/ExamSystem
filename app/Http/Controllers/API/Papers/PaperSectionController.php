@@ -55,29 +55,25 @@ class PaperSectionController extends Controller
 	{
 		$paper = Paper::findOrFail($request->paper);
 		$sections = $paper->sections ? explode(",", $paper->sections) : [];
-		if ( in_array($request->section, $sections)) {
-			$section = PaperSection::findOrFail($request->section);
 
-			if ($request->has('questions')) {
-				$request['questions'] = implode(",", $request->questions);
-			}
-			
-			$section->update($request->all());
-			return new PaperSectionResource($section);
-		} else {
-			return response()->json(['error'=> "No query results for model [App\PaperSection] {$request->section}"], 404);
+		if ($request->has('questions')) {
+			$request['questions'] = implode(",", $request->questions);
 		}
+			
+		$section->update($request->all());
+		return new PaperSectionResource($section);
 	}
 
 	public function destroy(DestroyPaperSection $request)
 	{
 		$paper = Paper::findOrFail($request->paper);
 		$sections = $paper->sections ? explode(",", $paper->sections) : [];
-		if (($key = array_search($request->section, $sections)) && $key !== FALSE) {
+		$key = array_search($request->section, $sections);
+		if ($key !== FALSE) {
 			PaperSection::findOrFail($request->section)->delete();
 			unset($sections[$key]);
 		} else {
-			return response()->json(['error'=> "此试卷中没有ID为{$request->paper}的章节"], 404);
+			return response()->json(['error'=> "此试卷中没有ID为{$request->section}的章节"], 404);
 		}
 		$paper->update(['sections' => implode(",", $sections)]);
 	}
