@@ -131,7 +131,7 @@ export default {
       }).catch(err => {
         // that.switchTesting();
         // that.currentTestData = that.testData[index];
-        //
+
         let errMsg = err.response.data.error;
         if (errMsg) {
           alert(errMsg);

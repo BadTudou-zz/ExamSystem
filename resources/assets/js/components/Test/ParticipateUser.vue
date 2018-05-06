@@ -16,6 +16,7 @@
               <th>邮箱</th>
               <th>电话</th>
               <th>QQ</th>
+              <th>操作</th>
             </tr>
           </thead>
           <tbody>
@@ -25,6 +26,9 @@
               <td>{{ item.email }}</td>
               <td>{{ item.phone }}</td>
               <td>{{ item.qq }}</td>
+              <td>
+                <button @click="watchMonitor(index)" class="button" type="button" name="button">查看当前考生的监控</button>
+              </td>
             </tr>
           </tbody>
         </table>
@@ -38,6 +42,12 @@
                        v-bind:exam-id="examId"
         ></add-test-user>
 
+        <webrtc-server ref="webrtcServer"
+                       v-on:getUser="getUser"
+                       v-bind:current-user-id="currentUserId"
+        ></webrtc-server>
+
+
       </div>
     </div>
     <button @click="switchModal()" class="modal-close is-large" aria-label="close"></button>
@@ -47,6 +57,7 @@
 <script>
 import Pagination from './../Pagination'
 import AddTestUser from './AddTestUser'
+import WebrtcServer from '../SurveillanceVideo/webrtcServer'
 
 export default {
   data() {
@@ -61,11 +72,13 @@ export default {
       //
       teachingId: null,
       users: [],
+      currentUserId: null,
     }
   },
   components: {
     Pagination,
     AddTestUser,
+    WebrtcServer,
   },
   props: [
     'examId'
@@ -121,6 +134,11 @@ export default {
           console.log(err)
         })
       }
+    },
+    watchMonitor: function (index) {
+      const that = this;
+      that.$refs.webrtcServer.switchModal();
+      that.currentUserId = that.userData[index].id;
     }
   },
   created() {

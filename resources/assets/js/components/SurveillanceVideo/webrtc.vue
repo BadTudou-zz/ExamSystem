@@ -18,15 +18,18 @@ export default {
   data() {
     return {
       token: '',
+      userId: '',
     };
   },
   components: {
   },
+  props: [
+    // 'isLoading',
+  ],
   methods: {
     // 认证
     authentication () {
       this.sendData("authentication", this.token, null);
-
     },
     // 订阅
     subscribe (channel) {
@@ -71,7 +74,8 @@ export default {
       //把canvas图像转为img图片
       //img.src = canvas.toDataURL("image/png");
       let base64Data = canvas.toDataURL("image/png");
-      this.publish(1, base64Data);
+      let userId = sessionStorage.getItem('userId');
+      this.publish(userId, base64Data);
       // var xhr = new XMLHttpRequest();
       // form = new  FormData();
       // form.append('postdata',base64Data);
@@ -85,10 +89,18 @@ export default {
         that.authentication();
         console.log('申请认证');
       }();
+    },
+    closeWebSocket: function () {
+      const that = this;
+      that.unsubscribe(that.userId)
+      ws.close();
     }
   },
+  // ?? 离开页面取消订阅
   created() {
     this.token = sessionStorage.getItem('token').split(' ')[1];
+    this.userId = sessionStorage.getItem('userId');
+
     this.onopen();
     ws.onmessage = function(event) {
       //
@@ -109,7 +121,7 @@ export default {
     this.video = document.getElementById('video');
     this.canvas = document.getElementById('canvas');
     this.img = document.getElementById('img');
-    const  photographTime = 50; // 单位毫秒
+    const  photographTime = 100; // 单位毫秒
     // window对象路径 兼容手机
     var vendorUrl = window.URL || window.webkitURL;
 
@@ -136,6 +148,10 @@ export default {
 
   },
   watch: {
+    // isLoading: function (value, oldVale) {
+    //   const that = this;
+    //   debugger
+    // }
   }
 }
 </script>
