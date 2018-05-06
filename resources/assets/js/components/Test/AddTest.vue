@@ -63,7 +63,7 @@
       </section>
       <footer class="modal-card-foot">
         <button @click="addTest()" class="button is-success">确认</button>
-        <button  @click="switchModal()" class="button">取消</button>
+        <button @click="switchModal()" class="button">取消</button>
       </footer>
     </div>
   </div>

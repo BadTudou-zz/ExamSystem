@@ -42,8 +42,9 @@
                        v-bind:exam-id="examId"
         ></add-test-user>
 
-        <webrtc-server ref="webrtcServer"
-                       v-on:getUser="getUser"
+        <webrtc-server v-if="isShowWeb"
+                       ref="webrtcServer"
+                       v-on:changeIsShowWeb="changeIsShowWeb"
                        v-bind:current-user-id="currentUserId"
         ></webrtc-server>
 
@@ -63,6 +64,7 @@ export default {
   data() {
     return {
       isShowModal: false,
+      isShowWeb: false,
       userData: null,
       searchKey: null,
       editData: null,  // 当前编辑的用户数据
@@ -87,6 +89,10 @@ export default {
     switchModal: function () {
       const that = this;
       that.isShowModal = !that.isShowModal;
+    },
+    changeIsShowWeb: function (index) {
+      const that = this;
+      that.isShowWeb = false;
     },
     addTestUser: function() {
       const that = this;
@@ -137,9 +143,12 @@ export default {
     },
     watchMonitor: function (index) {
       const that = this;
-      that.$refs.webrtcServer.switchModal();
       that.currentUserId = that.userData[index].id;
-    }
+      that.isShowWeb = true;
+      sessionStorage.setItem('monitorUserId', that.userData[index].id)
+      // that.$refs.webrtcServer.subscribe(currentUserId);
+      // that.$refs.webrtcServer.switchModal();
+    },
   },
   created() {
   },

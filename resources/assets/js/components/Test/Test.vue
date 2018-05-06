@@ -81,7 +81,8 @@
                       v-bind:exam-id="examId"
     ></participate-user>
 
-    <monitor-video ref="monitorVideo"
+    <monitor-video v-if="isShowMonitorVideo"
+                   ref="monitorVideo"
                    v-bind:edit-data="editData"
     ></monitor-video>
   </div>
@@ -112,6 +113,7 @@ export default {
       allTest: [],
       searchResult: [],
       examData: null,
+      isShowMonitorVideo: false,
     }
   },
   components: {
@@ -269,6 +271,7 @@ export default {
     },
     showMonitor: function (index) {
       const that = this;
+      that.isShowMonitorVideo = true;
       that.editData = that.testData[index];
       that.$refs.monitorVideo.switchModal();
     },

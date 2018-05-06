@@ -226,7 +226,7 @@ export default {
         let chapterIdsArray = chapterIds.split(',')
         that.chapterIds = chapterIdsArray;
       }).catch(err => {
-        console.log(err.message)
+        console.log(err.message);
         alert('无相关试卷');
 
       })
@@ -293,7 +293,12 @@ export default {
       const that = this;
       let id = that.examId;
       let answers = that.computedAnswerJson();
-      debugger
+
+      for (let i in answers) {
+        if (!answers[i]) {
+          alert('请确认答案是否填写完整'); d
+        }
+      }
       axios({
         method: 'post',
         url: `${this.GLOBAL.localDomain}/api/v1/exams/${id}/answer/`,
