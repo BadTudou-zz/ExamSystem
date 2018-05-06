@@ -43,7 +43,7 @@
           <th>resource_type</th>
           <th>data</th>
           <th>创建时间</th>
-          <!-- <th>操作</th> -->
+          <th>操作</th>
         </tr>
       </thead>
       <tbody v-show="currentTag === 'send'">
@@ -128,7 +128,7 @@ export default {
         url =  `${this.GLOBAL.localDomain}/api/v1/users/${userId}/applications?reveived=true`;
       }
       else {
-        url =  `${this.GLOBAL.localDomain}/api/v1/users/${userId}/applications`;
+        url =  `${this.GLOBAL.localDomain}/api/v1/users/${userId}/applications?reveived=false`;
       }
       axios({
         method: 'get',
@@ -185,6 +185,7 @@ export default {
         // that.applyForData = [];
         // that.applyForData.push(res.data.data);
         alert('已接受')
+        that.getApplyFor()
       }).catch(err => {
         alert('接受失败，请稍后再试')
         console.log(err)
@@ -203,7 +204,8 @@ export default {
           'Authorization': sessionStorage.getItem('token'),
         }
       }).then(res => {
-        alert('已拒绝')
+        alert('已拒绝');
+        that.getApplyFor();
         // that.applyForData = [];
         // that.applyForData.push(res.data.data);
       }).catch(err => {

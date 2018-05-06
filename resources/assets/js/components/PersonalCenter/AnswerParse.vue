@@ -21,7 +21,6 @@
             </div>
             <div class="test">
               <div class="question">题目：{{ item.title }}</div>
-              <!-- <div class="question">选项：{{ getOptionsString(item.body) }}</div> -->
             </div>
             <div class="answer">
               <label class="checkbox">
@@ -211,34 +210,7 @@ export default {
         console.log(err)
       })
     },
-    // 去重
-    uniqData: function(value) {
-      const that = this;
-      let len = value.length;
-      let uniqData = [];
-
-      for (let i = 0; i < value.length; i++) {
-
-        for (let j = 0; j < uniqData.length; j++) {
-          if (uniqData[j]['id'] === value[i]['id']) {
-            break;
-          }
-        }
-        uniqData.push(value[i]);
-      }
-      return uniqData;
-    },
-    getOptionsString: function (value) {
-      const that = this;
-      let arr = value.split(' ');
-      let alphabet = ['A','B','C','D','E','F','G','H','I'];
-      let str = '';
-      for (let i = 0; i < arr.length; i++) {
-        str += alphabet[i] + '.' + arr[i] + '\n';
-      }
-      return str.split('\n');
-    },
-    // ?? 多选的答案格式
+    // 多选的答案格式
     computedAnswerJson: function () {
       const that = this;
       if (that.answer.length !== that.questionData.length) {
@@ -260,7 +232,7 @@ export default {
       },1000)
     },
     // 根据Id排序数组
-    sortArray: function (propertyName){
+    sortArray: function (propertyName) {
       return function(object1,object2){
         var value1 = parseInt(object1.id);
         var value2 = parseInt(object2.id);
@@ -275,6 +247,22 @@ export default {
           return 0;
         }
       }
+    },
+    // 获取答案解析
+    getAnserParse: function () {
+      const that = this;
+      axios({
+        method: 'post',
+        url: `${this.GLOBAL.localDomain}/api/v1/exams/${that.examId}/check`,
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': sessionStorage.getItem('token'),
+        }
+      }).then(res => {
+        debugger
+      }).catch(err => {
+        alert('获取解析失败')
+      })
     }
   },
   computed: {
@@ -287,6 +275,7 @@ export default {
       const that = this;
       that.examId = value.id;
       that.paperId = value.paper_id;
+      that.getAnserParse();
     },
     scoreData: function (value, oldValue) {
       const that = this;
