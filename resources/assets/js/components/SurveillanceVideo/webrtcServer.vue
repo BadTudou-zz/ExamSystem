@@ -10,9 +10,9 @@
       </header>
       <section class="modal-card-body">
         <div class="booth">
-          <video id="video" width="400" height="300"></video>
-          <canvas class="hidden" id='canvas' width='400' height='300'></canvas>
-          <img class="hidden" id='img' v-bind:src=imgSrc>
+          <!-- <video id="video" width="400" height="300"></video>
+          <canvas class="hidden" id='canvas' width='400' height='300'></canvas> -->
+          <img id='img' width="400" height="300" src={{ imgSrc }} >
         </div>
 
       </section>
