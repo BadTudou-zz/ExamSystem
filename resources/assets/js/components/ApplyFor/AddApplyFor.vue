@@ -146,6 +146,11 @@ export default {
     },
     addApplyFor: function () {
       const that = this;
+      let userId = sessionStorage.getItem('userId');
+      if (userId === that.applyForData.to) {
+        alert ('不能给自己发送申请！');
+        return;
+      }
       axios({
         method: 'post',
         url: `${this.GLOBAL.localDomain}/api/v1/applications`,

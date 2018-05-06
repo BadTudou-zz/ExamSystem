@@ -87,7 +87,15 @@ import moment from 'moment'
       console.log(err);
     })
   };
-
+  // 获取JSON长度
+  const getJsonLength = function (json) {
+    const that = this;
+    let jsonLength = 0;
+    for (let i in json) {
+        jsonLength++;
+    }
+    return jsonLength;
+  };
 
   // search拼接函数
   const computedParams = function (selectedQuesiton, param) {
@@ -140,6 +148,7 @@ import moment from 'moment'
     computedParams,
     computedUserName,
     isShowLogin,
+    getJsonLength,
   }
 </script>
 

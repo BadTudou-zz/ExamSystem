@@ -40,7 +40,7 @@
           <th>接受者</th>
           <!-- <th>action</th> -->
           <!-- <th>resource_id</th> -->
-          <th>resource_type</th>
+          <th>申请类型</th>
           <th>data</th>
           <th>创建时间</th>
           <th>操作</th>

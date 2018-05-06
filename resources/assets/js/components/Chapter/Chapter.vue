@@ -250,19 +250,19 @@ export default {
 
       let questionType = '';
       switch (value) {
-        case 0:
+        case 1:
           questionType = '单选';
           break;
-        case 1:
+        case 2:
           questionType = '多选';
           break;
-        case 2:
+        case 3:
           questionType = '判断';
           break;
-        case 3:
+        case 4:
           questionType = '填空';
           break;
-        case 4:
+        case 5:
           questionType = '简答';
           break;
       }
