@@ -32,4 +32,12 @@ class Answer extends FormRequest
             'answers' => 'required|json',
         ];
     }
+
+    public function messages()
+    {
+        return [
+            'answers.required' => '答案不能为空',
+            'answers.json'  => '答案格式有误，应该为json',
+        ];
+    }
 }
