@@ -111,30 +111,30 @@ export default {
         })
       }
     },
-    searchApplyFor: function () {
-      const that = this;
-      let id = that.searchKey;
-      if (!that.searchKey) {
-        that.searchKey = '';
-        that.getApplyFor();
-        return;
-      }
-      axios({
-        method: 'get',
-        url: `${this.GLOBAL.localDomain}/api/v1/applications/${id}`,
-        headers: {
-          'Accept': 'application/json',
-          'Authorization': sessionStorage.getItem('token'),
-        }
-      }).then(res => {
-        that.applyForData = [];
-        that.applyForData.push(res.data.data);
-        // that.applyForData = res.data.data;
-      }).catch(err => {
-        alert('没有找到从相关数据，已加载全部数据')
-        console.log(err)
-      })
-    },
+    // searchApplyFor: function () {
+    //   const that = this;
+    //   let id = that.searchKey;
+    //   if (!that.searchKey) {
+    //     that.searchKey = '';
+    //     that.getApplyFor();
+    //     return;
+    //   }
+    //   axios({
+    //     method: 'get',
+    //     url: `${this.GLOBAL.localDomain}/api/v1/applications/${id}`,
+    //     headers: {
+    //       'Accept': 'application/json',
+    //       'Authorization': sessionStorage.getItem('token'),
+    //     }
+    //   }).then(res => {
+    //     that.applyForData = [];
+    //     that.applyForData.push(res.data.data);
+    //     // that.applyForData = res.data.data;
+    //   }).catch(err => {
+    //     alert('没有找到从相关数据，已加载全部数据')
+    //     console.log(err)
+    //   })
+    // },
     searchApplyFor: function () {
       const that = this;
       // 如果没有搜索值

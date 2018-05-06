@@ -257,14 +257,8 @@ export default {
           type: 'EXAM'
         }
       }).then(res => {
-        if (res.data.data.length !== 0) {
-          that.testData = res.data.data;
-        }
-        else {
-          that.testData = [];
-        }
-        // that.testData = [];
-        // that.testData.push(res.data.data);
+        that.testData = res.data.data;
+        that.paginationData = res.data.links;
       }).catch(err => {
         console.log(err);
         if (err.response.status === 401) {
