@@ -2,7 +2,7 @@
 <template lang="html">
   <div>
 
-    <div v-if="showParse">
+    <div>
       <div v-for="(item,index) in questionData">
         <div class="message">
           <div class="message box">
@@ -26,16 +26,16 @@
 
                   <!-- <input type="checkbox" v-bind:value="item.id" v-model="selectedUser" class="user-seleted"> -->
                   <div class="">
-                    <input class="answer-index" v-model="answer[item.id]" value="A" type="radio">{{ item.body.split('!')[0] }}
+                    <input disabled class="answer-index" v-model="answer[item.id]" value="A" type="radio">{{ item.body.split('!')[0] }}
                   </div>
                   <div class="">
-                    <input class="answer-index" v-model="answer[item.id]" value="B" type="radio">{{ item.body.split('!')[1] }}
+                    <input disabled class="answer-index" v-model="answer[item.id]" value="B" type="radio">{{ item.body.split('!')[1] }}
                   </div>
                   <div class="">
-                    <input class="answer-index" v-model="answer[item.id]" value="C" type="radio">{{ item.body.split('!')[2] }}
+                    <input disabled class="answer-index" v-model="answer[item.id]" value="C" type="radio">{{ item.body.split('!')[2] }}
                   </div>
                   <div class="">
-                    <input class="answer-index" v-model="answer[item.id]" value="D" type="radio">{{ item.body.split('!')[3] }}
+                    <input disabled class="answer-index" v-model="answer[item.id]" value="D" type="radio">{{ item.body.split('!')[3] }}
                   </div>
                 </label>
               </div>
@@ -58,16 +58,16 @@
               <div class="answer">
                 <label class="checkbox">
                   <div class="">
-                    <input class="answer-index" v-model="answer[item.id]" value="A" type="checkbox">{{ item.body.split('@')[0] }}
+                    <input disabled class="answer-index" v-model="answer[item.id]" value="A" type="checkbox">{{ item.body.split('@')[0] }}
                   </div>
                   <div class="">
-                    <input class="answer-index" v-model="answer[item.id]" value="B" type="checkbox">{{ item.body.split('@')[1] }}
+                    <input disabled class="answer-index" v-model="answer[item.id]" value="B" type="checkbox">{{ item.body.split('@')[1] }}
                   </div>
                   <div class="">
-                    <input class="answer-index" v-model="answer[item.id]" value="C" type="checkbox">{{ item.body.split('@')[2] }}
+                    <input disabled class="answer-index" v-model="answer[item.id]" value="C" type="checkbox">{{ item.body.split('@')[2] }}
                   </div>
                   <div class="">
-                    <input class="answer-index" v-model="answer[item.id]" value="D" type="checkbox">{{ item.body.split('@')[3] }}
+                    <input disabled class="answer-index" v-model="answer[item.id]" value="D" type="checkbox">{{ item.body.split('@')[3] }}
                   </div>
                 </label>
               </div>
@@ -94,7 +94,7 @@
                     <input v-model="answer[item.id]" value=true type="radio">正确
                   </label>
                   <label class="radio">
-                    <input v-model="answer[item.id]" value=false type="radio">错误
+                    <input disabled v-model="answer[item.id]" value=false type="radio">错误
                   </label>
                 </div>
               </div>
@@ -115,7 +115,7 @@
               </div>
 
               <div class="answer">
-                <input v-model="answer[item.id]" class="input" type="text" name="answer">
+                <input disabled v-model="answer[item.id]" class="input" type="text" name="answer">
               </div>
             </div>
 
@@ -134,7 +134,7 @@
               </div>
 
               <div class="answer">
-                <textarea v-model="answer[item.id]" class="textarea" type="text"></textarea>
+                <textarea disabled v-model="answer[item.id]" class="textarea" type="text"></textarea>
               </div>
             </div>
 
