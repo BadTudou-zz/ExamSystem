@@ -138,12 +138,19 @@
               </div>
             </div>
 
-            <!-- <div v-for="(item2, index) in anserParseData" class="parsing">
-              <p>我的答案：{{ item2.content }}</p>
+            <!-- <div class="parsing"> -->
+              <!-- <p>我的答案：{{ item2.content }}</p>
               <p>参考答案：{{ items2.answer }} </p>
-              <p>答案解析：{{ items2[index].content }}</p>
+              <p>答案解析：{{ items2[index].status }}</p>
             </div> -->
+            <div class="parsing">
+              <p>我的答案：{{ parseJson[item.id].content }}</p>
+              <p>参考答案：{{ parseJson[item.id].answer }} </p>
+              <p>答案状态：{{ parseJson[item.id].status }}</p>
+            </div>
           </div>
+
+          <!-- parseJson -->
 
         </div>
       </div>
@@ -174,6 +181,7 @@ export default {
        questionTypeData: [], // 问题类型数据
        separatorList: [],
        showParse: false,
+       parseJson: {},
     }
   },
   components: {
@@ -363,7 +371,7 @@ export default {
         }
       }).then(res => {
         this.anserParseData = res.data.data.results;
-        let a  = that.getParseJson(this.anserParseData);
+        that.parseJson  = that.getParseJson(this.anserParseData);
         debugger
         that.questionData = res.data.data.questions;
       }).catch(err => {

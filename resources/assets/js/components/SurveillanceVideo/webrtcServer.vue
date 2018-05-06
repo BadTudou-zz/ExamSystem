@@ -12,7 +12,7 @@
         <div class="booth">
           <video id="video" width="400" height="300"></video>
           <canvas class="hidden" id='canvas' width='400' height='300'></canvas>
-          <img class="hidden" id='img' src=''>
+          <img class="hidden" id='img' v-bind:src=imgSrc>
         </div>
 
       </section>
@@ -40,6 +40,7 @@ export default {
       token: '',
       isShowModal: false,
       monitorUserId: '',
+      imgSrc: '',
     };
   },
   components: {
@@ -167,7 +168,7 @@ export default {
           break;
         case 'broadcast':
           console.log('收到广播');
-          img.src=resultJson.data.data;
+          this.imgSrc = resultJson.data.data;
           break;
       }
     };
