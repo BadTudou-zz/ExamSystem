@@ -70,7 +70,6 @@ class PaperSectionController extends Controller
 		$sections = $paper->sections ? explode(",", $paper->sections) : [];
 		$key = array_search($request->section, $sections);
 		if ($key !== FALSE) {
-			PaperSection::findOrFail($request->section)->delete();
 			unset($sections[$key]);
 		} else {
 			return response()->json(['error'=> "此试卷中没有ID为{$request->section}的章节"], 404);
