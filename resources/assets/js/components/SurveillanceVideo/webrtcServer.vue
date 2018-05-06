@@ -13,7 +13,8 @@
 
           <!-- <video id="video" width="400" height="300"></video>
           <canvas class="hidden" id='canvas' width='400' height='300'></canvas> -->
-          <img id='img' width="400" height="300" v-bind:src="imgSrc" >
+          <img id='img1' :src="imgSrc">
+          <img id='img' src=''>
           <!-- <img id='img' width="400" height="300" src={{imgUrl}} > -->
 
       </section>
@@ -171,6 +172,9 @@ export default {
         case 'broadcast':
           console.log('收到广播'+resultJson.data);
           that.imgSrc = resultJson.data;
+          var  img = document.getElementById('img');
+          img.src=resultJson.data;
+
           break;
       }
     };
