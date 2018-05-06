@@ -144,10 +144,11 @@
               <p>答案解析：{{ items2[index].status }}</p>
             </div> -->
             <div class="parsing">
-              <p>我的答案：{{ parseJson[item.id].content }}</p>
+              <p>我的答案：{{ computedAnswerStatus(parseJson[item.id].status) }}，{{ parseJson[item.id].content }}</p>
               <p>参考答案：{{ parseJson[item.id].answer }} </p>
-              <p>答案状态：{{ parseJson[item.id].status }}</p>
+              <p>解析：{{ item[index].answer_comment }}</p>
             </div>
+
           </div>
 
           <!-- parseJson -->
@@ -439,6 +440,15 @@ export default {
             }
         }
         return json;
+    },
+    computedAnswerStatus: function (value) {
+      const that = this;
+      if (value) {
+        return '正确'
+      }
+      else {
+        return '错误'
+      }
     }
   },
   computed: {
