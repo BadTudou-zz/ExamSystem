@@ -12,7 +12,8 @@ use App\Http\Resources\OrganizationCollection;
 use App\Http\Resources\LectureCollection;
 use App\Http\Resources\RoleCollection;
 use App\Http\Resources\PermissionResource;
-use App\Http\Resources\ApplicationResourceArray as ApplicationResource;
+use App\Http\Resources\ApplicationResourceArray;
+use App\Http\Resources\ApplicationResource;
 use App\Http\Resources\ExamResource;
 use App\Http\Resources\ApplicationCollection;
 use App\Http\Resources\PrivateMessageResource;
@@ -101,7 +102,7 @@ class UserController extends Controller
 
     public function applications(ShowUser $request)
     {
-        if ($request->get('reveived', false)){
+        if ($request->get('reveived', false) && $request->reveived == 'true'){
             $user = Auth::user();
             $applications = Notification::where('type', ApplicationNotification::class)
             ->where('notifiable_id', '!=', $user->id)
@@ -113,7 +114,7 @@ class UserController extends Controller
             return  ApplicationResource::collection(OrmUtil::paginate($applications));
         }
         else {
-            return  ApplicationResource::collection( Auth::user()->notifications()->where('type', ApplicationNotification::class)->paginate());
+            return  ApplicationResourceArray::collection( Auth::user()->notifications()->where('type', ApplicationNotification::class)->paginate());
         }
         
     }
