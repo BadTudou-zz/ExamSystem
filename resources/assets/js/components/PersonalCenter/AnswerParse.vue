@@ -2,7 +2,7 @@
 <template lang="html">
   <div>
 
-    <div >
+    <div v-if="showParse">
       <div v-for="(item,index) in questionData">
         <div class="message">
           <div class="message box">
@@ -26,16 +26,16 @@
 
                   <!-- <input type="checkbox" v-bind:value="item.id" v-model="selectedUser" class="user-seleted"> -->
                   <div class="">
-                    <input class="answer-index" v-model="answer[item.id]" value="A" type="radio">{{ item.body[0] }}
+                    <input class="answer-index" v-model="answer[item.id]" value="A" type="radio">{{ item.body.split('!')[0] }}
                   </div>
                   <div class="">
-                    <input class="answer-index" v-model="answer[item.id]" value="B" type="radio">{{ item.body[1] }}
+                    <input class="answer-index" v-model="answer[item.id]" value="B" type="radio">{{ item.body.split('!')[1] }}
                   </div>
                   <div class="">
-                    <input class="answer-index" v-model="answer[item.id]" value="C" type="radio">{{ item.body[2] }}
+                    <input class="answer-index" v-model="answer[item.id]" value="C" type="radio">{{ item.body.split('!')[2] }}
                   </div>
                   <div class="">
-                    <input class="answer-index" v-model="answer[item.id]" value="D" type="radio">{{ item.body[3] }}
+                    <input class="answer-index" v-model="answer[item.id]" value="D" type="radio">{{ item.body.split('!')[3] }}
                   </div>
                 </label>
               </div>
@@ -58,16 +58,16 @@
               <div class="answer">
                 <label class="checkbox">
                   <div class="">
-                    <input class="answer-index" v-model="answer[item.id]" value="A" type="checkbox">{{ item.body[0] }}
+                    <input class="answer-index" v-model="answer[item.id]" value="A" type="checkbox">{{ item.body.split('@')[0] }}
                   </div>
                   <div class="">
-                    <input class="answer-index" v-model="answer[item.id]" value="B" type="checkbox">{{ item.body[1] }}
+                    <input class="answer-index" v-model="answer[item.id]" value="B" type="checkbox">{{ item.body.split('@')[1] }}
                   </div>
                   <div class="">
-                    <input class="answer-index" v-model="answer[item.id]" value="C" type="checkbox">{{ item.body[2] }}
+                    <input class="answer-index" v-model="answer[item.id]" value="C" type="checkbox">{{ item.body.split('@')[2] }}
                   </div>
                   <div class="">
-                    <input class="answer-index" v-model="answer[item.id]" value="D" type="checkbox">{{ item.body[3] }}
+                    <input class="answer-index" v-model="answer[item.id]" value="D" type="checkbox">{{ item.body.split('@')[3] }}
                   </div>
                 </label>
               </div>
@@ -138,10 +138,10 @@
               </div>
             </div>
 
-            <!-- <div class="parsing">
-              <p v-bind:class="[item.results[item.questions.id].status ? 'is-true' : 'is-false']">我的答案：{{ examineeAnswer[item.id] }}</p>
-              <p>参考答案：{{ item.results[item.questions.id].answer }} </p>
-              <p>答案解析：{{ item.results[item.questions.id].content }}</p>
+            <!-- <div v-for="(item2, index) in anserParseData" class="parsing">
+              <p>我的答案：{{ item2.content }}</p>
+              <p>参考答案：{{ items2.answer }} </p>
+              <p>答案解析：{{ items2[index].content }}</p>
             </div> -->
           </div>
 
@@ -171,6 +171,9 @@ export default {
        paperId: null,
        examineeAnswer: [],  // 考生的回答
        anserParseData: [],
+       questionTypeData: [], // 问题类型数据
+       separatorList: [],
+       showParse: false,
     }
   },
   components: {
@@ -359,18 +362,66 @@ export default {
           'Authorization': sessionStorage.getItem('token'),
         }
       }).then(res => {
-        this.anserParseData = res.data.data;
+        this.anserParseData = res.data.data.results;
         that.questionData = res.data.data.questions;
-        debugger
       }).catch(err => {
-        alert('获取解析失败')
-        debugger
+        alert('获取解析失败');
       })
-    }
+    },
+    divisionOptions: function (data) {
+      const that = this;
+      let options;
+      if (data.includes('!')) options = data.split('!');
+      if (data.includes('@')) options = data.split('@');
+
+      return options;
+    },
+    // // 传入quesiton
+    // getSingelOptions: function (data) {
+    //   const that = this;
+    //   let res = data.split('!');
+    //
+    // },
+    // getMultiOPtions: function (data) {
+    //   const that = this;
+    //   let res = [];
+    // },
+    getQuestionType: function () {
+      const that = this;
+      axios({
+        method: 'get',
+        url: `${this.GLOBAL.localDomain}/api/v1/questionTypes`,
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': sessionStorage.getItem('token'),
+        }
+      }).then(res => {
+        that.questionTypeData = res.data.data;
+        for (let i = 0; i < that.questionTypeData.legnth; i++) {
+          that.separatorList.push(that.questionTypeData[i]['delimiter']);
+        }
+        //
+      }).catch(err => {
+        console.log(err);
+      })
+    },
+
+    getSeparate: function (data) {
+      const that = this;
+      let typeId = parseInt(data.type_id);
+      let separate;
+      for (let i = 0; i < that.questionTypeData.length; i++) {
+        if (typeId === that.questionTypeData[i]['id']) {
+          separate = that.questionTypeData[i]['delimiter'];
+        }
+      }
+      return separate;
+    },
   },
   computed: {
   },
   created() {
+    this.getQuestionType();
   },
   watch: {
     testData: function (value, oldValue) {
@@ -379,7 +430,6 @@ export default {
       that.paperId = value.paper_id;
       that.getAnserParse();
     },
-
     questionData: function (value, oldValue) {
       const that = this;
       that.isLoading = false;
