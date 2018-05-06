@@ -73,11 +73,11 @@ class PaperSectionController extends Controller
 	{
 		$paper = Paper::findOrFail($request->paper);
 		$sections = $paper->sections ? explode(",", $paper->sections) : [];
-		if ($key = array_search($request->section, $sections)) {
+		if (($key = array_search($request->section, $sections)) && $key !== FALSE) {
 			PaperSection::findOrFail($request->section)->delete();
 			unset($sections[$key]);
 		} else {
-			return response()->json(['error'=> "No query results for model [App\PaperSection] {$request->section}"], 404);
+			return response()->json(['error'=> "此试卷中没有ID为{$request->paper}的章节"], 404);
 		}
 		$paper->update(['sections' => implode(",", $sections)]);
 	}
