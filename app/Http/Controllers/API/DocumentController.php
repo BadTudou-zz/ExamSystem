@@ -35,7 +35,7 @@ class DocumentController extends Controller
         $user  = Auth::user();
 
         if (!($user->hasRole('teacher') || $user->hasRole("admin"))) {
-            return response()->json(['message' => 'unauthorized '],401);
+            return response()->json(['message' => 'unauthorized '],403);
         }
 
         $userid = $request->input('userid');
@@ -57,7 +57,7 @@ class DocumentController extends Controller
         $user  = Auth::user();
 
         if (!($user->hasRole('teacher') || $user->hasRole("admin"))) {
-            return response()->json(['message' => 'unauthorized '],401);
+            return response()->json(['message' => 'unauthorized '],403);
         }
 
         $userid = $request->input('userid');
@@ -74,7 +74,7 @@ class DocumentController extends Controller
         $user  = Auth::user();
 
         if (!($user->hasRole('teacher') || $user->hasRole("admin"))) {
-            return response()->json(['message' => 'unauthorized '],401);
+            return response()->json(['message' => 'unauthorized '],403);
         }
 
         $cid = $request->input('cid');
@@ -91,7 +91,7 @@ class DocumentController extends Controller
         $user  = Auth::user();
 
         if (!($user->hasRole('teacher') || $user->hasRole("admin"))) {
-            return response()->json(['message' => 'unauthorized '],401);
+            return response()->json(['message' => 'unauthorized '],403);
         }
 
 
@@ -113,7 +113,7 @@ class DocumentController extends Controller
         $user  = Auth::user();
 
         if (!($user->hasRole('teacher') || $user->hasRole("admin"))) {
-            return response()->json(['message' => 'unauthorized '],401);
+            return response()->json(['message' => 'unauthorized '],403);
         }
 
 
@@ -131,7 +131,7 @@ class DocumentController extends Controller
         $user  = Auth::user();
 
         if (!$user->hasRole("admin")) {
-            return response()->json(['message' => 'unauthorized '],401);
+            return response()->json(['message' => 'unauthorized '],403);
         }
 
         $preview = new Document();

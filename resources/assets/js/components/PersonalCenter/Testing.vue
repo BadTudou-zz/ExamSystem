@@ -17,7 +17,8 @@
         <webrtc></webrtc>
       </div> -->
 
-      <webrtc v-if="isShowWebrtc"></webrtc>
+      <webrtc ref="webrtc"
+              v-if="isShowWebrtc"></webrtc>
 
       <button @click="submitAnswer()" class="button is-info finish-exam" type="button" name="button">完成考试</button>
       <div class="countdown">
@@ -284,11 +285,15 @@ export default {
     quit: function () {
       const that = this;
     },
+    checkAnswer: function (data) {
+      const that = this;
+
+    },
     submitAnswer: function () {
       const that = this;
       let id = that.examId;
       let answers = that.computedAnswerJson();
-
+      debugger
       axios({
         method: 'post',
         url: `${this.GLOBAL.localDomain}/api/v1/exams/${id}/answer/`,
@@ -326,6 +331,8 @@ export default {
           'Authorization': sessionStorage.getItem('token'),
         }
       }).then(res => {
+        that.$emit.webrtc.closeWebSocket();
+        that.$refs.addTest.switchModal();
         that.$emit('switchTesting');   //第一个参数名为调用的方法名，第二个参数为需要传递的参数
         alert('已结束');
       }).catch(err => {
@@ -367,7 +374,7 @@ export default {
       //   str += alphabet[i] + '.' + arr[i] + '\n';
       // }
       // return str.split('\n');
-      // 
+      //
       return value.split(',')
 
     },

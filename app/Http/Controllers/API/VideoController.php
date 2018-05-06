@@ -36,7 +36,7 @@ class VideoController extends Controller
         $user  = Auth::user();
 
         if (!($user->hasRole('teacher') || $user->hasRole("admin"))) {
-            return response()->json(['message' => 'unauthorized '],401);
+            return response()->json(['message' => 'unauthorized '],403);
         }
 
         $userid = $request->input('userid');
@@ -60,7 +60,7 @@ class VideoController extends Controller
         $user  = Auth::user();
 
         if (!($user->hasRole('teacher') || $user->hasRole("admin"))) {
-            return response()->json(['message' => 'unauthorized '],401);
+            return response()->json(['message' => 'unauthorized '],403);
         }
 
 
@@ -78,7 +78,7 @@ class VideoController extends Controller
         $user  = Auth::user();
 
         if (!($user->hasRole('teacher') || $user->hasRole("admin"))) {
-            return response()->json(['message' => 'unauthorized '],401);
+            return response()->json(['message' => 'unauthorized '],403);
         }
 
         $cid = $request->input('cid');
@@ -95,7 +95,7 @@ class VideoController extends Controller
         $user  = Auth::user();
 
         if (!($user->hasRole('teacher') || $user->hasRole("admin"))) {
-            return response()->json(['message' => 'unauthorized '],401);
+            return response()->json(['message' => 'unauthorized '],403);
         }
 
 
@@ -117,7 +117,7 @@ class VideoController extends Controller
         $user  = Auth::user();
 
         if (!($user->hasRole('teacher') || $user->hasRole("admin"))) {
-            return response()->json(['message' => 'unauthorized '],401);
+            return response()->json(['message' => 'unauthorized '],403);
         }
 
         $id = $request->input('id');
@@ -135,7 +135,7 @@ class VideoController extends Controller
         $user  = Auth::user();
 
         if (!$user->hasRole("admin")) {
-            return response()->json(['message' => 'unauthorized '],401);
+            return response()->json(['message' => 'unauthorized '],403);
         }
 
         $preview = new Video();

@@ -125,11 +125,32 @@ export default {
       that.selectedQuesiton = [];
       that.questionScore = [];
     },
+    checkParameterIntegrity: function (data) {
+      const that = this;
+      let isIntegrity = true;
+      let value;
+      for (let i in data) {
+        value = data[i];
+
+        if (!value)  {
+          isIntegrity = false;
+          return isIntegrity;
+        }
+      }
+      return isIntegrity
+
+    },
     addChapter: function () {
       const that = this;
       let id = that.examinationPaperId;
       let questionsParams = this.GLOBAL.computedParams(that.selectedQuesiton, 'questions');
       let scores = that.computedAnswerJson();
+      let isIntegrity = that.checkParameterIntegrity(scores)
+      if (!isIntegrity) {
+        alert('请将分值填写完整');
+        return;
+      }
+
       axios({
         method: 'post',
         url: `${this.GLOBAL.localDomain}/api/v1/papers/${id}/sections?${questionsParams}`,
@@ -154,7 +175,6 @@ export default {
       }).catch(err => {
         alert('添加失败');
         console.log(err);
-        that.clearWords();
       })
     },
     // 计算题目分值的JSON

@@ -2,49 +2,147 @@
 <template lang="html">
   <div>
 
-    <div v-if="isLoading">
-      <p class="wait-time">解析加载中，请稍等{{ loadingTime }}秒</p>
-      <img class="loading" src="../../../img/loading.gif" alt="">
-    </div>
-
-    <div v-else>
+    <div>
       <div v-for="(item,index) in questionData">
         <div class="message">
-          <div v-show="item.question_type === 'SINGLE_CHOICE'" class="message box">
-            <div class="question-title">
-              <span class="question-index"> {{ index + 1 }}</span>
-              <span class="question-type">单选题</span>
-              <span class="question-difficulty">难度：{{item.level_type}} </span>
-            </div>
-            <div class="triangle-topright">
+          <div class="message box">
+            <!-- 单选 -->
+            <div v-show="item.type_id === 1" class="testing box">
+              <div class="question-title">
+                <!-- <span class="question-index"> {{ index + 1 }}</span> -->
+                <span class="question-index"> {{ item.id }}</span>
+                <span class="question-type">单选题</span>
+                <span class="question-difficulty">难度：{{item.level_type}} </span>
+              </div>
+              <div class="triangle-topright">
 
-            </div>
-            <div class="test">
-              <div class="question">题目：{{ item.title }}</div>
-              <!-- <div class="question">选项：{{ getOptionsString(item.body) }}</div> -->
-            </div>
-            <div class="answer">
-              <label class="checkbox">
-                <div class="">
-                  <input class="answer-index" v-model="answer[index]" value="A" type="radio">{{ item.body[0] }}
-                </div>
-                <div class="">
-                  <input class="answer-index" v-model="answer[index]" value="B" type="radio">{{ item.body[1] }}
-                </div>
-                <div class="">
-                  <input class="answer-index" v-model="answer[index]" value="C" type="radio">{{ item.body[2] }}
-                </div>
-                <div class="">
-                  <input class="answer-index" v-model="answer[index]" value="D" type="radio">{{ item.body[3] }}
-                </div>
-              </label>
+              </div>
+              <div class="test">
+                <div class="question">题目：{{ item.title }}</div>
+                <!-- <div class="question">选项：{{ getOptionsString(item.body) }}</div> -->
+              </div>
+              <div class="answer">
+                <label class="checkbox">
+
+                  <!-- <input type="checkbox" v-bind:value="item.id" v-model="selectedUser" class="user-seleted"> -->
+                  <div class="">
+                    <input disabled class="answer-index" v-model="answer[item.id]" value="A" type="radio">{{ item.body.split('!')[0] }}
+                  </div>
+                  <div class="">
+                    <input disabled class="answer-index" v-model="answer[item.id]" value="B" type="radio">{{ item.body.split('!')[1] }}
+                  </div>
+                  <div class="">
+                    <input disabled class="answer-index" v-model="answer[item.id]" value="C" type="radio">{{ item.body.split('!')[2] }}
+                  </div>
+                  <div class="">
+                    <input disabled class="answer-index" v-model="answer[item.id]" value="D" type="radio">{{ item.body.split('!')[3] }}
+                  </div>
+                </label>
+              </div>
             </div>
 
-            <div class="parsing">
-              <p v-bind:class="[item.answer === examineeAnswer[item.id] ? 'is-true' : 'is-false']">我的答案：{{ examineeAnswer[item.id] }}</p>
-              <p>参考答案：{{ item.answer }} </p>
-              <p>答案解析：{{ item.answer_comment }}</p>
+            <!-- 多选 -->
+            <div v-show="item.type_id === 2" class="testing box">
+              <div class="question-title">
+                <span class="question-index"> {{ item.id }}</span>
+                <span class="question-type">多选题</span>
+                <span class="question-difficulty">难度：{{item.level_type}} </span>
+              </div>
+              <div class="triangle-topright">
+
+              </div>
+              <div class="test">
+                <div class="question">题目：{{ item.title }}</div>
+              </div>
+
+              <div class="answer">
+                <label class="checkbox">
+                  <div class="">
+                    <input disabled class="answer-index" v-model="answer[item.id]" value="A" type="checkbox">{{ item.body.split('@')[0] }}
+                  </div>
+                  <div class="">
+                    <input disabled class="answer-index" v-model="answer[item.id]" value="B" type="checkbox">{{ item.body.split('@')[1] }}
+                  </div>
+                  <div class="">
+                    <input disabled class="answer-index" v-model="answer[item.id]" value="C" type="checkbox">{{ item.body.split('@')[2] }}
+                  </div>
+                  <div class="">
+                    <input disabled class="answer-index" v-model="answer[item.id]" value="D" type="checkbox">{{ item.body.split('@')[3] }}
+                  </div>
+                </label>
+              </div>
             </div>
+
+
+            <!-- 判断 -->
+            <div v-show="item.type_id === 3" class="testing box">
+              <div class="question-title">
+                <span class="question-index"> {{ item.id }}</span>
+                <span class="question-type">判断题</span>
+                <span class="question-difficulty">难度：{{item.level_type}} </span>
+              </div>
+              <div class="triangle-topright">
+
+              </div>
+              <div class="test">
+                <div class="question">题目：{{ item.title }}</div>
+              </div>
+
+              <div class="answer">
+                <div class="control">
+                  <label class="radio">
+                    <input v-model="answer[item.id]" value=true type="radio">正确
+                  </label>
+                  <label class="radio">
+                    <input disabled v-model="answer[item.id]" value=false type="radio">错误
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <!-- 填空 -->
+            <div v-show="item.type_id === 4" class="testing box">
+              <div class="question-title">
+                <span class="question-index"> {{ item.id }}</span>
+                <span class="question-type">判断题</span>
+                <span class="question-difficulty">难度：{{item.level_type}} </span>
+              </div>
+              <div class="triangle-topright">
+
+              </div>
+              <div class="test">
+                <div class="question">题目：{{ item.title }}</div>
+              </div>
+
+              <div class="answer">
+                <input disabled v-model="answer[item.id]" class="input" type="text" name="answer">
+              </div>
+            </div>
+
+            <!-- 简答 -->
+            <div v-show="item.type_id === 5" class="testing box">
+              <div class="question-title">
+                <span class="question-index"> {{ item.id }}</span>
+                <span class="question-type">判断题</span>
+                <span class="question-difficulty">难度：{{item.level_type}} </span>
+              </div>
+              <div class="triangle-topright">
+
+              </div>
+              <div class="test">
+                <div class="question">题目：{{ item.title }}</div>
+              </div>
+
+              <div class="answer">
+                <textarea disabled v-model="answer[item.id]" class="textarea" type="text"></textarea>
+              </div>
+            </div>
+
+            <!-- <div v-for="(item2, index) in anserParseData" class="parsing">
+              <p>我的答案：{{ item2.content }}</p>
+              <p>参考答案：{{ items2.answer }} </p>
+              <p>答案解析：{{ items2[index].content }}</p>
+            </div> -->
           </div>
 
         </div>
@@ -72,6 +170,10 @@ export default {
        loadingTime: 15,
        paperId: null,
        examineeAnswer: [],  // 考生的回答
+       anserParseData: [],
+       questionTypeData: [], // 问题类型数据
+       separatorList: [],
+       showParse: false,
     }
   },
   components: {
@@ -211,34 +313,7 @@ export default {
         console.log(err)
       })
     },
-    // 去重
-    uniqData: function(value) {
-      const that = this;
-      let len = value.length;
-      let uniqData = [];
-
-      for (let i = 0; i < value.length; i++) {
-
-        for (let j = 0; j < uniqData.length; j++) {
-          if (uniqData[j]['id'] === value[i]['id']) {
-            break;
-          }
-        }
-        uniqData.push(value[i]);
-      }
-      return uniqData;
-    },
-    getOptionsString: function (value) {
-      const that = this;
-      let arr = value.split(' ');
-      let alphabet = ['A','B','C','D','E','F','G','H','I'];
-      let str = '';
-      for (let i = 0; i < arr.length; i++) {
-        str += alphabet[i] + '.' + arr[i] + '\n';
-      }
-      return str.split('\n');
-    },
-    // ?? 多选的答案格式
+    // 多选的答案格式
     computedAnswerJson: function () {
       const that = this;
       if (that.answer.length !== that.questionData.length) {
@@ -260,7 +335,7 @@ export default {
       },1000)
     },
     // 根据Id排序数组
-    sortArray: function (propertyName){
+    sortArray: function (propertyName) {
       return function(object1,object2){
         var value1 = parseInt(object1.id);
         var value2 = parseInt(object2.id);
@@ -275,67 +350,85 @@ export default {
           return 0;
         }
       }
-    }
+    },
+    // 获取答案解析
+    getAnserParse: function () {
+      const that = this;
+      axios({
+        method: 'post',
+        url: `${this.GLOBAL.localDomain}/api/v1/exams/${that.examId}/check`,
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': sessionStorage.getItem('token'),
+        }
+      }).then(res => {
+        this.anserParseData = res.data.data.results;
+        that.questionData = res.data.data.questions;
+      }).catch(err => {
+        alert('获取解析失败');
+      })
+    },
+    divisionOptions: function (data) {
+      const that = this;
+      let options;
+      if (data.includes('!')) options = data.split('!');
+      if (data.includes('@')) options = data.split('@');
+
+      return options;
+    },
+    // // 传入quesiton
+    // getSingelOptions: function (data) {
+    //   const that = this;
+    //   let res = data.split('!');
+    //
+    // },
+    // getMultiOPtions: function (data) {
+    //   const that = this;
+    //   let res = [];
+    // },
+    getQuestionType: function () {
+      const that = this;
+      axios({
+        method: 'get',
+        url: `${this.GLOBAL.localDomain}/api/v1/questionTypes`,
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': sessionStorage.getItem('token'),
+        }
+      }).then(res => {
+        that.questionTypeData = res.data.data;
+        for (let i = 0; i < that.questionTypeData.legnth; i++) {
+          that.separatorList.push(that.questionTypeData[i]['delimiter']);
+        }
+        //
+      }).catch(err => {
+        console.log(err);
+      })
+    },
+
+    getSeparate: function (data) {
+      const that = this;
+      let typeId = parseInt(data.type_id);
+      let separate;
+      for (let i = 0; i < that.questionTypeData.length; i++) {
+        if (typeId === that.questionTypeData[i]['id']) {
+          separate = that.questionTypeData[i]['delimiter'];
+        }
+      }
+      return separate;
+    },
   },
   computed: {
   },
   created() {
-
+    this.getQuestionType();
   },
   watch: {
     testData: function (value, oldValue) {
       const that = this;
       that.examId = value.id;
       that.paperId = value.paper_id;
-    },
-    scoreData: function (value, oldValue) {
-      const that = this;
-      let data = JSON.parse(value.answers);
-      for (let i in data) {
-        let index = parseInt(i);
-        let val = data[i];
-        that.examineeAnswer[index] = val;
-      }
-    },
-    paperId: function (value, oldValue) {
-      const that = this;
-      that.getChapterIds(value);
-      that.clearQuestionIds();
-    },
-    chapterIds: async function (value, oldValue) {
-      const that = this;
-      console.log('获取章节ID')
-      console.log(value)
-      for (let i = 0; i < value.length; i++) {
-        let response = await that.getQuestionIds(value[i])
-      }
-      that.waitTime();
-      // 10s等待
-      setTimeout(function(){
-        console.log('加载问题id中....')
-        console.log(that.temporaryQuestionIds);
-        that.questionIds = that.temporaryQuestionIds;
-
-      },10000)
-    },
-    // if get all questionIds
-    questionIds: async function (value, oldValue) {
-      const that = this;
-      if (!value) return;
-
-      for (let i = 0; i < value.length; i++) {
-        let questionId = value[i];
-        that.getQuestionData(questionId);
-      }
-
-      // 10s等待
-      setTimeout(function(){
-        console.log('加载题目中....')
-        that.temporaryQuestionData = that.temporaryQuestionData.sort(that.sortArray());
-        that.questionData = that.temporaryQuestionData;
-        console.log(that.questionData);
-      },15000)
-
+      that.getAnserParse();
     },
     questionData: function (value, oldValue) {
       const that = this;
