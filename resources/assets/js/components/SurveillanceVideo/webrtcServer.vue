@@ -146,12 +146,14 @@ export default {
           if (resultJson.statusCode == 200) {
             console.log('认证成功');
 
+            var data = { "channel": sessionStorage.getItem('monitorUserId') };
             var jsonData = {
               "action": 'subscribe',
-              "token": this.token,
-              "data" : null,
+              "token": sessionStorage.getItem('token').split(' ')[1],
+              "data" : data,
             };
             let jsonString = JSON.stringify(jsonData);
+            debugger
             //
             if (ws.readyState === 1) {
               ws.send(jsonString);
