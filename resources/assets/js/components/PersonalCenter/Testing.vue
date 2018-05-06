@@ -285,11 +285,15 @@ export default {
     quit: function () {
       const that = this;
     },
+    checkAnswer: function (data) {
+      const that = this;
+
+    },
     submitAnswer: function () {
       const that = this;
       let id = that.examId;
       let answers = that.computedAnswerJson();
-
+      debugger
       axios({
         method: 'post',
         url: `${this.GLOBAL.localDomain}/api/v1/exams/${id}/answer/`,

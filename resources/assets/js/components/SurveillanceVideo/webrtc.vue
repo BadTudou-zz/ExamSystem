@@ -87,7 +87,7 @@ export default {
       ws.onopen = function (data) {
         //
         that.authentication();
-        console.log('申请认证');
+        console.log('学生端：申请认证');
       }();
     },
     closeWebSocket: function () {

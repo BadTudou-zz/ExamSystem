@@ -56,7 +56,7 @@
             </td>
             <td>
               <button @click="participateUser(index)" class="is-small button" type="button" name="button">查看考试用户</button>
-              <button @click="showMonitor(index)" class="is-small button" type="button" name="button">查看监控</button>
+              <!-- <button @click="showMonitor(index)" class="is-small button" type="button" name="button">查看监控</button> -->
             </td>
           </tr>
         </tbody>

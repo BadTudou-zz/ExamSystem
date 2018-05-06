@@ -95,7 +95,7 @@ export default {
       const that = this;
       ws.onopen = function (data) {
         that.authentication();
-        console.log('申请认证');
+        console.log('教师端：申请认证');
       }();
     }
   },
