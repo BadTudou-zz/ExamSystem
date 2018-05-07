@@ -41,6 +41,7 @@ class PaperSectionController extends Controller
 
 	public function show(ShowPaperSection $request)
 	{
+		$section = PaperSection::findOrFail($request->section);
 		$paper = Paper::findOrFail($request->paper);
 		$sections = $paper->sections ? explode(",", $paper->sections) : [];
 		if ( in_array($request->section, $sections)) {
@@ -53,13 +54,8 @@ class PaperSectionController extends Controller
 
 	public function update(UpdatePaperSection $request)
 	{
-		$paper = Paper::findOrFail($request->paper);
-		$sections = $paper->sections ? explode(",", $paper->sections) : [];
-
-		if ($request->has('questions')) {
-			$request['questions'] = implode(",", $request->questions);
-		}
-			
+		$section = PaperSection::findOrFail($request->section);
+		$paper = Paper::findOrFail($request->paper);	
 		$section->update($request->all());
 		return new PaperSectionResource($section);
 	}
