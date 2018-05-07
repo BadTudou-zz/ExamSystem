@@ -79,6 +79,7 @@ export default {
       examTime: null,
       selectedTestData: null,  // 当前选中的考试
       currentTestData: null,
+      questionTypeData: [],
     }
   },
   components: {
@@ -137,8 +138,8 @@ export default {
         alert('已开考');
       }).catch(err => {
         alert('开考失败')
-        that.switchModal();
-        that.currentTestData = that.testData[index];
+        // that.switchModal();
+        // that.currentTestData = that.testData[index];
 
         // let errMsg = err.response.data.error;
         // if (errMsg) {
@@ -149,7 +150,6 @@ export default {
         // }
         // console.log(err)
       })
-
     },
   },
   computed: {
