@@ -16,7 +16,7 @@
       <thead>
         <tr>
           <th>授课名</th>
-          <th>描述</th>
+          <!-- <th>描述</th> -->
           <th>最大容量</th>
           <th>当前容量</th>
           <th>授课操作</th>
@@ -26,7 +26,7 @@
     <tbody>
         <tr v-for="(item,index) in teachingData">
           <td>{{ item.name }}</td>
-          <td><p class="limit-words">{{ item.description }}</p></td>
+          <!-- <td><p class="limit-words">{{ item.description }}</p></td> -->
           <td>{{ item.max }}</td>
           <td>{{ item.current }}</td>
           <td>

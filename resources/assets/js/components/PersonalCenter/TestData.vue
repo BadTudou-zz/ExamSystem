@@ -129,17 +129,18 @@ export default {
         that.switchTesting();
         alert('已开考');
       }).catch(err => {
+        alert('开考失败')
         // that.switchTesting();
         // that.currentTestData = that.testData[index];
-
-        let errMsg = err.response.data.error;
-        if (errMsg) {
-          alert(errMsg);
-        }
-        else {
-          alert('开始失败，请稍后再试');
-        }
-        console.log(err)
+        //
+        // let errMsg = err.response.data.error;
+        // if (errMsg) {
+        //   alert(errMsg);
+        // }
+        // else {
+        //   alert('开始失败，请稍后再试');
+        // }
+        // console.log(err)
       })
 
     },
