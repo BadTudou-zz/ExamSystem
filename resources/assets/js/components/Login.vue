@@ -87,15 +87,7 @@ export default {
         that.getPermission(url);
       }).catch(err => {
         that.getVerificationCode();
-        let errCode = err.response.status;  // http code
-        let errMsg = err.response.data.message;
-        if (errMsg) {
-          alert(errMsg);
-        }
-        else if (errCode === 401) {
-          alert('密码错误');
-          that.password = '';
-        }
+
         that.captcha = '';
       })
     },
