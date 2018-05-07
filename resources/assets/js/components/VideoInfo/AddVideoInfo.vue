@@ -79,8 +79,20 @@ export default {
       that.videoData.videoName = '';
       that.videoData.kp = '';
       that.isUploadedSuccess = false;
+      // that.progressNumber = '';
+      // that.progressWidth = '';
+
+      that.clock = null;
+      that.postfix = null;
+      that.time = null;
+      that.filename = null;
+      that.userid = null;
+      that.cid = null;
+      that.end = null;
+      that.sta = 0;
       that.progressNumber = '';
       that.progressWidth = '';
+      that.isUploadedSuccess = false;  // 记录是否上传成功
     },
     addVideoInfo: function () {
       const that = this;
