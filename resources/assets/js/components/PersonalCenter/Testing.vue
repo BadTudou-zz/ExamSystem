@@ -1,13 +1,13 @@
 <!-- 查看考试(进行) -->
 <template lang="html">
   <div>
-
+<!--
     <div v-if="isLoading">
       <p class="wait-time">题目加载中，请稍等{{ loadingTime }}秒</p>
       <img class="loading" src="../../../img/loading.gif" alt="">
-    </div>
+    </div> -->
 
-    <div v-else>
+    <div>
       <h1>{{ testTitle }}</h1>
 
       <!-- <div v-if="!isLoading">
@@ -45,7 +45,6 @@
             </div>
             <div class="test">
               <div class="question">题目：{{ item.title }}</div>
-              <!-- <div class="question">选项：{{ getOptionsString(item.body) }}</div> -->
             </div>
             <div class="answer">
               <label class="checkbox">
@@ -130,7 +129,7 @@
           <div v-show="item.type_id === 4" class="testing box">
             <div class="question-title">
               <span class="question-index"> {{ item.id }}</span>
-              <span class="question-type">判断题</span>
+              <span class="question-type">填空题</span>
               <!-- <span class="question-difficulty">难度：{{item.level_type}} </span> -->
             </div>
             <div class="triangle-topright">
@@ -173,7 +172,6 @@
 </template>
 
 <script>
-import SingleChoice from '../Question/SingleChoice'
 import moment from 'moment'
 import Webrtc from '../SurveillanceVideo/webrtc'
 
@@ -184,7 +182,6 @@ export default {
        questionDataLength: null,
        chapterIds: [],
        isLoading: true,
-       singleChoiceAnswer: null,
        questionIds: [],
        temporaryQuestionIds: [],  // 临时存储
        currentQuestionData: [],
@@ -201,7 +198,6 @@ export default {
     }
   },
   components: {
-    SingleChoice,
     Webrtc,
   },
   props: [
@@ -359,38 +355,6 @@ export default {
         console.log(err)
       })
     },
-    // 去重
-    uniqData: function(value) {
-      const that = this;
-      let len = value.length;
-      let uniqData = [];
-
-      for (let i = 0; i < value.length; i++) {
-
-        for (let j = 0; j < uniqData.length; j++) {
-          if (uniqData[j]['id'] === value[i]['id']) {
-            break;
-          }
-        }
-        uniqData.push(value[i]);
-      }
-      return uniqData;
-    },
-    getOptionsString: function (value) {
-      const that = this;
-
-      // let arr = value.split(' ');
-      // let arr = value;
-      // let alphabet = ['A','B','C','D','E','F','G','H','I'];
-      // let str = '';
-      // for (let i = 0; i < arr.length; i++) {
-      //   str += alphabet[i] + '.' + arr[i] + '\n';
-      // }
-      // return str.split('\n');
-      //
-      return value.split(',')
-
-    },
     computedAnswerJson: function () {
       const that = this;
 
@@ -420,7 +384,7 @@ export default {
       },1000)
     },
     // 根据Id排序数组
-    sortArray: function (propertyName){
+    sortArray: function (propertyName) {
       return function(object1,object2){
         var value1 = parseInt(object1.id);
         var value2 = parseInt(object2.id);
@@ -436,6 +400,21 @@ export default {
         }
       }
     },
+    getAllExamQuestions: function (id) {
+      const that = this;
+      axios({
+        method: 'get',
+        url: `${this.GLOBAL.localDomain}/api/v1/papers/${id}/questions`,
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': sessionStorage.getItem('token'),
+        }
+      }).then(res => {
+        that.questionData = res.data.data;
+      }).catch(err => {
+
+      })
+    }
   },
   computed: {
   },
@@ -451,8 +430,9 @@ export default {
     },
     paperId: function (value, oldValue) {
       const that = this;
-      that.getChapterIds(value);
-      that.clearQuestionIds();
+      // that.getChapterIds(value);
+      // that.clearQuestionIds();
+      that.getAllExamQuestions(value);
     },
     chapterIds: async function (value, oldValue) {
       const that = this;
