@@ -16,7 +16,7 @@
           <input v-model="currentExaminationPaperData.score" class="input" type="text">
         </div>
         <div class="box-item">
-          <label>最小值</label>
+          <label>时长(分钟)</label>
           <input v-model="currentExaminationPaperData.min" class="input" type="text">
         </div>
         <div class="box-item">
