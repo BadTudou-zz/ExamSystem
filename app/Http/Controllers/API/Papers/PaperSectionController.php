@@ -54,6 +54,9 @@ class PaperSectionController extends Controller
 
 	public function update(UpdatePaperSection $request)
 	{
+		if ($request->has('questions')) {
+			$request['questions'] = implode(",", $request->questions);
+		}
 		$section = PaperSection::findOrFail($request->section);
 		$paper = Paper::findOrFail($request->paper);	
 		$section->update($request->all());
