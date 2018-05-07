@@ -46,6 +46,7 @@ export default {
       url: '',
       isShowLoginBox: true,
       registerData: null,
+      roleName: '',
     };
   },
   components: {
@@ -77,6 +78,7 @@ export default {
         }
       }).then(res => {
         let userId = res.data.data.user.id;
+        that.searchRole(userId);
         let token = res.data.data.token;
         that.userId = res.data.data.user.id;
         that.token = res.data.data.token;
@@ -176,6 +178,22 @@ export default {
         console.log(err);
       })
     },
+    searchRole: function (userId) {
+      const that = this;
+      axios({
+        method: 'get',
+        url: `${localDomain}/api/v1/roles/${userId}`,
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': sessionStorage.getItem('token'),
+        }
+      }).then(res => {
+        that.roleName = res.data.data.name;
+        sessionStorage.setItem('roleName');
+      }).catch(err => {
+        console.log(err)
+      })
+    }
   },
   created() {
     this.getVerificationCode();
@@ -183,8 +201,10 @@ export default {
   watch: {
     permissions: function (value, oldValue) {
       const that = this;
-      that.$refs.loginLoading.switchModal();
-      that.$emit('checkLoginState');   //第一个参数名为调用的方法名，第二个参数为需要传递的参数
+      if (that.roleName) {
+        that.$refs.loginLoading.switchModal();
+        that.$emit('checkLoginState');   //第一个参数名为调用的方法名，第二个参数为需要传递的参数
+      }
     },
     registerData: function(value, oldValue) {
       const that = this;
@@ -198,7 +218,13 @@ export default {
 
       let url = `${this.GLOBAL.localDomain}/api/v1/users/${userId}/permissions/`;
       that.getPermission(url);
-
+    },
+    roleName: function (value, oldValue) {
+      const that = this;
+      if (that.permissions) {
+        that.$refs.loginLoading.switchModal();
+        that.$emit('checkLoginState');   //第一个参数名为调用的方法名，第二个参数为需要传递的参数
+      }
     }
   }
 }

@@ -117,6 +117,7 @@ export default {
       currentTeaching: [],
       allTeaching: [],
       searchResult: [],
+      role: '',
     }
   },
   components: {
@@ -354,7 +355,7 @@ export default {
   },
   created() {
     this.getTeaching();
-    // this.GLOBAL.searchRole(sessionStorage.getItem('userId'));
+    this.role = this.GLOBAL.searchRole(sessionStorage.getItem('userId'));
   },
   watch: {
     data:function (value, oldValue) {

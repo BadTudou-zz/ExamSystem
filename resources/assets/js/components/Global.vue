@@ -133,24 +133,6 @@ import moment from 'moment'
     return userName;
   };
 
-  // 查找用户的角色
-  const searchRole = function (userId) {
-    const that = this;
-    let roleName = '';
-    axios({
-      method: 'get',
-      url: `${localDomain}/api/v1/roles/${userId}`,
-      headers: {
-        'Accept': 'application/json',
-        'Authorization': sessionStorage.getItem('token'),
-      }
-    }).then(res => {
-      return res.data.data.name;
-    }).catch(err => {
-      console.log(err)
-    })
-  };
-
   export default
   {
     localDomain,
@@ -167,7 +149,6 @@ import moment from 'moment'
     computedUserName,
     isShowLogin,
     getJsonLength,
-    searchRole,
   }
 </script>
 
