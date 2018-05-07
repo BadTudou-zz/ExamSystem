@@ -17,7 +17,7 @@ class AddUsers extends FormRequest
     {
         $user = Auth::user();
         $lecture = Lecture::find($this->route('id'));
-        return $user->id == $lecture->user_id;
+        return $user->can('lecture-store') || $user->id == $lecture->user_id;
     }
 
     /**
