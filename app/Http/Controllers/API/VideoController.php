@@ -123,11 +123,7 @@ class VideoController extends Controller
     }
 
     public function selectAll(Request $request){
-        $user  = Auth::user();
 
-        if (!$user->hasRole("admin")) {
-            return response()->json(['error' => 'unauthorized '],403);
-        }
 
         $preview = new Video();
         $data = $preview->get();
