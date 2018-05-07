@@ -206,12 +206,12 @@ export default {
           'Authorization': this.token,
         }
       }).then(res => {
+        that.$emit('input', 'logOut');
+        sessionStorage.removeItem("token");
+        sessionStorage.removeItem("permissions");
       }).catch(err => {
         console.log(err)
       })
-      that.$emit('input', 'logOut');
-      sessionStorage.removeItem("token");
-      sessionStorage.removeItem("permissions");
     },
     getMessage: function () {
       const that = this;
