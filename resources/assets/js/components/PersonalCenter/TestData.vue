@@ -1,7 +1,7 @@
 <!-- 查看考试 -->
 <template lang="html">
   <div class="box">
-    <div  v-show="!isTesting">
+    <div>
       <h3 class="title">考试</h3>
       <p v-if="!testData || testData.length === 0 " class="empty-message-prompt">暂无考试</p>
       <table v-else class="table">
@@ -33,11 +33,22 @@
     </div>
 
 
-    <testing ref="testing"
-             v-show="isTesting"
-             v-on:switchTesting="switchTesting"
-             v-bind:current-test-data="currentTestData"
-    ></testing>
+    <!-- <div class="modal"> -->
+    <div class="modal" :class="{'is-active' : isShowModal}">
+      <div class="modal-background"></div>
+      <div class="modal-content box">
+        <!-- <p class="image is-4by3">
+          <img src="https://bulma.io/images/placeholders/1280x960.png" alt="">
+        </p>
+     -->
+        <testing ref="testing"
+                 v-on:switchModal="switchModal"
+                 v-bind:current-test-data="currentTestData"
+        ></testing>
+      </div>
+      <!-- <button class="modal-close is-large" aria-label="close"></button> -->
+    </div>
+
 
     <score ref="score"
            v-bind:selected-test-data="selectedTestData"
@@ -63,7 +74,6 @@ export default {
       paginationData: null,
       data: null,
       //
-      isTesting: false,  // 是否已经开始考试
       paperId: null,  // 试卷ID
       examId: null, // 考试ID testID
       examTime: null,
@@ -80,10 +90,6 @@ export default {
     switchModal: function () {
       const that = this;
       that.isShowModal = !that.isShowModal;
-    },
-    switchTesting: function () {
-      const that = this;
-      that.isTesting = !that.isTesting;
     },
     getTest: function () {
       const that = this;
@@ -125,14 +131,15 @@ export default {
           'Authorization': sessionStorage.getItem('token'),
         }
       }).then(res => {
+        that.switchModal();
         that.currentTestData = that.testData[index];
-        that.switchTesting();
+
         alert('已开考');
       }).catch(err => {
         alert('开考失败')
-        // that.switchTesting();
+        // that.switchModal();
         // that.currentTestData = that.testData[index];
-        //
+
         // let errMsg = err.response.data.error;
         // if (errMsg) {
         //   alert(errMsg);
@@ -193,5 +200,8 @@ table {
   font-size: 1.5rem;
   font-weight: 600;
   line-height: 1.125;
+}
+.modal-content {
+  width: 1100px;
 }
 </style>

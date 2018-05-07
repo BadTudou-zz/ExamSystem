@@ -296,7 +296,8 @@ export default {
 
       for (let i in answers) {
         if (!answers[i]) {
-          alert('请确认答案是否填写完整'); d
+          alert('请确认答案是否填写完整');
+          return;
         }
       }
       axios({
@@ -338,9 +339,16 @@ export default {
       }).then(res => {
         that.$emit.webrtc.closeWebSocket();
         that.$refs.addTest.switchModal();
-        that.$emit('switchTesting');   //第一个参数名为调用的方法名，第二个参数为需要传递的参数
+        // that.$emit('switchTesting');
         alert('已结束');
+
+        //
+        that.$emit('switchModal');   //第一个参数名为调用的方法名，第二个参数为需要传递的参数
       }).catch(err => {
+
+        //
+        that.$emit('switchModal');
+
         let errMsg = err.response.data.error;
         if (errMsg) {
           alert(errMsg);
