@@ -62,7 +62,6 @@ export default {
       progressNumber: '',
       progressWidth: '',
       isUploadedSuccess: false,  // 记录是否上传成功
-      flag: true,
     }
   },
   components: {
@@ -82,7 +81,6 @@ export default {
       that.isUploadedSuccess = false;
       // that.progressNumber = '';
       // that.progressWidth = '';
-
       that.clock = null;
       that.postfix = null;
       that.time = null;
@@ -103,9 +101,7 @@ export default {
       }
       that.userId = sessionStorage.getItem('userId')
       let teachingId = that.currentTeachingData.id;
-
       that.cid = teachingId;  // 授课ID
-
       axios({
         method: 'POST',
         url: `https://www.badtudou.com/api/v1/upload/lecture/insert/video`,
@@ -146,10 +142,9 @@ export default {
           filename: this.filename,
         },
       }).then(res => {
-        if (res.status === 200) {
-          that.flag = true;
-        }
+        // alert('up成功！')
       }).catch(err => {
+        // alert('上传失败');
         return;
         console.log(err);
       })
@@ -162,25 +157,20 @@ export default {
       var postfix = name.substring(pos+1);
       var time = myDate.getFullYear() + '-' + (myDate.getMonth() + 1) + '-'+ myDate.getDate() + '-' + Math.ceil(Math.random() * 100000);
       this.filename = time + '.' + postfix;
-
-      this.clock = that.sendfile();
+      // this.clock =  setInterval(this.sendfile(),1000);
+      this.clock =  setInterval(() => {
+                        that.sendfile();
+                    }, 1000)
     },
     sendfile: function() {
       const that = this;
-
-      if (that.flag === true) {
-        that.flag = false;
-        that.sendfile()
-      }
-
       (function (){
           const  LENGTH = 5 * 1024 * 1024; //每一次上传10M
           // 开始截取位置
-
           // 截取结束的位置。
           that.end = that.sta + LENGTH;
           //标识上一块是否上传完毕。
-          that.flag = false;
+          var flag = false;
           // 设置一个blob变量
           var blob = null;
           // 设置一个HTML5的文件对象。
@@ -188,40 +178,33 @@ export default {
           // 设置百分比
           var percent = 0;
           (function (){
+              if(flag === true){
+                  return;
+              }
               // 获取文件信息
               var mov = document.getElementsByName('pic')[0].files[0];
               // 如果sta>mov.size
               if(that.sta > mov.size){
-                  that.flag = true;
+                  clearInterval(that.clock);
                   // that.info(that.userid, that.cid);
                   that.isUploadedSuccess = true;
                   alert("上传成功");
                   return ;
               }
-
               blob = mov.slice(that.sta, that.end);
-
               fd = new FormData();
-
               fd.append('part',blob);
-
               that.up(fd);
-
               that.sta = that.end;
-
               that.end = that.sta + LENGTH;
-
-              that.flag = false;
-
+              flag = false;
               percent = 100 * that.end / mov.size;
-
               if (percent>100) {
                   percent=100;
               }
               that.progressWidth = percent;
               that.progressNumber = parseInt(percent) + '%';``
           })(that.sta, that.end);
-
       })(that.userid, that.cid);
     },
   },
