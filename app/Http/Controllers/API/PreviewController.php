@@ -112,11 +112,7 @@ class PreviewController extends Controller
 
     public function selectForCid(Request $request) {
 
-        $user  = Auth::user();
 
-        if (!($user->hasRole('teacher') || $user->hasRole("admin"))) {
-            return response()->json(['error' => 'unauthorized '],403);
-        }
 
 
         $cid = $request->input('cid');
@@ -131,11 +127,7 @@ class PreviewController extends Controller
 
     public function selectForUserid (Request $request){
 
-        $user  = Auth::user();
 
-        if (!($user->hasRole('teacher') || $user->hasRole("admin"))) {
-            return response()->json(['error' => 'unauthorized '],403);
-        }
 
 
         $userid = $request->input('userid');
@@ -150,11 +142,6 @@ class PreviewController extends Controller
 
     public function selectAll() {
 
-        $user  = Auth::user();
-
-        if (!$user->hasRole("admin")) {
-            return response()->json(['error' => 'unauthorized '],403);
-        }
 
         $preview = new Preview();
         $data = $preview->get();

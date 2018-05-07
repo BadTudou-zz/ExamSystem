@@ -119,7 +119,7 @@ class DocumentController extends Controller
         }
     }
     public function selectAll(Request $request){
-        
+
 
         $preview = new Document();
         $data = $preview->get();
