@@ -46,7 +46,7 @@
               <td>{{ GLOBAL.localDomain + item.url }}</td>
               <td>{{ item.doc_name }}</td>
               <td>{{ item.kp }}</td>
-              <td v-show="roleName !== 'student'">
+              <td>
                 <div  v-show="roleName !== 'student'" @click="deleteFile(index)" class="icon-button"><i class="far fa-trash-alt"></i></div>
                 <div  v-show="roleName !== 'student'" @click="editFileInfo(index)" class="icon-button"><i class="fas fa-edit"></i></div>
                 <button class="button is-small" type="button" name="button"><a v-bind:href="item.url" v-bind:download="item.doc_name">下载文件</a></button>
@@ -60,12 +60,12 @@
     <button @click="switchModal()" class="modal-close is-large" aria-label="close"></button>
 
 
-    <add-file-info v-if="isShowCreateDocument"
+    <add-file-info v-if="roleName !== 'student'"
                    ref="addFileInfo"
                    v-on:getFile="getFile"
                    v-bind:current-teaching-data="currentTeachingData"></add-file-info>
 
-    <edit-file-info v-if="isShowEditDocument"
+    <edit-file-info v-if="roleName !== 'student'"
                     ref="editFileInfo"
                     v-on:getFileForCid="getFileForCid"
                     v-bind:edit-data="editData"
