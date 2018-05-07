@@ -38,7 +38,7 @@
               <!-- <span class="question-index"> {{ index + 1 }}</span> -->
               <span class="question-index"> {{ item.id }}</span>
               <span class="question-type">单选题</span>
-              <span class="question-difficulty">难度：{{item.level_type}} </span>
+              <!-- <span class="question-difficulty">难度：{{item.level_type}} </span> -->
             </div>
             <div class="triangle-topright">
 
@@ -72,7 +72,7 @@
             <div class="question-title">
               <span class="question-index"> {{ item.id }}</span>
               <span class="question-type">多选题</span>
-              <span class="question-difficulty">难度：{{item.level_type}} </span>
+              <!-- <span class="question-difficulty">难度：{{item.level_type}} </span> -->
             </div>
             <div class="triangle-topright">
 
@@ -105,7 +105,7 @@
             <div class="question-title">
               <span class="question-index"> {{ item.id }}</span>
               <span class="question-type">判断题</span>
-              <span class="question-difficulty">难度：{{item.level_type}} </span>
+              <!-- <span class="question-difficulty">难度：{{item.level_type}} </span> -->
             </div>
             <div class="triangle-topright">
 
@@ -131,7 +131,7 @@
             <div class="question-title">
               <span class="question-index"> {{ item.id }}</span>
               <span class="question-type">判断题</span>
-              <span class="question-difficulty">难度：{{item.level_type}} </span>
+              <!-- <span class="question-difficulty">难度：{{item.level_type}} </span> -->
             </div>
             <div class="triangle-topright">
 
@@ -150,7 +150,7 @@
             <div class="question-title">
               <span class="question-index"> {{ item.id }}</span>
               <span class="question-type">判断题</span>
-              <span class="question-difficulty">难度：{{item.level_type}} </span>
+              <!-- <span class="question-difficulty">难度：{{item.level_type}} </span> -->
             </div>
             <div class="triangle-topright">
 

@@ -12,7 +12,7 @@
                 <!-- <span class="question-index"> {{ index + 1 }}</span> -->
                 <span class="question-index"> {{ item.id }}</span>
                 <span class="question-type">单选题</span>
-                <span class="question-difficulty">难度：{{item.level_type}} </span>
+                <!-- <span class="question-difficulty">难度：{{item.level_type}} </span> -->
               </div>
               <div class="triangle-topright">
 
@@ -46,7 +46,7 @@
               <div class="question-title">
                 <span class="question-index"> {{ item.id }}</span>
                 <span class="question-type">多选题</span>
-                <span class="question-difficulty">难度：{{item.level_type}} </span>
+                <!-- <span class="question-difficulty">难度：{{item.level_type}} </span> -->
               </div>
               <div class="triangle-topright">
 
@@ -79,7 +79,7 @@
               <div class="question-title">
                 <span class="question-index"> {{ item.id }}</span>
                 <span class="question-type">判断题</span>
-                <span class="question-difficulty">难度：{{item.level_type}} </span>
+                <!-- <span class="question-difficulty">难度：{{item.level_type}} </span> -->
               </div>
               <div class="triangle-topright">
 
@@ -105,7 +105,7 @@
               <div class="question-title">
                 <span class="question-index"> {{ item.id }}</span>
                 <span class="question-type">判断题</span>
-                <span class="question-difficulty">难度：{{item.level_type}} </span>
+                <!-- <span class="question-difficulty">难度：{{item.level_type}} </span> -->
               </div>
               <div class="triangle-topright">
 
@@ -124,7 +124,7 @@
               <div class="question-title">
                 <span class="question-index"> {{ item.id }}</span>
                 <span class="question-type">判断题</span>
-                <span class="question-difficulty">难度：{{item.level_type}} </span>
+                <!-- <span class="question-difficulty">难度：{{item.level_type}} </span> -->
               </div>
               <div class="triangle-topright">
 
@@ -373,7 +373,7 @@ export default {
       }).then(res => {
         this.anserParseData = res.data.data.results;
         that.parseJson  = that.getParseJson(this.anserParseData);
-         
+
         that.questionData = res.data.data.questions;
       }).catch(err => {
         alert('获取解析失败');
