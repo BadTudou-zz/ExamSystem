@@ -138,7 +138,7 @@ export default {
 
       axios({
         method: 'put',
-        url: `${this.GLOBAL.localDomain}/api/v1/lectures`,
+        url: `${this.GLOBAL.localDomain}/api/v1/lectures/${that.editData.id}`,
         headers: {
           'Accept': 'application/json',
           'Authorization': sessionStorage.getItem('token'),

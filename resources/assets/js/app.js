@@ -77,7 +77,7 @@ axios.interceptors.response.use(function (response) {
         alert(err.message);
         break;
       case 422:
-        alert(err.response.data.message)
+        alert(err.response.data.error)
         break;
       case 500:
         err.message = '服务器错误(500)';
