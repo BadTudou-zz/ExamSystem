@@ -3,8 +3,8 @@
   <div class="box">
     <h3 class="title">选课</h3>
 
-    <p v-if="!currentLectureData" class="empty-message-prompt">暂无选课</p>
-    <table v-else class="table">
+    <!-- <p v-if="lectureData" class="empty-message-prompt">暂无选课</p> -->
+    <table class="table">
       <thead>
         <tr>
           <!-- <th>id</th> -->
@@ -21,7 +21,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(item,index) in currentLectureData">
+        <tr v-for="(item,index) in lectureData">
           <!-- <td>{{ item.id }}</td> -->
           <td>{{ item.name }}</td>
           <td>{{ item.user_id }}</td>
@@ -74,8 +74,8 @@ export default {
         }
       }).then(res => {
         that.lectureData = res.data.data;
+        //  
         that.paginationData = res.data.links;
-
         that.currentLectureData.id = that.res.data.data.id;
         that.currentLectureData.name = that.res.data.data.name;
         that.currentLectureData.user_id = that.res.data.data.user_id;

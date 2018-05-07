@@ -129,16 +129,15 @@ export default {
     },
     editTeaching: function () {
       const that = this;
-      let allowable_organization_ids = that.teachingData.allowable_organization_ids;
+      let params = this.GLOBAL.computedParams(that.teachingData.allowable_organization_ids, 'allowable_organization_ids');
 
-      if (!that.teachingData.name && !that.teachingData.course_id && !that.teachingData.max && !allowable_organization_ids && !that.teachingData.describe) {
+      if (!that.teachingData.name && !that.teachingData.course_id && !that.teachingData.max && !that.teachingData.describe) {
         alert('请将信息填写完整');
         return;
       }
-
       axios({
         method: 'put',
-        url: `${this.GLOBAL.localDomain}/api/v1/lectures/${that.editData.id}`,
+        url: `${this.GLOBAL.localDomain}/api/v1/lectures/${that.editData.id}?${params}`,
         headers: {
           'Accept': 'application/json',
           'Authorization': sessionStorage.getItem('token'),
@@ -148,7 +147,6 @@ export default {
           name: that.teachingData.name,
           course_id: that.teachingData.course_id,
           max: that.teachingData.max,
-          allowable_organization_ids: allowable_organization_ids,  // ?? params not allow send array
           describe: that.teachingData.describe
         }
       }).then(res => {
@@ -216,10 +214,12 @@ export default {
         that.teachingData.course_id = value.course_id;
         that.teachingData.max = value.max;
 
-        let arr = value.allowable_organization_ids.split(',');
-        for (let i = 0; i < arr.length; i++) {
-          let item = parseInt(arr[i])
-          that.teachingData.allowable_organization_ids.push(item);
+        if (value.allowable_organization_ids) {
+          let arr = value.allowable_organization_ids.split(',');
+          for (let i = 0; i < arr.length; i++) {
+            let item = parseInt(arr[i])
+            that.teachingData.allowable_organization_ids.push(item);
+          }
         }
 
         that.teachingData.describe = value.describe;
