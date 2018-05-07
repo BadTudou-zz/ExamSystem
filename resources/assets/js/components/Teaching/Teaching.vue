@@ -47,19 +47,27 @@
     </table>
 
     <add-teaching ref="addTeaching"
+                  v-if="roleName !== 'student'"
+
                   v-on:getTeaching="getTeaching"
     ></add-teaching>
 
     <edit-teaching ref="editTeaching"
+                   v-if="roleName !== 'student'"
+
                    v-on:getTeaching="getTeaching"
                    v-bind:edit-data="editData"
     ></edit-teaching>
 
     <user ref="user"
+          v-if="roleName !== 'student'"
+
           v-bind:current-teaching-data="currentTeachingData"
     ></user>
 
     <detail ref="detail"
+            v-if="roleName !== 'student'"
+
             v-bind:current-teaching-data="currentTeachingData"
     ></detail>
 
