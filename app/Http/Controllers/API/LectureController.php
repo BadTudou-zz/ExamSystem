@@ -65,7 +65,7 @@ class LectureController extends Controller
         Lecture::find($id)->delete();
     }
 
-    public function users(DeleteUsersFromLecture $request, $id)
+    public function users(ShowLecture $request, $id)
     {
         return new UserCollection(Lecture::find($id)->users()->paginate());
     }

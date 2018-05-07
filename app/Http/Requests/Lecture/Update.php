@@ -17,7 +17,7 @@ class Update extends FormRequest
     public function authorize()
     {
         $user = Auth::user();
-        $lecture = Lecture::find($this->route('lecture'));
+        $lecture = Lecture::findOrFail($this->route('lecture'));
         return $user->can('lecture-update') || $user->id == $lecture->user_id;
     }
 
@@ -29,7 +29,6 @@ class Update extends FormRequest
     public function rules()
     {
         $lecture = Lecture::find($this->route('lecture'));
-        logger($lecture);
         return [
             'name' => 'required|max:120',
             'describe' => 'required|max:120',
