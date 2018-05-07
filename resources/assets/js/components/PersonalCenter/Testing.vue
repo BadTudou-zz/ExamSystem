@@ -148,7 +148,7 @@
           <div v-show="item.type_id === 5" class="testing box">
             <div class="question-title">
               <span class="question-index"> {{ item.id }}</span>
-              <span class="question-type">判断题</span>
+              <span class="question-type">简答题</span>
               <!-- <span class="question-difficulty">难度：{{item.level_type}} </span> -->
             </div>
             <div class="triangle-topright">
