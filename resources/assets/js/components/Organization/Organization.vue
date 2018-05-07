@@ -8,7 +8,7 @@
         <div @click="searchOrganization()" class="search-button"><i class="fas fa-search"></i></div>
       </div>
       <button v-show="isShowCreateOrganization" @click="addOrganization()" class="button add-role-button" type="button" name="button">添加组织</button>
-      <button class="button add-role-button" type="button" name="button">同步组织</button>
+      <!-- <button class="button add-role-button" type="button" name="button">同步组织</button> -->
     </div>
 
     <p v-if="!organizationData" class="empty-message-prompt">暂无组织</p>
@@ -38,6 +38,8 @@
           <td>{{ GLOBAL.toTime(item.created_at) }}</td>
           <!-- <td>{{ GLOBAL.toTime(item.updated_at) }}</td> -->
           <td>
+            <button @click="addApplyFor(index)" class="button is-small" type="button" name="button">申请组织</button>
+
             <div v-show="isShowDeleteOrganization" @click="deleteOrganization(index)" class="icon-button"><i class="far fa-trash-alt"></i></div>
             <!-- <button  v-show="isShowDeleteOrganization" @click="deleteOrganization(index)" class="delete" type="button" name="button">删除组织</button> -->
             <div @click="editOrganization(index)" class="icon-button"><i class="fas fa-edit"></i></div>
@@ -126,6 +128,36 @@ export default {
           // alert('登录超时');
           // location.reload();
         }
+      })
+    },
+    addApplyFor: function (index) {
+      const that = this;
+      let userId = sessionStorage.getItem('userId');
+      if (userId === that.organization[index].user_id) {
+        alert ('不能给自己发送申请！');
+        return;
+      }
+
+      axios({
+        method: 'post',
+        url: `${this.GLOBAL.localDomain}/api/v1/applications`,
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': sessionStorage.getItem('token'),
+        },
+        params: {
+          to: that.organization[index].user_id,
+          action: 'create',
+          resource_id: that.organization[index].id,
+          resource_type: 'Organization',
+          data: '申请该组织',
+        }
+      }).then(res => {
+        alert('发送申请成功');
+        that.$emit('getApplyFor');   //第一个参数名为调用的方法名，第二个参数为需要传递的参
+      }).catch(err => {
+        alert('发送申请失败');
+        console.log(err);
       })
     },
     // searchOrganization: function () {

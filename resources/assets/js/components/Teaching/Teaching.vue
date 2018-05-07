@@ -16,7 +16,7 @@
       <thead>
         <tr>
           <th>授课名</th>
-          <th>描述</th>
+          <!-- <th>描述</th> -->
           <th>最大容量</th>
           <th>当前容量</th>
           <th>授课操作</th>
@@ -26,13 +26,14 @@
     <tbody>
         <tr v-for="(item,index) in teachingData">
           <td>{{ item.name }}</td>
-          <td><p class="limit-words">{{ item.description }}</p></td>
+          <!-- <td><p class="limit-words">{{ item.description }}</p></td> -->
           <td>{{ item.max }}</td>
           <td>{{ item.current }}</td>
           <td>
             <div v-show="isShowDeleteTeaching" @click="deleteTeaching(index)" class="icon-button"><i class="far fa-trash-alt"></i></div>
             <div @click="editTeaching(index)" class="icon-button"><i class="fas fa-edit"></i></div>
             <button @click="showDetail(index)" class="button is-small" type="button" name="button">查看详情</button>
+            <button @click="addApplyFor(index)" class="button is-small" type="button" name="button">申请授课</button>
           </td>
           <td>
             <button @click="showUser(index)" class="button is-small" type="button" name="button">用户</button>
@@ -305,7 +306,37 @@ export default {
       const that = this;
       that.currentTeachingData = that.teachingData[index];
       that.$refs.discuss.switchModal();
-    }
+    },
+    addApplyFor: function (index) {
+      const that = this;
+      let userId = sessionStorage.getItem('userId');
+      if (userId === that.teachingData[index].user_id) {
+        alert ('不能给自己发送申请！');
+        return;
+      }
+
+      axios({
+        method: 'post',
+        url: `${this.GLOBAL.localDomain}/api/v1/applications`,
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': sessionStorage.getItem('token'),
+        },
+        params: {
+          to: that.teachingData[index].user_id,
+          action: 'create',
+          resource_id: that.teachingData[index].id,
+          resource_type: 'Lecture',
+          data: '申请该授课',
+        }
+      }).then(res => {
+        alert('发送申请成功');
+        that.$emit('getApplyFor');   //第一个参数名为调用的方法名，第二个参数为需要传递的参
+      }).catch(err => {
+        alert('发送申请失败');
+        console.log(err);
+      })
+    },
   },
   computed: {
     isShowCreateTeaching() {

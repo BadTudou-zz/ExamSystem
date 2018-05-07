@@ -44,6 +44,9 @@ export default {
   },
   components: {
   },
+  // props: {
+  //   'showUpload',
+  // },
   methods: {
     switchModal: function () {
       const that = this;
@@ -89,6 +92,10 @@ export default {
   created() {
   },
   watch: {
+    // showUpload: function (value, oldValue) {
+    //   const that = this;
+    //   that.showUpload = value;
+    // }
   }
 }
 </script>
