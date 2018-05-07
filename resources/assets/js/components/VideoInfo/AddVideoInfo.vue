@@ -62,6 +62,7 @@ export default {
       progressNumber: '',
       progressWidth: '',
       isUploadedSuccess: false,  // 记录是否上传成功
+      flag: true,
     }
   },
   components: {
@@ -145,9 +146,10 @@ export default {
           filename: this.filename,
         },
       }).then(res => {
-        // alert('up成功！')
+        if (res.status === 200) {
+          that.flag = true;
+        }
       }).catch(err => {
-        // alert('上传失败');
         return;
         console.log(err);
       })
@@ -160,14 +162,17 @@ export default {
       var postfix = name.substring(pos+1);
       var time = myDate.getFullYear() + '-' + (myDate.getMonth() + 1) + '-'+ myDate.getDate() + '-' + Math.ceil(Math.random() * 100000);
       this.filename = time + '.' + postfix;
-      // this.clock =  setInterval(this.sendfile(),1000);
 
-      this.clock =  setInterval(() => {
-                        that.sendfile();
-                    }, 1000)
+      this.clock = that.sendfile();
     },
     sendfile: function() {
       const that = this;
+
+      if (that.flag === true) {
+        that.flag = false;
+        that.sendfile()
+      }
+
       (function (){
           const  LENGTH = 5 * 1024 * 1024; //每一次上传10M
           // 开始截取位置
@@ -175,7 +180,7 @@ export default {
           // 截取结束的位置。
           that.end = that.sta + LENGTH;
           //标识上一块是否上传完毕。
-          var flag = false;
+          that.flag = false;
           // 设置一个blob变量
           var blob = null;
           // 设置一个HTML5的文件对象。
@@ -183,7 +188,7 @@ export default {
           // 设置百分比
           var percent = 0;
           (function (){
-              if(flag === true){
+              if(that.flag === true){
                   return;
               }
               // 获取文件信息
@@ -209,7 +214,7 @@ export default {
 
               that.end = that.sta + LENGTH;
 
-              flag = false;
+              that.flag = false;
 
               percent = 100 * that.end / mov.size;
 
