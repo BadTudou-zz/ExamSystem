@@ -24,8 +24,8 @@
 
     </div>
 
-    <upload-role v-show="currentTag === 'role'"></upload-role>
-    <upload-question v-show="currentTag === 'question'"></upload-question>
+    <!-- <upload-role v-show="currentTag === 'role'"></upload-role> -->
+    <upload-question v-bind:show-upload="showUpload"></upload-question>
 
   </div>
 
@@ -33,18 +33,19 @@
 
 
 <script>
-import UploadRole from './Role/UploadRole'
+// import UploadRole from './Role/UploadRole'
 import UploadQuestion from './Question/UploadQuestion'
 
 export default {
   data() {
     return {
       currentTag: 'role',
+      showUpload: true,
     }
   },
   components: {
     UploadQuestion,
-    UploadRole
+    // UploadRole
   },
   methods: {
     showModal: function () {

@@ -130,7 +130,7 @@
                 <el-menu-item-group>
                   <template slot="title"></template>
                   <el-menu-item v-show="isShowTag" index="5-1"><router-link to="/label">标签</router-link></el-menu-item>
-                  <!-- <el-menu-item index="5-2"><router-link to="/upload">上传</router-link></el-menu-item> -->
+                  <el-menu-item index="5-2"><router-link to="/upload">上传</router-link></el-menu-item>
                   <!-- <el-menu-item index="5-2"><router-link to="/webrtc">webrtc</router-link></el-menu-item>
                   <el-menu-item index="5-3"><router-link to="/webrtcServer">webrtcSever</router-link></el-menu-item> -->
                 </el-menu-item-group>

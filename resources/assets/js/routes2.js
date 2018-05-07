@@ -40,7 +40,7 @@ import Setting from './components/Setting.vue'
 // import webrtcServer from './components/SurveillanceVideo/webrtcServer.vue'
 import Practice from './components/Practice/Practice.vue'
 // import Main from './components/App.vue'
-// import Upload from './components/Upload.vue'
+import Upload from './components/Upload.vue'
 
 
 export default [
@@ -337,12 +337,12 @@ export default [
       requireAuth: true
     }
   },
-  // {
-  //   path: '/Upload',
-  //   name: '上传',
-  //   component: Upload,
-  //   meta: {
-  //     requireAuth: true
-  //   }
-  // },
+  {
+    path: '/Upload',
+    name: '上传',
+    component: Upload,
+    meta: {
+      requireAuth: true
+    }
+  },
 ]
