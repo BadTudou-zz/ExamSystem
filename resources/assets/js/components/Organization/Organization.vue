@@ -24,7 +24,7 @@
           <th>创建时间</th>
           <!-- <th>更新时间</th> -->
           <th>组织操作</th>
-          <th>成员操作</th>
+          <th v-show="roleName !== 'student'" >成员操作</th>
         </tr>
       </thead>
       <tbody>
@@ -40,12 +40,12 @@
           <td>
             <button @click="addApplyFor(index)" class="button is-small" type="button" name="button">申请组织</button>
 
-            <div v-show="isShowDeleteOrganization" @click="deleteOrganization(index)" class="icon-button"><i class="far fa-trash-alt"></i></div>
+            <div v-show="roleName !== 'student'"  @click="deleteOrganization(index)" class="icon-button"><i class="far fa-trash-alt"></i></div>
             <!-- <button  v-show="isShowDeleteOrganization" @click="deleteOrganization(index)" class="delete" type="button" name="button">删除组织</button> -->
-            <div @click="editOrganization(index)" class="icon-button"><i class="fas fa-edit"></i></div>
+            <div v-show="roleName !== 'student'"  @click="editOrganization(index)" class="icon-button"><i class="fas fa-edit"></i></div>
           </td>
-          <td>
-            <button @click="showMember(index)"  class="is-small button" type="button" name="button">查看成员</button>
+          <td v-show="roleName !== 'student'">
+            <button  @click="showMember(index)"  class="is-small button" type="button" name="button">查看成员</button>
           </td>
         </tr>
       </tbody>
@@ -92,6 +92,7 @@ export default {
       currentOrganization: [],
       allOrganization: [],
       searchResult: [],
+      roleName: sessionStorage.getItem('roleName')
     }
   },
   components: {
@@ -148,7 +149,7 @@ export default {
         params: {
           to: that.organization[index].creator_id,
           action: 'create',
-          resource_id: that.organization[index].id,
+          resource_id: that.organizationData[index].id,
           resource_type: 'Organization',
           data: '申请该组织',
         }
