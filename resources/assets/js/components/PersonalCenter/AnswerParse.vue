@@ -405,7 +405,7 @@ export default {
         }
       }).then(res => {
         that.questionTypeData = res.data.data;
-        // debugger
+        //  
         for (let i = 0; i < that.questionTypeData.legnth; i++) {
           that.separatorList.push(that.questionTypeData[i]['delimiter']);
         }

@@ -56,7 +56,7 @@ axios.interceptors.response.use(function (response) {
         break;
       case 401:
         err.message = '未授权，请重新登录(401)';
-        history.go(0);
+        // history.go(0);
         // sessionStorage.clear();
         // router.replace({
         //     path: '/Main',
