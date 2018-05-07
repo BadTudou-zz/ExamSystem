@@ -16,7 +16,7 @@ class DeleteUsers extends FormRequest
     public function authorize()
     {
         $user = Auth::user();
-        $lecture = Lecture::find($this->route('id'));
+        $lecture = Lecture::find($this->route('lecture'));
         return $user->can('lecture-store') || $user->id == $lecture->user_id;
     }
 

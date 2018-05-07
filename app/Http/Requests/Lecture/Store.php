@@ -4,6 +4,8 @@ namespace App\Http\Requests\Lecture;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
+use App\Lecture;
+
 
 class Store extends FormRequest
 {

@@ -18,7 +18,7 @@ class Update extends FormRequest
     {
         $user = Auth::user();
         $lecture = Lecture::findOrFail($this->route('lecture'));
-        return $user->can('lecture-update') || $user->id == $lecture->user_id;
+        return $user->can('lecture-update') || $user->id == $lecture->user_id || in_array($user->id, $lecture->users()->get()->pluck('id')->all());
     }
 
     /**
