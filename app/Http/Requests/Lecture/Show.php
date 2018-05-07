@@ -18,7 +18,7 @@ class Show extends FormRequest
     {
         $user = Auth::user();
         $lecture = Lecture::find($this->route('lecture'));
-        return $user->can('lecture-show') || $user->id == $lecture->user_id || in_array($user->id, $lecture->users()->get()->pluck('id')->all());
+        return $user->can('lecture-show') || $user->id == $lecture->user_id;
     }
 
     /**
