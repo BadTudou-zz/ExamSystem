@@ -16,8 +16,12 @@ class Show extends FormRequest
     public function authorize()
     {
         $user = Auth::user();
+        $exams = $user->exams->filter(function ($exam) {
+            return $exam->paper->id == $this->route('paper');
+        })->all();
         $paper = Paper::find($this->route('paper'));
-        return $user->can('paper-destroy') || $user->id == $paper->creator_id;
+
+        return $user->can('paper-destroy') || $user->id == $paper->creator_id || count($exams);
     }
 
     /**
