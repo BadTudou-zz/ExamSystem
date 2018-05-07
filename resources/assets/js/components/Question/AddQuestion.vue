@@ -247,6 +247,18 @@ export default {
       //
       return separate;
     },
+    getSeparateForId: function (id) {
+      const that = this;
+      let typeId = id;
+      let separate;
+      for (let i = 0; i < that.questionTypeData.length; i++) {
+        if (typeId === that.questionTypeData[i]['id']) {
+          separate = that.questionTypeData[i]['delimiter'];
+        }
+      }
+      //
+      return separate;
+    },
     getAnswerOptions: function () {
       const that = this;
       let answer_body = '';
@@ -297,7 +309,10 @@ export default {
           return;
         }
         body = that.getAnswerOptions();  // 选项
-        that.questionData.answer = that.questionData.answer.join('')
+
+        let separate = that.getSeparateForId(parseInt(that.questionData.type_id));
+        that.questionData.answer = that.questionData.answer.join(separate);
+
       }
       else {
         body = '/';

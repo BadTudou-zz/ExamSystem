@@ -61,8 +61,8 @@ axios.interceptors.response.use(function (response) {
         // router.replace({
         //     path: '/Main',
         // })
-        alert(err.message);
-
+        // alert(err.message);
+        console.log(err.message);
         break;
       case 403:
         err.message = '拒绝访问(403)';
@@ -80,8 +80,8 @@ axios.interceptors.response.use(function (response) {
         alert(err.response.data.error)
         break;
       case 500:
-        err.message = '服务器错误(500)';
-        alert(err.message);
+        // err.message = '服务器繁忙';
+        alert('服务器繁忙');
         break;
       case 501:
         err.message = '服务未实现(501)';
