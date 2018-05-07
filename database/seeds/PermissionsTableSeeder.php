@@ -214,6 +214,13 @@ class PermissionsTableSeeder extends Seeder
         $storeOrganization->description  = '添加组织';
         $storeOrganization->save();
 
+        // 编辑组织
+        $updateOrganization = new Permission();
+        $updateOrganization->name         = 'organization-update';
+        $updateOrganization->display_name = '组织-编辑';
+        $updateOrganization->description  = '编辑组织';
+        $updateOrganization->save();
+
         // 查看组织详情
         $showOrganization = new Permission();
         $showOrganization->name         = 'organization-show';
@@ -249,6 +256,13 @@ class PermissionsTableSeeder extends Seeder
         $showLecture->display_name = '授课-查看';
         $showLecture->description  = '查看授课详情';
         $showLecture->save();
+
+        // 编辑授课
+        $updateLecture = new Permission();
+        $updateLecture->name         = 'lecture-update';
+        $updateLecture->display_name = '授课-编辑';
+        $updateLecture->description  = '编辑授课';
+        $updateLecture->save();
 
         // 删除讲课
         $destroyLecture = new Permission();
