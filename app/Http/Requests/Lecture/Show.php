@@ -4,6 +4,8 @@ namespace App\Http\Requests\Lecture;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
+use App\Lecture;
+
 
 class Show extends FormRequest
 {
@@ -14,7 +16,9 @@ class Show extends FormRequest
      */
     public function authorize()
     {
-        return Auth::user()->can('lecture-show');
+        $user = Auth::user();
+        $lecture = Lecture::find($this->route('lecture'));
+        return $user->can('lecture-show') || $user->id == $lecture->user_id;
     }
 
     /**
