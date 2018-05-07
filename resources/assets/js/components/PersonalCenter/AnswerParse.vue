@@ -26,16 +26,16 @@
 
                   <!-- <input type="checkbox" v-bind:value="item.id" v-model="selectedUser" class="user-seleted"> -->
                   <div class="">
-                    <input disabled class="answer-index" v-model="answer[item.id]" value="A" type="radio">{{ item.body.split('!')[0] }}
+                    <input disabled class="answer-index" v-model="answer[item.id]" value="A" type="radio">A.{{ item.body.split(getSeparate(item.type_id))[0] }}
                   </div>
                   <div class="">
-                    <input disabled class="answer-index" v-model="answer[item.id]" value="B" type="radio">{{ item.body.split('!')[1] }}
+                    <input disabled class="answer-index" v-model="answer[item.id]" value="B" type="radio">B.{{ item.body.split(getSeparate(item.type_id))[1] }}
                   </div>
                   <div class="">
-                    <input disabled class="answer-index" v-model="answer[item.id]" value="C" type="radio">{{ item.body.split('!')[2] }}
+                    <input disabled class="answer-index" v-model="answer[item.id]" value="C" type="radio">C.{{ item.body.split(getSeparate(item.type_id))[2] }}
                   </div>
                   <div class="">
-                    <input disabled class="answer-index" v-model="answer[item.id]" value="D" type="radio">{{ item.body.split('!')[3] }}
+                    <input disabled class="answer-index" v-model="answer[item.id]" value="D" type="radio">D.{{ item.body.split(getSeparate(item.type_id))[3] }}
                   </div>
                 </label>
               </div>
@@ -58,16 +58,16 @@
               <div class="answer">
                 <label class="checkbox">
                   <div class="">
-                    <input disabled class="answer-index" v-model="answer[item.id]" value="A" type="checkbox">{{ item.body.split('@')[0] }}
+                    <input disabled class="answer-index" v-model="answer[item.id]" value="A" type="checkbox">A.{{ item.body.split(getSeparate(item.type_id))[0] }}
                   </div>
                   <div class="">
-                    <input disabled class="answer-index" v-model="answer[item.id]" value="B" type="checkbox">{{ item.body.split('@')[1] }}
+                    <input disabled class="answer-index" v-model="answer[item.id]" value="B" type="checkbox">B.{{ item.body.split(getSeparate(item.type_id))[1] }}
                   </div>
                   <div class="">
-                    <input disabled class="answer-index" v-model="answer[item.id]" value="C" type="checkbox">{{ item.body.split('@')[2] }}
+                    <input disabled class="answer-index" v-model="answer[item.id]" value="C" type="checkbox">C.{{ item.body.split(getSeparate(item.type_id))[2] }}
                   </div>
                   <div class="">
-                    <input disabled class="answer-index" v-model="answer[item.id]" value="D" type="checkbox">{{ item.body.split('@')[3] }}
+                    <input disabled class="answer-index" v-model="answer[item.id]" value="D" type="checkbox">D.{{ item.body.split(getSeparate(item.type_id))[3] }}
                   </div>
                 </label>
               </div>
@@ -265,9 +265,6 @@ export default {
       let uniq = [...new Set(arr)];
       return uniq;
     },
-    quit: function () {
-      const that = this;
-    },
     submitAnswer: function () {
       const that = this;
       let id = that.examId;
@@ -408,6 +405,7 @@ export default {
         }
       }).then(res => {
         that.questionTypeData = res.data.data;
+        // debugger
         for (let i = 0; i < that.questionTypeData.legnth; i++) {
           that.separatorList.push(that.questionTypeData[i]['delimiter']);
         }
@@ -416,10 +414,9 @@ export default {
         console.log(err);
       })
     },
-
-    getSeparate: function (data) {
+    getSeparate: function (id) {
       const that = this;
-      let typeId = parseInt(data.type_id);
+      let typeId = id;
       let separate;
       for (let i = 0; i < that.questionTypeData.length; i++) {
         if (typeId === that.questionTypeData[i]['id']) {
@@ -449,7 +446,8 @@ export default {
       else {
         return '错误'
       }
-    }
+    },
+
   },
   computed: {
   },
