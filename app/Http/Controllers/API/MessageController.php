@@ -39,12 +39,8 @@ class MessageController extends Controller
 
     public function destroy(DestroyMessage $request, $id)
     {
-        $user = Auth::user();
-        $user->notifications()->where('type', PrivateMessage::class)
-            ->where('notifiable_id', $user->id)
-            ->where('id', $id)
-            ->first()
-            ->delete();
+        $message = Message::where('type', PrivateMessage::class)->findOrFail($id);
+        $message->delete();
     }
 
     public function read(ShowMessage $request, $id)

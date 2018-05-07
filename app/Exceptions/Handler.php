@@ -53,10 +53,10 @@ class Handler extends ExceptionHandler
     public function render($request, Exception $exception)
     {
         if ($exception instanceof ModelNotFoundException) {
-            return response(['message' => '请求的资源不存在'], 404);
+            return response(['error' => '请求的资源不存在'], 404);
         }
         if ($exception instanceof ValidationException) {
-            return response(['message' => $exception->validator->errors()->first()], 422);
+            return response(['error' => $exception->validator->errors()->first()], 422);
         } 
 
         return parent::render($request, $exception);
