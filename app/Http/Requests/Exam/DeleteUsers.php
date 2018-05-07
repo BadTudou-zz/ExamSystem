@@ -19,7 +19,7 @@ class DeleteUsers extends FormRequest
         $user = Auth::user();
         $exam = Exam::find($this->route('id'));
 
-        return $user->id == $exam->creator_id;
+        return $user->can('exam-store') || $user->id == $exam->creator_id;
     }
 
     /**
