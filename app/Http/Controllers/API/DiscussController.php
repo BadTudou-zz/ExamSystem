@@ -16,7 +16,7 @@ class DiscussController extends Controller
         $user  = Auth::user();
 
         if (!($user->hasRole('teacher') || $user->hasRole("admin"))) {
-            return response()->json(['message' => 'unauthorized '],403);
+            return response()->json(['error' => 'unauthorized '],403);
         }
 
         $lid = $request->input('l_id');
@@ -41,7 +41,7 @@ class DiscussController extends Controller
         $user  = Auth::user();
 
         if (!($user->hasRole('teacher') || $user->hasRole("admin"))) {
-            return response()->json(['message' => 'unauthorized '],403);
+            return response()->json(['error' => 'unauthorized '],403);
         }
 
         $id = $request->input('id');
@@ -66,7 +66,7 @@ class DiscussController extends Controller
         $user  = Auth::user();
 
         if (!($user->hasRole('teacher') || $user->hasRole("admin"))) {
-            return response()->json(['message' => 'unauthorized '],403);
+            return response()->json(['error' => 'unauthorized '],403);
         }
 
         $id = $request->input('id');
@@ -83,7 +83,7 @@ class DiscussController extends Controller
         $user  = Auth::user();
 
         if (!($user->hasRole('teacher') || $user->hasRole("admin"))) {
-            return response()->json(['message' => 'unauthorized '],403);
+            return response()->json(['error' => 'unauthorized '],403);
         }
 
         $userid = $request->input("userid");
@@ -103,7 +103,7 @@ class DiscussController extends Controller
         $user  = Auth::user();
 
         if (!($user->hasRole('teacher') || $user->hasRole("admin"))) {
-            return response()->json(['message' => 'unauthorized '],403);
+            return response()->json(['error' => 'unauthorized '],403);
         }
 
         $lid = $request->input("l_id");
@@ -122,7 +122,7 @@ class DiscussController extends Controller
         $user  = Auth::user();
 
         if (!($user->hasRole("admin"))) {
-            return response()->json(['message' => 'unauthorized '],403);
+            return response()->json(['error' => 'unauthorized '],403);
         }
         $discuss = new Discuss();
         $data = $discuss->get();
@@ -137,7 +137,7 @@ class DiscussController extends Controller
         $user  = Auth::user();
 
         if (!($user->hasRole("admin") || $user->hasRole("teacher") || $user->hasRole("student")) ) {
-            return response()->json(['message' => 'unauthorized '],403);
+            return response()->json(['error' => 'unauthorized '],403);
         }
         $discuss_id = $request->input("discuss_id");
         $discuss = Discuss::find($discuss_id);
@@ -155,7 +155,7 @@ class DiscussController extends Controller
         $user  = Auth::user();
 
         if (!($user->hasRole("admin") || $user->hasRole("teacher") || $user->hasRole("student")) ) {
-            return response()->json(['message' => 'unauthorized '],403);
+            return response()->json(['error' => 'unauthorized '],403);
         }
          $userid = $request->input("userid");
          $discuss_id = $request->input("discuss_id");
@@ -176,7 +176,7 @@ class DiscussController extends Controller
         $user  = Auth::user();
 
         if (!($user->hasRole("admin") || $user->hasRole("teacher") || $user->hasRole("student")) ) {
-            return response()->json(['message' => 'unauthorized '],403);
+            return response()->json(['error' => 'unauthorized '],403);
         }
         $id = $request->input("id");
         $commnet = Comment::find($id);
@@ -188,7 +188,7 @@ class DiscussController extends Controller
         $user  = Auth::user();
 
         if (!($user->hasRole("admin")) ) {
-            return response()->json(['message' => 'unauthorized '],403);
+            return response()->json(['error' => 'unauthorized '],403);
         }
         $userid = $request->input("userid");
         $comments = new Comment();
@@ -203,7 +203,7 @@ class DiscussController extends Controller
         $user  = Auth::user();
 
         if (!($user->hasRole("admin") || $user->hasRole("teacher") || $user->hasRole("student")) ) {
-            return response()->json(['message' => 'unauthorized '],403);
+            return response()->json(['error' => 'unauthorized '],403);
         }
         $discuss_id = $request->input("discuss_id");
         $comments = new Comment();
@@ -220,7 +220,7 @@ class DiscussController extends Controller
         $user  = Auth::user();
 
         if (!($user->hasRole("admin")) ) {
-            return response()->json(['message' => 'unauthorized '],403);
+            return response()->json(['error' => 'unauthorized '],403);
         }
         $comment = new Comment();
         $data = $comment->get();

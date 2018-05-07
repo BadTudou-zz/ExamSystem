@@ -17,7 +17,7 @@ class PreviewController extends Controller
         $user  = Auth::user();
 
         if (!($user->hasRole('teacher') || $user->hasRole("admin"))) {
-            return response()->json(['message' => 'unauthorized '],403);
+            return response()->json(['error' => 'unauthorized '],403);
         }
 
 
@@ -51,7 +51,7 @@ class PreviewController extends Controller
         $user  = Auth::user();
 
         if (!($user->hasRole('teacher') || $user->hasRole("admin"))) {
-            return response()->json(['message' => 'unauthorized '],403);
+            return response()->json(['error' => 'unauthorized '],403);
         }
 
 
@@ -70,7 +70,7 @@ class PreviewController extends Controller
         $user  = Auth::user();
 
         if (!($user->hasRole('teacher') || $user->hasRole("admin"))) {
-            return response()->json(['message' => 'unauthorized '],403);
+            return response()->json(['error' => 'unauthorized '],403);
         }
 
 
@@ -86,7 +86,7 @@ class PreviewController extends Controller
         $user  = Auth::user();
 
         if (!($user->hasRole('teacher') || $user->hasRole("admin"))) {
-            return response()->json(['message' => 'unauthorized '],403);
+            return response()->json(['error' => 'unauthorized '],403);
         }
 
 
@@ -115,7 +115,7 @@ class PreviewController extends Controller
         $user  = Auth::user();
 
         if (!($user->hasRole('teacher') || $user->hasRole("admin"))) {
-            return response()->json(['message' => 'unauthorized '],403);
+            return response()->json(['error' => 'unauthorized '],403);
         }
 
 
@@ -134,7 +134,7 @@ class PreviewController extends Controller
         $user  = Auth::user();
 
         if (!($user->hasRole('teacher') || $user->hasRole("admin"))) {
-            return response()->json(['message' => 'unauthorized '],403);
+            return response()->json(['error' => 'unauthorized '],403);
         }
 
 
@@ -153,7 +153,7 @@ class PreviewController extends Controller
         $user  = Auth::user();
 
         if (!$user->hasRole("admin")) {
-            return response()->json(['message' => 'unauthorized '],403);
+            return response()->json(['error' => 'unauthorized '],403);
         }
 
         $preview = new Preview();
