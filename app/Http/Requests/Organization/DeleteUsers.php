@@ -19,7 +19,7 @@ class DeleteUsers extends FormRequest
         $user = Auth::user();
         $organization = Organization::find($this->route('id'));
 
-        return $user->id == $organization->creator_id || ($organization->users->contains($user->id) && $request->users == [$user->id]);
+        return $user->can('organization-store') || $user->id == $organization->creator_id || ($organization->users->contains($user->id) && $request->users == [$user->id]);
     }
 
     /**

@@ -18,7 +18,7 @@ class AddUsers extends FormRequest
         $user = Auth::user();
         $organization = Organization::find($this->route('id'));
 
-        return $user->id == $organization->creator_id;
+        return $user->can('organization-store') || $user->id == $organization->creator_id;
     }
 
     /**
