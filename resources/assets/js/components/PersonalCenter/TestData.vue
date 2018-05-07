@@ -137,8 +137,8 @@ export default {
         alert('已开考');
       }).catch(err => {
         alert('开考失败')
-        // that.switchModal();
-        // that.currentTestData = that.testData[index];
+        that.switchModal();
+        that.currentTestData = that.testData[index];
 
         // let errMsg = err.response.data.error;
         // if (errMsg) {
