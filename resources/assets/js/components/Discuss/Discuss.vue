@@ -32,7 +32,7 @@
               <th>序号</th>
               <th>标题</th>
               <th>内容</th>
-              <th v-show="roleName !== 'student'">操作</th>
+              <th>操作</th>
             </tr>
           </thead>
         <tbody>
@@ -40,11 +40,11 @@
               <td>{{ item.id }}</td>
               <td>{{ item.title }}</td>
               <td>{{ item.content }}</td>
-              <td v-show="roleName !== 'student'">
-                <button disabled @click="publishDiscuss(index)" class="button is-small" type="button" name="button">发布讨论</button>
+              <td>
+                <button  v-show="roleName !== 'student'" disabled @click="publishDiscuss(index)" class="button is-small" type="button" name="button">发布讨论</button>
                 <button @click="reply(index)" class="button is-small" type="button" name="button">查看讨论</button>
-                <div @click="deleteDiscuss(index)" class="icon-button"><i class="far fa-trash-alt"></i></div>
-                <div @click="editDiscuss(index)" class="icon-button"><i class="fas fa-edit"></i></div>
+                <div  v-show="roleName !== 'student'" @click="deleteDiscuss(index)" class="icon-button"><i class="far fa-trash-alt"></i></div>
+                <div  v-show="roleName !== 'student'" @click="editDiscuss(index)" class="icon-button"><i class="fas fa-edit"></i></div>
               </td>
             </tr>
           </tbody>

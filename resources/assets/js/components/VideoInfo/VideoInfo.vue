@@ -41,7 +41,7 @@
               <th>URL</th>
               <th>视频名</th>
               <th>知识点</th>
-              <th v-show="roleName !== 'student'">操作</th>
+              <th>操作</th>
             </tr>
           </thead>
         <tbody>
@@ -52,9 +52,9 @@
               <td>{{ GLOBAL.localDomain + item.url }}</td>
               <td>{{ item.video_name }}</td>
               <td>{{ item.kp }}</td>
-              <td v-show="roleName !== 'student'">
-                <div v-show="isShowDeleteVideo" @click="deleteVideo(index)" class="icon-button"><i class="far fa-trash-alt"></i></div>
-                <div @click="editVideoInfo(index)" class="icon-button"><i class="fas fa-edit"></i></div>
+              <td>
+                <div v-show="roleName !== 'student'" @click="deleteVideo(index)" class="icon-button"><i class="far fa-trash-alt"></i></div>
+                <div v-show="roleName !== 'student'" @click="editVideoInfo(index)" class="icon-button"><i class="fas fa-edit"></i></div>
                 <button @click="showVideo(index)" class="button is-small" type="button" name="button">观看视频</button>
               </td>
             </tr>
