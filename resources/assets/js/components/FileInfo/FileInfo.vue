@@ -35,7 +35,7 @@
               <th>URL</th>
               <th>文件名</th>
               <th>知识点</th>
-              <th v-show="roleName !== 'student'">操作</th>
+              <th>操作</th>
             </tr>
           </thead>
         <tbody>
@@ -47,8 +47,8 @@
               <td>{{ item.doc_name }}</td>
               <td>{{ item.kp }}</td>
               <td v-show="roleName !== 'student'">
-                <div v-show="isShowDeleteDocument" @click="deleteFile(index)" class="icon-button"><i class="far fa-trash-alt"></i></div>
-                <div v-show="isShowEditDocument" @click="editFileInfo(index)" class="icon-button"><i class="fas fa-edit"></i></div>
+                <div  v-show="roleName !== 'student'" @click="deleteFile(index)" class="icon-button"><i class="far fa-trash-alt"></i></div>
+                <div  v-show="roleName !== 'student'" @click="editFileInfo(index)" class="icon-button"><i class="fas fa-edit"></i></div>
                 <button class="button is-small" type="button" name="button"><a v-bind:href="item.url" v-bind:download="item.doc_name">下载文件</a></button>
               </td>
             </tr>
