@@ -23,7 +23,7 @@
           <div class="search-button"><i class="fas fa-search"></i></div>
         </div>
 
-        <button v-show="isShowCreateDocument" @click="addFileInfo()" class="button add-file-button" type="button" name="button">添加文件</button>
+        <button v-show="roleName !== 'student'" @click="addFileInfo()" class="button add-file-button" type="button" name="button">添加文件</button>
 
         <p v-if="!fileData" class="empty-message-prompt">暂无文件</p>
         <table v-else class="table is-bordered is-striped is-hoverable is-fullwidths">
@@ -35,7 +35,7 @@
               <th>URL</th>
               <th>文件名</th>
               <th>知识点</th>
-              <th>操作</th>
+              <th v-show="roleName !== 'student'">操作</th>
             </tr>
           </thead>
         <tbody>
@@ -46,7 +46,7 @@
               <td>{{ GLOBAL.localDomain + item.url }}</td>
               <td>{{ item.doc_name }}</td>
               <td>{{ item.kp }}</td>
-              <td>
+              <td v-show="roleName !== 'student'">
                 <div v-show="isShowDeleteDocument" @click="deleteFile(index)" class="icon-button"><i class="far fa-trash-alt"></i></div>
                 <div v-show="isShowEditDocument" @click="editFileInfo(index)" class="icon-button"><i class="fas fa-edit"></i></div>
                 <button class="button is-small" type="button" name="button"><a v-bind:href="item.url" v-bind:download="item.doc_name">下载文件</a></button>
@@ -92,6 +92,7 @@ export default {
       editData: null,
       searchType: '',
       currentFileData: null,
+      roleName: sessionStorage.getItem('roleName'),
     }
   },
   components: {

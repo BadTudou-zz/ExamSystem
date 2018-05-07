@@ -77,12 +77,16 @@ export default {
       }).then(res => {
         let userId = res.data.data.user.id;
         let token = res.data.data.token;
+        let roleName = res.data.data.roles[0].name;
+
         that.userId = res.data.data.user.id;
         that.token = res.data.data.token;
         that.isShowLoginBox = false;
         that.loadingModal();
         sessionStorage.setItem("token",`Bearer ${token}`);
         sessionStorage.setItem('userId', userId);
+        sessionStorage.setItem('roleName', roleName);
+         
         let url = `${this.GLOBAL.localDomain}/api/v1/users/${that.userId}/permissions/`;
         that.getPermission(url);
       }).catch(err => {

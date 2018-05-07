@@ -23,7 +23,7 @@
           <div class="search-button"><i class="fas fa-search"></i></div>
         </div>
 
-        <button @click="addDiscuss()" class="button add-discuss-button" type="button" name="button">添加讨论</button>
+        <button v-show="roleName !== 'student'" @click="addDiscuss()" class="button add-discuss-button" type="button" name="button">添加讨论</button>
 
         <p v-if="!discussData" class="empty-message-prompt">暂无讨论</p>
         <table v-else class="table is-bordered is-striped is-hoverable is-fullwidths">
@@ -32,7 +32,7 @@
               <th>序号</th>
               <th>标题</th>
               <th>内容</th>
-              <th>操作</th>
+              <th v-show="roleName !== 'student'">操作</th>
             </tr>
           </thead>
         <tbody>
@@ -40,7 +40,7 @@
               <td>{{ item.id }}</td>
               <td>{{ item.title }}</td>
               <td>{{ item.content }}</td>
-              <td>
+              <td v-show="roleName !== 'student'">
                 <button disabled @click="publishDiscuss(index)" class="button is-small" type="button" name="button">发布讨论</button>
                 <button @click="reply(index)" class="button is-small" type="button" name="button">查看讨论</button>
                 <div @click="deleteDiscuss(index)" class="icon-button"><i class="far fa-trash-alt"></i></div>
@@ -90,6 +90,7 @@ export default {
       searchResult: [],
       editData: null,
       searchType: '',
+      roleName: sessionStorage.getItem('roleName'),
     }
   },
   components: {

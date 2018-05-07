@@ -23,7 +23,7 @@
           <div class="search-button"><i class="fas fa-search"></i></div>
         </div>
 
-        <button v-show="isShowCreateVideo" @click="addVideoInfo()" class="button add-video-button" type="button" name="button">添加视频</button>
+        <button v-show="roleName !== 'student'" @click="addVideoInfo()" class="button add-video-button" type="button" name="button">添加视频</button>
 
         <p v-if="!videoData || videoData.length === 0" class="empty-message-prompt">暂无视频</p>
         <table v-else class="table is-bordered is-striped is-hoverable is-fullwidths">
@@ -41,7 +41,7 @@
               <th>URL</th>
               <th>视频名</th>
               <th>知识点</th>
-              <th>操作</th>
+              <th v-show="roleName !== 'student'">操作</th>
             </tr>
           </thead>
         <tbody>
@@ -52,7 +52,7 @@
               <td>{{ GLOBAL.localDomain + item.url }}</td>
               <td>{{ item.video_name }}</td>
               <td>{{ item.kp }}</td>
-              <td>
+              <td v-show="roleName !== 'student'">
                 <div v-show="isShowDeleteVideo" @click="deleteVideo(index)" class="icon-button"><i class="far fa-trash-alt"></i></div>
                 <div @click="editVideoInfo(index)" class="icon-button"><i class="fas fa-edit"></i></div>
                 <button @click="showVideo(index)" class="button is-small" type="button" name="button">观看视频</button>
@@ -108,6 +108,7 @@ export default {
       currentVideoData: null,
       isWatching: false,
       currentVideoType: '',
+      roleName: sessionStorage.getItem('roleName'),
     }
   },
   components: {

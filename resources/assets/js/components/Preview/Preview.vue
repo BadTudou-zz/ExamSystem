@@ -23,7 +23,7 @@
           <div class="search-button"><i class="fas fa-search"></i></div>
         </div>
 
-        <button @click="addPreview()" class="button add-preview-button" type="button" name="button">添加预习</button>
+        <button v-show="roleName !== 'student'" @click="addPreview()" class="button add-preview-button" type="button" name="button">添加预习</button>
 
         <p v-if="!previewData" class="empty-message-prompt">暂无预习</p>
         <table v-else class="table is-bordered is-striped is-hoverable is-fullwidths">
@@ -37,7 +37,7 @@
               <th>截止时间</th>
               <th>发布状态</th>
               <th>内容</th>
-              <th>操作</th>
+              <th v-show="roleName !== 'student'">操作</th>
             </tr>
           </thead>
         <tbody>
@@ -50,7 +50,7 @@
               <td>{{ GLOBAL.toTime(item.end_time) }}</td>
               <td>{{ computedPublishStatus(item.is_publish) }}</td>
               <td>{{ item.content }}</td>
-              <td>
+              <td v-show="roleName !== 'student'">
                 <button @click="publishPreview(index)" class="button is-small" type="button" name="button">发布预习</button>
                 <div @click="deletePreview(index)" class="icon-button"><i class="far fa-trash-alt"></i></div>
                 <div @click="editPreview(index)" class="icon-button"><i class="fas fa-edit"></i></div>
@@ -93,6 +93,7 @@ export default {
       searchResult: [],
       editData: null,
       searchType: '',
+      roleName: sessionStorage.getItem('roleName'),
     }
   },
   components: {

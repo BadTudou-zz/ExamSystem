@@ -7,8 +7,8 @@
         <!-- <button disabled @click="searchTeaching()" class="button" type="button" name="button">查找授课</button> -->
         <div @click="searchTeaching()" class="search-button"><i class="fas fa-search"></i></div>
       </div>
-        <button v-show="isShowCreateTeaching" @click="addTeaching()" class="button add-teaching-button" type="button" name="button">添加授课</button>
-        <button class="button add-teaching-button" type="button" name="button">同步授课</button>
+        <button v-show="roleName !== 'student'" @click="addTeaching()" class="button add-teaching-button" type="button" name="button">添加授课</button>
+        <button v-show="roleName !== 'student'"class="button add-teaching-button" type="button" name="button">同步授课</button>
     </div>
 
     <p v-if="!teachingData" class="empty-message-prompt">暂无授课</p>
@@ -30,13 +30,13 @@
           <td>{{ item.max }}</td>
           <td>{{ item.current }}</td>
           <td>
-            <div v-show="isShowDeleteTeaching" @click="deleteTeaching(index)" class="icon-button"><i class="far fa-trash-alt"></i></div>
-            <div @click="editTeaching(index)" class="icon-button"><i class="fas fa-edit"></i></div>
+            <div v-show="roleName !== 'student'" @click="deleteTeaching(index)" class="icon-button"><i class="far fa-trash-alt"></i></div>
+            <div v-show="roleName !== 'student'" @click="editTeaching(index)" class="icon-button"><i class="fas fa-edit"></i></div>
             <button @click="showDetail(index)" class="button is-small" type="button" name="button">查看详情</button>
             <button @click="addApplyFor(index)" class="button is-small" type="button" name="button">申请授课</button>
           </td>
           <td>
-            <button @click="showUser(index)" class="button is-small" type="button" name="button">用户</button>
+            <button v-show="roleName !== 'student'" @click="showUser(index)" class="button is-small" type="button" name="button">用户</button>
             <button @click="showPreview(index)" class="button is-small" type="button" name="button">预习</button>
             <button @click="showVideoInfo(index)" class="button is-small" type="button" name="button">视频</button>
             <button @click="showFileInfo(index)" class="button is-small" type="button" name="button">文件</button>
@@ -117,7 +117,7 @@ export default {
       currentTeaching: [],
       allTeaching: [],
       searchResult: [],
-      role: '',
+      roleName: sessionStorage.getItem('roleName'),
     }
   },
   components: {
