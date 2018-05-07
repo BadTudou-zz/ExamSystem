@@ -198,7 +198,7 @@ class UserController extends Controller
             $user->tokens()->delete();
             $data['token'] =  $user->createToken('MyApp')->accessToken;
             $data['user'] = $user;
-            $data['roles'] = $user->roles();
+            $data['roles'] = $user->roles()->get();
             return response()->json(['data' => $data], $this->successStatus);
         } else {
             return response()->json(['error'=>'用户邮箱或密码有误'], 422);
@@ -235,7 +235,7 @@ class UserController extends Controller
         $user->save();
         $data['token'] =  $user->createToken('MyApp')->accessToken;
         $data['user'] = $user;
-        $data['roles'] = $user->roles();
+        $data['roles'] = $user->roles()->get();
 
         $userRole = Role::where('name', 'user')->first();
         $user->attachRole($userRole);        
