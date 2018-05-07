@@ -51,7 +51,7 @@
                   <template slot="title"></template>
                   <el-menu-item index="8-1"><router-link to="/messageData">消息</router-link></el-menu-item>
                   <el-menu-item index="8-1"><router-link to="/noticeData">通知</router-link></el-menu-item>
-                  <el-menu-item index="8-1"><router-link to="/applyForData">申请</router-link></el-menu-item>
+                  <!-- <el-menu-item index="8-1"><router-link to="/applyForData">申请</router-link></el-menu-item> -->
                 </el-menu-item-group>
               </el-submenu>
 
