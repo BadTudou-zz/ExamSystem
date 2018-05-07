@@ -27,12 +27,12 @@
           <div class="box-item">
             <label>题目类型</label>
             <div class="select">
-              <select v-model="currentChapterData.question_type">
-                <option value=0>单选</option>
-                <option value=1>多选</option>
-                <option value=2>判断</option>
-                <option value=3>填空</option>
-                <option value=4>简答</option>
+              <select  disabled  v-model="currentChapterData.question_type">
+                <option value=1>单选</option>
+                <option value=2>多选</option>
+                <option value=3>判断</option>
+                <option value=4>填空</option>
+                <option value=5>简答</option>
               </select>
             </div>
           </div>
@@ -54,11 +54,13 @@
               </thead>
               <tbody>
                 <tr v-for="(item,index) in questionData">
-                  <td v-show="item.question_type === currentChapterData.question_type"><input type="checkbox" v-bind:value="item.id" v-model="selectedQuesiton" class="question-seleted"></td>
-                  <td v-show="item.question_type === currentChapterData.question_type">{{ item.id }}</td>
-                  <td v-show="item.question_type === currentChapterData.question_type">{{ item.type_id }}</td>
-                  <td v-show="item.question_type === currentChapterData.question_type">{{ item.title }}</td>
-                  <td v-show="item.question_type === currentChapterData.question_type"><input v-model="questionScore[item.id]" type="number" class="input number-input"></input></td>
+                  <td v-show="item.type_id === parseInt(currentChapterData.question_type)">
+                    <input type="checkbox" v-bind:value="item.id" v-model="selectedQuesiton" class="question-seleted">
+                  </td>
+                  <td v-show="item.type_id === parseInt(currentChapterData.question_type)">{{ item.id }}</td>
+                  <td v-show="item.type_id === parseInt(currentChapterData.question_type)">{{ item.type_id }}</td>
+                  <td v-show="item.type_id === parseInt(currentChapterData.question_type)">{{ item.title }}</td>
+                  <td v-show="item.type_id === parseInt(currentChapterData.question_type)"><input v-model="questionScore[item.id]" type="number" class="input number-input"></input></td>
                 </tr>
               </tbody>
             </table>
@@ -137,6 +139,10 @@ export default {
       const that = this;
       let json = {};
       for (let i = 0; i < that.selectedQuesiton.length; i++) {
+        if (!that.questionScore[that.selectedQuesiton[i]]) {
+          alert('请将分值填写完整');
+          return;
+        }
         json[that.selectedQuesiton[i]] = that.questionScore[that.selectedQuesiton[i]];
       }
       that.scoreJson = json;
@@ -148,7 +154,6 @@ export default {
       let questionsParams = this.GLOBAL.computedParams(that.selectedQuesiton, 'questions');
       let chapterId = that.editData.id;
       let scores = that.computedAnswerJson();
-
       axios({
         method: 'put',
         url: `${this.GLOBAL.localDomain}/api/v1/papers/${examinationPaperId}/sections/${chapterId}?${questionsParams}`,
@@ -195,6 +200,15 @@ export default {
       const that = this;
       let res = that.editQuesitons.includes(id);
       return res;
+    },
+    getSelectedQuesitonData: function (data) {
+      let res = [];
+      for (let i in data) {
+        let key = i;
+        let value = data[i];
+        res.push(parseInt(i));
+      }
+      return res;
     }
   },
   creatad() {
@@ -210,7 +224,7 @@ export default {
       that.currentChapterData.question_type = value.question_type;
 
       that.currentChapterData.scores = value.scores;
-      // that.scoresJsonConvertsToArray(value.scores);
+      that.selectedQuesiton = that.getSelectedQuesitonData(JSON.parse(value.scores));
     }
   }
 }
