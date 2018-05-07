@@ -1,3 +1,4 @@
+
 <template lang="html">
 
   <div id="app" class="login-wrapper">
@@ -31,7 +32,6 @@ let Base64 = require('js-base64').Base64;
 // import Base64 from 'js-base64';
 import Register from './Register'
 import LoginLoading from './LoginLoading'
-
 export default {
   data() {
     return {
@@ -39,14 +39,12 @@ export default {
       account: null,  // 账号
       password: null,  // 密码
       captcha: null,  // 验证码
-
       permissionIdList: [],
       permissionData: null,
       permissions: [],
       url: '',
       isShowLoginBox: true,
       registerData: null,
-      roleName: '',
     };
   },
   components: {
@@ -78,7 +76,6 @@ export default {
         }
       }).then(res => {
         let userId = res.data.data.user.id;
-        that.searchRole(userId);
         let token = res.data.data.token;
         that.userId = res.data.data.user.id;
         that.token = res.data.data.token;
@@ -86,7 +83,6 @@ export default {
         that.loadingModal();
         sessionStorage.setItem("token",`Bearer ${token}`);
         sessionStorage.setItem('userId', userId);
-
         let url = `${this.GLOBAL.localDomain}/api/v1/users/${that.userId}/permissions/`;
         that.getPermission(url);
       }).catch(err => {
@@ -148,9 +144,7 @@ export default {
         that.permissionData = res.data;  // conclude links
         that.url = res.data.links.next;
         console.log(res.data.data.length);
-
         let len = res.data.data.length ? res.data.data.length : that.getJsonLength(res.data.data);
-
         // data数据结构不一致 可能是数组/也可能是json
         if (res.data.data.length) {
           for (let i = 0; i < len; i++) {
@@ -162,7 +156,6 @@ export default {
             that.permissionIdList.push(res.data.data[i].name);
           }
         }
-
         if (that.url) {
           that.getPermission(that.url);
         }
@@ -178,22 +171,6 @@ export default {
         console.log(err);
       })
     },
-    searchRole: function (userId) {
-      const that = this;
-      axios({
-        method: 'get',
-        url: `${localDomain}/api/v1/roles/${userId}`,
-        headers: {
-          'Accept': 'application/json',
-          'Authorization': sessionStorage.getItem('token'),
-        }
-      }).then(res => {
-        that.roleName = res.data.data.name;
-        sessionStorage.setItem('roleName');
-      }).catch(err => {
-        console.log(err)
-      })
-    }
   },
   created() {
     this.getVerificationCode();
@@ -201,30 +178,19 @@ export default {
   watch: {
     permissions: function (value, oldValue) {
       const that = this;
-      if (that.roleName) {
-        that.$refs.loginLoading.switchModal();
-        that.$emit('checkLoginState');   //第一个参数名为调用的方法名，第二个参数为需要传递的参数
-      }
+      that.$refs.loginLoading.switchModal();
+      that.$emit('checkLoginState');   //第一个参数名为调用的方法名，第二个参数为需要传递的参数
     },
     registerData: function(value, oldValue) {
       const that = this;
       let token = value.token;
       let userId = value.user.id;
-
       that.isShowLoginBox = false;
       that.loadingModal();
       sessionStorage.setItem("token",`Bearer ${token}`);
       sessionStorage.setItem('userId', userId);
-
       let url = `${this.GLOBAL.localDomain}/api/v1/users/${userId}/permissions/`;
       that.getPermission(url);
-    },
-    roleName: function (value, oldValue) {
-      const that = this;
-      if (that.permissions) {
-        that.$refs.loginLoading.switchModal();
-        that.$emit('checkLoginState');   //第一个参数名为调用的方法名，第二个参数为需要传递的参数
-      }
     }
   }
 }

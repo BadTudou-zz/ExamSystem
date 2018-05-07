@@ -354,7 +354,7 @@ export default {
     },
   },
   created() {
-    this.getTeaching();
+    this.getTeaching();1
   },
   watch: {
     data:function (value, oldValue) {
