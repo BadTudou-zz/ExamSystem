@@ -354,6 +354,7 @@ export default {
   },
   created() {
     this.getTeaching();
+    // this.GLOBAL.searchRole(sessionStorage.getItem('userId'));
   },
   watch: {
     data:function (value, oldValue) {
