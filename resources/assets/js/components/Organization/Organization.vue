@@ -8,7 +8,7 @@
         <div @click="searchOrganization()" class="search-button"><i class="fas fa-search"></i></div>
       </div>
       <button v-show="isShowCreateOrganization" @click="addOrganization()" class="button add-role-button" type="button" name="button">添加组织</button>
-      <button class="button add-role-button" type="button" name="button">同步组织</button>
+      <!-- <button class="button add-role-button" type="button" name="button">同步组织</button> -->
     </div>
 
     <p v-if="!organizationData" class="empty-message-prompt">暂无组织</p>
