@@ -20,6 +20,7 @@ class Show extends FormRequest
             return $exam->paper->id == $this->route('paper');
         })->all();
         $paper = Paper::find($this->route('paper'));
+
         return $user->can('paper-destroy') || $user->id == $paper->creator_id || count($exams);
     }
 

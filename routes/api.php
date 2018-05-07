@@ -188,11 +188,11 @@ Route::prefix('v1')->middleware(['auth:api'])->group(function () {
     // 试卷
     Route::apiResource('papers', 'API\PaperController');
     //试卷-题目
-    Route::get('papers/{id}/questions', 'API\PaperController@questions');
+    Route::get('papers/{paper}/questions', 'API\PaperController@questions');
     // 试卷-分数
-    Route::get('papers/{id}/scores', 'API\PaperController@scores');
+    Route::get('papers/{paper}/scores', 'API\PaperController@scores');
     // 试卷-自动选择题目
-    Route::post('papers/{id}/maker', 'API\PaperController@maker');
+    Route::post('papers/{paper}/maker', 'API\PaperController@maker');
     // 试卷章节
     Route::namespace('API\Papers')->group(function (){
             Route::apiResource('papers/{paper}/sections', 'PaperSectionController');
