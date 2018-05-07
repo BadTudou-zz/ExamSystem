@@ -33,7 +33,7 @@ class Update extends FormRequest
             'number' => 'required',
             'describe' => 'max:250',
             'questions' => 'array|exists:questions,id',
-            'question_type' => 'required|in:SINGLE_CHOICE,MULTIPLE_CHOICE,TRUE_FALSE,FILL_IN,SHORT_ANSWER',
+            'question_type' => 'required|exists:question_types,id',
         ];
     }
 }
