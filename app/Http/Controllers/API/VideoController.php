@@ -57,14 +57,9 @@ class VideoController extends Controller
 
     public function selectForUserid(Request $request) {
 
-        $user  = Auth::user();
-
-        if (!($user->hasRole('teacher') || $user->hasRole("admin"))) {
-            return response()->json(['error' => 'unauthorized '],403);
-        }
 
 
-        $userid = $request->input('userid');
+        $userid = $request->input('userId');
         $video = new Video();
         $data = $video->where("userid",$userid)->get();
         foreach ($data as $value) {
@@ -75,11 +70,7 @@ class VideoController extends Controller
     }
     public function selectForCid(Request $request) {
 
-        $user  = Auth::user();
 
-        if (!($user->hasRole('teacher') || $user->hasRole("admin"))) {
-            return response()->json(['error' => 'unauthorized '],403);
-        }
 
         $cid = $request->input('cid');
         $video = new Video();
@@ -132,11 +123,7 @@ class VideoController extends Controller
     }
 
     public function selectAll(Request $request){
-        $user  = Auth::user();
 
-        if (!$user->hasRole("admin")) {
-            return response()->json(['error' => 'unauthorized '],403);
-        }
 
         $preview = new Video();
         $data = $preview->get();

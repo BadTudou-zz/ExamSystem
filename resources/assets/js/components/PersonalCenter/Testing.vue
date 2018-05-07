@@ -355,19 +355,34 @@ export default {
         console.log(err)
       })
     },
+    getSeparateForId: function (id) {
+      const that = this;
+      let typeId = id;
+      let separate;
+      for (let i = 0; i < that.questionTypeData.length; i++) {
+        if (typeId === that.questionTypeData[i]['id']) {
+          separate = that.questionTypeData[i]['delimiter'];
+        }
+      }
+      //
+      return separate;
+    },
     computedAnswerJson: function () {
       const that = this;
+
 
       let json = {};
       let a = that.answer;
       for (let i = 0; i < that.questionData.length; i++) {
         let id = that.questionData[i].id;
-        // if (that.answer[id].length > 1) {
+
+        let separate = that.getSeparateForId(id);
         if (that.answer[id] instanceof Array) {
-          that.answer[id] = that.answer[id].sort().join('')
+          that.answer[id] = that.answer[id].sort().join(separate)
         }
         json[id] = that.answer[id];
       }
+
       return json;
     },
     waitTime: function () {
@@ -414,7 +429,22 @@ export default {
       }).catch(err => {
 
       })
-    }
+    },
+    getQuestionType: function () {
+      const that = this;
+      axios({
+        method: 'get',
+        url: `${this.GLOBAL.localDomain}/api/v1/questionTypes`,
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': sessionStorage.getItem('token'),
+        }
+      }).then(res => {
+        that.questionTypeData = res.data.data;
+      }).catch(err => {
+        console.log(err);
+      })
+    },
   },
   computed: {
   },
@@ -432,6 +462,7 @@ export default {
       const that = this;
       // that.getChapterIds(value);
       // that.clearQuestionIds();
+      that.getQuestionType();
       that.getAllExamQuestions(value);
     },
     chapterIds: async function (value, oldValue) {
