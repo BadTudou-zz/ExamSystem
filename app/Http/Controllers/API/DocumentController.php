@@ -54,13 +54,9 @@ class DocumentController extends Controller
 
     public function selectForUserid(Request $request) {
 
-        $user  = Auth::user();
 
-        if (!($user->hasRole('teacher') || $user->hasRole("admin"))) {
-            return response()->json(['error' => 'unauthorized '],403);
-        }
 
-        $userid = $request->input('userid');
+        $userid = $request->input('userId');
         $doc = new Document();
         $data = $doc->where("userid",$userid)->get();
         foreach ($data as $value) {
@@ -71,11 +67,6 @@ class DocumentController extends Controller
     }
     public function selectForCid(Request $request) {
 
-        $user  = Auth::user();
-
-        if (!($user->hasRole('teacher') || $user->hasRole("admin"))) {
-            return response()->json(['error' => 'unauthorized '],403);
-        }
 
         $cid = $request->input('cid');
         $doc = new Document();
