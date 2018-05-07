@@ -17,7 +17,7 @@ class Show extends FormRequest
     public function authorize()
     {
         $user = Auth::user();
-        $lecture = Lecture::find($this->route('lecture'));
+        $lecture = Lecture::findOrFail($this->route('lecture'));
         return $user->can('lecture-show') || $user->id == $lecture->user_id;
     }
 
