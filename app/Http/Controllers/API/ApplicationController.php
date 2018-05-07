@@ -92,7 +92,7 @@ class ApplicationController extends Controller
                 break;
 
             case 'Lecture':
-                return $this->acceptLectureApplication($application, $user);
+                return $this->rejectLectureApplication($application, $user);
                 break;
             
             default:

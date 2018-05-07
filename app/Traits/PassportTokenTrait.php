@@ -20,7 +20,6 @@ trait PassportTokenTrait
 
         if ($token->verify($signer, $this->parseTokenKey)) {
             $user_id = $token->getClaim('sub');
-            //$user = User::find($user_id);
             return $user_id;
         } else {
             return false;
