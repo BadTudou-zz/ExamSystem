@@ -111,11 +111,7 @@ class DiscussController extends Controller
     }
 
     public function selectDiscussAll(Request $request) {
-        $user  = Auth::user();
-
-        if (!($user->hasRole("admin"))) {
-            return response()->json(['error' => 'unauthorized '],403);
-        }
+       
         $discuss = new Discuss();
         $data = $discuss->get();
         foreach ($data as $value){
