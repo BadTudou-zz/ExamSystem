@@ -188,14 +188,11 @@ export default {
           // 设置百分比
           var percent = 0;
           (function (){
-              if(that.flag === true){
-                  return;
-              }
               // 获取文件信息
               var mov = document.getElementsByName('pic')[0].files[0];
               // 如果sta>mov.size
               if(that.sta > mov.size){
-                  clearInterval(that.clock);
+                  that.flag = true;
                   // that.info(that.userid, that.cid);
                   that.isUploadedSuccess = true;
                   alert("上传成功");
