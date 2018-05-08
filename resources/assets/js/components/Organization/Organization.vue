@@ -134,7 +134,7 @@ export default {
     addApplyFor: function (index) {
       const that = this;
       let userId = sessionStorage.getItem('userId');
-      if (userId === that.organizationData[index].user_id) {
+      if (userId === that.organization[index].creator_id) {
         alert ('不能给自己发送申请！');
         return;
       }
@@ -147,7 +147,7 @@ export default {
           'Authorization': sessionStorage.getItem('token'),
         },
         params: {
-          to: that.organizationData[index].user_id,
+          to: that.organization[index].creator_id,
           action: 'create',
           resource_id: that.organizationData[index].id,
           resource_type: 'Organization',

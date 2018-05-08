@@ -49,16 +49,6 @@ class WebSocket extends BaseSocketListener
                 return $this->sendData($from, 'server', '参数格式错误', null, 422);
             }
 
-            // // 身份验证
-            // if (! $this->auth($from, $data)){
-            //     return $this->sendData($from, self::AUTHENTICATION, '认证失败', null, 401);
-            // }
-
-            // // 签名验证
-            // if (! $this->checkoutSign($from, $msg)) {
-            //     $from->close();
-            //     return ;
-            // }
             switch (trim($data->action)) {
                 case self::AUTHENTICATION:
                     $this->authentication($from, $data);
