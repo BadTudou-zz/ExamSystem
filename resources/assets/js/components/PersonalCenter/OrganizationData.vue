@@ -15,7 +15,7 @@
           <th>最大容量</th>
           <th>当前容量</th>
           <th>创建时间</th>
-          <!-- <th>更新时间</th> -->
+          <!-- <th>组织操作</th> -->
         </tr>
       </thead>
       <tbody>
@@ -27,7 +27,7 @@
           <td>{{ item.max }}</td>
           <td>{{ item.current }}</td>
           <td>{{ GLOBAL.toTime(item.created_at) }}</td>
-          <!-- <td>{{ GLOBAL.toTime(item.updated_at) }}</td> -->
+          <!-- <td><button class="button is-small" type="button" name="button">申请组织</button></td> -->
         </tr>
       </tbody>
     </table>
