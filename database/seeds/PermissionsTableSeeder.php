@@ -739,7 +739,7 @@ class PermissionsTableSeeder extends Seeder
         // 查询当前用户某个话题的回复
 
         $destroyQuestionType = new Permission();
-        $destroyQuestionType->name         = 'reply-userid-show';
+        $destroyQuestionType->name         = 'reply-topic-userid-show';
         $destroyQuestionType->display_name = '查询当前用户某个话题的回复';
         $destroyQuestionType->description  = '查询当前用户某个话题的回复';
         $destroyQuestionType->save();
@@ -747,7 +747,7 @@ class PermissionsTableSeeder extends Seeder
         // 查询当前用户某个课程的回复
 
         $destroyQuestionType = new Permission();
-        $destroyQuestionType->name         = 'reply-userid-show';
+        $destroyQuestionType->name         = 'reply-course-userid-show';
         $destroyQuestionType->display_name = '查询当前用户某个课程的回复';
         $destroyQuestionType->description  = '查询当前用户某个课程的回复';
         $destroyQuestionType->save();
